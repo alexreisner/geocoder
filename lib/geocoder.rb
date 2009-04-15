@@ -1,6 +1,8 @@
 ##
 # Add geocoding functionality (via Google) to any object that implements
-# a +location+ method that returns a string suitable for a Google Maps search.
+# a method (+location+ by default) that returns a string suitable for a
+# Google Maps search. The object should also implement reader and writer
+# methods for +latitude+ and +longitude+ attributes.
 #
 module Geocoder
   
@@ -24,15 +26,15 @@ module Geocoder
   ##
   # Search Google based on the object's +location+ attribute.
   #
-  def fetch_coordinates
-    Geocoder.fetch_coordinates(location)
+  def fetch_coordinates(attribute = :location)
+    Geocoder.fetch_coordinates(send(attribute))
   end
   
   ##
-  # Fetch and assign +latitude+ and +longitude+ if +location+ has changed.
+  # Fetch and assign +latitude+ and +longitude+.
   #
-  def assign_coordinates
-    if location_changed? and c = fetch_coordinates
+  def fetch_and_assign_coordinates(attribute = :location)
+    if c = fetch_coordinates(attribute)
       self.latitude = c[0]
       self.longitude = c[1]
     end
