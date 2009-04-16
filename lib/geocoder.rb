@@ -41,6 +41,29 @@ module Geocoder
   end
 
   ##
+  # Calculate the distance between two points (Haversine formula).
+  #
+  def self.distance_between(lat1, lon1, lat2, lon2, options = {})
+    # set default options
+    options[:units] ||= :mi
+    # define available units
+    units = { :mi => 3956, :km => 6371 }
+    
+    # convert degrees to radians
+    lat1 *= Math::PI / 180
+    lon1 *= Math::PI / 180
+    lat2 *= Math::PI / 180
+    lon2 *= Math::PI / 180
+    dlat = (lat1 - lat2).abs
+    dlon = (lon1 - lon2).abs
+
+    a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
+        (Math.sin(dlon / 2))**2 * Math.cos(lat2)  
+    c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))  
+    c * units[options[:units]]
+  end
+  
+  ##
   # Find all records within a radius (in miles) of the given point.
   # Taken from excellent tutorial at:
   # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
