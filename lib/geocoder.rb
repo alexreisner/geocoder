@@ -8,7 +8,7 @@ module Geocoder
   
   ##
   # Query Google for the coordinates of the given phrase.
-  # Returns array [lat,lon] if found.
+  # Returns array [lat,lon] if found, nil if not found or if network error.
   #
   def self.fetch_coordinates(query)
     data = self.search(query)
@@ -32,7 +32,8 @@ module Geocoder
   end
   
   ##
-  # Search Google based on the object's +location+ attribute.
+  # Fetch coordinates based on the object's object's +location+. Returns an
+  # array <tt>[lat,lon]</tt>.
   #
   def fetch_coordinates(attribute = :location)
     Geocoder.fetch_coordinates(send(attribute))
@@ -49,7 +50,10 @@ module Geocoder
   end
 
   ##
-  # Calculate the distance between two points (Haversine formula).
+  # Calculate the distance between two points (Haversine formula). Takes two
+  # sets of coordinates and an options hash:
+  #
+  #   :units : <tt>:mi</tt> for miles (default), <tt>:km</tt> for kilometers
   #
   def self.distance_between(lat1, lon1, lat2, lon2, options = {})
     # set default options
