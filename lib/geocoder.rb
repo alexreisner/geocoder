@@ -24,6 +24,14 @@ module Geocoder
   end
   
   ##
+  # Calculate the distance from the object to a point (lat,lon). Valid units
+  # are defined in <tt>distance_between</tt> class method.
+  #
+  def distance_to(lat, lon, units = :mi)
+    Geocoder.distance_between(latitude, longitude, lat, lon, :units => units)
+  end
+  
+  ##
   # Search Google based on the object's +location+ attribute.
   #
   def fetch_coordinates(attribute = :location)
