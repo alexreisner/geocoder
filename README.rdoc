@@ -1,0 +1,55 @@
+= Geocoder
+
+Geocoder is a simple plugin for Rails that provides object geocoding (via
+Google Maps) and some utilities for working with geocoded objects. The code can
+be used as a standalone method provider or included in a class to give objects
+geographic awareness.
+
+== Setup
+
+Use the Rails plugin install script:
+
+  script/plugin install git://github.com/alexreisner/geocoder.git
+
+To add geocoding features to a class:
+
+  include Geocoder
+
+Be sure your class defines read/write attributes +latitude+ and +longitude+ as
+well as a method called +location+ that returns a string suitable for passing
+to a Google Maps search, for example:
+
+  New York City
+  714 Green St, Big Town, MO
+  Dusseldorf, DE
+
+If your model has +address+, +city+, +state+, and +country+ attributes your
++location+ method might look something like this:
+
+  def location
+    [address, city, state, country].compact.join(', ')
+  end
+
+
+== Examples
+
+Look up coordinates of an object:
+
+  obj.fetch_coordinates            # returns an array [lat, lon]
+  obj.fetch_and_assign_coordinates # writes values to +latitude+ and +longitude+
+
+Find distance between object and a point:
+
+  obj.distance_to(40.71432, -100.23487)      # in miles
+  obj.distance_to(40.71432, -100.23487, :km) # in kilometers
+
+If you're using a MySQL database and you need to do a search for objects
+within a given distance from a point, this method will generate a query for you:
+
+  Geocoder.nearby_mysql_query('cities', 40.71432, -100.23487, 50)
+
+
+Please see the code for more methods and detailed information about arguments.
+  
+  
+Copyright (c) 2009 Alex Reisner, released under the MIT license
