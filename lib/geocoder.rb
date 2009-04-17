@@ -46,13 +46,16 @@ module Geocoder
     if c = fetch_coordinates(attribute)
       self.latitude = c[0]
       self.longitude = c[1]
+      return c
+    else
+      return nil
     end
   end
 
   ##
   # Calculate the distance between two points (Haversine formula). Takes two
   # sets of coordinates and an options hash:
-  #
+  # 
   #   :units : <tt>:mi</tt> for miles (default), <tt>:km</tt> for kilometers
   #
   def self.distance_between(lat1, lon1, lat2, lon2, options = {})
