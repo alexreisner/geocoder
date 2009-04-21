@@ -14,7 +14,11 @@ module Geocoder
     data = self.search(query)
     
     # Make sure search found a result.
-    return nil unless data['kml']['response']['status']['code'] == "200"
+    unless data and data['kml']['response']['status']['code'] == "200"
+      return nil
+    end
+    
+    # Isolate the relevant part of the result.
     place = data['kml']['response']['placemark']
 
     # If there are multiple results, blindly use the first.
