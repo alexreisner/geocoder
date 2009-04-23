@@ -7,6 +7,22 @@
 module Geocoder
   
   ##
+  # Implementation of 'included' hook method.
+  #
+  def self.included(base)
+    base.class_eval do
+
+      # named scope: geocoded objects
+	    named_scope :geocoded,
+	      :conditions => "latitude IS NOT NULL AND longitude IS NOT NULL"
+
+      # named scope: not-geocoded objects
+	    named_scope :not_geocoded,
+	      :conditions => "latitude IS NULL OR longitude IS NULL"
+	  end
+  end
+    
+  ##
   # Query Google for the coordinates of the given phrase.
   # Returns array [lat,lon] if found, nil if not found or if network error.
   #
