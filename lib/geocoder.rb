@@ -102,12 +102,21 @@ module Geocoder
   # Find all records within a radius (in miles) of the given point.
   # Taken from excellent tutorial at:
   # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
+  # 
+  # Options hash may include:
+  # 
+  # +latitude+  :: name of column storing latitude data
+  # +longitude+ :: name of column storing longitude data
+  # +order+     :: column(s) for ORDER BY SQL clause
+  # +limit+     :: number of records to return (for LIMIT SQL clause)
+  # +offset+    :: number of records to skip (for LIMIT SQL clause)
   #
   def self.nearby_mysql_query(table, latitude, longitude, radius = 20, options = {})
     
     # Alternate column names.
     options[:latitude]  ||= 'latitude'
     options[:longitude] ||= 'longitude'
+    options[:order]     ||= 'distance ASC'
     
     # Constrain search to a (radius x radius) square.
     factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
@@ -117,6 +126,13 @@ module Geocoder
     lat_hi = latitude  + (radius / 69.0);
     where  = "#{options[:latitude]} BETWEEN #{lat_lo} AND #{lat_hi} AND " +
       "#{options[:longitude]} BETWEEN #{lon_lo} AND #{lon_hi}"
+    
+    # Build limit clause.
+    limit = ""
+    if options[:limit] or options[:offset]
+      options[:offset] ||= 0
+      limit = "LIMIT #{options[:offset]},#{options[:limit]}"
+    end
 
     # Generate query.
     "SELECT *, 3956 * 2 * ASIN(SQRT(" +
@@ -125,7 +141,8 @@ module Geocoder
       "COS(#{options[:latitude]} * PI() / 180) * " +
       "POWER(SIN((#{longitude} - #{options[:longitude]}) * " +
       "PI() / 180 / 2), 2) )) as distance " +
-      "FROM #{table} WHERE #{where} HAVING distance <= #{radius}"
+      "FROM #{table} WHERE #{where} HAVING distance <= #{radius} " +
+      "ORDER BY #{options[:order]} #{limit}"
   end
 
   ##
