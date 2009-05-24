@@ -10,6 +10,7 @@ module Geocoder
   # Implementation of 'included' hook method.
   #
   def self.included(base)
+    base.extend ClassMethods
     base.class_eval do
 
       # named scope: geocoded objects
@@ -41,6 +42,26 @@ module Geocoder
     place = place.first if place.is_a?(Array)
     coords = place['point']['coordinates']
     coords.split(',')[0...2].reverse.map{ |i| i.to_f }
+  end
+  
+  ##
+  # Methods which will be class methods of the including class.
+  #
+  module ClassMethods
+
+    ##
+    # Find all ads within a radius (in miles) of the given location (string).
+    #
+    def near(location, radius = 100, options = {})
+      latitude, longitude = Geocoder.fetch_coordinates(location)
+      return [] unless (latitude and longitude)
+      # don't pass :table_name option to nearby_mysql_query
+      table_name = options[:table_name] || self.to_s.tableize
+      options.delete :table_name
+      query = Geocoder.nearby_mysql_query(table_name,
+        latitude, longitude, radius.to_i, options)
+      find_by_sql(query)
+    end
   end
   
   ##
