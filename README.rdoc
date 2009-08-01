@@ -50,6 +50,12 @@ within a given distance from a point, this method will generate a query for you:
 
 
 Please see the code for more methods and detailed information about arguments.
-  
+
+
+== Todo
+
+* use geocoded_by(:location) instead of hard-coding 'location' method
+  * don't include/extend unless geocoded_by is called
+
   
 Copyright (c) 2009 Alex Reisner, released under the MIT license
