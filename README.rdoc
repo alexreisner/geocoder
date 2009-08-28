@@ -41,12 +41,12 @@ Find distance between object and a point:
   obj.distance_to(40.71432, -100.23487)      # in miles
   obj.distance_to(40.71432, -100.23487, :km) # in kilometers
 
-Find objects close to a point (Venue is a geocoded model):
+Find objects within 20 miles of a point:
 
-  Venue.near('Omaha, NE, US')
+  Venue.near('Omaha, NE, US', 20)  # Venue is a geocoded model
 
 Please see the code for more methods and detailed information about arguments.
 
 
   
-Copyright (c) 2009 Alex Reisner, released under the MIT license
+_Copyright (c) 2009 Alex Reisner, released under the MIT license_
