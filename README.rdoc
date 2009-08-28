@@ -49,4 +49,4 @@ Please see the code for more methods and detailed information about arguments.
 
 
   
-_Copyright (c) 2009 Alex Reisner, released under the MIT license_
+Copyright (c) 2009 Alex Reisner, released under the MIT license
