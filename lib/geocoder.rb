@@ -51,14 +51,20 @@ module Geocoder
     def near(location, radius = 100, options = {})
       latitude, longitude = Geocoder.fetch_coordinates(location)
       return [] unless (latitude and longitude)
-      # don't pass :table_name option to nearby_mysql_query
-      table_name = options[:table_name] || self.to_s.tableize
-      options.delete :table_name
-      query = Geocoder.nearby_mysql_query(table_name,
-        latitude, longitude, radius.to_i, options)
+      query = nearby_mysql_query(latitude, longitude, radius.to_i, options)
       find_by_sql(query)
     end
     
+    ##
+    # Generate a MySQL query to find all records within a radius (in miles)
+    # of a point.
+    #
+    def nearby_mysql_query(latitude, longitude, radius = 20, options = {})
+      table = options[:table_name] || self.to_s.tableize
+      options.delete :table_name # don't pass to nearby_mysql_query
+      Geocoder.nearby_mysql_query(table, latitude, longitude, radius, options)
+    end
+      
     ##
     # Get the name of the method that returns the search string.
     #

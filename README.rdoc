@@ -41,11 +41,9 @@ Find distance between object and a point:
   obj.distance_to(40.71432, -100.23487)      # in miles
   obj.distance_to(40.71432, -100.23487, :km) # in kilometers
 
-If you're using a MySQL database and you need to do a search for objects
-within a given distance from a point, this method will generate a query for you:
+Find objects close to a point (Venue is a geocoded model):
 
-  Geocoder.nearby_mysql_query('cities', 40.71432, -100.23487, 50)
-
+  Venue.near('Omaha, NE, US')
 
 Please see the code for more methods and detailed information about arguments.
 
