@@ -13,15 +13,13 @@ Use the Rails plugin install script:
 
 To add geocoding features to a class:
 
-  include Geocoder
+  geocoded_by :location
 
 Be sure your class defines read/write attributes +latitude+ and +longitude+ as
-well as a method called +location+ that returns a string suitable for passing
-to a Google Maps search, for example:
+well as a method called +location+ (or whatever name you pass to +geocoded_by+)
+that returns a string suitable for passing to a Google Maps search, for example:
 
-  New York City
   714 Green St, Big Town, MO
-  Dusseldorf, DE
 
 If your model has +address+, +city+, +state+, and +country+ attributes your
 +location+ method might look something like this:
@@ -51,11 +49,6 @@ within a given distance from a point, this method will generate a query for you:
 
 Please see the code for more methods and detailed information about arguments.
 
-
-== Todo
-
-* use geocoded_by(:location) instead of hard-coding 'location' method
-  * don't include/extend unless geocoded_by is called
 
   
 Copyright (c) 2009 Alex Reisner, released under the MIT license

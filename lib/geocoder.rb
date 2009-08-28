@@ -1,8 +1,5 @@
 ##
-# Add geocoding functionality (via Google) to any object that implements
-# a method (+location+ by default) that returns a string suitable for a
-# Google Maps search. The object should also implement reader and writer
-# methods for +latitude+ and +longitude+ attributes.
+# Add geocoding functionality (via Google) to any object.
 #
 module Geocoder
   
@@ -31,9 +28,8 @@ module Geocoder
     doc = self.search(query)
     
     # Make sure search found a result.
-    unless (e = doc.elements['kml/Response/Status/code']) and e.text == "200"
-      return nil
-    end
+    e = doc.elements['kml/Response/Status/code']
+    return nil unless (e and e.text == "200")
     
     # Isolate the relevant part of the result.
     place = doc.elements['kml/Response/Placemark']
@@ -62,6 +58,13 @@ module Geocoder
         latitude, longitude, radius.to_i, options)
       find_by_sql(query)
     end
+    
+    ##
+    # Get the name of the method that returns the search string.
+    #
+    def geocoder_method_name
+      defined?(@geocoder_method_name) ? @geocoder_method_name : :location
+    end
   end
   
   ##
@@ -76,15 +79,15 @@ module Geocoder
   # Fetch coordinates based on the object's object's +location+. Returns an
   # array <tt>[lat,lon]</tt>.
   #
-  def fetch_coordinates(attribute = :location)
-    Geocoder.fetch_coordinates(send(attribute))
+  def fetch_coordinates
+    Geocoder.fetch_coordinates(send(self.class.geocoder_method_name))
   end
   
   ##
   # Fetch and assign +latitude+ and +longitude+.
   #
-  def fetch_and_assign_coordinates(attribute = :location)
-    if c = fetch_coordinates(attribute)
+  def fetch_and_assign_coordinates
+    if c = fetch_coordinates(self.class.geocoder_method_name)
       self.latitude = c[0]
       self.longitude = c[1]
       return c
