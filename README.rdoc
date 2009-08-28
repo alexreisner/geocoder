@@ -48,5 +48,9 @@ Find objects within 20 miles of a point:
 Please see the code for more methods and detailed information about arguments.
 
 
+== To-do
+
+* +near+ method should also accept an array of coordinates as its first parameter
+
   
 Copyright (c) 2009 Alex Reisner, released under the MIT license
