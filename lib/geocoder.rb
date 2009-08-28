@@ -28,19 +28,18 @@ module Geocoder
   # Returns array [lat,lon] if found, nil if not found or if network error.
   #
   def self.fetch_coordinates(query)
-    data = self.search(query)
+    doc = self.search(query)
     
     # Make sure search found a result.
-    unless data and data['kml']['response']['status']['code'] == "200"
+    unless (e = doc.elements['kml/Response/Status/code']) and e.text == "200"
       return nil
     end
     
     # Isolate the relevant part of the result.
-    place = data['kml']['response']['placemark']
+    place = doc.elements['kml/Response/Placemark']
 
     # If there are multiple results, blindly use the first.
-    place = place.first if place.is_a?(Array)
-    coords = place['point']['coordinates']
+    coords = place.elements['Point/coordinates'].text
     coords.split(',')[0...2].reverse.map{ |i| i.to_f }
   end
   
@@ -50,7 +49,8 @@ module Geocoder
   module ClassMethods
 
     ##
-    # Find all ads within a radius (in miles) of the given location (string).
+    # Find all objects within a radius (in miles) of the given location
+    # (address string).
     #
     def near(location, radius = 100, options = {})
       latitude, longitude = Geocoder.fetch_coordinates(location)
@@ -94,10 +94,10 @@ module Geocoder
   end
 
   ##
-  # Calculate the distance between two points (Haversine formula). Takes two
-  # sets of coordinates and an options hash:
+  # Calculate the distance between two points on Earth (Haversine formula).
+  # Takes two sets of coordinates and an options hash:
   # 
-  #   :units : <tt>:mi</tt> for miles (default), <tt>:km</tt> for kilometers
+  # +units+ :: <tt>:mi</tt> for miles (default), <tt>:km</tt> for kilometers
   #
   def self.distance_between(lat1, lon1, lat2, lon2, options = {})
     # set default options
@@ -191,6 +191,6 @@ module Geocoder
     # http://code.google.com/p/gmaps-api-issues/issues/detail?id=233
     doc = resp.body.sub('UTF-8', 'ISO-8859-1')
 
-    Hash.from_xml(doc)
+    REXML::Document.new(doc)
   end
 end
