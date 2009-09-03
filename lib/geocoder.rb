@@ -93,12 +93,11 @@ module Geocoder
   # Fetch and assign +latitude+ and +longitude+.
   #
   def fetch_and_assign_coordinates
-    if c = fetch_coordinates(self.class.geocoder_method_name)
-      self.latitude = c[0]
-      self.longitude = c[1]
-      return c
-    else
-      return nil
+    returning fetch_coordinates do |c|
+      unless c.blank?
+        self.latitude = c[0]
+        self.longitude = c[1]
+      end
     end
   end
 
