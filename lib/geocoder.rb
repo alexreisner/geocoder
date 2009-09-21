@@ -25,7 +25,7 @@ module Geocoder
   # Returns array [lat,lon] if found, nil if not found or if network error.
   #
   def self.fetch_coordinates(query)
-    doc = self.search(query)
+    return nil unless doc = self.search(query)
     
     # Make sure search found a result.
     e = doc.elements['kml/Response/Status/code']
