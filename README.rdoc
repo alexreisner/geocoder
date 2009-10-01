@@ -1,6 +1,6 @@
 = Geocoder
 
-Geocoder is a simple plugin for Rails that provides object geocoding (via Google Maps) and some utilities for working with geocoded objects. The code can be used as a standalone method provider or included in a class to give objects geographic awareness.
+Geocoder is a plugin for Rails that provides database-agnostic object geocoding (via Google) and some utilities for working with geocoded objects. It does not rely on proprietary database functions so reasonably accurate distances can be calculated in MySQL or even SQLite.
 
 == Setup
 
@@ -12,13 +12,11 @@ To add geocoding features to a class:
 
   geocoded_by :location
 
-Be sure your class defines attributes for storing latitude and longitude (use float or double database columns) and a location (human-readable address to be geocoded). These attribute names are all configurable, for example:
+Be sure your class defines attributes for storing latitude and longitude (use +float+ or +double+ database columns) and a location (human-readable address to be geocoded). These attribute names are all configurable; for example, to use +address+, +lat+, and +lon+ respectively:
 
-  geocoded_by :address,
-    :latitude  => :lat,
-    :longitude => :lon
+  geocoded_by :address, :latitude  => :lat, :longitude => :lon
 
-A geocodable string is basically anything you'd use to search Google Maps. Any of the following are acceptable:
+A geocodable string is anything you'd use to search Google Maps. Any of the following are acceptable:
 
   714 Green St, Big Town, MO
   Eiffel Tower, Paris, FR
@@ -42,7 +40,7 @@ Assuming +Venue+ is a geocoded model:
 Assuming +obj+ has a valid string for its +location+:
 
   obj.fetch_coordinates                 # returns coordinates [lat, lon]
-  obj.fetch_and_assign_coordinates      # writes values to object
+  obj.fetch_and_assign_coordinates      # writes coordinates to object
 
 Assuming +obj+ is geocoded (has latitude and longitude):
 
