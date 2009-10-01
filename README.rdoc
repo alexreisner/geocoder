@@ -34,6 +34,7 @@ If your model has +address+, +city+, +state+, and +country+ attributes your +loc
 Assuming +Venue+ is a geocoded model:
 
   Venue.find_near('Omaha, NE, US', 20)  # venues within 20 miles of Omaha
+  Venue.find_near([40.71, 100.23], 20)  # venues within 20 miles of a point
   Venue.geocoded                        # venues with coordinates
   Venue.not_geocoded                    # venues without coordinates
 
