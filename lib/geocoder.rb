@@ -158,9 +158,9 @@ module Geocoder
   end
   
   ##
-  # Fetch and assign +latitude+ and +longitude+.
+  # Fetch coordinates and assign +latitude+ and +longitude+.
   #
-  def fetch_and_assign_coordinates
+  def fetch_coordinates!
     returning fetch_coordinates do |c|
       unless c.blank?
         write_attribute(self.class.geocoder_latitude_attr, c[0])

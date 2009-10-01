@@ -41,7 +41,7 @@ Assuming +Venue+ is a geocoded model:
 Assuming +obj+ has a valid string for its +location+:
 
   obj.fetch_coordinates                 # returns coordinates [lat, lon]
-  obj.fetch_and_assign_coordinates      # writes coordinates to object
+  obj.fetch_coordinates!                # also writes coordinates to object
 
 Assuming +obj+ is geocoded (has latitude and longitude):
 
