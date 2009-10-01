@@ -12,9 +12,17 @@ To add geocoding features to a class:
 
   geocoded_by :location
 
-Be sure your class defines read/write attributes +latitude+ and +longitude+ as well as a method called +location+ (or whatever name you pass to +geocoded_by+) that returns a string suitable for passing to a Google Maps search, for example:
+Be sure your class defines attributes for storing latitude and longitude (use float or double database columns) and a location (human-readable address to be geocoded). These attribute names are all configurable, for example:
+
+  geocoded_by :address,
+    :latitude  => :lat,
+    :longitude => :lon
+
+A geocodable string is basically anything you'd use to search Google Maps. Any of the following are acceptable:
 
   714 Green St, Big Town, MO
+  Eiffel Tower, Paris, FR
+  Paris, TX, US
 
 If your model has +address+, +city+, +state+, and +country+ attributes your +location+ method might look something like this:
 
@@ -23,21 +31,32 @@ If your model has +address+, +city+, +state+, and +country+ attributes your +loc
   end
 
 
-== Examples
+== Features
 
-Look up coordinates of an object:
+Assuming +Venue+ is a geocoded model:
 
-  obj.fetch_coordinates            # returns an array [lat, lon]
-  obj.fetch_and_assign_coordinates # writes values to +latitude+ and +longitude+
+  Venue.find_near('Omaha, NE, US', 20)  # venues within 20 miles of Omaha
+  Venue.geocoded                        # venues with coordinates
+  Venue.not_geocoded                    # venues without coordinates
+
+Assuming +obj+ has a valid string for its +location+:
+
+  obj.fetch_coordinates              # returns coordinates [lat, lon]
+  obj.fetch_and_assign_coordinates   # writes values to object
 
 Find distance between object and a point:
 
-  obj.distance_to(40.71432, -100.23487)      # in miles
-  obj.distance_to(40.71432, -100.23487, :km) # in kilometers
+  obj.distance_to(40.71432, -100.23487)       # in miles
+  obj.distance_to(40.71432, -100.23487, :km)  # in kilometers
 
-Find objects within 20 miles of a point:
+Some utility methods are also available:
 
-  Venue.find_near('Omaha, NE, US', 20)  # Venue is a geocoded model
+  # distance (in miles) between Eiffel Tower and Empire State Building
+  Geocoder.distance_between( 48.858205,2.294359,  40.748433,-73.985655 )
+  
+  # look up coordinates of some location (like searching Google Maps)
+  Geocoder.fetch_coordinates("25 Main St, Cooperstown, NY")
+
 
 Please see the code for more methods and detailed information about arguments.
 
