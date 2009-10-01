@@ -25,7 +25,7 @@ module Geocoder
   # Returns array [lat,lon] if found, nil if not found or if network error.
   #
   def self.fetch_coordinates(query)
-    doc = self.search(query)
+    return nil unless doc = self.search(query)
     
     # Make sure search found a result.
     e = doc.elements['kml/Response/Status/code']
@@ -46,25 +46,16 @@ module Geocoder
 
     ##
     # Find all objects within a radius (in miles) of the given location
-    # (address string).
+    # (address string). Location (the first argument) may be either a string
+    # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
     #
-    def near(location, radius = 100, options = {})
-      latitude, longitude = Geocoder.fetch_coordinates(location)
+    def find_near(location, radius = 20, options = {})
+      latitude, longitude = location.is_a?(Array) ?
+        location : Geocoder.fetch_coordinates(location)
       return [] unless (latitude and longitude)
-      query = nearby_mysql_query(latitude, longitude, radius.to_i, options)
-      find_by_sql(query)
+      all(Geocoder.find_near_options(latitude, longitude, radius, options))
     end
     
-    ##
-    # Generate a MySQL query to find all records within a radius (in miles)
-    # of a point.
-    #
-    def nearby_mysql_query(latitude, longitude, radius = 20, options = {})
-      table = options[:table_name] || self.to_s.tableize
-      options.delete :table_name # don't pass to nearby_mysql_query
-      Geocoder.nearby_mysql_query(table, latitude, longitude, radius, options)
-    end
-      
     ##
     # Get the name of the method that returns the search string.
     #
@@ -114,10 +105,11 @@ module Geocoder
     units = { :mi => 3956, :km => 6371 }
     
     # convert degrees to radians
-    lat1 *= Math::PI / 180
-    lon1 *= Math::PI / 180
-    lat2 *= Math::PI / 180
-    lon2 *= Math::PI / 180
+    lat1 = to_radians(lat1)
+    lon1 = to_radians(lon1)
+    lat2 = to_radians(lat2)
+    lon2 = to_radians(lon2)
+    # compute distances
     dlat = (lat1 - lat2).abs
     dlon = (lon1 - lon2).abs
 
@@ -128,7 +120,15 @@ module Geocoder
   end
   
   ##
-  # Find all records within a radius (in miles) of the given point.
+  # Convert degrees to radians.
+  #
+  def self.to_radians(degrees)
+    degrees * (Math::PI / 180)
+  end
+  
+  ##
+  # Get options hash suitable for passing to ActiveRecord.find to get
+  # records within a radius (in miles) of the given point.
   # Taken from excellent tutorial at:
   # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
   # 
@@ -140,12 +140,13 @@ module Geocoder
   # +limit+     :: number of records to return (for LIMIT SQL clause)
   # +offset+    :: number of records to skip (for LIMIT SQL clause)
   #
-  def self.nearby_mysql_query(table, latitude, longitude, radius = 20, options = {})
+  def self.find_near_options(latitude, longitude, radius = 20, options = {})
     
-    # Alternate column names.
+    # Set defaults/clean up arguments.
     options[:latitude]  ||= 'latitude'
     options[:longitude] ||= 'longitude'
     options[:order]     ||= 'distance ASC'
+    radius                = radius.to_i
     
     # Constrain search to a (radius x radius) square.
     factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
@@ -153,25 +154,30 @@ module Geocoder
     lon_hi = longitude + (radius / factor);
     lat_lo = latitude  - (radius / 69.0);
     lat_hi = latitude  + (radius / 69.0);
-    where  = "#{options[:latitude]} BETWEEN #{lat_lo} AND #{lat_hi} AND " +
-      "#{options[:longitude]} BETWEEN #{lon_lo} AND #{lon_hi}"
     
     # Build limit clause.
-    limit = ""
+    limit = nil
     if options[:limit] or options[:offset]
       options[:offset] ||= 0
-      limit = "LIMIT #{options[:offset]},#{options[:limit]}"
+      limit = "#{options[:offset]},#{options[:limit]}"
     end
 
-    # Generate query.
-    "SELECT *, 3956 * 2 * ASIN(SQRT(" +
-      "POWER(SIN((#{latitude} - #{options[:latitude]}) * " +
-      "PI() / 180 / 2), 2) + COS(#{latitude} * PI()/180) * " +
-      "COS(#{options[:latitude]} * PI() / 180) * " +
-      "POWER(SIN((#{longitude} - #{options[:longitude]}) * " +
-      "PI() / 180 / 2), 2) )) as distance " +
-      "FROM #{table} WHERE #{where} HAVING distance <= #{radius} " +
-      "ORDER BY #{options[:order]} #{limit}"
+    # Generate hash.
+    {
+      :select => "*, 3956 * 2 * ASIN(SQRT(" +
+        "POWER(SIN((#{latitude} - #{options[:latitude]}) * " +
+        "PI() / 180 / 2), 2) + COS(#{latitude} * PI()/180) * " +
+        "COS(#{options[:latitude]} * PI() / 180) * " +
+        "POWER(SIN((#{longitude} - #{options[:longitude]}) * " +
+        "PI() / 180 / 2), 2) )) as distance",
+      :conditions => [
+        "#{options[:latitude]} BETWEEN ? AND ? AND " +
+        "#{options[:longitude]} BETWEEN ? AND ?",
+        lat_lo, lat_hi, lon_lo, lon_hi],
+      :having => "distance <= #{radius}",
+      :order  => options[:order],
+      :limit  => limit
+    }
   end
 
   ##

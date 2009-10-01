@@ -1,9 +1,6 @@
 = Geocoder
 
-Geocoder is a simple plugin for Rails that provides object geocoding (via
-Google Maps) and some utilities for working with geocoded objects. The code can
-be used as a standalone method provider or included in a class to give objects
-geographic awareness.
+Geocoder is a simple plugin for Rails that provides object geocoding (via Google Maps) and some utilities for working with geocoded objects. The code can be used as a standalone method provider or included in a class to give objects geographic awareness.
 
 == Setup
 
@@ -15,14 +12,11 @@ To add geocoding features to a class:
 
   geocoded_by :location
 
-Be sure your class defines read/write attributes +latitude+ and +longitude+ as
-well as a method called +location+ (or whatever name you pass to +geocoded_by+)
-that returns a string suitable for passing to a Google Maps search, for example:
+Be sure your class defines read/write attributes +latitude+ and +longitude+ as well as a method called +location+ (or whatever name you pass to +geocoded_by+) that returns a string suitable for passing to a Google Maps search, for example:
 
   714 Green St, Big Town, MO
 
-If your model has +address+, +city+, +state+, and +country+ attributes your
-+location+ method might look something like this:
+If your model has +address+, +city+, +state+, and +country+ attributes your +location+ method might look something like this:
 
   def location
     [address, city, state, country].compact.join(', ')
@@ -43,14 +37,9 @@ Find distance between object and a point:
 
 Find objects within 20 miles of a point:
 
-  Venue.near('Omaha, NE, US', 20)  # Venue is a geocoded model
+  Venue.find_near('Omaha, NE, US', 20)  # Venue is a geocoded model
 
 Please see the code for more methods and detailed information about arguments.
-
-
-== To-do
-
-* +near+ method should also accept an array of coordinates as its first parameter
 
   
 Copyright (c) 2009 Alex Reisner, released under the MIT license
