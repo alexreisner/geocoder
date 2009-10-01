@@ -2,7 +2,7 @@
 
 Geocoder adds database-agnostic object geocoding to Rails (via Google). It does not rely on proprietary database functions so reasonably accurate distances can be calculated in MySQL or even SQLite.
 
-== Setup
+== Install
 
 Install either as a plugin:
 
@@ -15,6 +15,8 @@ or as a gem:
   
   # at command prompt:
   sudo rake gems:install
+
+== Configure
 
 To add geocoding features to a class:
 
@@ -36,8 +38,7 @@ If your model has +address+, +city+, +state+, and +country+ attributes your +loc
     [address, city, state, country].compact.join(', ')
   end
 
-
-== Features
+== Use
 
 Assuming +Venue+ is a geocoded model:
 
