@@ -4,7 +4,7 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{geocoder}
+  s.name = %q{rails-geocoder}
   s.version = "0.8.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "VERSION",
      "init.rb",
      "lib/geocoder.rb",
+     "rails-geocoder.gemspec",
      "test/geocoder_test.rb",
      "test/test_helper.rb"
   ]

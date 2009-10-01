@@ -11,7 +11,7 @@ Install either *as a plugin*:
 or *as a gem*:
 
   # add to config/environment.rb:
-  config.gem :geocoder, :source => "http://gemcutter.org/"
+  config.gem "rails-geocoder", :lib => "geocoder", :source => "http://gemcutter.org/"
   
   # at command prompt:
   sudo rake gems:install

@@ -4,7 +4,7 @@ require 'rake'
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.name        = "geocoder"
+    gem.name        = "rails-geocoder"
     gem.summary     = %Q{Add geocoding functionality to Rails models.}
     gem.description = %Q{Add geocoding functionality to Rails models.}
     gem.email       = "alex@alexreisner.com"
