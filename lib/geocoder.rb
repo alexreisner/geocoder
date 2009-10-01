@@ -53,25 +53,25 @@ module Geocoder
     #
     def find_near_options(latitude, longitude, radius = 20, options = {})
 
-      # Set defaults/clean up arguments.
+      # set defaults/clean up arguments
       options[:order] ||= 'distance ASC'
       radius            = radius.to_i
 
-      # Constrain search to a (radius x radius) square.
+      # constrain search to a (radius x radius) square
       factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
       lon_lo = longitude - (radius / factor);
       lon_hi = longitude + (radius / factor);
       lat_lo = latitude  - (radius / 69.0);
       lat_hi = latitude  + (radius / 69.0);
 
-      # Build limit clause.
+      # build limit clause
       limit = nil
       if options[:limit] or options[:offset]
         options[:offset] ||= 0
         limit = "#{options[:offset]},#{options[:limit]}"
       end
       
-      # Generate hash.
+      # generate hash
       lat_attr = geocoder_options[:latitude]
       lon_attr = geocoder_options[:longitude]
       {
@@ -156,14 +156,14 @@ module Geocoder
   def self.fetch_coordinates(query)
     return nil unless doc = self.search(query)
     
-    # Make sure search found a result.
+    # make sure search found a result
     e = doc.elements['kml/Response/Status/code']
     return nil unless (e and e.text == "200")
     
-    # Isolate the relevant part of the result.
+    # isolate the relevant part of the result
     place = doc.elements['kml/Response/Placemark']
 
-    # If there are multiple results, blindly use the first.
+    # if there are multiple results, blindly use the first
     coords = place.elements['Point/coordinates'].text
     coords.split(',')[0...2].reverse.map{ |i| i.to_f }
   end
@@ -175,9 +175,11 @@ module Geocoder
   # +units+ :: <tt>:mi</tt> for miles (default), <tt>:km</tt> for kilometers
   #
   def self.distance_between(lat1, lon1, lat2, lon2, options = {})
+    
     # set default options
     options[:units] ||= :mi
-    # define available units
+    
+    # define conversion factors
     units = { :mi => 3956, :km => 6371 }
     
     # convert degrees to radians
@@ -185,10 +187,11 @@ module Geocoder
     lon1 = to_radians(lon1)
     lat2 = to_radians(lat2)
     lon2 = to_radians(lon2)
+    
     # compute distances
     dlat = (lat1 - lat2).abs
     dlon = (lon1 - lon2).abs
-
+    
     a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
         (Math.sin(dlon / 2))**2 * Math.cos(lat2)  
     c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))  
@@ -228,5 +231,24 @@ module Geocoder
     doc = resp.body.sub('UTF-8', 'ISO-8859-1')
 
     REXML::Document.new(doc)
+  end
+end
+
+##
+# Add geocoded_by method to ActiveRecord::Base so Geocoder is accessible.
+#
+ActiveRecord::Base.class_eval do
+  
+  ##
+  # Set attribute names and include the Geocoder module.
+  #
+  def self.geocoded_by(method_name = :location, options = {})
+    class_inheritable_reader :geocoder_options
+    write_inheritable_attribute :geocoder_options, {
+      :method_name => method_name,
+      :latitude    => options[:latitude]  || :latitude,
+      :longitude   => options[:longitude] || :longitude
+    }
+    include Geocoder
   end
 end
