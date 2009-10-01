@@ -1,12 +1,20 @@
 = Geocoder
 
-Geocoder is a plugin for Rails that provides database-agnostic object geocoding (via Google) and some utilities for working with geocoded objects. It does not rely on proprietary database functions so reasonably accurate distances can be calculated in MySQL or even SQLite.
+Geocoder adds database-agnostic object geocoding to Rails (via Google). It does not rely on proprietary database functions so reasonably accurate distances can be calculated in MySQL or even SQLite.
 
 == Setup
 
-Use the Rails plugin install script:
+Install either *as a plugin*:
 
   script/plugin install git://github.com/alexreisner/geocoder.git
+
+or *as a gem*:
+
+  # add to config/environment.rb:
+  config.gem :geocoder, :source => "http://gemcutter.org/"
+  
+  # at command prompt:
+  sudo rake gems:install
 
 To add geocoding features to a class:
 
@@ -45,7 +53,7 @@ Assuming +obj+ has a valid string for its +location+:
 
 Assuming +obj+ is geocoded (has latitude and longitude):
 
-  obj.nearbys(30)                       # other objects within radius
+  obj.nearbys(30)                       # other objects within 30 miles
   obj.distance_to(40.714, -100.234)     # distance to arbitrary point
 
 Some utility methods are also available:
