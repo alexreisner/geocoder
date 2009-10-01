@@ -12,11 +12,13 @@ module Geocoder
 
       # named scope: geocoded objects
 	    named_scope :geocoded,
-	      :conditions => "latitude IS NOT NULL AND longitude IS NOT NULL"
+	      :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
+	        "AND #{geocoder_options[:longitude]} IS NOT NULL"
 
       # named scope: not-geocoded objects
 	    named_scope :not_geocoded,
-	      :conditions => "latitude IS NULL OR longitude IS NULL"
+	      :conditions => "#{geocoder_options[:latitude]} IS NULL " +
+	        "OR #{geocoder_options[:longitude]} IS NULL"
 	  end
   end
     
@@ -68,18 +70,20 @@ module Geocoder
         options[:offset] ||= 0
         limit = "#{options[:offset]},#{options[:limit]}"
       end
-
+      
       # Generate hash.
+      lat_attr = geocoder_options[:latitude]
+      lon_attr = geocoder_options[:longitude]
       {
         :select => "*, 3956 * 2 * ASIN(SQRT(" +
-          "POWER(SIN((#{latitude} - #{geocoder_latitude_attr}) * " +
+          "POWER(SIN((#{latitude} - #{lat_attr}) * " +
           "PI() / 180 / 2), 2) + COS(#{latitude} * PI()/180) * " +
-          "COS(#{geocoder_latitude_attr} * PI() / 180) * " +
-          "POWER(SIN((#{longitude} - #{geocoder_longitude_attr}) * " +
+          "COS(#{lat_attr} * PI() / 180) * " +
+          "POWER(SIN((#{longitude} - #{lon_attr}) * " +
           "PI() / 180 / 2), 2) )) as distance",
         :conditions => [
-          "#{geocoder_latitude_attr} BETWEEN ? AND ? AND " +
-          "#{geocoder_longitude_attr} BETWEEN ? AND ?",
+          "#{lat_attr} BETWEEN ? AND ? AND " +
+          "#{lon_attr} BETWEEN ? AND ?",
           lat_lo, lat_hi, lon_lo, lon_hi],
         :having => "distance <= #{radius}",
         :order  => options[:order],
@@ -88,36 +92,12 @@ module Geocoder
     end
 
     ##
-    # Name of the method that returns the search string.
+    # Get the coordinates [lat,lon] of an object. This is not great but it
+    # seems cleaner than polluting the object method namespace.
     #
-    def geocoder_method_name
-      defined?(@geocoder_method_name) ?
-        @geocoder_method_name : :location
-    end
-    
-    ##
-    # Name of the latitude attribute.
-    #
-    def geocoder_latitude_attr
-      defined?(@geocoder_latitude_attr) ?
-        @geocoder_latitude_attr : :latitude
-    end
-    
-    ##
-    # Name of the longitude attribute.
-    #
-    def geocoder_longitude_attr
-      defined?(@geocoder_longitude_attr) ?
-        @geocoder_longitude_attr : :longitude
-    end
-    
-    ##
-    # Get the coordinates [lat,lon] of an object.
-    # This seems cleaner than polluting the object method namespace.
-    #
-    def get_coordinates_of(object)
-      [object.send(geocoder_latitude_attr),
-      object.send(geocoder_longitude_attr)]
+    def _get_coordinates(object)
+      [object.send(geocoder_options[:latitude]),
+      object.send(geocoder_options[:longitude])]
     end
   end
   
@@ -125,7 +105,7 @@ module Geocoder
   # Is this object geocoded? (Does it have latitude and longitude?)
   #
   def geocoded?
-    self.class.get_coordinates_of(self).compact.size > 0
+    self.class._get_coordinates(self).compact.size > 0
   end
   
   ##
@@ -134,7 +114,7 @@ module Geocoder
   #
   def distance_to(lat, lon, units = :mi)
     return nil unless geocoded?
-    mylat,mylon = self.class.get_coordinates_of(self)
+    mylat,mylon = self.class._get_coordinates(self)
     Geocoder.distance_between(mylat, mylon, lat, lon, :units => units)
   end
   
@@ -144,7 +124,7 @@ module Geocoder
   #
   def nearbys(radius = 20)
     return [] unless geocoded?
-    lat,lon = self.class.get_coordinates_of(self)
+    lat,lon = self.class._get_coordinates(self)
     self.class.find_near([lat, lon], radius) - [self]
   end
   
@@ -153,7 +133,7 @@ module Geocoder
   # Returns an array <tt>[lat,lon]</tt>.
   #
   def fetch_coordinates
-    location = read_attribute(self.class.geocoder_method_name)
+    location = read_attribute(self.class.geocoder_options[:method_name])
     Geocoder.fetch_coordinates(location)
   end
   
@@ -163,8 +143,8 @@ module Geocoder
   def fetch_coordinates!
     returning fetch_coordinates do |c|
       unless c.blank?
-        write_attribute(self.class.geocoder_latitude_attr, c[0])
-        write_attribute(self.class.geocoder_longitude_attr, c[1])
+        write_attribute(self.class.geocoder_options[:latitude], c[0])
+        write_attribute(self.class.geocoder_options[:longitude], c[1])
       end
     end
   end
