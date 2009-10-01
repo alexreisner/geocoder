@@ -110,6 +110,22 @@ module Geocoder
       defined?(@geocoder_longitude_attr) ?
         @geocoder_longitude_attr : :longitude
     end
+    
+    ##
+    # Get the coordinates [lat,lon] of an object.
+    # This seems cleaner than polluting the object method namespace.
+    #
+    def get_coordinates_of(object)
+      [object.send(geocoder_latitude_attr),
+      object.send(geocoder_longitude_attr)]
+    end
+  end
+  
+  ##
+  # Is this object geocoded? (Does it have latitude and longitude?)
+  #
+  def geocoded?
+    self.class.get_coordinates_of(self).compact.size > 0
   end
   
   ##
@@ -117,14 +133,24 @@ module Geocoder
   # are defined in <tt>distance_between</tt> class method.
   #
   def distance_to(lat, lon, units = :mi)
-    mylat = read_attribute(self.class.geocoder_latitude_attr)
-    mylon = read_attribute(self.class.geocoder_longitude_attr)
+    return nil unless geocoded?
+    mylat,mylon = self.class.get_coordinates_of(self)
     Geocoder.distance_between(mylat, mylon, lat, lon, :units => units)
   end
   
   ##
-  # Fetch coordinates based on the object's location. Returns an
-  # array <tt>[lat,lon]</tt>.
+  # Get other geocoded objects within a given radius.
+  # The object must be geocoded before this method is called.
+  #
+  def nearbys(radius = 20)
+    return [] unless geocoded?
+    lat,lon = self.class.get_coordinates_of(self)
+    self.class.find_near([lat, lon], radius) - [self]
+  end
+  
+  ##
+  # Fetch coordinates based on the object's location.
+  # Returns an array <tt>[lat,lon]</tt>.
   #
   def fetch_coordinates
     location = read_attribute(self.class.geocoder_method_name)

@@ -43,6 +43,7 @@ Assuming +obj+ has a valid string for its +location+:
 
   obj.fetch_coordinates              # returns coordinates [lat, lon]
   obj.fetch_and_assign_coordinates   # writes values to object
+  obj.nearbys(30)                    # gets other objects within given radius
 
 Find distance between object and a point:
 
