@@ -41,14 +41,13 @@ Assuming +Venue+ is a geocoded model:
 
 Assuming +obj+ has a valid string for its +location+:
 
-  obj.fetch_coordinates              # returns coordinates [lat, lon]
-  obj.fetch_and_assign_coordinates   # writes values to object
-  obj.nearbys(30)                    # gets other objects within given radius
+  obj.fetch_coordinates                 # returns coordinates [lat, lon]
+  obj.fetch_and_assign_coordinates      # writes values to object
 
-Find distance between object and a point:
+Assuming +obj+ is geocoded (has latitude and longitude):
 
-  obj.distance_to(40.71432, -100.23487)       # in miles
-  obj.distance_to(40.71432, -100.23487, :km)  # in kilometers
+  obj.nearbys(30)                       # other objects within radius
+  obj.distance_to(40.714, -100.234)     # distance to arbitrary point
 
 Some utility methods are also available:
 
@@ -59,7 +58,7 @@ Some utility methods are also available:
   Geocoder.fetch_coordinates("25 Main St, Cooperstown, NY")
 
 
-Please see the code for more methods and detailed information about arguments.
+Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
 
   
 Copyright (c) 2009 Alex Reisner, released under the MIT license
