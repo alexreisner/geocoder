@@ -4,11 +4,11 @@ Geocoder adds database-agnostic object geocoding to Rails (via Google). It does 
 
 == Setup
 
-Install either *as a plugin*:
+Install either as a plugin:
 
   script/plugin install git://github.com/alexreisner/geocoder.git
 
-or *as a gem*:
+or as a gem:
 
   # add to config/environment.rb:
   config.gem "rails-geocoder", :lib => "geocoder", :source => "http://gemcutter.org/"
