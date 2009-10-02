@@ -12,33 +12,16 @@ module Geocoder
 
       # named scope: geocoded objects
 	    named_scope :geocoded,
-	      :conditions => "latitude IS NOT NULL AND longitude IS NOT NULL"
+	      :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
+	        "AND #{geocoder_options[:longitude]} IS NOT NULL"
 
       # named scope: not-geocoded objects
 	    named_scope :not_geocoded,
-	      :conditions => "latitude IS NULL OR longitude IS NULL"
+	      :conditions => "#{geocoder_options[:latitude]} IS NULL " +
+	        "OR #{geocoder_options[:longitude]} IS NULL"
 	  end
   end
     
-  ##
-  # Query Google for the coordinates of the given phrase.
-  # Returns array [lat,lon] if found, nil if not found or if network error.
-  #
-  def self.fetch_coordinates(query)
-    return nil unless doc = self.search(query)
-    
-    # Make sure search found a result.
-    e = doc.elements['kml/Response/Status/code']
-    return nil unless (e and e.text == "200")
-    
-    # Isolate the relevant part of the result.
-    place = doc.elements['kml/Response/Placemark']
-
-    # If there are multiple results, blindly use the first.
-    coords = place.elements['Point/coordinates'].text
-    coords.split(',')[0...2].reverse.map{ |i| i.to_f }
-  end
-  
   ##
   # Methods which will be class methods of the including class.
   #
@@ -46,31 +29,83 @@ module Geocoder
 
     ##
     # Find all objects within a radius (in miles) of the given location
-    # (address string).
+    # (address string). Location (the first argument) may be either a string
+    # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
     #
-    def near(location, radius = 100, options = {})
-      latitude, longitude = Geocoder.fetch_coordinates(location)
+    def find_near(location, radius = 20, options = {})
+      latitude, longitude = location.is_a?(Array) ?
+        location : Geocoder.fetch_coordinates(location)
       return [] unless (latitude and longitude)
-      query = nearby_mysql_query(latitude, longitude, radius.to_i, options)
-      find_by_sql(query)
+      all(find_near_options(latitude, longitude, radius, options))
     end
     
     ##
-    # Generate a MySQL query to find all records within a radius (in miles)
-    # of a point.
+    # Get options hash suitable for passing to ActiveRecord.find to get
+    # records within a radius (in miles) of the given point.
+    # Taken from excellent tutorial at:
+    # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
+    # 
+    # Options hash may include:
+    # 
+    # +order+     :: column(s) for ORDER BY SQL clause
+    # +limit+     :: number of records to return (for LIMIT SQL clause)
+    # +offset+    :: number of records to skip (for LIMIT SQL clause)
     #
-    def nearby_mysql_query(latitude, longitude, radius = 20, options = {})
-      table = options[:table_name] || self.to_s.tableize
-      options.delete :table_name # don't pass to nearby_mysql_query
-      Geocoder.nearby_mysql_query(table, latitude, longitude, radius, options)
-    end
+    def find_near_options(latitude, longitude, radius = 20, options = {})
+
+      # set defaults/clean up arguments
+      options[:order] ||= 'distance ASC'
+      radius            = radius.to_i
+
+      # constrain search to a (radius x radius) square
+      factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
+      lon_lo = longitude - (radius / factor);
+      lon_hi = longitude + (radius / factor);
+      lat_lo = latitude  - (radius / 69.0);
+      lat_hi = latitude  + (radius / 69.0);
+
+      # build limit clause
+      limit = nil
+      if options[:limit] or options[:offset]
+        options[:offset] ||= 0
+        limit = "#{options[:offset]},#{options[:limit]}"
+      end
       
-    ##
-    # Get the name of the method that returns the search string.
-    #
-    def geocoder_method_name
-      defined?(@geocoder_method_name) ? @geocoder_method_name : :location
+      # generate hash
+      lat_attr = geocoder_options[:latitude]
+      lon_attr = geocoder_options[:longitude]
+      {
+        :select => "*, 3956 * 2 * ASIN(SQRT(" +
+          "POWER(SIN((#{latitude} - #{lat_attr}) * " +
+          "PI() / 180 / 2), 2) + COS(#{latitude} * PI()/180) * " +
+          "COS(#{lat_attr} * PI() / 180) * " +
+          "POWER(SIN((#{longitude} - #{lon_attr}) * " +
+          "PI() / 180 / 2), 2) )) as distance",
+        :conditions => [
+          "#{lat_attr} BETWEEN ? AND ? AND " +
+          "#{lon_attr} BETWEEN ? AND ?",
+          lat_lo, lat_hi, lon_lo, lon_hi],
+        :having => "distance <= #{radius}",
+        :order  => options[:order],
+        :limit  => limit
+      }
     end
+
+    ##
+    # Get the coordinates [lat,lon] of an object. This is not great but it
+    # seems cleaner than polluting the object method namespace.
+    #
+    def _get_coordinates(object)
+      [object.send(geocoder_options[:latitude]),
+      object.send(geocoder_options[:longitude])]
+    end
+  end
+  
+  ##
+  # Is this object geocoded? (Does it have latitude and longitude?)
+  #
+  def geocoded?
+    self.class._get_coordinates(self).compact.size > 0
   end
   
   ##
@@ -78,29 +113,61 @@ module Geocoder
   # are defined in <tt>distance_between</tt> class method.
   #
   def distance_to(lat, lon, units = :mi)
-    Geocoder.distance_between(latitude, longitude, lat, lon, :units => units)
+    return nil unless geocoded?
+    mylat,mylon = self.class._get_coordinates(self)
+    Geocoder.distance_between(mylat, mylon, lat, lon, :units => units)
   end
   
   ##
-  # Fetch coordinates based on the object's object's +location+. Returns an
-  # array <tt>[lat,lon]</tt>.
+  # Get other geocoded objects within a given radius.
+  # The object must be geocoded before this method is called.
+  #
+  def nearbys(radius = 20)
+    return [] unless geocoded?
+    lat,lon = self.class._get_coordinates(self)
+    self.class.find_near([lat, lon], radius) - [self]
+  end
+  
+  ##
+  # Fetch coordinates based on the object's location.
+  # Returns an array <tt>[lat,lon]</tt>.
   #
   def fetch_coordinates
-    Geocoder.fetch_coordinates(send(self.class.geocoder_method_name))
+    location = read_attribute(self.class.geocoder_options[:method_name])
+    Geocoder.fetch_coordinates(location)
   end
   
   ##
-  # Fetch and assign +latitude+ and +longitude+.
+  # Fetch coordinates and assign +latitude+ and +longitude+.
   #
-  def fetch_and_assign_coordinates
+  def fetch_coordinates!
     returning fetch_coordinates do |c|
       unless c.blank?
-        self.latitude = c[0]
-        self.longitude = c[1]
+        write_attribute(self.class.geocoder_options[:latitude], c[0])
+        write_attribute(self.class.geocoder_options[:longitude], c[1])
       end
     end
   end
 
+  ##
+  # Query Google for the coordinates of the given phrase.
+  # Returns array [lat,lon] if found, nil if not found or if network error.
+  #
+  def self.fetch_coordinates(query)
+    return nil unless doc = self.search(query)
+    
+    # make sure search found a result
+    e = doc.elements['kml/Response/Status/code']
+    return nil unless (e and e.text == "200")
+    
+    # isolate the relevant part of the result
+    place = doc.elements['kml/Response/Placemark']
+
+    # if there are multiple results, blindly use the first
+    coords = place.elements['Point/coordinates'].text
+    coords.split(',')[0...2].reverse.map{ |i| i.to_f }
+  end
+  
   ##
   # Calculate the distance between two points on Earth (Haversine formula).
   # Takes two sets of coordinates and an options hash:
@@ -108,19 +175,23 @@ module Geocoder
   # +units+ :: <tt>:mi</tt> for miles (default), <tt>:km</tt> for kilometers
   #
   def self.distance_between(lat1, lon1, lat2, lon2, options = {})
+    
     # set default options
     options[:units] ||= :mi
-    # define available units
+    
+    # define conversion factors
     units = { :mi => 3956, :km => 6371 }
     
     # convert degrees to radians
-    lat1 *= Math::PI / 180
-    lon1 *= Math::PI / 180
-    lat2 *= Math::PI / 180
-    lon2 *= Math::PI / 180
+    lat1 = to_radians(lat1)
+    lon1 = to_radians(lon1)
+    lat2 = to_radians(lat2)
+    lon2 = to_radians(lon2)
+    
+    # compute distances
     dlat = (lat1 - lat2).abs
     dlon = (lon1 - lon2).abs
-
+    
     a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
         (Math.sin(dlon / 2))**2 * Math.cos(lat2)  
     c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))  
@@ -128,52 +199,12 @@ module Geocoder
   end
   
   ##
-  # Find all records within a radius (in miles) of the given point.
-  # Taken from excellent tutorial at:
-  # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
-  # 
-  # Options hash may include:
-  # 
-  # +latitude+  :: name of column storing latitude data
-  # +longitude+ :: name of column storing longitude data
-  # +order+     :: column(s) for ORDER BY SQL clause
-  # +limit+     :: number of records to return (for LIMIT SQL clause)
-  # +offset+    :: number of records to skip (for LIMIT SQL clause)
+  # Convert degrees to radians.
   #
-  def self.nearby_mysql_query(table, latitude, longitude, radius = 20, options = {})
-    
-    # Alternate column names.
-    options[:latitude]  ||= 'latitude'
-    options[:longitude] ||= 'longitude'
-    options[:order]     ||= 'distance ASC'
-    
-    # Constrain search to a (radius x radius) square.
-    factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
-    lon_lo = longitude - (radius / factor);
-    lon_hi = longitude + (radius / factor);
-    lat_lo = latitude  - (radius / 69.0);
-    lat_hi = latitude  + (radius / 69.0);
-    where  = "#{options[:latitude]} BETWEEN #{lat_lo} AND #{lat_hi} AND " +
-      "#{options[:longitude]} BETWEEN #{lon_lo} AND #{lon_hi}"
-    
-    # Build limit clause.
-    limit = ""
-    if options[:limit] or options[:offset]
-      options[:offset] ||= 0
-      limit = "LIMIT #{options[:offset]},#{options[:limit]}"
-    end
-
-    # Generate query.
-    "SELECT *, 3956 * 2 * ASIN(SQRT(" +
-      "POWER(SIN((#{latitude} - #{options[:latitude]}) * " +
-      "PI() / 180 / 2), 2) + COS(#{latitude} * PI()/180) * " +
-      "COS(#{options[:latitude]} * PI() / 180) * " +
-      "POWER(SIN((#{longitude} - #{options[:longitude]}) * " +
-      "PI() / 180 / 2), 2) )) as distance " +
-      "FROM #{table} WHERE #{where} HAVING distance <= #{radius} " +
-      "ORDER BY #{options[:order]} #{limit}"
+  def self.to_radians(degrees)
+    degrees * (Math::PI / 180)
   end
-
+  
   ##
   # Query Google for geographic information about the given phrase.
   # Returns the XML response as a hash. This method is not intended for
@@ -200,5 +231,24 @@ module Geocoder
     doc = resp.body.sub('UTF-8', 'ISO-8859-1')
 
     REXML::Document.new(doc)
+  end
+end
+
+##
+# Add geocoded_by method to ActiveRecord::Base so Geocoder is accessible.
+#
+ActiveRecord::Base.class_eval do
+  
+  ##
+  # Set attribute names and include the Geocoder module.
+  #
+  def self.geocoded_by(method_name = :location, options = {})
+    class_inheritable_reader :geocoder_options
+    write_inheritable_attribute :geocoder_options, {
+      :method_name => method_name,
+      :latitude    => options[:latitude]  || :latitude,
+      :longitude   => options[:longitude] || :longitude
+    }
+    include Geocoder
   end
 end

@@ -1,56 +1,72 @@
 = Geocoder
 
-Geocoder is a simple plugin for Rails that provides object geocoding (via
-Google Maps) and some utilities for working with geocoded objects. The code can
-be used as a standalone method provider or included in a class to give objects
-geographic awareness.
+Geocoder adds database-agnostic object geocoding to Rails (via Google). It does not rely on proprietary database functions so reasonably accurate distances can be calculated in MySQL or even SQLite.
 
-== Setup
+== Install
 
-Use the Rails plugin install script:
+Install either as a plugin:
 
   script/plugin install git://github.com/alexreisner/geocoder.git
+
+or as a gem:
+
+  # add to config/environment.rb:
+  config.gem "rails-geocoder", :lib => "geocoder", :source => "http://gemcutter.org/"
+  
+  # at command prompt:
+  sudo rake gems:install
+
+== Configure
 
 To add geocoding features to a class:
 
   geocoded_by :location
 
-Be sure your class defines read/write attributes +latitude+ and +longitude+ as
-well as a method called +location+ (or whatever name you pass to +geocoded_by+)
-that returns a string suitable for passing to a Google Maps search, for example:
+Be sure your class defines attributes for storing latitude and longitude (use +float+ or +double+ database columns) and a location (human-readable address to be geocoded). These attribute names are all configurable; for example, to use +address+, +lat+, and +lon+ respectively:
+
+  geocoded_by :address, :latitude  => :lat, :longitude => :lon
+
+A geocodable string is anything you'd use to search Google Maps. Any of the following are acceptable:
 
   714 Green St, Big Town, MO
+  Eiffel Tower, Paris, FR
+  Paris, TX, US
 
-If your model has +address+, +city+, +state+, and +country+ attributes your
-+location+ method might look something like this:
+If your model has +address+, +city+, +state+, and +country+ attributes your +location+ method might look something like this:
 
   def location
     [address, city, state, country].compact.join(', ')
   end
 
+== Use
 
-== Examples
+Assuming +Venue+ is a geocoded model:
 
-Look up coordinates of an object:
+  Venue.find_near('Omaha, NE, US', 20)  # venues within 20 miles of Omaha
+  Venue.find_near([40.71, 100.23], 20)  # venues within 20 miles of a point
+  Venue.geocoded                        # venues with coordinates
+  Venue.not_geocoded                    # venues without coordinates
 
-  obj.fetch_coordinates            # returns an array [lat, lon]
-  obj.fetch_and_assign_coordinates # writes values to +latitude+ and +longitude+
+Assuming +obj+ has a valid string for its +location+:
 
-Find distance between object and a point:
+  obj.fetch_coordinates                 # returns coordinates [lat, lon]
+  obj.fetch_coordinates!                # also writes coordinates to object
 
-  obj.distance_to(40.71432, -100.23487)      # in miles
-  obj.distance_to(40.71432, -100.23487, :km) # in kilometers
+Assuming +obj+ is geocoded (has latitude and longitude):
 
-Find objects within 20 miles of a point:
+  obj.nearbys(30)                       # other objects within 30 miles
+  obj.distance_to(40.714, -100.234)     # distance to arbitrary point
 
-  Venue.near('Omaha, NE, US', 20)  # Venue is a geocoded model
+Some utility methods are also available:
 
-Please see the code for more methods and detailed information about arguments.
+  # distance (in miles) between Eiffel Tower and Empire State Building
+  Geocoder.distance_between( 48.858205,2.294359,  40.748433,-73.985655 )
+  
+  # look up coordinates of some location (like searching Google Maps)
+  Geocoder.fetch_coordinates("25 Main St, Cooperstown, NY")
 
 
-== To-do
-
-* +near+ method should also accept an array of coordinates as its first parameter
+Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
 
   
 Copyright (c) 2009 Alex Reisner, released under the MIT license

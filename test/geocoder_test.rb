@@ -1,4 +1,4 @@
-require 'test/unit'
+require 'test_helper'
 
 class GeocoderTest < Test::Unit::TestCase
   # Replace this with your real tests.
