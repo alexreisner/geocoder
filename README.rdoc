@@ -1,6 +1,6 @@
 = Geocoder
 
-Geocoder adds database-agnostic object geocoding to Rails (via Google). It does not rely on proprietary database functions so reasonably accurate distances can be calculated in MySQL or even SQLite.
+Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL or even SQLite.
 
 == Install
 
