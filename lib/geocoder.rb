@@ -210,7 +210,21 @@ module Geocoder
   # Returns the XML response as a hash. This method is not intended for
   # general use (prefer Geocoder.search).
   #
+  # Google's XML document has incorrect encoding (says UTF-8 but is actually
+  # ISO 8859-1). We have to fix this or REXML won't parse it correctly.
+  # This may be fixed in the future; see the bug report at:
+  # http://code.google.com/p/gmaps-api-issues/issues/detail?id=233
+  #
   def self.search(query)
+    if doc = _fetch_xml(query)
+      REXML::Document.new(doc.sub('UTF-8', 'ISO-8859-1'))
+    end
+  end
+  
+  ##
+  # Request an XML geo search result from Google.
+  #
+  def self._fetch_xml(query)
     params = { :q => query, :output => "xml" }
     url    = "http://maps.google.com/maps/geo?" + params.to_query
     
@@ -218,19 +232,11 @@ module Geocoder
     begin
       resp = nil
       timeout(3) do
-        resp = Net::HTTP.get_response(URI.parse(url))
+        Net::HTTP.get_response(URI.parse(url)).body
       end
     rescue SocketError, TimeoutError
       return nil
     end
-
-    # Google's XML document has incorrect encoding (says UTF-8 but is actually
-    # ISO 8859-1). Have to fix this or REXML won't parse correctly.
-    # This may be fixed in the future; see the bug report at:
-    # http://code.google.com/p/gmaps-api-issues/issues/detail?id=233
-    doc = resp.body.sub('UTF-8', 'ISO-8859-1')
-
-    REXML::Document.new(doc)
   end
 end
 
