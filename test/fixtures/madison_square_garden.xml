@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<kml xmlns="http://earth.google.com/kml/2.0"><Response>
+  <name>4 Penn Plaza, New York, NY</name>
+  <Status>
+    <code>200</code>
+    <request>geocode</request>
+  </Status>
+  <Placemark id="p1">
+    <address>4 Penn Plaza, New York, NY 10001, USA</address>
+    <AddressDetails Accuracy="8" xmlns="urn:oasis:names:tc:ciq:xsdschema:xAL:2.0"><Country><CountryNameCode>US</CountryNameCode><CountryName>USA</CountryName><AdministrativeArea><AdministrativeAreaName>NY</AdministrativeAreaName><SubAdministrativeArea><SubAdministrativeAreaName>New York</SubAdministrativeAreaName><Locality><LocalityName>New York</LocalityName><Thoroughfare><ThoroughfareName>4 Penn Plaza</ThoroughfareName></Thoroughfare><PostalCode><PostalCodeNumber>10001</PostalCodeNumber></PostalCode></Locality></SubAdministrativeArea></AdministrativeArea></Country></AddressDetails>
+    <ExtendedData>
+      <LatLonBox north="40.7527158" south="40.7464206" east="-73.9885076" west="-73.9948028" />
+    </ExtendedData>
+    <Point><coordinates>-73.9916733,40.7495760,0</coordinates></Point>
+  </Placemark>
+</Response></kml>
