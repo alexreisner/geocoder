@@ -1,0 +1,12 @@
+= Changelog
+
+Per-release changes to Geocoder.
+
+== 0.8.1 (2009 Oct 8)
+
+* Extract XML-fetching code from Geocoder.search and place in Geocoder._fetch_xml (for ease of mocking).
+* Add tests for coordinate-fetching instance methods.
+
+== 0.8.0 (2009 Oct 1)
+
+First release.
