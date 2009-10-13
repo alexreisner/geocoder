@@ -130,10 +130,10 @@ module Geocoder
   
   ##
   # Fetch coordinates based on the object's location.
-  # Returns an array <tt>[lat,lon]</tt>.
+  # Returns an array <tt>[lat,lon]</tt>.search
   #
   def fetch_coordinates
-    location = read_attribute(self.class.geocoder_options[:method_name])
+    location = send(self.class.geocoder_options[:method_name])
     Geocoder.fetch_coordinates(location)
   end
   
