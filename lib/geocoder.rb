@@ -11,15 +11,30 @@ module Geocoder
     base.class_eval do
 
       # named scope: geocoded objects
-	    named_scope :geocoded,
-	      :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
-	        "AND #{geocoder_options[:longitude]} IS NOT NULL"
+      named_scope :geocoded,
+        :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
+          "AND #{geocoder_options[:longitude]} IS NOT NULL"
 
       # named scope: not-geocoded objects
-	    named_scope :not_geocoded,
-	      :conditions => "#{geocoder_options[:latitude]} IS NULL " +
-	        "OR #{geocoder_options[:longitude]} IS NULL"
-	  end
+      named_scope :not_geocoded,
+        :conditions => "#{geocoder_options[:latitude]} IS NULL " +
+          "OR #{geocoder_options[:longitude]} IS NULL"
+      
+      ##
+      # Find all objects within a radius (in miles) of the given location
+      # (address string). Location (the first argument) may be either a string
+      # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
+      #
+      named_scope :near, lambda{ |location, *args|
+        latitude, longitude = location.is_a?(Array) ?
+          location : Geocoder.fetch_coordinates(location)
+        if latitude and longitude
+          find_near_options(latitude, longitude, *args)
+        else
+          {}
+        end
+      }
+    end
   end
     
   ##
@@ -28,15 +43,12 @@ module Geocoder
   module ClassMethods
 
     ##
-    # Find all objects within a radius (in miles) of the given location
-    # (address string). Location (the first argument) may be either a string
-    # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
+    # DEPRECATED: Please use the +near+ method/named scope instead.
     #
     def find_near(location, radius = 20, options = {})
-      latitude, longitude = location.is_a?(Array) ?
-        location : Geocoder.fetch_coordinates(location)
-      return [] unless (latitude and longitude)
-      all(find_near_options(latitude, longitude, radius, options))
+      warn "Geocoder deprecation warning: the 'find_near' class method is " +
+        "deprecated, please use the 'near' method, which is a named scope."
+      near(location, radius, options)
     end
     
     ##
