@@ -44,22 +44,22 @@ If your model has +address+, +city+, +state+, and +country+ attributes your +loc
 
 == 3. Use
 
-Assuming +Venue+ is a geocoded model:
+Assuming +Venue+ is a geocoded model, it has the following named scopes:
 
-  Venue.find_near('Omaha, NE, US', 20)  # venues within 20 miles of Omaha
-  Venue.find_near([40.71, 100.23], 20)  # venues within 20 miles of a point
-  Venue.geocoded                        # venues with coordinates
-  Venue.not_geocoded                    # venues without coordinates
+  Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
+  Venue.near([40.71, 100.23], 20)    # venues within 20 miles of a point
+  Venue.geocoded                     # venues with coordinates
+  Venue.not_geocoded                 # venues without coordinates
 
 Assuming +obj+ has a valid string for its +location+:
 
-  obj.fetch_coordinates                 # returns coordinates [lat, lon]
-  obj.fetch_coordinates!                # also writes coordinates to object
+  obj.fetch_coordinates              # returns coordinates [lat, lon]
+  obj.fetch_coordinates!             # also writes coordinates to object
 
 Assuming +obj+ is geocoded (has latitude and longitude):
 
-  obj.nearbys(30)                       # other objects within 30 miles
-  obj.distance_to(40.714, -100.234)     # distance to arbitrary point
+  obj.nearbys(30)                    # other objects within 30 miles
+  obj.distance_to(40.714, -100.234)  # distance to arbitrary point
 
 Some utility methods are also available:
 
