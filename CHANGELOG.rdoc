@@ -2,6 +2,15 @@
 
 Per-release changes to Geocoder.
 
+== 0.8.3 (2009 Oct 23)
+
+* Update Google URL query string parameter to reflect recent changes in Google's API.
+
+== 0.8.2 (2009 Oct 12)
+
+* Allow a model's geocoder search string method to be something other than an ActiveRecord attribute.
+* Clean up documentation.
+
 == 0.8.1 (2009 Oct 8)
 
 * Extract XML-fetching code from Geocoder.search and place in Geocoder._fetch_xml (for ease of mocking).

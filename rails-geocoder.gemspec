@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails-geocoder}
-  s.version = "0.8.2"
+  s.version = "0.8.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Alex Reisner"]
-  s.date = %q{2009-10-12}
+  s.date = %q{2009-10-23}
   s.description = %q{Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL or even SQLite.}
   s.email = %q{alex@alexreisner.com}
   s.extra_rdoc_files = [
@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
      "test/geocoder_test.rb",
      "test/test_helper.rb"
   ]
-  s.homepage = %q{http://github.com/alexreisner/geocoder}
+  s.homepage = %q{http://code.alexreisner.com/code/geocoder.html}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
