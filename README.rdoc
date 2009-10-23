@@ -18,6 +18,10 @@ or as a gem:
 
 == 2. Configure
 
+First, you must get a Google Maps API key (to get one go to http://code.google.com/apis/maps/signup.html) and store it in a constant:
+
+  GOOGLE_MAPS_API_KEY = "..."
+
 To add geocoding features to a class:
 
   geocoded_by :location
