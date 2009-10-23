@@ -207,8 +207,6 @@ module Geocoder
   
   ##
   # Query Google for geographic information about the given phrase.
-  # Returns the XML response as a hash. This method is not intended for
-  # general use (prefer Geocoder.search).
   #
   def self.search(query)
     if doc = _fetch_xml(query)
@@ -218,6 +216,7 @@ module Geocoder
   
   ##
   # Request an XML geo search result from Google.
+  # This method is not intended for general use (prefer Geocoder.search).
   #
   def self._fetch_xml(query)
     params = {
