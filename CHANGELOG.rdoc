@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 0.8.4 (2009 Oct 23)
+
+* Deprecate <tt>find_near</tt> class method in favor of +near+ named scope.
+
 == 0.8.3 (2009 Oct 23)
 
 * Update Google URL query string parameter to reflect recent changes in Google's API.
