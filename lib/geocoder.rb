@@ -130,7 +130,7 @@ module Geocoder
   
   ##
   # Fetch coordinates based on the object's location.
-  # Returns an array <tt>[lat,lon]</tt>.search
+  # Returns an array <tt>[lat,lon]</tt>.
   #
   def fetch_coordinates
     location = send(self.class.geocoder_options[:method_name])
@@ -209,7 +209,7 @@ module Geocoder
   # Query Google for geographic information about the given phrase.
   # Returns the XML response as a hash. This method is not intended for
   # general use (prefer Geocoder.search).
-  #
+  # 
   # Google's XML document has incorrect encoding (says UTF-8 but is actually
   # ISO 8859-1). We have to fix this or REXML won't parse it correctly.
   # This may be fixed in the future; see the bug report at:
@@ -225,7 +225,13 @@ module Geocoder
   # Request an XML geo search result from Google.
   #
   def self._fetch_xml(query)
-    params = { :q => query, :output => "xml" }
+    params = {
+      :q      => query,
+      :key    => GOOGLE_MAPS_API_KEY,
+      :output => "xml",
+      :sensor => "false",
+      :oe     => "utf8"
+    }
     url    = "http://maps.google.com/maps/geo?" + params.to_query
     
     # Query geocoder and make sure it responds quickly.
