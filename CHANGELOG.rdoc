@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 0.8.5 (2009 Oct 26)
+
+* Avoid calling deprecated method from within Geocoder itself.
+
 == 0.8.4 (2009 Oct 23)
 
 * Deprecate <tt>find_near</tt> class method in favor of +near+ named scope.
