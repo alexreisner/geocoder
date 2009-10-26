@@ -29,7 +29,7 @@ module Geocoder
         latitude, longitude = location.is_a?(Array) ?
           location : Geocoder.fetch_coordinates(location)
         if latitude and longitude
-          find_near_options(latitude, longitude, *args)
+          near_scope_options(latitude, longitude, *args)
         else
           {}
         end
@@ -63,7 +63,7 @@ module Geocoder
     # +limit+     :: number of records to return (for LIMIT SQL clause)
     # +offset+    :: number of records to skip (for LIMIT SQL clause)
     #
-    def find_near_options(latitude, longitude, radius = 20, options = {})
+    def near_scope_options(latitude, longitude, radius = 20, options = {})
 
       # set defaults/clean up arguments
       options[:order] ||= 'distance ASC'
@@ -137,7 +137,7 @@ module Geocoder
   def nearbys(radius = 20)
     return [] unless geocoded?
     lat,lon = self.class._get_coordinates(self)
-    self.class.find_near([lat, lon], radius) - [self]
+    self.class.near([lat, lon], radius) - [self]
   end
   
   ##
