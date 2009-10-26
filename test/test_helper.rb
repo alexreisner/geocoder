@@ -47,6 +47,8 @@ end
 class Venue < ActiveRecord::Base
   geocoded_by :address
   
+  attr_accessor :name, :address
+  
   def initialize(name, address)
     super()
     write_attribute :name, name
