@@ -1,6 +1,6 @@
 = Geocoder
 
-Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a named scope like <tt>near("Billings, MT")</tt>.
+Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a named scope like <tt>Venue.near("Billings, MT")</tt>.
 
 Geocoder does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL or even SQLite.
 
@@ -30,8 +30,7 @@ First, you must get a Google Maps API key (to get one go to http://code.google.c
 Add +latitude+ and +longitude+ columns to your model:
 
   script/generate migration AddLatitudeAndLongitudeToModel \
-    latitude:float \
-    longitude:float
+    latitude:float longitude:float
   rake db:migrate
 
 Then tell your model about it:
@@ -39,7 +38,7 @@ Then tell your model about it:
   geocoded_by :address                  # attribute/method to use for geocoding
   after_validation :fetch_coordinates!  # fetch and assign coordinates before saving
 
-You do not have to use the +latitude+ and +longitude+ column names. See "More On Configuration" below for details.
+You are not stuck with the +latitude+ and +longitude+ column names, or the +address+ method. See "More On Configuration" below for details.
 
 
 == 3. Use
@@ -98,6 +97,7 @@ Please see the code for more methods and detailed information about arguments (e
 
 * rake task for geocoding all non-geocoded objects
 * <tt>install.rb</tt> should do some setup when installed as a plugin
+* make <tt>fetch_coordinates</tt> assign coordinates; <tt>fetch_coordinates!</tt> should also save object
 
 
 Copyright (c) 2009 Alex Reisner, released under the MIT license
