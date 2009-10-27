@@ -22,21 +22,21 @@ or as a gem:
 
 == 2. Configure
 
-A. Get a Google Maps API key (see http://code.google.com/apis/maps/signup.html) and store it in a constant:
+A) Get a Google Maps API key (see http://code.google.com/apis/maps/signup.html) and store it in a constant:
 
   # eg, in config/initializers/google_maps.rb
   GOOGLE_MAPS_API_KEY = "..."
 
-B. Add +latitude+ and +longitude+ columns to your model:
+B) Add +latitude+ and +longitude+ columns to your model:
 
   script/generate migration AddLatitudeAndLongitudeToYourModel latitude:float longitude:float
   rake db:migrate
 
-C. Tell geocoder where your model stores its address:
+C) Tell geocoder where your model stores its address:
 
   geocoded_by :address
 
-D. Optionally, auto-fetch coordinates every time your model is saved:
+D) Optionally, auto-fetch coordinates every time your model is saved:
 
   after_validation :fetch_coordinates
 
