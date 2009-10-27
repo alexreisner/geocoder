@@ -22,42 +22,44 @@ or as a gem:
 
 == 2. Configure
 
-First, you must get a Google Maps API key (to get one go to http://code.google.com/apis/maps/signup.html) and store it in a constant:
+A. Get a Google Maps API key (see http://code.google.com/apis/maps/signup.html) and store it in a constant:
 
   # eg, in config/initializers/google_maps.rb
   GOOGLE_MAPS_API_KEY = "..."
 
-Add +latitude+ and +longitude+ columns to your model:
+B. Add +latitude+ and +longitude+ columns to your model:
 
-  script/generate migration AddLatitudeAndLongitudeToModel \
-    latitude:float longitude:float
+  script/generate migration AddLatitudeAndLongitudeToYourModel latitude:float longitude:float
   rake db:migrate
 
-Then tell your model about it:
+C. Tell geocoder where your model stores its address:
 
-  geocoded_by :address                 # attribute/method to use for geocoding
-  after_validation :fetch_coordinates  # fetch and assign coordinates before saving
+  geocoded_by :address
 
-You are not stuck with the +latitude+ and +longitude+ column names, or the +address+ method. See "More On Configuration" below for details.
+D. Optionally, auto-fetch coordinates every time your model is saved:
+
+  after_validation :fetch_coordinates
+
+<i>Note that you are not stuck with the +latitude+ and +longitude+ column names, or the +address+ method. See "More On Configuration" below for details.</i>
 
 
 == 3. Use
 
-Assuming +obj+ is an instance of a geocoded class, you can fetch coordinates:
+Assuming +obj+ is an instance of a geocoded class, you can get its coordinates:
 
   obj.fetch_coordinates              # fetches and assigns coordinates
   obj.fetch_coordinates!             # also saves lat, lon attributes
 
-If you already have a lot of objects you can use this Rake task to geocode them all:
+If you have a lot of objects you can use this Rake task to geocode them all:
 
   rake geocode:all CLASS=YourModel
 
-Assuming +obj+ is geocoded (has latitude and longitude):
+Once +obj+ is geocoded you can do things like this:
 
   obj.nearbys(30)                    # other objects within 30 miles
   obj.distance_to(40.714, -100.234)  # distance to arbitrary point
 
-Assuming +Venue+ is a geocoded model, it has the following named scopes:
+To find objects by location, use the following named scopes:
 
   Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
   Venue.near([40.71, 100.23], 20)    # venues within 20 miles of a point
