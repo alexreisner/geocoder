@@ -131,18 +131,28 @@ module Geocoder
   end
   
   ##
-  # Get other geocoded objects within a given radius.
-  # The object must be geocoded before this method is called.
+  # Get other geocoded objects within a given radius (in miles). This method
+  # calls the +near+ named scope with the object's coordinates as the first
+  # argument (the object must be geocoded before this method is called).
+  # 
+  # You may pass the radius and options arguments as well, but if you
+  # specify <tt>:conditions</tt> in the options hash you must manually
+  # omit +self+ from the list of results. You should try to avoid this
+  # anyway, and use other named scopes to apply further conditions, eg:
+  # 
+  #   venue.nearbys(10).open_on_mondays
+  #   venue.nearbys.with_capacity(2000)
   #
-  def nearbys(radius = 20)
+  def nearbys(radius = 20, options = {})
     return [] unless geocoded?
-    lat,lon = self.class._get_coordinates(self)
-    self.class.near([lat, lon], radius) - [self]
+    coords  = self.class._get_coordinates(self)
+    options = {:conditions => ["id != ?", id]}.merge(options)
+    self.class.near(coords, radius, options)
   end
   
   ##
   # Fetch coordinates based on the object's location.
-  # Returns an array <tt>[lat,lon]</tt>.
+  # Returns an array <tt>[lat, lon]</tt>.
   #
   def fetch_coordinates
     location = send(self.class.geocoder_options[:method_name])
