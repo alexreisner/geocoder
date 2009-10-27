@@ -121,8 +121,8 @@ module Geocoder
   end
   
   ##
-  # Calculate the distance from the object to a point (lat,lon). Valid units
-  # are defined in <tt>distance_between</tt> class method.
+  # Calculate the distance from the object to a point (lat,lon).
+  # Valid units are defined in <tt>distance_between</tt> class method.
   #
   def distance_to(lat, lon, units = :mi)
     return nil unless geocoded?
@@ -131,44 +131,37 @@ module Geocoder
   end
   
   ##
-  # Get other geocoded objects within a given radius (in miles). This method
-  # calls the +near+ named scope with the object's coordinates as the first
-  # argument (the object must be geocoded before this method is called).
-  # 
-  # You may pass the radius and options arguments as well, but if you
-  # specify <tt>:conditions</tt> in the options hash you must manually
-  # omit +self+ from the list of results. You should try to avoid this
-  # anyway, and use other named scopes to apply further conditions, eg:
-  # 
-  #   venue.nearbys(10).open_on_mondays
-  #   venue.nearbys.with_capacity(2000)
+  # Get other geocoded objects within a given radius (in miles). Takes a
+  # radius (in miles) and options for passing to the +near+ named scope
+  # (<tt>:order</tt>, <tt>:limit</tt>, and <tt>:offset</tt>).
   #
   def nearbys(radius = 20, options = {})
     return [] unless geocoded?
     coords  = self.class._get_coordinates(self)
     options = {:conditions => ["id != ?", id]}.merge(options)
-    self.class.near(coords, radius, options)
+    self.class.near(coords, radius, options) - [self]
   end
   
   ##
-  # Fetch coordinates based on the object's location.
-  # Returns an array <tt>[lat, lon]</tt>.
+  # Fetch coordinates and assign +latitude+ and +longitude+. Also returns
+  # coordinates as an array: <tt>[lat, lon]</tt>.
   #
-  def fetch_coordinates
+  def fetch_coordinates(save = false)
     location = send(self.class.geocoder_options[:method_name])
-    Geocoder.fetch_coordinates(location)
-  end
-  
-  ##
-  # Fetch coordinates and assign +latitude+ and +longitude+.
-  #
-  def fetch_coordinates!
-    returning fetch_coordinates do |c|
+    returning Geocoder.fetch_coordinates(location) do |c|
       unless c.blank?
-        write_attribute(self.class.geocoder_options[:latitude], c[0])
-        write_attribute(self.class.geocoder_options[:longitude], c[1])
+        method = (save ? "update" : "write") + "_attribute"
+        send method, self.class.geocoder_options[:latitude], c[0]
+        send method, self.class.geocoder_options[:longitude], c[1]
       end
     end
+  end
+
+  ##
+  # Fetch coordinates and update (save) +latitude+ and +longitude+ data.
+  #
+  def fetch_coordinates!
+    fetch_coordinates(true)
   end
 
   ##
@@ -194,7 +187,7 @@ module Geocoder
   # Calculate the distance between two points on Earth (Haversine formula).
   # Takes two sets of coordinates and an options hash:
   # 
-  # +units+ :: <tt>:mi</tt> for miles (default), <tt>:km</tt> for kilometers
+  # <tt>:units</tt> :: <tt>:mi</tt> (default) or <tt>:km</tt>
   #
   def self.distance_between(lat1, lon1, lat2, lon2, options = {})
     

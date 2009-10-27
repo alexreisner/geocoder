@@ -24,6 +24,10 @@ module ActiveRecord
       @attributes[attr_name] = value
     end
     
+    def update_attribute(attr_name, value)
+      write_attribute(attr_name, value)
+    end
+    
     def self.named_scope(*args); end
   end
 end

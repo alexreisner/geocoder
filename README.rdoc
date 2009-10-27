@@ -35,8 +35,8 @@ Add +latitude+ and +longitude+ columns to your model:
 
 Then tell your model about it:
 
-  geocoded_by :address                  # attribute/method to use for geocoding
-  after_validation :fetch_coordinates!  # fetch and assign coordinates before saving
+  geocoded_by :address                 # attribute/method to use for geocoding
+  after_validation :fetch_coordinates  # fetch and assign coordinates before saving
 
 You are not stuck with the +latitude+ and +longitude+ column names, or the +address+ method. See "More On Configuration" below for details.
 
@@ -52,8 +52,8 @@ Assuming +Venue+ is a geocoded model, it has the following named scopes:
 
 Assuming +obj+ has a valid string for its +location+:
 
-  obj.fetch_coordinates              # returns coordinates [lat, lon]
-  obj.fetch_coordinates!             # also writes coordinates to object
+  obj.fetch_coordinates              # fetches and assigns coordinates
+  obj.fetch_coordinates!             # also saves lat, lon attributes
 
 Assuming +obj+ is geocoded (has latitude and longitude):
 
@@ -97,7 +97,6 @@ Please see the code for more methods and detailed information about arguments (e
 
 * rake task for geocoding all non-geocoded objects
 * <tt>install.rb</tt> should do some setup when installed as a plugin
-* make <tt>fetch_coordinates</tt> assign coordinates; <tt>fetch_coordinates!</tt> should also save object
 
 
 Copyright (c) 2009 Alex Reisner, released under the MIT license
