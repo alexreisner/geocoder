@@ -1,6 +1,9 @@
 = Geocoder
 
-Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL or even SQLite.
+Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a named scope like <tt>near("Billings, MT")</tt>.
+
+Geocoder does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL or even SQLite.
+
 
 == 1. Install
 
@@ -16,31 +19,21 @@ or as a gem:
   # at command prompt:
   sudo rake gems:install
 
+
 == 2. Configure
 
 First, you must get a Google Maps API key (to get one go to http://code.google.com/apis/maps/signup.html) and store it in a constant:
 
+  # eg, in config/initializers/google_maps.rb
   GOOGLE_MAPS_API_KEY = "..."
 
-To add geocoding features to a class:
+Then tell your model about it:
 
-  geocoded_by :location
+  geocoded_by :address                  # attribute/method to use for geocoding
+  after_validation :fetch_coordinates!  # fetch and assign coordinates before saving
 
-Be sure your class defines attributes for storing latitude and longitude (use +float+ or +double+ database columns) and a location (human-readable address to be geocoded). These attribute names are all configurable; for example, to use +address+, +lat+, and +lon+ respectively:
+Be sure your model defines attributes for storing +latitude+ and +longitude+ (use +float+ or +double+ database columns) and a location (human-readable address to be geocoded). These attribute names are all configurable (see "More On Configuration" below for details).
 
-  geocoded_by :address, :latitude  => :lat, :longitude => :lon
-
-A geocodable string is anything you'd use to search Google Maps. Any of the following are acceptable:
-
-  714 Green St, Big Town, MO
-  Eiffel Tower, Paris, FR
-  Paris, TX, US
-
-If your model has +address+, +city+, +state+, and +country+ attributes your +location+ method might look something like this:
-
-  def location
-    [address, city, state, country].compact.join(', ')
-  end
 
 == 3. Use
 
@@ -70,7 +63,33 @@ Some utility methods are also available:
   Geocoder.fetch_coordinates("25 Main St, Cooperstown, NY")
 
 
+== More On Configuration
+
+You are not stuck with using the +latitude+ and +longitude+ database column names for storing coordinates. For example, to use +lat+ and +lon+:
+
+  geocoded_by :address, :latitude  => :lat, :longitude => :lon
+
+The string to use for geocoding can be anything you'd use to search Google Maps. For example, any of the following are acceptable:
+
+  714 Green St, Big Town, MO
+  Eiffel Tower, Paris, FR
+  Paris, TX, US
+
+If your model has +address+, +city+, +state+, and +country+ attributes you might do something like this:
+
+  geocoded_by :location
+
+  def location
+    [address, city, state, country].compact.join(', ')
+  end
+
+
 Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
 
-  
+
+== To-do List
+
+* rake task for geocoding all non-geocoded objects
+
+
 Copyright (c) 2009 Alex Reisner, released under the MIT license
