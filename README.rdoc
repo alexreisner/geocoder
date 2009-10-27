@@ -43,22 +43,26 @@ You are not stuck with the +latitude+ and +longitude+ column names, or the +addr
 
 == 3. Use
 
+Assuming +obj+ is an instance of a geocoded class, you can fetch coordinates:
+
+  obj.fetch_coordinates              # fetches and assigns coordinates
+  obj.fetch_coordinates!             # also saves lat, lon attributes
+
+If you already have a lot of objects you can use this Rake task to geocode them all:
+
+  rake geocode:all CLASS=YourModel
+
+Assuming +obj+ is geocoded (has latitude and longitude):
+
+  obj.nearbys(30)                    # other objects within 30 miles
+  obj.distance_to(40.714, -100.234)  # distance to arbitrary point
+
 Assuming +Venue+ is a geocoded model, it has the following named scopes:
 
   Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
   Venue.near([40.71, 100.23], 20)    # venues within 20 miles of a point
   Venue.geocoded                     # venues with coordinates
   Venue.not_geocoded                 # venues without coordinates
-
-Assuming +obj+ has a valid string for its +location+:
-
-  obj.fetch_coordinates              # fetches and assigns coordinates
-  obj.fetch_coordinates!             # also saves lat, lon attributes
-
-Assuming +obj+ is geocoded (has latitude and longitude):
-
-  obj.nearbys(30)                    # other objects within 30 miles
-  obj.distance_to(40.714, -100.234)  # distance to arbitrary point
 
 Some utility methods are also available:
 
@@ -95,7 +99,6 @@ Please see the code for more methods and detailed information about arguments (e
 
 == To-do List
 
-* rake task for geocoding all non-geocoded objects
 * <tt>install.rb</tt> should do some setup when installed as a plugin
 
 
