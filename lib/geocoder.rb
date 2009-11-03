@@ -2,6 +2,7 @@
 # Add geocoding functionality (via Google) to any object.
 #
 module Geocoder
+  include Math
   
   ##
   # Implementation of 'included' hook method.
@@ -207,9 +208,9 @@ module Geocoder
     dlat = (lat1 - lat2).abs
     dlon = (lon1 - lon2).abs
     
-    a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
-        (Math.sin(dlon / 2))**2 * Math.cos(lat2)  
-    c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))  
+    a = (sin(dlat / 2))**2 + cos(lat1) *
+        (sin(dlon / 2))**2 * cos(lat2)  
+    c = 2 * atan2( sqrt(a), sqrt(1-a))  
     c * units[options[:units]]
   end
   
@@ -217,7 +218,7 @@ module Geocoder
   # Convert degrees to radians.
   #
   def self.to_radians(degrees)
-    degrees * (Math::PI / 180)
+    degrees * (PI / 180)
   end
   
   ##
