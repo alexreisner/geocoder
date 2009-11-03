@@ -215,6 +215,34 @@ module Geocoder
   end
   
   ##
+  # Compute the geographic center (aka geographic midpoint, center of
+  # gravity) for an array of [lat,lon] points.
+  #
+  def self.geographic_center(points)
+    
+    # convert to Cartesian coordinates
+    x = []; y = [], z = []
+    points.each do |p|
+      x << cos(p[0]) * cos(p[1])
+      y << cos(p[0]) * sin(p[1])
+      z << sin(p[0])
+    end
+    
+    # compute average coordinates
+    avg = [x,y,z].map do |c|
+      c.inject(0){ |tot,i| tot += i }
+    end
+    
+    # convert back to latitude/longitude
+    xa, ya, za = avg
+    lon = atan2(ya, xa)
+    hyp = sqrt(xa * xa + ya * ya)
+    lat = atan2(za, hyp)
+    
+    [lat,lon]
+  end
+
+  ##
   # Convert degrees to radians.
   #
   def self.to_radians(degrees)
