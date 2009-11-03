@@ -15,6 +15,9 @@ class GeocoderTest < Test::Unit::TestCase
   
   # sanity check
   def test_geographic_center
-    assert_equal 69, Geocoder.geographic_center([[0,0], [0,1]]).round
+    assert_equal [0.0, 0.5],
+      Geocoder.geographic_center([[0,0], [0,1]])
+    assert_equal [0.0, 1.0],
+      Geocoder.geographic_center([[0,0], [0,1], [0,2]])
   end
 end
