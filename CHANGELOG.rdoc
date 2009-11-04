@@ -2,6 +2,11 @@
 
 Per-release changes to Geocoder.
 
+== 0.8.7 (2009 Nov 4)
+
+* Added Geocoder.geographic_center method.
+* Replaced _get_coordinates class method with read_coordinates instance method.
+
 == 0.8.6 (2009 Oct 27)
 
 * The fetch_coordinates method now assigns coordinates to attributes (behaves like fetch_coordinates! used to) and fetch_coordinates! both assigns and saves the attributes.
