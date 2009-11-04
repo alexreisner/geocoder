@@ -102,22 +102,21 @@ module Geocoder
         :limit  => limit
       }
     end
-
-    ##
-    # Get the coordinates [lat,lon] of an object. This is not great but it
-    # seems cleaner than polluting the object method namespace.
-    #
-    def _get_coordinates(object)
-      [object.send(geocoder_options[:latitude]),
-      object.send(geocoder_options[:longitude])]
-    end
   end
-  
+
+  ##
+  # Read the coordinates [lat,lon] of an object. This is not great but it
+  # seems cleaner than polluting the instance method namespace.
+  #
+  def read_coordinates
+    [:latitude, :longitude].map{ |i| send self.class.geocoder_options[i] }
+  end
+
   ##
   # Is this object geocoded? (Does it have latitude and longitude?)
   #
   def geocoded?
-    self.class._get_coordinates(self).compact.size > 0
+    read_coordinates.compact.size > 0
   end
   
   ##
@@ -126,7 +125,7 @@ module Geocoder
   #
   def distance_to(lat, lon, units = :mi)
     return nil unless geocoded?
-    mylat,mylon = self.class._get_coordinates(self)
+    mylat,mylon = read_coordinates
     Geocoder.distance_between(mylat, mylon, lat, lon, :units => units)
   end
   
@@ -137,9 +136,8 @@ module Geocoder
   #
   def nearbys(radius = 20, options = {})
     return [] unless geocoded?
-    coords  = self.class._get_coordinates(self)
     options = {:conditions => ["id != ?", id]}.merge(options)
-    self.class.near(coords, radius, options) - [self]
+    self.class.near(read_coordinates, radius, options) - [self]
   end
   
   ##
