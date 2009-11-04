@@ -213,12 +213,18 @@ module Geocoder
   
   ##
   # Compute the geographic center (aka geographic midpoint, center of
-  # gravity) for an array of [lat,lon] points. Follows the procedure
-  # documented at http://www.geomidpoint.com/calculation.html.
+  # gravity) for an array of geocoded objects and/or [lat,lon] arrays
+  # (can be mixed). Any objects missing coordinates are ignored. Follows
+  # the procedure documented at http://www.geomidpoint.com/calculation.html.
   #
   def self.geographic_center(points)
+  
+    # convert objects to [lat,lon] arrays and remove nils
+    points = points.map{ |p|
+      p.is_a?(Array) ? p : (p.geocoded?? p.read_coordinates : nil)
+    }.compact
     
-    # convert lat, lon pairs to radians
+    # convert degrees to radians
     points.map!{ |p| [to_radians(p[0]), to_radians(p[1])] }
     
     # convert to Cartesian coordinates
