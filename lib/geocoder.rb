@@ -220,6 +220,9 @@ module Geocoder
   #
   def self.geographic_center(points)
     
+    # convert lat, lon pairs to radians
+    points.map!{ |p| [to_radians(p[0]), to_radians(p[1])] }
+    
     # convert to Cartesian coordinates
     x = []; y = []; z = []
     points.each do |p|
@@ -235,10 +238,11 @@ module Geocoder
     
     # convert back to latitude/longitude
     lon = Math.atan2(ya, xa)
-    hyp = Math.sqrt(xa * xa + ya * ya)
+    hyp = Math.sqrt(xa**2 + ya**2)
     lat = Math.atan2(za, hyp)
     
-    [lat,lon]
+    # return answer in degrees
+    [to_degrees(lat), to_degrees(lon)]
   end
 
   ##
@@ -246,6 +250,13 @@ module Geocoder
   #
   def self.to_radians(degrees)
     degrees * (Math::PI / 180)
+  end
+  
+  ##
+  # Convert radians to degrees.
+  #
+  def self.to_degrees(radians)
+    (radians * 180.0) / Math::PI
   end
   
   ##
