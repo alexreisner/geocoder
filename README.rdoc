@@ -102,6 +102,24 @@ If your model has +address+, +city+, +state+, and +country+ attributes you might
 Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
 
 
+== SQLite
+
+SQLite's lack of trigonometric functions means Geocoder's default implementation of the +near+ method (named scope) does not work. When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius.
+
+
+=== Discussion
+
+There are few options for finding objects near a given point in SQLite without installing extensions:
+
+1. Use a square instead of a circle for finding nearby points. For example, if you want to find points near 40.71, 100.23, search for objects with latitude between 39.71 and 41.71 and longitude between 99.23 and 101.23. One degree of latitude or longitude is at most 69 miles so divide your radius (in miles) by 69.0 to get the amount to add and subtract from your center coordinates to get the upper and lower bounds. The results will not be very accurate (you'll get points outside the desired radius), but you will get all the points within the required radius.
+
+2. Load all objects into memory and compute distances between them using the <tt>Geocoder.distance_between</tt> method. This will produce accurate results but will be very slow (and use a lot of memory) if you have a lot of objects in your database.
+
+3. If you have a large number of objects (so you can't use approach #2) and you need accurate results (better than approach #1 will give), you can use a combination of the two. Get all the objects within a square around your center point, and then eliminate the ones that are too far away using <tt>Geocoder.distance_between</tt>.
+
+Because Geocoder needs to provide this functionality as a named scope, we must go with option #1, but feel free to implement #2 or #3 if you need more accuracy.
+
+
 == To-do List
 
 * <tt>install.rb</tt> should do some setup when installed as a plugin
