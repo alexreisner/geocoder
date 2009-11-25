@@ -1,3 +1,5 @@
+require 'rexml/document'
+
 ##
 # Add geocoding functionality (via Google) to any object.
 #
