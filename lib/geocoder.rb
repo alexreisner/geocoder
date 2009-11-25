@@ -45,15 +45,6 @@ module Geocoder
   module ClassMethods
 
     ##
-    # DEPRECATED: Please use the +near+ method/named scope instead.
-    #
-    def find_near(location, radius = 20, options = {})
-      warn "Geocoder deprecation warning: the 'find_near' class method is " +
-        "deprecated, please use the 'near' method, which is a named scope."
-      near(location, radius, options)
-    end
-    
-    ##
     # Get options hash suitable for passing to ActiveRecord.find to get
     # records within a radius (in miles) of the given point.
     # Taken from excellent tutorial at:
