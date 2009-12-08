@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 0.8.8 (2009 Dec 7)
+
+* Automatically select a less accurate but compatible distance algorithm when SQLite database detected (fixes SQLite incompatibility).
+
 == 0.8.7 (2009 Nov 4)
 
 * Added Geocoder.geographic_center method.
