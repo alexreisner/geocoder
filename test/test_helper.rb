@@ -16,16 +16,15 @@ module ActiveRecord
     end
     
     def read_attribute(attr_name)
-      @attributes[attr_name.to_s]
+      @attributes[attr_name.to_sym]
     end
     
     def write_attribute(attr_name, value)
-      attr_name = attr_name.to_s
-      @attributes[attr_name] = value
+      @attributes[attr_name.to_sym] = value
     end
     
     def update_attribute(attr_name, value)
-      write_attribute(attr_name, value)
+      write_attribute(attr_name.to_sym, value)
     end
     
     def self.named_scope(*args); end
@@ -51,18 +50,18 @@ end
 class Venue < ActiveRecord::Base
   geocoded_by :address
   
-  attr_accessor :name, :address
-  
   def initialize(name, address)
     super()
     write_attribute :name, name
     write_attribute :address, address
   end
   
-  # could implement these with method_missing
-  # to simulate custom lat/lon methods
-  def latitude; read_attribute(:latitude); end
-  def longitude; read_attribute(:longitude); end
+  ##
+  # If method not found, assume it's an ActiveRecord attribute reader.
+  #
+  def method_missing(name, *args, &block)
+    @attributes[name]
+  end
 end
 
 class Test::Unit::TestCase
