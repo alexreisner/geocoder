@@ -4,6 +4,8 @@ Geocoder adds object geocoding and database-agnostic distance calculations to Ru
 
 Geocoder does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL or even SQLite.
 
+<b>Geocoder is currently compatible with Rails 2.x and Rails 3.</b>
+
 
 == 1. Install
 
@@ -122,7 +124,9 @@ Because Geocoder needs to provide this functionality as a named scope, we must g
 
 == To-do List
 
+* prevent NameError when GOOGLE_MAPS_API_KEY is missing: show nice msg
 * <tt>install.rb</tt> should do some setup when installed as a plugin
+  * create initializer with GOOGLE_MAPS_API_KEY?
 
 
-Copyright (c) 2009 Alex Reisner, released under the MIT license
+Copyright (c) 2009-10 Alex Reisner, released under the MIT license
