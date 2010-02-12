@@ -2,6 +2,11 @@
 
 Per-release changes to Geocoder.
 
+== 0.8.9 (2010 Feb 11)
+
+* Add Rails 3 compatibility.
+* Avoid querying Google when query would be an empty string.
+
 == 0.8.8 (2009 Dec 7)
 
 * Automatically select a less accurate but compatible distance algorithm when SQLite database detected (fixes SQLite incompatibility).
