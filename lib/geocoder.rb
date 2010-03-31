@@ -67,31 +67,12 @@ module Geocoder
     ##
     # Named scope options hash for use with a database that supports POWER(),
     # SQRT(), PI(), and trigonometric functions (SIN(), COS(), and ASIN()).
-    #
+    # 
     # Taken from the excellent tutorial at:
     # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
     #
     def full_near_scope_options(latitude, longitude, radius, options)
-
-      # set defaults/clean up arguments
       options[:order] ||= 'distance ASC'
-      radius            = radius.to_i
-
-      # constrain search to a (radius x radius) square
-      factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
-      lon_lo = longitude - (radius / factor);
-      lon_hi = longitude + (radius / factor);
-      lat_lo = latitude  - (radius / 69.0);
-      lat_hi = latitude  + (radius / 69.0);
-
-      # build limit clause
-      limit = nil
-      if options[:limit] or options[:offset]
-        options[:offset] ||= 0
-        limit = "#{options[:offset]},#{options[:limit]}"
-      end
-      
-      # generate hash
       lat_attr = geocoder_options[:latitude]
       lon_attr = geocoder_options[:longitude]
       distance = "3956 * 2 * ASIN(SQRT(" +
@@ -102,13 +83,12 @@ module Geocoder
         "PI() / 180 / 2), 2) ))"
       {
         :select => "*, #{distance} AS distance",
-        :conditions => [
-          "#{lat_attr} BETWEEN ? AND ? AND " +
-          "#{lon_attr} BETWEEN ? AND ?",
-          lat_lo, lat_hi, lon_lo, lon_hi],
+        :conditions => \
+          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
+          coordinate_bounds(latitude, longitude, radius),
         :having => "#{distance} <= #{radius}",
         :order  => options[:order],
-        :limit  => limit
+        :limit  => limit_clause(options)
       }
     end
 
@@ -119,35 +99,41 @@ module Geocoder
     # objects outside the given radius).
     #
     def approx_near_scope_options(latitude, longitude, radius, options)
-
-      # set defaults/clean up arguments
-      radius = radius.to_i
-
-      # constrain search to a (radius x radius) square
-      factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
-      lon_lo = longitude - (radius / factor);
-      lon_hi = longitude + (radius / factor);
-      lat_lo = latitude  - (radius / 69.0);
-      lat_hi = latitude  + (radius / 69.0);
-
-      # build limit clause
-      limit = nil
-      if options[:limit] or options[:offset]
-        options[:offset] ||= 0
-        limit = "#{options[:offset]},#{options[:limit]}"
-      end
-      
-      # generate hash
       lat_attr = geocoder_options[:latitude]
       lon_attr = geocoder_options[:longitude]
       {
-        :conditions => [
-          "#{lat_attr} BETWEEN ? AND ? AND " +
-          "#{lon_attr} BETWEEN ? AND ?",
-          lat_lo, lat_hi, lon_lo, lon_hi],
+        :conditions => \
+          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
+          coordinate_bounds(latitude, longitude, radius),
         :order  => options[:order],
-        :limit  => limit
+        :limit  => limit_clause(options)
       }
+    end
+    
+    ##
+    # Get the rough high/low lat/long bounds for a geographic point and
+    # radius. Returns an array: <tt>[lat_lo, lat_hi, lon_lo, lon_hi]</tt>.
+    # Used to constrain search to a (radius x radius) square.
+    #
+    def coordinate_bounds(latitude, longitude, radius)
+      radius = radius.to_f
+      factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
+      [
+        latitude  - (radius / 69.0),
+        latitude  + (radius / 69.0),
+        longitude - (radius / factor),
+        longitude + (radius / factor)
+      ]
+    end
+    
+    ##
+    # Build the limit clause for a query based on the same options hash
+    # passed to the x_near_scope_options methods.
+    #
+    def limit_clause(options)
+      if options[:limit] or options[:offset]
+        "#{options[:offset].to_i},#{options[:limit].to_i}"
+      end
     end
   end
 
