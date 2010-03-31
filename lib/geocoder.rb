@@ -94,18 +94,19 @@ module Geocoder
       # generate hash
       lat_attr = geocoder_options[:latitude]
       lon_attr = geocoder_options[:longitude]
+      distance = "3956 * 2 * ASIN(SQRT(" +
+        "POWER(SIN((#{latitude} - #{lat_attr}) * " +
+        "PI() / 180 / 2), 2) + COS(#{latitude} * PI()/180) * " +
+        "COS(#{lat_attr} * PI() / 180) * " +
+        "POWER(SIN((#{longitude} - #{lon_attr}) * " +
+        "PI() / 180 / 2), 2) ))"
       {
-        :select => "*, 3956 * 2 * ASIN(SQRT(" +
-          "POWER(SIN((#{latitude} - #{lat_attr}) * " +
-          "PI() / 180 / 2), 2) + COS(#{latitude} * PI()/180) * " +
-          "COS(#{lat_attr} * PI() / 180) * " +
-          "POWER(SIN((#{longitude} - #{lon_attr}) * " +
-          "PI() / 180 / 2), 2) )) as distance",
+        :select => "*, #{distance} AS distance",
         :conditions => [
           "#{lat_attr} BETWEEN ? AND ? AND " +
           "#{lon_attr} BETWEEN ? AND ?",
           lat_lo, lat_hi, lon_lo, lon_hi],
-        :having => "distance <= #{radius}",
+        :having => "#{distance} <= #{radius}",
         :order  => options[:order],
         :limit  => limit
       }
