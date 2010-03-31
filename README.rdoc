@@ -113,7 +113,7 @@ SQLite's lack of trigonometric functions means Geocoder's default implementation
 
 There are few options for finding objects near a given point in SQLite without installing extensions:
 
-1. Use a square instead of a circle for finding nearby points. For example, if you want to find points near 40.71, 100.23, search for objects with latitude between 39.71 and 41.71 and longitude between 99.23 and 101.23. One degree of latitude or longitude is at most 69 miles so divide your radius (in miles) by 69.0 to get the amount to add and subtract from your center coordinates to get the upper and lower bounds. The results will not be very accurate (you'll get points outside the desired radius), but you will get all the points within the required radius.
+1. Use a square instead of a circle for finding nearby points. For example, if you want to find points near 40.71, 100.23, search for objects with latitude between 39.71 and 41.71 and longitude between 99.23 and 101.23. One degree of latitude or longitude is at most 69 miles so divide your radius (in miles) by 69.0 to get the amount to add and subtract from your center coordinates to get the upper and lower bounds. The results will not be very accurate (you'll get points outside the desired radius--at worst 29% farther away), but you will get all the points within the required radius.
 
 2. Load all objects into memory and compute distances between them using the <tt>Geocoder.distance_between</tt> method. This will produce accurate results but will be very slow (and use a lot of memory) if you have a lot of objects in your database.
 
