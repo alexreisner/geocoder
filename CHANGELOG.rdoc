@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.0 (2010 Apr 2)
+
+* Fix bug in PostgreSQL support (caused "PGError: ERROR:  column "distance" does not exist"), reported by developish.
+
 == 0.8.9 (2010 Feb 11)
 
 * Add Rails 3 compatibility.
