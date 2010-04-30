@@ -9,6 +9,8 @@ Geocoder does not rely on proprietary database functions so finding geocoded obj
 
 == 1. Install
 
+=== a. Rails 2
+
 Install either as a plugin:
 
   script/plugin install git://github.com/alexreisner/geocoder.git
@@ -20,6 +22,21 @@ or as a gem:
   
   # at command prompt:
   sudo rake gems:install
+
+
+=== a. Rails 3
+
+Install either as a plugin:
+
+  rails plugin install git://github.com/alexreisner/geocoder.git
+
+or as a gem:
+
+  # add to Gemfile:
+  gem "rails-geocoder", :require => "geocoder"
+  
+  # at command prompt:
+  bundle install
 
 
 == 2. Configure
