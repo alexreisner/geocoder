@@ -24,7 +24,7 @@ or as a gem:
   sudo rake gems:install
 
 
-=== a. Rails 3
+=== b. Rails 3
 
 Install either as a plugin:
 
