@@ -1,6 +1,6 @@
 = Geocoder
 
-Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a named scope like <tt>Venue.near("Billings, MT")</tt>.
+Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>.
 
 Geocoder does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL or even SQLite.
 
@@ -78,7 +78,7 @@ Once +obj+ is geocoded you can do things like this:
   obj.nearbys(30)                    # other objects within 30 miles
   obj.distance_to(40.714, -100.234)  # distance to arbitrary point
 
-To find objects by location, use the following named scopes:
+To find objects by location, use the following scopes:
 
   Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
   Venue.near([40.71, 100.23], 20)    # venues within 20 miles of a point
@@ -123,7 +123,7 @@ Please see the code for more methods and detailed information about arguments (e
 
 == SQLite
 
-SQLite's lack of trigonometric functions means Geocoder's default implementation of the +near+ method (named scope) does not work. When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius.
+SQLite's lack of trigonometric functions means Geocoder's default implementation of the +near+ method (scope) does not work. When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius.
 
 
 === Discussion
@@ -136,7 +136,7 @@ There are few options for finding objects near a given point in SQLite without i
 
 3. If you have a large number of objects (so you can't use approach #2) and you need accurate results (better than approach #1 will give), you can use a combination of the two. Get all the objects within a square around your center point, and then eliminate the ones that are too far away using <tt>Geocoder.distance_between</tt>.
 
-Because Geocoder needs to provide this functionality as a named scope, we must go with option #1, but feel free to implement #2 or #3 if you need more accuracy.
+Because Geocoder needs to provide this functionality as a scope, we must go with option #1, but feel free to implement #2 or #3 if you need more accuracy.
 
 
 == To-do List

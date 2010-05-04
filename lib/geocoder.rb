@@ -12,22 +12,22 @@ module Geocoder
     base.extend ClassMethods
     base.class_eval do
 
-      # named scope: geocoded objects
-      named_scope :geocoded,
+      # scope: geocoded objects
+      send(Geocoder.scope_method_name, :geocoded,
         :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
-          "AND #{geocoder_options[:longitude]} IS NOT NULL"
+          "AND #{geocoder_options[:longitude]} IS NOT NULL")
 
-      # named scope: not-geocoded objects
-      named_scope :not_geocoded,
+      # scope: not-geocoded objects
+      send(Geocoder.scope_method_name, :not_geocoded,
         :conditions => "#{geocoder_options[:latitude]} IS NULL " +
-          "OR #{geocoder_options[:longitude]} IS NULL"
+          "OR #{geocoder_options[:longitude]} IS NULL")
       
       ##
       # Find all objects within a radius (in miles) of the given location
       # (address string). Location (the first argument) may be either a string
       # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
       #
-      named_scope :near, lambda{ |location, *args|
+      send(Geocoder.scope_method_name, :near, lambda{ |location, *args|
         latitude, longitude = location.is_a?(Array) ?
           location : Geocoder.fetch_coordinates(location)
         if latitude and longitude
@@ -35,7 +35,7 @@ module Geocoder
         else
           {}
         end
-      }
+      })
     end
   end
     
@@ -65,7 +65,7 @@ module Geocoder
     private # ----------------------------------------------------------------
 
     ##
-    # Named scope options hash for use with a database that supports POWER(),
+    # Scope options hash for use with a database that supports POWER(),
     # SQRT(), PI(), and trigonometric functions (SIN(), COS(), and ASIN()).
     # 
     # Taken from the excellent tutorial at:
@@ -93,7 +93,7 @@ module Geocoder
     end
 
     ##
-    # Named scope options hash for use with a database without trigonometric
+    # Scope options hash for use with a database without trigonometric
     # functions, like SQLite. Approach is to find objects within a square
     # rather than a circle, so results are very approximate (will include
     # objects outside the given radius).
@@ -164,7 +164,7 @@ module Geocoder
   
   ##
   # Get other geocoded objects within a given radius (in miles). Takes a
-  # radius (in miles) and options for passing to the +near+ named scope
+  # radius (in miles) and options for passing to the +near+ scope
   # (<tt>:order</tt>, <tt>:limit</tt>, and <tt>:offset</tt>).
   #
   def nearbys(radius = 20, options = {})
@@ -329,6 +329,13 @@ module Geocoder
     rescue SocketError, TimeoutError
       return nil
     end
+  end
+  
+  ##
+  # Name of the ActiveRecord scope method.
+  #
+  def self.scope_method_name
+    Rails.version.starts_with?("3") ? :scope : :named_scope
   end
 end
 
