@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.1 (2010 May 4)
+
+* Use scope instead of named_scope in Rails 3.
+
 == 0.9.0 (2010 Apr 2)
 
 * Fix bug in PostgreSQL support (caused "PGError: ERROR:  column "distance" does not exist"), reported by developish.
