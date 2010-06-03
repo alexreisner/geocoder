@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.2 (2010 Jun 3)
+
+* Fix LIMIT clause bug in PostgreSQL (reported by kenzie).
+
 == 0.9.1 (2010 May 4)
 
 * Use scope instead of named_scope in Rails 3.
