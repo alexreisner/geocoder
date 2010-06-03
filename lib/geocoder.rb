@@ -51,7 +51,7 @@ module Geocoder
     # 
     # +order+     :: column(s) for ORDER BY SQL clause
     # +limit+     :: number of records to return (for LIMIT SQL clause)
-    # +offset+    :: number of records to skip (for LIMIT SQL clause)
+    # +offset+    :: number of records to skip (for OFFSET SQL clause)
     #
     def near_scope_options(latitude, longitude, radius = 20, options = {})
       if ActiveRecord::Base.connection.adapter_name == "SQLite"
@@ -88,7 +88,8 @@ module Geocoder
           coordinate_bounds(latitude, longitude, radius),
         :having => "#{distance} <= #{radius}",
         :order  => options[:order],
-        :limit  => limit_clause(options)
+        :limit  => options[:limit],
+        :offset  => options[:offset]
       }
     end
 
@@ -106,7 +107,8 @@ module Geocoder
           ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           coordinate_bounds(latitude, longitude, radius),
         :order  => options[:order],
-        :limit  => limit_clause(options)
+        :limit  => options[:limit],
+        :offset  => options[:offset]
       }
     end
     
@@ -124,16 +126,6 @@ module Geocoder
         longitude - (radius / factor),
         longitude + (radius / factor)
       ]
-    end
-    
-    ##
-    # Build the limit clause for a query based on the same options hash
-    # passed to the x_near_scope_options methods.
-    #
-    def limit_clause(options)
-      if options[:limit] or options[:offset]
-        "#{options[:offset].to_i},#{options[:limit].to_i}"
-      end
     end
   end
 
