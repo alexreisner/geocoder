@@ -332,7 +332,11 @@ module Geocoder
   # Name of the ActiveRecord scope method.
   #
   def self.scope_method_name
-    Rails.version.starts_with?("3") ? :scope : :named_scope
+    begin
+      Rails.version.starts_with?("3") ? :scope : :named_scope
+    rescue NameError
+      :named_scope
+    end
   end
 end
 
