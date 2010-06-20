@@ -52,6 +52,7 @@ module Geocoder
     # +order+     :: column(s) for ORDER BY SQL clause
     # +limit+     :: number of records to return (for LIMIT SQL clause)
     # +offset+    :: number of records to skip (for OFFSET SQL clause)
+    # +select+    :: string with the SELECT SQL fragment (e.g. “id, name”)
     #
     def near_scope_options(latitude, longitude, radius = 20, options = {})
       if ActiveRecord::Base.connection.adapter_name == "SQLite"
@@ -82,7 +83,7 @@ module Geocoder
         "POWER(SIN((#{longitude} - #{lon_attr}) * " +
         "PI() / 180 / 2), 2) ))"
       default_near_scope_options(latitude, longitude, radius, options).merge(
-        :select => "*, #{distance} AS distance",
+        :select => "#{options[:select] || '*'}, #{distance} AS distance",
         :conditions => \
           ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           coordinate_bounds(latitude, longitude, radius),
