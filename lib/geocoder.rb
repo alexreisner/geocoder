@@ -84,9 +84,6 @@ module Geocoder
         "PI() / 180 / 2), 2) ))"
       default_near_scope_options(latitude, longitude, radius, options).merge(
         :select => "#{options[:select] || '*'}, #{distance} AS distance",
-        :conditions => \
-          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
-          coordinate_bounds(latitude, longitude, radius),
         :having => "#{distance} <= #{radius}"
       )
     end
@@ -98,12 +95,8 @@ module Geocoder
     # objects outside the given radius).
     #
     def approx_near_scope_options(latitude, longitude, radius, options)
-      lat_attr = geocoder_options[:latitude]
-      lon_attr = geocoder_options[:longitude]
       default_near_scope_options(latitude, longitude, radius, options).merge(
-        :conditions => \
-          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
-          coordinate_bounds(latitude, longitude, radius)
+        :select => options[:select] || nil
       )
     end
     
@@ -111,10 +104,15 @@ module Geocoder
     # Options used for any near-like scope.
     #
     def default_near_scope_options(latitude, longitude, radius, options)
+      lat_attr = geocoder_options[:latitude]
+      lon_attr = geocoder_options[:longitude]
       {
         :order  => options[:order],
         :limit  => options[:limit],
-        :offset => options[:offset]
+        :offset => options[:offset],
+        :conditions => \
+          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
+          coordinate_bounds(latitude, longitude, radius)
       }
     end
     
