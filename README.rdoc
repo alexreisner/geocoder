@@ -151,6 +151,7 @@ If anyone has a more elegant solution to this problem I am very interested in se
 
 == To-do List
 
+* prepend table names to column names in SQL distance expression (required to do joins on another geocoded model)
 * prevent NameError when GOOGLE_MAPS_API_KEY is missing: show nice msg
 * <tt>install.rb</tt> should do some setup when installed as a plugin
   * create initializer with GOOGLE_MAPS_API_KEY?
