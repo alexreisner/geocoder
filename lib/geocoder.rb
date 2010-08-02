@@ -174,14 +174,15 @@ module Geocoder
   # coordinates as an array: <tt>[lat, lon]</tt>.
   #
   def fetch_coordinates(save = false)
-    location = send(self.class.geocoder_options[:method_name])
-    returning Geocoder.fetch_coordinates(location) do |c|
-      unless c.blank?
-        method = (save ? "update" : "write") + "_attribute"
-        send method, self.class.geocoder_options[:latitude], c[0]
-        send method, self.class.geocoder_options[:longitude], c[1]
-      end
+    coords = Geocoder.fetch_coordinates(
+      send(self.class.geocoder_options[:method_name])
+    )
+    unless coords.blank?
+      method = (save ? "update" : "write") + "_attribute"
+      send method, self.class.geocoder_options[:latitude],  coords[0]
+      send method, self.class.geocoder_options[:longitude], coords[1]
     end
+    coords
   end
 
   ##
