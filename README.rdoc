@@ -1,10 +1,8 @@
 = Geocoder
 
-Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>.
+Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>. Since it does not rely on proprietary database functions finding geocoded objects in a given area works with out-of-the-box MySQL or even SQLite.
 
-Geocoder does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL or even SQLite.
-
-<b>Geocoder is currently compatible with Rails 2.x and Rails 3.</b>
+<b>Geocoder is currently compatible with Rails 2.x and Rails 3.</b> Also, a Google Maps API key is no longer necessary.
 
 
 == 1. Install
@@ -41,21 +39,16 @@ or as a gem:
 
 == 2. Configure
 
-A) Get a Google Maps API key (see http://code.google.com/apis/maps/signup.html) and store it in a constant:
-
-  # eg, in config/initializers/google_maps.rb
-  GOOGLE_MAPS_API_KEY = "..."
-
-B) Add +latitude+ and +longitude+ columns to your model:
+A) Add +latitude+ and +longitude+ columns to your model:
 
   script/generate migration AddLatitudeAndLongitudeToYourModel latitude:float longitude:float
   rake db:migrate
 
-C) Tell geocoder where your model stores its address:
+B) Tell geocoder where your model stores its address:
 
   geocoded_by :address
 
-D) Optionally, auto-fetch coordinates every time your model is saved:
+C) Optionally, auto-fetch coordinates every time your model is saved:
 
   after_validation :fetch_coordinates
 
@@ -154,9 +147,6 @@ If anyone has a more elegant solution to this problem I am very interested in se
 * make 'near' scope work with 'select' options
 * prepend table names to column names in SQL distance expression (required
   to do joins on another geocoded model)
-* prevent NameError when GOOGLE_MAPS_API_KEY is missing: show nice msg
-* <tt>install.rb</tt> should do some setup when installed as a plugin
-  * create initializer with GOOGLE_MAPS_API_KEY?
 
 
 Copyright (c) 2009-10 Alex Reisner, released under the MIT license

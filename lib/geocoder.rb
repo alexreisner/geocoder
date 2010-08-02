@@ -181,10 +181,10 @@ module Geocoder
     if options != {}
       warn "DEPRECATION WARNING: The 'options' argument to the nearbys " +
         "method is deprecated and will be removed from rails-geocoder in " +
-        "version 0.9.4. Nearbys now returns a scope so you should specify " +
-        "more scopes and/or conditions via chaining. For example: " +
+        "a future version. Nearbys now returns a scope so you should " +
+        "specify more scopes and/or conditions via chaining. For example: " +
         "city.nearbys(20).order('name').limit(10). Support for Rails 2.x " +
-        "will be discontinued after rails-geocoder 0.9.3."
+        "will be discontinued soon."
     end
     return [] unless geocoded?
     options.reverse_merge!(:conditions => ["id != ?", id])
@@ -223,15 +223,14 @@ module Geocoder
     return nil unless doc = self.search(query)
     
     # make sure search found a result
-    e = doc.elements['kml/Response/Status/code']
-    return nil unless (e and e.text == "200")
-    
-    # isolate the relevant part of the result
-    place = doc.elements['kml/Response/Placemark']
+    e = doc.elements['GeocodeResponse/status']
+    return nil unless (e and e.text == "OK")
 
-    # if there are multiple results, blindly use the first
-    coords = place.elements['Point/coordinates'].text
-    coords.split(',')[0...2].reverse.map{ |i| i.to_f }
+    # isolate the relevant part of the result
+    place = doc.elements['GeocodeResponse/result/geometry/location']
+
+    # blindly use the first results (assume they are most accurate)
+    ['lat', 'lng'].map{ |i| place.elements[i].text.to_f }
   end
   
   ##
@@ -331,13 +330,10 @@ module Geocoder
   #
   def self._fetch_xml(query)
     params = {
-      :q      => query,
-      :key    => GOOGLE_MAPS_API_KEY,
-      :output => "xml",
-      :sensor => "false",
-      :oe     => "utf8"
+      :address => query,
+      :sensor  => "false"
     }
-    url    = "http://maps.google.com/maps/geo?" + params.to_query
+    url = "http://maps.google.com/maps/api/geocode/xml?" + params.to_query
     
     # Query geocoder and make sure it responds quickly.
     begin
