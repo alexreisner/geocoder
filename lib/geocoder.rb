@@ -49,12 +49,14 @@ module Geocoder
     # records within a radius (in miles) of the given point.
     # Options hash may include:
     # 
+    # +units+     :: <tt>:mi</tt> (default) or <tt>:km</tt>
     # +order+     :: column(s) for ORDER BY SQL clause
     # +limit+     :: number of records to return (for LIMIT SQL clause)
     # +offset+    :: number of records to skip (for OFFSET SQL clause)
     # +select+    :: string with the SELECT SQL fragment (e.g. “id, name”)
     #
     def near_scope_options(latitude, longitude, radius = 20, options = {})
+      radius *= km_in_mi if options[:units] == :km
       if ActiveRecord::Base.connection.adapter_name == "SQLite"
         approx_near_scope_options(latitude, longitude, radius, options)
       else
@@ -145,6 +147,13 @@ module Geocoder
         longitude + (radius / factor)
       ]
     end
+    
+    ##
+    # Conversion factor: km to mi.
+    #
+    def km_in_mi
+      0.621371192
+    end
   end
 
   ##
@@ -173,21 +182,25 @@ module Geocoder
   end
   
   ##
-  # Get other geocoded objects within a given radius (in miles). Takes a
-  # radius (in miles) and options for passing to the +near+ scope
-  # (<tt>:order</tt>, <tt>:limit</tt>, and <tt>:offset</tt>).
+  # Get other geocoded objects within a given radius.
+  # Valid units are defined in <tt>distance_between</tt> class method.
   #
-  def nearbys(radius = 20, options = {})
-    if options != {}
+  def nearbys(radius = 20, units = :mi)
+    options = {:conditions => ["id != ?", id]}
+    if units.is_a? Hash
       warn "DEPRECATION WARNING: The 'options' argument to the nearbys " +
         "method is deprecated and will be removed from rails-geocoder in " +
-        "a future version. Nearbys now returns a scope so you should " +
-        "specify more scopes and/or conditions via chaining. For example: " +
+        "a future version. The second argument is now called 'units' and " +
+        "should be a symbol (:mi or :km, :mi is the default). The 'nearbys' " +
+        "method now returns a Rails 3 scope so you should specify more " +
+        "scopes and/or conditions via chaining. For example: " +
         "city.nearbys(20).order('name').limit(10). Support for Rails 2.x " +
-        "will be discontinued soon."
+        "will eventually be discontinued."
+      options.reverse_merge!(units)
+    else
+      options.reverse_merge!(:units => units)
     end
     return [] unless geocoded?
-    options.reverse_merge!(:conditions => ["id != ?", id])
     self.class.near(read_coordinates, radius, options)
   end
   
@@ -245,7 +258,7 @@ module Geocoder
     options[:units] ||= :mi
     
     # define conversion factors
-    units = { :mi => 3956, :km => 6371 }
+    conversions = { :mi => 3956, :km => 6371 }
     
     # convert degrees to radians
     lat1 = to_radians(lat1)
@@ -260,7 +273,7 @@ module Geocoder
     a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
         (Math.sin(dlon / 2))**2 * Math.cos(lat2)  
     c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))  
-    c * units[options[:units]]
+    c * conversions[options[:units]]
   end
   
   ##
