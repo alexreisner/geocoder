@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.4 (2010 Aug 2)
+
+* Google Maps API key no longer required (uses geocoder v3).
+
 == 0.9.3 (2010 Aug 2)
 
 * Fix incompatibility with Rails 3 RC 1.
