@@ -106,13 +106,27 @@ module Geocoder
     def default_near_scope_options(latitude, longitude, radius, options)
       lat_attr = geocoder_options[:latitude]
       lon_attr = geocoder_options[:longitude]
+      conditions = \
+        ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
+        coordinate_bounds(latitude, longitude, radius)
+      
+      # Handle conditions. Passing of conditions by developers is deprecated
+      # but we will still need to handle conditions so, for example, we can
+      # exclude objects by ID from the nearbys method. This is incredibly
+      # ugly and doesn't work for a conditions hash: try using Arel?
+      if options[:conditions].is_a?(String)
+        options[:conditions] = [options[:conditions]]
+      end
+      if options[:conditions].is_a?(Array)
+        conditions[0] = "(#{conditions[0]}) AND #{options[:conditions][0]}"
+        conditions << options[:conditions][1]
+      end
+      
       {
         :order  => options[:order],
         :limit  => options[:limit],
         :offset => options[:offset],
-        :conditions => \
-          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
-          coordinate_bounds(latitude, longitude, radius)
+        :conditions => conditions
       }
     end
     
@@ -164,9 +178,17 @@ module Geocoder
   # (<tt>:order</tt>, <tt>:limit</tt>, and <tt>:offset</tt>).
   #
   def nearbys(radius = 20, options = {})
+    if options != {}
+      warn "DEPRECATION WARNING: The 'options' argument to the nearbys " +
+        "method is deprecated and will be removed from rails-geocoder in " +
+        "version 0.9.4. Nearbys now returns a scope so you should specify " +
+        "more scopes and/or conditions via chaining. For example: " +
+        "city.nearbys(20).order('name').limit(10). Support for Rails 2.x " +
+        "will be discontinued after rails-geocoder 0.9.3."
+    end
     return [] unless geocoded?
-    options = {:conditions => ["id != ?", id]}.merge(options)
-    self.class.near(read_coordinates, radius, options) - [self]
+    options.reverse_merge!(:conditions => ["id != ?", id])
+    self.class.near(read_coordinates, radius, options)
   end
   
   ##
