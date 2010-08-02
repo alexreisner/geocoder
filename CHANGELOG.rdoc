@@ -2,6 +2,12 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.3 (2010 Aug 2)
+
+* Fix incompatibility with Rails 3 RC 1.
+* Deprecate 'options' argument to 'nearbys' method.
+* Allow inclusion of 'nearbys' in Arel method chains.
+
 == 0.9.2 (2010 Jun 3)
 
 * Fix LIMIT clause bug in PostgreSQL (reported by kenzie).
