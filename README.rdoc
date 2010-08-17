@@ -144,6 +144,9 @@ If anyone has a more elegant solution to this problem I am very interested in se
 
 == To-do List
 
+* add reverse geocoding
+* restructure as Railtie
+  * http://www.igvita.com/2010/08/04/rails-3-internals-railtie-creating-plugins/
 * make 'near' scope work with 'select' options
 * prepend table names to column names in SQL distance expression (required
   to do joins on another geocoded model)
