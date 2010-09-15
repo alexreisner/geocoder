@@ -228,25 +228,6 @@ module Geocoder
   end
 
   ##
-  # Query Google for the coordinates of the given phrase.
-  # Returns array [lat,lon] if found, nil if not found or if network error.
-  #
-  def self.fetch_coordinates(query)
-    return nil if query.blank?
-    return nil unless doc = self.search(query)
-    
-    # make sure search found a result
-    e = doc.elements['GeocodeResponse/status']
-    return nil unless (e and e.text == "OK")
-
-    # isolate the relevant part of the result
-    place = doc.elements['GeocodeResponse/result/geometry/location']
-
-    # blindly use the first results (assume they are most accurate)
-    ['lat', 'lng'].map{ |i| place.elements[i].text.to_f }
-  end
-  
-  ##
   # Calculate the distance between two points on Earth (Haversine formula).
   # Takes two sets of coordinates and an options hash:
   # 
@@ -335,6 +316,25 @@ module Geocoder
     if doc = _fetch_xml(query)
       REXML::Document.new(doc)
     end
+  end
+  
+  ##
+  # Query Google for the coordinates of the given phrase.
+  # Returns array [lat,lon] if found, nil if not found or if network error.
+  #
+  def self.fetch_coordinates(query)
+    return nil if query.blank?
+    return nil unless doc = self.search(query)
+    
+    # make sure search found a result
+    e = doc.elements['GeocodeResponse/status']
+    return nil unless (e and e.text == "OK")
+
+    # isolate the relevant part of the result
+    place = doc.elements['GeocodeResponse/result/geometry/location']
+
+    # blindly use the first results (assume they are most accurate)
+    ['lat', 'lng'].map{ |i| place.elements[i].text.to_f }
   end
   
   ##
