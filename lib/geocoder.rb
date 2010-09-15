@@ -323,7 +323,6 @@ module Geocoder
   # Returns array [lat,lon] if found, nil if not found or if network error.
   #
   def self.fetch_coordinates(query)
-    return nil if query.blank?
     return nil unless doc = self.search(query)
 
     # make sure search found a result
@@ -342,6 +341,7 @@ module Geocoder
   # This method is not intended for general use (prefer Geocoder.search).
   #
   def self._fetch_xml(query)
+    return nil if query.blank?
     params = {
       :address => query,
       :sensor  => "false"
