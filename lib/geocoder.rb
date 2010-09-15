@@ -311,11 +311,13 @@ module Geocoder
 
   ##
   # Query Google for geographic information about the given phrase.
+  # Returns a REXML document representing a valid geocoder response.
+  # Returns nil if non-200 HTTP response, timeout, or other error.
   #
   def self.search(query)
-    if doc = _fetch_xml(query)
-      REXML::Document.new(doc)
-    end
+    doc = _fetch_document(query)
+    e = doc.elements['GeocodeResponse/status']
+    (e and e.text == "OK") ? doc : nil
   end
 
   ##
@@ -325,10 +327,6 @@ module Geocoder
   def self.fetch_coordinates(query)
     return nil unless doc = self.search(query)
 
-    # make sure search found a result
-    e = doc.elements['GeocodeResponse/status']
-    return nil unless (e and e.text == "OK")
-
     # isolate the relevant part of the result
     place = doc.elements['GeocodeResponse/result/geometry/location']
 
@@ -337,18 +335,27 @@ module Geocoder
   end
 
   ##
-  # Request an XML geo search result from Google.
+  # Returns a parsed Google geocoder search result (REXML document).
+  # This method is not intended for general use (prefer Geocoder.search).
+  #
+  def self._fetch_document(query)
+    if doc = _fetch_xml(query)
+      REXML::Document.new(doc)
+    end
+  end
+
+  ##
+  # Returns a raw Google geocoder search result (XML).
   # This method is not intended for general use (prefer Geocoder.search).
   #
   def self._fetch_xml(query)
     return nil if query.blank?
-    params = {
-      :address => query,
-      :sensor  => "false"
-    }
+
+    # build URL
+    params = { :address => query, :sensor  => "false" }
     url = "http://maps.google.com/maps/api/geocode/xml?" + params.to_query
 
-    # Query geocoder and make sure it responds quickly.
+    # query geocoder and make sure it responds quickly
     begin
       resp = nil
       timeout(3) do
