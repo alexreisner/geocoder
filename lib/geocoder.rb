@@ -4,7 +4,7 @@ require 'rexml/document'
 # Add geocoding functionality (via Google) to any object.
 #
 module Geocoder
-  
+
   ##
   # Implementation of 'included' hook method.
   #
@@ -21,7 +21,7 @@ module Geocoder
       send(Geocoder.scope_method_name, :not_geocoded,
         :conditions => "#{geocoder_options[:latitude]} IS NULL " +
           "OR #{geocoder_options[:longitude]} IS NULL")
-      
+
       ##
       # Find all objects within a radius (in miles) of the given location
       # (address string). Location (the first argument) may be either a string
@@ -38,7 +38,7 @@ module Geocoder
       })
     end
   end
-    
+
   ##
   # Methods which will be class methods of the including class.
   #
@@ -48,7 +48,7 @@ module Geocoder
     # Get options hash suitable for passing to ActiveRecord.find to get
     # records within a radius (in miles) of the given point.
     # Options hash may include:
-    # 
+    #
     # +units+     :: <tt>:mi</tt> (default) or <tt>:km</tt>
     # +order+     :: column(s) for ORDER BY SQL clause
     # +limit+     :: number of records to return (for LIMIT SQL clause)
@@ -70,7 +70,7 @@ module Geocoder
     ##
     # Scope options hash for use with a database that supports POWER(),
     # SQRT(), PI(), and trigonometric functions (SIN(), COS(), and ASIN()).
-    # 
+    #
     # Taken from the excellent tutorial at:
     # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
     #
@@ -101,7 +101,7 @@ module Geocoder
         :select => options[:select] || nil
       )
     end
-    
+
     ##
     # Options used for any near-like scope.
     #
@@ -111,7 +111,7 @@ module Geocoder
       conditions = \
         ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
         coordinate_bounds(latitude, longitude, radius)
-      
+
       # Handle conditions. Passing of conditions by developers is deprecated
       # but we will still need to handle conditions so, for example, we can
       # exclude objects by ID from the nearbys method. This is incredibly
@@ -123,7 +123,7 @@ module Geocoder
         conditions[0] = "(#{conditions[0]}) AND #{options[:conditions][0]}"
         conditions << options[:conditions][1]
       end
-      
+
       {
         :order  => options[:order],
         :limit  => options[:limit],
@@ -131,7 +131,7 @@ module Geocoder
         :conditions => conditions
       }
     end
-    
+
     ##
     # Get the rough high/low lat/long bounds for a geographic point and
     # radius. Returns an array: <tt>[lat_lo, lat_hi, lon_lo, lon_hi]</tt>.
@@ -147,7 +147,7 @@ module Geocoder
         longitude + (radius / factor)
       ]
     end
-    
+
     ##
     # Conversion factor: km to mi.
     #
@@ -170,7 +170,7 @@ module Geocoder
   def geocoded?
     read_coordinates.compact.size > 0
   end
-  
+
   ##
   # Calculate the distance from the object to a point (lat,lon).
   # Valid units are defined in <tt>distance_between</tt> class method.
@@ -180,7 +180,7 @@ module Geocoder
     mylat,mylon = read_coordinates
     Geocoder.distance_between(mylat, mylon, lat, lon, :units => units)
   end
-  
+
   ##
   # Get other geocoded objects within a given radius.
   # Valid units are defined in <tt>distance_between</tt> class method.
@@ -203,7 +203,7 @@ module Geocoder
     return [] unless geocoded?
     self.class.near(read_coordinates, radius, options)
   end
-  
+
   ##
   # Fetch coordinates and assign +latitude+ and +longitude+. Also returns
   # coordinates as an array: <tt>[lat, lon]</tt>.
@@ -230,33 +230,33 @@ module Geocoder
   ##
   # Calculate the distance between two points on Earth (Haversine formula).
   # Takes two sets of coordinates and an options hash:
-  # 
+  #
   # <tt>:units</tt> :: <tt>:mi</tt> (default) or <tt>:km</tt>
   #
   def self.distance_between(lat1, lon1, lat2, lon2, options = {})
-    
+
     # set default options
     options[:units] ||= :mi
-    
+
     # define conversion factors
     conversions = { :mi => 3956, :km => 6371 }
-    
+
     # convert degrees to radians
     lat1 = to_radians(lat1)
     lon1 = to_radians(lon1)
     lat2 = to_radians(lat2)
     lon2 = to_radians(lon2)
-    
+
     # compute distances
     dlat = (lat1 - lat2).abs
     dlon = (lon1 - lon2).abs
-    
+
     a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
-        (Math.sin(dlon / 2))**2 * Math.cos(lat2)  
-    c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))  
+        (Math.sin(dlon / 2))**2 * Math.cos(lat2)
+    c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
     c * conversions[options[:units]]
   end
-  
+
   ##
   # Compute the geographic center (aka geographic midpoint, center of
   # gravity) for an array of geocoded objects and/or [lat,lon] arrays
@@ -264,15 +264,15 @@ module Geocoder
   # the procedure documented at http://www.geomidpoint.com/calculation.html.
   #
   def self.geographic_center(points)
-  
+
     # convert objects to [lat,lon] arrays and remove nils
     points = points.map{ |p|
       p.is_a?(Array) ? p : (p.geocoded?? p.read_coordinates : nil)
     }.compact
-    
+
     # convert degrees to radians
     points.map!{ |p| [to_radians(p[0]), to_radians(p[1])] }
-    
+
     # convert to Cartesian coordinates
     x = []; y = []; z = []
     points.each do |p|
@@ -285,12 +285,12 @@ module Geocoder
     xa, ya, za = [x,y,z].map do |c|
       c.inject(0){ |tot,i| tot += i } / c.size.to_f
     end
-    
+
     # convert back to latitude/longitude
     lon = Math.atan2(ya, xa)
     hyp = Math.sqrt(xa**2 + ya**2)
     lat = Math.atan2(za, hyp)
-    
+
     # return answer in degrees
     [to_degrees(lat), to_degrees(lon)]
   end
@@ -301,14 +301,14 @@ module Geocoder
   def self.to_radians(degrees)
     degrees * (Math::PI / 180)
   end
-  
+
   ##
   # Convert radians to degrees.
   #
   def self.to_degrees(radians)
     (radians * 180.0) / Math::PI
   end
-  
+
   ##
   # Query Google for geographic information about the given phrase.
   #
@@ -317,7 +317,7 @@ module Geocoder
       REXML::Document.new(doc)
     end
   end
-  
+
   ##
   # Query Google for the coordinates of the given phrase.
   # Returns array [lat,lon] if found, nil if not found or if network error.
@@ -325,7 +325,7 @@ module Geocoder
   def self.fetch_coordinates(query)
     return nil if query.blank?
     return nil unless doc = self.search(query)
-    
+
     # make sure search found a result
     e = doc.elements['GeocodeResponse/status']
     return nil unless (e and e.text == "OK")
@@ -336,7 +336,7 @@ module Geocoder
     # blindly use the first results (assume they are most accurate)
     ['lat', 'lng'].map{ |i| place.elements[i].text.to_f }
   end
-  
+
   ##
   # Request an XML geo search result from Google.
   # This method is not intended for general use (prefer Geocoder.search).
@@ -347,7 +347,7 @@ module Geocoder
       :sensor  => "false"
     }
     url = "http://maps.google.com/maps/api/geocode/xml?" + params.to_query
-    
+
     # Query geocoder and make sure it responds quickly.
     begin
       resp = nil
@@ -358,7 +358,7 @@ module Geocoder
       return nil
     end
   end
-  
+
   ##
   # Name of the ActiveRecord scope method.
   #
@@ -375,7 +375,7 @@ end
 # Add geocoded_by method to ActiveRecord::Base so Geocoder is accessible.
 #
 ActiveRecord::Base.class_eval do
-  
+
   ##
   # Set attribute names and include the Geocoder module.
   #
