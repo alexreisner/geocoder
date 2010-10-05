@@ -10,22 +10,22 @@ module Geocoder
     base.extend ClassMethods
     base.class_eval do
 
-      # scope: geocoded objects
-      send(Geocoder.scope_method_name, :geocoded,
+      # named scope: geocoded objects
+      named_scope :geocoded,
         :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
-          "AND #{geocoder_options[:longitude]} IS NOT NULL")
+          "AND #{geocoder_options[:longitude]} IS NOT NULL"
 
-      # scope: not-geocoded objects
-      send(Geocoder.scope_method_name, :not_geocoded,
+      # named scope: not-geocoded objects
+      named_scope :not_geocoded,
         :conditions => "#{geocoder_options[:latitude]} IS NULL " +
-          "OR #{geocoder_options[:longitude]} IS NULL")
+          "OR #{geocoder_options[:longitude]} IS NULL"
 
       ##
       # Find all objects within a radius (in miles) of the given location
       # (address string). Location (the first argument) may be either a string
       # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
       #
-      send(Geocoder.scope_method_name, :near, lambda{ |location, *args|
+      named_scope :near, lambda{ |location, *args|
         latitude, longitude = location.is_a?(Array) ?
           location : Geocoder.fetch_coordinates(location)
         if latitude and longitude
@@ -33,7 +33,7 @@ module Geocoder
         else
           {}
         end
-      })
+      }
     end
   end
 
@@ -186,14 +186,6 @@ module Geocoder
   def nearbys(radius = 20, units = :mi)
     options = {:conditions => ["id != ?", id]}
     if units.is_a? Hash
-      warn "DEPRECATION WARNING: The 'options' argument to the nearbys " +
-        "method is deprecated and will be removed from rails-geocoder in " +
-        "a future version. The second argument is now called 'units' and " +
-        "should be a symbol (:mi or :km, :mi is the default). The 'nearbys' " +
-        "method now returns a Rails 3 scope so you should specify more " +
-        "scopes and/or conditions via chaining. For example: " +
-        "city.nearbys(20).order('name').limit(10). Support for Rails 2.x " +
-        "will eventually be discontinued."
       options.reverse_merge!(units)
     else
       options.reverse_merge!(:units => units)
@@ -314,7 +306,7 @@ module Geocoder
   #
   def self.search(query)
     doc = _fetch_parsed_response(query)
-    doc['status'] == "OK" ? doc : nil
+    doc && doc['status'] == "OK" ? doc : nil
   end
 
   ##
@@ -357,17 +349,6 @@ module Geocoder
       end
     rescue SocketError, TimeoutError
       return nil
-    end
-  end
-
-  ##
-  # Name of the ActiveRecord scope method.
-  #
-  def self.scope_method_name
-    begin
-      Rails.version.starts_with?("3") ? :scope : :named_scope
-    rescue NameError
-      :named_scope
     end
   end
 end
