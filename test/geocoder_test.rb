@@ -7,12 +7,12 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal [40.750354, -73.993371], v.fetch_coordinates
     assert_equal [40.750354, -73.993371], [v.latitude, v.longitude]
   end
-  
+
   # sanity check
   def test_distance_between
     assert_equal 69, Geocoder.distance_between(0,0, 0,1).round
   end
-  
+
   # sanity check
   def test_geographic_center
     assert_equal [0.0, 0.5],

@@ -10,23 +10,23 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 #
 module ActiveRecord
   class Base
-    
+
     def initialize
       @attributes = {}
     end
-    
+
     def read_attribute(attr_name)
       @attributes[attr_name.to_sym]
     end
-    
+
     def write_attribute(attr_name, value)
       @attributes[attr_name.to_sym] = value
     end
-    
+
     def update_attribute(attr_name, value)
       write_attribute(attr_name.to_sym, value)
     end
-    
+
     def self.named_scope(*args); end
   end
 end
@@ -38,9 +38,8 @@ require 'geocoder'
 # Mock HTTP request to Google.
 #
 module Geocoder
-  def self._fetch_xml(query)
-    filename = File.join("test", "fixtures", "madison_square_garden.xml")
-    File.read(filename)
+  def self._fetch_raw_response(query)
+    File.read(File.join("test", "fixtures", "madison_square_garden.json"))
   end
 end
 
@@ -49,13 +48,13 @@ end
 #
 class Venue < ActiveRecord::Base
   geocoded_by :address
-  
+
   def initialize(name, address)
     super()
     write_attribute :name, name
     write_attribute :address, address
   end
-  
+
   ##
   # If method not found, assume it's an ActiveRecord attribute reader.
   #

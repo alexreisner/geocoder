@@ -1,0 +1,57 @@
+{
+  "status": "OK",
+  "results": [ {
+    "types": [ "street_address" ],
+    "formatted_address": "4 Penn Plaza, New York, NY 10001, USA",
+    "address_components": [ {
+      "long_name": "4",
+      "short_name": "4",
+      "types": [ "street_number" ]
+    }, {
+      "long_name": "Penn Plaza",
+      "short_name": "Penn Plaza",
+      "types": [ "route" ]
+    }, {
+      "long_name": "Manhattan",
+      "short_name": "Manhattan",
+      "types": [ "sublocality", "political" ]
+    }, {
+      "long_name": "New York",
+      "short_name": "New York",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "New York",
+      "short_name": "New York",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "New York",
+      "short_name": "NY",
+      "types": [ "administrative_area_level_1", "political" ]
+    }, {
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "10001",
+      "short_name": "10001",
+      "types": [ "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 40.7503540,
+        "lng": -73.9933710
+      },
+      "location_type": "ROOFTOP",
+      "viewport": {
+        "southwest": {
+          "lat": 40.7473324,
+          "lng": -73.9965316
+        },
+        "northeast": {
+          "lat": 40.7536276,
+          "lng": -73.9902364
+        }
+      }
+    }
+  } ]
+}

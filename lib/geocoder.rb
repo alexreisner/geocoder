@@ -1,5 +1,3 @@
-require 'rexml/document'
-
 ##
 # Add geocoding functionality (via Google) to any object.
 #
@@ -311,13 +309,12 @@ module Geocoder
 
   ##
   # Query Google for geographic information about the given phrase.
-  # Returns a REXML document representing a valid geocoder response.
+  # Returns a hash representing a valid geocoder response.
   # Returns nil if non-200 HTTP response, timeout, or other error.
   #
   def self.search(query)
-    doc = _fetch_document(query)
-    e = doc.elements['GeocodeResponse/status']
-    (e and e.text == "OK") ? doc : nil
+    doc = _fetch_parsed_response(query)
+    doc['status'] == "OK" ? doc : nil
   end
 
   ##
@@ -326,34 +323,31 @@ module Geocoder
   #
   def self.fetch_coordinates(query)
     return nil unless doc = self.search(query)
-
-    # isolate the relevant part of the result
-    place = doc.elements['GeocodeResponse/result/geometry/location']
-
     # blindly use the first results (assume they are most accurate)
-    ['lat', 'lng'].map{ |i| place.elements[i].text.to_f }
+    place = doc['results'].first['geometry']['location']
+    ['lat', 'lng'].map{ |i| place[i] }
   end
 
   ##
-  # Returns a parsed Google geocoder search result (REXML document).
+  # Returns a parsed Google geocoder search result (hash).
   # This method is not intended for general use (prefer Geocoder.search).
   #
-  def self._fetch_document(query)
-    if doc = _fetch_xml(query)
-      REXML::Document.new(doc)
+  def self._fetch_parsed_response(query)
+    if doc = _fetch_raw_response(query)
+      ActiveSupport::JSON.decode(doc)
     end
   end
 
   ##
-  # Returns a raw Google geocoder search result (XML).
+  # Returns a raw Google geocoder search result (JSON).
   # This method is not intended for general use (prefer Geocoder.search).
   #
-  def self._fetch_xml(query)
+  def self._fetch_raw_response(query)
     return nil if query.blank?
 
     # build URL
     params = { :address => query, :sensor  => "false" }
-    url = "http://maps.google.com/maps/api/geocode/xml?" + params.to_query
+    url = "http://maps.google.com/maps/api/geocode/json?" + params.to_query
 
     # query geocoder and make sure it responds quickly
     begin
