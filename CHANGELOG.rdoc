@@ -2,6 +2,12 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.5 (TBA)
+
+* Don't allow :conditions hash in 'options' argument to 'nearbys' method (was deprecated in 0.9.3).
+* Separate Rails 2 and Rails 3-compatible branches.
+* Switch from Google's XML to JSON geocoding API.
+
 == 0.9.4 (2010 Aug 2)
 
 * Google Maps API key no longer required (uses geocoder v3).

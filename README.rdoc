@@ -2,27 +2,12 @@
 
 Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>. Since it does not rely on proprietary database functions finding geocoded objects in a given area works with out-of-the-box MySQL or even SQLite.
 
-<b>Geocoder is currently compatible with Rails 2.x and Rails 3.</b> Also, a Google Maps API key is no longer necessary.
+<b>Geocoder is compatible with Rails 2 (see the rails2 branch) and Rails 3.</b>
 
 
 == 1. Install
 
-=== a. Rails 2
-
-Install either as a plugin:
-
-  script/plugin install git://github.com/alexreisner/geocoder.git
-
-or as a gem:
-
-  # add to config/environment.rb:
-  config.gem "rails-geocoder", :lib => "geocoder", :source => "http://gemcutter.org/"
-  
-  # at command prompt:
-  sudo rake gems:install
-
-
-=== b. Rails 3
+=== a. Rails 3
 
 Install either as a plugin:
 
@@ -32,9 +17,16 @@ or as a gem:
 
   # add to Gemfile:
   gem "rails-geocoder", :require => "geocoder"
-  
+
   # at command prompt:
   bundle install
+
+
+=== b. Rails 2
+
+Install as a plugin from the rails2 branch:
+
+  script/plugin install git://github.com/alexreisner/geocoder.git -r rails2
 
 
 == 2. Configure
@@ -82,10 +74,10 @@ Some utility methods are also available:
 
   # distance (in miles) between Eiffel Tower and Empire State Building
   Geocoder.distance_between( 48.858205,2.294359,  40.748433,-73.985655 )
-  
+
   # look up coordinates of some location (like searching Google Maps)
   Geocoder.fetch_coordinates("25 Main St, Cooperstown, NY")
-  
+
   # find the geographic center (aka center of gravity) of objects or points
   Geocoder.geographic_center([ city1, city2, city3, [40.22,-73.99], city4 ])
 
@@ -144,12 +136,20 @@ If anyone has a more elegant solution to this problem I am very interested in se
 
 == To-do List
 
+* fix Postgres problem (http://github.com/alexreisner/geocoder/issues#issue/5)
+  * use completely separate "drivers" for different AR adapters?
+    * seems reasonable since we're using very DB-specific features
+  * also need to make sure 'mysql2' is supported
 * add reverse geocoding
 * restructure as Railtie
   * http://www.igvita.com/2010/08/04/rails-3-internals-railtie-creating-plugins/
 * make 'near' scope work with 'select' options
+* make 'near' scope work with AR associations
+  * http://stackoverflow.com/questions/3266358/geocoder-rails-plugin-near-search-problem-with-activerecord
 * prepend table names to column names in SQL distance expression (required
   to do joins on another geocoded model)
+* unobtrusively add ability to get a result with more data (Geocoder object?)
+  * the default usage should remain dead simple
 
 
 Copyright (c) 2009-10 Alex Reisner, released under the MIT license

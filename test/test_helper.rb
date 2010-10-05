@@ -27,7 +27,7 @@ module ActiveRecord
       write_attribute(attr_name.to_sym, value)
     end
 
-    def self.named_scope(*args); end
+    def self.scope(*args); end
   end
 end
 
