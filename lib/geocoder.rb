@@ -110,12 +110,16 @@ module Geocoder
       conditions = \
         ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
         coordinate_bounds(latitude, longitude, radius)
+      if obj = options[:exclude]
+        conditions[0] << " AND id != ?"
+        conditions << obj.id
+      end
       {
         :group  => columns.map{ |c| c.name}.join(','),
         :order  => options[:order],
         :limit  => options[:limit],
         :offset => options[:offset],
-        :conditions => (obj = options[:exclude]) ? ["id != ?", obj.id] : nil
+        :conditions => conditions
       }
     end
 
