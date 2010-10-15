@@ -111,6 +111,7 @@ module Geocoder
         ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
         coordinate_bounds(latitude, longitude, radius)
       {
+        :group  => columns.map{ |c| c.name}.join(','),
         :order  => options[:order],
         :limit  => options[:limit],
         :offset => options[:offset],
