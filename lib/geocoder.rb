@@ -48,7 +48,7 @@ module Geocoder
     # Options hash may include:
     #
     # +units+   :: <tt>:mi</tt> (default) or <tt>:km</tt>
-    # +exclude+ :: exclude the given object (used by the #nearbys method)
+    # +exclude+ :: an object to exclude (used by the #nearbys method)
     # +order+   :: column(s) for ORDER BY SQL clause
     # +limit+   :: number of records to return (for LIMIT SQL clause)
     # +offset+  :: number of records to skip (for OFFSET SQL clause)
