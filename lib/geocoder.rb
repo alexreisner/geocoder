@@ -123,6 +123,7 @@ module Geocoder
       end
 
       {
+        :group  => columns.map{ |c| c.name}.join(','),
         :order  => options[:order],
         :limit  => options[:limit],
         :offset => options[:offset],
