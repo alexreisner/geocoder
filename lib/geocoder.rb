@@ -47,11 +47,12 @@ module Geocoder
     # records within a radius (in miles) of the given point.
     # Options hash may include:
     #
-    # +units+     :: <tt>:mi</tt> (default) or <tt>:km</tt>
-    # +order+     :: column(s) for ORDER BY SQL clause
-    # +limit+     :: number of records to return (for LIMIT SQL clause)
-    # +offset+    :: number of records to skip (for OFFSET SQL clause)
-    # +select+    :: string with the SELECT SQL fragment (e.g. “id, name”)
+    # +units+   :: <tt>:mi</tt> (default) or <tt>:km</tt>
+    # +exclude+ :: an object to exclude (used by the #nearbys method)
+    # +order+   :: column(s) for ORDER BY SQL clause
+    # +limit+   :: number of records to return (for LIMIT SQL clause)
+    # +offset+  :: number of records to skip (for OFFSET SQL clause)
+    # +select+  :: string with the SELECT SQL fragment (e.g. “id, name”)
     #
     def near_scope_options(latitude, longitude, radius = 20, options = {})
       radius *= km_in_mi if options[:units] == :km
@@ -176,13 +177,8 @@ module Geocoder
   # Valid units are defined in <tt>distance_between</tt> class method.
   #
   def nearbys(radius = 20, units = :mi)
-    options = {:conditions => ["id != ?", id]}
-    if units.is_a? Hash
-      options.reverse_merge!(units)
-    else
-      options.reverse_merge!(:units => units)
-    end
     return [] unless geocoded?
+    options = {:exclude => self, :units => units}
     self.class.near(read_coordinates, radius, options)
   end
 
