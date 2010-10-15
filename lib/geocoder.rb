@@ -109,19 +109,10 @@ module Geocoder
       conditions = \
         ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
         coordinate_bounds(latitude, longitude, radius)
-
-      # Handle conditions. Passing of conditions by developers is deprecated
-      # but we will still need to handle conditions so, for example, we can
-      # exclude objects by ID from the nearbys method. This is incredibly
-      # ugly and doesn't work for a conditions hash: try using Arel?
-      if options[:conditions].is_a?(String)
-        options[:conditions] = [options[:conditions]]
+      if obj = options[:exclude]
+        conditions[0] << " AND id != ?"
+        conditions << obj.id
       end
-      if options[:conditions].is_a?(Array)
-        conditions[0] = "(#{conditions[0]}) AND #{options[:conditions][0]}"
-        conditions << options[:conditions][1]
-      end
-
       {
         :group  => columns.map{ |c| c.name}.join(','),
         :order  => options[:order],
