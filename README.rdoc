@@ -136,14 +136,10 @@ If anyone has a more elegant solution to this problem I am very interested in se
 
 == To-do List
 
-* fix Postgres problem (http://github.com/alexreisner/geocoder/issues#issue/5)
-  * use completely separate "drivers" for different AR adapters?
-    * seems reasonable since we're using very DB-specific features
+* use completely separate "drivers" for different AR adapters?
+  * seems reasonable since we're using very DB-specific features
   * also need to make sure 'mysql2' is supported
 * add reverse geocoding
-* restructure as Railtie
-  * http://www.igvita.com/2010/08/04/rails-3-internals-railtie-creating-plugins/
-* make 'near' scope work with 'select' options
 * make 'near' scope work with AR associations
   * http://stackoverflow.com/questions/3266358/geocoder-rails-plugin-near-search-problem-with-activerecord
 * prepend table names to column names in SQL distance expression (required
