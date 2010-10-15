@@ -2,38 +2,33 @@
 
 Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>. Since it does not rely on proprietary database functions finding geocoded objects in a given area works with out-of-the-box MySQL or even SQLite.
 
-<b>Geocoder is compatible with Rails 2 (see the rails2 branch) and Rails 3.</b>
+Geocoder is compatible with Rails 2.x and 3.x. <b>This is the README for the 3.x branch.</b> Please see the 2.x branch for installation instructions, documentation, and issues.
 
 
 == 1. Install
 
-=== a. Rails 3
+=== As a Gem
 
-Install either as a plugin:
+Add this to your Gemfile:
 
-  rails plugin install git://github.com/alexreisner/geocoder.git
-
-or as a gem:
-
-  # add to Gemfile:
   gem "rails-geocoder", :require => "geocoder"
 
-  # at command prompt:
+and run this at the command prompt:
+
   bundle install
 
+=== Or As a Plugin
 
-=== b. Rails 2
+At the command prompt:
 
-Install as a plugin from the rails2 branch:
-
-  script/plugin install git://github.com/alexreisner/geocoder.git -r rails2
+  rails plugin install git://github.com/alexreisner/geocoder.git
 
 
 == 2. Configure
 
 A) Add +latitude+ and +longitude+ columns to your model:
 
-  script/generate migration AddLatitudeAndLongitudeToYourModel latitude:float longitude:float
+  rails generate migration AddLatitudeAndLongitudeToYourModel latitude:float longitude:float
   rake db:migrate
 
 B) Tell geocoder where your model stores its address:
