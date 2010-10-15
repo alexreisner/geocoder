@@ -2,7 +2,7 @@
 
 Per-release changes to Geocoder.
 
-== 0.9.5 (TBA)
+== 0.9.5 (2010 Oct 15)
 
 * Fix broken PostgreSQL compatibility (now 100% compatible).
 * Switch from Google's XML to JSON geocoding API.
