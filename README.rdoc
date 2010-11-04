@@ -105,6 +105,8 @@ Please see the code for more methods and detailed information about arguments (e
 
 SQLite's lack of trigonometric functions requires an alternate implementation of the +near+ method (scope). When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius.
 
+It is also not possible to calculate distances between points without the trig functions so you cannot sort results by "nearness."
+
 
 === Discussion
 
