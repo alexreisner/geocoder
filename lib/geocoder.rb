@@ -74,7 +74,6 @@ module Geocoder
     # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
     #
     def full_near_scope_options(latitude, longitude, radius, options)
-      options[:order] ||= 'distance ASC'
       lat_attr = geocoder_options[:latitude]
       lon_attr = geocoder_options[:longitude]
       distance = "3956 * 2 * ASIN(SQRT(" +
@@ -83,6 +82,7 @@ module Geocoder
         "COS(#{lat_attr} * PI() / 180) * " +
         "POWER(SIN((#{longitude} - #{lon_attr}) * " +
         "PI() / 180 / 2), 2) ))"
+      options[:order] ||= "#{distance} ASC"
       default_near_scope_options(latitude, longitude, radius, options).merge(
         :select => "#{options[:select] || '*'}, #{distance} AS distance",
         :having => "#{distance} <= #{radius}"
