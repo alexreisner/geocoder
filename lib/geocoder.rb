@@ -9,31 +9,57 @@ module Geocoder
   def self.included(base)
     base.extend ClassMethods
     base.class_eval do
+      if Rails.version.to_f >= 3.0
+        # scope: geocoded objects
+        scope :geocoded,
+          :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
+            "AND #{geocoder_options[:longitude]} IS NOT NULL"
 
-      # scope: geocoded objects
-      scope :geocoded,
-        :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
-          "AND #{geocoder_options[:longitude]} IS NOT NULL"
+        # scope: not-geocoded objects
+        scope :not_geocoded,
+          :conditions => "#{geocoder_options[:latitude]} IS NULL " +
+            "OR #{geocoder_options[:longitude]} IS NULL"
 
-      # scope: not-geocoded objects
-      scope :not_geocoded,
-        :conditions => "#{geocoder_options[:latitude]} IS NULL " +
-          "OR #{geocoder_options[:longitude]} IS NULL"
+        ##
+        # Find all objects within a radius (in miles) of the given location
+        # (address string). Location (the first argument) may be either a string
+        # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
+        #
+        scope :near, lambda{ |location, *args|
+          latitude, longitude = location.is_a?(Array) ?
+            location : Geocoder.fetch_coordinates(location)
+          if latitude and longitude
+            near_scope_options(latitude, longitude, *args)
+          else
+            {}
+          end
+        }
+      else
+        # scope: geocoded objects
+        named_scope :geocoded,
+          :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
+            "AND #{geocoder_options[:longitude]} IS NOT NULL"
 
-      ##
-      # Find all objects within a radius (in miles) of the given location
-      # (address string). Location (the first argument) may be either a string
-      # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
-      #
-      scope :near, lambda{ |location, *args|
-        latitude, longitude = location.is_a?(Array) ?
-          location : Geocoder.fetch_coordinates(location)
-        if latitude and longitude
-          near_scope_options(latitude, longitude, *args)
-        else
-          {}
-        end
-      }
+        # scope: not-geocoded objects
+        named_scope :not_geocoded,
+          :conditions => "#{geocoder_options[:latitude]} IS NULL " +
+            "OR #{geocoder_options[:longitude]} IS NULL"
+
+        ##
+        # Find all objects within a radius (in miles) of the given location
+        # (address string). Location (the first argument) may be either a string
+        # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
+        #
+        named_scope :near, lambda{ |location, *args|
+          latitude, longitude = location.is_a?(Array) ?
+            location : Geocoder.fetch_coordinates(location)
+          if latitude and longitude
+            near_scope_options(latitude, longitude, *args)
+          else
+            {}
+          end
+        }
+      end
     end
   end
 
