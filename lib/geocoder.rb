@@ -115,7 +115,7 @@ module Geocoder
         conditions << obj.id
       end
       {
-        :group  => columns.map{ |c| c.name}.join(','),
+        :group  => columns.map{ |c| "#{table_name}.#{c.name}" }.join(','),
         :order  => options[:order],
         :limit  => options[:limit],
         :offset => options[:offset],
