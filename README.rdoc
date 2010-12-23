@@ -28,8 +28,21 @@ At the command prompt:
 
 A) Add +latitude+ and +longitude+ columns to your model:
 
-  rails generate migration AddLatitudeAndLongitudeToYourModel latitude:float longitude:float
+  rails generate migration AddLatitudeAndLongitudeToYourModel
   rake db:migrate
+
+  class AddLatitudeAndLongitudeToYourModel < ActiveRecord::Migration
+	def self.up
+	  add_column :model, :latitude, :decimal, :precision => 15, :scale => 12
+	  add_column :model, :longitude, :decimal, :precision => 15, :scale => 12
+	end
+
+	def self.down
+	  remove_column :model, :latitude
+	  remove_column :model, :longitude
+	end
+  end
+
 
 B) Tell geocoder where your model stores its address:
 
