@@ -194,8 +194,20 @@ module Geocoder
       method = (save ? "update" : "write") + "_attribute"
       send method, self.class.geocoder_options[:latitude],  coords[0]
       send method, self.class.geocoder_options[:longitude], coords[1]
+      send method, self.class.geocoder_options[:query],  coords
     end
     coords
+  end
+  
+  def fetch_address(save = false)
+    address = Geocoder.fetch_address(
+      [send(self.class.geocoder_options[:latitude]), send(self.class.geocoder_options[:longitude])]
+    )
+    unless address.blank?
+      method = (save ? "update" : "write") + "_attribute"
+      send method, self.class.geocoder_options[:query],  address
+    end
+    address
   end
 
   ##
@@ -203,6 +215,13 @@ module Geocoder
   #
   def fetch_coordinates!
     fetch_coordinates(true)
+  end
+  
+  ##
+  # Fetch address and update (save) +query+ data.
+  #
+  def fetch_address!
+    fetch_address(true)
   end
 
   ##
@@ -307,6 +326,17 @@ module Geocoder
     place = doc['results'].first['geometry']['location']
     ['lat', 'lng'].map{ |i| place[i] }
   end
+  
+  ##
+  # Query Google for the reverse geocoded address for the given coordinates.
+  # Returns string [address] if found, nil if not found or if network error.
+  #
+  def self.fetch_address(query)
+    return nil unless doc = self.search(query)
+    # blindly use the first results (assume they are most accurate)
+    place = doc['results'].first['formatted_address']
+    place
+  end
 
   ##
   # Returns a parsed Google geocoder search result (hash).
@@ -326,7 +356,9 @@ module Geocoder
     return nil if query.blank?
 
     # build URL
-    params = { :address => query, :sensor  => "false" }
+    params = (query.kind_of?(Array)) ? { :latlng => query } : { :address => query }
+        
+    params.merge!({:sensor => "false"})
     url = "http://maps.google.com/maps/api/geocode/json?" + params.to_query
 
     # query geocoder and make sure it responds quickly
@@ -353,6 +385,7 @@ ActiveRecord::Base.class_eval do
     class_inheritable_reader :geocoder_options
     write_inheritable_attribute :geocoder_options, {
       :method_name => method_name,
+      :query    => options[:query]  || :query,
       :latitude    => options[:latitude]  || :latitude,
       :longitude   => options[:longitude] || :longitude
     }

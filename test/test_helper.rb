@@ -49,10 +49,17 @@ end
 class Venue < ActiveRecord::Base
   geocoded_by :address
 
-  def initialize(name, address)
+  def initialize(name, query)
     super()
     write_attribute :name, name
-    write_attribute :address, address
+    write_attribute :query, query
+    
+    if query.kind_of?(Array)
+      write_attribute :latitude, query.first
+      write_attribute :longitude, query.last
+    else    
+      write_attribute :address, query
+    end
   end
 
   ##
@@ -66,7 +73,8 @@ end
 class Test::Unit::TestCase
   def venue_params(abbrev)
     {
-      :msg => ["Madison Square Garden", "4 Penn Plaza, New York, NY"]
+      :msg => ["Madison Square Garden", "4 Penn Plaza, New York, NY"],
+      :coordinates => ["Madison Square Garden", [40.7503540, -73.9933710]]
     }[abbrev]
   end
 end
