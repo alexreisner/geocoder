@@ -4,7 +4,6 @@ class GeocoderTest < Test::Unit::TestCase
 
   def test_fetch_coordinates
     v = Venue.new(*venue_params(:msg))
-    p v
     assert_equal [40.750354, -73.993371], v.fetch_coordinates
     assert_equal [40.750354, -73.993371], [v.latitude, v.longitude]
     assert_equal [40.750354, -73.993371], v.query
@@ -12,7 +11,6 @@ class GeocoderTest < Test::Unit::TestCase
   
   def test_fetch_address
     v = Venue.new(*venue_params(:coordinates))
-    p v
     assert_equal "4 Penn Plaza, New York, NY 10001, USA", v.fetch_address
     assert_equal "4 Penn Plaza, New York, NY 10001, USA", v.query
   end

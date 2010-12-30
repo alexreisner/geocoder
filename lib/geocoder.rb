@@ -206,6 +206,7 @@ module Geocoder
     unless address.blank?
       method = (save ? "update" : "write") + "_attribute"
       send method, self.class.geocoder_options[:query],  address
+      send method, self.class.geocoder_options[:method_name],  address
     end
     address
   end
@@ -334,8 +335,8 @@ module Geocoder
   def self.fetch_address(query)
     return nil unless doc = self.search(query)
     # blindly use the first results (assume they are most accurate)
-    place = doc['results'].first['formatted_address']
-    place
+    address = doc['results'].first['formatted_address']
+    address
   end
 
   ##
@@ -356,7 +357,7 @@ module Geocoder
     return nil if query.blank?
 
     # build URL
-    params = (query.kind_of?(Array)) ? { :latlng => query } : { :address => query }
+    params = (query.kind_of?(Array)) ? { :latlng => query.join(",") } : { :address => query }
         
     params.merge!({:sensor => "false"})
     url = "http://maps.google.com/maps/api/geocode/json?" + params.to_query
