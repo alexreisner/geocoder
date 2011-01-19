@@ -2,6 +2,11 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.6 (2011 Jan 19)
+
+* Fix incompatibility with will_paginate gem.
+* Include table names in GROUP BY clause of nearby scope to avoid ambiguity in joins (matchu).
+
 == 0.9.5 (2010 Oct 15)
 
 * Fix broken PostgreSQL compatibility (now 100% compatible).
