@@ -186,7 +186,7 @@ module Geocoder
   #
   def fetch_coordinates(save = false)
     coords = Geocoder::Lookup.coordinates(
-      send(self.class.geocoder_options[:method_name])
+      send(self.class.geocoder_options[:address_attr])
     )
     unless coords.blank?
       method = (save ? "update" : "write") + "_attribute"
@@ -212,12 +212,12 @@ ActiveRecord::Base.class_eval do
   ##
   # Set attribute names and include the Geocoder module.
   #
-  def self.geocoded_by(method_name = :location, options = {})
+  def self.geocoded_by(address_attr, options = {})
     class_inheritable_reader :geocoder_options
     write_inheritable_attribute :geocoder_options, {
-      :method_name => method_name,
-      :latitude    => options[:latitude]  || :latitude,
-      :longitude   => options[:longitude] || :longitude
+      :address_attr => address_attr,
+      :latitude     => options[:latitude]  || :latitude,
+      :longitude    => options[:longitude] || :longitude
     }
     include Geocoder
   end
