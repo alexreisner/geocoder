@@ -35,11 +35,13 @@ end
 require 'geocoder'
 
 ##
-# Mock HTTP request to Google.
+# Mock HTTP request to geocoding service.
 #
 module Geocoder
-  def self._fetch_raw_response(query)
-    File.read(File.join("test", "fixtures", "madison_square_garden.json"))
+  module Lookup
+    def self.fetch_raw_response(query)
+      File.read(File.join("test", "fixtures", "madison_square_garden.json"))
+    end
   end
 end
 
