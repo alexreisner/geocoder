@@ -7,6 +7,7 @@ module Geocoder
     # Returns array [lat,lon] if found, nil if not found or if network error.
     #
     def coordinates(address)
+      return nil if address.blank?
       return nil unless doc = search(address, false)
       # blindly use first result (assume it is most accurate)
       place = doc['results'].first['geometry']['location']
@@ -18,6 +19,7 @@ module Geocoder
     # Returns string if found, nil if not found or if network error.
     #
     def address(latitude, longitude)
+      return nil if latitude.blank? || longitude.blank?
       return nil unless doc = search("#{latitude},#{longitude}", true)
       # blindly use first result (assume it is most accurate)
       doc['results'].first['formatted_address']
