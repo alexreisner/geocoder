@@ -68,13 +68,13 @@ To find objects by location, use the following scopes:
 Some utility methods are also available:
 
   # distance (in miles) between Eiffel Tower and Empire State Building
-  Geocoder.distance_between( 48.858205,2.294359,  40.748433,-73.985655 )
+  Geocoder::Calculations.distance_between( 48.858205,2.294359,  40.748433,-73.985655 )
 
   # look up coordinates of some location (like searching Google Maps)
   Geocoder.fetch_coordinates("25 Main St, Cooperstown, NY")
 
   # find the geographic center (aka center of gravity) of objects or points
-  Geocoder.geographic_center([ city1, city2, city3, [40.22,-73.99], city4 ])
+  Geocoder::Calculations.geographic_center([ city1, city2, city3, [40.22,-73.99], city4 ])
 
 
 == More On Configuration
@@ -114,9 +114,9 @@ There are few options for finding objects near a given point in SQLite without i
 
 1. Use a square instead of a circle for finding nearby points. For example, if you want to find points near 40.71, 100.23, search for objects with latitude between 39.71 and 41.71 and longitude between 99.23 and 101.23. One degree of latitude or longitude is at most 69 miles so divide your radius (in miles) by 69.0 to get the amount to add and subtract from your center coordinates to get the upper and lower bounds. The results will not be very accurate (you'll get points outside the desired radius--at worst 29% farther away), but you will get all the points within the required radius.
 
-2. Load all objects into memory and compute distances between them using the <tt>Geocoder.distance_between</tt> method. This will produce accurate results but will be very slow (and use a lot of memory) if you have a lot of objects in your database.
+2. Load all objects into memory and compute distances between them using the <tt>Geocoder::Calculations.distance_between</tt> method. This will produce accurate results but will be very slow (and use a lot of memory) if you have a lot of objects in your database.
 
-3. If you have a large number of objects (so you can't use approach #2) and you need accurate results (better than approach #1 will give), you can use a combination of the two. Get all the objects within a square around your center point, and then eliminate the ones that are too far away using <tt>Geocoder.distance_between</tt>.
+3. If you have a large number of objects (so you can't use approach #2) and you need accurate results (better than approach #1 will give), you can use a combination of the two. Get all the objects within a square around your center point, and then eliminate the ones that are too far away using <tt>Geocoder::Calculations.distance_between</tt>.
 
 Because Geocoder needs to provide this functionality as a scope, we must go with option #1, but feel free to implement #2 or #3 if you need more accuracy.
 
