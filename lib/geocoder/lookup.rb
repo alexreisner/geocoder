@@ -3,14 +3,24 @@ module Geocoder
     extend self
 
     ##
-    # Query Google for the coordinates of the given phrase.
+    # Query Google for the coordinates of the given address.
     # Returns array [lat,lon] if found, nil if not found or if network error.
     #
-    def coordinates(query)
-      return nil unless doc = search(query)
-      # blindly use the first results (assume they are most accurate)
+    def coordinates(address)
+      return nil unless doc = search(address, false)
+      # blindly use first result (assume it is most accurate)
       place = doc['results'].first['geometry']['location']
       ['lat', 'lng'].map{ |i| place[i] }
+    end
+
+    ##
+    # Query Google for the address of the given coordinates.
+    # Returns string if found, nil if not found or if network error.
+    #
+    def address(latitude, longitude)
+      return nil unless doc = search("#{latitude},#{longitude}", true)
+      # blindly use first result (assume it is most accurate)
+      doc['results'].first['formatted_address']
     end
 
 
@@ -21,8 +31,8 @@ module Geocoder
     # Returns a hash representing a valid geocoder response.
     # Returns nil if non-200 HTTP response, timeout, or other error.
     #
-    def search(query)
-      doc = fetch_parsed_response(query)
+    def search(query, reverse = false)
+      doc = fetch_parsed_response(query, reverse)
       doc && doc['status'] == "OK" ? doc : nil
     end
 
@@ -30,8 +40,8 @@ module Geocoder
     # Returns a parsed Google geocoder search result (hash).
     # This method is not intended for general use (prefer Geocoder.search).
     #
-    def fetch_parsed_response(query)
-      if doc = fetch_raw_response(query)
+    def fetch_parsed_response(query, reverse = false)
+      if doc = fetch_raw_response(query, reverse)
         ActiveSupport::JSON.decode(doc)
       end
     end
@@ -40,11 +50,14 @@ module Geocoder
     # Returns a raw Google geocoder search result (JSON).
     # This method is not intended for general use (prefer Geocoder.search).
     #
-    def fetch_raw_response(query)
+    def fetch_raw_response(query, reverse = false)
       return nil if query.blank?
 
+      # name parameter based on forward/reverse geocoding
+      param = reverse ? :latlng : :address
+
       # build URL
-      params = { :address => query, :sensor  => "false" }
+      params = { param => query, :sensor  => "false" }
       url = "http://maps.google.com/maps/api/geocode/json?" + params.to_query
 
       # query geocoder and make sure it responds quickly
