@@ -101,6 +101,18 @@ If your model has +address+, +city+, +state+, and +country+ attributes you might
 Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
 
 
+== Reverse Geocoding
+
+If you need reverse geocoding (lat/long coordinates to address), do something like the following in your model:
+
+  reverse_geocoded_by :latitude, :longitude
+  after_validation :fetch_address
+
+and make sure it has +latitude+ and +longitude+ attributes, as well as an +address+ attribute. As with regular geocoding, you can specify alternate names for all of these attributes, for example:
+
+  reverse_geocoded_by :lat, :lon, :address => :location
+
+
 == SQLite
 
 SQLite's lack of trigonometric functions requires an alternate implementation of the +near+ method (scope). When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius.
@@ -136,7 +148,6 @@ If anyone has a more elegant solution to this problem I am very interested in se
 * use completely separate "drivers" for different AR adapters?
   * seems reasonable since we're using very DB-specific features
   * also need to make sure 'mysql2' is supported
-* add reverse geocoding
 * make 'near' scope work with AR associations
   * http://stackoverflow.com/questions/3266358/geocoder-rails-plugin-near-search-problem-with-activerecord
 * prepend table names to column names in SQL distance expression (required

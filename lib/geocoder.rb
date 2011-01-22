@@ -11,12 +11,36 @@ ActiveRecord::Base.class_eval do
   # Set attribute names and include the Geocoder module.
   #
   def self.geocoded_by(address_attr, options = {})
-    class_inheritable_reader :geocoder_options
-    write_inheritable_attribute :geocoder_options, {
-      :address_attr => address_attr,
-      :latitude     => options[:latitude]  || :latitude,
-      :longitude    => options[:longitude] || :longitude
-    }
-    include Geocoder::ActiveRecord
+    _geocoder_init({
+      :address   => address_attr,
+      :latitude  => options[:latitude]  || :latitude,
+      :longitude => options[:longitude] || :longitude
+    })
+  end
+
+  ##
+  # Set attribute names and include the Geocoder module.
+  #
+  def self.reverse_geocoded_by(latitude_attr, longitude_attr, options = {})
+    _geocoder_init({
+      :address   => options[:address] || :address,
+      :latitude  => latitude_attr,
+      :longitude => longitude_attr
+    })
+  end
+
+  def self._geocoder_init(options)
+    unless _geocoder_initialized?
+      class_inheritable_reader :geocoder_options
+      class_inheritable_hash_writer :geocoder_options
+    end
+    self.geocoder_options = options
+    unless _geocoder_initialized?
+      include Geocoder::ActiveRecord
+    end
+  end
+
+  def self._geocoder_initialized?
+    included_modules.include? Geocoder::ActiveRecord
   end
 end

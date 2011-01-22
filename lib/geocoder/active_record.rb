@@ -184,7 +184,7 @@ module Geocoder
     #
     def fetch_coordinates(save = false)
       coords = Geocoder::Lookup.coordinates(
-        send(self.class.geocoder_options[:address_attr])
+        send(self.class.geocoder_options[:address])
       )
       unless coords.blank?
         method = (save ? "update" : "write") + "_attribute"
@@ -199,6 +199,29 @@ module Geocoder
     #
     def fetch_coordinates!
       fetch_coordinates(true)
+    end
+
+    ##
+    # Fetch address and assign +address+ attribute. Also returns
+    # address as a string.
+    #
+    def fetch_address(save = false)
+      address = Geocoder::Lookup.address(
+        send(self.class.geocoder_options[:latitude]),
+        send(self.class.geocoder_options[:longitude])
+      )
+      unless address.blank?
+        method = (save ? "update" : "write") + "_attribute"
+        send method, self.class.geocoder_options[:address], address
+      end
+      address
+    end
+
+    ##
+    # Fetch address and update (save) +address+ data.
+    #
+    def fetch_address!
+      fetch_address(true)
     end
   end
 end
