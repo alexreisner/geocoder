@@ -65,6 +65,27 @@ class Venue < ActiveRecord::Base
   end
 end
 
+##
+# Reverse geocoded model.
+#
+class Landmark < ActiveRecord::Base
+  reverse_geocoded_by :latitude, :longitude
+
+  def initialize(name, latitude, longitude)
+    super()
+    write_attribute :name, name
+    write_attribute :latitude, latitude
+    write_attribute :longitude, longitude
+  end
+
+  ##
+  # If method not found, assume it's an ActiveRecord attribute reader.
+  #
+  def method_missing(name, *args, &block)
+    @attributes[name]
+  end
+end
+
 class Test::Unit::TestCase
   def venue_params(abbrev)
     {

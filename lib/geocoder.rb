@@ -12,7 +12,7 @@ ActiveRecord::Base.class_eval do
   #
   def self.geocoded_by(address_attr, options = {})
     _geocoder_init(
-      :address   => address_attr,
+      :user_address => address_attr,
       :latitude  => options[:latitude]  || :latitude,
       :longitude => options[:longitude] || :longitude
     )
@@ -23,7 +23,7 @@ ActiveRecord::Base.class_eval do
   #
   def self.reverse_geocoded_by(latitude_attr, longitude_attr, options = {})
     _geocoder_init(
-      :address   => options[:address] || :address,
+      :fetched_address => options[:address] || :address,
       :latitude  => latitude_attr,
       :longitude => longitude_attr
     )
@@ -43,4 +43,11 @@ ActiveRecord::Base.class_eval do
   def self._geocoder_initialized?
     included_modules.include? Geocoder::ActiveRecord
   end
+end
+
+
+class GeocoderError < StandardError
+end
+
+class GeocoderConfigurationError < GeocoderError
 end
