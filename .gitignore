@@ -1,5 +1,3 @@
-*.sw?
-.DS_Store
-coverage
-rdoc
-pkg
+pkg/*
+*.gem
+.bundle
