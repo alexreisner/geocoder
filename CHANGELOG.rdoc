@@ -2,6 +2,12 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.7 (2011 Feb 1)
+
+* Add reverse geocoding (+reverse_geocoded_by+).
+* Prevent exception (uninitialized constant Geocoder::Net) when net/http not already required (sleepycat).
+* Refactor: split monolithic Geocoder module into several smaller ones.
+
 == 0.9.6 (2011 Jan 19)
 
 * Fix incompatibility with will_paginate gem.
