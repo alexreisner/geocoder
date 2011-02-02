@@ -1,3 +1,5 @@
+require 'net/http'
+
 ##
 # Add geocoding functionality (via Google) to any object.
 #
