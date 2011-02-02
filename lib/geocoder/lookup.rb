@@ -1,5 +1,6 @@
 module Geocoder
   module Lookup
+    require 'net/http'
     extend self
 
     ##
