@@ -172,15 +172,14 @@ If anyone has a more elegant solution to this problem I am very interested in se
 
 == To-do List
 
+* support DataMapper, Mongoid, etc
 * use completely separate "drivers" for different AR adapters?
   * seems reasonable since we're using very DB-specific features
   * also need to make sure 'mysql2' is supported
 * make 'near' scope work with AR associations
   * http://stackoverflow.com/questions/3266358/geocoder-rails-plugin-near-search-problem-with-activerecord
-* prepend table names to column names in SQL distance expression (required
-  to do joins on another geocoded model)
 * unobtrusively add ability to get a result with more data (Geocoder object?)
   * the default usage should remain dead simple
 
 
-Copyright (c) 2009-10 Alex Reisner, released under the MIT license
+Copyright (c) 2009-11 Alex Reisner, released under the MIT license
