@@ -29,7 +29,7 @@ module Geocoder
 
     ##
     # Query Google for geographic information about the given phrase.
-    # Returns a hash representing a valid geocoder response.
+    # Returns a hash representing a valid, parsed geocoder response.
     # Returns nil if non-200 HTTP response, timeout, or other error.
     #
     def search(query, reverse = false)
