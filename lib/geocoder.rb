@@ -13,7 +13,7 @@ module Geocoder
   #
   def search(*args)
     if args.size == 2
-      Lookup.search(args[0], args[1], true)
+      Lookup.search("#{args[0]},#{args[1]}", true)
     else
       Lookup.search(args[0], false)
     end
