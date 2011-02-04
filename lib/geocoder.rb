@@ -1,3 +1,4 @@
+require "geocoder/configuration"
 require "geocoder/calculations"
 require "geocoder/lookup"
 require "geocoder/result"

@@ -61,7 +61,7 @@ module Geocoder
       url = query_url(query, reverse)
       begin
         resp = nil
-        timeout(3) do
+        timeout(Geocoder::Configuration.timeout) do
           Net::HTTP.get_response(URI.parse(url)).body
         end
       rescue SocketError, TimeoutError

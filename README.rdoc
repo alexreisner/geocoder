@@ -97,8 +97,11 @@ If your model has +address+, +city+, +state+, and +country+ attributes you might
     [address, city, state, country].compact.join(', ')
   end
 
+Please see the code (<tt>lib/geocoder/active_record.rb</tt>) for more methods and detailed information about arguments (eg, working with kilometers).
 
-Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
+You can also set the timeout used for connections to Google's geocoding service. The default is 3 seconds, but if you want to set it to 5 you could put the following in an initializer:
+
+  Geocoder::Configuration.timeout = 5
 
 
 == Reverse Geocoding
