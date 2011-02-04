@@ -47,16 +47,16 @@ module Geocoder
     # Returns nil if non-200 HTTP response, timeout, or other error.
     #
     def parsed_response(query, reverse = false)
-      if doc = raw_response(query, reverse)
+      if doc = fetch_data(query, reverse)
         doc = ActiveSupport::JSON.decode(doc)
         doc && doc['status'] == "OK" ? doc : nil
       end
     end
 
     ##
-    # Returns a raw Google geocoder search result (JSON).
+    # Fetches a raw Google geocoder search result (JSON string).
     #
-    def raw_response(query, reverse = false)
+    def fetch_data(query, reverse = false)
       return nil if query.blank?
       url = query_url(query, reverse)
       begin
