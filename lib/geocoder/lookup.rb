@@ -10,7 +10,7 @@ module Geocoder
     #
     def coordinates(address)
       return nil if address.blank?
-      return nil unless doc = search(address, false)
+      return nil unless doc = fetch_parsed_response(address, false)
       # blindly use first result (assume it is most accurate)
       place = doc['results'].first['geometry']['location']
       ['lat', 'lng'].map{ |i| place[i] }
@@ -22,19 +22,17 @@ module Geocoder
     #
     def address(latitude, longitude)
       return nil if latitude.blank? || longitude.blank?
-      return nil unless doc = search("#{latitude},#{longitude}", true)
+      return nil unless doc = fetch_parsed_response("#{latitude},#{longitude}", true)
       # blindly use first result (assume it is most accurate)
       doc['results'].first['formatted_address']
     end
 
     ##
     # Query Google for geographic information about the given phrase.
-    # Returns a hash representing a valid, parsed geocoder response.
-    # Returns nil if non-200 HTTP response, timeout, or other error.
+    # Returns a Result object containing all data returned by Google.
     #
     def search(query, reverse = false)
-      doc = fetch_parsed_response(query, reverse)
-      doc && doc['status'] == "OK" ? doc : nil
+      # TODO
     end
 
 
@@ -42,17 +40,17 @@ module Geocoder
 
     ##
     # Returns a parsed Google geocoder search result (hash).
-    # This method is not intended for general use (prefer Geocoder.search).
+    # Returns nil if non-200 HTTP response, timeout, or other error.
     #
     def fetch_parsed_response(query, reverse = false)
       if doc = fetch_raw_response(query, reverse)
-        ActiveSupport::JSON.decode(doc)
+        doc = ActiveSupport::JSON.decode(doc)
+        doc && doc['status'] == "OK" ? doc : nil
       end
     end
 
     ##
     # Returns a raw Google geocoder search result (JSON).
-    # This method is not intended for general use (prefer Geocoder.search).
     #
     def fetch_raw_response(query, reverse = false)
       return nil if query.blank?
