@@ -27,9 +27,6 @@ module Geocoder
       doc['results'].first['formatted_address']
     end
 
-
-    private # ---------------------------------------------------------------
-
     ##
     # Query Google for geographic information about the given phrase.
     # Returns a hash representing a valid geocoder response.
@@ -39,6 +36,9 @@ module Geocoder
       doc = fetch_parsed_response(query, reverse)
       doc && doc['status'] == "OK" ? doc : nil
     end
+
+
+    private # ---------------------------------------------------------------
 
     ##
     # Returns a parsed Google geocoder search result (hash).
