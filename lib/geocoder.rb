@@ -21,7 +21,7 @@ end
 
 
 ##
-# Add geocoded_by method to ActiveRecord::Base so Geocoder is accessible.
+# Add methods to ActiveRecord::Base so Geocoder is accessible by models.
 #
 ActiveRecord::Base.class_eval do
 
@@ -62,4 +62,3 @@ ActiveRecord::Base.class_eval do
     included_modules.include? Geocoder::ActiveRecord
   end
 end
-
