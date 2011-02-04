@@ -58,15 +58,7 @@ module Geocoder
     #
     def raw_response(query, reverse = false)
       return nil if query.blank?
-
-      # name parameter based on forward/reverse geocoding
-      param = reverse ? :latlng : :address
-
-      # build URL
-      params = { param => query, :sensor  => "false" }
-      url = "http://maps.google.com/maps/api/geocode/json?" + params.to_query
-
-      # query geocoder and make sure it responds quickly
+      url = query_url(query, reverse)
       begin
         resp = nil
         timeout(3) do
@@ -75,6 +67,14 @@ module Geocoder
       rescue SocketError, TimeoutError
         return nil
       end
+    end
+
+    def query_url(query, reverse = false)
+      params = {
+        (reverse ? :latlng : :address) => query,
+        :sensor => "false"
+      }
+      "http://maps.google.com/maps/api/geocode/json?" + params.to_query
     end
   end
 end
