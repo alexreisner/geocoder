@@ -27,4 +27,10 @@ class GeocoderTest < Test::Unit::TestCase
       l.fetch_coordinates
     end
   end
+
+  def test_result_address_components_of_type
+    results = Geocoder::Lookup.search("Madison Square Garden, New York, NY")
+    assert_equal "Manhattan",
+      results.first.address_components_of_type(:sublocality).first['long_name']
+  end
 end

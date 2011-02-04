@@ -1,6 +1,25 @@
 require "geocoder/calculations"
 require "geocoder/lookup"
+require "geocoder/result"
 require "geocoder/active_record"
+
+module Geocoder
+  extend self
+
+  ##
+  # Takes a search string (eg: "Mississippi Coast Coliseumf, Biloxi, MS") for
+  # geocoding, or coordinates (latitude, longitude) for reverse geocoding.
+  # Returns a Geocoder::Result object.
+  #
+  def search(*args)
+    if args.size == 2
+      Lookup.search(args[0], args[1], true)
+    else
+      Lookup.search(args[0], false)
+    end
+  end
+end
+
 
 ##
 # Add geocoded_by method to ActiveRecord::Base so Geocoder is accessible.

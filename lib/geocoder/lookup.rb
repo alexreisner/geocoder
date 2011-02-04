@@ -29,10 +29,14 @@ module Geocoder
 
     ##
     # Query Google for geographic information about the given phrase.
-    # Returns a Result object containing all data returned by Google.
+    # Returns an array of Geocoder::Result objects.
     #
     def search(query, reverse = false)
-      # TODO
+      [].tap do |results|
+        if doc = parsed_response(query, reverse)
+          doc['results'].each{ |r| results << Result.new(r) }
+        end
+      end
     end
 
 
