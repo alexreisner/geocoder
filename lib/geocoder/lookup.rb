@@ -10,7 +10,7 @@ module Geocoder
     #
     def coordinates(address)
       return nil if address.blank?
-      return nil unless doc = fetch_parsed_response(address, false)
+      return nil unless doc = parsed_response(address, false)
       # blindly use first result (assume it is most accurate)
       place = doc['results'].first['geometry']['location']
       ['lat', 'lng'].map{ |i| place[i] }
@@ -22,7 +22,7 @@ module Geocoder
     #
     def address(latitude, longitude)
       return nil if latitude.blank? || longitude.blank?
-      return nil unless doc = fetch_parsed_response("#{latitude},#{longitude}", true)
+      return nil unless doc = parsed_response("#{latitude},#{longitude}", true)
       # blindly use first result (assume it is most accurate)
       doc['results'].first['formatted_address']
     end
@@ -42,8 +42,8 @@ module Geocoder
     # Returns a parsed Google geocoder search result (hash).
     # Returns nil if non-200 HTTP response, timeout, or other error.
     #
-    def fetch_parsed_response(query, reverse = false)
-      if doc = fetch_raw_response(query, reverse)
+    def parsed_response(query, reverse = false)
+      if doc = raw_response(query, reverse)
         doc = ActiveSupport::JSON.decode(doc)
         doc && doc['status'] == "OK" ? doc : nil
       end
@@ -52,7 +52,7 @@ module Geocoder
     ##
     # Returns a raw Google geocoder search result (JSON).
     #
-    def fetch_raw_response(query, reverse = false)
+    def raw_response(query, reverse = false)
       return nil if query.blank?
 
       # name parameter based on forward/reverse geocoding

@@ -39,7 +39,9 @@ require 'geocoder'
 #
 module Geocoder
   module Lookup
-    def self.fetch_raw_response(query, reverse = false)
+    extend self
+    private #-----------------------------------------------------------------
+    def raw_response(query, reverse = false)
       File.read(File.join("test", "fixtures", "madison_square_garden.json"))
     end
   end
