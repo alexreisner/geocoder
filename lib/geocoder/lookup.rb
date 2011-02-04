@@ -6,34 +6,34 @@ module Geocoder
 
     ##
     # Query Google for the coordinates of the given address.
-    # Returns array [lat,lon] if found, nil if not found or if network error.
     #
     def coordinates(address)
-      return nil if address.blank?
-      return nil unless doc = parsed_response(address, false)
-      # blindly use first result (assume it is most accurate)
-      place = doc['results'].first['geometry']['location']
-      ['lat', 'lng'].map{ |i| place[i] }
+      if (results = search(address)).size > 0
+        place = results.first.geometry['location']
+        ['lat', 'lng'].map{ |i| place[i] }
+      end
     end
 
     ##
     # Query Google for the address of the given coordinates.
-    # Returns string if found, nil if not found or if network error.
     #
     def address(latitude, longitude)
-      return nil if latitude.blank? || longitude.blank?
-      return nil unless doc = parsed_response("#{latitude},#{longitude}", true)
-      # blindly use first result (assume it is most accurate)
-      doc['results'].first['formatted_address']
+      if (results = search(latitude, longitude)).size > 0
+        results.first.formatted_address
+      end
     end
 
     ##
-    # Query Google for geographic information about the given phrase.
-    # Returns an array of Geocoder::Result objects.
+    # Takes a search string (eg: "Mississippi Coast Coliseumf, Biloxi, MS") for
+    # geocoding, or coordinates (latitude, longitude) for reverse geocoding.
+    # Returns an array of Geocoder::Result objects,
+    # or nil if not found or if network error.
     #
-    def search(query, reverse = false)
+    def search(*args)
+      return nil if args[0].blank?
+      doc = parsed_response(args.join(","), args.size == 2)
       [].tap do |results|
-        if doc = parsed_response(query, reverse)
+        if doc
           doc['results'].each{ |r| results << Result.new(r) }
         end
       end
