@@ -13,6 +13,10 @@ module Geocoder
   def search(*args)
     Lookup.search(*args)
   end
+
+  # exception classes
+  class Error < StandardError; end
+  class ConfigurationError < Error; end
 end
 
 
@@ -59,9 +63,3 @@ ActiveRecord::Base.class_eval do
   end
 end
 
-
-class GeocoderError < StandardError
-end
-
-class GeocoderConfigurationError < GeocoderError
-end

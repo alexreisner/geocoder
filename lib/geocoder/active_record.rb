@@ -185,7 +185,7 @@ module Geocoder
     def fetch_coordinates(save = false)
       address_method = self.class.geocoder_options[:user_address]
       unless address_method.is_a? Symbol
-        raise GeocoderConfigurationError,
+        raise Geocoder::ConfigurationError,
           "You are attempting to fetch coordinates but have not specified " +
           "a method which provides an address for the object."
       end
@@ -213,7 +213,7 @@ module Geocoder
       lat_attr = self.class.geocoder_options[:latitude]
       lon_attr = self.class.geocoder_options[:longitude]
       unless lat_attr.is_a?(Symbol) and lon_attr.is_a?(Symbol)
-        raise GeocoderConfigurationError,
+        raise Geocoder::ConfigurationError,
           "You are attempting to fetch an address but have not specified " +
           "attributes which provide coordinates for the object."
       end

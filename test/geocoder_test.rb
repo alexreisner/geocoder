@@ -23,7 +23,7 @@ class GeocoderTest < Test::Unit::TestCase
 
   def test_exception_raised_for_unconfigured_geocoding
     l = Landmark.new("Mount Rushmore", 43.88, -103.46)
-    assert_raises GeocoderConfigurationError do
+    assert_raises Geocoder::ConfigurationError do
       l.fetch_coordinates
     end
   end
