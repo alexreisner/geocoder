@@ -47,13 +47,19 @@ module Geocoder
     # Returns nil if non-200 HTTP response, timeout, or other error.
     #
     def parsed_response(query, reverse = false)
-      if doc = fetch_data(query, reverse)
-        doc = ActiveSupport::JSON.decode(doc)
-        if doc && doc['status'] == "OK"
-          return doc
-        elsif doc['status'] == "OVER_QUERY_LIMIT"
-          warn "Google Geocoder API error: quota exceeded."
-        end
+      begin
+        doc = ActiveSupport::JSON.decode(fetch_data(query, reverse))
+      rescue SocketError
+        warn "Google Geocoder API connection cannot be established."
+      rescue TimeoutError
+        warn "Google Geocoder API not responding fast enough " +
+          "(see Geocoder::Configuration.timeout to set limit)."
+      end
+
+      case doc['status']; when "OK"
+        doc
+      when "OVER_QUERY_LIMIT"
+        warn "Google Geocoder API error: quota exceeded."
       end
     end
 
@@ -63,13 +69,8 @@ module Geocoder
     def fetch_data(query, reverse = false)
       return nil if query.blank?
       url = query_url(query, reverse)
-      begin
-        resp = nil
-        timeout(Geocoder::Configuration.timeout) do
-          Net::HTTP.get_response(URI.parse(url)).body
-        end
-      rescue SocketError, TimeoutError
-        return nil
+      timeout(Geocoder::Configuration.timeout) do
+        Net::HTTP.get_response(URI.parse(url)).body
       end
     end
 
