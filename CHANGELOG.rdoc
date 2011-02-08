@@ -2,6 +2,14 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.8 (2011 Feb 8)
+
+* Include geocode:all Rake task in gem (was missing!).
+* Add Geocoder.search for access to Google's full response.
+* Add ability to configure Google connection timeout.
+* Emit warnings on Google connection problems and errors.
+* Refactor: insert Geocoder into ActiveRecord via Railtie.
+
 == 0.9.7 (2011 Feb 1)
 
 * Add reverse geocoding (+reverse_geocoded_by+).
