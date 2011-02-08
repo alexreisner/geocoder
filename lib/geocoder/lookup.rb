@@ -59,7 +59,11 @@ module Geocoder
       case doc['status']; when "OK"
         doc
       when "OVER_QUERY_LIMIT"
-        warn "Google Geocoding API error: quota exceeded."
+        warn "Google Geocoding API error: over query limit."
+      when "REQUEST_DENIED"
+        warn "Google Geocoding API error: request denied."
+      when "INVALID_REQUEST"
+        warn "Google Geocoding API error: invalid request."
       end
     end
 
