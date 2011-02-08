@@ -50,16 +50,16 @@ module Geocoder
       begin
         doc = ActiveSupport::JSON.decode(fetch_data(query, reverse))
       rescue SocketError
-        warn "Google Geocoder API connection cannot be established."
+        warn "Google Geocoding API connection cannot be established."
       rescue TimeoutError
-        warn "Google Geocoder API not responding fast enough " +
+        warn "Google Geocoding API not responding fast enough " +
           "(see Geocoder::Configuration.timeout to set limit)."
       end
 
       case doc['status']; when "OK"
         doc
       when "OVER_QUERY_LIMIT"
-        warn "Google Geocoder API error: quota exceeded."
+        warn "Google Geocoding API error: quota exceeded."
       end
     end
 
