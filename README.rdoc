@@ -175,10 +175,7 @@ If anyone has a more elegant solution to this problem I am very interested in se
 
 == To-do List
 
-* handle OVER_QUERY_LIMIT error
-  * raise exception? maybe only when address! or search! is called
-  * print warning?
-* support DataMapper, Mongoid, etc
+* support different ORMs (DataMapper, Mongoid, etc)
 * use completely separate "drivers" for different AR adapters?
   * seems reasonable since we're using very DB-specific features
   * also need to make sure 'mysql2' is supported

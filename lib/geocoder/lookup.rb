@@ -49,7 +49,11 @@ module Geocoder
     def parsed_response(query, reverse = false)
       if doc = fetch_data(query, reverse)
         doc = ActiveSupport::JSON.decode(doc)
-        doc && doc['status'] == "OK" ? doc : nil
+        if doc && doc['status'] == "OK"
+          return doc
+        elsif doc['status'] == "OVER_QUERY_LIMIT"
+          warn "Google Geocoder API error: quota exceeded."
+        end
       end
     end
 
@@ -78,3 +82,4 @@ module Geocoder
     end
   end
 end
+
