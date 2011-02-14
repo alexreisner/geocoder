@@ -11,7 +11,7 @@ Geocoder is compatible with Rails 2.x and 3.x. <b>This is the README for the 3.x
 
 Add this to your Gemfile:
 
-  gem "rails-geocoder", :require => "geocoder"
+  gem "geocoder"
 
 and run this at the command prompt:
 
