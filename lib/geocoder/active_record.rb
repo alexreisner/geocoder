@@ -217,7 +217,7 @@ module Geocoder
           "You are attempting to fetch an address but have not specified " +
           "attributes which provide coordinates for the object."
       end
-      address = Geocoder::Lookup.address(send(lat_attr), send(lon_attr))
+      address = Geocoder::Lookup.address(send(lat_attr), send(lon_attr), self.class.geocoder_options[:format])
       unless address.blank?
         method = (save ? "update" : "write") + "_attribute"
         send method, self.class.geocoder_options[:fetched_address], address

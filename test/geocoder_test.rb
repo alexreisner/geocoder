@@ -33,4 +33,17 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal "Manhattan",
       results.first.address_components_of_type(:sublocality).first['long_name']
   end
+  
+  def test_format_of_the_result
+    result = Geocoder::Lookup.address(40.750354, -73.993371)
+    assert_equal "4 Penn Plaza, New York, NY 10001, USA", result
+    
+    result = Geocoder::Lookup.address(40.750354, -73.993371, :administrative_area_level_2)
+    assert_equal "New York, USA", result
+  end
+  
+  def test_non_existing_format_of_the_result
+    result = Geocoder::Lookup.address(40.750354, -73.993371, :house_number)
+    assert_equal nil, result
+  end
 end

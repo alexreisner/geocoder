@@ -43,7 +43,8 @@ module Geocoder
           _geocoder_init(
             :fetched_address => options[:address] || :address,
             :latitude  => latitude_attr,
-            :longitude => longitude_attr
+            :longitude => longitude_attr,
+            :format => options[:format] || :full
           )
         end
 

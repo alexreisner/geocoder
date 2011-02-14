@@ -17,9 +17,10 @@ module Geocoder
     ##
     # Query Google for the address of the given coordinates.
     #
-    def address(latitude, longitude)
+    def address(latitude, longitude, format = :full)
       if (results = search(latitude, longitude)).size > 0
-        results.first.formatted_address
+        results = results.select{ |result| result.types.include?(format.to_s) } unless format == :full
+        results.first.try(:formatted_address)
       end
     end
 
