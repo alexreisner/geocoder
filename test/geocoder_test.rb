@@ -33,4 +33,11 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal "Manhattan",
       results.first.address_components_of_type(:sublocality).first['long_name']
   end
+
+  def test_does_not_choke_on_nil_address
+    v = Venue.new("Venue", nil)
+    assert_nothing_raised do
+      v.fetch_coordinates
+    end
+  end
 end
