@@ -31,7 +31,7 @@ module Geocoder
     # or nil if not found or if network error.
     #
     def search(*args)
-      return nil if args[0].blank?
+      return [] if args[0].blank?
       doc = parsed_response(args.join(","), args.size == 2)
       [].tap do |results|
         if doc

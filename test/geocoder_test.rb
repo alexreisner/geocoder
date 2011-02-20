@@ -46,4 +46,11 @@ class GeocoderTest < Test::Unit::TestCase
     result = Geocoder::Lookup.address(40.750354, -73.993371, :house_number)
     assert_equal nil, result
   end
+
+  def test_does_not_choke_on_nil_address
+    v = Venue.new("Venue", nil)
+    assert_nothing_raised do
+      v.fetch_coordinates
+    end
+  end
 end
