@@ -33,17 +33,19 @@ end
 
 # Require Geocoder after ActiveRecord simulator.
 require 'geocoder'
+require "geocoder/lookups/base"
 
 ##
 # Mock HTTP request to geocoding service.
 #
 module Geocoder
   module Lookup
-    extend self
+  class Base
     private #-----------------------------------------------------------------
-    def fetch_data(query, reverse = false)
+    def fetch_raw_data(query, reverse = false)
       File.read(File.join("test", "fixtures", "madison_square_garden.json"))
     end
+  end
   end
 end
 
