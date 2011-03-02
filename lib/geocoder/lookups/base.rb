@@ -43,7 +43,7 @@ module Geocoder
       # Class of the result objects
       #
       def result_class
-        fail
+        eval("Geocoder::Result::#{self.class.to_s.split(":").last}")
       end
 
       ##

@@ -1,12 +1,14 @@
-module Geocoder
-  class Result
-    attr_accessor :data
+require 'geocoder/results/base'
 
-    ##
-    # Takes a hash of result data from a parsed Google result document.
-    #
-    def initialize(data)
-      @data = data
+module Geocoder::Result
+  class Google < Base
+
+    def coordinates
+      ['lat', 'lng'].map{ |i| geometry['location'][i] }
+    end
+
+    def address(format = :full)
+      formatted_address
     end
 
     def types
