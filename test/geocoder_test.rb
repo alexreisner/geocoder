@@ -2,6 +2,11 @@ require 'test_helper'
 
 class GeocoderTest < Test::Unit::TestCase
 
+  def setup
+    Geocoder::Configuration.lookup = :google
+    Geocoder.set_lookup :google
+  end
+
   def test_fetch_coordinates
     v = Venue.new(*venue_params(:msg))
     assert_equal [40.750354, -73.993371], v.fetch_coordinates
@@ -39,5 +44,21 @@ class GeocoderTest < Test::Unit::TestCase
     assert_nothing_raised do
       v.fetch_coordinates
     end
+  end
+
+  # --- Yahoo ---
+  def test_yahoo_result_components
+    Geocoder::Configuration.lookup = :yahoo
+    Geocoder.set_lookup :yahoo
+    results = Geocoder.search("Madison Square Garden, New York, NY")
+    assert_equal "10001", results.first.postal
+  end
+
+  def test_yahoo_address_formatting
+    Geocoder::Configuration.lookup = :yahoo
+    Geocoder.set_lookup :yahoo
+    results = Geocoder.search("Madison Square Garden, New York, NY")
+    assert_equal "Madison Square Garden, New York, NY  10001",
+      results.first.address
   end
 end

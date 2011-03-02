@@ -40,12 +40,12 @@ require "geocoder/lookups/base"
 #
 module Geocoder
   module Lookup
-  class Base
-    private #-----------------------------------------------------------------
-    def fetch_raw_data(query, reverse = false)
-      File.read(File.join("test", "fixtures", "madison_square_garden.json"))
+    class Base
+      private #-----------------------------------------------------------------
+      def fetch_raw_data(query, reverse = false)
+        File.read(File.join("test", "fixtures", "#{Geocoder::Configuration.lookup}_madison_square_garden.json"))
+      end
     end
-  end
   end
 end
 
