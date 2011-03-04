@@ -1,6 +1,5 @@
 require "geocoder/configuration"
 require "geocoder/calculations"
-require "geocoder/active_record"
 require "geocoder/railtie"
 
 module Geocoder

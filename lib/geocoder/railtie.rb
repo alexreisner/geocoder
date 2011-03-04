@@ -1,4 +1,5 @@
 require 'geocoder'
+require 'geocoder/orms/active_record'
 
 module Geocoder
   if defined? Rails::Railtie
@@ -55,12 +56,12 @@ module Geocoder
           end
           self.geocoder_options = options
           unless _geocoder_initialized?
-            include Geocoder::ActiveRecord
+            include Geocoder::Orm::ActiveRecord
           end
         end
 
         def self._geocoder_initialized?
-          included_modules.include? Geocoder::ActiveRecord
+          included_modules.include? Geocoder::Orm::ActiveRecord
         end
       end
 
