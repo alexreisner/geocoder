@@ -1,5 +1,4 @@
 require 'geocoder'
-require 'geocoder/orms/active_record'
 
 module Geocoder
   if defined? Rails::Railtie
@@ -18,53 +17,60 @@ module Geocoder
 
   class Railtie
     def self.insert
-
       return unless defined?(::ActiveRecord)
+      ::ActiveRecord::Base.extend(ModelMethods)
+    end
+  end
 
-      ##
-      # Add methods to ActiveRecord::Base so Geocoder is accessible by models.
-      #
-      ::ActiveRecord::Base.class_eval do
+  ##
+  # Methods available in the model class before Geocoder is invoked.
+  #
+  module ModelMethods
 
-        ##
-        # Set attribute names and include the Geocoder module.
-        #
-        def self.geocoded_by(address_attr, options = {}, &block)
-          _geocoder_init(
-            :user_address => address_attr,
-            :latitude  => options[:latitude]  || :latitude,
-            :longitude => options[:longitude] || :longitude,
-            :block => block
-          )
-        end
+    ##
+    # Set attribute names and include the Geocoder module.
+    #
+    def geocoded_by(address_attr, options = {}, &block)
+      geocoder_init(
+        :user_address => address_attr,
+        :latitude  => options[:latitude]  || :latitude,
+        :longitude => options[:longitude] || :longitude,
+        :block => block
+      )
+    end
 
-        ##
-        # Set attribute names and include the Geocoder module.
-        #
-        def self.reverse_geocoded_by(latitude_attr, longitude_attr, options = {})
-          _geocoder_init(
-            :fetched_address => options[:address] || :address,
-            :latitude  => latitude_attr,
-            :longitude => longitude_attr
-          )
-        end
+    ##
+    # Set attribute names and include the Geocoder module.
+    #
+    def reverse_geocoded_by(latitude_attr, longitude_attr, options = {})
+      geocoder_init(
+        :fetched_address => options[:address] || :address,
+        :latitude  => latitude_attr,
+        :longitude => longitude_attr
+      )
+    end
 
-        def self._geocoder_init(options)
-          unless _geocoder_initialized?
-            class_inheritable_reader :geocoder_options
-            class_inheritable_hash_writer :geocoder_options
-          end
-          self.geocoder_options = options
-          unless _geocoder_initialized?
-            include Geocoder::Orm::ActiveRecord
-          end
-        end
+    def geocoder_options
+      @geocoder_options
+    end
 
-        def self._geocoder_initialized?
-          included_modules.include? Geocoder::Orm::ActiveRecord
-        end
+
+    private # ----------------------------------------------------------------
+
+    def geocoder_init(options)
+      unless geocoder_initialized?
+        @geocoder_options = options
+        require 'geocoder/orms/active_record'
+        include Geocoder::Orm::ActiveRecord
       end
+    end
 
+    def geocoder_initialized?
+      begin
+        included_modules.include? Geocoder::Orm::ActiveRecord
+      rescue NameError
+        false
+      end
     end
   end
 end
