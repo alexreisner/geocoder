@@ -201,8 +201,10 @@ module Geocoder
         end
         args = [send(address_method)]
       end
+      # passing a block to this method overrides the one given in the model
+      b = block_given?? block : self.class.geocoder_options[:block]
       if result = Geocoder.search(*args).first
-        block.call(result)
+        b.call(result)
       end
     end
 

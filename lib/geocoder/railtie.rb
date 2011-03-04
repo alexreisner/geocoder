@@ -28,11 +28,12 @@ module Geocoder
         ##
         # Set attribute names and include the Geocoder module.
         #
-        def self.geocoded_by(address_attr, options = {})
+        def self.geocoded_by(address_attr, options = {}, &block)
           _geocoder_init(
             :user_address => address_attr,
             :latitude  => options[:latitude]  || :latitude,
-            :longitude => options[:longitude] || :longitude
+            :longitude => options[:longitude] || :longitude,
+            :block => block
           )
         end
 

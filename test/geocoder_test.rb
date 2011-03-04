@@ -6,10 +6,18 @@ class GeocoderTest < Test::Unit::TestCase
     Geocoder::Configuration.lookup = :google
   end
 
-  def test_fetch_coordinates
+  def test_fetch_coordinates_assigns_and_returns_coordinates
     v = Venue.new(*venue_params(:msg))
-    assert_equal [40.750354, -73.993371], v.fetch_coordinates
-    assert_equal [40.750354, -73.993371], [v.latitude, v.longitude]
+    coords = [40.750354, -73.993371]
+    assert_equal coords, v.fetch_coordinates
+    assert_equal coords, [v.latitude, v.longitude]
+  end
+
+  def test_fetch_address_assigns_and_returns_address
+    v = Landmark.new(*landmark_params(:msg))
+    address = "4 Penn Plaza, New York, NY 10001, USA"
+    assert_equal address, v.fetch_address
+    assert_equal address, v.address
   end
 
   # sanity check

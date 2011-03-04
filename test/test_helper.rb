@@ -110,4 +110,10 @@ class Test::Unit::TestCase
       :msg => ["Madison Square Garden", "4 Penn Plaza, New York, NY"]
     }[abbrev]
   end
+
+  def landmark_params(abbrev)
+    {
+      :msg => ["Madison Square Garden", 40.750354, -73.993371]
+    }[abbrev]
+  end
 end
