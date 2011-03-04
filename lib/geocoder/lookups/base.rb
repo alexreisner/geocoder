@@ -6,15 +6,18 @@ module Geocoder
     class Base
 
       ##
-      # Takes a search string (eg: "Mississippi Coast Coliseumf, Biloxi, MS")
-      # for geocoding, or coordinates (latitude, longitude) for reverse
-      # geocoding. Returns an array of Geocoder::Result objects,
-      # or nil if not found or if network error.
+      # An array of Geocoder::Result objects.
+      #
+      # Takes a search string (eg: "Mississippi Coast Coliseumf, Biloxi, MS",
+      # "205.128.54.202") for geocoding, or coordinates (latitude, longitude)
+      # for reverse geocoding.
       #
       def search(*args)
         return [] if args[0].nil? || args[0] == ""
         if res = results(args.join(","), args.size == 2)
           res.map{ |r| result_class.new(r) }
+        else
+          []
         end
       end
 
