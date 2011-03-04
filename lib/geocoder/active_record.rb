@@ -179,23 +179,46 @@ module Geocoder
     end
 
     ##
+    # Look up geographic data based on object attributes,
+    # and do something with it (requires a block).
+    #
+    def geocode(reverse = false, &block)
+      if reverse
+        lat_attr = self.class.geocoder_options[:latitude]
+        lon_attr = self.class.geocoder_options[:longitude]
+        unless lat_attr.is_a?(Symbol) and lon_attr.is_a?(Symbol)
+          raise Geocoder::ConfigurationError,
+            "You are attempting to fetch an address but have not specified " +
+            "attributes which provide coordinates for the object."
+        end
+        args = [send(lat_attr), send(lon_attr)]
+      else
+        address_method = self.class.geocoder_options[:user_address]
+        unless address_method.is_a? Symbol
+          raise Geocoder::ConfigurationError,
+            "You are attempting to geocode an object but have not specified " +
+            "a method which provides an address to search for."
+        end
+        args = [send(address_method)]
+      end
+      if result = Geocoder.search(*args).first
+        block.call(result)
+      end
+    end
+
+    ##
     # Fetch coordinates and assign +latitude+ and +longitude+. Also returns
     # coordinates as an array: <tt>[lat, lon]</tt>.
     #
     def fetch_coordinates(save = false)
-      address_method = self.class.geocoder_options[:user_address]
-      unless address_method.is_a? Symbol
-        raise Geocoder::ConfigurationError,
-          "You are attempting to fetch coordinates but have not specified " +
-          "a method which provides an address for the object."
+      geocode do |r|
+        unless r.latitude.nil? or r.longitude.nil?
+          method = (save ? "update" : "write") + "_attribute"
+          send method, self.class.geocoder_options[:latitude],  r.latitude
+          send method, self.class.geocoder_options[:longitude], r.longitude
+        end
+        r.coordinates
       end
-      coords = Geocoder.coordinates(send(address_method))
-      unless coords.blank?
-        method = (save ? "update" : "write") + "_attribute"
-        send method, self.class.geocoder_options[:latitude],  coords[0]
-        send method, self.class.geocoder_options[:longitude], coords[1]
-      end
-      coords
     end
 
     ##
@@ -210,19 +233,13 @@ module Geocoder
     # address as a string.
     #
     def fetch_address(save = false)
-      lat_attr = self.class.geocoder_options[:latitude]
-      lon_attr = self.class.geocoder_options[:longitude]
-      unless lat_attr.is_a?(Symbol) and lon_attr.is_a?(Symbol)
-        raise Geocoder::ConfigurationError,
-          "You are attempting to fetch an address but have not specified " +
-          "attributes which provide coordinates for the object."
+      geocode(true) do |r|
+        unless r.address.nil?
+          method = (save ? "update" : "write") + "_attribute"
+          send method, self.class.geocoder_options[:fetched_address], r.address
+        end
+        r.address
       end
-      address = Geocoder.address(send(lat_attr), send(lon_attr))
-      unless address.blank?
-        method = (save ? "update" : "write") + "_attribute"
-        send method, self.class.geocoder_options[:fetched_address], address
-      end
-      address
     end
 
     ##
