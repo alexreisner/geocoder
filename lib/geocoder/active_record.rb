@@ -28,7 +28,7 @@ module Geocoder
         #
         scope :near, lambda{ |location, *args|
           latitude, longitude = location.is_a?(Array) ?
-            location : Geocoder.lookup.coordinates(location)
+            location : Geocoder.coordinates(location)
           if latitude and longitude
             near_scope_options(latitude, longitude, *args)
           else
@@ -189,7 +189,7 @@ module Geocoder
           "You are attempting to fetch coordinates but have not specified " +
           "a method which provides an address for the object."
       end
-      coords = Geocoder.lookup.coordinates(send(address_method))
+      coords = Geocoder.coordinates(send(address_method))
       unless coords.blank?
         method = (save ? "update" : "write") + "_attribute"
         send method, self.class.geocoder_options[:latitude],  coords[0]
@@ -217,7 +217,7 @@ module Geocoder
           "You are attempting to fetch an address but have not specified " +
           "attributes which provide coordinates for the object."
       end
-      address = Geocoder.lookup.address(send(lat_attr), send(lon_attr))
+      address = Geocoder.address(send(lat_attr), send(lon_attr))
       unless address.blank?
         method = (save ? "update" : "write") + "_attribute"
         send method, self.class.geocoder_options[:fetched_address], address

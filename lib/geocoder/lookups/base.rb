@@ -18,26 +18,22 @@ module Geocoder
         end
       end
 
-      ##
-      # Look up the coordinates of the given address.
-      #
-      def coordinates(address)
-        if (results = search(address)).size > 0
-          results.first.coordinates
-        end
-      end
-
-      ##
-      # Look up the address of the given coordinates.
-      #
-      def address(latitude, longitude)
-        if (results = search(latitude, longitude)).size > 0
-          results.first.address
-        end
-      end
-
 
       private # -------------------------------------------------------------
+
+      ##
+      # Array of results, or nil on timeout or other error.
+      #
+      def results(query, reverse = false)
+        fail
+      end
+
+      ##
+      # URL to use for querying the geocoding engine.
+      #
+      def query_url(query, reverse = false)
+        fail
+      end
 
       ##
       # Class of the result objects

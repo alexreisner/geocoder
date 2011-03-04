@@ -6,10 +6,6 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    ##
-    # Returns a parsed Yahoo geocoder search result (hash).
-    # Returns nil if non-200 HTTP response, timeout, or other error.
-    #
     def results(query, reverse = false)
       doc = fetch_data(query, reverse)
       if doc = doc['ResultSet'] and doc['Error'] == 0

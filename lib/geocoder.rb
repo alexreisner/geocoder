@@ -14,6 +14,32 @@ module Geocoder
   end
 
   ##
+  # Look up the coordinates of the given street address.
+  #
+  def coordinates(address)
+    if (results = search(address)).size > 0
+      results.first.coordinates
+    end
+  end
+
+  ##
+  # Look up the address of the given coordinates.
+  #
+  def address(latitude, longitude)
+    if (results = search(latitude, longitude)).size > 0
+      results.first.address
+    end
+  end
+
+
+  # exception classes
+  class Error < StandardError; end
+  class ConfigurationError < Error; end
+
+
+  private # -----------------------------------------------------------------
+
+  ##
   # Get the lookup object (which communicates with the remote geocoding API).
   #
   def lookup
@@ -32,10 +58,6 @@ module Geocoder
       @lookup = Geocoder::Lookup::Google.new
     end
   end
-
-  # exception classes
-  class Error < StandardError; end
-  class ConfigurationError < Error; end
 end
 
 Geocoder::Railtie.insert

@@ -6,10 +6,6 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    ##
-    # Returns a parsed Google geocoder search result (hash).
-    # Returns nil if non-200 HTTP response, timeout, or other error.
-    #
     def results(query, reverse = false)
       doc = fetch_data(query, reverse)
       case doc['status']; when "OK"

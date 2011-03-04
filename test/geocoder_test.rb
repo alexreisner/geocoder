@@ -4,7 +4,7 @@ class GeocoderTest < Test::Unit::TestCase
 
   def setup
     Geocoder::Configuration.lookup = :google
-    Geocoder.set_lookup :google
+    Geocoder.send :set_lookup, :google
   end
 
   def test_fetch_coordinates
@@ -49,14 +49,14 @@ class GeocoderTest < Test::Unit::TestCase
   # --- Yahoo ---
   def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
-    Geocoder.set_lookup :yahoo
+    Geocoder.send :set_lookup, :yahoo
     results = Geocoder.search("Madison Square Garden, New York, NY")
     assert_equal "10001", results.first.postal
   end
 
   def test_yahoo_address_formatting
     Geocoder::Configuration.lookup = :yahoo
-    Geocoder.set_lookup :yahoo
+    Geocoder.send :set_lookup, :yahoo
     results = Geocoder.search("Madison Square Garden, New York, NY")
     assert_equal "Madison Square Garden, New York, NY  10001",
       results.first.address
