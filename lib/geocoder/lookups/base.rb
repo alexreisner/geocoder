@@ -12,7 +12,7 @@ module Geocoder
       # or nil if not found or if network error.
       #
       def search(*args)
-        return [] if args[0].blank?
+        return [] if args[0].nil? || args[0] == ""
         if res = results(args.join(","), args.size == 2)
           res.map{ |r| result_class.new(r) }
         end
