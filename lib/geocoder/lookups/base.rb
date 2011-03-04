@@ -1,5 +1,5 @@
 require 'net/http'
-require 'active_support/json'
+require 'json'
 
 module Geocoder
   module Lookup
@@ -49,12 +49,14 @@ module Geocoder
       #
       def fetch_data(query, reverse = false)
         begin
-          ActiveSupport::JSON.decode(fetch_raw_data(query, reverse))
+          JSON.parse(fetch_raw_data(query, reverse))
         rescue SocketError
           warn "Geocoding API connection cannot be established."
         rescue TimeoutError
           warn "Geocoding API not responding fast enough " +
             "(see Geocoder::Configuration.timeout to set limit)."
+        rescue JSON::ParseError
+          warn "Geocoding API's response was not valid JSON."
         end
       end
 
