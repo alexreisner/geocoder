@@ -10,7 +10,7 @@ module Geocoder
   # Search for information about an address or a set of coordinates.
   #
   def search(*args)
-    return [] if args[0].nil? || args[0] == ""
+    return [] if blank_query?(args[0])
     ip = (args.size == 1 and ip_address?(args.first))
     lookup(ip).search(*args)
   end
@@ -80,6 +80,13 @@ module Geocoder
   #
   def ip_address?(value)
     value.match /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/
+  end
+
+  ##
+  # Is the given search query blank? (ie, should we not bother searching?)
+  #
+  def blank_query?(value)
+    !value.to_s.match(/[A-z0-9]/)
   end
 end
 
