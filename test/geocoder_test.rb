@@ -69,4 +69,19 @@ class GeocoderTest < Test::Unit::TestCase
     results = Geocoder.search("74.200.247.59")
     assert_equal "Plano, TX 75093, United States", results.first.address
   end
+
+  # --- search queries ---
+  def test_ip_address_detection
+    assert Geocoder.send(:ip_address?, "232.65.123.94")
+    assert Geocoder.send(:ip_address?, "666.65.123.94") # technically invalid
+    assert !Geocoder.send(:ip_address?, "232.65.123.94.43")
+    assert !Geocoder.send(:ip_address?, "232.65.123")
+  end
+
+  def test_blank_query_detection
+    assert Geocoder.send(:blank_query?, nil)
+    assert Geocoder.send(:blank_query?, "")
+    assert Geocoder.send(:blank_query?, ", , (-)")
+    assert !Geocoder.send(:blank_query?, "a")
+  end
 end
