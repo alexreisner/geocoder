@@ -78,6 +78,9 @@ module Geocoder
   ##
   # Does the given value look like an IP address?
   #
+  # Does not check for actual validity, just the appearance of four
+  # dot-delimited 8-bit numbers.
+  #
   def ip_address?(value)
     value.match /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/
   end
