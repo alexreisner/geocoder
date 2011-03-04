@@ -11,17 +11,25 @@ module Geocoder
       end
 
       ##
-      # A two-element array: [lat, lon].
-      #
-      def coordinates
-        fail
-      end
-
-      ##
       # A string in the given format.
       #
       def address(format = :full)
         fail
+      end
+
+      ##
+      # A two-element array: [lat, lon].
+      #
+      def coordinates
+        [@data['latitude'].to_f, @data['longitude'].to_f]
+      end
+
+      def latitude
+        coordinates[0]
+      end
+
+      def longitude
+        coordinates[1]
       end
     end
   end

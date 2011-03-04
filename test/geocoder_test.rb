@@ -45,6 +45,11 @@ class GeocoderTest < Test::Unit::TestCase
     end
   end
 
+  def test_google_result_has_required_attributes
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_result_has_required_attributes(result)
+  end
+
   # --- Yahoo ---
   def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
@@ -59,6 +64,13 @@ class GeocoderTest < Test::Unit::TestCase
       results.first.address
   end
 
+  def test_yahoo_result_has_required_attributes
+    Geocoder::Configuration.lookup = :yahoo
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_result_has_required_attributes(result)
+  end
+
+
   # --- FreeGeoIp ---
   def test_freegeoip_result_on_ip_address_search
     results = Geocoder.search("74.200.247.59")
@@ -68,6 +80,11 @@ class GeocoderTest < Test::Unit::TestCase
   def test_freegeoip_result_components
     results = Geocoder.search("74.200.247.59")
     assert_equal "Plano, TX 75093, United States", results.first.address
+  end
+
+  def test_freegeoip_result_has_required_attributes
+    result = Geocoder.search("74.200.247.59").first
+    assert_result_has_required_attributes(result)
   end
 
   # --- search queries ---
@@ -83,5 +100,15 @@ class GeocoderTest < Test::Unit::TestCase
     assert Geocoder.send(:blank_query?, "")
     assert Geocoder.send(:blank_query?, ", , (-)")
     assert !Geocoder.send(:blank_query?, "a")
+  end
+
+
+  private # ------------------------------------------------------------------
+
+  def assert_result_has_required_attributes(result)
+    assert result.coordinates.is_a?(Array)
+    assert result.latitude.is_a?(Float)
+    assert result.longitude.is_a?(Float)
+    assert_not_nil result.address
   end
 end
