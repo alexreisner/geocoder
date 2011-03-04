@@ -7,14 +7,16 @@ module Geocoder
   extend self
 
   ##
-  # Alias for Geocoder.lookup.search.
+  # Search for information about an address or a set of coordinates.
   #
   def search(*args)
-    lookup.search(*args)
+    return [] if args[0].nil? || args[0] == ""
+    ip = (args.size == 1 and ip_address?(args.first))
+    lookup(ip).search(*args)
   end
 
   ##
-  # Look up the coordinates of the given street address.
+  # Look up the coordinates of the given street or IP address.
   #
   def coordinates(address)
     if (results = search(address)).size > 0
@@ -41,22 +43,43 @@ module Geocoder
 
   ##
   # Get the lookup object (which communicates with the remote geocoding API).
+  # Returns an IP address lookup if +ip+ parameter true.
   #
-  def lookup
-    unless defined?(@lookup)
-      set_lookup Geocoder::Configuration.lookup
+  def lookup(ip = false)
+    if ip
+      get_lookup :freegeoip
+    else
+      get_lookup Geocoder::Configuration.lookup || :google
     end
-    @lookup
   end
 
-  def set_lookup(value)
-    if value == :yahoo
-      require "geocoder/lookups/yahoo"
-      @lookup = Geocoder::Lookup::Yahoo.new
-    else
-      require "geocoder/lookups/google"
-      @lookup = Geocoder::Lookup::Google.new
+  def get_lookup(name)
+    unless defined?(@lookups)
+      @lookups = {}
     end
+    unless @lookups.include?(name)
+      @lookups[name] = spawn_lookup(name)
+    end
+    @lookups[name]
+  end
+
+  def spawn_lookup(name)
+    if valid_lookups.include?(name)
+      name = name.to_s
+      require "geocoder/lookups/#{name}"
+      eval("Geocoder::Lookup::#{name[0...1].upcase + name[1..-1]}.new")
+    end
+  end
+
+  def valid_lookups
+    [:google, :yahoo, :freegeoip]
+  end
+
+  ##
+  # Does the given value look like an IP address?
+  #
+  def ip_address?(value)
+    value.match /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/
   end
 end
 
