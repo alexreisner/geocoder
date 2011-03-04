@@ -8,7 +8,7 @@ module Geocoder::Result
     end
 
     def address(format = :full)
-      (1..3).to_a.map{ |i| @data["line#{i}"] }.reject{ |i| i.nil? or i == "" }.join(", ")
+      (1..4).to_a.map{ |i| @data["line#{i}"] }.reject{ |i| i.nil? or i == "" }.join(", ")
     end
 
     def self.response_attributes

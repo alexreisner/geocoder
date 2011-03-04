@@ -58,7 +58,7 @@ class GeocoderTest < Test::Unit::TestCase
     Geocoder::Configuration.lookup = :yahoo
     Geocoder.send :set_lookup, :yahoo
     results = Geocoder.search("Madison Square Garden, New York, NY")
-    assert_equal "Madison Square Garden, New York, NY  10001",
+    assert_equal "Madison Square Garden, New York, NY  10001, United States",
       results.first.address
   end
 end
