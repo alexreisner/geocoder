@@ -35,7 +35,12 @@
       "uzip":"10001",
       "hash":"",
       "woeid":23617041,
-      "woetype":20
+      "woetype":20,
+      "cross":"",
+      "timezone":"America/New_York",
+      "neighborhood":"Garment District|Midtown|Midtown West|Manhattan",
+      "areacode":"212",
+      "boundingbox":{"north":"40.750832","south":"40.749931","east":"-73.993393","west":"-73.994591"}
     }]
   }
 }
