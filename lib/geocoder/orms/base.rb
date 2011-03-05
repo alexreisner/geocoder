@@ -52,9 +52,9 @@ module Geocoder
         # passing a block to this method overrides the one given in the model
         if result = Geocoder.search(*args).first
           if block_given?
-            yield(result)
+            yield(self, result)
           else
-            self.class.geocoder_options[:block].call(result)
+            self.class.geocoder_options[:block].call(self, result)
           end
         end
       end

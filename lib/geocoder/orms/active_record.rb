@@ -149,11 +149,11 @@ module Geocoder::Orm
     # coordinates as an array: <tt>[lat, lon]</tt>.
     #
     def fetch_coordinates(save = false)
-      geocode do |r|
+      geocode do |o,r|
         unless r.latitude.nil? or r.longitude.nil?
           method = (save ? "update" : "write") + "_attribute"
-          send method, self.class.geocoder_options[:latitude],  r.latitude
-          send method, self.class.geocoder_options[:longitude], r.longitude
+          o.send method, self.class.geocoder_options[:latitude],  r.latitude
+          o.send method, self.class.geocoder_options[:longitude], r.longitude
         end
         r.coordinates
       end
@@ -171,10 +171,10 @@ module Geocoder::Orm
     # address as a string.
     #
     def fetch_address(save = false)
-      geocode do |r|
+      geocode do |o,r|
         unless r.address.nil?
           method = (save ? "update" : "write") + "_attribute"
-          send method, self.class.geocoder_options[:fetched_address], r.address
+          o.send method, self.class.geocoder_options[:fetched_address], r.address
         end
         r.address
       end
