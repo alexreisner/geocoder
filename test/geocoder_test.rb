@@ -61,13 +61,13 @@ class GeocoderTest < Test::Unit::TestCase
   # --- Google ---
 
   def test_result_address_components_of_type
-    results = Geocoder.search("Madison Square Garden, New York, NY")
+    result = Geocoder.search("Madison Square Garden, New York, NY")
     assert_equal "Manhattan",
-      results.first.address_components_of_type(:sublocality).first['long_name']
+      result.address_components_of_type(:sublocality).first['long_name']
   end
 
   def test_google_result_has_required_attributes
-    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    result = Geocoder.search("Madison Square Garden, New York, NY")
     assert_result_has_required_attributes(result)
   end
 
@@ -76,20 +76,20 @@ class GeocoderTest < Test::Unit::TestCase
 
   def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
-    results = Geocoder.search("Madison Square Garden, New York, NY")
-    assert_equal "10001", results.first.postal
+    result = Geocoder.search("Madison Square Garden, New York, NY")
+    assert_equal "10001", result.postal
   end
 
   def test_yahoo_address_formatting
     Geocoder::Configuration.lookup = :yahoo
-    results = Geocoder.search("Madison Square Garden, New York, NY")
+    result = Geocoder.search("Madison Square Garden, New York, NY")
     assert_equal "Madison Square Garden, New York, NY  10001, United States",
-      results.first.address
+      result.address
   end
 
   def test_yahoo_result_has_required_attributes
     Geocoder::Configuration.lookup = :yahoo
-    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    result = Geocoder.search("Madison Square Garden, New York, NY")
     assert_result_has_required_attributes(result)
   end
 
@@ -97,17 +97,17 @@ class GeocoderTest < Test::Unit::TestCase
   # --- FreeGeoIp ---
 
   def test_freegeoip_result_on_ip_address_search
-    results = Geocoder.search("74.200.247.59")
-    assert results.first.is_a?(Geocoder::Result::Freegeoip)
+    result = Geocoder.search("74.200.247.59")
+    assert result.is_a?(Geocoder::Result::Freegeoip)
   end
 
   def test_freegeoip_result_components
-    results = Geocoder.search("74.200.247.59")
-    assert_equal "Plano, TX 75093, United States", results.first.address
+    result = Geocoder.search("74.200.247.59")
+    assert_equal "Plano, TX 75093, United States", result.address
   end
 
   def test_freegeoip_result_has_required_attributes
-    result = Geocoder.search("74.200.247.59").first
+    result = Geocoder.search("74.200.247.59")
     assert_result_has_required_attributes(result)
   end
 

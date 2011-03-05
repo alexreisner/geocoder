@@ -50,7 +50,7 @@ module Geocoder
         args.map!{ |a| send(options[a]) }
 
         # passing a block to this method overrides the one given in the model
-        if result = Geocoder.search(*args).first
+        if result = Geocoder.search(*args)
           if block_given?
             yield(self, result)
           else

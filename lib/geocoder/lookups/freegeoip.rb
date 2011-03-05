@@ -6,10 +6,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
+    def result(query, reverse = false)
       begin
         if doc = fetch_data(query, reverse)
-          [doc]
+          doc
         end
       rescue StandardError # Freegeoip.net returns HTML on bad request
         nil

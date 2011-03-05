@@ -12,17 +12,16 @@ module Geocoder
     class Base
 
       ##
-      # An array of Geocoder::Result objects.
+      # Query the geocoding API and return a Geocoder::Result object.
+      # Returns +nil+ on timeout or error.
       #
       # Takes a search string (eg: "Mississippi Coast Coliseumf, Biloxi, MS",
       # "205.128.54.202") for geocoding, or coordinates (latitude, longitude)
       # for reverse geocoding.
       #
       def search(*args)
-        if res = results(args.join(","), args.size == 2)
-          res.map{ |r| result_class.new(r) }
-        else
-          []
+        if res = result(args.join(","), args.size == 2)
+          result_class.new(res)
         end
       end
 
@@ -30,9 +29,9 @@ module Geocoder
       private # -------------------------------------------------------------
 
       ##
-      # Array of results, or nil on timeout or other error.
+      # Geocoder::Result object or nil on timeout or other error.
       #
-      def results(query, reverse = false)
+      def result(query, reverse = false)
         fail
       end
 
