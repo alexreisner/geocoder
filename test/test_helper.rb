@@ -27,6 +27,14 @@ module ActiveRecord
     end
 
     def self.scope(*args); end
+
+    def method_missing(name, *args, &block)
+      if name.to_s[-1..-1] == "="
+        write_attribute name.to_s[0...-1], *args
+      else
+        read_attribute name
+      end
+    end
   end
 end
 
@@ -73,13 +81,6 @@ class Venue < ActiveRecord::Base
     write_attribute :name, name
     write_attribute :address, address
   end
-
-  ##
-  # If method not found, assume it's an ActiveRecord attribute reader.
-  #
-  def method_missing(name, *args, &block)
-    @attributes[name]
-  end
 end
 
 ##
@@ -94,14 +95,43 @@ class Landmark < ActiveRecord::Base
     write_attribute :latitude, latitude
     write_attribute :longitude, longitude
   end
+end
 
-  ##
-  # If method not found, assume it's an ActiveRecord attribute reader.
-  #
-  def method_missing(name, *args, &block)
-    @attributes[name]
+##
+# Geocoded model with block.
+#
+class Event < ActiveRecord::Base
+  geocoded_by :address do |obj,result|
+    if result
+      obj.coordinates = "#{result.latitude},#{result.longitude}"
+    end
+  end
+
+  def initialize(name, address)
+    super()
+    write_attribute :name, name
+    write_attribute :address, address
   end
 end
+
+##
+# Reverse geocoded model with block.
+#
+class Party < ActiveRecord::Base
+  reverse_geocoded_by :latitude, :longitude do |obj,result|
+    if result
+      obj.country = result.country_code
+    end
+  end
+
+  def initialize(name, latitude, longitude)
+    super()
+    write_attribute :name, name
+    write_attribute :latitude, latitude
+    write_attribute :longitude, longitude
+  end
+end
+
 
 class Test::Unit::TestCase
   def venue_params(abbrev)

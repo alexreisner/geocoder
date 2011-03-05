@@ -44,6 +44,19 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal address, v.address
   end
 
+  def test_geocode_fetches_and_assigns_custom_coordinates
+    e = Event.new(*venue_params(:msg))
+    coords = [40.750354, -73.993371]
+    e.geocode
+    assert_equal coords.map{ |c| c.to_s }.join(','), e.coordinates
+  end
+
+  def test_geocode_fetches_and_assigns_custom_address_components
+    e = Party.new(*landmark_params(:msg))
+    e.geocode
+    assert_equal "US", e.country
+  end
+
 
   # --- Google ---
 

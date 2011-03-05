@@ -42,11 +42,12 @@ module Geocoder
     ##
     # Set attribute names and include the Geocoder module.
     #
-    def reverse_geocoded_by(latitude_attr, longitude_attr, options = {})
+    def reverse_geocoded_by(latitude_attr, longitude_attr, options = {}, &block)
       geocoder_init(
         :fetched_address => options[:address] || :address,
         :latitude  => latitude_attr,
-        :longitude => longitude_attr
+        :longitude => longitude_attr,
+        :block => block
       )
     end
 
