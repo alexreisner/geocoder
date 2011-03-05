@@ -83,7 +83,6 @@ module Geocoder
       # Fetches a raw search result (JSON string).
       #
       def fetch_raw_data(query, reverse = false)
-        return nil if query.blank?
         url = query_url(query, reverse)
         timeout(Geocoder::Configuration.timeout) do
           Net::HTTP.get_response(URI.parse(url)).body
