@@ -7,6 +7,22 @@ module Geocoder::Result
       (1..4).to_a.map{ |i| @data["line#{i}"] }.reject{ |i| i.nil? or i == "" }.join(", ")
     end
 
+    def city
+      @data['city']
+    end
+
+    def country
+      @data['country']
+    end
+
+    def country_code
+      @data['countrycode']
+    end
+
+    def postal_code
+      @data['postal']
+    end
+
     def self.response_attributes
       %w[quality offsetlat offsetlon radius boundingbox name
         line1 line2 line3 line4 cross house street xstreet unittype unit postal

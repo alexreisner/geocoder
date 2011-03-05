@@ -4,7 +4,23 @@ module Geocoder::Result
   class Freegeoip < Base
 
     def address(format = :full)
-      "#{city}#{', ' + region_code unless region_code == ''} #{zipcode}, #{country_name}"
+      "#{city}#{', ' + region_code unless region_code == ''} #{postal_code}, #{country}"
+    end
+
+    def city
+      @data['city']
+    end
+
+    def country
+      @data['country_name']
+    end
+
+    def country_code
+      @data['country_code']
+    end
+
+    def postal_code
+      @data['zipcode']
     end
 
     def self.response_attributes

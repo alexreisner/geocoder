@@ -134,6 +134,10 @@ class GeocoderTest < Test::Unit::TestCase
     assert result.coordinates.is_a?(Array)
     assert result.latitude.is_a?(Float)
     assert result.longitude.is_a?(Float)
+    assert result.city.is_a?(String)
+    assert result.postal_code.is_a?(String)
+    assert result.country.is_a?(String)
+    assert result.country_code.is_a?(String)
     assert_not_nil result.address
   end
 end

@@ -31,6 +31,14 @@ module Geocoder
       def longitude
         coordinates[1]
       end
+
+      def country
+        fail
+      end
+
+      def country_code
+        fail
+      end
     end
   end
 end

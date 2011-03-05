@@ -11,6 +11,22 @@ module Geocoder::Result
       formatted_address
     end
 
+    def city
+      address_components_of_type(:locality).first['long_name']
+    end
+
+    def country
+      address_components_of_type(:country).first['long_name']
+    end
+
+    def country_code
+      address_components_of_type(:country).first['short_name']
+    end
+
+    def postal_code
+      address_components_of_type(:postal_code).first['long_name']
+    end
+
     def types
       @data['types']
     end
