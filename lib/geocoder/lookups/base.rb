@@ -67,10 +67,10 @@ module Geocoder
       # Parses a raw search result (returns hash or array).
       #
       def parse_raw_data(raw_data)
-        if defined?(JSON)
+        if defined?(JSON) and defined?(JSON.parse)
           begin
             JSON.parse(raw_data)
-          rescue JSON::ParseError
+          rescue
             warn "Geocoding API's response was not valid JSON."
           end
         elsif defined?(ActiveSupport::JSON)
