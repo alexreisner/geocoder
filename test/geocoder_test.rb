@@ -20,13 +20,6 @@ class GeocoderTest < Test::Unit::TestCase
       Geocoder::Calculations.geographic_center([[0,0], [0,1], [0,2]])
   end
 
-  def test_exception_raised_for_unconfigured_geocoding
-    l = Landmark.new("Mount Rushmore", 43.88, -103.46)
-    assert_raises Geocoder::ConfigurationError do
-      l.fetch_coordinates
-    end
-  end
-
   def test_does_not_choke_on_nil_address
     v = Venue.new("Venue", nil)
     assert_nothing_raised do

@@ -43,29 +43,19 @@ module Geocoder
       # Look up geographic data based on object attributes,
       # and do something with it (requires a block).
       #
-      def geocode(reverse = false, &block)
-        if reverse
-          lat_attr = self.class.geocoder_options[:latitude]
-          lon_attr = self.class.geocoder_options[:longitude]
-          unless lat_attr.is_a?(Symbol) and lon_attr.is_a?(Symbol)
-            raise Geocoder::ConfigurationError,
-              "You are attempting to fetch an address but have not specified " +
-              "attributes which provide coordinates for the object."
-          end
-          args = [send(lat_attr), send(lon_attr)]
-        else
-          address_method = self.class.geocoder_options[:user_address]
-          unless address_method.is_a? Symbol
-            raise Geocoder::ConfigurationError,
-              "You are attempting to geocode an object but have not specified " +
-              "a method which provides an address to search for."
-          end
-          args = [send(address_method)]
-        end
+      def geocode
+        options = self.class.geocoder_options
+        args = options[:user_address] ?
+          [:user_address] : [:latitude, :longitude]
+        args.map!{ |a| send(options[a]) }
+
         # passing a block to this method overrides the one given in the model
-        b = block_given?? block : self.class.geocoder_options[:block]
         if result = Geocoder.search(*args).first
-          b.call(result)
+          if block_given?
+            yield(result)
+          else
+            self.class.geocoder_options[:block].call(result)
+          end
         end
       end
     end

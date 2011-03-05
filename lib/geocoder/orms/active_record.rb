@@ -171,7 +171,7 @@ module Geocoder::Orm
     # address as a string.
     #
     def fetch_address(save = false)
-      geocode(true) do |r|
+      geocode do |r|
         unless r.address.nil?
           method = (save ? "update" : "write") + "_attribute"
           send method, self.class.geocoder_options[:fetched_address], r.address
