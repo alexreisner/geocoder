@@ -22,7 +22,7 @@ module Geocoder::Lookup
         :gflags => "AC#{'R' if reverse}",
         :appid => Geocoder::Configuration.yahoo_appid
       }
-      "http://where.yahooapis.com/geocode?" + params.to_query
+      "http://where.yahooapis.com/geocode?" + hash_to_query(params)
     end
   end
 end

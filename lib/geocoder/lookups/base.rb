@@ -88,6 +88,14 @@ module Geocoder
           Net::HTTP.get_response(URI.parse(url)).body
         end
       end
+
+      ##
+      # Simulate ActiveSupport's Object#to_query.
+      #
+      def hash_to_query(hash)
+        require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
+        hash.collect{ |p| p.map{ |i| CGI.escape i.to_s } * '=' }.sort * '&'
+      end
     end
   end
 end

@@ -24,7 +24,7 @@ module Geocoder::Lookup
         (reverse ? :latlng : :address) => query,
         :sensor => "false"
       }
-      "http://maps.google.com/maps/api/geocode/json?" + params.to_query
+      "http://maps.google.com/maps/api/geocode/json?" + hash_to_query(params)
     end
   end
 end

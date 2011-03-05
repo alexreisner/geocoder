@@ -110,6 +110,11 @@ class GeocoderTest < Test::Unit::TestCase
     assert !Geocoder.send(:blank_query?, "a")
   end
 
+  def test_hash_to_query
+    g = Geocoder::Lookup::Google.new
+    assert_equal "a=1&b=2", g.send(:hash_to_query, {:a => 1, :b => 2})
+  end
+
 
   private # ------------------------------------------------------------------
 
