@@ -6,26 +6,13 @@ class GeocoderTest < Test::Unit::TestCase
     Geocoder::Configuration.lookup = :google
   end
 
-  def test_fetch_coordinates_assigns_and_returns_coordinates
-    v = Venue.new(*venue_params(:msg))
-    coords = [40.750354, -73.993371]
-    assert_equal coords, v.fetch_coordinates
-    assert_equal coords, [v.latitude, v.longitude]
-  end
 
-  def test_fetch_address_assigns_and_returns_address
-    v = Landmark.new(*landmark_params(:msg))
-    address = "4 Penn Plaza, New York, NY 10001, USA"
-    assert_equal address, v.fetch_address
-    assert_equal address, v.address
-  end
+  # --- sanity checks ---
 
-  # sanity check
   def test_distance_between
     assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
   end
 
-  # sanity check
   def test_geographic_center
     assert_equal [0.0, 0.5],
       Geocoder::Calculations.geographic_center([[0,0], [0,1]])
@@ -40,12 +27,6 @@ class GeocoderTest < Test::Unit::TestCase
     end
   end
 
-  def test_result_address_components_of_type
-    results = Geocoder.search("Madison Square Garden, New York, NY")
-    assert_equal "Manhattan",
-      results.first.address_components_of_type(:sublocality).first['long_name']
-  end
-
   def test_does_not_choke_on_nil_address
     v = Venue.new("Venue", nil)
     assert_nothing_raised do
@@ -53,12 +34,40 @@ class GeocoderTest < Test::Unit::TestCase
     end
   end
 
+
+  # --- general ---
+
+  def test_fetch_coordinates_assigns_and_returns_coordinates
+    v = Venue.new(*venue_params(:msg))
+    coords = [40.750354, -73.993371]
+    assert_equal coords, v.fetch_coordinates
+    assert_equal coords, [v.latitude, v.longitude]
+  end
+
+  def test_fetch_address_assigns_and_returns_address
+    v = Landmark.new(*landmark_params(:msg))
+    address = "4 Penn Plaza, New York, NY 10001, USA"
+    assert_equal address, v.fetch_address
+    assert_equal address, v.address
+  end
+
+
+  # --- Google ---
+
+  def test_result_address_components_of_type
+    results = Geocoder.search("Madison Square Garden, New York, NY")
+    assert_equal "Manhattan",
+      results.first.address_components_of_type(:sublocality).first['long_name']
+  end
+
   def test_google_result_has_required_attributes
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_result_has_required_attributes(result)
   end
 
+
   # --- Yahoo ---
+
   def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
     results = Geocoder.search("Madison Square Garden, New York, NY")
@@ -80,6 +89,7 @@ class GeocoderTest < Test::Unit::TestCase
 
 
   # --- FreeGeoIp ---
+
   def test_freegeoip_result_on_ip_address_search
     results = Geocoder.search("74.200.247.59")
     assert results.first.is_a?(Geocoder::Result::Freegeoip)
@@ -95,7 +105,9 @@ class GeocoderTest < Test::Unit::TestCase
     assert_result_has_required_attributes(result)
   end
 
+
   # --- search queries ---
+
   def test_ip_address_detection
     assert Geocoder.send(:ip_address?, "232.65.123.94")
     assert Geocoder.send(:ip_address?, "666.65.123.94") # technically invalid
