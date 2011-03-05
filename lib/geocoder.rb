@@ -1,6 +1,7 @@
 require "geocoder/configuration"
 require "geocoder/calculations"
 require "geocoder/railtie"
+require "geocoder/request"
 
 module Geocoder
   extend self
