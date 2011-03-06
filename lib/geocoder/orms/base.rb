@@ -20,6 +20,8 @@ module Geocoder
         Geocoder::Calculations.distance_between(mylat, mylon, lat, lon, :units => units)
       end
 
+      alias_method :distance_from, :distance_to
+
       ##
       # Get other geocoded objects within a given radius.
       #

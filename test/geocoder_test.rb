@@ -57,6 +57,15 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal "US", e.country
   end
 
+  def test_distance_to_returns_float
+    v = Venue.new(*venue_params(:msg))
+    v.latitude = 40.750354
+    v.longitude = -73.993371
+    assert (d = v.distance_to(30, -94)).is_a?(Float)
+    # make sure distance_from is an alias
+    assert_equal d, v.distance_from(30, -94)
+  end
+
 
   # --- Google ---
 
