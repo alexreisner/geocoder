@@ -3,14 +3,6 @@ module Geocoder
     module Base
 
       ##
-      # Read the coordinates [lat,lon] of an object. This is not great but it
-      # seems cleaner than polluting the instance method namespace.
-      #
-      def read_coordinates
-        [:latitude, :longitude].map{ |i| send self.class.geocoder_options[i] }
-      end
-
-      ##
       # Is this object geocoded? (Does it have latitude and longitude?)
       #
       def geocoded?
@@ -57,6 +49,17 @@ module Geocoder
             self.class.geocoder_options[:block].call(self, result)
           end
         end
+      end
+
+
+      private # --------------------------------------------------------------
+
+      ##
+      # Read the coordinates [lat,lon] of the object.
+      # Looks at user config to determine attributes.
+      #
+      def read_coordinates
+        [:latitude, :longitude].map{ |i| send self.class.geocoder_options[i] }
       end
     end
   end
