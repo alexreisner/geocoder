@@ -50,21 +50,21 @@ module Geocoder
     class Google < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
-        File.read(File.join("test", "fixtures", "google_madison_square_garden.json"))
+        File.read(File.join("fixtures", "google_madison_square_garden.json"))
       end
     end
 
     class Yahoo < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
-        File.read(File.join("test", "fixtures", "yahoo_madison_square_garden.json"))
+        File.read(File.join("fixtures", "yahoo_madison_square_garden.json"))
       end
     end
 
     class Freegeoip < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
-        File.read(File.join("test", "fixtures", "freegeoip_74_200_247_59.json"))
+        File.read(File.join("fixtures", "freegeoip_74_200_247_59.json"))
       end
     end
   end

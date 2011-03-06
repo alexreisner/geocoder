@@ -9,7 +9,11 @@ module Geocoder::Lookup
     def result(query, reverse = false)
       doc = fetch_data(query, reverse)
       if doc = doc['ResultSet'] and doc['Error'] == 0
-        doc['Results'].first
+        if Geocoder::Configuration.safe_mode and doc['Results'].count > 1
+          warn "Ambiguous address returned #{doc['Results'].count} matches"
+        else
+          doc['Results'].first
+        end
       else
         warn "Yahoo Geocoding API error: #{doc['Error']} (#{doc['ErrorMessage']})."
       end

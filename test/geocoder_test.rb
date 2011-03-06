@@ -4,6 +4,7 @@ class GeocoderTest < Test::Unit::TestCase
 
   def setup
     Geocoder::Configuration.lookup = :google
+    Geocoder::Configuration.safe_mode = false
   end
 
 
@@ -83,6 +84,11 @@ class GeocoderTest < Test::Unit::TestCase
     assert_result_has_required_attributes(result)
   end
 
+  def test_google_safe_mode
+    Geocoder::Configuration.safe_mode = true
+    result = Geocoder.search("Madison Square Garden, New York, NY")
+    assert_equal result, nil
+  end
 
   # --- Yahoo ---
 
@@ -105,6 +111,12 @@ class GeocoderTest < Test::Unit::TestCase
     assert_result_has_required_attributes(result)
   end
 
+  def test_yahoo_safe_mode
+    Geocoder::Configuration.safe_mode = true
+    Geocoder::Configuration.lookup = :yahoo
+    result = Geocoder.search("Madison Square Garden, New York, NY")
+    assert_equal result, nil
+  end
 
   # --- FreeGeoIp ---
 
@@ -122,7 +134,6 @@ class GeocoderTest < Test::Unit::TestCase
     result = Geocoder.search("74.200.247.59")
     assert_result_has_required_attributes(result)
   end
-
 
   # --- search queries ---
 

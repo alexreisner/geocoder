@@ -9,7 +9,11 @@ module Geocoder::Lookup
     def result(query, reverse = false)
       doc = fetch_data(query, reverse)
       case doc['status']; when "OK"
-        doc['results'].first
+        if Geocoder::Configuration.safe_mode and doc['results'].count > 1
+          warn "Ambiguous address returned #{doc['results'].count} matches"
+        else
+          doc['results'].first
+        end
       when "OVER_QUERY_LIMIT"
         warn "Google Geocoding API error: over query limit."
       when "REQUEST_DENIED"
