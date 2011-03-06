@@ -10,9 +10,9 @@ module Geocoder
       end
 
       ##
-      # Calculate the distance from the object to a point (lat,lon).
-      #
-      # <tt>:units</tt> :: <tt>:mi</tt> (default) or <tt>:km</tt>
+      # Calculate the distance from the object to an arbitrary point.
+      # Takes two floats (latitude, longitude) and a symbol specifying the
+      # units to be used (:mi or :km; default is :mi).
       #
       def distance_to(lat, lon, units = :mi)
         return nil unless geocoded?
@@ -23,9 +23,8 @@ module Geocoder
       alias_method :distance_from, :distance_to
 
       ##
-      # Get other geocoded objects within a given radius.
-      #
-      # <tt>:units</tt> :: <tt>:mi</tt> (default) or <tt>:km</tt>
+      # Get nearby geocoded objects. Takes a radius (integer) and a symbol
+      # representing the units of the ratius (:mi or :km; default is :mi).
       #
       def nearbys(radius = 20, units = :mi)
         return [] unless geocoded?
@@ -34,8 +33,11 @@ module Geocoder
       end
 
       ##
-      # Look up geographic data based on object attributes,
-      # and do something with it (requires a block).
+      # Look up geographic data based on object attributes (configured in
+      # geocoded_by or reverse_geocoded_by) and handle the result with the
+      # block (given to geocoded_by or reverse_geocoded_by). The block is
+      # given two-arguments: the object being geocoded and a
+      # Geocoder::Result object with the geocoding results).
       #
       def geocode
         options = self.class.geocoder_options
