@@ -50,14 +50,16 @@ module Geocoder
     class Google < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
-        File.read(File.join("test", "fixtures", "google_madison_square_garden.json"))
+        file = query == "no results" ? :no_results : :madison_square_garden
+        File.read(File.join("test", "fixtures", "google_#{file}.json"))
       end
     end
 
     class Yahoo < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
-        File.read(File.join("test", "fixtures", "yahoo_madison_square_garden.json"))
+        file = query == "no results" ? :no_results : :madison_square_garden
+        File.read(File.join("test", "fixtures", "yahoo_#{file}.json"))
       end
     end
 

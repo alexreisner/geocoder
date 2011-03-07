@@ -95,6 +95,10 @@ class GeocoderTest < Test::Unit::TestCase
     assert_result_has_required_attributes(result)
   end
 
+  def test_google_returns_nil_when_no_results
+    assert_nil Geocoder.search("no results")
+  end
+
 
   # --- Yahoo ---
 
@@ -115,6 +119,11 @@ class GeocoderTest < Test::Unit::TestCase
     Geocoder::Configuration.lookup = :yahoo
     result = Geocoder.search("Madison Square Garden, New York, NY")
     assert_result_has_required_attributes(result)
+  end
+
+  def test_yahoo_returns_nil_when_no_results
+    Geocoder::Configuration.lookup = :yahoo
+    assert_nil Geocoder.search("no results")
   end
 
 
