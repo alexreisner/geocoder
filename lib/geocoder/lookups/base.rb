@@ -75,6 +75,9 @@ module Geocoder
           end
         elsif defined?(ActiveSupport::JSON)
           ActiveSupport::JSON.decode(raw_data)
+        else
+          raise Geocoder::Error, "No JSON-parsing library found. " +
+            "Please install either the 'json' or 'activesupport' gem."
         end
       end
 
