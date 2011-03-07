@@ -69,6 +69,18 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal "US", e.country
   end
 
+  def test_fetch_forward_and_reverse_geocoding_on_same_model
+    g = GasStation.new("Exxon")
+    g.address = "404 New St, Middletown, CT"
+    g.fetch_coordinates
+    assert_not_nil g.lat
+    assert_not_nil g.lon
+
+    assert_nil g.location
+    g.fetch_address
+    assert_not_nil g.location
+  end
+
 
   # --- Google ---
 

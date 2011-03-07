@@ -60,10 +60,11 @@ module Geocoder
 
     def geocoder_init(options)
       unless geocoder_initialized?
-        @geocoder_options = options
+        @geocoder_options = {}
         require 'geocoder/orms/active_record'
         include Geocoder::Orm::ActiveRecord
       end
+      @geocoder_options.merge! options
     end
 
     def geocoder_initialized?

@@ -132,6 +132,20 @@ class Party < ActiveRecord::Base
   end
 end
 
+##
+# Forward and reverse geocoded model.
+# Should fill in whatever's missing (coords or address).
+#
+class GasStation < ActiveRecord::Base
+  geocoded_by :address, :latitude => :lat, :longitude => :lon
+  reverse_geocoded_by :lat, :lon, :address => :location
+
+  def initialize(name)
+    super()
+    write_attribute :name, name
+  end
+end
+
 
 class Test::Unit::TestCase
   def venue_params(abbrev)
