@@ -23,7 +23,7 @@ class GeocoderTest < Test::Unit::TestCase
   def test_does_not_choke_on_nil_address
     v = Venue.new("Venue", nil)
     assert_nothing_raised do
-      v.fetch_coordinates
+      v.geocode
     end
   end
 
@@ -42,42 +42,55 @@ class GeocoderTest < Test::Unit::TestCase
 
   # --- general ---
 
-  def test_fetch_coordinates_assigns_and_returns_coordinates
+  def test_geocode_assigns_and_returns_coordinates
     v = Venue.new(*venue_params(:msg))
     coords = [40.750354, -73.993371]
-    assert_equal coords, v.fetch_coordinates
+    assert_equal coords, v.geocode
     assert_equal coords, [v.latitude, v.longitude]
   end
 
-  def test_fetch_address_assigns_and_returns_address
+  def test_reverse_geocode_assigns_and_returns_address
     v = Landmark.new(*landmark_params(:msg))
     address = "4 Penn Plaza, New York, NY 10001, USA"
-    assert_equal address, v.fetch_address
+    assert_equal address, v.reverse_geocode
     assert_equal address, v.address
   end
 
-  def test_geocode_fetches_and_assigns_custom_coordinates
+  def test_geocode_bang_fetches_and_assigns_custom_coordinates
     e = Event.new(*venue_params(:msg))
     coords = [40.750354, -73.993371]
-    e.geocode
+    e.geocode!
     assert_equal coords.map{ |c| c.to_s }.join(','), e.coordinates
   end
 
-  def test_geocode_fetches_and_assigns_custom_address_components
+  def test_geocode_bang_doesnt_auto_assign_coordinates
+    e = Event.new(*venue_params(:msg))
+    e.geocode!
+    assert_nil e.latitude
+    assert_nil e.longitude
+  end
+
+  def test_reverse_geocode_bang_fetches_and_assigns_custom_address_components
     e = Party.new(*landmark_params(:msg))
-    e.geocode
+    e.reverse_geocode!
     assert_equal "US", e.country
   end
 
-  def test_fetch_forward_and_reverse_geocoding_on_same_model
+  def test_reverse_geocode_bang_doesnt_auto_assign_address
+    e = Party.new(*landmark_params(:msg))
+    e.reverse_geocode!
+    assert_nil e.address
+  end
+
+  def test_forward_and_reverse_geocoding_on_same_model
     g = GasStation.new("Exxon")
     g.address = "404 New St, Middletown, CT"
-    g.fetch_coordinates
+    g.geocode
     assert_not_nil g.lat
     assert_not_nil g.lon
 
     assert_nil g.location
-    g.fetch_address
+    g.reverse_geocode
     assert_not_nil g.location
   end
 
