@@ -1,5 +1,4 @@
 require 'geocoder'
-require 'geocoder/results/freegeoip'
 
 module Geocoder
   module Request
