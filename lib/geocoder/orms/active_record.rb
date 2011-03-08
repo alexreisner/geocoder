@@ -117,7 +117,7 @@ module Geocoder::Orm
           ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           coordinate_bounds(latitude, longitude, radius)
         if obj = options[:exclude]
-          conditions[0] << " AND id != ?"
+          conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
         end
         {
