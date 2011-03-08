@@ -8,7 +8,7 @@ module Geocoder::Lookup
 
     def result(query, reverse = false)
       doc = fetch_data(query, reverse)
-      case doc['status']; when "OK"
+      case doc['status']; when "OK" # OK status implies >0 results
         doc['results'].first
       when "OVER_QUERY_LIMIT"
         warn "Google Geocoding API error: over query limit."
