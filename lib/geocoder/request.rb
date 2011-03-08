@@ -5,12 +5,15 @@ module Geocoder
   module Request
 
     def location
-      if ip.nil? or ip == "0.0.0.0" or ip.match /^127/ # don't look up loopback
-        # but return a Geocoder::Result for consistency
-        Geocoder::Result::Freegeoip.new("ip" => ip)
-      else
-        Geocoder.search(ip).first
+      unless defined?(@location)
+        if ip.nil? or ip == "0.0.0.0" or ip.match /^127/ # don't look up loopback
+          # but return a Geocoder::Result for consistency
+          @location = Geocoder::Result::Freegeoip.new("ip" => ip)
+        else
+          @location = Geocoder.search(ip).first
+        end
       end
+      @location
     end
   end
 end
