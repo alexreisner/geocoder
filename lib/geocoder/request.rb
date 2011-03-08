@@ -10,7 +10,7 @@ module Geocoder
           # but return a Geocoder::Result for consistency
           @location = Geocoder::Result::Freegeoip.new("ip" => ip)
         else
-          @location = Geocoder.search(ip).first
+          @location = Geocoder.search(ip)
         end
       end
       @location
