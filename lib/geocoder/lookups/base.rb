@@ -89,6 +89,13 @@ module Geocoder
       end
 
       ##
+      # Is the given string a loopback IP address?
+      #
+      def loopback_address?(ip)
+        !!(ip == "0.0.0.0" or ip.match(/^127/))
+      end
+
+      ##
       # Simulate ActiveSupport's Object#to_query.
       #
       def hash_to_query(hash)
