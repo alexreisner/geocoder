@@ -48,22 +48,6 @@ module Geocoder
         fail
       end
 
-      ##
-      # Look up coordinates and execute block, if given. Block should take two
-      # arguments: the object and a Geocoder::Result object.
-      #
-      def geocode!(&block)
-        do_lookup(false, &block)
-      end
-
-      ##
-      # Look up address and execute block, if given. Block should take two
-      # arguments: the object and a Geocoder::Result object.
-      #
-      def reverse_geocode!(&block)
-        do_lookup(true, &block)
-      end
-
 
       private # --------------------------------------------------------------
 
@@ -86,16 +70,17 @@ module Geocoder
         args.map!{ |a| send(options[a]) }
 
         if result = Geocoder.search(*args)
-          # first execute block passed directly to this method
-          if block_given?
-            value = yield(self, result)
-          end
-          # then execute block specified in configuration
+
+          # execute custom block, if specified in configuration
           block_key = reverse ? :reverse_block : :geocode_block
           if custom_block = options[block_key]
-            value = custom_block.call(self, result)
+            custom_block.call(self, result)
+
+          # else execute block passed directly to this method,
+          # which generally performs the "auto-assigns"
+          elsif block_given?
+            yield(self, result)
           end
-          value
         end
       end
 

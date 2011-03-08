@@ -56,29 +56,29 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal address, v.address
   end
 
-  def test_geocode_bang_fetches_and_assigns_custom_coordinates
+  def test_geocode_with_block_runs_block
     e = Event.new(*venue_params(:msg))
     coords = [40.750354, -73.993371]
-    e.geocode!
+    e.geocode
     assert_equal coords.map{ |c| c.to_s }.join(','), e.coordinates
   end
 
-  def test_geocode_bang_doesnt_auto_assign_coordinates
+  def test_geocode_with_block_doesnt_auto_assign_coordinates
     e = Event.new(*venue_params(:msg))
-    e.geocode!
+    e.geocode
     assert_nil e.latitude
     assert_nil e.longitude
   end
 
-  def test_reverse_geocode_bang_fetches_and_assigns_custom_address_components
+  def test_reverse_geocode_with_block_runs_block
     e = Party.new(*landmark_params(:msg))
-    e.reverse_geocode!
+    e.reverse_geocode
     assert_equal "US", e.country
   end
 
-  def test_reverse_geocode_bang_doesnt_auto_assign_address
+  def test_reverse_geocode_with_block_doesnt_auto_assign_address
     e = Party.new(*landmark_params(:msg))
-    e.reverse_geocode!
+    e.reverse_geocode
     assert_nil e.address
   end
 
