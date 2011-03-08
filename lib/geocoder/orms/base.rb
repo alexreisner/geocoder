@@ -33,30 +33,71 @@ module Geocoder
       end
 
       ##
+      # Look up coordinates and assign to +latitude+ and +longitude+ attributes
+      # (or other as specified in +geocoded_by+). Returns coordinates (array).
+      #
+      def geocode
+        fail
+      end
+
+      ##
+      # Look up address and assign to +address+ attribute (or other as specified
+      # in +reverse_geocoded_by+). Returns address (string).
+      #
+      def reverse_geocode
+        fail
+      end
+
+      ##
+      # Look up coordinates and execute block, if given. Block should take two
+      # arguments: the object and a Geocoder::Result object.
+      #
+      def geocode!(&block)
+        do_lookup(false, &block)
+      end
+
+      ##
+      # Look up address and execute block, if given. Block should take two
+      # arguments: the object and a Geocoder::Result object.
+      #
+      def reverse_geocode!(&block)
+        do_lookup(true, &block)
+      end
+
+
+      private # --------------------------------------------------------------
+
+      ##
       # Look up geographic data based on object attributes (configured in
       # geocoded_by or reverse_geocoded_by) and handle the result with the
       # block (given to geocoded_by or reverse_geocoded_by). The block is
       # given two-arguments: the object being geocoded and a
       # Geocoder::Result object with the geocoding results).
       #
-      def geocode
+      def do_lookup(reverse = false)
         options = self.class.geocoder_options
-        args = options[:user_address] ?
-          [:user_address] : [:latitude, :longitude]
+        if reverse and options[:reverse_geocode]
+          args = [:latitude, :longitude]
+        elsif !reverse and options[:geocode]
+          args = [:user_address]
+        else
+          return
+        end
         args.map!{ |a| send(options[a]) }
 
-        # passing a block to this method overrides the one given in the model
         if result = Geocoder.search(*args)
+          # first execute block passed directly to this method
           if block_given?
-            yield(self, result)
-          else
-            self.class.geocoder_options[:block].call(self, result)
+            value = yield(self, result)
           end
+          # then execute block specified in configuration
+          block_key = reverse ? :reverse_block : :geocode_block
+          if custom_block = options[block_key]
+            value = custom_block.call(self, result)
+          end
+          value
         end
       end
-
-
-      private # --------------------------------------------------------------
 
       ##
       # Read the coordinates [lat,lon] of the object.

@@ -1,4 +1,5 @@
 require 'geocoder/orms/base'
+require 'geocoder/orms/active_record_legacy'
 
 ##
 # Add geocoding functionality to any ActiveRecord object.
@@ -6,6 +7,7 @@ require 'geocoder/orms/base'
 module Geocoder::Orm
   module ActiveRecord
     include Base
+    include ActiveRecord::Legacy
 
     ##
     # Implementation of 'included' hook method.
@@ -115,7 +117,7 @@ module Geocoder::Orm
           ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           coordinate_bounds(latitude, longitude, radius)
         if obj = options[:exclude]
-          conditions[0] << " AND id != ?"
+          conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
         end
         {
@@ -145,46 +147,34 @@ module Geocoder::Orm
     end
 
     ##
-    # Fetch coordinates and assign +latitude+ and +longitude+. Also returns
-    # coordinates as an array: <tt>[lat, lon]</tt>.
+    # Look up coordinates and assign to +latitude+ and +longitude+ attributes
+    # (or other as specified in +geocoded_by+). Returns coordinates (array).
     #
-    def fetch_coordinates(save = false)
-      geocode do |o,r|
+    def geocode
+      geocode! do |o,r|
         unless r.latitude.nil? or r.longitude.nil?
-          method = (save ? "update" : "write") + "_attribute"
-          o.send method, self.class.geocoder_options[:latitude],  r.latitude
-          o.send method, self.class.geocoder_options[:longitude], r.longitude
+          o.send :write_attribute, self.class.geocoder_options[:latitude],  r.latitude
+          o.send :write_attribute, self.class.geocoder_options[:longitude], r.longitude
         end
         r.coordinates
       end
     end
 
-    ##
-    # Fetch coordinates and update (save) +latitude+ and +longitude+ data.
-    #
-    def fetch_coordinates!
-      fetch_coordinates(true)
-    end
+    #alias_method :fetch_coordinates, :geocode
 
     ##
-    # Fetch address and assign +address+ attribute. Also returns
-    # address as a string.
+    # Look up address and assign to +address+ attribute (or other as specified
+    # in +reverse_geocoded_by+). Returns address (string).
     #
-    def fetch_address(save = false)
-      geocode do |o,r|
+    def reverse_geocode
+      reverse_geocode! do |o,r|
         unless r.address.nil?
-          method = (save ? "update" : "write") + "_attribute"
-          o.send method, self.class.geocoder_options[:fetched_address], r.address
+          o.send :write_attribute, self.class.geocoder_options[:fetched_address], r.address
         end
         r.address
       end
     end
 
-    ##
-    # Fetch address and update (save) +address+ data.
-    #
-    def fetch_address!
-      fetch_address(true)
-    end
+    #alias_method :fetch_address, :reverse_geocode
   end
 end
