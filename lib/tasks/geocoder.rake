@@ -9,7 +9,7 @@ namespace :geocode do
   desc "Geocode all objects without coordinates."
   task :all => :environment do
     klass.not_geocoded.each do |obj|
-      obj.fetch_coordinates!
+      obj.geocode; obj.save
     end
   end
 end
