@@ -1,0 +1,456 @@
+{
+  "status": "OK",
+  "results": [ {
+    "types": [ "postal_code" ],
+    "formatted_address": "Hedge End, Southampton, Hampshire SO30 4RT, UK",
+    "address_components": [ {
+      "long_name": "SO30 4RT",
+      "short_name": "SO30 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "Hedge End",
+      "short_name": "Hedge End",
+      "types": [ "sublocality", "political" ]
+    }, {
+      "long_name": "Southampton",
+      "short_name": "Southampton",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Hampshire",
+      "short_name": "Hampshire",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "SO30",
+      "short_name": "SO30",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 50.9173897,
+        "lng": -1.3125111
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 50.9142421,
+          "lng": -1.3156587
+        },
+        "northeast": {
+          "lat": 50.9205373,
+          "lng": -1.3093635
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Enfield, London N13 4RT, UK",
+    "address_components": [ {
+      "long_name": "N13 4RT",
+      "short_name": "N13 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "London",
+      "short_name": "London",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Enfield",
+      "short_name": "Enfield",
+      "types": [ "administrative_area_level_3", "political" ]
+    }, {
+      "long_name": "Greater London",
+      "short_name": "Greater London",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "N13",
+      "short_name": "N13",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 51.6329009,
+        "lng": -0.0994552
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 51.6297533,
+          "lng": -0.1026028
+        },
+        "northeast": {
+          "lat": 51.6360485,
+          "lng": -0.0963076
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Cardiff, South Glamorgan CF5 4RT, UK",
+    "address_components": [ {
+      "long_name": "CF5 4RT",
+      "short_name": "CF5 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "Caerau",
+      "short_name": "Caerau",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Cardiff",
+      "short_name": "Cardiff",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "South Glamorgan",
+      "short_name": "South Glam",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "Cardiff",
+      "short_name": "Cardiff",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "CF5",
+      "short_name": "CF5",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 51.4675314,
+        "lng": -3.2642245
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 51.4643838,
+          "lng": -3.2673721
+        },
+        "northeast": {
+          "lat": 51.4706790,
+          "lng": -3.2610769
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Monifieth, Dundee, Angus DD5 4RT, UK",
+    "address_components": [ {
+      "long_name": "DD5 4RT",
+      "short_name": "DD5 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "Monifieth",
+      "short_name": "Monifieth",
+      "types": [ "sublocality", "political" ]
+    }, {
+      "long_name": "Dundee",
+      "short_name": "Dundee",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Angus",
+      "short_name": "Angus",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "DD5",
+      "short_name": "DD5",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 56.4840193,
+        "lng": -2.8291620
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 56.4808717,
+          "lng": -2.8323096
+        },
+        "northeast": {
+          "lat": 56.4871669,
+          "lng": -2.8260144
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Reading RG30 4RT, UK",
+    "address_components": [ {
+      "long_name": "RG30 4RT",
+      "short_name": "RG30 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "Reading",
+      "short_name": "Reading",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Reading",
+      "short_name": "Reading",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "RG30",
+      "short_name": "RG30",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 51.4554901,
+        "lng": -1.0393378
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 51.4523425,
+          "lng": -1.0424854
+        },
+        "northeast": {
+          "lat": 51.4586377,
+          "lng": -1.0361902
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Blyth, Northumberland NE24 4RT, UK",
+    "address_components": [ {
+      "long_name": "NE24 4RT",
+      "short_name": "NE24 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "Blyth",
+      "short_name": "Blyth",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Northumberland",
+      "short_name": "Nthumb",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "NE24",
+      "short_name": "NE24",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 55.1314523,
+        "lng": -1.5533331
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 55.1283047,
+          "lng": -1.5564807
+        },
+        "northeast": {
+          "lat": 55.1345999,
+          "lng": -1.5501855
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Glasgow, Glasgow City G44 4RT, UK",
+    "address_components": [ {
+      "long_name": "G44 4RT",
+      "short_name": "G44 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "Glasgow",
+      "short_name": "Glasgow",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Glasgow City",
+      "short_name": "Glasgow City",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "G44",
+      "short_name": "G44",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 55.8234812,
+        "lng": -4.2507991
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 55.8203336,
+          "lng": -4.2539467
+        },
+        "northeast": {
+          "lat": 55.8266288,
+          "lng": -4.2476515
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Waltham Forest, London E17 4RT, UK",
+    "address_components": [ {
+      "long_name": "E17 4RT",
+      "short_name": "E17 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "London",
+      "short_name": "London",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Walthamstow",
+      "short_name": "Walthamstow",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Waltham Forest",
+      "short_name": "Waltham Forest",
+      "types": [ "administrative_area_level_3", "political" ]
+    }, {
+      "long_name": "Greater London",
+      "short_name": "Greater London",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "E17",
+      "short_name": "E17",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 51.5853714,
+        "lng": -0.0192463
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 51.5822238,
+          "lng": -0.0223939
+        },
+        "northeast": {
+          "lat": 51.5885190,
+          "lng": -0.0160987
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Dunstable, Central Bedfordshire LU5 4RT, UK",
+    "address_components": [ {
+      "long_name": "LU5 4RT",
+      "short_name": "LU5 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "Dunstable",
+      "short_name": "Dunstable",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Central Bedfordshire",
+      "short_name": "Central Bedfordshire",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "LU5",
+      "short_name": "LU5",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 51.8869978,
+        "lng": -0.5175666
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 51.8838502,
+          "lng": -0.5207142
+        },
+        "northeast": {
+          "lat": 51.8901454,
+          "lng": -0.5144190
+        }
+      }
+    },
+    "partial_match": true
+  }, {
+    "types": [ "postal_code" ],
+    "formatted_address": "Newton Aycliffe, County Durham DL5 4RT, UK",
+    "address_components": [ {
+      "long_name": "DL5 4RT",
+      "short_name": "DL5 4RT",
+      "types": [ "postal_code" ]
+    }, {
+      "long_name": "Newton Aycliffe",
+      "short_name": "Newton Aycliffe",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Great Aycliffe",
+      "short_name": "Great Aycliffe",
+      "types": [ "locality", "political" ]
+    }, {
+      "long_name": "Durham",
+      "short_name": "Dur",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "United Kingdom",
+      "short_name": "GB",
+      "types": [ "country", "political" ]
+    }, {
+      "long_name": "DL5",
+      "short_name": "DL5",
+      "types": [ "postal_code_prefix", "postal_code" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 54.6323273,
+        "lng": -1.5704658
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 54.6291797,
+          "lng": -1.5736134
+        },
+        "northeast": {
+          "lat": 54.6354749,
+          "lng": -1.5673182
+        }
+      }
+    },
+    "partial_match": true
+  } ]
+}
