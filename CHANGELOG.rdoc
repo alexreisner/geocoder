@@ -2,6 +2,11 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.10 (2011 Mar 9)
+
+* Fix broken scopes (github.com/mikepinde).
+* Fix broken Ruby 1.9 and JRuby compatibility (don't require json gem).
+
 == 0.9.9 (2011 Mar 9)
 
 * Add support for IP address geocoding via FreeGeoIp.net.
