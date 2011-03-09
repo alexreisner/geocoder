@@ -22,7 +22,8 @@ module Geocoder::Lookup
     def query_url(query, reverse = false)
       params = {
         (reverse ? :latlng : :address) => query,
-        :sensor => "false"
+        :sensor => "false",
+        :language => Geocoder::Configuration.google_language
       }
       "http://maps.google.com/maps/api/geocode/json?" + hash_to_query(params)
     end
