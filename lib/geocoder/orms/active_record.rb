@@ -17,14 +17,14 @@ module Geocoder::Orm
       base.class_eval do
 
         # scope: geocoded objects
-        scope :geocoded,
-          :conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
-            "AND #{geocoder_options[:longitude]} IS NOT NULL"
+        scope :geocoded, lambda {
+          {:conditions => "#{geocoder_options[:latitude]} IS NOT NULL " +
+            "AND #{geocoder_options[:longitude]} IS NOT NULL"}}
 
         # scope: not-geocoded objects
-        scope :not_geocoded,
-          :conditions => "#{geocoder_options[:latitude]} IS NULL " +
-            "OR #{geocoder_options[:longitude]} IS NULL"
+        scope :not_geocoded, lambda {
+          {:conditions => "#{geocoder_options[:latitude]} IS NULL " +
+            "OR #{geocoder_options[:longitude]} IS NULL"}}
 
         ##
         # Find all objects within a radius (in miles) of the given location
