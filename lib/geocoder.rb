@@ -1,3 +1,4 @@
+warn "DEPRECATION WARNING: The 'rails-geocoder' gem has been renamed 'geocoder'. Please switch to that gem as this one will not be kept up to date."
 require "geocoder/configuration"
 require "geocoder/calculations"
 require "geocoder/railtie"
