@@ -1,9 +1,9 @@
 require 'net/http'
-unless defined? ActiveSupport::JSON
+unless defined?(ActiveSupport::JSON)
   begin
     require 'json'
   rescue LoadError
-    raise LoadError, "Please install the json gem to parse geocoder results."
+    raise LoadError, "Please install the 'json' or 'json_pure' gem to parse geocoder results."
   end
 end
 
@@ -67,17 +67,14 @@ module Geocoder
       # Parses a raw search result (returns hash or array).
       #
       def parse_raw_data(raw_data)
-        if defined?(JSON) and defined?(JSON.parse)
+        if defined?(ActiveSupport::JSON)
+          ActiveSupport::JSON.decode(raw_data)
+        else
           begin
             JSON.parse(raw_data)
           rescue
             warn "Geocoding API's response was not valid JSON."
           end
-        elsif defined?(ActiveSupport::JSON)
-          ActiveSupport::JSON.decode(raw_data)
-        else
-          raise Geocoder::Error, "No JSON-parsing library found. " +
-            "Please install either the 'json' or 'activesupport' gem."
         end
       end
 
