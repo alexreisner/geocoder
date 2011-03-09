@@ -7,10 +7,9 @@ Gem::Specification.new do |s|
   s.email       = ["alex@alexreisner.com"]
   s.homepage    = "http://github.com/alexreisner/geocoder"
   s.date        = Date.today.to_s
-  s.summary     = "Simple, database-agnostic geocoding and distance calculations for Rails."
-  s.description = "Geocoder adds object geocoding and distance calculations to ActiveRecord models. It does not rely on proprietary database functions so finding geocoded objects in a given area is easily done using out-of-the-box MySQL, PostgreSQL, or SQLite."
-
-  s.files         = Dir.glob("{lib,lib/geocoder,lib/tasks,test}/*") + %w(CHANGELOG.rdoc Rakefile README.rdoc LICENSE)
+  s.summary     = "Complete geocoding solution for Ruby."
+  s.description = "Provides object geocoding (by street or IP address), reverse geocoding (coordinates to street address), and distance calculations for geocoded objects. Designed for Rails but works with other frameworks too."
+  s.files       = `git ls-files`.split("\n") - %w[geocoder.gemspec Gemfile init.rb]
   s.require_paths = ["lib"]
+  s.add_dependency 'json', '>= 1.0.0'
 end
-
