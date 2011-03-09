@@ -51,7 +51,7 @@ module Geocoder::Orm::ActiveRecord
           method = ((args.size > 0 && args.first) ? "update" : "write" ) + "_attribute"
           o.send method, self.class.geocoder_options[:fetched_address], r.address
         end
-        r.coordinates
+        r.address
       end
     end
   end
