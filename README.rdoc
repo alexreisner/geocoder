@@ -1,6 +1,6 @@
 = Geocoder
 
-Geocoder is a complete geocoding solution for Ruby. With Rails it adds object geocoding (by street or IP address), reverse geocoding (find street address based on given coordinates), and distance calculations to Ruby on Rails. It's as simple as calling +geocode+ on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>. Since it does not rely on proprietary database functions finding geocoded objects in a given area works with out-of-the-box PostgreSQL, MySQL, and even SQLite.
+Geocoder is a complete geocoding solution for Ruby. With Rails it adds geocoding (by street or IP address), reverse geocoding (find street address based on given coordinates), and distance calculations for ActiveRecord objects. It's as simple as calling +geocode+ on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>. Since it does not rely on proprietary database functions finding geocoded objects in a given area works with out-of-the-box PostgreSQL, MySQL, and even SQLite.
 
 
 == Compatibility
