@@ -11,5 +11,4 @@ Gem::Specification.new do |s|
   s.description = "Provides object geocoding (by street or IP address), reverse geocoding (coordinates to street address), and distance calculations for geocoded objects. Designed for Rails but works with other frameworks too."
   s.files       = `git ls-files`.split("\n") - %w[geocoder.gemspec Gemfile init.rb]
   s.require_paths = ["lib"]
-  s.add_dependency 'json', '>= 1.0.0'
 end
