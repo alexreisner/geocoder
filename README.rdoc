@@ -1,19 +1,22 @@
 = Geocoder
 
-Geocoder adds object geocoding and database-agnostic distance calculations to Ruby on Rails. It's as simple as calling <tt>fetch_coordinates!</tt> on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>. Since it does not rely on proprietary database functions finding geocoded objects in a given area works with out-of-the-box MySQL or even SQLite.
-
-Geocoder is compatible with Rails 2.x and 3.x. <b>This is the README for the 3.x branch.</b> Please see the 2.x branch for installation instructions, documentation, and issues.
+Geocoder is a complete geocoding solution for Ruby. With Rails it adds object geocoding (by street or IP address), reverse geocoding (find street address based on given coordinates), and distance calculations to Ruby on Rails. It's as simple as calling +geocode+ on your objects, and then using a scope like <tt>Venue.near("Billings, MT")</tt>. Since it does not rely on proprietary database functions finding geocoded objects in a given area works with out-of-the-box PostgreSQL, MySQL, and even SQLite.
 
 
-== 1. Install
+== Compatibility
+
+Geocoder is compatible with Rails 3. If you need to use it with Rails 2 please see the <tt>rails2</tt> branch (no longer maintained, limited feature set).
+
+
+== Install
 
 === As a Gem
 
-Add this to your Gemfile:
+Add to your Gemfile:
 
   gem "geocoder"
 
-and run this at the command prompt:
+and run at the command prompt:
 
   bundle install
 
@@ -24,39 +27,35 @@ At the command prompt:
   rails plugin install git://github.com/alexreisner/geocoder.git
 
 
-== 2. Configure
+== Configure Object Geocoding
 
-A) Add +latitude+ and +longitude+ columns to your model:
+=== Required Attributes
 
-  rails generate migration AddLatitudeAndLongitudeToYourModel latitude:float longitude:float
+Your object must have two attributes (database columns) for storing latitude and longitude coordinates. By default they should be called +latitude+ and +longitude+ but this can be changed (see "More on Configuration" below):
+
+  rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
   rake db:migrate
 
-B) Tell geocoder where your model stores its address:
+For reverse geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: +city+, +state+, and +country+).
 
-  geocoded_by :address
+=== Model Behavior
 
-C) Optionally, auto-fetch coordinates every time your model is saved:
+In your model, tell Geocoder which method returns your object's full address:
 
-  after_validation :fetch_coordinates
+  geocoded_by :full_street_address   # can also be an IP address
+  after_validation :geocode          # auto-fetch coordinates
 
-<i>Note that you are not stuck with the +latitude+ and +longitude+ column names, or the +address+ method. See "More On Configuration" below for details.</i>
+For reverse geocoding, tell Geocoder which methods return latitude and longitude:
 
+  reverse_geocoded_by :lat, :lon
+  after_validation :reverse_geocode  # auto-fetch address
 
-== 3. Use
-
-Assuming +obj+ is an instance of a geocoded class, you can get its coordinates:
-
-  obj.fetch_coordinates              # fetches and assigns coordinates
-  obj.fetch_coordinates!             # also saves lat, lon attributes
-
-If you have a lot of objects you can use this Rake task to geocode them all:
+If you have just added geocoding to a class and have a lot of existing objects you can use this Rake task to geocode them all:
 
   rake geocode:all CLASS=YourModel
 
-Once +obj+ is geocoded you can do things like this:
 
-  obj.nearbys(30)                    # other objects within 30 miles
-  obj.distance_to(40.714, -100.234)  # distance to arbitrary point
+== Location-Aware Database Queries
 
 To find objects by location, use the following scopes:
 
@@ -65,67 +64,121 @@ To find objects by location, use the following scopes:
   Venue.geocoded                     # venues with coordinates
   Venue.not_geocoded                 # venues without coordinates
 
+With geocoded objects you can do things like this:
+
+  obj.nearbys(30)                    # other objects within 30 miles
+  obj.distance_to(40.714, -100.234)  # distance from object to arbitrary point
+
 Some utility methods are also available:
 
-  # distance (in miles) between Eiffel Tower and Empire State Building
-  Geocoder::Calculations.distance_between( 48.858205,2.294359,  40.748433,-73.985655 )
-
   # look up coordinates of some location (like searching Google Maps)
-  Geocoder::Lookup.coordinates("25 Main St, Cooperstown, NY")
+  Geocoder.coordinates("25 Main St, Cooperstown, NY")
+   => [42.700149, -74.922767]
+
+  # distance (in miles) between Eiffel Tower and Empire State Building
+  Geocoder::Calculations.distance_between( 47.858205,2.294359,  40.748433,-73.985655 )
+   => 3619.77359999382
 
   # find the geographic center (aka center of gravity) of objects or points
   Geocoder::Calculations.geographic_center([ city1, city2, city3, [40.22,-73.99], city4 ])
+   => [35.14968, -90.048929]
+
+Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
 
 
-== More On Configuration
+== More on Configuration
 
 You are not stuck with using the +latitude+ and +longitude+ database column names for storing coordinates. For example, to use +lat+ and +lon+:
 
   geocoded_by :address, :latitude  => :lat, :longitude => :lon
 
-The string to use for geocoding can be anything you'd use to search Google Maps. For example, any of the following are acceptable:
+The +address+ method can return any string you'd use to search Google Maps. For example, any of the following are acceptable:
 
-  714 Green St, Big Town, MO
-  Eiffel Tower, Paris, FR
-  Paris, TX, US
+* "714 Green St, Big Town, MO"
+* "Eiffel Tower, Paris, FR"
+* "Paris, TX, US"
 
-If your model has +address+, +city+, +state+, and +country+ attributes you might do something like this:
+If your model has +street+, +city+, +state+, and +country+ attributes you might do something like this:
 
-  geocoded_by :location
+  geocoded_by :address
 
-  def location
-    [address, city, state, country].compact.join(', ')
+  def address
+    [street, city, state, country].compact.join(', ')
   end
 
-Please see the code (<tt>lib/geocoder/active_record.rb</tt>) for more methods and detailed information about arguments (eg, working with kilometers).
-
-You can also set the timeout used for connections to Google's geocoding service. The default is 3 seconds, but if you want to set it to 5 you could put the following in an initializer:
-
-  Geocoder::Configuration.timeout = 5
-
-
-== Reverse Geocoding
-
-If you need reverse geocoding (lat/long coordinates to address), do something like the following in your model:
-
-  reverse_geocoded_by :latitude, :longitude
-  after_validation :fetch_address
-
-and make sure it has +latitude+ and +longitude+ attributes, as well as an +address+ attribute. As with regular geocoding, you can specify alternate names for all of these attributes, for example:
+For reverse geocoding you can also specify an alternate name attribute where the address will be stored, for example:
 
   reverse_geocoded_by :lat, :lon, :address => :location
 
 
+== Advanced Geocoding
+
+So far we have looked at shortcuts for assigning geocoding results to object attributes. However, if you need to do something fancy you can skip the auto-assignment by providing a block (takes the object to be geocoded and a <tt>Geocoder::Result</tt> object) in which you handle the parsed geocoding result any way you like, for example:
+
+  reverse_geocoded_by :lat, :lon do |obj,geo|
+    obj.city    = geo.city
+    obj.zipcode = geo.postal_code
+    obj.country = geo.country_code
+  end
+  after_validation :reverse_geocode
+
+Every <tt>Geocoder::Result</tt> object, +result+, provides the following data:
+
+* <tt>result.latitude     # float</tt>
+* <tt>result.longitude    # float</tt>
+* <tt>result.coordinates  # array of the above two</tt>
+* <tt>result.address      # string</tt>
+* <tt>result.city         # string</tt>
+* <tt>result.postal_code  # string</tt>
+* <tt>result.country_name # string</tt>
+* <tt>result.country_code # string</tt>
+
+and if you're familiar with the results returned by the geocoding service you're using, you can access even more (see code comments for details: <tt>lib/geocoder/results/*</tt>).
+
+
+== Geocoding Services
+
+By default Geocoder uses Google's geocoding API to fetch coordinates and addresses. However if you wish to use Yahoo's geocoding API you can simply add this to an initializer:
+
+  # config/initializers/geocoder.rb
+  Geocoder::Configuration.lookup = :yahoo
+  Geocoder::Configuration.yahoo_appid = "..."
+
+To obtain a Yahoo app id go to:
+
+https://developer.apps.yahoo.com/wsregapp
+
+Note that the result objects returned by different geocoding services all implement the methods listed above. Beyond that, however, you must be familiar with your particular subclass of <tt>Geocoder::Result</tt> and the geocoding service's result structure:
+
+Google: http://code.google.com/apis/maps/documentation/geocoding/#JSON
+
+Yahoo: http://developer.yahoo.com/geo/placefinder/guide/responses.html
+
+FreeGeoIP: http://github.com/fiorix/freegeoip/blob/master/README.rst
+
+=== Timeouts
+
+You can set the timeout used for connections to the geocoding service. The default is 3 seconds but if you want to set it to 5, for example, put the following in an initializer:
+
+  # config/initializers/geocoder.rb
+  Geocoder::Configuration.timeout = 5
+
+
 == Forward and Reverse Geocoding in the Same Model
 
-If you apply both forward and reverse geocoding functionality to the same model, you can provide different methods for storing the fetched address (reverse geocoding) and providing an address to use when fetching coordinates (forward geocoding), for example:
+If you apply both forward and reverse geocoding functionality to the same model, you will provide two address methods:
+
+* one for storing the fetched address (reverse geocoding)
+* one for providing an address to use when fetching coordinates (forward geocoding)
+
+For example:
 
   class Venue
 
     # build an address from street, city, and state attributes
     geocoded_by :address_from_components
 
-    # store the Google-provided address in the full_address attribute
+    # store the fetched address in the full_address attribute
     reverse_geocoded_by :latitude, :longitude, :address => :full_address
   end
 
@@ -143,38 +196,26 @@ However, there can be only one set of latitude/longitude attributes, and whichev
 The reason for this is that we don't want ambiguity when doing distance calculations. We need a single, authoritative source for coordinates!
 
 
-== Getting More Information
+== Request Geocoding by IP Address
 
-Those familiar with Google's Geocoding API know that it returns much more information than just an address or set of coordinates. If you want access to the entire response you can use the <tt>Geocoder.search</tt> method:
+Geocoder adds a +location+ method to the standard <tt>Rack::Request</tt> object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller or a Sinatra app:
 
-  results = Geocoder.search("McCarren Park, Brooklyn, NY")
-  r = results.first
-
-+r+ is now a Geocoder::Result object which has methods like the following:
-
-  r.geometry
-   => {
-    "location"=>{"lng"=>-79.3801601, "lat"=>43.6619568},
-    "location_type"=>"ROOFTOP",
-    "viewport"=>{
-      "northeast"=>{"lng"=>-79.3770125, "lat"=>43.6651044},
-      "southwest"=>{"lng"=>-79.3833077, "lat"=>43.6588092}
-    }
-  }
-
-  r.address_components_of_type(:neighborhood)
-   => [{
-    "long_name"=>"Greenpoint",
-    "short_name"=>"Greenpoint",
-    "types"=>["neighborhood", "political"]
-  }]
-
-Please see the Geocoder::Result class for more information, as well as Google's API documentation (http://code.google.com/apis/maps/documentation/geocoding/#JSON).
+  # returns Geocoder::Result object
+  result = request.location
 
 
-== SQLite
+== Use Outside of Rails
 
-SQLite's lack of trigonometric functions requires an alternate implementation of the +near+ method (scope). When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius.
+You can use Geocoder outside of Rails by calling the <tt>Geocoder.search</tt> method:
+
+  result = Geocoder.search("McCarren Park, Brooklyn, NY")
+
+This returns a <tt>Geocoder::Result</tt> object with all information provided by the geocoding service. Please see above and in the code for details.
+
+
+== Distance Queries in SQLite
+
+SQLite's lack of trigonometric functions requires an alternate implementation of the +near+ scope. When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius.
 
 It is also not possible to calculate distances between points without the trig functions so you cannot sort results by "nearness."
 
@@ -204,10 +245,8 @@ If anyone has a more elegant solution to this problem I am very interested in se
 
 == To-do List
 
-* support different ORMs (DataMapper, Mongoid, etc)
-* use completely separate "drivers" for different AR adapters?
-  * seems reasonable since we're using very DB-specific features
-  * also need to make sure 'mysql2' is supported
+* add support for DataMapper
+* add support for Mongoid
 * make 'near' scope work with AR associations
   * http://stackoverflow.com/questions/3266358/geocoder-rails-plugin-near-search-problem-with-activerecord
 

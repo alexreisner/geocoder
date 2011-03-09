@@ -2,6 +2,21 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.9 (2011 Mar 9)
+
+* Add support for IP address geocoding via FreeGeoIp.net.
+* Add support for Yahoo PlaceFinder geocoding API.
+* Add support for custom geocoder data handling by passing a block to geocoded_by or reverse_geocoded_by.
+* Add <tt>Rack::Request#location</tt> method for geocoding user's IP address.
+* Change gem name to geocoder (no more rails-geocoder).
+* Gem now works outside of Rails.
+* DEPRECATION: +fetch_coordinates+ no longer takes an argument.
+* DEPRECATION: +fetch_address+ no longer takes an argument.
+* DEPRECATION: Geocoder.search now returns a single result instead of an array.
+* DEPRECATION: <tt>fetch_coordinates!</tt> has been superceded by +geocode+ (then save your object manually).
+* DEPRECATION: <tt>fetch_address!</tt> has been superceded by +reverse_geocode+ (then save your object manually).
+* Fix: don't die when trying to get coordinates with a nil address (github.com/zmack).
+
 == 0.9.8 (2011 Feb 8)
 
 * Include geocode:all Rake task in gem (was missing!).
