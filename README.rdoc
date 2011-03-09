@@ -5,6 +5,8 @@ Geocoder is a complete geocoding solution for Ruby. With Rails it adds object ge
 
 == Compatibility
 
+Geocoder has been successfully tested with Ruby (MRI) 1.8.7, 1.9.2, and JRuby 1.5.3.
+
 Geocoder is compatible with Rails 3. If you need to use it with Rails 2 please see the <tt>rails2</tt> branch (no longer maintained, limited feature set).
 
 
