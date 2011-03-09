@@ -7,6 +7,16 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
 
+  # --- configuration ---
+  #
+  def test_exception_raised_on_bad_lookup_config
+    Geocoder::Configuration.lookup = :stoopid
+    assert_raises Geocoder::ConfigurationError do
+      Geocoder.search "something dumb"
+    end
+  end
+
+
   # --- sanity checks ---
 
   def test_distance_between
