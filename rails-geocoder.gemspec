@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Alex Reisner"]
   s.email       = ["alex@alexreisner.com"]
-  s.homepage    = "http://github.com/alexreisner/geocoder"
+  s.homepage    = "http://www.rubygeocoder.com"
   s.date        = Date.today.to_s
   s.summary     = "Complete geocoding solution for Ruby."
   s.description = "THIS GEM HAS BEEN RENAMED: please use 'geocoder' instead. Provides object geocoding (by street or IP address), reverse geocoding (coordinates to street address), and distance calculations for geocoded objects. Designed for Rails but works with other frameworks too."
