@@ -9,6 +9,6 @@ Gem::Specification.new do |s|
   s.date        = Date.today.to_s
   s.summary     = "Complete geocoding solution for Ruby."
   s.description = "Provides object geocoding (by street or IP address), reverse geocoding (coordinates to street address), and distance calculations for geocoded objects. Designed for Rails but works with other frameworks too."
-  s.files       = `git ls-files`.split("\n") - %w[geocoder.gemspec Gemfile init.rb]
+  s.files       = `git ls-files`.split("\n") - %w[rails-geocoder.gemspec Gemfile init.rb]
   s.require_paths = ["lib"]
 end
