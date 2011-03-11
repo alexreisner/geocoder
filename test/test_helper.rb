@@ -50,6 +50,7 @@ module Geocoder
     class Google < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
         file = query == "no results" ? :no_results : :madison_square_garden
         File.read(File.join("test", "fixtures", "google_#{file}.json"))
       end
@@ -58,6 +59,7 @@ module Geocoder
     class Yahoo < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
         file = query == "no results" ? :no_results : :madison_square_garden
         File.read(File.join("test", "fixtures", "yahoo_#{file}.json"))
       end
@@ -66,6 +68,7 @@ module Geocoder
     class Freegeoip < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
         File.read(File.join("test", "fixtures", "freegeoip_74_200_247_59.json"))
       end
     end

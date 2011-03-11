@@ -7,7 +7,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def result(query, reverse = false)
-      doc = fetch_data(query, reverse)
+      return nil unless doc = fetch_data(query, reverse)
       if doc = doc['ResultSet'] and doc['Error'] == 0
         doc['Results'].first if doc['Found'] > 0
       else

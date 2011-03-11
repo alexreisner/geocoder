@@ -37,6 +37,18 @@ class GeocoderTest < Test::Unit::TestCase
     end
   end
 
+  def test_does_not_choke_on_timeout
+    # keep test output clean: suppress timeout warning
+    orig = $VERBOSE; $VERBOSE = nil
+    Geocoder.send(:valid_lookups).each do |l|
+      Geocoder::Configuration.lookup = l
+      assert_nothing_raised do
+        Geocoder.search("timeout")
+      end
+    end
+    $VERBOSE = orig
+  end
+
   def test_distance_to_returns_float
     v = Venue.new(*venue_params(:msg))
     v.latitude, v.longitude = [40.750354, -73.993371]
