@@ -7,7 +7,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def result(query, reverse = false)
-      doc = fetch_data(query, reverse)
+      return nil unless doc = fetch_data(query, reverse)
       case doc['status']; when "OK" # OK status implies >0 results
         doc['results'].first
       when "OVER_QUERY_LIMIT"
