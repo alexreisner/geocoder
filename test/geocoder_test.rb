@@ -31,9 +31,9 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
   def test_does_not_choke_on_nil_address
-    v = Venue.new("Venue", nil)
-    assert_nothing_raised do
-      v.geocode
+    Geocoder.send(:valid_lookups).each do |l|
+      Geocoder::Configuration.lookup = l
+      assert_nothing_raised { Venue.new("Venue", nil).geocode }
     end
   end
 
