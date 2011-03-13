@@ -168,7 +168,7 @@ You can set the timeout used for connections to the geocoding service. The defau
 
 == Forward and Reverse Geocoding in the Same Model
 
-If you apply both forward and reverse geocoding functionality to the same model, you will provide two address methods:
+If you apply both forward and reverse geocoding functionality to the same model (say users can supply an address or coordinates and you want to fill in whatever's missing), you will provide two address methods:
 
 * one for storing the fetched address (reverse geocoding)
 * one for providing an address to use when fetching coordinates (forward geocoding)
