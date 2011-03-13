@@ -163,6 +163,15 @@ You can set the timeout used for connections to the geocoding service. The defau
   # config/initializers/geocoder.rb
   Geocoder::Configuration.timeout = 5
 
+=== Language
+
+You can set the language used for reverse geocoding results to German, for example, by setting the following:
+
+  # config/initializers/geocoder.rb
+  Geocoder::Configuration.language = :de
+
+For a list of supported languages see the documentation for the geocoding service you're using.
+
 
 == Forward and Reverse Geocoding in the Same Model
 

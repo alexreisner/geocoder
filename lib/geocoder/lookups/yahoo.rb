@@ -20,6 +20,7 @@ module Geocoder::Lookup
         :location =>  query,
         :flags => "JXTSR",
         :gflags => "AC#{'R' if reverse}",
+        :locale => "#{Geocoder::Configuration.language}_US",
         :appid => Geocoder::Configuration.yahoo_appid
       }
       "http://where.yahooapis.com/geocode?" + hash_to_query(params)
