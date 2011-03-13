@@ -152,11 +152,9 @@ https://developer.apps.yahoo.com/wsregapp
 
 Note that the result objects returned by different geocoding services all implement the methods listed above. Beyond that, however, you must be familiar with your particular subclass of <tt>Geocoder::Result</tt> and the geocoding service's result structure:
 
-Google: http://code.google.com/apis/maps/documentation/geocoding/#JSON
-
-Yahoo: http://developer.yahoo.com/geo/placefinder/guide/responses.html
-
-FreeGeoIP: http://github.com/fiorix/freegeoip/blob/master/README.rst
+* Google: http://code.google.com/apis/maps/documentation/geocoding/#JSON
+* Yahoo: http://developer.yahoo.com/geo/placefinder/guide/responses.html
+* FreeGeoIP: http://github.com/fiorix/freegeoip/blob/master/README.rst
 
 === Timeouts
 
