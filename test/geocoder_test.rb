@@ -154,7 +154,7 @@ class GeocoderTest < Test::Unit::TestCase
   def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
     result = Geocoder.search("Madison Square Garden, New York, NY")
-    assert_equal "10001", result.postal
+    assert_equal "10001", result.postal_code
   end
 
   def test_yahoo_address_formatting
