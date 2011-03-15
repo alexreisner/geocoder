@@ -31,7 +31,7 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
   def test_does_not_choke_on_nil_address
-    Geocoder.send(:valid_lookups).each do |l|
+    all_lookups.each do |l|
       Geocoder::Configuration.lookup = l
       assert_nothing_raised { Venue.new("Venue", nil).geocode }
     end
@@ -40,11 +40,9 @@ class GeocoderTest < Test::Unit::TestCase
   def test_does_not_choke_on_timeout
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
-    Geocoder.send(:valid_lookups).each do |l|
+    all_lookups.each do |l|
       Geocoder::Configuration.lookup = l
-      assert_nothing_raised do
-        Geocoder.search("timeout")
-      end
+      assert_nothing_raised { Geocoder.search("timeout") }
     end
     $VERBOSE = orig
   end
@@ -130,22 +128,29 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal address, v.address
   end
 
+  def test_returns_nil_when_no_results
+    street_lookups.each do |l|
+      Geocoder::Configuration.lookup = l
+      assert_nil Geocoder.search("no results"),
+        "Lookup #{l} does not return nil when no results."
+    end
+  end
+
+  def test_result_has_required_attributes
+    all_lookups.each do |l|
+      Geocoder::Configuration.lookup = l
+      result = Geocoder.search(45.423733, -75.676333)
+      assert_result_has_required_attributes(result)
+    end
+  end
+
 
   # --- Google ---
 
-  def test_result_address_components_of_type
+  def test_google_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY")
     assert_equal "Manhattan",
       result.address_components_of_type(:sublocality).first['long_name']
-  end
-
-  def test_google_result_has_required_attributes
-    result = Geocoder.search("Madison Square Garden, New York, NY")
-    assert_result_has_required_attributes(result)
-  end
-
-  def test_google_returns_nil_when_no_results
-    assert_nil Geocoder.search("no results")
   end
 
 
@@ -164,17 +169,6 @@ class GeocoderTest < Test::Unit::TestCase
       result.address
   end
 
-  def test_yahoo_result_has_required_attributes
-    Geocoder::Configuration.lookup = :yahoo
-    result = Geocoder.search("Madison Square Garden, New York, NY")
-    assert_result_has_required_attributes(result)
-  end
-
-  def test_yahoo_returns_nil_when_no_results
-    Geocoder::Configuration.lookup = :yahoo
-    assert_nil Geocoder.search("no results")
-  end
-
 
   # --- FreeGeoIp ---
 
@@ -186,11 +180,6 @@ class GeocoderTest < Test::Unit::TestCase
   def test_freegeoip_result_components
     result = Geocoder.search("74.200.247.59")
     assert_equal "Plano, TX 75093, United States", result.address
-  end
-
-  def test_freegeoip_result_has_required_attributes
-    result = Geocoder.search("74.200.247.59")
-    assert_result_has_required_attributes(result)
   end
 
 

@@ -171,4 +171,12 @@ class Test::Unit::TestCase
       :msg => ["Madison Square Garden", 40.750354, -73.993371]
     }[abbrev]
   end
+
+  def all_lookups
+    Geocoder.send(:valid_lookups)
+  end
+
+  def street_lookups
+    all_lookups - [:freegeoip]
+  end
 end
