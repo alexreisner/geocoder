@@ -1,0 +1,34 @@
+test({
+  "latt":"45.423733",
+  "longt":"-75.676333",
+  "inlatt":"45.424035",
+  "inlongt":"-75.675941",
+  "betweenRoad1":"Chapel",
+  "betweenRoad2":"Russell",
+  "distance":"0.034",
+  "stnumber":"289",
+  "staddress":"Somerset ST E",
+  "city":"Ottawa",
+  "prov":"ON",
+  "postal":"K1N6W1",
+  "NearRoad":"Somerset ST E",
+  "NearRoadDistance":"0.013",
+  "intersection":{
+    "lattx":"45.423733",
+    "longtx":"-75.676333",
+    "distance":"0.045",
+    "street1":"Somerset St E",
+    "street2":"Russell Ave",
+    "city":"OTTAWA",
+    "prov":"ON"
+  },
+  "major_intersection":{
+    "lattx":"45.4241623853",
+    "longtx":"-75.6753026518",
+    "distance":"0.052",
+    "street1":"Chapel St",
+    "street2":"Somerset St E",
+    "city":"OTTAWA",
+    "prov":"ON"
+  }
+});
