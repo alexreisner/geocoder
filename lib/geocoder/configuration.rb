@@ -16,10 +16,20 @@ module Geocoder
     # app id (if using Yahoo geocoding service)
     def self.yahoo_appid; @@yahoo_appid; end
     def self.yahoo_appid=(obj); @@yahoo_appid = obj; end
+
+    # cache object (must respond to #[], #[]=, and #keys
+    def self.cache; @@cache; end
+    def self.cache=(obj); @@cache = obj; end
+
+    # cache object (must respond to #[], #[]=, and #keys
+    def self.cache_prefix; @@cache_prefix; end
+    def self.cache_prefix=(obj); @@cache_prefix = obj; end
   end
 end
 
-Geocoder::Configuration.timeout     = 3
-Geocoder::Configuration.lookup      = :google
-Geocoder::Configuration.language    = :en
-Geocoder::Configuration.yahoo_appid = ""
+Geocoder::Configuration.timeout      = 3
+Geocoder::Configuration.lookup       = :google
+Geocoder::Configuration.language     = :en
+Geocoder::Configuration.yahoo_appid  = ""
+Geocoder::Configuration.cache        = nil
+Geocoder::Configuration.cache_prefix = "geocoder:"

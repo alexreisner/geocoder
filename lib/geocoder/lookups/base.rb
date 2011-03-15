@@ -83,9 +83,37 @@ module Geocoder
       #
       def fetch_raw_data(query, reverse = false)
         url = query_url(query, reverse)
+        key = cache_key(url)
         timeout(Geocoder::Configuration.timeout) do
-          Net::HTTP.get_response(URI.parse(url)).body
+          unless cache and (response = cache[key]) and response != ""
+            response = Net::HTTP.get_response(URI.parse(url)).body
+            if cache
+              cache[key] = response
+            end
+          end
+          response
         end
+      end
+
+      ##
+      # Cache key for a given URL.
+      #
+      def cache_key(url)
+        [cache_prefix, url].join
+      end
+
+      ##
+      # The configured prefix for cache keys.
+      #
+      def cache_prefix
+        Geocoder::Configuration.cache_prefix || "geocoder:"
+      end
+
+      ##
+      # The configured cache store.
+      #
+      def cache
+        Geocoder::Configuration.cache
       end
 
       ##
