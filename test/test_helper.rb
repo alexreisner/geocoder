@@ -72,6 +72,19 @@ module Geocoder
       end
     end
 
+    class GeocoderCa < Base
+      private #-----------------------------------------------------------------
+      def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
+        if reverse
+          read_fixture "geocoder_ca_reverse.json"
+        else
+          file = query == "no results" ? :no_results : :madison_square_garden
+          read_fixture "geocoder_ca_#{file}.json"
+        end
+      end
+    end
+
     class Freegeoip < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)

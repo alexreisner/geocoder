@@ -78,7 +78,7 @@ module Geocoder
   end
 
   def valid_lookups
-    [:google, :yahoo, :freegeoip]
+    [:google, :yahoo, :geocoder_ca, :freegeoip]
   end
 
   ##

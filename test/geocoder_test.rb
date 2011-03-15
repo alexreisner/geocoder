@@ -170,6 +170,16 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
 
+  # --- Geocoder.ca ---
+
+  def test_geocoder_ca_result_components
+    Geocoder::Configuration.lookup = :geocoder_ca
+    result = Geocoder.search(45.423733, -75.676333)
+    assert_equal "CA", result.country_code
+    assert_equal "289 Somerset ST E, Ottawa, ON K1N6W1, Canada", result.address
+  end
+
+
   # --- FreeGeoIp ---
 
   def test_freegeoip_result_on_ip_address_search
