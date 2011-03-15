@@ -47,12 +47,19 @@ require "geocoder/lookups/base"
 #
 module Geocoder
   module Lookup
+    class Base
+      private #-----------------------------------------------------------------
+      def read_fixture(file)
+        File.read(File.join("test", "fixtures", file)).strip.gsub(/\n\s*/, "")
+      end
+    end
+
     class Google < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
         file = query == "no results" ? :no_results : :madison_square_garden
-        File.read(File.join("test", "fixtures", "google_#{file}.json"))
+        read_fixture "google_#{file}.json"
       end
     end
 
@@ -61,7 +68,7 @@ module Geocoder
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
         file = query == "no results" ? :no_results : :madison_square_garden
-        File.read(File.join("test", "fixtures", "yahoo_#{file}.json"))
+        read_fixture "yahoo_#{file}.json"
       end
     end
 
@@ -69,7 +76,7 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
-        File.read(File.join("test", "fixtures", "freegeoip_74_200_247_59.json"))
+        read_fixture "freegeoip_74_200_247_59.json"
       end
     end
   end
