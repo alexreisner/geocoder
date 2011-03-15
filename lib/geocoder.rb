@@ -42,7 +42,7 @@ module Geocoder
   private # -----------------------------------------------------------------
 
   ##
-  # Get the lookup object (which communicates with the remote geocoding API).
+  # Get a Lookup object (which communicates with the remote geocoding API).
   # Returns an IP address lookup if +ip+ parameter true.
   #
   def lookup(ip = false)
@@ -53,6 +53,9 @@ module Geocoder
     end
   end
 
+  ##
+  # Retrieve a Lookup object from the store.
+  #
   def get_lookup(name)
     unless defined?(@lookups)
       @lookups = {}
@@ -63,6 +66,9 @@ module Geocoder
     @lookups[name]
   end
 
+  ##
+  # Spawn a Lookup of the given name.
+  #
   def spawn_lookup(name)
     if valid_lookups.include?(name)
       name = name.to_s
@@ -76,6 +82,9 @@ module Geocoder
     end
   end
 
+  ##
+  # Array of valid Lookup names.
+  #
   def valid_lookups
     [:google, :yahoo, :geocoder_ca, :freegeoip]
   end
