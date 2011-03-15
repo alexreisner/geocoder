@@ -1,3 +1,4 @@
 pkg/*
+rdoc/*
 *.gem
 .bundle
