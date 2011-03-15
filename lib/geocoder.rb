@@ -68,7 +68,8 @@ module Geocoder
     if valid_lookups.include?(name)
       name = name.to_s
       require "geocoder/lookups/#{name}"
-      eval("Geocoder::Lookup::#{name[0...1].upcase + name[1..-1]}.new")
+      klass = name.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
+      eval("Geocoder::Lookup::#{klass}.new")
     else
       valids = valid_lookups.map{ |l| ":#{l}" }.join(", ")
       raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
