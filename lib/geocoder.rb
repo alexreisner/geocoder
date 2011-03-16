@@ -1,7 +1,6 @@
 require "geocoder/configuration"
 require "geocoder/calculations"
 require "geocoder/cache"
-require "geocoder/railtie"
 require "geocoder/request"
 
 module Geocoder
@@ -118,4 +117,8 @@ module Geocoder
   end
 end
 
-Geocoder::Railtie.insert
+# load Railtie if Rails exists
+if defined?(Rails)
+  require "geocoder/railtie"
+  Geocoder::Railtie.insert
+end
