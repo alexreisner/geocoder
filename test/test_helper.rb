@@ -38,6 +38,10 @@ module ActiveRecord
   end
 end
 
+# simulate Rails module so Railtie gets loaded
+module Rails
+end
+
 # Require Geocoder after ActiveRecord simulator.
 require 'geocoder'
 require "geocoder/lookups/base"
