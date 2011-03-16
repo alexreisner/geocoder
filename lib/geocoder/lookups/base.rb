@@ -60,7 +60,7 @@ module Geocoder
         rescue TimeoutError
           warn "Geocoding API not responding fast enough " +
             "(see Geocoder::Configuration.timeout to set limit)."
-        end
+      end
       end
 
       ##
@@ -82,13 +82,12 @@ module Geocoder
       # Fetches a raw search result (JSON string).
       #
       def fetch_raw_data(query, reverse = false)
-        url = query_url(query, reverse)
-        key = cache_key(url)
         timeout(Geocoder::Configuration.timeout) do
-          unless cache and (response = cache[key]) and response != ""
+          url = query_url(query, reverse)
+          unless cache and response = cache[url]
             response = Net::HTTP.get_response(URI.parse(url)).body
             if cache
-              cache[key] = response
+              cache[url] = response
             end
           end
           response
@@ -96,24 +95,10 @@ module Geocoder
       end
 
       ##
-      # Cache key for a given URL.
-      #
-      def cache_key(url)
-        [cache_prefix, url].join
-      end
-
-      ##
-      # The configured prefix for cache keys.
-      #
-      def cache_prefix
-        Geocoder::Configuration.cache_prefix || "geocoder:"
-      end
-
-      ##
-      # The configured cache store.
+      # The working Cache object.
       #
       def cache
-        Geocoder::Configuration.cache
+        Geocoder.cache
       end
 
       ##
