@@ -1,15 +1,4 @@
 module Geocoder
-
-  ##
-  # The working Cache object, or +nil+ if none configured.
-  #
-  def self.cache
-    if @cache.nil? and store = Geocoder::Configuration.cache
-      @cache = Cache.new(store, Geocoder::Configuration.cache_prefix)
-    end
-    @cache
-  end
-
   class Cache
 
     def initialize(store, prefix)
