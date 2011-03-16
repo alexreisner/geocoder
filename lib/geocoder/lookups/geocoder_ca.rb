@@ -28,7 +28,7 @@ module Geocoder::Lookup
         params[:latt] = lat
         params[:longt] = lon
         params[:corner] = 1
-        params[:reverse] = "Reverse+GeoCode+it!"
+        params[:reverse] = "Reverse GeoCode it!"
       else
         params[:locate] = query
       end
