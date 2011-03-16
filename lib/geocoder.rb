@@ -35,6 +35,16 @@ module Geocoder
     end
   end
 
+  ##
+  # The working Cache object, or +nil+ if none configured.
+  #
+  def cache
+    if @cache.nil? and store = Configuration.cache
+      @cache = Cache.new(store, Configuration.cache_prefix)
+    end
+    @cache
+  end
+
 
   # exception classes
   class Error < StandardError; end
@@ -51,7 +61,7 @@ module Geocoder
     if ip
       get_lookup :freegeoip
     else
-      get_lookup Geocoder::Configuration.lookup || :google
+      get_lookup Configuration.lookup || :google
     end
   end
 
