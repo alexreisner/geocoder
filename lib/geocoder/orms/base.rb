@@ -72,13 +72,12 @@ module Geocoder
       def do_lookup(reverse = false)
         options = self.class.geocoder_options
         if reverse and options[:reverse_geocode]
-          args = [:latitude, :longitude]
+          args = to_coordinates
         elsif !reverse and options[:geocode]
-          args = [:user_address]
+          args = [send(options[:user_address])]
         else
           return
         end
-        args.map!{ |a| send(options[a]) }
 
         if (results = Geocoder.search(*args)).size > 0
 
