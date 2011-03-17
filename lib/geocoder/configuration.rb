@@ -17,6 +17,10 @@ module Geocoder
     def self.yahoo_appid; @@yahoo_appid; end
     def self.yahoo_appid=(obj); @@yahoo_appid = obj; end
 
+    # API key (if using Google geocoding service)
+    def self.google_api_key; @@google_api_key; end
+    def self.google_api_key=(obj); @@google_api_key = obj; end
+
     # cache object (must respond to #[], #[]=, and #keys
     def self.cache; @@cache; end
     def self.cache=(obj); @@cache = obj; end
@@ -31,10 +35,11 @@ module Geocoder
   end
 end
 
-Geocoder::Configuration.timeout      = 3
-Geocoder::Configuration.lookup       = :google
-Geocoder::Configuration.language     = :en
-Geocoder::Configuration.yahoo_appid  = nil
-Geocoder::Configuration.cache        = nil
-Geocoder::Configuration.cache_prefix = "geocoder:"
-Geocoder::Configuration.use_https    = false
+Geocoder::Configuration.timeout        = 3
+Geocoder::Configuration.lookup         = :google
+Geocoder::Configuration.language       = :en
+Geocoder::Configuration.yahoo_appid    = nil
+Geocoder::Configuration.google_api_key = nil
+Geocoder::Configuration.cache          = nil
+Geocoder::Configuration.cache_prefix   = "geocoder:"
+Geocoder::Configuration.use_https      = false
