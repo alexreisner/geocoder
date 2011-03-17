@@ -1,0 +1,14 @@
+PATH
+  remote: .
+  specs:
+    geocoder (0.9.10)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  geocoder!

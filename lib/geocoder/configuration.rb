@@ -24,6 +24,10 @@ module Geocoder
     # cache object (must respond to #[], #[]=, and #keys
     def self.cache_prefix; @@cache_prefix; end
     def self.cache_prefix=(obj); @@cache_prefix = obj; end
+
+    # Use HTTPS for lookup requests (true or false)
+    def self.use_https; @@use_https; end
+    def self.use_https=(obj); @@use_https = obj; end
   end
 end
 
@@ -33,3 +37,4 @@ Geocoder::Configuration.language     = :en
 Geocoder::Configuration.yahoo_appid  = ""
 Geocoder::Configuration.cache        = nil
 Geocoder::Configuration.cache_prefix = "geocoder:"
+Geocoder::Configuration.use_https    = false

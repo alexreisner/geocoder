@@ -79,6 +79,19 @@ module Geocoder
       end
 
       ##
+      # Determines protocol (http/https) to use based on use_https configuration
+      # Only working with Google, as I haven't researched if the other services offer https
+      #
+      def protocol
+        case Geocoder::Configuration.use_https
+        when true
+          "https"
+        else
+          "http"
+        end
+      end
+
+      ##
       # Fetches a raw search result (JSON string).
       #
       def fetch_raw_data(query, reverse = false)

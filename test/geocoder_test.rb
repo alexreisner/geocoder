@@ -53,6 +53,17 @@ class GeocoderTest < Test::Unit::TestCase
     $VERBOSE = orig
   end
 
+  def test_using_https_for_secure_query
+    g = Geocoder::Lookup::Google.new
+    Geocoder::Configuration.use_https = true
+    assert_match "https:", g.send(:query_url, {:a => 1, :b => 2})
+  end
+
+  def test_using_http_by_default
+    g = Geocoder::Lookup::Google.new
+    assert_match "http:", g.send(:query_url, {:a => 1, :b => 2})
+  end
+
   def test_distance_to_returns_float
     v = Venue.new(*venue_params(:msg))
     v.latitude, v.longitude = [40.750354, -73.993371]
