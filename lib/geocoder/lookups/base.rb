@@ -79,6 +79,14 @@ module Geocoder
       end
 
       ##
+      # Protocol to use for communication with geocoding services.
+      # Set in configuration but not available for every service.
+      #
+      def protocol
+        "http" + (Geocoder::Configuration.use_https ? "s" : "")
+      end
+
+      ##
       # Fetches a raw search result (JSON string).
       #
       def fetch_raw_data(query, reverse = false)
