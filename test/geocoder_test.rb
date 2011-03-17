@@ -23,11 +23,17 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
   end
 
-  def test_geographic_center
+  def test_geographic_center_with_arrays
     assert_equal [0.0, 0.5],
       Geocoder::Calculations.geographic_center([[0,0], [0,1]])
     assert_equal [0.0, 1.0],
       Geocoder::Calculations.geographic_center([[0,0], [0,1], [0,2]])
+  end
+
+  def test_geographic_center_with_mixed_arguments
+    p1 = [0, 0]
+    p2 = Landmark.new("Some Cold Place", 0, 1)
+    assert_equal [0.0, 0.5], Geocoder::Calculations.geographic_center([p1, p2])
   end
 
   def test_does_not_choke_on_nil_address
@@ -80,7 +86,7 @@ class GeocoderTest < Test::Unit::TestCase
     e = Event.new(*venue_params(:msg))
     coords = [40.750354, -73.993371]
     e.geocode
-    assert_equal coords.map{ |c| c.to_s }.join(','), e.coordinates
+    assert_equal coords.map{ |c| c.to_s }.join(','), e.coords_string
   end
 
   def test_geocode_with_block_doesnt_auto_assign_coordinates

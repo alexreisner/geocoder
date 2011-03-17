@@ -6,7 +6,14 @@ module Geocoder
       # Is this object geocoded? (Does it have latitude and longitude?)
       #
       def geocoded?
-        read_coordinates.compact.size > 0
+        to_coordinates.compact.size > 0
+      end
+
+      ##
+      # Coordinates [lat,lon] of the object.
+      #
+      def to_coordinates
+        [:latitude, :longitude].map{ |i| send self.class.geocoder_options[i] }
       end
 
       ##
@@ -16,7 +23,7 @@ module Geocoder
       #
       def distance_to(lat, lon, units = :mi)
         return nil unless geocoded?
-        mylat,mylon = read_coordinates
+        mylat,mylon = to_coordinates
         Geocoder::Calculations.distance_between(mylat, mylon, lat, lon, :units => units)
       end
 
@@ -29,7 +36,7 @@ module Geocoder
       def nearbys(radius = 20, units = :mi)
         return [] unless geocoded?
         options = {:exclude => self, :units => units}
-        self.class.near(read_coordinates, radius, options)
+        self.class.near(to_coordinates, radius, options)
       end
 
       ##
@@ -82,14 +89,6 @@ module Geocoder
             yield(self, result)
           end
         end
-      end
-
-      ##
-      # Read the coordinates [lat,lon] of the object.
-      # Looks at user config to determine attributes.
-      #
-      def read_coordinates
-        [:latitude, :longitude].map{ |i| send self.class.geocoder_options[i] }
       end
     end
   end
