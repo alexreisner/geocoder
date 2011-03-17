@@ -24,12 +24,17 @@ module Geocoder
     # cache object (must respond to #[], #[]=, and #keys
     def self.cache_prefix; @@cache_prefix; end
     def self.cache_prefix=(obj); @@cache_prefix = obj; end
+
+    # API Key (if ysing Google geocoding service)
+    def self.google_api_key; @@google_api_key; end
+    def self.google_api_key=(obj); @@google_api_key = obj; end
   end
 end
 
-Geocoder::Configuration.timeout      = 3
-Geocoder::Configuration.lookup       = :google
-Geocoder::Configuration.language     = :en
-Geocoder::Configuration.yahoo_appid  = ""
-Geocoder::Configuration.cache        = nil
-Geocoder::Configuration.cache_prefix = "geocoder:"
+Geocoder::Configuration.timeout        = 3
+Geocoder::Configuration.lookup         = :google
+Geocoder::Configuration.language       = :en
+Geocoder::Configuration.yahoo_appid    = ""
+Geocoder::Configuration.cache          = nil
+Geocoder::Configuration.cache_prefix   = "geocoder:"
+Geocoder::Configuration.google_api_key = ""

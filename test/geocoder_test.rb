@@ -220,6 +220,13 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal "a=1&b=2", g.send(:hash_to_query, {:a => 1, :b => 2})
   end
 
+	def test_has_to_query_with_google_api_key
+		Geocoder::Configuration.google_api_key = "MY_KEY"
+    g = Geocoder::Lookup::Google.new
+    assert_match "key=MY_KEY", g.send(:query_url, {:a => 1, :b => 2})
+		Geocoder::Configuration.google_api_key = nil
+	end
+
 
   private # ------------------------------------------------------------------
 
