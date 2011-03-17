@@ -1,6 +1,7 @@
 require "geocoder/configuration"
 require "geocoder/calculations"
 require "geocoder/cache"
+require "geocoder/model"
 require "geocoder/request"
 
 module Geocoder
