@@ -25,7 +25,7 @@ module Geocoder::Lookup
         :sensor => "false",
         :language => Geocoder::Configuration.language
       }
-      "http://maps.google.com/maps/api/geocode/json?" + hash_to_query(params)
+      "#{protocol}://maps.google.com/maps/api/geocode/json?" + hash_to_query(params)
     end
   end
 end
