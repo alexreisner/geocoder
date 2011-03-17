@@ -132,7 +132,7 @@ end
 class Event < ActiveRecord::Base
   geocoded_by :address do |obj,result|
     if result
-      obj.coordinates = "#{result.latitude},#{result.longitude}"
+      obj.coords_string = "#{result.latitude},#{result.longitude}"
     end
   end
 
