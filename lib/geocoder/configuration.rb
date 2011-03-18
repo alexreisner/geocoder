@@ -30,6 +30,6 @@ end
 Geocoder::Configuration.timeout      = 3
 Geocoder::Configuration.lookup       = :google
 Geocoder::Configuration.language     = :en
-Geocoder::Configuration.yahoo_appid  = ""
+Geocoder::Configuration.yahoo_appid  = nil
 Geocoder::Configuration.cache        = nil
 Geocoder::Configuration.cache_prefix = "geocoder:"

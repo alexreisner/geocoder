@@ -110,10 +110,13 @@ module Geocoder
 
       ##
       # Simulate ActiveSupport's Object#to_query.
+      # Removes any keys with nil value.
       #
       def hash_to_query(hash)
         require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
-        hash.collect{ |p| p.map{ |i| CGI.escape i.to_s } * '=' }.sort * '&'
+        hash.collect{ |p|
+          p[1].nil? ? nil : p.map{ |i| CGI.escape i.to_s } * '='
+        }.compact.sort * '&'
       end
     end
   end
