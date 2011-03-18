@@ -76,6 +76,14 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal v.distance_from(30, -94), v.distance_to(30, -94)
   end
 
+  def test_coordinates_method
+    assert_not_nil Geocoder.coordinates("Madison Square Garden, New York, NY")
+  end
+
+  def test_address_method
+    assert_not_nil Geocoder.address(40.750354, -73.993371)
+  end
+
 
   # --- general ---
 
