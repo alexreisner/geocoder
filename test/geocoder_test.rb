@@ -256,6 +256,13 @@ class GeocoderTest < Test::Unit::TestCase
     assert_match "appid=MY_KEY", g.send(:query_url, "Madison Square Garden, New York, NY  10001, United States")
   end
 
+  def test_detection_of_coordinates_in_search_string
+    Geocoder::Configuration.lookup = :geocoder_ca
+    result = Geocoder.search("51.178844, -1.826189")
+    assert_not_nil result.city
+    # city only present if reverse geocoding search performed
+  end
+
 
   private # ------------------------------------------------------------------
 
