@@ -88,5 +88,35 @@ module Geocoder
     def km_in_mi
       0.621371192
     end
+
+    ##
+    # Calculate bearing between two sets of co-ordinates
+    #
+    def bearing_between(lat1, lon1, lat2, lon2, options = {})
+      # Math courtesy of http://www.movable-type.co.uk/scripts/latlong.html
+      dlon = to_radians((lon1 - lon2).abs)
+
+      y = Math.sin(dlon) * Math.cos(lat2)
+      x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dlon)
+      brng = Math.atan2(x,y)
+      (to_degrees(brng) + 360) % 360
+    end
+
+    # If you want more or fewer points simply override Geocoder::Calculations.COMPASS_POINTS with your own array
+    COMPASS_POINTS = [{:name => "North", :abbr => "N"},
+                      {:name => "North East", :abbr => "NE"},
+                      {:name => "East", :abbr => "E"},
+                      {:name => "South East", :abbr => "SE"},
+                      {:name => "South", :abbr => "S"},
+                      {:name => "South West", :abbr => "SW"},
+                      {:name => "West", :abbr => "W"},
+                      {:name => "North West", :abbr => "NW"}]
+
+    ##
+    # Compass direction (North, South, etc.) between two sets of co-ordinates
+    def compass_point(bearing, points = COMPASS_POINTS)
+      seg_size = 360/points.length
+      points[((bearing + (seg_size/2) ) % 360) / seg_size]
+    end
   end
 end
