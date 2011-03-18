@@ -23,6 +23,19 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
   end
 
+  def test_distance_between
+    hash_north = {:name => "North", :abbr => "N"}
+    hash_south = {:name => "South", :abbr => "S"}
+    hash_nw = {:name => "North West", :abbr => "NW"}
+    assert_equal hash_north, Geocoder::Calculations.compass_point(0)
+    assert_equal hash_north, Geocoder::Calculations.compass_point(360)
+    assert_equal hash_north, Geocoder::Calculations.compass_point(361)
+    assert_equal hash_north, Geocoder::Calculations.compass_point(-22)
+    assert_equal hash_nw, Geocoder::Calculations.compass_point(-23)
+    assert_equal hash_south, Geocoder::Calculations.compass_point(180)
+    assert_equal hash_south, Geocoder::Calculations.compass_point(181)
+  end
+
   def test_geographic_center_with_arrays
     assert_equal [0.0, 0.5],
       Geocoder::Calculations.geographic_center([[0,0], [0,1]])
