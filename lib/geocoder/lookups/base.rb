@@ -20,7 +20,8 @@ module Geocoder
       # for reverse geocoding.
       #
       def search(*args)
-        if res = result(args.join(","), args.size == 2)
+        reverse = (args.size == 2) || coordinates?(args.first)
+        if res = result(args.join(","), reverse)
           result_class.new(res)
         end
       end
@@ -114,6 +115,13 @@ module Geocoder
       #
       def loopback_address?(ip)
         !!(ip == "0.0.0.0" or ip.match(/^127/))
+      end
+
+      ##
+      # Does the given string look like latitude/longitude coordinates?
+      #
+      def coordinates?(value)
+        !!value.to_s.match(/^[0-9\.\-]+, ?[0-9\.\-]+$/)
       end
 
       ##
