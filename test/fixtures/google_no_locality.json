@@ -1,0 +1,51 @@
+{
+  "status": "OK",
+  "results": [ {
+    "types": [ "route" ],
+    "formatted_address": "Al Ahram, Haram, Giza, Egypt",
+    "address_components": [ {
+      "long_name": "Al Ahram",
+      "short_name": "Al Ahram",
+      "types": [ "route" ]
+    }, {
+      "long_name": "Haram",
+      "short_name": "Haram",
+      "types": [ "administrative_area_level_2", "political" ]
+    }, {
+      "long_name": "Al Jizah",
+      "short_name": "Al Jizah",
+      "types": [ "administrative_area_level_1", "political" ]
+    }, {
+      "long_name": "Egypt",
+      "short_name": "EG",
+      "types": [ "country", "political" ]
+    } ],
+    "geometry": {
+      "location": {
+        "lat": 29.9803527,
+        "lng": 31.1330307
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "southwest": {
+          "lat": 29.9768276,
+          "lng": 31.1302189
+        },
+        "northeast": {
+          "lat": 29.9831228,
+          "lng": 31.1365141
+        }
+      },
+      "bounds": {
+        "southwest": {
+          "lat": 29.9775337,
+          "lng": 31.1327483
+        },
+        "northeast": {
+          "lat": 29.9824167,
+          "lng": 31.1339847
+        }
+      }
+    }
+  } ]
+}

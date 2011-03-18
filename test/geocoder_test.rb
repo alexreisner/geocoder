@@ -170,6 +170,11 @@ class GeocoderTest < Test::Unit::TestCase
       result.address_components_of_type(:sublocality).first['long_name']
   end
 
+  def test_google_returns_city_when_no_locality_in_result
+    result = Geocoder.search("no locality")
+    assert_equal "Haram", result.city
+  end
+
 
   # --- Yahoo ---
 
