@@ -12,19 +12,31 @@ module Geocoder::Result
     end
 
     def city
-      address_components_of_type(:locality).first['long_name']
+      fields = [:locality, :sublocality, :administrative_area_level_3,
+        :administrative_area_level_2, :administrative_area_level_1]
+      fields.each do |f|
+        if entity = address_components_of_type(f).first
+          return entity['long_name']
+        end
+      end
     end
 
     def country
-      address_components_of_type(:country).first['long_name']
+      if country = address_components_of_type(:country).first
+        country['long_name']
+      end
     end
 
     def country_code
-      address_components_of_type(:country).first['short_name']
+      if country = address_components_of_type(:country).first
+        country['short_name']
+      end
     end
 
     def postal_code
-      address_components_of_type(:postal_code).first['long_name']
+      if postal = address_components_of_type(:postal_code).first
+        postal['long_name']
+      end
     end
 
     def types
