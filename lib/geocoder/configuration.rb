@@ -15,11 +15,8 @@ module Geocoder
         # use HTTPS for lookup requests? (if supported)
         [:use_https, false],
 
-        # app id (if using Yahoo geocoding service)
-        [:yahoo_appid, nil],
-
-        # API key (if using Google geocoding service)
-        [:google_api_key, nil],
+        # API key for geocoding service
+        [:api_key, nil],
 
         # cache object (must respond to #[], #[]=, and #keys)
         [:cache, nil],
@@ -33,6 +30,13 @@ module Geocoder
     self.options_and_defaults.each do |o,d|
       eval("def self.#{o}; @@#{o}; end")
       eval("def self.#{o}=(obj); @@#{o} = obj; end")
+    end
+
+    # legacy support
+    def self.yahoo_app_id=(value)
+      warn "DEPRECATION WARNING: Geocoder's 'yahoo_app_id' setting has been replaced by 'api_key'. " +
+        "This method will be removed in Geocoder v1.0."
+      @@api_key = value
     end
 
     ##

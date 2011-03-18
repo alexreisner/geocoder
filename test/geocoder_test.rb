@@ -232,9 +232,15 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
   def test_google_api_key
-    Geocoder::Configuration.google_api_key = "MY_KEY"
+    Geocoder::Configuration.api_key = "MY_KEY"
     g = Geocoder::Lookup::Google.new
     assert_match "key=MY_KEY", g.send(:query_url, "Madison Square Garden, New York, NY  10001, United States")
+  end
+
+  def test_yahoo_app_id
+    Geocoder::Configuration.api_key = "MY_KEY"
+    g = Geocoder::Lookup::Yahoo.new
+    assert_match "appid=MY_KEY", g.send(:query_url, "Madison Square Garden, New York, NY  10001, United States")
   end
 
 
