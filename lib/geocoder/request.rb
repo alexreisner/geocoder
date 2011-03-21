@@ -5,7 +5,7 @@ module Geocoder
 
     def location
       unless defined?(@location)
-        @location = Geocoder.search(ip)
+        @location = Geocoder.search(ip).first
       end
       @location
     end

@@ -17,13 +17,11 @@ module Geocoder
       #
       # Takes a search string (eg: "Mississippi Coast Coliseumf, Biloxi, MS",
       # "205.128.54.202") for geocoding, or coordinates (latitude, longitude)
-      # for reverse geocoding.
+      # for reverse geocoding. Returns an array of <tt>Geocoder::Result</tt>s.
       #
       def search(*args)
         reverse = (args.size == 2) || coordinates?(args.first)
-        if res = result(args.join(","), reverse)
-          result_class.new(res)
-        end
+        results(args.join(","), reverse).map{ |r| result_class.new(r) }
       end
 
 
@@ -32,7 +30,7 @@ module Geocoder
       ##
       # Geocoder::Result object or nil on timeout or other error.
       #
-      def result(query, reverse = false)
+      def results(query, reverse = false)
         fail
       end
 

@@ -134,8 +134,8 @@ end
 # Geocoded model with block.
 #
 class Event < ActiveRecord::Base
-  geocoded_by :address do |obj,result|
-    if result
+  geocoded_by :address do |obj,results|
+    if result = results.first
       obj.coords_string = "#{result.latitude},#{result.longitude}"
     end
   end
@@ -151,8 +151,8 @@ end
 # Reverse geocoded model with block.
 #
 class Party < ActiveRecord::Base
-  reverse_geocoded_by :latitude, :longitude do |obj,result|
-    if result
+  reverse_geocoded_by :latitude, :longitude do |obj,results|
+    if result = results.first
       obj.country = result.country_code
     end
   end

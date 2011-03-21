@@ -6,12 +6,13 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def result(query, reverse = false)
-      return nil unless doc = fetch_data(query, reverse)
+    def results(query, reverse = false)
+      return [] unless doc = fetch_data(query, reverse)
       if doc = doc['ResultSet'] and doc['Error'] == 0
-        doc['Results'].first if doc['Found'] > 0
+        return doc['Found'] > 0 ? doc['Results'] : []
       else
         warn "Yahoo Geocoding API error: #{doc['Error']} (#{doc['ErrorMessage']})."
+        return []
       end
     end
 
