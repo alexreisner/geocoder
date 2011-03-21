@@ -6,13 +6,13 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def result(query, reverse = false)
+    def results(query, reverse = false)
       # don't look up a loopback address, just return the stored result
-      return reserved_result(query) if loopback_address?(query)
+      return [reserved_result(query)] if loopback_address?(query)
       begin
-        fetch_data(query, reverse)
+        return [fetch_data(query, reverse)]
       rescue StandardError # Freegeoip.net returns HTML on bad request
-        nil
+        return []
       end
     end
 

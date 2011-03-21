@@ -6,10 +6,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def result(query, reverse = false)
-      return nil unless doc = fetch_data(query, reverse)
+    def results(query, reverse = false)
+      return [] unless doc = fetch_data(query, reverse)
       case doc['status']; when "OK" # OK status implies >0 results
-        doc['results'].first
+        return doc['results']
       when "OVER_QUERY_LIMIT"
         warn "Google Geocoding API error: over query limit."
       when "REQUEST_DENIED"
@@ -17,6 +17,7 @@ module Geocoder::Lookup
       when "INVALID_REQUEST"
         warn "Google Geocoding API error: invalid request."
       end
+      return []
     end
 
     def query_url(query, reverse = false)

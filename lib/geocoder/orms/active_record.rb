@@ -151,7 +151,8 @@ module Geocoder::Orm
     # (or other as specified in +geocoded_by+). Returns coordinates (array).
     #
     def geocode
-      do_lookup(false) do |o,r|
+      do_lookup(false) do |o,rs|
+        r = rs.first
         unless r.latitude.nil? or r.longitude.nil?
           o.send :write_attribute, self.class.geocoder_options[:latitude],  r.latitude
           o.send :write_attribute, self.class.geocoder_options[:longitude], r.longitude
@@ -167,7 +168,8 @@ module Geocoder::Orm
     # in +reverse_geocoded_by+). Returns address (string).
     #
     def reverse_geocode
-      do_lookup(true) do |o,r|
+      do_lookup(true) do |o,rs|
+        r = rs.first
         unless r.address.nil?
           o.send :write_attribute, self.class.geocoder_options[:fetched_address], r.address
         end

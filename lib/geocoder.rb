@@ -11,7 +11,7 @@ module Geocoder
   # Search for information about an address or a set of coordinates.
   #
   def search(*args)
-    return nil if blank_query?(args[0])
+    return [] if blank_query?(args[0])
     ip = (args.size == 1 and ip_address?(args.first))
     lookup(ip).search(*args)
   end
@@ -20,8 +20,8 @@ module Geocoder
   # Look up the coordinates of the given street or IP address.
   #
   def coordinates(address)
-    if result = search(address)
-      result.coordinates
+    if (results = search(address)).size > 0
+      results.first.coordinates
     end
   end
 
@@ -29,8 +29,8 @@ module Geocoder
   # Look up the address of the given coordinates.
   #
   def address(latitude, longitude)
-    if result = search(latitude, longitude)
-      result.address
+    if (results = search(latitude, longitude)).size > 0
+      results.first.address
     end
   end
 

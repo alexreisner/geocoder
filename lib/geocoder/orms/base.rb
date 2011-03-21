@@ -60,10 +60,10 @@ module Geocoder
 
       ##
       # Look up geographic data based on object attributes (configured in
-      # geocoded_by or reverse_geocoded_by) and handle the result with the
+      # geocoded_by or reverse_geocoded_by) and handle the results with the
       # block (given to geocoded_by or reverse_geocoded_by). The block is
-      # given two-arguments: the object being geocoded and a
-      # Geocoder::Result object with the geocoding results).
+      # given two-arguments: the object being geocoded and an array of
+      # Geocoder::Result objects).
       #
       def do_lookup(reverse = false)
         options = self.class.geocoder_options
@@ -76,17 +76,17 @@ module Geocoder
         end
         args.map!{ |a| send(options[a]) }
 
-        if result = Geocoder.search(*args)
+        if (results = Geocoder.search(*args)).size > 0
 
           # execute custom block, if specified in configuration
           block_key = reverse ? :reverse_block : :geocode_block
           if custom_block = options[block_key]
-            custom_block.call(self, result)
+            custom_block.call(self, results)
 
           # else execute block passed directly to this method,
           # which generally performs the "auto-assigns"
           elsif block_given?
-            yield(self, result)
+            yield(self, results)
           end
         end
       end

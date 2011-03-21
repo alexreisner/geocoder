@@ -6,15 +6,16 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def result(query, reverse = false)
-      return nil unless doc = fetch_data(query, reverse)
+    def results(query, reverse = false)
+      return [] unless doc = fetch_data(query, reverse)
       if doc['error'].nil?
-        doc
+        return [doc]
       elsif doc['error']['code'] == "005"
-        nil # "Postal Code is not in the proper Format" => no results, just shut up
+        # "Postal Code is not in the proper Format" => no results, just shut up
       else
         warn "Geocoder.ca service error: #{doc['error']['code']} (#{doc['error']['description']})."
       end
+      return []
     end
 
     def query_url(query, reverse = false)

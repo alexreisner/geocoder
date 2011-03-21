@@ -77,11 +77,11 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
   def test_coordinates_method
-    assert_not_nil Geocoder.coordinates("Madison Square Garden, New York, NY")
+    assert Geocoder.coordinates("Madison Square Garden, New York, NY").is_a?(Array)
   end
 
   def test_address_method
-    assert_not_nil Geocoder.address(40.750354, -73.993371)
+    assert Geocoder.address(40.750354, -73.993371).is_a?(String)
   end
 
 
@@ -153,18 +153,18 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal address, v.address
   end
 
-  def test_returns_nil_when_no_results
+  def test_search_returns_empty_array_when_no_results
     street_lookups.each do |l|
       Geocoder::Configuration.lookup = l
-      assert_nil Geocoder.search("no results"),
-        "Lookup #{l} does not return nil when no results."
+      assert_equal [], Geocoder.search("no results"),
+        "Lookup #{l} does not return empty array when no results."
     end
   end
 
   def test_result_has_required_attributes
     all_lookups.each do |l|
       Geocoder::Configuration.lookup = l
-      result = Geocoder.search(45.423733, -75.676333)
+      result = Geocoder.search(45.423733, -75.676333).first
       assert_result_has_required_attributes(result)
     end
   end
@@ -173,13 +173,13 @@ class GeocoderTest < Test::Unit::TestCase
   # --- Google ---
 
   def test_google_result_components
-    result = Geocoder.search("Madison Square Garden, New York, NY")
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Manhattan",
       result.address_components_of_type(:sublocality).first['long_name']
   end
 
   def test_google_returns_city_when_no_locality_in_result
-    result = Geocoder.search("no locality")
+    result = Geocoder.search("no locality").first
     assert_equal "Haram", result.city
   end
 
@@ -188,13 +188,13 @@ class GeocoderTest < Test::Unit::TestCase
 
   def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
-    result = Geocoder.search("Madison Square Garden, New York, NY")
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "10001", result.postal_code
   end
 
   def test_yahoo_address_formatting
     Geocoder::Configuration.lookup = :yahoo
-    result = Geocoder.search("Madison Square Garden, New York, NY")
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Madison Square Garden, New York, NY  10001, United States",
       result.address
   end
@@ -204,7 +204,7 @@ class GeocoderTest < Test::Unit::TestCase
 
   def test_geocoder_ca_result_components
     Geocoder::Configuration.lookup = :geocoder_ca
-    result = Geocoder.search(45.423733, -75.676333)
+    result = Geocoder.search(45.423733, -75.676333).first
     assert_equal "CA", result.country_code
     assert_equal "289 Somerset ST E, Ottawa, ON K1N6W1, Canada", result.address
   end
@@ -213,12 +213,12 @@ class GeocoderTest < Test::Unit::TestCase
   # --- FreeGeoIp ---
 
   def test_freegeoip_result_on_ip_address_search
-    result = Geocoder.search("74.200.247.59")
+    result = Geocoder.search("74.200.247.59").first
     assert result.is_a?(Geocoder::Result::Freegeoip)
   end
 
   def test_freegeoip_result_components
-    result = Geocoder.search("74.200.247.59")
+    result = Geocoder.search("74.200.247.59").first
     assert_equal "Plano, TX 75093, United States", result.address
   end
 
@@ -258,7 +258,7 @@ class GeocoderTest < Test::Unit::TestCase
 
   def test_detection_of_coordinates_in_search_string
     Geocoder::Configuration.lookup = :geocoder_ca
-    result = Geocoder.search("51.178844, -1.826189")
+    result = Geocoder.search("51.178844, -1.826189").first
     assert_not_nil result.city
     # city only present if reverse geocoding search performed
   end
