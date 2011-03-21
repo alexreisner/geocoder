@@ -9,6 +9,8 @@ Geocoder has been successfully tested with Ruby (MRI) 1.8.7, 1.9.2, and JRuby 1.
 
 Geocoder is compatible with Rails 3. If you need to use it with Rails 2 please see the <tt>rails2</tt> branch (no longer maintained, limited feature set).
 
+Geocoder also works outside of Rails but you'll need to install either the +json+ (for MRI) or +json_pure+ (for JRuby) gem.
+
 
 == Install
 
@@ -33,12 +35,21 @@ At the command prompt:
 
 === Required Attributes
 
-Your object must have two attributes (database columns) for storing latitude and longitude coordinates. By default they should be called +latitude+ and +longitude+ but this can be changed (see "More on Configuration" below):
+*ActiveRecord:* Your object must have two attributes (database columns) for storing latitude and longitude coordinates. By default they should be called +latitude+ and +longitude+ but this can be changed (see "More on Configuration" below):
 
   rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
   rake db:migrate
 
 For reverse geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: +city+, +state+, and +country+).
+
+*Mongoid:* Define your address and coordinate fields right in the model. You also need to include the <tt>Geocoder::Model::Mongoid</tt> module _before_ calling <tt>geocoded_by</tt>:
+
+  field :address
+  field :latitude,  :type => Float
+  field :longitude, :type => Float
+
+  include Geocoder::Model::Mongoid
+  geocoded_by :address
 
 === Model Behavior
 
@@ -82,10 +93,35 @@ Some utility methods are also available:
    => 3619.77359999382
 
   # find the geographic center (aka center of gravity) of objects or points
-  Geocoder::Calculations.geographic_center([ city1, city2, city3, [40.22,-73.99], city4 ])
+  Geocoder::Calculations.geographic_center([ city1, city2, [40.22,-73.99], city4 ])
    => [35.14968, -90.048929]
 
 Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
+
+
+== Distance and Bearing
+
+When you run a location-aware query the returned objects have two attributes added to them:
+
+* <tt>obj.distance</tt> - number of miles from the search point to this object
+* <tt>obj.bearing</tt> - direction from the search point to this object
+
+The bearing is given as a number (between 0 and 360): clockwise degrees from due north. Some examples:
+
+* +0+ - due north
+* +180+ - due south
+* +90+ - due east
+* +270+ - due west
+* +230.1+ - southwest
+* +359.9+ - almost due north
+
+You can convert these numbers to compass point names by using the utility method provided:
+
+  Geocoder::Calculations.compass_point(355) # => "N"
+  Geocoder::Calculations.compass_point(45)  # => "NE"
+  Geocoder::Calculations.compass_point(208) # => "SW"
+
+<i>Note: when using SQLite +distance+ and +bearing+ values are provided for interface consistency only. They are not accurate.</i>
 
 
 == More on Configuration
@@ -126,14 +162,14 @@ So far we have looked at shortcuts for assigning geocoding results to object att
 
 Every <tt>Geocoder::Result</tt> object, +result+, provides the following data:
 
-* <tt>result.latitude     # float</tt>
-* <tt>result.longitude    # float</tt>
-* <tt>result.coordinates  # array of the above two</tt>
-* <tt>result.address      # string</tt>
-* <tt>result.city         # string</tt>
-* <tt>result.postal_code  # string</tt>
-* <tt>result.country_name # string</tt>
-* <tt>result.country_code # string</tt>
+* +result.latitude+ - float
+* +result.longitude+ - float
+* +result.coordinates+ - array of the above two
+* +result.address+ - string
+* +result.city+ - string
+* +result.postal_code+ - string
+* +result.country_name+ - string
+* +result.country_code+ - string
 
 and if you're familiar with the results returned by the geocoding service you're using, you can access even more (see code comments for details: <tt>lib/geocoder/results/*</tt>).
 
@@ -144,33 +180,80 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and address
 
   # config/initializers/geocoder.rb
   Geocoder::Configuration.lookup = :yahoo
-  Geocoder::Configuration.yahoo_appid = "..."
 
-To obtain a Yahoo app id go to:
+Street address geocoding services currently supported (valid settings for the above):
 
-https://developer.apps.yahoo.com/wsregapp
+* Google: <tt>:google</tt>
+* Yahoo: <tt>:yahoo</tt>
+* Geocoder.ca: <tt>:geocoder_ca</tt> (US and Canada only)
 
 Note that the result objects returned by different geocoding services all implement the methods listed above. Beyond that, however, you must be familiar with your particular subclass of <tt>Geocoder::Result</tt> and the geocoding service's result structure:
 
 * Google: http://code.google.com/apis/maps/documentation/geocoding/#JSON
 * Yahoo: http://developer.yahoo.com/geo/placefinder/guide/responses.html
+* Geocoder.ca: (???)
 * FreeGeoIP: http://github.com/fiorix/freegeoip/blob/master/README.rst
 
-=== Timeouts
+=== API Keys
+
+To use your Google API key or Yahoo app ID:
+
+  Geocoder::Configuration.api_key = "..."
+
+To obtain an API key (not required):
+
+* Yahoo: https://developer.apps.yahoo.com/wsregapp
+* Google: http://code.google.com/apis/maps/signup.html
+
+=== Timeout
 
 You can set the timeout used for connections to the geocoding service. The default is 3 seconds but if you want to set it to 5, for example, put the following in an initializer:
 
-  # config/initializers/geocoder.rb
   Geocoder::Configuration.timeout = 5
 
 === Language
 
 You can set the language used for reverse geocoding results to German, for example, by setting the following:
 
-  # config/initializers/geocoder.rb
   Geocoder::Configuration.language = :de
 
 For a list of supported languages see the documentation for the geocoding service you're using.
+
+=== HTTPS
+
+If you want to use HTTPS for geocoding service connections:
+
+  Geocoder::Configuration.use_https = true
+
+Note that currently the only service that supports HTTPS is Google.
+
+
+== Caching Results
+
+It's a good idea, when relying on any external service, to cache retrieved data. When implemented correctly it improves your app's response time and stability. It's easy to cache geocoding results with Geocoder, just configure a cache store:
+
+  Geocoder::Configuration.cache = Redis.new
+
+This example uses Redis, but the cache store can be any object that supports these methods:
+
+* <tt>store#[](key)</tt>         - retrieves a value
+* <tt>store#[]=(key, value)</tt> - stores a value
+* <tt>store#keys</tt>            - lists all keys
+
+Even a plain Ruby hash will work, though it's not a great choice (cleared out when app is restarted, not shared between app instances, etc).
+
+You can also set a custom prefix to be used for cache keys:
+
+  Geocoder::Configuration.cache_prefix = "..."
+
+By default the prefix is <tt>geocoder:</tt>
+
+If you need to expire cached content:
+
+  Geocoder.cache.expire("http://...") # expire cached result for a URL
+  Geocoder.cache.expire(:all)         # expire all cached results
+
+Do *not* include the prefix when passing a URL to be expired. Expiring <tt>:all</tt> will only expire keys with the configured prefix (won't kill every entry in your key/value store).
 
 
 == Forward and Reverse Geocoding in the Same Model
@@ -217,23 +300,21 @@ Geocoder adds a +location+ method to the standard <tt>Rack::Request</tt> object 
 
 You can use Geocoder outside of Rails by calling the <tt>Geocoder.search</tt> method:
 
-  result = Geocoder.search("McCarren Park, Brooklyn, NY")
+  results = Geocoder.search("McCarren Park, Brooklyn, NY")
 
-This returns a <tt>Geocoder::Result</tt> object with all information provided by the geocoding service. Please see above and in the code for details.
+This returns an array of <tt>Geocoder::Result</tt> objects with all information provided by the geocoding service. Please see above and in the code for details.
 
 
 == Distance Queries in SQLite
 
-SQLite's lack of trigonometric functions requires an alternate implementation of the +near+ scope. When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius.
-
-It is also not possible to calculate distances between points without the trig functions so you cannot sort results by "nearness."
+SQLite's lack of trigonometric functions requires an alternate implementation of the +near+ scope. When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius, along with inaccurate distance and bearing calculations.
 
 
 === Discussion
 
 There are few options for finding objects near a given point in SQLite without installing extensions:
 
-1. Use a square instead of a circle for finding nearby points. For example, if you want to find points near 40.71, 100.23, search for objects with latitude between 39.71 and 41.71 and longitude between 99.23 and 101.23. One degree of latitude or longitude is at most 69 miles so divide your radius (in miles) by 69.0 to get the amount to add and subtract from your center coordinates to get the upper and lower bounds. The results will not be very accurate (you'll get points outside the desired radius--at worst 29% farther away), but you will get all the points within the required radius.
+1. Use a square instead of a circle for finding nearby points. For example, if you want to find points near 40.71, 100.23, search for objects with latitude between 39.71 and 41.71 and longitude between 99.23 and 101.23. One degree of latitude or longitude is at most 69 miles so divide your radius (in miles) by 69.0 to get the amount to add and subtract from your center coordinates to get the upper and lower bounds. The results will not be very accurate (you'll get points outside the desired radius), but you will get all the points within the required radius.
 
 2. Load all objects into memory and compute distances between them using the <tt>Geocoder::Calculations.distance_between</tt> method. This will produce accurate results but will be very slow (and use a lot of memory) if you have a lot of objects in your database.
 
@@ -252,12 +333,11 @@ You cannot use the +near+ scope with another scope that provides an +includes+ o
 If anyone has a more elegant solution to this problem I am very interested in seeing it.
 
 
-== To-do List
+== Roadmap
 
-* add support for DataMapper
-* add support for Mongoid
-* make 'near' scope work with AR associations
-  * http://stackoverflow.com/questions/3266358/geocoder-rails-plugin-near-search-problem-with-activerecord
+* add support for more ORMs (Mongoid, DataMapper)
+* add support for more geocoding services
+* maintain the same simple interface
 
 
 Copyright (c) 2009-11 Alex Reisner, released under the MIT license
