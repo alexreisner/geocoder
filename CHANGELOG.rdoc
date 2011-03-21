@@ -2,6 +2,16 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.11 (2011 Mar 25)
+
+* Add support for result caching.
+* Add support for Geocoder.ca geocoding service.
+* Add +bearing+ attribute to objects returned by geo-aware queries (thanks github.com/matellis).
+* Add config setting: language.
+* Add config settings: use_https, google_api_key (thanks github.com/svesely).
+* DEPRECATION: Geocoder.search now returns an array instead of a single result.
+* DEPRECATION: obj.nearbys second argument is now an options hash (instead of units). Please change <tt>obj.nearbys(20, :km)</tt> to: <tt>obj.nearbys(20, :units => :km)</tt>.
+
 == 0.9.10 (2011 Mar 9)
 
 * Fix broken scopes (github.com/mikepinde).
