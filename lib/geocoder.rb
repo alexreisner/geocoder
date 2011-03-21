@@ -11,9 +11,27 @@ module Geocoder
   # Search for information about an address or a set of coordinates.
   #
   def search(*args)
-    return [] if blank_query?(args[0])
-    ip = (args.size == 1 and ip_address?(args.first))
-    lookup(ip).search(*args)
+    if blank_query?(args[0])
+      results = []
+    else
+      ip = (args.size == 1 and ip_address?(args.first))
+      results = lookup(ip).search(*args)
+    end
+    results.instance_eval do
+      def warn_search_deprecation(attr)
+        warn "DEPRECATION WARNING: Geocoder.search now returns an array of Geocoder::Result objects. " +
+          "Calling '%s' directly on the returned array will cause an exception in Geocoder v1.0." % attr
+      end
+
+      def coordinates; warn_search_deprecation('coordinates'); first.coordinates if first; end
+      def latitude; warn_search_deprecation('latitude'); first.latitude if first; end
+      def longitude; warn_search_deprecation('longitude'); first.longitude if first; end
+      def address; warn_search_deprecation('address'); first.address if first; end
+      def city; warn_search_deprecation('city'); first.city if first; end
+      def country; warn_search_deprecation('country'); first.country if first; end
+      def country_code; warn_search_deprecation('country_code'); first.country_code if first; end
+    end
+    return results
   end
 
   ##
