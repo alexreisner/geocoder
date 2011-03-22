@@ -23,7 +23,7 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
   end
 
-  def test_distance_between
+  def test_compass_points
     assert_equal "N",  Geocoder::Calculations.compass_point(0)
     assert_equal "N",  Geocoder::Calculations.compass_point(1.0)
     assert_equal "N",  Geocoder::Calculations.compass_point(360)
