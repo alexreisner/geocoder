@@ -118,9 +118,10 @@ module Geocoder
 
     ##
     # Radius of the earth, in miles.
+    # Taken from: http://en.wikipedia.org/wiki/Earth_radius
     #
     def earth_radius
-      3956
+      3959.0
     end
 
     ##
