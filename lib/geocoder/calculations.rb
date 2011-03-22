@@ -22,7 +22,10 @@ module Geocoder
       options[:units] ||= :mi
 
       # define conversion factors
-      conversions = { :mi => 3956, :km => 6371 }
+      conversions = {
+        :mi => earth_radius,
+        :km => earth_radius / km_in_mi
+      }
 
       # convert degrees to radians
       lat1 = to_radians(lat1)
@@ -111,6 +114,13 @@ module Geocoder
     #
     def to_degrees(radians)
       (radians * 180.0) / Math::PI
+    end
+
+    ##
+    # Radius of the earth, in miles.
+    #
+    def earth_radius
+      3956
     end
 
     ##

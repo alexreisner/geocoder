@@ -93,7 +93,7 @@ module Geocoder::Orm
           "(SIN(RADIANS(#{latitude})) * " +
           "COS(RADIANS(#{lat_attr})) * " +
           "COS(RADIANS(#{lon_attr} - #{longitude}))))) + 360) % 360"
-        distance = "3956 * 2 * ASIN(SQRT(" +
+        distance = "#{Geocoder::Calculations.earth_radius} * 2 * ASIN(SQRT(" +
           "POWER(SIN((#{latitude} - #{lat_attr}) * " +
           "PI() / 180 / 2), 2) + COS(#{latitude} * PI() / 180) * " +
           "COS(#{lat_attr} * PI() / 180) * " +
