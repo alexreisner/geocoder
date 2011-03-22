@@ -21,6 +21,8 @@ class GeocoderTest < Test::Unit::TestCase
 
   def test_distance_between
     assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
+    la_to_ny = Geocoder::Calculations.distance_between(34.05,-118.25, 40.72,-74).round
+    assert (la_to_ny - 2444).abs < 10
   end
 
   def test_compass_points
