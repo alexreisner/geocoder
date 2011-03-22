@@ -88,17 +88,16 @@ module Geocoder::Orm
         bearing = "(DEGREES(ATAN2( " +
           "SIN(RADIANS(#{lon_attr} - #{longitude})) * " +
           "COS(RADIANS(#{lat_attr})), (" +
-          "COS(RADIANS(#{latitude})) * " +
-          "SIN(RADIANS(#{lat_attr}))) - " +
-          "(SIN(RADIANS(#{latitude})) * " +
-          "COS(RADIANS(#{lat_attr})) * " +
-          "COS(RADIANS(#{lon_attr} - #{longitude}))))) + 360) % 360"
+            "COS(RADIANS(#{latitude})) * SIN(RADIANS(#{lat_attr}))" +
+          ") - (" +
+            "SIN(RADIANS(#{latitude})) * COS(RADIANS(#{lat_attr})) * " +
+            "COS(RADIANS(#{lon_attr} - #{longitude}))" +
+          "))) + 360)"
+        bearing = "CAST(#{bearing} AS decimal) % 360"
         distance = "#{Geocoder::Calculations.earth_radius} * 2 * ASIN(SQRT(" +
-          "POWER(SIN((#{latitude} - #{lat_attr}) * " +
-          "PI() / 180 / 2), 2) + COS(#{latitude} * PI() / 180) * " +
-          "COS(#{lat_attr} * PI() / 180) * " +
-          "POWER(SIN((#{longitude} - #{lon_attr}) * " +
-          "PI() / 180 / 2), 2) ))"
+          "POWER(SIN((#{latitude} - #{lat_attr}) * PI() / 180 / 2), 2) + " +
+          "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
+          "POWER(SIN((#{longitude} - #{lon_attr}) * PI() / 180 / 2), 2) ))"
         options[:order] ||= "#{distance} ASC"
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || '*'}, " +
