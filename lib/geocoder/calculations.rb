@@ -21,12 +21,6 @@ module Geocoder
       # set default options
       options[:units] ||= :mi
 
-      # define conversion factors
-      conversions = {
-        :mi => earth_radius,
-        :km => earth_radius / km_in_mi
-      }
-
       # convert degrees to radians
       lat1 = to_radians(lat1)
       lon1 = to_radians(lon1)
@@ -40,7 +34,7 @@ module Geocoder
       a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
           (Math.sin(dlon / 2))**2 * Math.cos(lat2)
       c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
-      c * conversions[options[:units]]
+      c * earth_radius(options[:units])
     end
 
     ##
@@ -117,11 +111,12 @@ module Geocoder
     end
 
     ##
-    # Radius of the earth, in miles.
-    # Taken from: http://en.wikipedia.org/wiki/Earth_radius
+    # Radius of the earth in the given units (:mi or :km). Default is :mi.
+    # Values taken from: http://en.wikipedia.org/wiki/Earth_radius
     #
-    def earth_radius
-      3959.0
+    def earth_radius(units = :mi)
+      in_km = 6371.0
+      units == :km ? in_km : in_km * km_in_mi
     end
 
     ##
