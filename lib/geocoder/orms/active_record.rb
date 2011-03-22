@@ -59,7 +59,6 @@ module Geocoder::Orm
       # +limit+   :: number of records to return (for LIMIT SQL clause)
       # +offset+  :: number of records to skip (for OFFSET SQL clause)
       # +select+  :: string with the SELECT SQL fragment (e.g. “id, name”)
-      # +bearing+ :: :line for straight line calcs, :sphere for spherical
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         radius *= Geocoder::Calculations.km_in_mi if options[:units] == :km
@@ -77,30 +76,33 @@ module Geocoder::Orm
       # Scope options hash for use with a database that supports POWER(),
       # SQRT(), PI(), and trigonometric functions (SIN(), COS(), and ASIN()).
       #
-      # Taken from the excellent tutorial at:
+      # Distance calculations based on the excellent tutorial at:
       # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
+      #
+      # Bearing calculation based on:
+      # http://www.beginningspatial.com/calculating_bearing_one_point_another
       #
       def full_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
-        bearing = case options[:bearing]
-          # Credit for SQL query (adapted) http://www.beginningspatial.com/calculating_bearing_one_point_another
-          when :line
-            ", (DEGREES(ATAN2(( longitude - #{longitude} ), ( latitude - #{latitude} )))+360) % 360 AS bearing"
-          when :spherical
-            ", (DEGREES( ATAN2( SIN(RADIANS(longitude - #{longitude})) * COS(RADIANS(latitude)), ( COS(RADIANS(#{latitude})) * SIN(RADIANS(latitude)) ) - ( SIN(RADIANS(#{latitude})) * COS(RADIANS(latitude)) * COS(RADIANS(longitude - #{longitude})) ) )) + 360 ) % 360 AS bearing"
-          else
-            ""
-          end
+        bearing = "(DEGREES(ATAN2( " +
+          "SIN(RADIANS(#{lon_attr} - #{longitude})) * " +
+          "COS(RADIANS(#{lat_attr})), (" +
+          "COS(RADIANS(#{latitude})) * " +
+          "SIN(RADIANS(#{lat_attr}))) - " +
+          "(SIN(RADIANS(#{latitude})) * " +
+          "COS(RADIANS(#{lat_attr})) * " +
+          "COS(RADIANS(#{lon_attr} - #{longitude}))))) + 360) % 360"
         distance = "3956 * 2 * ASIN(SQRT(" +
           "POWER(SIN((#{latitude} - #{lat_attr}) * " +
-          "PI() / 180 / 2), 2) + COS(#{latitude} * PI()/180) * " +
+          "PI() / 180 / 2), 2) + COS(#{latitude} * PI() / 180) * " +
           "COS(#{lat_attr} * PI() / 180) * " +
           "POWER(SIN((#{longitude} - #{lon_attr}) * " +
           "PI() / 180 / 2), 2) ))"
         options[:order] ||= "#{distance} ASC"
         default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || '*'}, #{distance} AS distance#{bearing}",
+          :select => "#{options[:select] || '*'}, " +
+            "#{distance} AS distance, #{bearing} AS bearing",
           :having => "#{distance} <= #{radius}"
         )
       end
