@@ -52,7 +52,9 @@ module Geocoder
       x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) *
         Math.cos(lat2) * Math.cos(dlon)
       brng = Math.atan2(x,y)
-      (to_degrees(brng) + 360) % 360
+      # brng is in radians counterclockwise from due east.
+      # Convert to degrees clockwise from due north:
+      (90 - to_degrees(brng) + 360) % 360
     end
 
     ##

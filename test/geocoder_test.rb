@@ -25,17 +25,6 @@ class GeocoderTest < Test::Unit::TestCase
     assert (la_to_ny - 2444).abs < 10
   end
 
-  def test_compass_points
-    assert_equal "N",  Geocoder::Calculations.compass_point(0)
-    assert_equal "N",  Geocoder::Calculations.compass_point(1.0)
-    assert_equal "N",  Geocoder::Calculations.compass_point(360)
-    assert_equal "N",  Geocoder::Calculations.compass_point(361)
-    assert_equal "N",  Geocoder::Calculations.compass_point(-22)
-    assert_equal "NW", Geocoder::Calculations.compass_point(-23)
-    assert_equal "S",  Geocoder::Calculations.compass_point(180)
-    assert_equal "S",  Geocoder::Calculations.compass_point(181)
-  end
-
   def test_geographic_center_with_arrays
     assert_equal [0.0, 0.5],
       Geocoder::Calculations.geographic_center([[0,0], [0,1]])
@@ -179,6 +168,49 @@ class GeocoderTest < Test::Unit::TestCase
       Geocoder::Configuration.lookup = l
       result = Geocoder.search(45.423733, -75.676333).first
       assert_result_has_required_attributes(result)
+    end
+  end
+
+
+  # --- bearing ---
+
+  def test_compass_points
+    assert_equal "N",  Geocoder::Calculations.compass_point(0)
+    assert_equal "N",  Geocoder::Calculations.compass_point(1.0)
+    assert_equal "N",  Geocoder::Calculations.compass_point(360)
+    assert_equal "N",  Geocoder::Calculations.compass_point(361)
+    assert_equal "N",  Geocoder::Calculations.compass_point(-22)
+    assert_equal "NW", Geocoder::Calculations.compass_point(-23)
+    assert_equal "S",  Geocoder::Calculations.compass_point(180)
+    assert_equal "S",  Geocoder::Calculations.compass_point(181)
+  end
+
+  def test_bearing_between
+    bearings = {
+      :n => 0,
+      :e => 90,
+      :s => 180,
+      :w => 270
+    }
+    points = {
+      :n => [41, -75],
+      :e => [40, -74],
+      :s => [39, -75],
+      :w => [40, -76]
+    }
+    directions = [:n, :e, :s, :w]
+    types = [:spherical]
+
+    types.each do |t|
+      directions.each_with_index do |d,i|
+        opp = directions[(i + 2) % 4] # opposite direction
+        p1 = points[d]
+        p2 = points[opp]
+
+        b = Geocoder::Calculations.bearing_between(*(p1 + p2))
+        assert (b - bearings[opp]).abs < 1,
+          "Bearing (#{t}) should be close to #{bearings[opp]} but was #{b}."
+      end
     end
   end
 
