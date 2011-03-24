@@ -12,6 +12,7 @@ module Geocoder
 
     ##
     # Radius of the Earth, in kilometers.
+    # Value taken from: http://en.wikipedia.org/wiki/Earth_radius
     #
     EARTH_RADIUS = 6371.0
 
@@ -159,7 +160,6 @@ module Geocoder
 
     ##
     # Radius of the Earth in the given units (:mi or :km). Default is :mi.
-    # Values taken from: http://en.wikipedia.org/wiki/Earth_radius
     #
     def earth_radius(units = :mi)
       in_km = EARTH_RADIUS
