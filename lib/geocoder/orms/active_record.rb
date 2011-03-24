@@ -27,9 +27,11 @@ module Geocoder::Orm
             "OR #{geocoder_options[:longitude]} IS NULL"}}
 
         ##
-        # Find all objects within a radius (in miles) of the given location
-        # (address string). Location (the first argument) may be either a string
-        # to geocode or an array of coordinates (<tt>[lat,long]</tt>).
+        # Find all objects within a radius of the given location.
+        # Location may be either a string to geocode or an array of
+        # coordinates (<tt>[lat,lon]</tt>). Also takes an options hash
+        # (see Geocoder::Orm::ActiveRecord::ClassMethods.near_scope_options
+        # for details).
         #
         scope :near, lambda{ |location, *args|
           latitude, longitude = location.is_a?(Array) ?
@@ -56,6 +58,10 @@ module Geocoder::Orm
       # * +:units+   - <tt>:mi</tt> (default) or <tt>:km</tt>; to be used
       #   for interpreting radius as well as the +distance+ attribute which
       #   is added to each found nearby object
+      # * +:bearing+ - <tt>:linear</tt> (default) or <tt>:spherical</tt>;
+      #   the method to be used for calculating the bearing (direction)
+      #   between the given point and each found nearby point;
+      #   set to false for no bearing calculation
       # * +:select+  - string with the SELECT SQL fragment (e.g. “id, name”)
       # * +:order+   - column(s) for ORDER BY SQL clause
       # * +:limit+   - number of records to return (for LIMIT SQL clause)
@@ -76,7 +82,8 @@ module Geocoder::Orm
 
       ##
       # Scope options hash for use with a database that supports POWER(),
-      # SQRT(), PI(), and trigonometric functions (SIN(), COS(), and ASIN()).
+      # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
+      # ATAN2(), DEGREES(), and RADIANS().
       #
       # Distance calculations based on the excellent tutorial at:
       # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
@@ -87,15 +94,28 @@ module Geocoder::Orm
       def full_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
-        bearing = "(DEGREES(ATAN2( " +
-          "SIN(RADIANS(#{lon_attr} - #{longitude})) * " +
-          "COS(RADIANS(#{lat_attr})), (" +
-            "COS(RADIANS(#{latitude})) * SIN(RADIANS(#{lat_attr}))" +
-          ") - (" +
-            "SIN(RADIANS(#{latitude})) * COS(RADIANS(#{lat_attr})) * " +
-            "COS(RADIANS(#{lon_attr} - #{longitude}))" +
-          "))) + 360)"
-        bearing = "CAST(#{bearing} AS decimal) % 360"
+        options[:bearing] = :linear unless options.include?(:bearing)
+        bearing = case options[:bearing]
+        when :linear
+          "CAST(" +
+            "DEGREES(ATAN2( " +
+              "RADIANS(#{lon_attr} - #{longitude}), " +
+              "RADIANS(#{lat_attr} - #{latitude})" +
+            ")) + 360 " +
+          "AS decimal) % 360"
+        when :spherical
+          "CAST(" +
+            "DEGREES(ATAN2( " +
+              "SIN(RADIANS(#{lon_attr} - #{longitude})) * " +
+              "COS(RADIANS(#{lat_attr})), (" +
+                "COS(RADIANS(#{latitude})) * SIN(RADIANS(#{lat_attr}))" +
+              ") - (" +
+                "SIN(RADIANS(#{latitude})) * COS(RADIANS(#{lat_attr})) * " +
+                "COS(RADIANS(#{lon_attr} - #{longitude}))" +
+              ")" +
+            ")) + 360 " +
+          "AS decimal) % 360"
+        end
         distance = "#{Geocoder::Calculations.earth_radius} * 2 * ASIN(SQRT(" +
           "POWER(SIN((#{latitude} - #{lat_attr}) * PI() / 180 / 2), 2) + " +
           "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
@@ -103,7 +123,8 @@ module Geocoder::Orm
         options[:order] ||= "#{distance} ASC"
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || '*'}, " +
-            "#{distance} AS distance, #{bearing} AS bearing",
+            "#{distance} AS distance" +
+            (bearing ? ", #{bearing} AS bearing" : ""),
           :having => "#{distance} <= #{radius}"
         )
       end
