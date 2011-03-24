@@ -48,23 +48,41 @@ module Geocoder
     # Calculate bearing between two sets of coordinates.
     # Returns a number of degrees from due north (clockwise).
     #
+    # Also accepts an options hash:
+    #
+    # * <tt>:method</tt> - <tt>:linear</tt> (default) or <tt>:spherical</tt>;
+    #   the spherical method is "correct" in that it returns the shortest path
+    #   (one along a great circle) but the linear method is the default as it
+    #   is less confusing (returns due east or west when given two points with
+    #   the same latitude)
+    #
     # Based on: http://www.movable-type.co.uk/scripts/latlong.html
     #
-    def bearing_between(lat1, lon1, lat2, lon2)
+    def bearing_between(lat1, lon1, lat2, lon2, options = {})
+      options[:method] = :linear unless options[:method] == :spherical
 
       # convert degrees to radians
       lat1, lon1, lat2, lon2 = to_radians(lat1, lon1, lat2, lon2)
 
-      # compute delta
+      # compute deltas
+      dlat = lat2 - lat1
       dlon = lon2 - lon1
 
-      y = Math.sin(dlon) * Math.cos(lat2)
-      x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) *
-        Math.cos(lat2) * Math.cos(dlon)
-      brng = Math.atan2(x,y)
-      # brng is in radians counterclockwise from due east.
+      case options[:method]
+      when :linear
+        y = dlon
+        x = dlat
+
+      when :spherical
+        y = Math.sin(dlon) * Math.cos(lat2)
+        x = Math.cos(lat1) * Math.sin(lat2) -
+            Math.sin(lat1) * Math.cos(lat2) * Math.cos(dlon)
+      end
+
+      bearing = Math.atan2(x,y)
+      # Answer is in radians counterclockwise from due east.
       # Convert to degrees clockwise from due north:
-      (90 - to_degrees(brng) + 360) % 360
+      (90 - to_degrees(bearing) + 360) % 360
     end
 
     ##

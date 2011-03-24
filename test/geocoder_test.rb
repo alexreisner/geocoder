@@ -199,17 +199,17 @@ class GeocoderTest < Test::Unit::TestCase
       :w => [40, -76]
     }
     directions = [:n, :e, :s, :w]
-    types = [:spherical]
+    methods = [:linear, :spherical]
 
-    types.each do |t|
+    methods.each do |m|
       directions.each_with_index do |d,i|
         opp = directions[(i + 2) % 4] # opposite direction
         p1 = points[d]
         p2 = points[opp]
 
-        b = Geocoder::Calculations.bearing_between(*(p1 + p2))
+        b = Geocoder::Calculations.bearing_between(*(p1 + p2), :method => m)
         assert (b - bearings[opp]).abs < 1,
-          "Bearing (#{t}) should be close to #{bearings[opp]} but was #{b}."
+          "Bearing (#{m}) should be close to #{bearings[opp]} but was #{b}."
       end
     end
   end
