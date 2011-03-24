@@ -22,10 +22,7 @@ module Geocoder
       options[:units] ||= :mi
 
       # convert degrees to radians
-      lat1 = to_radians(lat1)
-      lon1 = to_radians(lon1)
-      lat2 = to_radians(lat2)
-      lon2 = to_radians(lon2)
+      lat1, lon1, lat2, lon2 = to_radians(lat1, lon1, lat2, lon2)
 
       # compute distances
       dlat = (lat1 - lat2).abs
@@ -72,7 +69,7 @@ module Geocoder
       points.map!{ |p| p.is_a?(Array) ? p : p.to_coordinates }.compact
 
       # convert degrees to radians
-      points.map!{ |p| [to_radians(p[0]), to_radians(p[1])] }
+      points.map!{ |p| to_radians(p) }
 
       # convert to Cartesian coordinates
       x = []; y = []; z = []
@@ -98,9 +95,15 @@ module Geocoder
 
     ##
     # Convert degrees to radians.
+    # If an array is passed, converts each value and returns array.
     #
-    def to_radians(degrees)
-      degrees * (Math::PI / 180)
+    def to_radians(*args)
+      args = args.first if args.first.is_a?(Array)
+      if args.size == 1
+        args.first * (Math::PI / 180)
+      else
+        args.map{ |i| to_radians(i) }
+      end
     end
 
     ##
