@@ -35,7 +35,7 @@ module Geocoder
     end
 
     ##
-    # Calculate bearing between two sets of co-ordinates.
+    # Calculate bearing between two sets of coordinates.
     # Returns a number of degrees from due north (clockwise).
     #
     # Based on: http://www.movable-type.co.uk/scripts/latlong.html
@@ -45,7 +45,7 @@ module Geocoder
       # convert degrees to radians
       lat1, lon1, lat2, lon2 = to_radians(lat1, lon1, lat2, lon2)
 
-      # compute deltas
+      # compute delta
       dlon = lon2 - lon1
 
       y = Math.sin(dlon) * Math.cos(lat2)
@@ -103,7 +103,8 @@ module Geocoder
 
     ##
     # Convert degrees to radians.
-    # If an array is passed, converts each value and returns array.
+    # If an array (or multiple arguments) is passed,
+    # converts each value and returns array.
     #
     def to_radians(*args)
       args = args.first if args.first.is_a?(Array)
@@ -116,7 +117,8 @@ module Geocoder
 
     ##
     # Convert radians to degrees.
-    # If an array is passed, converts each value and returns array.
+    # If an array (or multiple arguments) is passed,
+    # converts each value and returns array.
     #
     def to_degrees(*args)
       args = args.first if args.first.is_a?(Array)
@@ -128,7 +130,7 @@ module Geocoder
     end
 
     ##
-    # Radius of the earth in the given units (:mi or :km). Default is :mi.
+    # Radius of the Earth in the given units (:mi or :km). Default is :mi.
     # Values taken from: http://en.wikipedia.org/wiki/Earth_radius
     #
     def earth_radius(units = :mi)
