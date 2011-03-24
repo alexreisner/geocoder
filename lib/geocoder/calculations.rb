@@ -11,6 +11,16 @@ module Geocoder
     COMPASS_POINTS = %w[N NE E SE S SW W NW]
 
     ##
+    # Radius of the Earth, in kilometers.
+    #
+    EARTH_RADIUS = 6371.0
+
+    ##
+    # Conversion factor: multiply by kilometers to get miles.
+    #
+    KM_IN_MI = 0.621371192
+
+    ##
     # Calculate the distance between two points on Earth (Haversine formula).
     # Takes two sets of coordinates and an options hash:
     #
@@ -134,7 +144,7 @@ module Geocoder
     # Values taken from: http://en.wikipedia.org/wiki/Earth_radius
     #
     def earth_radius(units = :mi)
-      in_km = 6371.0
+      in_km = EARTH_RADIUS
       units == :km ? in_km : in_km * km_in_mi
     end
 
@@ -142,7 +152,14 @@ module Geocoder
     # Conversion factor: km to mi.
     #
     def km_in_mi
-      0.621371192
+      KM_IN_MI
+    end
+
+    ##
+    # Conversion factor: mi to km.
+    #
+    def mi_in_km
+      1.0 / KM_IN_MI
     end
   end
 end
