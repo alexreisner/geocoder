@@ -116,9 +116,15 @@ module Geocoder
 
     ##
     # Convert radians to degrees.
+    # If an array is passed, converts each value and returns array.
     #
-    def to_degrees(radians)
-      (radians * 180.0) / Math::PI
+    def to_degrees(*args)
+      args = args.first if args.first.is_a?(Array)
+      if args.size == 1
+        (args.first * 180.0) / Math::PI
+      else
+        args.map{ |i| to_degrees(i) }
+      end
     end
 
     ##
