@@ -24,7 +24,7 @@ module Geocoder
     # Calculate the distance between two points on Earth (Haversine formula).
     # Takes two sets of coordinates and an options hash:
     #
-    # <tt>:units</tt> :: <tt>:mi</tt> (default) or <tt>:km</tt>
+    # * <tt>:units</tt> - <tt>:mi</tt> (default) or <tt>:km</tt>
     #
     def distance_between(lat1, lon1, lat2, lon2, options = {})
 

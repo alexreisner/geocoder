@@ -53,12 +53,14 @@ module Geocoder::Orm
       # records within a radius (in miles) of the given point.
       # Options hash may include:
       #
-      # +units+   :: <tt>:mi</tt> (default) or <tt>:km</tt>
-      # +exclude+ :: an object to exclude (used by the #nearbys method)
-      # +order+   :: column(s) for ORDER BY SQL clause
-      # +limit+   :: number of records to return (for LIMIT SQL clause)
-      # +offset+  :: number of records to skip (for OFFSET SQL clause)
-      # +select+  :: string with the SELECT SQL fragment (e.g. “id, name”)
+      # * +:units+   - <tt>:mi</tt> (default) or <tt>:km</tt>; to be used
+      #   for interpreting radius as well as the +distance+ attribute which
+      #   is added to each found nearby object
+      # * +:select+  - string with the SELECT SQL fragment (e.g. “id, name”)
+      # * +:order+   - column(s) for ORDER BY SQL clause
+      # * +:limit+   - number of records to return (for LIMIT SQL clause)
+      # * +:offset+  - number of records to skip (for OFFSET SQL clause)
+      # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         radius *= Geocoder::Calculations.km_in_mi if options[:units] == :km
