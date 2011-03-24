@@ -24,9 +24,9 @@ module Geocoder
       # convert degrees to radians
       lat1, lon1, lat2, lon2 = to_radians(lat1, lon1, lat2, lon2)
 
-      # compute distances
-      dlat = (lat1 - lat2).abs
-      dlon = (lon1 - lon2).abs
+      # compute deltas
+      dlat = lat2 - lat1
+      dlon = lon2 - lon1
 
       a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
           (Math.sin(dlon / 2))**2 * Math.cos(lat2)
@@ -41,7 +41,13 @@ module Geocoder
     # Based on: http://www.movable-type.co.uk/scripts/latlong.html
     #
     def bearing_between(lat1, lon1, lat2, lon2)
-      dlon = to_radians((lon1 - lon2).abs)
+
+      # convert degrees to radians
+      lat1, lon1, lat2, lon2 = to_radians(lat1, lon1, lat2, lon2)
+
+      # compute deltas
+      dlon = lon2 - lon1
+
       y = Math.sin(dlon) * Math.cos(lat2)
       x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) *
         Math.cos(lat2) * Math.cos(dlon)
