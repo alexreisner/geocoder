@@ -30,12 +30,16 @@ module Geocoder
       alias_method :distance_from, :distance_to
 
       ##
-      # Get nearby geocoded objects. Takes a radius (integer) and a symbol
-      # representing the units of the ratius (:mi or :km; default is :mi).
+      # Get nearby geocoded objects.
+      # Takes the same options hash as the near class method (scope).
       #
-      def nearbys(radius = 20, units = :mi)
+      def nearbys(radius = 20, options = {})
         return [] unless geocoded?
-        options = {:exclude => self, :units => units}
+        if options.is_a?(Symbol)
+          options = {:units => options}
+          warn "DEPRECATION WARNING: The units argument to the nearbys method has been replaced with an options hash (same options hash as the near scope). You should instead call: obj.nearbys(#{radius}, :units => #{options[:units]}). The old syntax will not be supported in Geocoder v1.0."
+        end
+        options.merge!(:exclude => self)
         self.class.near(to_coordinates, radius, options)
       end
 
