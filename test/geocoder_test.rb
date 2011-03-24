@@ -19,42 +19,6 @@ class GeocoderTest < Test::Unit::TestCase
 
   # --- sanity checks ---
 
-  def test_distance_between
-    assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
-    la_to_ny = Geocoder::Calculations.distance_between(34.05,-118.25, 40.72,-74).round
-    assert (la_to_ny - 2444).abs < 10
-  end
-
-  def test_geographic_center_with_arrays
-    assert_equal [0.0, 0.5],
-      Geocoder::Calculations.geographic_center([[0,0], [0,1]])
-    assert_equal [0.0, 1.0],
-      Geocoder::Calculations.geographic_center([[0,0], [0,1], [0,2]])
-  end
-
-  def test_geographic_center_with_mixed_arguments
-    p1 = [0, 0]
-    p2 = Landmark.new("Some Cold Place", 0, 1)
-    assert_equal [0.0, 0.5], Geocoder::Calculations.geographic_center([p1, p2])
-  end
-
-  def test_does_not_choke_on_nil_address
-    all_lookups.each do |l|
-      Geocoder::Configuration.lookup = l
-      assert_nothing_raised { Venue.new("Venue", nil).geocode }
-    end
-  end
-
-  def test_does_not_choke_on_timeout
-    # keep test output clean: suppress timeout warning
-    orig = $VERBOSE; $VERBOSE = nil
-    all_lookups.each do |l|
-      Geocoder::Configuration.lookup = l
-      assert_nothing_raised { Geocoder.search("timeout") }
-    end
-    $VERBOSE = orig
-  end
-
   def test_uses_https_for_secure_query
     Geocoder::Configuration.use_https = true
     g = Geocoder::Lookup::Google.new
@@ -172,6 +136,28 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
 
+  # --- calcluations ---
+
+  def test_distance_between
+    assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
+    la_to_ny = Geocoder::Calculations.distance_between(34.05,-118.25, 40.72,-74).round
+    assert (la_to_ny - 2444).abs < 10
+  end
+
+  def test_geographic_center_with_arrays
+    assert_equal [0.0, 0.5],
+      Geocoder::Calculations.geographic_center([[0,0], [0,1]])
+    assert_equal [0.0, 1.0],
+      Geocoder::Calculations.geographic_center([[0,0], [0,1], [0,2]])
+  end
+
+  def test_geographic_center_with_mixed_arguments
+    p1 = [0, 0]
+    p2 = Landmark.new("Some Cold Place", 0, 1)
+    assert_equal [0.0, 0.5], Geocoder::Calculations.geographic_center([p1, p2])
+  end
+
+
   # --- bearing ---
 
   def test_compass_points
@@ -212,6 +198,43 @@ class GeocoderTest < Test::Unit::TestCase
           "Bearing (#{m}) should be close to #{bearings[opp]} but was #{b}."
       end
     end
+  end
+
+
+  # --- input handling ---
+
+  def test_ip_address_detection
+    assert Geocoder.send(:ip_address?, "232.65.123.94")
+    assert Geocoder.send(:ip_address?, "666.65.123.94") # technically invalid
+    assert !Geocoder.send(:ip_address?, "232.65.123.94.43")
+    assert !Geocoder.send(:ip_address?, "232.65.123")
+  end
+
+  def test_blank_query_detection
+    assert Geocoder.send(:blank_query?, nil)
+    assert Geocoder.send(:blank_query?, "")
+    assert Geocoder.send(:blank_query?, ", , (-)")
+    assert !Geocoder.send(:blank_query?, "a")
+  end
+
+  def test_does_not_choke_on_nil_address
+    all_lookups.each do |l|
+      Geocoder::Configuration.lookup = l
+      assert_nothing_raised { Venue.new("Venue", nil).geocode }
+    end
+  end
+
+
+  # --- error handling ---
+
+  def test_does_not_choke_on_timeout
+    # keep test output clean: suppress timeout warning
+    orig = $VERBOSE; $VERBOSE = nil
+    all_lookups.each do |l|
+      Geocoder::Configuration.lookup = l
+      assert_nothing_raised { Geocoder.search("timeout") }
+    end
+    $VERBOSE = orig
   end
 
 
@@ -269,20 +292,6 @@ class GeocoderTest < Test::Unit::TestCase
 
 
   # --- search queries ---
-
-  def test_ip_address_detection
-    assert Geocoder.send(:ip_address?, "232.65.123.94")
-    assert Geocoder.send(:ip_address?, "666.65.123.94") # technically invalid
-    assert !Geocoder.send(:ip_address?, "232.65.123.94.43")
-    assert !Geocoder.send(:ip_address?, "232.65.123")
-  end
-
-  def test_blank_query_detection
-    assert Geocoder.send(:blank_query?, nil)
-    assert Geocoder.send(:blank_query?, "")
-    assert Geocoder.send(:blank_query?, ", , (-)")
-    assert !Geocoder.send(:blank_query?, "a")
-  end
 
   def test_hash_to_query
     g = Geocoder::Lookup::Google.new
