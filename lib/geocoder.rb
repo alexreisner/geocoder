@@ -131,7 +131,7 @@ module Geocoder
   # Is the given search query blank? (ie, should we not bother searching?)
   #
   def blank_query?(value)
-    !value.to_s.match(/[A-z0-9]/)
+    !!value.to_s.match(/^\s*$/)
   end
 end
 

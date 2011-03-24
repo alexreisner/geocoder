@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'test_helper'
 
 class GeocoderTest < Test::Unit::TestCase
@@ -213,8 +214,9 @@ class GeocoderTest < Test::Unit::TestCase
   def test_blank_query_detection
     assert Geocoder.send(:blank_query?, nil)
     assert Geocoder.send(:blank_query?, "")
-    assert Geocoder.send(:blank_query?, ", , (-)")
+    assert Geocoder.send(:blank_query?, "\t  ")
     assert !Geocoder.send(:blank_query?, "a")
+    assert !Geocoder.send(:blank_query?, "Москва") # no ASCII characters
   end
 
   def test_does_not_choke_on_nil_address
