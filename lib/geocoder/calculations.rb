@@ -148,6 +148,27 @@ module Geocoder
     end
 
     ##
+    # Returns coordinates of the lower-left and upper-right corners of a box
+    # with the given point at its center. The radius is the shortest distance
+    # from the center point to any side of the box (the length of each side
+    # is twice the radius).
+    #
+    # This is useful for finding corner points of a map viewport, or for
+    # roughly limiting the possible solutions in a geo-spatial search
+    # (ActiveRecord queries use it thusly).
+    #
+    def bounding_box(latitude, longitude, radius, options = {})
+      units = options[:units] || :mi
+      radius = radius.to_f
+      [
+        latitude  - (radius / latitude_degree_distance(units)),
+        longitude - (radius / longitude_degree_distance(latitude, units)),
+        latitude  + (radius / latitude_degree_distance(units)),
+        longitude + (radius / longitude_degree_distance(latitude, units))
+      ]
+    end
+
+    ##
     # Convert degrees to radians.
     # If an array (or multiple arguments) is passed,
     # converts each value and returns array.
