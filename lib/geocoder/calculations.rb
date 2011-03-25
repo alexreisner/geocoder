@@ -144,7 +144,7 @@ module Geocoder
       lat = Math.atan2(za, hyp)
 
       # return answer in degrees
-      [to_degrees(lat), to_degrees(lon)]
+      to_degrees [lat, lon]
     end
 
     ##
