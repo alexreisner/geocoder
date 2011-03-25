@@ -232,7 +232,8 @@ class GeocoderTest < Test::Unit::TestCase
         p1 = points[d]
         p2 = points[opp]
 
-        b = Geocoder::Calculations.bearing_between(*(p1 + p2), :method => m)
+        args = p1 + p2 + [:method => m]
+        b = Geocoder::Calculations.bearing_between(*args)
         assert (b - bearings[opp]).abs < 1,
           "Bearing (#{m}) should be close to #{bearings[opp]} but was #{b}."
       end
