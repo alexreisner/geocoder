@@ -154,8 +154,8 @@ module Geocoder::Orm
           bearing = false
         end
 
-        dx = Geocoder::Calculations.distance_between_longitude_lines(30, options[:units] || :mi)
-        dy = Geocoder::Calculations.distance_between_latitude_lines(options[:units] || :mi)
+        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
+        dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
 
         distance = "(#{dy} * ABS(#{lat_attr} - #{latitude}) / 2) + " +
           "(#{dx} * ABS(#{lon_attr} - #{longitude}) / 2)"
@@ -196,10 +196,10 @@ module Geocoder::Orm
       def coordinate_bounds(latitude, longitude, radius, units = :mi)
         radius = radius.to_f
         [
-          latitude  - (radius / Geocoder::Calculations.distance_between_latitude_lines(units)),
-          latitude  + (radius / Geocoder::Calculations.distance_between_latitude_lines(units)),
-          longitude - (radius / Geocoder::Calculations.distance_between_longitude_lines(latitude, units)),
-          longitude + (radius / Geocoder::Calculations.distance_between_longitude_lines(latitude, units))
+          latitude  - (radius / Geocoder::Calculations.latitude_degree_distance(units)),
+          latitude  + (radius / Geocoder::Calculations.latitude_degree_distance(units)),
+          longitude - (radius / Geocoder::Calculations.longitude_degree_distance(latitude, units)),
+          longitude + (radius / Geocoder::Calculations.longitude_degree_distance(latitude, units))
         ]
       end
     end

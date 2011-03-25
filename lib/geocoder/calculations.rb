@@ -22,18 +22,20 @@ module Geocoder
     KM_IN_MI = 0.621371192
 
     ##
-    # Calculate the distance between latitude lines in the given units.
+    # Calculate the distance spanned by one
+    # degree of latitude in the given units.
     #
-    def distance_between_latitude_lines(units = :mi)
+    def latitude_degree_distance(units = :mi)
       2 * Math::PI * earth_radius(units) / 360
     end
 
     ##
-    # Calculate the distance between longitude lines at the given latitude.
-    # This ranges from around 69 miles at the equator to zero at the poles.
+    # Calculate the distance spanned by one degree of longitude
+    # at the given latitude. This ranges from around 69 miles at
+    # the equator to zero at the poles.
     #
-    def distance_between_longitude_lines(latitude, units = :mi)
-      distance_between_latitude_lines(units) * Math.cos(to_radians(latitude))
+    def longitude_degree_distance(latitude, units = :mi)
+      latitude_degree_distance(units) * Math.cos(to_radians(latitude))
     end
 
     ##
