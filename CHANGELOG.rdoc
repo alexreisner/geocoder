@@ -43,13 +43,13 @@ Per-release changes to Geocoder.
 == 0.9.7 (2011 Feb 1)
 
 * Add reverse geocoding (+reverse_geocoded_by+).
-* Prevent exception (uninitialized constant Geocoder::Net) when net/http not already required (sleepycat).
+* Prevent exception (uninitialized constant Geocoder::Net) when net/http not already required (github.com/sleepycat).
 * Refactor: split monolithic Geocoder module into several smaller ones.
 
 == 0.9.6 (2011 Jan 19)
 
 * Fix incompatibility with will_paginate gem.
-* Include table names in GROUP BY clause of nearby scope to avoid ambiguity in joins (matchu).
+* Include table names in GROUP BY clause of nearby scope to avoid ambiguity in joins (github.com/matchu).
 
 == 0.9.5 (2010 Oct 15)
 
@@ -70,7 +70,7 @@ Per-release changes to Geocoder.
 
 == 0.9.2 (2010 Jun 3)
 
-* Fix LIMIT clause bug in PostgreSQL (reported by kenzie).
+* Fix LIMIT clause bug in PostgreSQL (reported by github.com/kenzie).
 
 == 0.9.1 (2010 May 4)
 
@@ -78,7 +78,7 @@ Per-release changes to Geocoder.
 
 == 0.9.0 (2010 Apr 2)
 
-* Fix bug in PostgreSQL support (caused "PGError: ERROR:  column "distance" does not exist"), reported by developish.
+* Fix bug in PostgreSQL support (caused "PGError: ERROR:  column "distance" does not exist"), reported by github.com/developish.
 
 == 0.8.9 (2010 Feb 11)
 
@@ -124,3 +124,4 @@ Per-release changes to Geocoder.
 == 0.8.0 (2009 Oct 1)
 
 First release.
+
