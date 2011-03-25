@@ -151,10 +151,16 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal 0, Geocoder::Calculations.longitude_degree_distance(89.98).round
   end
 
-  def test_distance_between
+  def test_distance_between_in_miles
     assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
     la_to_ny = Geocoder::Calculations.distance_between(34.05,-118.25, 40.72,-74).round
     assert (la_to_ny - 2444).abs < 10
+  end
+
+  def test_distance_between_in_kilometers
+    assert_equal 111, Geocoder::Calculations.distance_between(0,0, 0,1, :units => :km).round
+    la_to_ny = Geocoder::Calculations.distance_between(34.05,-118.25, 40.72,-74, :units => :km).round
+    assert (la_to_ny - 3942).abs < 10
   end
 
   def test_geographic_center_with_arrays
