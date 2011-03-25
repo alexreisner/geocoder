@@ -116,7 +116,8 @@ module Geocoder::Orm
             ")) + 360 " +
           "AS decimal) % 360"
         end
-        distance = "#{Geocoder::Calculations.earth_radius} * 2 * ASIN(SQRT(" +
+        earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
+        distance = "#{earth} * 2 * ASIN(SQRT(" +
           "POWER(SIN((#{latitude} - #{lat_attr}) * PI() / 180 / 2), 2) + " +
           "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
           "POWER(SIN((#{longitude} - #{lon_attr}) * PI() / 180 / 2), 2) ))"
@@ -152,8 +153,12 @@ module Geocoder::Orm
         else
           bearing = false
         end
-        distance = "(69 * ABS(#{lat_attr} - #{latitude}) / 2) + " +
-          "(60 * ABS(#{lon_attr} - #{longitude}) / 2)"
+
+        dx = Geocoder::Calculations.distance_between_longitude_lines(30, options[:units] || :mi)
+        dy = Geocoder::Calculations.distance_between_latitude_lines(options[:units] || :mi)
+
+        distance = "(#{dy} * ABS(#{lat_attr} - #{latitude}) / 2) + " +
+          "(#{dx} * ABS(#{lon_attr} - #{longitude}) / 2)"
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || '*'}, " +
             "#{distance} AS distance" +
@@ -188,14 +193,13 @@ module Geocoder::Orm
       # radius. Returns an array: <tt>[lat_lo, lat_hi, lon_lo, lon_hi]</tt>.
       # Used to constrain search to a (radius x radius) square.
       #
-      def coordinate_bounds(latitude, longitude, radius)
+      def coordinate_bounds(latitude, longitude, radius, units = :mi)
         radius = radius.to_f
-        factor = (Math::cos(latitude * Math::PI / 180.0) * 69.0).abs
         [
-          latitude  - (radius / 69.0),
-          latitude  + (radius / 69.0),
-          longitude - (radius / factor),
-          longitude + (radius / factor)
+          latitude  - (radius / Geocoder::Calculations.distance_between_latitude_lines(units)),
+          latitude  + (radius / Geocoder::Calculations.distance_between_latitude_lines(units)),
+          longitude - (radius / Geocoder::Calculations.distance_between_longitude_lines(latitude, units)),
+          longitude + (radius / Geocoder::Calculations.distance_between_longitude_lines(latitude, units))
         ]
       end
     end
