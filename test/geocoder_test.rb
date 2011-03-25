@@ -139,16 +139,16 @@ class GeocoderTest < Test::Unit::TestCase
 
   # --- calcluations ---
 
-  def test_distance_between_longitude_lines_at_equator
-    assert_equal 69, Geocoder::Calculations.distance_between_longitude_lines(0).round
+  def test_longitude_degree_distance_at_equator
+    assert_equal 69, Geocoder::Calculations.longitude_degree_distance(0).round
   end
 
-  def test_distance_between_longitude_lines_at_new_york
-    assert_equal 53, Geocoder::Calculations.distance_between_longitude_lines(40).round
+  def test_longitude_degree_distance_at_new_york
+    assert_equal 53, Geocoder::Calculations.longitude_degree_distance(40).round
   end
 
-  def test_distance_between_longitude_lines_at_north_pole
-    assert_equal 0, Geocoder::Calculations.distance_between_longitude_lines(89.98).round
+  def test_longitude_degree_distance_at_north_pole
+    assert_equal 0, Geocoder::Calculations.longitude_degree_distance(89.98).round
   end
 
   def test_distance_between
