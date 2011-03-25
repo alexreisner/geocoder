@@ -135,9 +135,29 @@ module Geocoder::Orm
       # rather than a circle, so results are very approximate (will include
       # objects outside the given radius).
       #
+      # Distance and bearing calculations are *extremely inaccurate*. They
+      # only exist for interface consistency--not intended for production!
+      #
       def approx_near_scope_options(latitude, longitude, radius, options)
+        lat_attr = geocoder_options[:latitude]
+        lon_attr = geocoder_options[:longitude]
+        options[:bearing] = :linear unless options.include?(:bearing)
+        if options[:bearing]
+          bearing = "CASE " +
+            "WHEN (#{lat_attr} >= #{latitude} AND #{lon_attr} >= #{longitude}) THEN  45.0 " +
+            "WHEN (#{lat_attr} <  #{latitude} AND #{lon_attr} >= #{longitude}) THEN 135.0 " +
+            "WHEN (#{lat_attr} <  #{latitude} AND #{lon_attr} <  #{longitude}) THEN 225.0 " +
+            "WHEN (#{lat_attr} >= #{latitude} AND #{lon_attr} <  #{longitude}) THEN 315.0 " +
+          "END"
+        else
+          bearing = false
+        end
+        distance = "(69 * ABS(#{lat_attr} - #{latitude}) / 2) + " +
+          "(60 * ABS(#{lon_attr} - #{longitude}) / 2)"
         default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => options[:select] || nil
+          :select => "#{options[:select] || '*'}, " +
+            "#{distance} AS distance" +
+            (bearing ? ", #{bearing} AS bearing" : ""),
         )
       end
 
