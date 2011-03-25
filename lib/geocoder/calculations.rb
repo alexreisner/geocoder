@@ -159,11 +159,24 @@ module Geocoder
     end
 
     ##
+    # Convert miles to kilometers.
+    #
+    def to_kilometers(mi)
+      mi * mi_in_km
+    end
+
+    ##
+    # Convert kilometers to miles.
+    #
+    def to_miles(km)
+      km * km_in_mi
+    end
+
+    ##
     # Radius of the Earth in the given units (:mi or :km). Default is :mi.
     #
     def earth_radius(units = :mi)
-      in_km = EARTH_RADIUS
-      units == :km ? in_km : in_km * km_in_mi
+      units == :km ? EARTH_RADIUS : to_miles(EARTH_RADIUS)
     end
 
     ##
