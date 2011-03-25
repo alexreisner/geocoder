@@ -258,6 +258,13 @@ class GeocoderTest < Test::Unit::TestCase
     assert !Geocoder.send(:blank_query?, "Москва") # no ASCII characters
   end
 
+  def test_coordinates_detection
+    lookup = Geocoder::Lookup::Google.new
+    assert lookup.send(:coordinates?, "51.178844,5")
+    assert lookup.send(:coordinates?, "51.178844, -1.826189")
+    assert !lookup.send(:coordinates?, "232.65.123")
+  end
+
   def test_does_not_choke_on_nil_address
     all_lookups.each do |l|
       Geocoder::Configuration.lookup = l
@@ -349,13 +356,6 @@ class GeocoderTest < Test::Unit::TestCase
     Geocoder::Configuration.api_key = "MY_KEY"
     g = Geocoder::Lookup::Yahoo.new
     assert_match "appid=MY_KEY", g.send(:query_url, "Madison Square Garden, New York, NY  10001, United States")
-  end
-
-  def test_detection_of_coordinates_in_search_string
-    Geocoder::Configuration.lookup = :geocoder_ca
-    result = Geocoder.search("51.178844, -1.826189").first
-    assert_not_nil result.city
-    # city only present if reverse geocoding search performed
   end
 
 

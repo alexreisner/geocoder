@@ -21,7 +21,11 @@ module Geocoder
       # for reverse geocoding. Returns an array of <tt>Geocoder::Result</tt>s.
       #
       def search(*args)
-        reverse = (args.size == 2) || coordinates?(args.first)
+        # if coordinates given as string, split into floats
+        if coordinates?(args.first)
+          args = args.first.split(/\s*,\s*/).map{ |i| i.to_f }
+        end
+        reverse = (args.size == 2)
         results(args.join(","), reverse).map{ |r| result_class.new(r) }
       end
 
@@ -120,7 +124,7 @@ module Geocoder
       # Does the given string look like latitude/longitude coordinates?
       #
       def coordinates?(value)
-        !!value.to_s.match(/^[0-9\.\-]+, ?[0-9\.\-]+$/)
+        !!value.to_s.match(/^[0-9\.\-]+, *[0-9\.\-]+$/)
       end
 
       ##
