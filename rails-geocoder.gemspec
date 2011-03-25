@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://www.rubygeocoder.com"
   s.date        = Date.today.to_s
   s.summary     = "Complete geocoding solution for Ruby."
-  s.description = "THIS GEM HAS BEEN RENAMED: please use 'geocoder' instead. Provides object geocoding (by street or IP address), reverse geocoding (coordinates to street address), and distance calculations for geocoded objects. Designed for Rails but works with other frameworks too."
+  s.description = "THIS GEM HAS BEEN RENAMED: please use 'geocoder' instead. Provides object geocoding (by street or IP address), reverse geocoding (coordinates to street address), and distance calculations. Designed for Rails but works with other frameworks too."
   s.files       = `git ls-files`.split("\n") - %w[rails-geocoder.gemspec Gemfile init.rb]
   s.require_paths = ["lib"]
 end
