@@ -139,6 +139,18 @@ class GeocoderTest < Test::Unit::TestCase
 
   # --- calcluations ---
 
+  def test_distance_between_longitude_lines_at_equator
+    assert_equal 69, Geocoder::Calculations.distance_between_longitude_lines(0).round
+  end
+
+  def test_distance_between_longitude_lines_at_new_york
+    assert_equal 53, Geocoder::Calculations.distance_between_longitude_lines(40).round
+  end
+
+  def test_distance_between_longitude_lines_at_north_pole
+    assert_equal 0, Geocoder::Calculations.distance_between_longitude_lines(89.98).round
+  end
+
   def test_distance_between
     assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
     la_to_ny = Geocoder::Calculations.distance_between(34.05,-118.25, 40.72,-74).round
