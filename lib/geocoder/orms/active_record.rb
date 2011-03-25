@@ -172,9 +172,10 @@ module Geocoder::Orm
       def default_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        b = Geocoder::Calculations.bounding_box(latitude, longitude, radius, options)
         conditions = \
           ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
-          coordinate_bounds(latitude, longitude, radius)
+          [b[0], b[2], b[1], b[3]]
         if obj = options[:exclude]
           conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
@@ -186,21 +187,6 @@ module Geocoder::Orm
           :offset => options[:offset],
           :conditions => conditions
         }
-      end
-
-      ##
-      # Get the rough high/low lat/long bounds for a geographic point and
-      # radius. Returns an array: <tt>[lat_lo, lat_hi, lon_lo, lon_hi]</tt>.
-      # Used to constrain search to a (radius x radius) square.
-      #
-      def coordinate_bounds(latitude, longitude, radius, units = :mi)
-        radius = radius.to_f
-        [
-          latitude  - (radius / Geocoder::Calculations.latitude_degree_distance(units)),
-          latitude  + (radius / Geocoder::Calculations.latitude_degree_distance(units)),
-          longitude - (radius / Geocoder::Calculations.longitude_degree_distance(latitude, units)),
-          longitude + (radius / Geocoder::Calculations.longitude_degree_distance(latitude, units))
-        ]
       end
     end
 
