@@ -157,8 +157,11 @@ module Geocoder::Orm
         dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
         dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
 
-        distance = "(#{dy} * ABS(#{lat_attr} - #{latitude}) / 2) + " +
-          "(#{dx} * ABS(#{lon_attr} - #{longitude}) / 2)"
+        # sin of 45 degrees = average x or y component of vector
+        factor = Math.sin(Math::PI / 4)
+
+        distance = "(#{dy} * ABS(#{lat_attr} - #{latitude}) * #{factor}) + " +
+          "(#{dx} * ABS(#{lon_attr} - #{longitude}) * #{factor})"
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || '*'}, " +
             "#{distance} AS distance" +
