@@ -120,7 +120,7 @@ module Geocoder
     def geographic_center(points)
 
       # convert objects to [lat,lon] arrays and remove nils
-      points.map!{ |p| p.is_a?(Array) ? p : p.to_coordinates }.compact
+      points = points.map{ |p| p.is_a?(Array) ? p : p.to_coordinates }.compact
 
       # convert degrees to radians
       points.map!{ |p| to_radians(p) }

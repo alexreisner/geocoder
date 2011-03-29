@@ -51,6 +51,14 @@ class GeocoderTest < Test::Unit::TestCase
     assert Geocoder.address(40.750354, -73.993371).is_a?(String)
   end
 
+  def test_geographic_center_doesnt_overwrite_argument_value
+    # this tests for the presence of a bug that was introduced in version 0.9.11
+    orig_points = [[52,8], [46,9], [42,5]]
+    points = orig_points.clone
+    Geocoder::Calculations.geographic_center(points)
+    assert_equal orig_points, points
+  end
+
 
   # --- general ---
 
