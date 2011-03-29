@@ -2,6 +2,17 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.12 (2011 Apr 6)
+
+* Add support for Mongoid.
+* Add bearing_to/from methods to geocoded objects.
+* Improve SQLite's distance calculation heuristic.
+* Fix: Geocoder::Calculations.geographic_center was modifying its argument in-place (reported by github.com/joelmats).
+* Fix: sort 'near' query results by distance when using SQLite.
+* Clean up input: search for coordinates as a string with space after comma yields zero results from Google. Now we get rid of any such space before sending the query.
+* DEPRECATION: Geocoder.near should not take <tt>:limit</tt> or <tt>:offset</tt> options.
+* DEPRECATION: Change argument format of all methods that take lat/lon as separate arguments. Now you must pass the coordinates as an array [lat,lon], but you may alternatively pass a address string (will look up coordinates) or a geocoded object (or any object that implements a to_coordinates method which returns a [lat,lon] array).
+
 == 0.9.11 (2011 Mar 25)
 
 * Add support for result caching.
