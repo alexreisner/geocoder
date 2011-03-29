@@ -106,7 +106,11 @@ When you run a location-aware query the returned objects have two attributes add
 * <tt>obj.distance</tt> - number of miles from the search point to this object
 * <tt>obj.bearing</tt> - direction from the search point to this object
 
-The bearing is given as a number (between 0 and 360): clockwise degrees from due north. Some examples:
+You can take advantage of this to, for example, sort results by distance:
+
+  Place.near([54.2,2.1]).order("distance")
+
+Bearing is given as a number (between 0 and 360): clockwise degrees from due north, for example:
 
 * +0+ - due north
 * +180+ - due south
