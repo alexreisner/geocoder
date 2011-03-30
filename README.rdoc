@@ -42,15 +42,6 @@ At the command prompt:
 
 For reverse geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: +city+, +state+, and +country+).
 
-*Mongoid:* Define your address and coordinate fields right in the model. You also need to include the <tt>Geocoder::Model::Mongoid</tt> module _before_ calling <tt>geocoded_by</tt>:
-
-  field :address
-  field :latitude,  :type => Float
-  field :longitude, :type => Float
-
-  include Geocoder::Model::Mongoid
-  geocoded_by :address
-
 === Model Behavior
 
 In your model, tell Geocoder which method returns your object's full address:
