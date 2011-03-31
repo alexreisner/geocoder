@@ -1,8 +1,9 @@
 require "geocoder/configuration"
 require "geocoder/calculations"
 require "geocoder/cache"
-require "geocoder/model"
 require "geocoder/request"
+require "geocoder/models/active_record"
+require "geocoder/models/mongoid"
 
 module Geocoder
   extend self
