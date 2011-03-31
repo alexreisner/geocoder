@@ -196,6 +196,14 @@ module Geocoder
       end
     end
 
+    def distance_to_radians(distance, units = :mi)
+      distance.to_f / earth_radius(units)
+    end
+
+    def radians_to_distance(radians, units = :mi)
+      radians * earth_radius(units)
+    end
+
     ##
     # Convert miles to kilometers.
     #
