@@ -118,11 +118,11 @@ module Geocoder
     def geographic_center(points)
 
       # convert objects to [lat,lon] arrays and convert degrees to radians
-      points = points.map{ |p| to_radians(extract_coordinates(p)) }
+      coords = points.map{ |p| to_radians(extract_coordinates(p)) }
 
       # convert to Cartesian coordinates
       x = []; y = []; z = []
-      points.each do |p|
+      coords.each do |p|
         x << Math.cos(p[0]) * Math.cos(p[1])
         y << Math.cos(p[0]) * Math.sin(p[1])
         z << Math.sin(p[0])
