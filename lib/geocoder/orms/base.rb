@@ -28,6 +28,9 @@ module Geocoder
       # Also takes a symbol specifying the units (:mi or :km; default is :mi).
       #
       def distance_to(point, *args)
+        if point.is_a?(Numeric) and args[0].is_a?(Numeric)
+          warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the distance_to/from method, please pass an array [#{point},#{args[0]}], a geocoded object, or a geocodable address (string). The old argument format will not be supported in Geocoder v.1.0."
+        end
         return nil unless geocoded?
         units = args.last.is_a?(Symbol) ? args.pop : :mi
         them = args.size > 0 ? [point, args.first] :

@@ -34,13 +34,13 @@ class GeocoderTest < Test::Unit::TestCase
   def test_distance_to_returns_float
     v = Venue.new(*venue_params(:msg))
     v.latitude, v.longitude = [40.750354, -73.993371]
-    assert (d = v.distance_to(30, -94)).is_a?(Float)
+    assert (d = v.distance_to([30, -94])).is_a?(Float)
   end
 
   def test_distance_from_is_alias_for_distance_to
     v = Venue.new(*venue_params(:msg))
     v.latitude, v.longitude = [40.750354, -73.993371]
-    assert_equal v.distance_from(30, -94), v.distance_to(30, -94)
+    assert_equal v.distance_from([30, -94]), v.distance_to([30, -94])
   end
 
   def test_coordinates_method
