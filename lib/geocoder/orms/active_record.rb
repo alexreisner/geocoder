@@ -50,6 +50,8 @@ module Geocoder::Orm
     #
     module ClassMethods
 
+      private # ----------------------------------------------------------------
+
       ##
       # Get options hash suitable for passing to ActiveRecord.find to get
       # records within a radius (in miles) of the given point.
@@ -74,9 +76,6 @@ module Geocoder::Orm
           full_near_scope_options(latitude, longitude, radius, options)
         end
       end
-
-
-      private # ----------------------------------------------------------------
 
       ##
       # Scope options hash for use with a database that supports POWER(),
