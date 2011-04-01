@@ -18,8 +18,14 @@ module Geocoder
 
       ##
       # Calculate the distance from the object to an arbitrary point.
-      # Takes two floats (latitude, longitude) and a symbol specifying the
-      # units to be used (:mi or :km; default is :mi).
+      # The point can be:
+      #
+      # * an array of coordinates ([lat,lon])
+      # * a geocoded object (one which implements a +to_coordinates+ method
+      #   which returns a [lat,lon] array
+      # * a geocodable address (string)
+      #
+      # Also takes a symbol specifying the units (:mi or :km; default is :mi).
       #
       def distance_to(point, *args)
         return nil unless geocoded?
@@ -35,12 +41,7 @@ module Geocoder
 
       ##
       # Calculate the bearing from the object to another point.
-      # The point can be:
-      #
-      # * an array of coordinates ([lat,lon])
-      # * a geocoded object (one which implements a +to_coordinates+ method
-      #   which returns a [lat,lon] array
-      # * a geocodable address (string)
+      # See distance_to for various ways to specify the point.
       #
       def bearing_to(point, options = {})
         return nil unless them = Geocoder::Calculations.extract_coordinates(point)
@@ -51,7 +52,7 @@ module Geocoder
 
       ##
       # Calculate the bearing from another point to the object.
-      # See bearing_to for details.
+      # See distance_to for various ways to specify the point.
       #
       def bearing_from(point, options = {})
         return nil unless them = Geocoder::Calculations.extract_coordinates(point)
