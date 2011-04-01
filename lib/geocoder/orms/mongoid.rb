@@ -39,7 +39,7 @@ module Geocoder::Orm
     #
     def to_coordinates
       coords = send(self.class.geocoder_options[:coordinates])
-      coords.is_a?(Array) ? coords.reverse : nil
+      coords.is_a?(Array) ? coords.reverse : []
     end
 
     ##
