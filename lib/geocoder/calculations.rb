@@ -117,11 +117,8 @@ module Geocoder
     #
     def geographic_center(points)
 
-      # convert objects to [lat,lon] arrays and remove nils
-      points = points.map{ |p| p.is_a?(Array) ? p : p.to_coordinates }.compact
-
-      # convert degrees to radians
-      points.map!{ |p| to_radians(p) }
+      # convert objects to [lat,lon] arrays and convert degrees to radians
+      points = points.map{ |p| to_radians(extract_coordinates(p)) }
 
       # convert to Cartesian coordinates
       x = []; y = []; z = []
@@ -235,6 +232,20 @@ module Geocoder
     #
     def mi_in_km
       1.0 / KM_IN_MI
+    end
+
+    ##
+    # Takes an object which is a [lat,lon] array, a geocodable string,
+    # or an object that implements +to_coordinates+ and returns a
+    # [lat,lon] array. Note that if a string is passed this may be a slow-
+    # running method and may return nil.
+    #
+    def extract_coordinates(point)
+      case point
+        when Array; point
+        when String; Geocoder.coordinates(point)
+        else point.to_coordinates
+      end
     end
   end
 end

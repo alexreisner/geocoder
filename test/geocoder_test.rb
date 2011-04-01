@@ -248,6 +248,21 @@ class GeocoderTest < Test::Unit::TestCase
     end
   end
 
+  def test_spherical_bearing_to
+    l = Landmark.new(*landmark_params(:msg))
+    assert_equal 324, l.bearing_to([50,-85], :method => :spherical).round
+  end
+
+  def test_spherical_bearing_from
+    l = Landmark.new(*landmark_params(:msg))
+    assert_equal 136, l.bearing_from([50,-85], :method => :spherical).round
+  end
+
+  def test_linear_bearing_from_and_to_are_exactly_opposite
+    l = Landmark.new(*landmark_params(:msg))
+    assert_equal l.bearing_from([50,-86.1]), l.bearing_to([50,-86.1]) - 180
+  end
+
 
   # --- input handling ---
 
@@ -278,6 +293,13 @@ class GeocoderTest < Test::Unit::TestCase
       Geocoder::Configuration.lookup = l
       assert_nothing_raised { Venue.new("Venue", nil).geocode }
     end
+  end
+
+  def test_extract_coordinates
+    coords = [-23,47]
+    l = Landmark.new("Madagascar", coords[0], coords[1])
+    assert_equal coords, Geocoder::Calculations.extract_coordinates(l)
+    assert_equal coords, Geocoder::Calculations.extract_coordinates(coords)
   end
 
 

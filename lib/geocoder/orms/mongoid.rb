@@ -16,11 +16,10 @@ module Geocoder::Orm
         }
 
         scope :near, lambda{ |location, *args|
+          coords  = Geocoder::Calculations.extract_coordinates(location)
           radius  = args.size > 0 ? args.shift : 20
           options = args.size > 0 ? args.shift : {}
-          coords  = location.is_a?(Array) ?
-            location : Geocoder.coordinates(location)
-          conds = {:coordinates => {
+          conds   = {:coordinates => {
             "$nearSphere" => coords.reverse,
             "$maxDistance" => Geocoder::Calculations.distance_to_radians(
               radius, options[:units] || :mi)

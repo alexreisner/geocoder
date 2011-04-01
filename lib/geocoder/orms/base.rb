@@ -30,6 +30,33 @@ module Geocoder
       alias_method :distance_from, :distance_to
 
       ##
+      # Calculate the bearing from the object to another point.
+      # The point can be:
+      #
+      # * an array of coordinates ([lat,lon])
+      # * a geocoded object (one which implements a +to_coordinates+ method
+      #   which returns a [lat,lon] array
+      # * a geocodable address (string)
+      #
+      def bearing_to(point, options = {})
+        return nil unless them = Geocoder::Calculations.extract_coordinates(point)
+        us = to_coordinates
+        Geocoder::Calculations.bearing_between(
+          us[0], us[1], them[0], them[1], options)
+      end
+
+      ##
+      # Calculate the bearing from another point to the object.
+      # See bearing_to for details.
+      #
+      def bearing_from(point, options = {})
+        return nil unless them = Geocoder::Calculations.extract_coordinates(point)
+        us = to_coordinates
+        Geocoder::Calculations.bearing_between(
+          them[0], them[1], us[0], us[1], options)
+      end
+
+      ##
       # Get nearby geocoded objects.
       # Takes the same options hash as the near class method (scope).
       #
@@ -40,7 +67,7 @@ module Geocoder
           warn "DEPRECATION WARNING: The units argument to the nearbys method has been replaced with an options hash (same options hash as the near scope). You should instead call: obj.nearbys(#{radius}, :units => #{options[:units]}). The old syntax will not be supported in Geocoder v1.0."
         end
         options.merge!(:exclude => self)
-        self.class.near(to_coordinates, radius, options)
+        self.class.near(self, radius, options)
       end
 
       ##

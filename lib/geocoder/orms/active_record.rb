@@ -34,8 +34,7 @@ module Geocoder::Orm
         # for details).
         #
         scope :near, lambda{ |location, *args|
-          latitude, longitude = location.is_a?(Array) ?
-            location : Geocoder.coordinates(location)
+          latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
           if latitude and longitude
             near_scope_options(latitude, longitude, *args)
           else
