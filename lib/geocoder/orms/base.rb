@@ -21,10 +21,14 @@ module Geocoder
       # Takes two floats (latitude, longitude) and a symbol specifying the
       # units to be used (:mi or :km; default is :mi).
       #
-      def distance_to(lat, lon, units = :mi)
+      def distance_to(point, *args)
         return nil unless geocoded?
-        mylat,mylon = to_coordinates
-        Geocoder::Calculations.distance_between(mylat, mylon, lat, lon, :units => units)
+        units = args.last.is_a?(Symbol) ? args.pop : :mi
+        them = args.size > 0 ? [point, args.first] :
+          Geocoder::Calculations.extract_coordinates(point)
+        us = to_coordinates
+        Geocoder::Calculations.distance_between(
+          us[0], us[1], them[0], them[1], :units => units)
       end
 
       alias_method :distance_from, :distance_to
