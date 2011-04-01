@@ -44,7 +44,8 @@ module Geocoder
       # See distance_to for various ways to specify the point.
       #
       def bearing_to(point, options = {})
-        return nil unless them = Geocoder::Calculations.extract_coordinates(point)
+        return nil unless geocoded? &&
+          them = Geocoder::Calculations.extract_coordinates(point)
         us = to_coordinates
         Geocoder::Calculations.bearing_between(
           us[0], us[1], them[0], them[1], options)
@@ -55,7 +56,8 @@ module Geocoder
       # See distance_to for various ways to specify the point.
       #
       def bearing_from(point, options = {})
-        return nil unless them = Geocoder::Calculations.extract_coordinates(point)
+        return nil unless geocoded? &&
+          them = Geocoder::Calculations.extract_coordinates(point)
         us = to_coordinates
         Geocoder::Calculations.bearing_between(
           them[0], them[1], us[0], us[1], options)
