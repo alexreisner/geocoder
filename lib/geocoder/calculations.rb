@@ -22,24 +22,22 @@ module Geocoder
     KM_IN_MI = 0.621371192
 
     ##
-    # Calculate the distance spanned by one
-    # degree of latitude in the given units.
+    # Distance spanned by one degree of latitude in the given units.
     #
     def latitude_degree_distance(units = :mi)
       2 * Math::PI * earth_radius(units) / 360
     end
 
     ##
-    # Calculate the distance spanned by one degree of longitude
-    # at the given latitude. This ranges from around 69 miles at
-    # the equator to zero at the poles.
+    # Distance spanned by one degree of longitude at the given latitude.
+    # This ranges from around 69 miles at the equator to zero at the poles.
     #
     def longitude_degree_distance(latitude, units = :mi)
       latitude_degree_distance(units) * Math.cos(to_radians(latitude))
     end
 
     ##
-    # Calculate the distance between two points on Earth (Haversine formula).
+    # Distance between two points on Earth (Haversine formula).
     # Takes two sets of coordinates and an options hash:
     #
     # * <tt>:units</tt> - <tt>:mi</tt> (default) or <tt>:km</tt>
@@ -63,7 +61,7 @@ module Geocoder
     end
 
     ##
-    # Calculate bearing between two sets of coordinates.
+    # Bearing between two points on Earth.
     # Returns a number of degrees from due north (clockwise).
     #
     # Also accepts an options hash:
