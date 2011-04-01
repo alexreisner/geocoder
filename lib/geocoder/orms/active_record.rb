@@ -63,9 +63,7 @@ module Geocoder::Orm
       #   between the given point and each found nearby point;
       #   set to false for no bearing calculation
       # * +:select+  - string with the SELECT SQL fragment (e.g. “id, name”)
-      # * +:order+   - column(s) for ORDER BY SQL clause
-      # * +:limit+   - number of records to return (for LIMIT SQL clause)
-      # * +:offset+  - number of records to skip (for OFFSET SQL clause)
+      # * +:order+   - column(s) for ORDER BY SQL clause; default is distance
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
@@ -182,6 +180,9 @@ module Geocoder::Orm
         if obj = options[:exclude]
           conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
+        end
+        if options[:limit] || options[:offset]
+          warn "DEPRECATION WARNING: The :limit and :offset options to Geocoder's 'near' method are deprecated and will be removed in Geocoder v1.0. Please specify these options using ARel relations instead, for example: Place.near(...).limit(10).offset(20)."
         end
         {
           :group  => columns.map{ |c| "#{table_name}.#{c.name}" }.join(','),
