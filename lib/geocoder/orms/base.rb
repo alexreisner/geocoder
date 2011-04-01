@@ -109,14 +109,14 @@ module Geocoder
       def do_lookup(reverse = false)
         options = self.class.geocoder_options
         if reverse and options[:reverse_geocode]
-          args = to_coordinates
+          query = to_coordinates
         elsif !reverse and options[:geocode]
-          args = [send(options[:user_address])]
+          query = send(options[:user_address])
         else
           return
         end
 
-        if (results = Geocoder.search(*args)).size > 0
+        if (results = Geocoder.search(query)).size > 0
 
           # execute custom block, if specified in configuration
           block_key = reverse ? :reverse_block : :geocode_block

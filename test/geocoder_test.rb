@@ -139,7 +139,7 @@ class GeocoderTest < Test::Unit::TestCase
   def test_result_has_required_attributes
     all_lookups.each do |l|
       Geocoder::Configuration.lookup = l
-      result = Geocoder.search(45.423733, -75.676333).first
+      result = Geocoder.search([45.423733, -75.676333]).first
       assert_result_has_required_attributes(result)
     end
   end
@@ -350,7 +350,7 @@ class GeocoderTest < Test::Unit::TestCase
 
   def test_geocoder_ca_result_components
     Geocoder::Configuration.lookup = :geocoder_ca
-    result = Geocoder.search(45.423733, -75.676333).first
+    result = Geocoder.search([45.423733, -75.676333]).first
     assert_equal "CA", result.country_code
     assert_equal "289 Somerset ST E, Ottawa, ON K1N6W1, Canada", result.address
   end

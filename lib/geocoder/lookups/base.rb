@@ -20,13 +20,23 @@ module Geocoder
       # "205.128.54.202") for geocoding, or coordinates (latitude, longitude)
       # for reverse geocoding. Returns an array of <tt>Geocoder::Result</tt>s.
       #
-      def search(*args)
-        # if coordinates given as string, split into floats
-        if coordinates?(args.first)
-          args = args.first.split(/\s*,\s*/).map{ |i| i.to_f }
+      def search(query, *args)
+        # convert coordinates as separate arguments to an array
+        if query.is_a?(Numeric) and args.first.is_a?(Numeric)
+          warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the search method, please pass an array: [#{query},#{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
+          query = [query, args.first]
         end
-        reverse = (args.size == 2)
-        results(args.join(","), reverse).map{ |r| result_class.new(r) }
+
+        # if coordinates given as string, turn into array
+        query = query.split(/\s*,\s*/) if coordinates?(query)
+
+        if query.is_a?(Array)
+          reverse = true
+          query = query.join(',')
+        else
+          reverse = false
+        end
+        results(query, reverse).map{ |r| result_class.new(r) }
       end
 
 
@@ -117,7 +127,7 @@ module Geocoder
       # Is the given string a loopback IP address?
       #
       def loopback_address?(ip)
-        !!(ip == "0.0.0.0" or ip.match(/^127/))
+        !!(ip == "0.0.0.0" or ip.to_s.match(/^127/))
       end
 
       ##

@@ -11,12 +11,16 @@ module Geocoder
   ##
   # Search for information about an address or a set of coordinates.
   #
-  def search(*args)
-    if blank_query?(args[0])
+  def search(query, *args)
+    # convert coordinates as separate arguments to an array
+    if query.is_a?(Numeric) and args.first.is_a?(Numeric)
+      warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the search method, please pass an array: [#{query},#{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
+      query = [query, args.first]
+    end
+    if blank_query?(query)
       results = []
     else
-      ip = (args.size == 1 and ip_address?(args.first))
-      results = lookup(ip).search(*args)
+      results = lookup(ip_address?(query)).search(query)
     end
     results.instance_eval do
       def warn_search_deprecation(attr)
@@ -48,7 +52,7 @@ module Geocoder
   # Look up the address of the given coordinates.
   #
   def address(latitude, longitude)
-    if (results = search(latitude, longitude)).size > 0
+    if (results = search([latitude, longitude])).size > 0
       results.first.address
     end
   end
@@ -126,7 +130,7 @@ module Geocoder
   # dot-delimited 8-bit numbers.
   #
   def ip_address?(value)
-    !!value.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
+    !!value.to_s.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
   end
 
   ##
