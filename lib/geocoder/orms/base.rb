@@ -18,52 +18,42 @@ module Geocoder
 
       ##
       # Calculate the distance from the object to an arbitrary point.
-      # The point can be:
-      #
-      # * an array of coordinates ([lat,lon])
-      # * a geocoded object (one which implements a +to_coordinates+ method
-      #   which returns a [lat,lon] array
-      # * a geocodable address (string)
-      #
-      # Also takes a symbol specifying the units (:mi or :km; default is :mi).
+      # See Geocoder::Calculations.distance_between for ways of specifying
+      # the point. Also takes a symbol specifying the units
+      # (:mi or :km; default is :mi).
       #
       def distance_to(point, *args)
         if point.is_a?(Numeric) and args[0].is_a?(Numeric)
           warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the distance_to/from method, please pass an array [#{point},#{args[0]}], a geocoded object, or a geocodable address (string). The old argument format will not be supported in Geocoder v.1.0."
+          point = [point, args.shift]
         end
         return nil unless geocoded?
-        units = args.last.is_a?(Symbol) ? args.pop : :mi
-        them = args.size > 0 ? [point, args.first] :
-          Geocoder::Calculations.extract_coordinates(point)
-        us = to_coordinates
         Geocoder::Calculations.distance_between(
-          us[0], us[1], them[0], them[1], :units => units)
+          to_coordinates, point, :units => args.pop || :mi)
       end
 
       alias_method :distance_from, :distance_to
 
       ##
       # Calculate the bearing from the object to another point.
-      # See distance_to for various ways to specify the point.
+      # See Geocoder::Calculations.distance_between for
+      # ways of specifying the point.
       #
       def bearing_to(point, options = {})
-        return nil unless geocoded? &&
-          them = Geocoder::Calculations.extract_coordinates(point)
-        us = to_coordinates
+        return nil unless geocoded?
         Geocoder::Calculations.bearing_between(
-          us[0], us[1], them[0], them[1], options)
+          to_coordinates, point, options)
       end
 
       ##
       # Calculate the bearing from another point to the object.
-      # See distance_to for various ways to specify the point.
+      # See Geocoder::Calculations.distance_between for
+      # ways of specifying the point.
       #
       def bearing_from(point, options = {})
-        return nil unless geocoded? &&
-          them = Geocoder::Calculations.extract_coordinates(point)
-        us = to_coordinates
+        return nil unless geocoded?
         Geocoder::Calculations.bearing_between(
-          them[0], them[1], us[0], us[1], options)
+          point, to_coordinates, options)
       end
 
       ##

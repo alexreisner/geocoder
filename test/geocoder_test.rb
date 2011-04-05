@@ -160,14 +160,14 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
   def test_distance_between_in_miles
-    assert_equal 69, Geocoder::Calculations.distance_between(0,0, 0,1).round
-    la_to_ny = Geocoder::Calculations.distance_between(34.05,-118.25, 40.72,-74).round
+    assert_equal 69, Geocoder::Calculations.distance_between([0,0], [0,1]).round
+    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74]).round
     assert (la_to_ny - 2444).abs < 10
   end
 
   def test_distance_between_in_kilometers
-    assert_equal 111, Geocoder::Calculations.distance_between(0,0, 0,1, :units => :km).round
-    la_to_ny = Geocoder::Calculations.distance_between(34.05,-118.25, 40.72,-74, :units => :km).round
+    assert_equal 111, Geocoder::Calculations.distance_between([0,0], [0,1], :units => :km).round
+    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], :units => :km).round
     assert (la_to_ny - 3942).abs < 10
   end
 
@@ -237,11 +237,8 @@ class GeocoderTest < Test::Unit::TestCase
     methods.each do |m|
       directions.each_with_index do |d,i|
         opp = directions[(i + 2) % 4] # opposite direction
-        p1 = points[d]
-        p2 = points[opp]
-
-        args = p1 + p2 + [:method => m]
-        b = Geocoder::Calculations.bearing_between(*args)
+        b = Geocoder::Calculations.bearing_between(
+          points[d], points[opp], :method => m)
         assert (b - bearings[opp]).abs < 1,
           "Bearing (#{m}) should be close to #{bearings[opp]} but was #{b}."
       end

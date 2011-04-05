@@ -38,24 +38,44 @@ module Geocoder
 
     ##
     # Distance between two points on Earth (Haversine formula).
-    # Takes two sets of coordinates and an options hash:
+    # Takes two points and an options hash.
+    # The points are given in the same way that points are given to all
+    # Geocoder methods that accept points as arguments. They can be:
+    #
+    # * an array of coordinates ([lat,lon])
+    # * a geocodable address (string)
+    # * a geocoded object (one which implements a +to_coordinates+ method
+    #   which returns a [lat,lon] array
+    #
+    # The options hash supports:
     #
     # * <tt>:units</tt> - <tt>:mi</tt> (default) or <tt>:km</tt>
     #
-    def distance_between(lat1, lon1, lat2, lon2, options = {})
+    def distance_between(point1, point2, options = {}, *args)
+      if args.size > 0
+        warn "DEPRECATION WARNING: Instead of passing lat1/lon1/lat2/lon2 as separate arguments to the distance_between method, please pass two two-element arrays: [#{point1},#{point2}], [#{options}, #{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
+        point1 = [point1, point2]
+        point2 = [options, args.shift]
+        options = args.shift || {}
+      end
 
       # set default options
       options[:units] ||= :mi
 
+      # convert to coordinate arrays
+      point1 = extract_coordinates(point1)
+      point2 = extract_coordinates(point2)
+
       # convert degrees to radians
-      lat1, lon1, lat2, lon2 = to_radians(lat1, lon1, lat2, lon2)
+      point1 = to_radians(point1)
+      point2 = to_radians(point2)
 
       # compute deltas
-      dlat = lat2 - lat1
-      dlon = lon2 - lon1
+      dlat = point2[0] - point1[0]
+      dlon = point2[1] - point1[1]
 
-      a = (Math.sin(dlat / 2))**2 + Math.cos(lat1) *
-          (Math.sin(dlon / 2))**2 * Math.cos(lat2)
+      a = (Math.sin(dlat / 2))**2 + Math.cos(point1[0]) *
+          (Math.sin(dlon / 2))**2 * Math.cos(point2[0])
       c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
       c * earth_radius(options[:units])
     end
@@ -64,7 +84,8 @@ module Geocoder
     # Bearing between two points on Earth.
     # Returns a number of degrees from due north (clockwise).
     #
-    # Also accepts an options hash:
+    # See Geocoder::Calculations.distance_between for
+    # ways of specifying the points. Also accepts an options hash:
     #
     # * <tt>:method</tt> - <tt>:linear</tt> (default) or <tt>:spherical</tt>;
     #   the spherical method is "correct" in that it returns the shortest path
@@ -74,15 +95,27 @@ module Geocoder
     #
     # Based on: http://www.movable-type.co.uk/scripts/latlong.html
     #
-    def bearing_between(lat1, lon1, lat2, lon2, options = {})
+    def bearing_between(point1, point2, options = {}, *args)
+      if args.size > 0
+        warn "DEPRECATION WARNING: Instead of passing lat1/lon1/lat2/lon2 as separate arguments to the bearing_between method, please pass two two-element arrays: [#{point1},#{point2}], [#{options}, #{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
+        point1 = [point1, point2]
+        point2 = [options, args.shift]
+        options = args.shift || {}
+      end
+
       options[:method] = :linear unless options[:method] == :spherical
 
+      # convert to coordinate arrays
+      point1 = extract_coordinates(point1)
+      point2 = extract_coordinates(point2)
+
       # convert degrees to radians
-      lat1, lon1, lat2, lon2 = to_radians(lat1, lon1, lat2, lon2)
+      point1 = to_radians(point1)
+      point2 = to_radians(point2)
 
       # compute deltas
-      dlat = lat2 - lat1
-      dlon = lon2 - lon1
+      dlat = point2[0] - point1[0]
+      dlon = point2[1] - point1[1]
 
       case options[:method]
       when :linear
@@ -90,9 +123,9 @@ module Geocoder
         x = dlat
 
       when :spherical
-        y = Math.sin(dlon) * Math.cos(lat2)
-        x = Math.cos(lat1) * Math.sin(lat2) -
-            Math.sin(lat1) * Math.cos(lat2) * Math.cos(dlon)
+        y = Math.sin(dlon) * Math.cos(point2[0])
+        x = Math.cos(point1[0]) * Math.sin(point2[0]) -
+            Math.sin(point1[0]) * Math.cos(point2[0]) * Math.cos(dlon)
       end
 
       bearing = Math.atan2(x,y)
