@@ -171,7 +171,7 @@ module Geocoder::Orm
       def default_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
-        b = Geocoder::Calculations.bounding_box(latitude, longitude, radius, options)
+        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         conditions = \
           ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           [b[0], b[2], b[1], b[3]]

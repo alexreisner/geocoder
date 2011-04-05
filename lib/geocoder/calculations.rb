@@ -185,14 +185,26 @@ module Geocoder
     # roughly limiting the possible solutions in a geo-spatial search
     # (ActiveRecord queries use it thusly).
     #
-    def bounding_box(latitude, longitude, radius, options = {})
-      units = options[:units] || :mi
-      radius = radius.to_f
+    # See Geocoder::Calculations.distance_between for
+    # ways of specifying the point. Also accepts an options hash:
+    #
+    # * <tt>:units</tt> - <tt>:mi</tt> (default) or <tt>:km</tt>
+    #
+    def bounding_box(point, radius, options = {}, *args)
+      if point.is_a?(Numeric)
+        warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the bounding_box method, please pass an array [#{point},#{radius}], a geocoded object, or a geocodable address (string). The old argument format will not be supported in Geocoder v.1.0."
+        point   = [point, radius]
+        radius  = options
+        options = args.first || {}
+      end
+      lat,lon = extract_coordinates(point)
+      radius  = radius.to_f
+      units   = options[:units] || :mi
       [
-        latitude  - (radius / latitude_degree_distance(units)),
-        longitude - (radius / longitude_degree_distance(latitude, units)),
-        latitude  + (radius / latitude_degree_distance(units)),
-        longitude + (radius / longitude_degree_distance(latitude, units))
+        lat - (radius / latitude_degree_distance(units)),
+        lon - (radius / longitude_degree_distance(lat, units)),
+        lat + (radius / latitude_degree_distance(units)),
+        lon + (radius / longitude_degree_distance(lat, units))
       ]
     end
 

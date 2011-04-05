@@ -145,7 +145,7 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
 
-  # --- calcluations ---
+  # --- calculations: degree distance ---
 
   def test_longitude_degree_distance_at_equator
     assert_equal 69, Geocoder::Calculations.longitude_degree_distance(0).round
@@ -159,6 +159,9 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal 0, Geocoder::Calculations.longitude_degree_distance(89.98).round
   end
 
+
+  # --- calculations: distance between ---
+
   def test_distance_between_in_miles
     assert_equal 69, Geocoder::Calculations.distance_between([0,0], [0,1]).round
     la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74]).round
@@ -170,6 +173,9 @@ class GeocoderTest < Test::Unit::TestCase
     la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], :units => :km).round
     assert (la_to_ny - 3942).abs < 10
   end
+
+
+  # --- calculations: geographic center ---
 
   def test_geographic_center_with_arrays
     assert_equal [0.0, 0.5],
@@ -184,6 +190,9 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal [0.0, 0.5], Geocoder::Calculations.geographic_center([p1, p2])
   end
 
+
+  # --- calculations: bounding box ---
+
   def test_bounding_box_calculation_in_miles
     center = [51, 7] # Cologne, DE
     radius = 10 # miles
@@ -191,7 +200,7 @@ class GeocoderTest < Test::Unit::TestCase
     dlat = radius / Geocoder::Calculations.longitude_degree_distance(center[0])
     corners = [50.86, 6.77, 51.14, 7.23]
     assert_equal corners.map{ |i| (i * 100).round },
-      Geocoder::Calculations.bounding_box(center[0], center[1], radius).map{ |i| (i * 100).round }
+      Geocoder::Calculations.bounding_box(center, radius).map{ |i| (i * 100).round }
   end
 
   def test_bounding_box_calculation_in_kilometers
@@ -201,11 +210,28 @@ class GeocoderTest < Test::Unit::TestCase
     dlat = radius / Geocoder::Calculations.longitude_degree_distance(center[0], :km)
     corners = [50, 5.41, 52, 8.59]
     assert_equal corners.map{ |i| (i * 100).round },
-      Geocoder::Calculations.bounding_box(center[0], center[1], radius, :units => :km).map{ |i| (i * 100).round }
+      Geocoder::Calculations.bounding_box(center, radius, :units => :km).map{ |i| (i * 100).round }
+  end
+
+  def test_bounding_box_calculation_with_object
+    center = [51, 7] # Cologne, DE
+    radius = 10 # miles
+    dlon = radius / Geocoder::Calculations.latitude_degree_distance
+    dlat = radius / Geocoder::Calculations.longitude_degree_distance(center[0])
+    corners = [50.86, 6.77, 51.14, 7.23]
+    obj = Landmark.new("Cologne", center[0], center[1])
+    assert_equal corners.map{ |i| (i * 100).round },
+      Geocoder::Calculations.bounding_box(obj, radius).map{ |i| (i * 100).round }
+  end
+
+  def test_bounding_box_calculation_with_address_string
+    assert_nothing_raised do
+      Geocoder::Calculations.bounding_box("4893 Clay St, San Francisco, CA", 50)
+    end
   end
 
 
-  # --- bearing ---
+  # --- calculations: bearing ---
 
   def test_compass_points
     assert_equal "N",  Geocoder::Calculations.compass_point(0)
