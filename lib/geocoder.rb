@@ -49,10 +49,15 @@ module Geocoder
   end
 
   ##
-  # Look up the address of the given coordinates.
+  # Look up the address of the given coordinates ([lat,lon])
+  # or IP address (string).
   #
-  def address(latitude, longitude)
-    if (results = search([latitude, longitude])).size > 0
+  def address(query, *args)
+    if lon = args.first
+      warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the address method, please pass an array: [#{query},#{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
+      query = [query, lon]
+    end
+    if (results = search(query)).size > 0
       results.first.address
     end
   end

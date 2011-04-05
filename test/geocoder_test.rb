@@ -48,7 +48,7 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
   def test_address_method
-    assert Geocoder.address(40.750354, -73.993371).is_a?(String)
+    assert Geocoder.address([40.750354, -73.993371]).is_a?(String)
   end
 
   def test_geographic_center_doesnt_overwrite_argument_value
