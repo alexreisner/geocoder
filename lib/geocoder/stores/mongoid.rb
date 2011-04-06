@@ -1,6 +1,6 @@
-require 'geocoder/orms/base'
+require 'geocoder/stores/base'
 
-module Geocoder::Orm
+module Geocoder::Store
   module Mongoid
     include Base
 

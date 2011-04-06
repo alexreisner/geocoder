@@ -26,15 +26,15 @@ module Geocoder
       def geocoder_init(options)
         unless geocoder_initialized?
           @geocoder_options = {}
-          require "geocoder/orms/#{geocoder_file_name}"
-          include eval("Geocoder::Orm::" + geocoder_module_name)
+          require "geocoder/stores/#{geocoder_file_name}"
+          include eval("Geocoder::Store::" + geocoder_module_name)
         end
         @geocoder_options.merge! options
       end
 
       def geocoder_initialized?
         begin
-          included_modules.include? eval("Geocoder::Orm::" + geocoder_module_name)
+          included_modules.include? eval("Geocoder::Store::" + geocoder_module_name)
         rescue NameError
           false
         end

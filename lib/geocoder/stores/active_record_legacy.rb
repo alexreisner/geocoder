@@ -1,4 +1,4 @@
-module Geocoder::Orm::ActiveRecord
+module Geocoder::Store::ActiveRecord
   module Legacy
 
     ##

@@ -1,5 +1,5 @@
 module Geocoder
-  module Orm
+  module Store
     module Base
 
       ##

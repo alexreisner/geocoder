@@ -1,10 +1,10 @@
-require 'geocoder/orms/base'
-require 'geocoder/orms/active_record_legacy'
+require 'geocoder/stores/base'
+require 'geocoder/stores/active_record_legacy'
 
 ##
 # Add geocoding functionality to any ActiveRecord object.
 #
-module Geocoder::Orm
+module Geocoder::Store
   module ActiveRecord
     include Base
     include ActiveRecord::Legacy
