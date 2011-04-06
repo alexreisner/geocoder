@@ -122,7 +122,7 @@ Some utility methods are also available:
    => 3619.77359999382
 
   # find the geographic center (aka center of gravity) of objects or points
-  Geocoder::Calculations.geographic_center(city1, city2, [40.22,-73.99], city4)
+  Geocoder::Calculations.geographic_center([city1, city2, [40.22,-73.99], city4])
    => [35.14968, -90.048929]
 
 Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
