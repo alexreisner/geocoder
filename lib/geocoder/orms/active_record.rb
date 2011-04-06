@@ -161,7 +161,8 @@ module Geocoder::Orm
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || '*'}, " +
             "#{distance} AS distance" +
-            (bearing ? ", #{bearing} AS bearing" : "")
+            (bearing ? ", #{bearing} AS bearing" : ""),
+          :order => distance
         )
       end
 
