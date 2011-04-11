@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 0.9.13 (2011 Apr 11)
+
+* Fix "can't find special index: 2d" error when using Mongoid with Ruby 1.8.
+
 == 0.9.12 (2011 Apr 6)
 
 * Add support for Mongoid.
