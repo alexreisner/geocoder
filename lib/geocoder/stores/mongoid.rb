@@ -19,11 +19,17 @@ module Geocoder::Store
           coords  = Geocoder::Calculations.extract_coordinates(location)
           radius  = args.size > 0 ? args.shift : 20
           options = args.size > 0 ? args.shift : {}
-          conds   = {:coordinates => {
-            "$nearSphere" => coords.reverse,
-            "$maxDistance" => Geocoder::Calculations.distance_to_radians(
-              radius, options[:units] || :mi)
-          }}
+
+          # Use BSON::OrderedHash if Ruby's hashes are unordered.
+          # Conditions must be in order required by indexes (see mongo gem).
+          empty = RUBY_VERSION.split('.')[1].to_i < 9 ? BSON::OrderedHash.new : {}
+
+          conds = empty.clone
+          conds[:coordinates] = empty.clone
+          conds[:coordinates]["$nearSphere"]  = coords.reverse
+          conds[:coordinates]["$maxDistance"] = \
+            Geocoder::Calculations.distance_to_radians(radius, options[:units] || :mi)
+
           if obj = options[:exclude]
             conds[:_id.ne] = obj.id
           end
