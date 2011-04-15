@@ -26,7 +26,7 @@ module Geocoder::Result
     def self.response_attributes
       %w[quality offsetlat offsetlon radius boundingbox name
         line1 line2 line3 line4 cross house street xstreet unittype unit postal
-        neighborhood city county state country countrycode statecode countycode
+        neighborhood county state countrycode statecode countycode
         level0 level1 level2 level3 level4 level0code level1code level2code
         timezone areacode uzip hash woeid woetype]
     end

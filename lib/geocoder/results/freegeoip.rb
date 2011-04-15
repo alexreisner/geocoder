@@ -24,8 +24,7 @@ module Geocoder::Result
     end
 
     def self.response_attributes
-      %w[city region_code region_name metrocode
-        zipcode country_name country_code ip]
+      %w[region_code region_name metrocode zipcode country_name ip]
     end
 
     response_attributes.each do |a|

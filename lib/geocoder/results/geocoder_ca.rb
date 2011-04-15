@@ -45,7 +45,7 @@ module Geocoder::Result
 
     def self.response_attributes
       %w[latt longt inlatt inlongt betweenRoad1 betweenRoad2 distance
-        stnumber staddress city prov postal
+        stnumber staddress prov postal
         NearRoad NearRoadDistance intersection major_intersection]
     end
 
