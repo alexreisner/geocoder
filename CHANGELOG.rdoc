@@ -23,9 +23,9 @@ Per-release changes to Geocoder.
 * Add support for Geocoder.ca geocoding service.
 * Add +bearing+ attribute to objects returned by geo-aware queries (thanks github.com/matellis).
 * Add config setting: language.
-* Add config settings: use_https, google_api_key (thanks github.com/svesely).
-* DEPRECATION: Geocoder.search now returns an array instead of a single result.
-* DEPRECATION: obj.nearbys second argument is now an options hash (instead of units). Please change <tt>obj.nearbys(20, :km)</tt> to: <tt>obj.nearbys(20, :units => :km)</tt>.
+* Add config settings: +use_https+, +google_api_key+ (thanks github.com/svesely).
+* DEPRECATION: <tt>Geocoder.search</tt> now returns an array instead of a single result.
+* DEPRECATION: <tt>obj.nearbys</tt> second argument is now an options hash (instead of units). Please change <tt>obj.nearbys(20, :km)</tt> to: <tt>obj.nearbys(20, :units => :km)</tt>.
 
 == 0.9.10 (2011 Mar 9)
 
@@ -42,15 +42,15 @@ Per-release changes to Geocoder.
 * Gem now works outside of Rails.
 * DEPRECATION: +fetch_coordinates+ no longer takes an argument.
 * DEPRECATION: +fetch_address+ no longer takes an argument.
-* DEPRECATION: Geocoder.search now returns a single result instead of an array.
+* DEPRECATION: <tt>Geocoder.search</tt> now returns a single result instead of an array.
 * DEPRECATION: <tt>fetch_coordinates!</tt> has been superceded by +geocode+ (then save your object manually).
 * DEPRECATION: <tt>fetch_address!</tt> has been superceded by +reverse_geocode+ (then save your object manually).
 * Fix: don't die when trying to get coordinates with a nil address (github.com/zmack).
 
 == 0.9.8 (2011 Feb 8)
 
-* Include geocode:all Rake task in gem (was missing!).
-* Add Geocoder.search for access to Google's full response.
+* Include <tt>geocode:all</tt> Rake task in gem (was missing!).
+* Add <tt>Geocoder.search</tt> for access to Google's full response.
 * Add ability to configure Google connection timeout.
 * Emit warnings on Google connection problems and errors.
 * Refactor: insert Geocoder into ActiveRecord via Railtie.
@@ -133,7 +133,7 @@ Per-release changes to Geocoder.
 
 == 0.8.1 (2009 Oct 8)
 
-* Extract XML-fetching code from Geocoder.search and place in Geocoder._fetch_xml (for ease of mocking).
+* Extract XML-fetching code from <tt>Geocoder.search</tt> and place in Geocoder._fetch_xml (for ease of mocking).
 * Add tests for coordinate-fetching instance methods.
 
 == 0.8.0 (2009 Oct 1)
