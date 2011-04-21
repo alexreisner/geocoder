@@ -1,0 +1,48 @@
+{
+    "response": {
+        "GeoObjectCollection": {
+            "metaDataProperty": {
+                "GeocoderResponseMetaData": {
+                    "request": "Кремль, Moscow, Russia",
+                    "found": "1",
+                    "results": "10"
+                }
+            },
+            "featureMember": [
+                {
+                    "GeoObject": {
+                        "metaDataProperty": {
+                            "GeocoderMetaData": {
+                                "kind": "vegetation",
+                                "text": "Россия, Москва, Московский Кремль",
+                                "precision": "other",
+                                "AddressDetails": {
+                                    "Country": {
+                                        "CountryNameCode": "RU",
+                                        "CountryName": "Россия",
+                                        "Locality": {
+                                            "LocalityName": "Москва",
+                                            "Premise": {
+                                                "PremiseName": "Московский Кремль"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "name": "Московский Кремль",
+                        "boundedBy": {
+                            "Envelope": {
+                                "lowerCorner": "37.584182 55.733361",
+                                "upperCorner": "37.650064 55.770517"
+                            }
+                        },
+                        "Point": {
+                            "pos": "37.617123 55.751943"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -80,6 +80,15 @@ module Geocoder
       end
     end
 
+    class Yandex < Base
+      private #-----------------------------------------------------------------
+      def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
+        file = query == "no results" ? :no_results : :kremlin
+        read_fixture "yandex_#{file}.json"
+      end
+    end
+
     class GeocoderCa < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)

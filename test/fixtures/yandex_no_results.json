@@ -1,0 +1,16 @@
+{
+    "response": {
+        "GeoObjectCollection": {
+            "metaDataProperty": {
+                "GeocoderResponseMetaData": {
+                    "request": "blah",
+                    "found": "0",
+                    "results": "10"
+                }
+            },
+            "featureMember": [
+
+            ]
+        }
+    }
+}

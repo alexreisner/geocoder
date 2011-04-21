@@ -1,0 +1,30 @@
+require 'geocoder/lookups/base'
+require "geocoder/results/yandex"
+
+module Geocoder::Lookup
+  class Yandex < Base
+
+    private # ---------------------------------------------------------------
+
+    def results(query, reverse = false)
+      return [] unless doc = fetch_data(query, reverse)
+      if doc = doc['response']['GeoObjectCollection']
+        meta = doc['metaDataProperty']['GeocoderResponseMetaData']
+        return meta['found'].to_i > 0 ? doc['featureMember'] : []
+      else
+        warn "Yandex Geocoding API error: unexpected response format."
+        return []
+      end
+    end
+
+    def query_url(query, reverse = false)
+      params = {
+        :geocode => query,
+        :format => "json",
+        :plng => "#{Geocoder::Configuration.language}", # supports ru, uk, be
+        :key => Geocoder::Configuration.api_key
+      }
+      "http://geocode-maps.yandex.ru/1.x/?" + hash_to_query(params)
+    end
+  end
+end

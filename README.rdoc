@@ -233,6 +233,7 @@ Note that the result objects returned by different geocoding services all implem
 * Google: http://code.google.com/apis/maps/documentation/geocoding/#JSON
 * Yahoo: http://developer.yahoo.com/geo/placefinder/guide/responses.html
 * Geocoder.ca: (???)
+* Yandex: http://api.yandex.ru/maps/geocoder/doc/desc/concepts/response_structure.xml
 * FreeGeoIP: http://github.com/fiorix/freegeoip/blob/master/README.rst
 
 === API Keys
@@ -241,10 +242,11 @@ To use your Google API key or Yahoo app ID:
 
   Geocoder::Configuration.api_key = "..."
 
-To obtain an API key (not required):
+To obtain an API key:
 
-* Yahoo: https://developer.apps.yahoo.com/wsregapp
-* Google: http://code.google.com/apis/maps/signup.html
+* Yahoo: https://developer.apps.yahoo.com/wsregapp (not required)
+* Google: http://code.google.com/apis/maps/signup.html (not required)
+* Yandex: http://api.yandex.ru/maps/intro/concepts/intro.xml#apikey (required)
 
 === Timeout
 
