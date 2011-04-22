@@ -2,6 +2,15 @@
 
 Per-release changes to Geocoder.
 
+== 1.0.0 (2011 May 9)
+
+* Add command line interface.
+* Add support for local proxy (thanks github.com/Olivier).
+* Add support for Yandex.ru geocoding service.
+* Add support for Bing geocoding service (thanks github.com/astevens).
+* Fix single table inheritance bug (reported by github.com/enrico).
+* Fix bug when Google result supplies no city (thanks github.com/jkeen).
+
 == 0.9.13 (2011 Apr 11)
 
 * Fix "can't find special index: 2d" error when using Mongoid with Ruby 1.8.

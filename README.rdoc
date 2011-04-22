@@ -8,7 +8,7 @@ Geocoder is a complete geocoding solution for Ruby. With Rails it adds geocoding
 * Supports multiple Ruby versions: Ruby 1.8.7, 1.9.2, and JRuby.
 * Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
 * Supports Rails 3. If you need to use it with Rails 2 please see the <tt>rails2</tt> branch (no longer maintained, limited feature set).
-* Works very well outside of Rails but you'll need to install either the +json+ (for MRI) or +json_pure+ (for JRuby) gem.
+* Works very well outside of Rails, you just need to install either the +json+ (for MRI) or +json_pure+ (for JRuby) gem.
 
 
 == Install
@@ -208,73 +208,121 @@ Every <tt>Geocoder::Result</tt> object, +result+, provides the following data:
 * <tt>result.coordinates</tt> - array of the above two
 * <tt>result.address</tt> - string
 * <tt>result.city</tt> - string
+* <tt>result.state</tt> - string
+* <tt>result.state_code</tt> - string
 * <tt>result.postal_code</tt> - string
 * <tt>result.country_name</tt> - string
 * <tt>result.country_code</tt> - string
 
-and if you're familiar with the results returned by the geocoding service you're using, you can access even more (see code comments for details: <tt>lib/geocoder/results/*</tt>).
+If you're familiar with the results returned by the geocoding service you're using you can access even more data, but you'll need to be familiar with the particular <tt>Geocoder::Result</tt> object you're using and the structure of your geocoding service's responses. (See below for links to geocoding service documentation.)
 
 
 == Geocoding Services
 
-By default Geocoder uses Google's geocoding API to fetch coordinates and addresses. However if you wish to use Yahoo's geocoding API you can simply add this to an initializer:
+By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is used for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). The configuration options are:
 
   # config/initializers/geocoder.rb
+
+  # geocoding service (see below for supported options):
   Geocoder::Configuration.lookup = :yahoo
 
-Street address geocoding services currently supported (valid settings for the above):
-
-* Google: <tt>:google</tt>
-* Yahoo: <tt>:yahoo</tt>
-* Bing: <tt>:bing</tt>
-* Geocoder.ca: <tt>:geocoder_ca</tt> (US and Canada only)
-
-Note that the result objects returned by different geocoding services all implement the methods listed above. Beyond that, however, you must be familiar with your particular subclass of <tt>Geocoder::Result</tt> and the geocoding service's result structure:
-
-* Google: http://code.google.com/apis/maps/documentation/geocoding/#JSON
-* Yahoo: http://developer.yahoo.com/geo/placefinder/guide/responses.html
-* Bing: http://msdn.microsoft.com/en-us/library/ff701715.aspx
-* Geocoder.ca: (???)
-* Yandex: http://api.yandex.ru/maps/geocoder/doc/desc/concepts/response_structure.xml
-* FreeGeoIP: http://github.com/fiorix/freegeoip/blob/master/README.rst
-
-=== API Keys
-
-To use your Google API key or Yahoo app ID:
-
+  # to use an API key:
   Geocoder::Configuration.api_key = "..."
 
-To obtain an API key:
-
-* Google: http://code.google.com/apis/maps/signup.html (not required)
-* Yahoo: https://developer.apps.yahoo.com/wsregapp (not required)
-* Bing: http://www.bingmapsportal.com/ (required)
-* Yandex: http://api.yandex.ru/maps/intro/concepts/intro.xml#apikey (required)
-
-=== Timeout
-
-You can set the timeout used for connections to the geocoding service. The default is 3 seconds but if you want to set it to 5, for example, put the following in an initializer:
-
+  # geocoding service request timeout, in seconds (default 3):
   Geocoder::Configuration.timeout = 5
 
-=== Language
-
-You can set the language used for reverse geocoding results to German, for example, by setting the following:
-
-  Geocoder::Configuration.language = :de
-
-For a list of supported languages see the documentation for the geocoding service you're using.
-
-=== HTTPS
-
-If you want to use HTTPS for geocoding service connections:
-
+  # use HTTPS for geocoding service connections:
   Geocoder::Configuration.use_https = true
 
-Note that currently the only service that supports HTTPS is Google.
+  # language to use (for search queries and reverse geocoding):
+  Geocoder::Configuration.language = :de
+
+  # use a proxy to access the service:
+  Geocoder::Configuration.http_proxy  = "127.4.4.1"
+  Geocoder::Configuration.https_proxy = "127.4.4.2" # only if HTTPS is needed
+
+  # caching (see below for details)
+  Geocoder::Configuration.cache = Redis.new
+  Geocoder::Configuration.cache_prefix = "..."
 
 
-== Caching Results
+=== Listing and Comparison
+
+The following is a comparison of the supported geocoding APIs. The "Limitations" listed for each are a very brief and incomplete summary of some special limitations beyond basic data source attribution. Please read the official Terms of Service for a service before using it.
+
+==== Google (<tt>:google</tt>)
+
+API key:: optional (required for Premier)
+Key signup:: http://code.google.com/apis/maps/signup.html
+Quota:: 2,500 requests/day, 100,000 with Google Maps API Premier
+Region:: world
+SSL support:: yes
+Languages:: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+Documentation:: http://code.google.com/apis/maps/documentation/geocoding/#JSON
+Terms of Service:: http://code.google.com/apis/maps/terms.html#section_10_12
+Limitations:: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
+
+==== Yahoo (<tt>:yahoo</tt>)
+
+API key:: optional in development (required for production apps)
+Key signup:: https://developer.apps.yahoo.com/wsregapp
+Quota:: 50,000 requests/day, more available by special arrangement
+Region:: world
+SSL support:: no
+Languages:: ?
+Documentation:: http://developer.yahoo.com/geo/placefinder/guide/responses.html
+Terms of Service:: http://info.yahoo.com/legal/us/yahoo/maps/mapsapi/mapsapi-2141.html
+Limitations:: "YOU SHALL NOT... (viii) store or allow end users to store map imagery, map data or geocoded location information from the Yahoo! Maps APIs for any future use; (ix) use the stand-alone geocoder for any use other than displaying Yahoo! Maps or displaying points on Yahoo! Maps;"
+
+==== Bing (<tt>:bing</tt>)
+
+API key:: required
+Key signup:: http://www.bingmapsportal.com
+Quota:: 50,000 requests/24 hrs
+Region:: world
+SSL support:: no
+Languages:: ?
+Documentation:: http://msdn.microsoft.com/en-us/library/ff701715.aspx
+Terms of Service:: http://www.microsoft.com/maps/product/terms.html
+Limitations:: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
+
+==== Yandex (<tt>:yandex</tt>)
+
+API key:: required
+Key signup:: http://api.yandex.ru/maps/intro/concepts/intro.xml#apikey
+Quota:: ?
+Region:: Russia
+SSL support:: no
+Languages:: Russian, Belarusian, and Ukrainian
+Documentation:: http://api.yandex.ru/maps/geocoder/doc/desc/concepts/response_structure.xml
+Terms of Service:: http://api.yandex.com/direct/eula.xml?ncrnd=8453
+Limitations:: ?
+
+==== Geocoder.ca (<tt>:geocoder_ca</tt>)
+
+API key:: none
+Quota:: ?
+Region:: US and Canada
+SSL support:: no
+Languages:: English
+Documentation:: ?
+Terms of Service:: http://geocoder.ca/?terms=1
+Limitations:: "Under no circumstances can our data be re-distributed or re-sold by anyone to other parties without our written permission."
+
+==== FreeGeoIP
+
+API key:: none
+Quota:: ?
+Region:: world
+SSL support:: no
+Languages:: English
+Documentation:: http://github.com/fiorix/freegeoip/blob/master/README.rst
+Terms of Service:: ?
+Limitations:: ?
+
+
+== Caching
 
 It's a good idea, when relying on any external service, to cache retrieved data. When implemented correctly it improves your app's response time and stability. It's easy to cache geocoding results with Geocoder, just configure a cache store:
 
@@ -300,6 +348,8 @@ If you need to expire cached content:
   Geocoder.cache.expire(:all)         # expire all cached results
 
 Do *not* include the prefix when passing a URL to be expired. Expiring <tt>:all</tt> will only expire keys with the configured prefix (won't kill every entry in your key/value store).
+
+<i>Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service.</i>
 
 
 == Forward and Reverse Geocoding in the Same Model
@@ -343,6 +393,23 @@ You can use Geocoder outside of Rails by calling the <tt>Geocoder.search</tt> me
 This returns an array of <tt>Geocoder::Result</tt> objects with all information provided by the geocoding service. Please see above and in the code for details.
 
 
+== Command Line Interface
+
+When you install the Geocoder gem it adds a +geocode+ command to your shell. You can search for a street address, IP address, postal code, coordinates, etc just like you can with the Geocoder.search method for example:
+
+  $ geocode 29.951,-90.081
+  Latitude:         29.952211
+  Longitude:        -90.080563
+  Full address:     1500 Sugar Bowl Dr, New Orleans, LA 70112, USA
+  City:             New Orleans
+  State/province:   Louisiana
+  Postal code:      70112
+  Country:          United States
+  Google map:       http://maps.google.com/maps?q=29.952211,-90.080563
+
+There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON reponse, and more. Please run <tt>geocode -h</tt> for details.
+
+
 == Notes on Mongoid
 
 === The Near Method
@@ -351,7 +418,7 @@ Mongoid document classes have a built-in +near+ scope, but since it only works t
 
 === Latitude/Longitude Order
 
-Coordinates are generally printed and spoken as latitude, then logitude ([lat,lon]). Geocoder respects this convention and always expects method arguments to be given in [lat,lon] order. However, MongoDB requires that coordinates be stored in [lon,lat] order as per the GeoJSON spec (http://geojson.org/geojson-spec.html#positions), so internally they are stored "backwards." However, this does not affect order of arguments to methods when using Mongoid. I mention this only in case you notice it and freak out. Don't worry. Everything is going to be OK.
+Coordinates are generally printed and spoken as latitude, then logitude ([lat,lon]). Geocoder respects this convention and always expects method arguments to be given in [lat,lon] order. However, MongoDB requires that coordinates be stored in [lon,lat] order as per the GeoJSON spec (http://geojson.org/geojson-spec.html#positions), so internally they are stored "backwards." However, this does not affect order of arguments to methods when using Mongoid.
 
 
 == Distance Queries in SQLite
@@ -381,19 +448,12 @@ http://github.com/alexreisner/geocoder_test
 
 == Known Issue
 
-You cannot use the +near+ scope with another scope that provides an +includes+ option because the +SELECT+ clause generated by +near+ will overwrite it (or vice versa). Instead, try using +joins+ and pass a <tt>:select</tt> option to the +near+ scope to get the columns you want. For example, in Rails 2 syntax:
+You cannot use the +near+ scope with another scope that provides an +includes+ option because the +SELECT+ clause generated by +near+ will overwrite it (or vice versa). Instead, try using +joins+ and pass a <tt>:select</tt> option to the +near+ scope to get the columns you want. For example:
 
-  # instead of :includes => :venues:
-  City.near("Omaha, NE", 20, :select => "venues.*").all(:joins => :venues)
+  # instead of City.near(...).includes(:venues)
+  City.near("Omaha, NE", 20, :select => "cities.*, venues.*").joins(:venues)
 
 If anyone has a more elegant solution to this problem I am very interested in seeing it.
-
-
-== Roadmap
-
-* add support for more ORMs (Mongoid, DataMapper)
-* add support for more geocoding services
-* maintain the same simple interface
 
 
 Copyright (c) 2009-11 Alex Reisner, released under the MIT license
