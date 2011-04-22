@@ -34,25 +34,27 @@ module Geocoder::Result
     end
 
     def country_code
-      prov = @data['prov']
-      return nil if prov.nil? || prov == ""
-      canadian_province_abbreviations.include?(@data['prov']) ? "CA" : "US"
-    end
-
-    def canadian_province_abbreviations
-      %w[ON QC NS NB MB BC PE SK AB NL]
+      return nil if state.nil? || state == ""
+      canadian_province_abbreviations.include?(state) ? "CA" : "US"
     end
 
     def self.response_attributes
-      %w[latt longt inlatt inlongt betweenRoad1 betweenRoad2 distance
-        stnumber staddress prov postal
-        NearRoad NearRoadDistance intersection major_intersection]
+      %w[latt longt inlatt inlongt distance stnumber staddress prov
+        NearRoad NearRoadDistance betweenRoad1 betweenRoad2
+        intersection major_intersection]
     end
 
     response_attributes.each do |a|
       define_method a do
         @data[a]
       end
+    end
+
+
+    private # ---------------------------------------------------------------- 
+
+    def canadian_province_abbreviations
+      %w[ON QC NS NB MB BC PE SK AB NL]
     end
   end
 end
