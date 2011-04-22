@@ -76,7 +76,7 @@ module Geocoder
   # Array of valid Lookup names.
   #
   def valid_lookups
-    [:google, :yahoo, :geocoder_ca, :yandex, :freegeoip]
+    [:google, :yahoo, :geocoder_ca, :yandex, :freegeoip, :bing]
   end
 
   def version

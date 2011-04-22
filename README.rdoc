@@ -227,6 +227,7 @@ Street address geocoding services currently supported (valid settings for the ab
 * Google: <tt>:google</tt>
 * Yahoo: <tt>:yahoo</tt>
 * Geocoder.ca: <tt>:geocoder_ca</tt> (US and Canada only)
+* Bing: <tt>:bing</tt>
 
 Note that the result objects returned by different geocoding services all implement the methods listed above. Beyond that, however, you must be familiar with your particular subclass of <tt>Geocoder::Result</tt> and the geocoding service's result structure:
 
@@ -235,7 +236,7 @@ Note that the result objects returned by different geocoding services all implem
 * Geocoder.ca: (???)
 * Yandex: http://api.yandex.ru/maps/geocoder/doc/desc/concepts/response_structure.xml
 * FreeGeoIP: http://github.com/fiorix/freegeoip/blob/master/README.rst
-
+* Bing: http://msdn.microsoft.com/en-us/library/ff701715.aspx
 === API Keys
 
 To use your Google API key or Yahoo app ID:
@@ -247,6 +248,7 @@ To obtain an API key:
 * Yahoo: https://developer.apps.yahoo.com/wsregapp (not required)
 * Google: http://code.google.com/apis/maps/signup.html (not required)
 * Yandex: http://api.yandex.ru/maps/intro/concepts/intro.xml#apikey (required)
+* Bing: http://www.bingmapsportal.com/
 
 === Timeout
 
