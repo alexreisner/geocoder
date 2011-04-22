@@ -18,6 +18,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query, reverse = false)
+      query = query.split(",").reverse.join(",") if reverse
       params = {
         :geocode => query,
         :format => "json",

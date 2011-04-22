@@ -4,7 +4,7 @@ module Geocoder::Result
   class Yandex < Base
 
     def coordinates
-      @data['GeoObject']['Point']['pos'].split(' ').map(&:to_f)
+      @data['GeoObject']['Point']['pos'].split(' ').reverse.map(&:to_f)
     end
 
     def address(format = :full)
