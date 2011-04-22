@@ -23,6 +23,14 @@ module Geocoder::Result
       address_details['CountryNameCode']
     end
 
+    def state
+      ""
+    end
+
+    def state_code
+      ""
+    end
+
     def postal_code
       ""
     end

@@ -12,12 +12,25 @@ module Geocoder::Result
     end
 
     def city
-      fields = [:locality, :sublocality, :administrative_area_level_3,
-        :administrative_area_level_2, :administrative_area_level_1]
+      fields = [:locality, :sublocality,
+        :administrative_area_level_3,
+        :administrative_area_level_2]
       fields.each do |f|
         if entity = address_components_of_type(f).first
           return entity['long_name']
         end
+      end
+    end
+
+    def state
+      if state = address_components_of_type(:administrative_area_level_1).first
+        state['long_name']
+      end
+    end
+
+    def state_code
+      if state = address_components_of_type(:administrative_area_level_1).first
+        state['short_name']
       end
     end
 

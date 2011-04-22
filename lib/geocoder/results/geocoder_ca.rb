@@ -23,7 +23,7 @@ module Geocoder::Result
       @data['prov']
     end
 
-    alias_method :province, :state
+    alias_method :state_code, :state
 
     def postal_code
       @data['postal']

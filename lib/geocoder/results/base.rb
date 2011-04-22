@@ -32,6 +32,22 @@ module Geocoder
         coordinates[1]
       end
 
+      def state
+        fail
+      end
+
+      def province
+        state
+      end
+
+      def state_code
+        fail
+      end
+
+      def province_code
+        state_code
+      end
+
       def country
         fail
       end
