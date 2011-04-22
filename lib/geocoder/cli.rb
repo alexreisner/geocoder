@@ -75,8 +75,18 @@ module Geocoder
       end
 
       if (result = Geocoder.search(query).first)
-        out << result.coordinates.join(',') + "\n"
-        out << result.address + "\n"
+        lines = [
+          ["Latitude",       :latitude],
+          ["Longitude",      :longitude],
+          ["Full address",   :address],
+          ["City",           :city],
+          ["State/province", :state],
+          ["Postal code",    :postal_code],
+          ["Country",        :country],
+        ]
+        lines.each do |line|
+          out << (line[0] + ": ").ljust(18) + result.send(line[1]).to_s + "\n"
+        end
         exit 0
       else
         out << "Location '#{query}' not found.\n"
