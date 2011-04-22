@@ -20,7 +20,7 @@ module Geocoder
     if blank_query?(query)
       results = []
     else
-      results = lookup(ip_address?(query)).search(query)
+      results = lookup(query).search(query)
     end
     results.instance_eval do
       def warn_search_deprecation(attr)
@@ -107,10 +107,11 @@ module Geocoder
 
   ##
   # Get a Lookup object (which communicates with the remote geocoding API).
-  # Returns an IP address lookup if +ip+ parameter true.
+  # Takes a search query and returns an IP or street address Lookup
+  # depending on the query contents.
   #
-  def lookup(ip = false)
-    if ip
+  def lookup(query)
+    if ip_address?(query)
       get_lookup(ip_lookups.first)
     else
       get_lookup(Configuration.lookup || street_lookups.first)
