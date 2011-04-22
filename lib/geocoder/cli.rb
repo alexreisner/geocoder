@@ -5,7 +5,8 @@ module Geocoder
   class Cli
 
     def self.run(args, out = STDOUT)
-      url_only = false
+      show_url  = false
+      show_json = false
 
       OptionParser.new{ |opts|
         opts.banner = "Usage:\n    geocode [options] location"
@@ -32,8 +33,12 @@ module Geocoder
           Geocoder::Configuration.timeout = timeout.to_i
         end
 
+        opts.on("-j", "--json", "Print API's raw JSON response") do
+          show_json = true
+        end
+
         opts.on("-u", "--url", "Print URL for API instead of result") do
-          url_only = true
+          show_url = true
         end
 
         opts.on_tail("-v", "--version", "Print version number") do
@@ -54,8 +59,18 @@ module Geocoder
         exit 1
       end
 
-      if url_only
+      if show_url and show_json
+        out << "You can only specify one of -j and -u.\n"
+        exit 2
+      end
+
+      if show_url
         out << Geocoder.send(:lookup).send(:query_url, query) + "\n"
+        exit 0
+      end
+
+      if show_json
+        out << Geocoder.send(:lookup).send(:fetch_raw_data, query) + "\n"
         exit 0
       end
 
@@ -65,7 +80,7 @@ module Geocoder
         exit 0
       else
         out << "Location '#{query}' not found.\n"
-        exit 2
+        exit 1
       end
     end
   end
