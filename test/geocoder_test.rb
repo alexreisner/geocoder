@@ -369,6 +369,17 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
 
+  # --- Yandex ---
+
+  def test_yandex_with_invalid_key
+    # keep test output clean: suppress timeout warning
+    orig = $VERBOSE; $VERBOSE = nil
+    Geocoder::Configuration.lookup = :yandex
+    assert_equal [], Geocoder.search("invalid key")
+    $VERBOSE = orig
+  end
+
+
   # --- Geocoder.ca ---
 
   def test_geocoder_ca_result_components

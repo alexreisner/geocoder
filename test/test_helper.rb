@@ -75,7 +75,10 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
-        file = query == "no results" ? :no_results : :madison_square_garden
+        file = case query
+          when "no results";  :no_results
+          else                :madison_square_garden
+        end
         read_fixture "yahoo_#{file}.json"
       end
     end
@@ -84,7 +87,11 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
-        file = query == "no results" ? :no_results : :kremlin
+        file = case query
+          when "no results";  :no_results
+          when "invalid key"; :invalid_key
+          else                :kremlin
+        end
         read_fixture "yandex_#{file}.json"
       end
     end
@@ -96,7 +103,10 @@ module Geocoder
         if reverse
           read_fixture "geocoder_ca_reverse.json"
         else
-          file = query == "no results" ? :no_results : :madison_square_garden
+          file = case query
+            when "no results";  :no_results
+            else                :madison_square_garden
+          end
           read_fixture "geocoder_ca_#{file}.json"
         end
       end
