@@ -72,6 +72,13 @@ module Geocoder
     @cache
   end
 
+  ##
+  # Array of valid Lookup names.
+  #
+  def valid_lookups
+    [:google, :yahoo, :geocoder_ca, :yandex, :freegeoip]
+  end
+
 
   # exception classes
   class Error < StandardError; end
@@ -119,13 +126,6 @@ module Geocoder
       raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
         "(#{name.inspect} is not one of: #{valids})."
     end
-  end
-
-  ##
-  # Array of valid Lookup names.
-  #
-  def valid_lookups
-    [:google, :yahoo, :geocoder_ca, :yandex, :freegeoip]
   end
 
   ##

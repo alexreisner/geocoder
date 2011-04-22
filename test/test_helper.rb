@@ -203,7 +203,7 @@ class Test::Unit::TestCase
   end
 
   def all_lookups
-    Geocoder.send(:valid_lookups)
+    Geocoder.valid_lookups
   end
 
   def street_lookups
