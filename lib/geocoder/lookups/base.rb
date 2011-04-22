@@ -134,7 +134,7 @@ module Geocoder
       # Does the given string look like latitude/longitude coordinates?
       #
       def coordinates?(value)
-        !!value.to_s.match(/^[0-9\.\-]+, *[0-9\.\-]+$/)
+        value.is_a?(String) and !!value.to_s.match(/^-?[0-9\.]+, *-?[0-9\.]+$/)
       end
 
       ##
