@@ -403,6 +403,23 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
 
+  # --- Bing ---
+
+  def test_bing_result_components
+    Geocoder::Configuration.lookup = :bing
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "Madison Square Garden, NY", result.address
+    assert_equal "NY", result.state
+    assert_equal "New York", result.city
+  end
+
+  def test_bing_no_results
+    Geocoder::Configuration.lookup = :bing
+    results = Geocoder.search("no results")
+    assert_equal 0, results.length
+  end
+
+
   # --- search queries ---
 
   def test_hash_to_query
