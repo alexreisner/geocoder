@@ -76,7 +76,21 @@ module Geocoder
   # Array of valid Lookup names.
   #
   def valid_lookups
-    [:google, :yahoo, :geocoder_ca, :yandex, :freegeoip]
+    street_lookups + ip_lookups
+  end
+
+  ##
+  # All street address lookups, default first.
+  #
+  def street_lookups
+    [:google, :yahoo, :geocoder_ca, :yandex]
+  end
+
+  ##
+  # All IP address lookups, default first.
+  #
+  def ip_lookups
+    [:freegeoip]
   end
 
   def version
@@ -97,9 +111,9 @@ module Geocoder
   #
   def lookup(ip = false)
     if ip
-      get_lookup :freegeoip
+      get_lookup(ip_lookups.first)
     else
-      get_lookup Configuration.lookup || :google
+      get_lookup(Configuration.lookup || street_lookups.first)
     end
   end
 

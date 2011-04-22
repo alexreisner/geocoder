@@ -22,13 +22,12 @@ module Geocoder
           Geocoder::Configuration.language = language
         end
 
-        lookups = Geocoder.valid_lookups - [:freegeoip]
-        opts.on("-s <service>", lookups, "--service <service>",
-          "Geocoding service: #{lookups.join(', ')}") do |service|
+        opts.on("-s <service>", Geocoder.street_lookups, "--service <service>",
+          "Geocoding service: #{Geocoder.street_lookups * ', '}") do |service|
           Geocoder::Configuration.lookup = service.to_sym
         end
 
-        opts.on("-t <seconds>", lookups, "--timeout <seconds>",
+        opts.on("-t <seconds>", "--timeout <seconds>",
           "Maximum number of seconds to wait for API response") do |timeout|
           Geocoder::Configuration.timeout = timeout.to_i
         end
