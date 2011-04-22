@@ -8,7 +8,7 @@ module Geocoder::Result
     end
 
     def address(format = :full)
-      "#{street_address}, #{city}, #{state} #{postal_code}, #{country}"
+      "#{street_address}, #{city}, #{state} #{postal_code}, #{country}".sub(/^[ ,]*/, "")
     end
 
     def street_address

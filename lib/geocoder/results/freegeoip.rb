@@ -4,7 +4,7 @@ module Geocoder::Result
   class Freegeoip < Base
 
     def address(format = :full)
-      "#{city}#{', ' + state_code unless state_code == ''} #{postal_code}, #{country}"
+      "#{city}#{', ' + state_code unless state_code == ''} #{postal_code}, #{country}".sub(/^[ ,]*/, "")
     end
 
     def city
