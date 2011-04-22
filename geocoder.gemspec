@@ -1,5 +1,10 @@
 # -*- encoding: utf-8 -*-
+
+lib = File.expand_path('../lib/', __FILE__)
+$:.unshift lib unless $:.include?(lib)
+
 require 'geocoder'
+
 Gem::Specification.new do |s|
   s.name        = "geocoder"
   s.version     = Geocoder.version
