@@ -1,7 +1,8 @@
 # -*- encoding: utf-8 -*-
+require 'geocoder'
 Gem::Specification.new do |s|
   s.name        = "geocoder"
-  s.version     = File.read(File.join(File.dirname(__FILE__), 'VERSION'))
+  s.version     = Geocoder.version
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Alex Reisner"]
   s.email       = ["alex@alexreisner.com"]

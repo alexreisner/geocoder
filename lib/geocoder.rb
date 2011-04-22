@@ -79,6 +79,10 @@ module Geocoder
     [:google, :yahoo, :geocoder_ca, :yandex, :freegeoip]
   end
 
+  def version
+    File.read("VERSION")
+  end
+
 
   # exception classes
   class Error < StandardError; end
