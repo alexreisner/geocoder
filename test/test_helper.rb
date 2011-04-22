@@ -119,6 +119,23 @@ module Geocoder
         read_fixture "freegeoip_74_200_247_59.json"
       end
     end
+    
+    class Bing < Base
+      private #-----------------------------------------------------------------
+      def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
+        if reverse
+          read_fixture "bing_reverse.json"
+        else
+          file = case query
+            when "no results";  :no_results
+            else                :madison_square_garden
+          end
+          read_fixture "bing_#{file}.json"
+        end
+      end
+    end
+    
   end
 end
 

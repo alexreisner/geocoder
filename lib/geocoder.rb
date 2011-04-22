@@ -83,7 +83,7 @@ module Geocoder
   # All street address lookups, default first.
   #
   def street_lookups
-    [:google, :yahoo, :geocoder_ca, :yandex]
+    [:google, :yahoo, :bing, :geocoder_ca, :yandex]
   end
 
   ##
