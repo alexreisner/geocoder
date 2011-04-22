@@ -50,7 +50,7 @@ module Geocoder
       query = args.join(" ")
 
       if query == ""
-        out << "Please specify a location to search for.\n"
+        out << "Please specify a location (run `geocode -h` for more info).\n"
         exit 1
       end
 
