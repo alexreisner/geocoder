@@ -119,7 +119,7 @@ module Geocoder
         read_fixture "freegeoip_74_200_247_59.json"
       end
     end
-    
+
     class Bing < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
@@ -135,7 +135,7 @@ module Geocoder
         end
       end
     end
-    
+
   end
 end
 
