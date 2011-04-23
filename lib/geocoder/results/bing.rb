@@ -4,48 +4,45 @@ module Geocoder::Result
   class Bing < Base
 
     def address(format = :full)
-      data_address['formattedAddress']
+      @data['address']['formattedAddress']
     end
 
     def city
-      data_address['locality']
+      @data['address']['locality']
     end
+
+    def state_code
+      @data['address']['adminDistrict']
+    end
+
+    alias_method :state, :state_code
 
     def country
-      data_address['countryRegion']
-    end
-    
-    def country_code
-      # Bing does not return a contry code
-      ""
+      @data['address']['countryRegion']
     end
 
+    alias_method :country_code, :country
+
     def postal_code
-      data_address['postalCode']
+      @data['address']['postalCode']
     end
-    
+
     def coordinates
-      data_coordinates['coordinates']
+      @data['point']['coordinates']
     end
-    
-    def data_address
+
+    def address_data
       @data['address']
     end
-    
-    def data_coordinates
-      @data['point']
+
+    def self.response_attributes
+      %w[bbox name confidence entityType]
     end
-    
-    def address_line
-      data_address['addressLine']
-    end
-    
-    def state
-      data_address['adminDistrict']
-    end
-    
-    def confidence
-      @data['confidence']
+
+    response_attributes.each do |a|
+      define_method a do
+        @data[a]
+      end
     end
   end
 end
