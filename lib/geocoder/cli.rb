@@ -48,7 +48,7 @@ module Geocoder
         opts.on_tail("-h", "--help", "Print this help") do
           out << "Look up geographic information about a location.\n\n"
           out << opts
-          out << "\n\nCreated and maintained by Alex Reisner, available under the MIT License.\n"
+          out << "\nCreated and maintained by Alex Reisner, available under the MIT License.\n"
           out << "Report bugs and contribute at http://github.com/alexreisner/geocoder\n"
           exit
         end
