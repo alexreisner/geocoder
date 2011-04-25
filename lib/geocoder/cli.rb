@@ -9,7 +9,7 @@ module Geocoder
       show_json = false
 
       OptionParser.new{ |opts|
-        opts.banner = "Usage:\n    geocode [options] location"
+        opts.banner = "Usage:\n    geocode [options] <location>"
         opts.separator "\nOptions: "
 
         opts.on("-k <key>", "--key <key>",
