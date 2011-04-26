@@ -9,7 +9,11 @@ module Geocoder
     module Base
 
       def geocoder_options
-        @geocoder_options
+        if defined?(@geocoder_options)
+          @geocoder_options
+        elsif superclass.respond_to?(:geocoder_options)
+          superclass.geocoder_options
+        end
       end
 
       def geocoded_by
