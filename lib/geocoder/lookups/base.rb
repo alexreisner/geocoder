@@ -1,4 +1,6 @@
 require 'net/http'
+require 'uri'
+
 unless defined?(ActiveSupport::JSON)
   begin
     require 'rubygems' # for Ruby 1.8
@@ -43,6 +45,23 @@ module Geocoder
       private # -------------------------------------------------------------
 
       ##
+      # Object used to fetch requests
+      #
+      def http_client
+        proxy_url = ENV[Geocoder::Configuration.use_https ? 'https_proxy' : 'http_proxy']
+        return Net::HTTP unless Geocoder::Configuration.use_proxy && proxy_url
+
+        begin
+          uri = URI.parse(proxy_url)
+        rescue URI::InvalidURIError
+          raise ConfigurationError, "The proxy URL in environment (" +
+            "#{Geocoder::Configuration.use_https ? 'https_proxy' : 'http_proxy'} => #{proxy_url}" +
+            ") was not parsed correctly by URI::Parse"
+        end
+        Net::HTTP::Proxy(uri.host, uri.port, uri.user, uri.password)
+      end
+
+      ##
       # Geocoder::Result object or nil on timeout or other error.
       #
       def results(query, reverse = false)
@@ -74,7 +93,7 @@ module Geocoder
         rescue TimeoutError
           warn "Geocoding API not responding fast enough " +
             "(see Geocoder::Configuration.timeout to set limit)."
-      end
+        end
       end
 
       ##
@@ -107,7 +126,7 @@ module Geocoder
         timeout(Geocoder::Configuration.timeout) do
           url = query_url(query, reverse)
           unless cache and response = cache[url]
-            response = Net::HTTP.get_response(URI.parse(url)).body
+            response = http_client.get_response(URI.parse(url)).body
             if cache
               cache[url] = response
             end
