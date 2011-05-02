@@ -20,6 +20,46 @@ class GeocoderTest < Test::Unit::TestCase
 
   # --- sanity checks ---
 
+  def test_uses_proxy_by_default
+    lookup = Geocoder::Lookup::Base.new
+
+    ENV.delete 'http_proxy'
+    ENV.delete 'https_proxy'
+    assert ! lookup.send(:http_client).proxy_class?
+
+    ENV['http_proxy'] = 'http://localhost'
+    assert_equal 'localhost', lookup.send(:http_client).proxy_address
+
+    Geocoder::Configuration.use_https = true
+    ENV['https_proxy'] = 'https://localhost-ssl'
+    assert_equal 'localhost-ssl', lookup.send(:http_client).proxy_address
+  end
+
+  def test_exception_raised_on_bad_proxy_url
+    ENV['http_proxy'] = ' \\_O< Quack Quack'
+    assert_raise Geocoder::ConfigurationError do
+      Geocoder::Lookup::Base.new.send(:http_client)
+    end
+  end
+
+  def test_uses_direct_connection_when_forced
+    Geocoder::Configuration.use_proxy = false
+    ENV['http_proxy'] = 'http://localhost:8080'
+    assert ! Geocoder::Lookup::Base.new.send(:http_client).proxy_class?
+  end
+  
+  def test_proxy_configuration_overrides_environment
+    lookup = Geocoder::Lookup::Base.new
+    Geocoder::Configuration.http_proxy = 'http://foo'
+    ENV['http_proxy'] = 'http://localhost'
+    assert_equal 'foo', lookup.send(:http_client).proxy_address
+
+    Geocoder::Configuration.use_https = true
+    ENV['https_proxy'] = 'https://localhost-ssl'
+    Geocoder::Configuration.https_proxy = 'http://bar'
+    assert_equal 'bar', lookup.send(:http_client).proxy_address
+  end
+  
   def test_uses_https_for_secure_query
     Geocoder::Configuration.use_https = true
     g = Geocoder::Lookup::Google.new

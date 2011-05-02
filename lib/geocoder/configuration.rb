@@ -15,6 +15,15 @@ module Geocoder
         # use HTTPS for lookup requests? (if supported)
         [:use_https, false],
 
+        # use Proxy when http_proxy / https_proxy is set below or in ENV 
+        [:use_proxy, true],
+        
+        # http_proxy. Overrides ENV['http_proxy']
+        [:http_proxy, nil],
+        
+        # https_proxy. Overrides ENV['https_proxy']
+        [:https_proxy, nil],
+
         # API key for geocoding service
         [:api_key, nil],
 
