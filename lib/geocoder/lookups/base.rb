@@ -39,6 +39,16 @@ module Geocoder
         results(query, reverse).map{ |r| result_class.new(r) }
       end
 
+      ##
+      # Return the URL for a map of the given coordinates.
+      #
+      # Not necessarily implemented by all subclasses as only some lookups
+      # also provide maps.
+      #
+      def map_link_url(coordinates)
+        nil
+      end
+
 
       private # -------------------------------------------------------------
 

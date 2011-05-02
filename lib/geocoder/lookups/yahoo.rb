@@ -4,6 +4,10 @@ require "geocoder/results/yahoo"
 module Geocoder::Lookup
   class Yahoo < Base
 
+    def map_link_url(coordinates)
+      "http://maps.yahoo.com/#lat=#{coordinates[0]}&lon=#{coordinates[1]}"
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query, reverse = false)

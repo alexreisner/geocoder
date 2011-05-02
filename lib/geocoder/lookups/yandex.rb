@@ -4,6 +4,10 @@ require "geocoder/results/yandex"
 module Geocoder::Lookup
   class Yandex < Base
 
+    def map_link_url(coordinates)
+      "http://maps.yandex.ru/?ll=#{coordinates.reverse.join(',')}"
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query, reverse = false)

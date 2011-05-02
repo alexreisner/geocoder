@@ -4,6 +4,10 @@ require "geocoder/results/google"
 module Geocoder::Lookup
   class Google < Base
 
+    def map_link_url(coordinates)
+      "http://maps.google.com/maps?q=#{coordinates.join(',')}"
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query, reverse = false)
