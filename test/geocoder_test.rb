@@ -21,7 +21,7 @@ class GeocoderTest < Test::Unit::TestCase
   # --- sanity checks ---
 
   def test_uses_proxy_when_specified
-    Geocoder::Configuration.http_proxy = 'http://localhost'
+    Geocoder::Configuration.http_proxy = 'localhost'
     lookup = Geocoder::Lookup::Google.new
     assert lookup.send(:http_client).proxy_class?
   end

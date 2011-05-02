@@ -58,14 +58,15 @@ module Geocoder
       # Object used to make HTTP requests.
       #
       def http_client
-        secure = Geocoder::Configuration.use_https
-        proxy_name = "http#{'s' if secure}_proxy"
-        if proxy_url = Geocoder::Configuration.send(proxy_name)
+        protocol = "http#{'s' if Geocoder::Configuration.use_https}"
+        proxy_name = "#{protocol}_proxy"
+        if proxy = Geocoder::Configuration.send(proxy_name)
+          proxy_url = protocol + '://' + proxy
           begin
             uri = URI.parse(proxy_url)
           rescue URI::InvalidURIError
             raise ConfigurationError,
-              "Error parsing HTTP#{'S' if secure} proxy URL: '#{proxy_url}'"
+              "Error parsing #{protocol.upcase} proxy URL: '#{proxy_url}'"
           end
           Net::HTTP::Proxy(uri.host, uri.port, uri.user, uri.password)
         else
