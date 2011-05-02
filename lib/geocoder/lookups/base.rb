@@ -55,20 +55,22 @@ module Geocoder
       private # -------------------------------------------------------------
 
       ##
-      # Object used to fetch requests
+      # Object used to make HTTP requests.
       #
       def http_client
-        proxy_url = ENV[Geocoder::Configuration.use_https ? 'https_proxy' : 'http_proxy']
-        return Net::HTTP unless Geocoder::Configuration.use_proxy && proxy_url
-
-        begin
-          uri = URI.parse(proxy_url)
-        rescue URI::InvalidURIError
-          raise ConfigurationError, "The proxy URL in environment (" +
-            "#{Geocoder::Configuration.use_https ? 'https_proxy' : 'http_proxy'} => #{proxy_url}" +
-            ") was not parsed correctly by URI::Parse"
+        secure = Geocoder::Configuration.use_https
+        proxy_name = "http#{'s' if secure}_proxy"
+        if proxy_url = Geocoder::Configuration.send(proxy_name)
+          begin
+            uri = URI.parse(proxy_url)
+          rescue URI::InvalidURIError
+            raise ConfigurationError,
+              "Error parsing HTTP#{'S' if secure} proxy URL: '#{proxy_url}'"
+          end
+          Net::HTTP::Proxy(uri.host, uri.port, uri.user, uri.password)
+        else
+          Net::HTTP
         end
-        Net::HTTP::Proxy(uri.host, uri.port, uri.user, uri.password)
       end
 
       ##
