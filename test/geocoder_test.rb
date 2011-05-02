@@ -47,7 +47,19 @@ class GeocoderTest < Test::Unit::TestCase
     ENV['http_proxy'] = 'http://localhost:8080'
     assert ! Geocoder::Lookup::Base.new.send(:http_client).proxy_class?
   end
+  
+  def test_proxy_configuration_overrides_environment
+    lookup = Geocoder::Lookup::Base.new
+    Geocoder::Configuration.http_proxy = 'http://foo'
+    ENV['http_proxy'] = 'http://localhost'
+    assert_equal 'foo', lookup.send(:http_client).proxy_address
 
+    Geocoder::Configuration.use_https = true
+    ENV['https_proxy'] = 'https://localhost-ssl'
+    Geocoder::Configuration.https_proxy = 'http://bar'
+    assert_equal 'bar', lookup.send(:http_client).proxy_address
+  end
+  
   def test_uses_https_for_secure_query
     Geocoder::Configuration.use_https = true
     g = Geocoder::Lookup::Google.new
