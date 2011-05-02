@@ -81,17 +81,19 @@ module Geocoder
       end
 
       if (result = Geocoder.search(query).first)
+        lookup = Geocoder.send(:get_lookup, :google)
         lines = [
-          ["Latitude",       :latitude],
-          ["Longitude",      :longitude],
-          ["Full address",   :address],
-          ["City",           :city],
-          ["State/province", :state],
-          ["Postal code",    :postal_code],
-          ["Country",        :country],
+          ["Latitude",       result.latitude],
+          ["Longitude",      result.longitude],
+          ["Full address",   result.address],
+          ["City",           result.city],
+          ["State/province", result.state],
+          ["Postal code",    result.postal_code],
+          ["Country",        result.country],
+          ["Google map",     lookup.map_link_url(result.coordinates)],
         ]
         lines.each do |line|
-          out << (line[0] + ": ").ljust(18) + result.send(line[1]).to_s + "\n"
+          out << (line[0] + ": ").ljust(18) + line[1].to_s + "\n"
         end
         exit 0
       else
