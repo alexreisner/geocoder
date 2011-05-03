@@ -22,6 +22,11 @@ module Geocoder
           Geocoder::Configuration.language = language
         end
 
+        opts.on("-p <proxy>", "--proxy <proxy>",
+          "HTTP proxy server to use (not including 'http://')") do |proxy|
+          Geocoder::Configuration.http_proxy = proxy
+        end
+
         opts.on("-s <service>", Geocoder.street_lookups, "--service <service>",
           "Geocoding service: #{Geocoder.street_lookups * ', '}") do |service|
           Geocoder::Configuration.lookup = service.to_sym
