@@ -41,12 +41,12 @@ module Geocoder
           show_json = true
         end
 
-        opts.on("-u", "--url", "Print URL for API instead of result") do
+        opts.on("-u", "--url", "Print URL for API query instead of result") do
           show_url = true
         end
 
         opts.on_tail("-v", "--version", "Print version number") do
-          out << "Geocoder #{Geocoder.version}"
+          out << "Geocoder #{Geocoder.version}\n"
           exit
         end
 
