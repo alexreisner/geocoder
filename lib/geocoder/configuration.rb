@@ -15,10 +15,10 @@ module Geocoder
         # use HTTPS for lookup requests? (if supported)
         [:use_https, false],
 
-        # HTTP proxy server (not including "http://")
+        # HTTP proxy server (user:pass@host:port)
         [:http_proxy, nil],
 
-        # HTTPS proxy server (not including "https://")
+        # HTTPS proxy server (user:pass@host:port)
         [:https_proxy, nil],
 
         # API key for geocoding service

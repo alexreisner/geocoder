@@ -23,7 +23,7 @@ module Geocoder
         end
 
         opts.on("-p <proxy>", "--proxy <proxy>",
-          "HTTP proxy server to use (not including 'http://')") do |proxy|
+          "HTTP proxy server to use (user:pass@host:port)") do |proxy|
           Geocoder::Configuration.http_proxy = proxy
         end
 
