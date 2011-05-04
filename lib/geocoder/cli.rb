@@ -46,7 +46,8 @@ module Geocoder
         end
 
         opts.on_tail("-v", "--version", "Print version number") do
-          out << "Geocoder #{Geocoder.version}\n"
+          require "geocoder/version"
+          out << "Geocoder #{Geocoder::VERSION}\n"
           exit
         end
 

@@ -1,13 +1,10 @@
 # -*- encoding: utf-8 -*-
-
-lib = File.expand_path('../lib/', __FILE__)
-$:.unshift lib unless $:.include?(lib)
-
-require 'geocoder'
+$:.push File.expand_path("../lib", __FILE__)
+require "geocoder/version"
 
 Gem::Specification.new do |s|
   s.name        = "geocoder"
-  s.version     = Geocoder.version
+  s.version     = Geocoder::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Alex Reisner"]
   s.email       = ["alex@alexreisner.com"]

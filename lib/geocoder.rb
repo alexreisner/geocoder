@@ -93,10 +93,6 @@ module Geocoder
     [:freegeoip]
   end
 
-  def version
-    File.read(File.join(File.dirname(__FILE__), "..", "VERSION")).chomp
-  end
-
 
   # exception classes
   class Error < StandardError; end
