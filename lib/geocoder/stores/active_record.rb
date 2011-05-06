@@ -1,5 +1,4 @@
 require 'geocoder/stores/base'
-require 'geocoder/stores/active_record_legacy'
 
 ##
 # Add geocoding functionality to any ActiveRecord object.
@@ -7,7 +6,6 @@ require 'geocoder/stores/active_record_legacy'
 module Geocoder::Store
   module ActiveRecord
     include Base
-    include ActiveRecord::Legacy
 
     ##
     # Implementation of 'included' hook method.
@@ -180,9 +178,6 @@ module Geocoder::Store
           conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
         end
-        if options[:limit] || options[:offset]
-          warn "DEPRECATION WARNING: The :limit and :offset options to Geocoder's 'near' method are deprecated and will be removed in Geocoder v1.0. Please specify these options using ARel relations instead, for example: Place.near(...).limit(10).offset(20)."
-        end
         {
           :group  => columns.map{ |c| "#{table_name}.#{c.name}" }.join(','),
           :order  => options[:order],
@@ -208,7 +203,7 @@ module Geocoder::Store
       end
     end
 
-    #alias_method :fetch_coordinates, :geocode
+    alias_method :fetch_coordinates, :geocode
 
     ##
     # Look up address and assign to +address+ attribute (or other as specified
@@ -224,6 +219,6 @@ module Geocoder::Store
       end
     end
 
-    #alias_method :fetch_address, :reverse_geocode
+    alias_method :fetch_address, :reverse_geocode
   end
 end

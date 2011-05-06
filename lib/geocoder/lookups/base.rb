@@ -22,12 +22,7 @@ module Geocoder
       # "205.128.54.202") for geocoding, or coordinates (latitude, longitude)
       # for reverse geocoding. Returns an array of <tt>Geocoder::Result</tt>s.
       #
-      def search(query, *args)
-        # convert coordinates as separate arguments to an array
-        if query.is_a?(Numeric) and args.first.is_a?(Numeric)
-          warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the search method, please pass an array: [#{query},#{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
-          query = [query, args.first]
-        end
+      def search(query)
 
         # if coordinates given as string, turn into array
         query = query.split(/\s*,\s*/) if coordinates?(query)

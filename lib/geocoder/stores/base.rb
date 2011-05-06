@@ -22,14 +22,10 @@ module Geocoder
       # the point. Also takes a symbol specifying the units
       # (:mi or :km; default is :mi).
       #
-      def distance_to(point, *args)
-        if point.is_a?(Numeric) and args[0].is_a?(Numeric)
-          warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the distance_to/from method, please pass an array [#{point},#{args[0]}], a geocoded object, or a geocodable address (string). The old argument format will not be supported in Geocoder v.1.0."
-          point = [point, args.shift]
-        end
+      def distance_to(point, units = :mi)
         return nil unless geocoded?
         Geocoder::Calculations.distance_between(
-          to_coordinates, point, :units => args.pop || :mi)
+          to_coordinates, point, :units => units)
       end
 
       alias_method :distance_from, :distance_to
@@ -62,10 +58,6 @@ module Geocoder
       #
       def nearbys(radius = 20, options = {})
         return [] unless geocoded?
-        if options.is_a?(Symbol)
-          options = {:units => options}
-          warn "DEPRECATION WARNING: The units argument to the nearbys method has been replaced with an options hash (same options hash as the near scope). You should instead call: obj.nearbys(#{radius}, :units => #{options[:units]}). The old syntax will not be supported in Geocoder v1.0."
-        end
         options.merge!(:exclude => self)
         self.class.near(self, radius, options)
       end

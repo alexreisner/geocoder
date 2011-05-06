@@ -38,13 +38,6 @@ module Geocoder
       eval("def self.#{o}=(obj); @@#{o} = obj; end")
     end
 
-    # legacy support
-    def self.yahoo_app_id=(value)
-      warn "DEPRECATION WARNING: Geocoder's 'yahoo_app_id' setting has been replaced by 'api_key'. " +
-        "This method will be removed in Geocoder v1.0."
-      @@api_key = value
-    end
-
     ##
     # Set all values to default.
     #

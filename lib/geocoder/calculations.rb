@@ -51,13 +51,7 @@ module Geocoder
     #
     # * <tt>:units</tt> - <tt>:mi</tt> (default) or <tt>:km</tt>
     #
-    def distance_between(point1, point2, options = {}, *args)
-      if args.size > 0
-        warn "DEPRECATION WARNING: Instead of passing lat1/lon1/lat2/lon2 as separate arguments to the distance_between method, please pass two two-element arrays: [#{point1},#{point2}], [#{options}, #{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
-        point1 = [point1, point2]
-        point2 = [options, args.shift]
-        options = args.shift || {}
-      end
+    def distance_between(point1, point2, options = {})
 
       # set default options
       options[:units] ||= :mi
@@ -95,14 +89,9 @@ module Geocoder
     #
     # Based on: http://www.movable-type.co.uk/scripts/latlong.html
     #
-    def bearing_between(point1, point2, options = {}, *args)
-      if args.size > 0
-        warn "DEPRECATION WARNING: Instead of passing lat1/lon1/lat2/lon2 as separate arguments to the bearing_between method, please pass two two-element arrays: [#{point1},#{point2}], [#{options}, #{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
-        point1 = [point1, point2]
-        point2 = [options, args.shift]
-        options = args.shift || {}
-      end
+    def bearing_between(point1, point2, options = {})
 
+      # set default options
       options[:method] = :linear unless options[:method] == :spherical
 
       # convert to coordinate arrays
@@ -190,13 +179,7 @@ module Geocoder
     #
     # * <tt>:units</tt> - <tt>:mi</tt> (default) or <tt>:km</tt>
     #
-    def bounding_box(point, radius, options = {}, *args)
-      if point.is_a?(Numeric)
-        warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the bounding_box method, please pass an array [#{point},#{radius}], a geocoded object, or a geocodable address (string). The old argument format will not be supported in Geocoder v.1.0."
-        point   = [point, radius]
-        radius  = options
-        options = args.first || {}
-      end
+    def bounding_box(point, radius, options = {})
       lat,lon = extract_coordinates(point)
       radius  = radius.to_f
       units   = options[:units] || :mi

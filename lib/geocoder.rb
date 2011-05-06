@@ -11,32 +11,8 @@ module Geocoder
   ##
   # Search for information about an address or a set of coordinates.
   #
-  def search(query, *args)
-    # convert coordinates as separate arguments to an array
-    if query.is_a?(Numeric) and args.first.is_a?(Numeric)
-      warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the search method, please pass an array: [#{query},#{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
-      query = [query, args.first]
-    end
-    if blank_query?(query)
-      results = []
-    else
-      results = lookup(query).search(query)
-    end
-    results.instance_eval do
-      def warn_search_deprecation(attr)
-        warn "DEPRECATION WARNING: Geocoder.search now returns an array of Geocoder::Result objects. " +
-          "Calling '%s' directly on the returned array will cause an exception in Geocoder v1.0." % attr
-      end
-
-      def coordinates; warn_search_deprecation('coordinates'); first.coordinates if first; end
-      def latitude; warn_search_deprecation('latitude'); first.latitude if first; end
-      def longitude; warn_search_deprecation('longitude'); first.longitude if first; end
-      def address; warn_search_deprecation('address'); first.address if first; end
-      def city; warn_search_deprecation('city'); first.city if first; end
-      def country; warn_search_deprecation('country'); first.country if first; end
-      def country_code; warn_search_deprecation('country_code'); first.country_code if first; end
-    end
-    return results
+  def search(query)
+    blank_query?(query) ? [] : lookup(query).search(query)
   end
 
   ##
@@ -52,11 +28,7 @@ module Geocoder
   # Look up the address of the given coordinates ([lat,lon])
   # or IP address (string).
   #
-  def address(query, *args)
-    if lon = args.first
-      warn "DEPRECATION WARNING: Instead of passing latitude/longitude as separate arguments to the address method, please pass an array: [#{query},#{args.first}]. The old argument format will not be supported in Geocoder v.1.0."
-      query = [query, lon]
-    end
+  def address(query)
     if (results = search(query)).size > 0
       results.first.address
     end
