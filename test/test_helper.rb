@@ -63,9 +63,10 @@ module Geocoder
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
         file = case query
-          when "no results";  :no_results
-          when "no locality"; :no_locality
-          else                :madison_square_garden
+          when "no results";   :no_results
+          when "no locality";  :no_locality
+          when "no city data"; :no_city_data
+          else                 :madison_square_garden
         end
         read_fixture "google_#{file}.json"
       end

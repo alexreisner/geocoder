@@ -1,0 +1,44 @@
+{
+  "status": "OK",
+  "results": [ {
+    "types": [ "postal_code" ],
+    "formatted_address": "55100, Turkey",
+    "address_components": [{
+      "long_name": "55100",
+      "short_name": "55100",
+      "types": ["postal_code"]
+     },
+     {
+      "long_name": "Turkey",
+      "short_name": "TR",
+      "types": ["country", "political"]
+     }],
+     "geometry": {
+        "location": {
+          "lat": 41.3112221,
+          "lng": 36.3322118
+        },
+        "location_type": "APPROXIMATE",
+        "viewport": {
+          "southwest": {
+              "lat": 41.2933411,
+              "lng": 36.3066331
+          },
+          "northeast": {
+              "lat": 41.3291031,
+              "lng": 36.3577906
+          }
+        },
+        "bounds": {
+          "southwest": {
+              "lat": 41.2933411,
+              "lng": 36.3066331
+          },
+          "northeast": {
+              "lat": 41.3291031,
+              "lng": 36.3577906
+          }
+        }
+      }
+  } ]
+}
