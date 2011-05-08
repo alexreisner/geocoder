@@ -20,6 +20,8 @@ module Geocoder::Result
           return entity['long_name']
         end
       end
+      
+      return nil # no appropriate components were returned
     end
 
     def state
