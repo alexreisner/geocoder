@@ -370,6 +370,10 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal "Haram", result.city
   end
 
+  def test_google_city_results_returns_nil_if_no_matching_component_types
+    result = Geocoder.search("no city data").first
+    assert_equal nil, result.city
+  end
 
   # --- Yahoo ---
 
