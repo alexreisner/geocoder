@@ -357,6 +357,19 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
 
+  def test_always_raise_timeout_error
+    Geocoder::Configuration.always_raise = [TimeoutError]
+    assert_raise(TimeoutError) { Geocoder.search("timeout") }
+    Geocoder::Configuration.always_raise = []
+  end
+
+
+  def test_always_raise_socket_error
+    Geocoder::Configuration.always_raise = [SocketError]
+    assert_raise(SocketError) { Geocoder.search("socket_error") }
+    Geocoder::Configuration.always_raise = []
+  end
+
   # --- Google ---
 
   def test_google_result_components

@@ -91,15 +91,23 @@ module Geocoder
       end
 
       ##
+      # Raise exception instead of warning for specified exceptions.
+      #
+      def raise_error(err)
+        raise err if Geocoder::Configuration.always_raise.include?(err.class)
+      end
+
+
+      ##
       # Returns a parsed search result (Ruby hash).
       #
       def fetch_data(query, reverse = false)
         begin
           parse_raw_data fetch_raw_data(query, reverse)
-        rescue SocketError
-          warn "Geocoding API connection cannot be established."
-        rescue TimeoutError
-          warn "Geocoding API not responding fast enough " +
+        rescue SocketError => err
+          raise_error(err) or warn "Geocoding API connection cannot be established."
+        rescue TimeoutError => err
+          raise_error(err) or warn "Geocoding API not responding fast enough " +
             "(see Geocoder::Configuration.timeout to set limit)."
         end
       end

@@ -28,7 +28,12 @@ module Geocoder
         [:cache, nil],
 
         # prefix (string) to use for all cache keys
-        [:cache_prefix, "geocoder:"]
+        [:cache_prefix, "geocoder:"],
+
+        # exceptions that should not be rescued by default
+        # (if you want to implement custom error handling);
+        # supports SocketError and TimeoutError
+        [:always_raise, []]
       ]
     end
 
