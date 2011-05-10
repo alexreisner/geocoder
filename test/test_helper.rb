@@ -62,6 +62,7 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
         file = case query
           when "no results";   :no_results
           when "no locality";  :no_locality
@@ -76,6 +77,7 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
         file = case query
           when "no results";  :no_results
           else                :madison_square_garden
@@ -88,6 +90,7 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
         file = case query
           when "no results";  :no_results
           when "invalid key"; :invalid_key
@@ -101,6 +104,7 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
         if reverse
           read_fixture "geocoder_ca_reverse.json"
         else
@@ -117,6 +121,7 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
         read_fixture "freegeoip_74_200_247_59.json"
       end
     end
@@ -125,6 +130,7 @@ module Geocoder
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
         if reverse
           read_fixture "bing_reverse.json"
         else
