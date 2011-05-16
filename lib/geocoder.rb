@@ -4,6 +4,7 @@ require "geocoder/cache"
 require "geocoder/request"
 require "geocoder/models/active_record"
 require "geocoder/models/mongoid"
+require "geocoder/models/mongo_mapper"
 
 module Geocoder
   extend self
