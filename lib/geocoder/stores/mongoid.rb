@@ -33,7 +33,7 @@ module Geocoder::Store
           if obj = options[:exclude]
             conds[:_id.ne] = obj.id
           end
-          criteria.where(conds)
+          where(conds)
         }
       end
     end
