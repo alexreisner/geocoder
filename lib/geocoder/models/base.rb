@@ -35,14 +35,6 @@ module Geocoder
         end
         @geocoder_options.merge! options
       end
-
-      def geocoder_initialized?
-        begin
-          included_modules.include? eval("Geocoder::Store::" + geocoder_module_name)
-        rescue NameError
-          false
-        end
-      end
     end
   end
 end
