@@ -28,7 +28,7 @@ module Geocoder
       private # ----------------------------------------------------------------
 
       def geocoder_init(options)
-        unless geocoder_initialized?
+        unless @geocoder_options
           @geocoder_options = {}
           require "geocoder/stores/#{geocoder_file_name}"
           include eval("Geocoder::Store::" + geocoder_module_name)
