@@ -2,6 +2,12 @@
 
 Per-release changes to Geocoder.
 
+== 1.0.1 (2011 May 17)
+
+* Add option to not rescue from certain exceptions (thanks github.com/ahmedrb).
+* Fix STI child/parent geocoding bug (thanks github.com/ogennadi).
+* Other bugfixes.
+
 == 1.0.0 (2011 May 9)
 
 * Add command line interface.
