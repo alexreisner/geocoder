@@ -31,6 +31,13 @@ module Geocoder
         )
       end
 
+      def geocoded_through(assoc_name)
+        assoc = reflect_on_association assoc_name
+        # TODO: Raise an error if assoc is not a belongs_to
+        geocoder_init assoc.klass.geocoder_options.merge( :through => assoc,
+                                                          :geocode => nil,
+                                                          :reverse_geocode => nil )
+      end
 
       private # --------------------------------------------------------------
 
