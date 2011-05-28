@@ -116,12 +116,9 @@ module Geocoder::Store
           "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
           "POWER(SIN((#{longitude} - #{lon_attr}) * PI() / 180 / 2), 2) ))"
         options[:order] ||= "#{distance} ASC"
-        default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || '*'}, " +
-            "#{distance} AS distance" +
-            (bearing ? ", #{bearing} AS bearing" : ""),
-          :having => "#{distance} <= #{radius}"
-        )
+        
+        default_near_scope_options(latitude, longitude, radius, distance, bearing, options).
+          merge(:having => "#{distance} <= #{radius}")
       end
 
       ##
@@ -156,35 +153,50 @@ module Geocoder::Store
 
         distance = "(#{dy} * ABS(#{lat_attr} - #{latitude}) * #{factor}) + " +
           "(#{dx} * ABS(#{lon_attr} - #{longitude}) * #{factor})"
-        default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || '*'}, " +
-            "#{distance} AS distance" +
-            (bearing ? ", #{bearing} AS bearing" : ""),
-          :order => distance
-        )
+        
+        default_near_scope_options(latitude, longitude, radius, distance, bearing, options).
+          merge(:order => distance)
       end
 
       ##
       # Options used for any near-like scope.
       #
-      def default_near_scope_options(latitude, longitude, radius, options)
+      def default_near_scope_options(latitude, longitude, radius, distance, bearing, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        
+        if through = geocoder_options[:through]
+          through_table_name = through.table_name
+
+          lat_attr = "#{through_table_name}.#{geocoder_options[:latitude]}"
+          lon_attr = "#{through_table_name}.#{geocoder_options[:longitude]}"
+        end
+        
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+
         conditions = \
           ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           [b[0], b[2], b[1], b[3]]
+        
         if obj = options[:exclude]
           conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
         end
+
+        select = "#{options[:select] || "#{table_name}.*"}, #{distance} AS distance"
+        select << ", #{bearing} AS bearing" if bearing
+
+        group = columns.map{ |c| "#{table_name}.#{c.name}" }.join(',')
+        group << ", #{lat_attr}, #{lon_attr}" if through
+        
         {
-          :group  => columns.map{ |c| "#{table_name}.#{c.name}" }.join(','),
-          :order  => options[:order],
-          :limit  => options[:limit],
-          :offset => options[:offset],
-          :conditions => conditions
-        }
+          :select     =>  select,
+          :group      =>  group,
+          :order      =>  options[:order],
+          :limit      =>  options[:limit],
+          :offset     =>  options[:offset],
+          :conditions =>  conditions
+        }.merge!(through ? {:joins =>  through.name} : {})
       end
     end
 
