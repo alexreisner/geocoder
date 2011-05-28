@@ -13,7 +13,13 @@ module Geocoder
       # Coordinates [lat,lon] of the object.
       #
       def to_coordinates
-        [:latitude, :longitude].map{ |i| send self.class.geocoder_options[i] }
+        [:latitude, :longitude].map do |i|
+          if assoc = self.class.geocoder_options[:through]
+            send assoc.name
+          else
+            self
+          end.send self.class.geocoder_options[i]
+        end
       end
 
       ##
