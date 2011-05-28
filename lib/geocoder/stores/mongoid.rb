@@ -25,9 +25,10 @@ module Geocoder::Store
           empty = RUBY_VERSION.split('.')[1].to_i < 9 ? BSON::OrderedHash.new : {}
 
           conds = empty.clone
-          conds[:coordinates] = empty.clone
-          conds[:coordinates]["$nearSphere"]  = coords.reverse
-          conds[:coordinates]["$maxDistance"] = \
+					field = geocoder_options[:coordinates]
+          conds[field] = empty.clone
+          conds[field]["$nearSphere"]  = coords.reverse
+          conds[field]["$maxDistance"] = \
             Geocoder::Calculations.distance_to_radians(radius, options[:units] || :mi)
 
           if obj = options[:exclude]
