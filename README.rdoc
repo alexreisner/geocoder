@@ -211,7 +211,7 @@ Every <tt>Geocoder::Result</tt> object, +result+, provides the following data:
 * <tt>result.state</tt> - string
 * <tt>result.state_code</tt> - string
 * <tt>result.postal_code</tt> - string
-* <tt>result.country_name</tt> - string
+* <tt>result.country</tt> - string
 * <tt>result.country_code</tt> - string
 
 If you're familiar with the results returned by the geocoding service you're using you can access even more data, but you'll need to be familiar with the particular <tt>Geocoder::Result</tt> object you're using and the structure of your geocoding service's responses. (See below for links to geocoding service documentation.)
