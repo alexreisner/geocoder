@@ -12,13 +12,13 @@ end
 # Geocoded model.
 #
 class Place
-	include Mongoid::Document
-	include Geocoder::Model::Mongoid
+  include Mongoid::Document
+  include Geocoder::Model::Mongoid
 
   geocoded_by :address, :coordinates => :location
-	field :name
-	field :address
-	field :location, :type => Array
+  field :name
+  field :address
+  field :location, :type => Array
 
   def initialize(name, address)
     super()
