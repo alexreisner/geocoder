@@ -36,7 +36,7 @@ module Geocoder::Store
           if latitude and longitude
             near_scope_options(latitude, longitude, *args)
           else
-            {}
+            where(:id => false) # no results if no lat/lon given
           end
         }
       end

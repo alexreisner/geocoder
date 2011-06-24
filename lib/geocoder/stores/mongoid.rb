@@ -17,6 +17,10 @@ module Geocoder::Store
 
         scope :near, lambda{ |location, *args|
           coords  = Geocoder::Calculations.extract_coordinates(location)
+
+          # no results if no lat/lon given
+          return criteria.where(:id => false) unless coords.is_a?(Array)
+
           radius  = args.size > 0 ? args.shift : 20
           options = args.size > 0 ? args.shift : {}
 
