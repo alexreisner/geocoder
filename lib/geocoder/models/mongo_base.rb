@@ -6,7 +6,7 @@ module Geocoder
   # Methods for invoking Geocoder in a model.
   #
   module Model
-    module MongoDBBase
+    module MongoBase
 
       ##
       # Set attribute names and include the Geocoder module.

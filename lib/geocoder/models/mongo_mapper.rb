@@ -1,11 +1,11 @@
 require 'geocoder/models/base'
-require 'geocoder/models/mongodb_base'
+require 'geocoder/models/mongo_base'
 
 module Geocoder
   module Model
     module MongoMapper
       include Base
-      include MongoDBBase
+      include MongoBase
 
       def self.included(base); base.extend(self); end
 
