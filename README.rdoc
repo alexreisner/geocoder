@@ -77,6 +77,10 @@ Reverse geocoding is similar:
   reverse_geocoded_by :coordinates
   after_validation :reverse_geocode  # auto-fetch address
 
+=== MongoMapper
+
+MongoMapper is very similar to Mongoid, just be sure to include <tt>Geocoder::Model::Mongoid</tt>.
+
 === Bulk Geocoding
 
 If you have just added geocoding to an existing application with a lot of objects you can use this Rake task to geocode them all:
@@ -152,7 +156,7 @@ You can convert these numbers to compass point names by using the utility method
 
 <i>Note: when using SQLite +distance+ and +bearing+ values are provided for interface consistency only. They are not very accurate.</i>
 
-To calculate accurate distance and bearing with SQLite or Mongoid:
+To calculate accurate distance and bearing with SQLite or MongoDB:
 
   obj.distance_to([43.9,-98.6])  # distance from obj to point
   obj.bearing_to([43.9,-98.6])   # bearing from obj to point
@@ -163,10 +167,10 @@ The <tt>bearing_from/to</tt> methods take a single argument which can be: a <tt>
 
 == More on Configuration
 
-You are not stuck with using the +latitude+ and +longitude+ database column names (with ActiveRecord) or the +coordinates+ array (Mongoid) for storing coordinates. For example:
+You are not stuck with using the +latitude+ and +longitude+ database column names (with ActiveRecord) or the +coordinates+ array (Mongo) for storing coordinates. For example:
 
   geocoded_by :address, :latitude  => :lat, :longitude => :lon # ActiveRecord
-  geocoded_by :address, :coordinates => :coords                # Mongoid
+  geocoded_by :address, :coordinates => :coords                # MongoDB
 
 The +address+ method can return any string you'd use to search Google Maps. For example, any of the following are acceptable:
 
@@ -185,7 +189,7 @@ If your model has +street+, +city+, +state+, and +country+ attributes you might 
 For reverse geocoding you can also specify an alternate name attribute where the address will be stored, for example:
 
   reverse_geocoded_by :lat, :lon, :address => :location  # ActiveRecord
-  reverse_geocoded_by :coordinates, :address => :loc     # Mongoid
+  reverse_geocoded_by :coordinates, :address => :loc     # MongoDB
 
 
 == Advanced Geocoding
@@ -410,15 +414,15 @@ When you install the Geocoder gem it adds a +geocode+ command to your shell. You
 There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON reponse, and more. Please run <tt>geocode -h</tt> for details.
 
 
-== Notes on Mongoid
+== Notes on MongoDB
 
 === The Near Method
 
-Mongoid document classes have a built-in +near+ scope, but since it only works two-dimensions Geocoder overrides it with its own spherical +near+ method in geocoded classes.
+Mongo document classes (Mongoid and MongoMapper) have a built-in +near+ scope, but since it only works two-dimensions Geocoder overrides it with its own spherical +near+ method in geocoded classes.
 
 === Latitude/Longitude Order
 
-Coordinates are generally printed and spoken as latitude, then logitude ([lat,lon]). Geocoder respects this convention and always expects method arguments to be given in [lat,lon] order. However, MongoDB requires that coordinates be stored in [lon,lat] order as per the GeoJSON spec (http://geojson.org/geojson-spec.html#positions), so internally they are stored "backwards." However, this does not affect order of arguments to methods when using Mongoid.
+Coordinates are generally printed and spoken as latitude, then logitude ([lat,lon]). Geocoder respects this convention and always expects method arguments to be given in [lat,lon] order. However, MongoDB requires that coordinates be stored in [lon,lat] order as per the GeoJSON spec (http://geojson.org/geojson-spec.html#positions), so internally they are stored "backwards." However, this does not affect order of arguments to methods when using Mongoid or MongoMapper.
 
 
 == Distance Queries in SQLite

@@ -2,6 +2,12 @@
 
 Per-release changes to Geocoder.
 
+== 1.0.2 (2011 June 25)
+
+* Add support for MongoMapper (thanks github.com/spagalloco).
+* Fix: user-specified coordinates field wasn't working with Mongoid (thanks github.com/thisduck).
+* Fix: invalid location given to near scope was returning all results (Active Record) or error (Mongoid) (thanks github.com/ogennadi).
+
 == 1.0.1 (2011 May 17)
 
 * Add option to not rescue from certain exceptions (thanks github.com/ahmedrb).
