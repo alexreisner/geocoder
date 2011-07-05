@@ -77,7 +77,7 @@ Reverse geocoding is similar:
   reverse_geocoded_by :coordinates
   after_validation :reverse_geocode  # auto-fetch address
 
-<i>Note:</i> Be sure to read <i>Latitude/Longitude Order</i> in the <i>Notes on MongoDB</i> section below for an explanation on how to properly retrieve latitude/longitude coordinates from your model.
+Be sure to read <i>Latitude/Longitude Order</i> in the <i>Notes on MongoDB</i> section below on how to properly retrieve latitude/longitude coordinates from your objects.
 
 === MongoMapper
 
@@ -426,17 +426,16 @@ Mongo document classes (Mongoid and MongoMapper) have a built-in +near+ scope, b
 
 Coordinates are generally printed and spoken as latitude, then logitude ([lat,lon]). Geocoder respects this convention and always expects method arguments to be given in [lat,lon] order. However, MongoDB requires that coordinates be stored in [lon,lat] order as per the GeoJSON spec (http://geojson.org/geojson-spec.html#positions), so internally they are stored "backwards." However, this does not affect order of arguments to methods when using Mongoid or MongoMapper.
 
-To access an object's coordinates in the conventional order, use the to_coordinates instance method provided by Geocoder.
+To access an object's coordinates in the conventional order, use the <tt>to_coordinates</tt> instance method provided by Geocoder. For example:
 
-For example, if an object's latitude/longitude are stored in an attribute named _coordinates_,
+    obj.to_coordinates  # => [37.7941013, -122.3951096] # [lat, lon]
 
-    # directly accessing the attribute will result in "backwards" coordinates
-    my_location.coordinates
-    => [-122.3951096, 37.7941013] # [lon, lat] (you don't want to pass this to Google Maps!)
+Calling <tt>obj.coordinates</tt> directly returns the internal representation of the coordinates which, in the case of MongoDB, is probably the reverse of what you want:
 
-    # instead, use Geocoder's helper method to retrieve the coordinates in the conventional order
-    > my_location.to_coordinates
-    => [37.7941013, -122.3951096] # [lat, lon]
+    obj.coordinates     # => [-122.3951096, 37.7941013] # [lon, lat]
+
+For consistency with the rest of Geocoder, always use the <tt>to_coordinates</tt> method instead.
+
 
 == Distance Queries in SQLite
 
