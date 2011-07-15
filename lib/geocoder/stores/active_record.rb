@@ -39,6 +39,26 @@ module Geocoder::Store
             where(:id => false) # no results if no lat/lon given
           end
         }
+
+
+        ##
+        # Find all objects within the area of a given bounding box.
+        # Bounds must be an array of locations specifying the southwest
+        # corner followed by the northeast corner of the box
+        # (<tt>[[sw_lat, sw_lon], [ne_lat, ne_lon]]</tt>).
+        #
+        scope :within_bounding_box, lambda{ |bounds|
+          return where(:id => false) unless bounds.flatten!.length == 4
+
+          sw_lat, sw_lng, ne_lat, ne_lng = bounds
+          spans = "latitude BETWEEN #{sw_lat} AND #{ne_lat} AND "
+          spans << if sw_lng > ne_lng   # Handle a box that spans 180
+            "longitude BETWEEN #{sw_lng} AND 180 OR longitude BETWEEN #{ne_lng} and -180"
+          else
+            "longitude BETWEEN #{sw_lng} AND #{ne_lng}"
+          end
+          { :conditions => spans }
+        }
       end
     end
 
