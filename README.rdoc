@@ -81,7 +81,7 @@ Be sure to read <i>Latitude/Longitude Order</i> in the <i>Notes on MongoDB</i> s
 
 === MongoMapper
 
-MongoMapper is very similar to Mongoid, just be sure to include <tt>Geocoder::Model::Mongoid</tt>.
+MongoMapper is very similar to Mongoid, just be sure to include <tt>Geocoder::Model::MongoMapper</tt>.
 
 === Bulk Geocoding
 
