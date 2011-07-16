@@ -48,9 +48,9 @@ module Geocoder::Store
         # (<tt>[[sw_lat, sw_lon], [ne_lat, ne_lon]]</tt>).
         #
         scope :within_bounding_box, lambda{ |bounds|
-          return where(:id => false) unless bounds.flatten!.length == 4
+          sw_lat, sw_lng, ne_lat, ne_lng = bounds.flatten!
+          return where(:id => false) unless sw_lat && sw_lng && ne_lat && ne_lng
 
-          sw_lat, sw_lng, ne_lat, ne_lng = bounds
           spans = "latitude BETWEEN #{sw_lat} AND #{ne_lat} AND "
           spans << if sw_lng > ne_lng   # Handle a box that spans 180
             "longitude BETWEEN #{sw_lng} AND 180 OR longitude BETWEEN #{ne_lng} and -180"
