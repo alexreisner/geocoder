@@ -33,7 +33,7 @@ class ConfigurationTest < Test::Unit::TestCase
 
   # --- Geocoder#configure method configuration ---
   def test_geocoder_configuration
-    Geocoder.configure { |config| config.units = :mi }
+    Geocoder.configure { config.units = :mi }
 
     assert_equal Geocoder::Configuration.units, :mi
     distance = Geocoder::Calculations.distance_between([0,0], [0,1]).round

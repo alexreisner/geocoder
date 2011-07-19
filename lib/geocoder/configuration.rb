@@ -9,9 +9,9 @@ module Geocoder
   # == Geocoder Configuration
   #
   # The configuration of Geocoder can be done in to ways:
-  # - using +Geocoder#configure+ method:
+  # @example Using +Geocoder#configure+ method:
   #
-  #   Geocoder.configure do |config|
+  #   Geocoder.configure do
   #     config.timeout      = 3           # geocoding service timeout (secs)
   #     config.lookup       = :google     # name of geocoding service (symbol)
   #     config.language     = :en         # ISO-639 language code
@@ -32,7 +32,7 @@ module Geocoder
   #     @method = :spherical # :spherical or :linear
   #   end
   #
-  # - or using +Geocoder::Configuration+ class directly, like in:
+  # @example Using +Geocoder::Configuration+ class directly, like in:
   #
   #   Geocoder::Configuration.language = 'pt-BR'
   #
