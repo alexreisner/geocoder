@@ -28,8 +28,8 @@ module Geocoder
   #     config.always_raise = []
   #
   #     # Calculation options
-  #     @units  = :mi        # :km for kilometers or :mi for miles
-  #     @method = :linear    # :spherical or :linear
+  #     config.units  = :mi        # :km for kilometers or :mi for miles
+  #     config.method = :linear    # :spherical or :linear
   #   end
   #
   # @example Using +Geocoder::Configuration+ class directly, like in:
