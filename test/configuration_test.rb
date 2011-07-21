@@ -83,5 +83,22 @@ class ConfigurationTest < Test::Unit::TestCase
     v.longitude = -73.993371
     assert_equal 136, v.bearing_from([50,-85]).round
   end
+
+  def test_configuration_chain
+    v = Landmark.new(*landmark_params(:msg))
+    v.latitude  = 0
+    v.longitude = 0
+
+    # method option > global configuration
+    Geocoder.configure.units  = :km
+    assert_equal 69, v.distance_to([0,1], :mi).round
+
+    # per-model configuration > global configuration
+    Landmark.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :mi
+    assert_equal 69, v.distance_to([0,1]).round
+
+    # method option > per-model configuration
+    assert_equal 111, v.distance_to([0,1], :km).round
+  end
 end
 
