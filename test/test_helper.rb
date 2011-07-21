@@ -29,6 +29,7 @@ module ActiveRecord
     def self.scope(*args); end
 
     def method_missing(name, *args, &block)
+      puts "Nao incluiu direito no active record..." if name == "geocoder_options"
       if name.to_s[-1..-1] == "="
         write_attribute name.to_s[0...-1], *args
       else
@@ -244,3 +245,4 @@ class Test::Unit::TestCase
     all_lookups - [:freegeoip]
   end
 end
+

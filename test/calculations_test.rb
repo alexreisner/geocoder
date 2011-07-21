@@ -2,7 +2,12 @@
 require 'test_helper'
 
 class CalculationsTest < Test::Unit::TestCase
-
+  def setup
+    Geocoder.configure do
+      config.units  = :mi
+      config.method = :linear
+    end
+  end
 
   # --- degree distance ---
 
@@ -145,3 +150,4 @@ class CalculationsTest < Test::Unit::TestCase
     assert_equal l.bearing_from([50,-86.1]), l.bearing_to([50,-86.1]) - 180
   end
 end
+

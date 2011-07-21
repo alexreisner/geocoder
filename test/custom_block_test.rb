@@ -33,3 +33,4 @@ class CustomBlockTest < Test::Unit::TestCase
     assert_nil e.address
   end
 end
+

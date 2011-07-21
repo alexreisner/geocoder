@@ -20,9 +20,10 @@ module Geocoder
       # Calculate the distance from the object to an arbitrary point.
       # See Geocoder::Calculations.distance_between for ways of specifying
       # the point. Also takes a symbol specifying the units
-      # (:mi or :km; default is :mi).
+      # (:mi or :km; can be specified in Geocoder configuration).
       #
-      def distance_to(point, units = :mi)
+      def distance_to(point, units = nil)
+        units ||= self.class.geocoder_options[:units]
         return nil unless geocoded?
         Geocoder::Calculations.distance_between(
           to_coordinates, point, :units => units)
@@ -36,6 +37,7 @@ module Geocoder
       # ways of specifying the point.
       #
       def bearing_to(point, options = {})
+        options[:method] ||= self.class.geocoder_options[:method]
         return nil unless geocoded?
         Geocoder::Calculations.bearing_between(
           to_coordinates, point, options)
@@ -47,6 +49,7 @@ module Geocoder
       # ways of specifying the point.
       #
       def bearing_from(point, options = {})
+        options[:method] ||= self.class.geocoder_options[:method]
         return nil unless geocoded?
         Geocoder::Calculations.bearing_between(
           point, to_coordinates, options)
@@ -77,7 +80,6 @@ module Geocoder
       def reverse_geocode
         fail
       end
-
 
       private # --------------------------------------------------------------
 
@@ -115,3 +117,4 @@ module Geocoder
     end
   end
 end
+

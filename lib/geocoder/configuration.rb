@@ -1,57 +1,105 @@
+require 'singleton'
+
 module Geocoder
+
+  # This class handle the configuration process of Geocoder gem, and can be used
+  # to change some functional aspects, like, the geocoding service provider, or
+  # the units of calculations.
+  #
+  # == Geocoder Configuration
+  #
+  # The configuration of Geocoder can be done in to ways:
+  # @example Using +Geocoder#configure+ method:
+  #
+  #   Geocoder.configure do
+  #     config.timeout      = 3           # geocoding service timeout (secs)
+  #     config.lookup       = :google     # name of geocoding service (symbol)
+  #     config.language     = :en         # ISO-639 language code
+  #     config.use_https    = false       # use HTTPS for lookup requests? (if supported)
+  #     config.http_proxy   = nil         # HTTP proxy server (user:pass@host:port)
+  #     config.https_proxy  = nil         # HTTPS proxy server (user:pass@host:port)
+  #     config.api_key      = nil         # API key for geocoding service
+  #     config.cache        = nil         # cache object (must respond to #[], #[]=, and #keys)
+  #     config.cache_prefix = "geocoder:" # prefix (string) to use for all cache keys
+  #
+  #     # exceptions that should not be rescued by default
+  #     # (if you want to implement custom error handling);
+  #     # supports SocketError and TimeoutError
+  #     config.always_raise = []
+  #
+  #     # Calculation options
+  #     config.units  = :mi        # :km for kilometers or :mi for miles
+  #     config.method = :linear    # :spherical or :linear
+  #   end
+  #
+  # @example Using +Geocoder::Configuration+ class directly, like in:
+  #
+  #   Geocoder::Configuration.language = 'pt-BR'
+  #
+  # == Notes
+  #
+  # All configurations are optional, the default values were shown in the first
+  # example (with +Geocoder#configure+).
+
   class Configuration
+    include Singleton
 
-    def self.options_and_defaults
-      [
-        # geocoding service timeout (secs)
-        [:timeout, 3],
+    CONFIGURABLE = [:timeout     , :lookup    , :language    ,
+                    :use_https   , :http_proxy, :https_proxy ,
+                    :api_key     , :cache     , :cache_prefix,
+                    :always_raise, :units     , :method      ]
 
-        # name of geocoding service (symbol)
-        [:lookup, :google],
+    attr_accessor *CONFIGURABLE
 
-        # ISO-639 language code
-        [:language, :en],
-
-        # use HTTPS for lookup requests? (if supported)
-        [:use_https, false],
-
-        # HTTP proxy server (user:pass@host:port)
-        [:http_proxy, nil],
-
-        # HTTPS proxy server (user:pass@host:port)
-        [:https_proxy, nil],
-
-        # API key for geocoding service
-        [:api_key, nil],
-
-        # cache object (must respond to #[], #[]=, and #keys)
-        [:cache, nil],
-
-        # prefix (string) to use for all cache keys
-        [:cache_prefix, "geocoder:"],
-
-        # exceptions that should not be rescued by default
-        # (if you want to implement custom error handling);
-        # supports SocketError and TimeoutError
-        [:always_raise, []]
-      ]
+    def initialize  # :nodoc
+      set_defaults
     end
 
-    # define getters and setters for all configuration settings
-    self.options_and_defaults.each do |o,d|
-      eval("def self.#{o}; @@#{o}; end")
-      eval("def self.#{o}=(obj); @@#{o} = obj; end")
+    # This method will set the configuration options to the default values
+    def set_defaults
+      @timeout      = 3           # geocoding service timeout (secs)
+      @lookup       = :google     # name of geocoding service (symbol)
+      @language     = :en         # ISO-639 language code
+      @use_https    = false       # use HTTPS for lookup requests? (if supported)
+      @http_proxy   = nil         # HTTP proxy server (user:pass@host:port)
+      @https_proxy  = nil         # HTTPS proxy server (user:pass@host:port)
+      @api_key      = nil         # API key for geocoding service
+      @cache        = nil         # cache object (must respond to #[], #[]=, and #keys)
+      @cache_prefix = "geocoder:" # prefix (string) to use for all cache keys
+
+      # exceptions that should not be rescued by default
+      # (if you want to implement custom error handling);
+      # supports SocketError and TimeoutError
+      @always_raise = []
+
+      # Calculation options
+      @units  = :mi     # :mi or :km - Wouldn't it be better to better change this
+                        # definitions to use the International Units System
+                        # (:km by default)?
+      @method = :linear # :linear or spherical
     end
 
-    ##
-    # Set all values to default.
-    #
-    def self.set_defaults
-      self.options_and_defaults.each do |o,d|
-        self.send("#{o}=", d)
+    # Delegates getters and setters for all configuration settings,
+    # and +set_defaults+ to the singleton instance.
+    instance_eval(CONFIGURABLE.map do |method|
+      meth = method.to_s
+      <<-EOS
+      def #{meth}
+        instance.#{meth}
+      end
+
+      def #{meth}=(value)
+        instance.#{meth} = value
+      end
+      EOS
+    end.join("\n\n"))
+
+    class << self
+      # This method will set the configuration options to the default values
+      def set_defaults
+        instance.set_defaults
       end
     end
   end
 end
 
-Geocoder::Configuration.set_defaults

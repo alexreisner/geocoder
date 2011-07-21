@@ -51,22 +51,23 @@ module Geocoder::Store
 
       ##
       # Get options hash suitable for passing to ActiveRecord.find to get
-      # records within a radius (in miles) of the given point.
+      # records within a radius (in kilometers) of the given point.
       # Options hash may include:
       #
-      # * +:units+   - <tt>:mi</tt> (default) or <tt>:km</tt>; to be used
+      # * +:units+   - <tt>:mi</tt> or <tt>:km</tt>; to be used.
       #   for interpreting radius as well as the +distance+ attribute which
-      #   is added to each found nearby object
-      # * +:bearing+ - <tt>:linear</tt> (default) or <tt>:spherical</tt>;
+      #   is added to each found nearby object.
+      #   See Geocoder::Configuration to know how configure default units.
+      # * +:bearing+ - <tt>:linear</tt> or <tt>:spherical</tt>.
       #   the method to be used for calculating the bearing (direction)
       #   between the given point and each found nearby point;
-      #   set to false for no bearing calculation
+      #   set to false for no bearing calculation.
+      #   See Geocoder::Configuration to know how configure default method.
       # * +:select+  - string with the SELECT SQL fragment (e.g. “id, name”)
       # * +:order+   - column(s) for ORDER BY SQL clause; default is distance
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
-        radius *= Geocoder::Calculations.km_in_mi if options[:units] == :km
         if connection.adapter_name.match /sqlite/i
           approx_near_scope_options(latitude, longitude, radius, options)
         else
@@ -88,7 +89,9 @@ module Geocoder::Store
       def full_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
-        options[:bearing] = :linear unless options.include?(:bearing)
+        options[:bearing] ||= (options[:method] ||
+                               geocoder_options[:method] ||
+                               Geocoder::Configuration.method)
         bearing = case options[:bearing]
         when :linear
           "CAST(" +
@@ -110,7 +113,8 @@ module Geocoder::Store
             ")) + 360 " +
           "AS decimal) % 360"
         end
-        earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
+        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
+        earth = Geocoder::Calculations.earth_radius(options[:units])
         distance = "#{earth} * 2 * ASIN(SQRT(" +
           "POWER(SIN((#{latitude} - #{lat_attr}) * PI() / 180 / 2), 2) + " +
           "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
@@ -136,7 +140,11 @@ module Geocoder::Store
       def approx_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
-        options[:bearing] = :linear unless options.include?(:bearing)
+        unless options.include?(:bearing)
+          options[:bearing] = (options[:method] || \
+                               geocoder_options[:method] || \
+                               Geocoder::Configuration.method)
+        end
         if options[:bearing]
           bearing = "CASE " +
             "WHEN (#{lat_attr} >= #{latitude} AND #{lon_attr} >= #{longitude}) THEN  45.0 " +
@@ -148,8 +156,9 @@ module Geocoder::Store
           bearing = false
         end
 
-        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
-        dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
+        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
+        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units])
+        dy = Geocoder::Calculations.latitude_degree_distance(options[:units])
 
         # sin of 45 degrees = average x or y component of vector
         factor = Math.sin(Math::PI / 4)
@@ -222,3 +231,4 @@ module Geocoder::Store
     alias_method :fetch_address, :reverse_geocode
   end
 end
+
