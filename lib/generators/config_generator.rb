@@ -1,3 +1,5 @@
+require 'rails/generators'
+
 module Geocoder
   class ConfigGenerator < Rails::Generators::Base
     source_root File.expand_path("../templates", __FILE__)
