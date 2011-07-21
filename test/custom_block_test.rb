@@ -3,10 +3,6 @@ require 'test_helper'
 
 class CustomBlockTest < Test::Unit::TestCase
 
-  def setup
-    Geocoder::Configuration.set_defaults
-  end
-
   def test_geocode_with_block_runs_block
     e = Event.new(*venue_params(:msg))
     coords = [40.750354, -73.993371]

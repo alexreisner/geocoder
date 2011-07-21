@@ -91,12 +91,8 @@ module Geocoder
   # Retrieve a Lookup object from the store.
   #
   def get_lookup(name)
-    unless defined?(@lookups)
-      @lookups = {}
-    end
-    unless @lookups.include?(name)
-      @lookups[name] = spawn_lookup(name)
-    end
+    @lookups = {} unless defined?(@lookups)
+    @lookups[name] = spawn_lookup(name) unless @lookups.include?(name)
     @lookups[name]
   end
 
@@ -108,9 +104,9 @@ module Geocoder
       name = name.to_s
       require "geocoder/lookups/#{name}"
       klass = name.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
-      eval("Geocoder::Lookup::#{klass}.new")
+      Geocoder::Lookup.const_get(klass).new
     else
-      valids = valid_lookups.map{ |l| ":#{l}" }.join(", ")
+      valids = valid_lookups.join(", ")
       raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
         "(#{name.inspect} is not one of: #{valids})."
     end
