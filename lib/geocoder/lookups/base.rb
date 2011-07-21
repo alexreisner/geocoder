@@ -87,7 +87,7 @@ module Geocoder
       # Class of the result objects
       #
       def result_class
-        eval("Geocoder::Result::#{self.class.to_s.split(":").last}")
+        Geocoder::Result.const_get(self.class.to_s.split(":").last)
       end
 
       ##
