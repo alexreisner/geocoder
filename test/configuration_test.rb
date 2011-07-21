@@ -72,16 +72,16 @@ class ConfigurationTest < Test::Unit::TestCase
   # Geocoder per-model configuration
   def test_model_configuration
     Landmark.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :km
-    assert_equal Landmark.geocoder_options[:units], :km
+    assert_equal :km,        Landmark.geocoder_options[:units]
     assert_equal :spherical, Landmark.geocoder_options[:method]
 
-    venue = Landmark.new(*landmark_params(:msg))
-    venue.latitude  = 0
-    venue.longitude = 0
-    assert_equal 111, venue.distance_to([0,1]).round
-    venue.latitude  = 40.750354
-    venue.longitude = -73.993371
-    assert_equal 136, venue.bearing_from([50,-85]).round
+    v = Landmark.new(*landmark_params(:msg))
+    v.latitude  = 0
+    v.longitude = 0
+    assert_equal 111, v.distance_to([0,1]).round
+    v.latitude  = 40.750354
+    v.longitude = -73.993371
+    assert_equal 136, v.bearing_from([50,-85]).round
   end
 end
 
