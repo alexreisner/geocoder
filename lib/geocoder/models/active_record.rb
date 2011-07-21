@@ -14,7 +14,9 @@ module Geocoder
           :user_address  => address_attr,
           :latitude      => options[:latitude]  || :latitude,
           :longitude     => options[:longitude] || :longitude,
-          :geocode_block => block
+          :geocode_block => block,
+          :units         => options[:units],
+          :method        => options[:method]
         )
       end
 
@@ -27,7 +29,9 @@ module Geocoder
           :fetched_address => options[:address] || :address,
           :latitude        => latitude_attr,
           :longitude       => longitude_attr,
-          :reverse_block   => block
+          :reverse_block   => block,
+          :units         => options[:units],
+          :method        => options[:method]
         )
       end
 
@@ -39,3 +43,4 @@ module Geocoder
     end
   end
 end
+

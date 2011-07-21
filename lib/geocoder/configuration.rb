@@ -28,8 +28,8 @@ module Geocoder
   #     config.always_raise = []
   #
   #     # Calculation options
-  #     @units  = :km        # :km for kilometers or :mi for miles
-  #     @method = :spherical # :spherical or :linear
+  #     @units  = :mi        # :km for kilometers or :mi for miles
+  #     @method = :linear    # :spherical or :linear
   #   end
   #
   # @example Using +Geocoder::Configuration+ class directly, like in:
@@ -73,8 +73,10 @@ module Geocoder
       @always_raise = []
 
       # Calculation options
-      @units  = :km        # Internationl System standard unit for distance
-      @method = :spherical # More precise
+      @units  = :mi     # :mi or :km - Wouldn't it be better to better change this
+                        # definitions to use the International Units System
+                        # (:km by default)?
+      @method = :linear # :linear or spherical
     end
 
     # Delegates getters and setters for all configuration settings,
