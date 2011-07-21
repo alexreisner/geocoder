@@ -3,10 +3,6 @@ require 'test_helper'
 
 class ErrorHandlingTest < Test::Unit::TestCase
 
-  def setup
-    Geocoder::Configuration.set_defaults
-  end
-
   def test_does_not_choke_on_timeout
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil

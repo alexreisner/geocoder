@@ -3,10 +3,6 @@ require 'test_helper'
 
 class ServicesTest < Test::Unit::TestCase 
 
-  def setup
-    Geocoder::Configuration.set_defaults
-  end
-
 
   # --- Google ---
 
