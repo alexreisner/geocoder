@@ -196,8 +196,11 @@ module Geocoder::Store
       do_lookup(false) do |o,rs|
         r = rs.first
         unless r.latitude.nil? or r.longitude.nil?
-          o.send :write_attribute, self.class.geocoder_options[:latitude],  r.latitude
-          o.send :write_attribute, self.class.geocoder_options[:longitude], r.longitude
+          # call method using last reference e.g. "shops.latitude" => "latitude" in case
+          # a user specified "shops.latitude" in "geocoded_by" in order to support joins with
+          # other tables having "latitude/longitude" attributes
+          o.send :write_attribute, self.class.geocoder_options[:latitude].split('.')[-1],  r.latitude
+          o.send :write_attribute, self.class.geocoder_options[:longitude].split('.')[-1], r.longitude
         end
         r.coordinates
       end
