@@ -66,7 +66,6 @@ module Geocoder::Store
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
-        radius *= Geocoder::Calculations.km_in_mi if options[:units] == :km
         if connection.adapter_name.match /sqlite/i
           approx_near_scope_options(latitude, longitude, radius, options)
         else

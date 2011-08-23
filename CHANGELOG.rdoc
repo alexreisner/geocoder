@@ -2,6 +2,10 @@
 
 Per-release changes to Geocoder.
 
+== 1.0.3 (??)
+
+* Fix bug: stop double-adjusting units when using kilometers (thanks github.com/hairyheron).
+
 == 1.0.2 (2011 June 25)
 
 * Add support for MongoMapper (thanks github.com/spagalloco).
