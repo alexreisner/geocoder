@@ -180,6 +180,8 @@ class Event < ActiveRecord::Base
   geocoded_by :address do |obj,results|
     if result = results.first
       obj.coords_string = "#{result.latitude},#{result.longitude}"
+    else
+      obj.coords_string = "NOT FOUND"
     end
   end
 

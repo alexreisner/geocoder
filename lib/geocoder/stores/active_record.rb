@@ -194,12 +194,13 @@ module Geocoder::Store
     #
     def geocode
       do_lookup(false) do |o,rs|
-        r = rs.first
-        unless r.latitude.nil? or r.longitude.nil?
-          o.send :write_attribute, self.class.geocoder_options[:latitude],  r.latitude
-          o.send :write_attribute, self.class.geocoder_options[:longitude], r.longitude
+        if r = rs.first
+          unless r.latitude.nil? or r.longitude.nil?
+            o.send :write_attribute, self.class.geocoder_options[:latitude],  r.latitude
+            o.send :write_attribute, self.class.geocoder_options[:longitude], r.longitude
+          end
+          r.coordinates
         end
-        r.coordinates
       end
     end
 
