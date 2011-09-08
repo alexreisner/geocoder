@@ -178,8 +178,11 @@ module Geocoder::Store
           conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
         end
+        if options[:conditions]
+          conditions.first + " AND "  + options[:conditions]
+        end
         {
-          :group  => columns.map{ |c| "#{table_name}.#{c.name}" }.join(','),
+          :group  => options[:group] || columns.map{ |c| "#{table_name}.#{c.name}" }.join(','),
           :order  => options[:order],
           :limit  => options[:limit],
           :offset => options[:offset],
