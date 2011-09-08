@@ -12,4 +12,16 @@ namespace :geocode do
       obj.geocode; obj.save
     end
   end
+  
+  desc "Geocode objects without coordinates with a limit."
+  task :with_limit => :environment do
+    limit = ENV['LIMIT'] || ENV['limit']
+    raise "Please specify a LIMIT" unless limit
+
+    klass.not_geocoded.limit(limit).each do |obj|
+      puts "Processing #{obj.class.name} ID##{obj.id}"
+      obj.geocode; obj.save
+    end
+  end
+
 end
