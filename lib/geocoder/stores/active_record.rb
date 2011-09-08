@@ -120,7 +120,7 @@ module Geocoder::Store
           :select => "#{options[:select] || '*'}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
-          :having => "#{distance} <= #{radius}"
+          :conditions => "#{distance} <= #{radius}"
         )
       end
 
