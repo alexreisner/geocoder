@@ -4,6 +4,7 @@ Per-release changes to Geocoder.
 
 == 1.0.3 (??)
 
+* Update Google API URL (thanks github.com/soorajb).
 * Fix bug: stop double-adjusting units when using kilometers (thanks github.com/hairyheron).
 
 == 1.0.2 (2011 June 25)
