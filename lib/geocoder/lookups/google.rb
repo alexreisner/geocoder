@@ -5,7 +5,7 @@ module Geocoder::Lookup
   class Google < Base
 
     def map_link_url(coordinates)
-      "http://maps.google.com/maps?q=#{coordinates.join(',')}"
+      "http://maps.googleapis.com/maps?q=#{coordinates.join(',')}"
     end
 
     private # ---------------------------------------------------------------
@@ -31,8 +31,7 @@ module Geocoder::Lookup
         :language => Geocoder::Configuration.language,
         :key => Geocoder::Configuration.api_key
       }
-      "#{protocol}://maps.google.com/maps/api/geocode/json?" + hash_to_query(params)
+      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(params)
     end
   end
 end
-

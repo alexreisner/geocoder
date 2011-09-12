@@ -24,6 +24,12 @@ module Geocoder
         # API key for geocoding service
         [:api_key, nil],
 
+        # API client for geocoding service
+        [:api_client, nil],
+
+        # API channel for geocoding service
+        [:api_channel, nil],
+
         # cache object (must respond to #[], #[]=, and #keys)
         [:cache, nil],
 
