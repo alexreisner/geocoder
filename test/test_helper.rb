@@ -73,6 +73,9 @@ module Geocoder
       end
     end
 
+    class GooglePremier < Google
+    end
+
     class Yahoo < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)

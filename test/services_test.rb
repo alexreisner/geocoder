@@ -27,6 +27,24 @@ class ServicesTest < Test::Unit::TestCase
   end
 
 
+  # --- Google Premier ---
+
+  def test_google_premier_result_components
+    Geocoder::Configuration.lookup = :google_premier
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "Manhattan",
+      result.address_components_of_type(:sublocality).first['long_name']
+  end
+
+  def test_google_premier_query_url
+    Geocoder::Configuration.api_key = "deadbeef"
+    Geocoder::Configuration.api_client = "gme-test"
+    Geocoder::Configuration.api_channel = "test-dev"
+    assert_equal "http://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&channel=test-dev&client=gme-test&language=en&sensor=false&signature=doJvJqX7YJzgV9rJ0DnVkTGZqTg=",
+      Geocoder::Lookup::GooglePremier.new.send(:query_url, "Madison Square Garden, New York, NY", false)
+  end
+
+
   # --- Yahoo ---
 
   def test_yahoo_result_components
