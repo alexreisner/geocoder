@@ -11,7 +11,8 @@ module Geocoder::Lookup
       return [reserved_result(query)] if loopback_address?(query)
       begin
         return (doc = fetch_data(query, reverse)) ? [doc] : []
-      rescue StandardError # Freegeoip.net returns HTML on bad request
+      rescue StandardError => err # Freegeoip.net returns HTML on bad request
+        raise_error(err)
         return []
       end
     end
