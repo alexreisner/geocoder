@@ -4,7 +4,7 @@ require 'test_helper'
 class LookupTest < Test::Unit::TestCase
 
   def test_search_returns_empty_array_when_no_results
-    street_lookups.each do |l|
+    all_lookups.each do |l|
       lookup = Geocoder.send(:get_lookup, l)
       assert_equal [], lookup.send(:results, "no results"),
         "Lookup #{l} does not return empty array when no results."
