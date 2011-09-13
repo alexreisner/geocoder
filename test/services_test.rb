@@ -26,6 +26,12 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal nil, result.city
   end
 
+  def test_google_precision
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "ROOFTOP",
+      result.precision
+  end
+
 
   # --- Yahoo ---
 
