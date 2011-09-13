@@ -13,15 +13,15 @@ module Geocoder::Lookup
         (reverse ? :latlng : :address) => query,
         :sensor => 'false',
         :language => Geocoder::Configuration.language,
-        :client => Geocoder::Configuration.api_client,
-        :channel => Geocoder::Configuration.api_channel
+        :client => Geocoder::Configuration.api_key[1],
+        :channel => Geocoder::Configuration.api_key[2]
       }.reject{ |key, value| value.nil? }
       path = "/maps/api/geocode/json?#{hash_to_query(params)}"
       "#{protocol}://maps.googleapis.com#{path}&signature=#{sign(path)}"
     end
 
     def sign(string)
-      raw_private_key = url_safe_base64_decode(Geocoder::Configuration.api_key)
+      raw_private_key = url_safe_base64_decode(Geocoder::Configuration.api_key[0])
       digest = OpenSSL::Digest::Digest.new('sha1')
       raw_signature = OpenSSL::HMAC.digest(digest, raw_private_key, string)
       url_safe_base64_encode(raw_signature)

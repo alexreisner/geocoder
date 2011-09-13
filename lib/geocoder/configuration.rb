@@ -22,13 +22,8 @@ module Geocoder
         [:https_proxy, nil],
 
         # API key for geocoding service
+        # for Google Premier use a 3-element array: [key, client, channel]
         [:api_key, nil],
-
-        # API client for geocoding service
-        [:api_client, nil],
-
-        # API channel for geocoding service
-        [:api_channel, nil],
 
         # cache object (must respond to #[], #[]=, and #keys)
         [:cache, nil],

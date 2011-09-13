@@ -43,9 +43,7 @@ class ServicesTest < Test::Unit::TestCase
   end
 
   def test_google_premier_query_url
-    Geocoder::Configuration.api_key = "deadbeef"
-    Geocoder::Configuration.api_client = "gme-test"
-    Geocoder::Configuration.api_channel = "test-dev"
+    Geocoder::Configuration.api_key = ["deadbeef", "gme-test", "test-dev"]
     assert_equal "http://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&channel=test-dev&client=gme-test&language=en&sensor=false&signature=doJvJqX7YJzgV9rJ0DnVkTGZqTg=",
       Geocoder::Lookup::GooglePremier.new.send(:query_url, "Madison Square Garden, New York, NY", false)
   end
