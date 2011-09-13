@@ -82,5 +82,9 @@ module Geocoder::Result
     def geometry
       @data['geometry']
     end
+
+    def precision
+      geometry['location_type'] if geometry
+    end
   end
 end
