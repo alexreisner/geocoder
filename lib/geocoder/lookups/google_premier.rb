@@ -16,12 +16,8 @@ module Geocoder::Lookup
         :client => Geocoder::Configuration.api_client,
         :channel => Geocoder::Configuration.api_channel
       }.reject{ |key, value| value.nil? }
-
       path = "/maps/api/geocode/json?#{hash_to_query(params)}"
-
-      signature = sign(path)
-
-      "#{protocol}://maps.googleapis.com#{path}&signature=#{signature}"
+      "#{protocol}://maps.googleapis.com#{path}&signature=#{sign(path)}"
     end
 
     def sign(string)
@@ -38,6 +34,5 @@ module Geocoder::Lookup
     def url_safe_base64_encode(raw)
       Base64.encode64(raw).tr('+/', '-_').strip
     end
-
   end
 end
