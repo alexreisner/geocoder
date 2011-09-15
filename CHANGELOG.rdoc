@@ -4,9 +4,10 @@ Per-release changes to Geocoder.
 
 == 1.0.3 (??)
 
+* Fix: rake assets:precompile (Rails 3.1) not working in some situations.
 * Update Google API URL (thanks github.com/soorajb).
 * Allow rescue from timeout with FreeGeoIP (thanks github.com/lukeledet).
-* Fix bug: stop double-adjusting units when using kilometers (thanks github.com/hairyheron).
+* Fix: stop double-adjusting units when using kilometers (thanks github.com/hairyheron).
 
 == 1.0.2 (2011 June 25)
 
