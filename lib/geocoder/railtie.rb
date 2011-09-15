@@ -18,7 +18,7 @@ module Geocoder
 
   class Railtie
     def self.insert
-      if defined?(::ActiveRecord)
+      if ENV['RAILS_GROUPS'].to_s != 'assets' and defined?(::ActiveRecord)
         ::ActiveRecord::Base.extend(Model::ActiveRecord)
       end
     end
