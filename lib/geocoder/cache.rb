@@ -68,7 +68,7 @@ module Geocoder
     end
 
     def expire_single_url(url)
-      self[url] = nil
+      store.del(key_for(url))
     end
   end
 end
