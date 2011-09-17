@@ -21,8 +21,8 @@ module Geocoder
     end
 
     ##
-    # Expire cache entry for given URL,
-    # or pass <tt>:all</tt> to expire everything.
+    # Delete cache entry for given URL,
+    # or pass <tt>:all</tt> to clear all URLs.
     #
     def expire(url)
       if url == :all
