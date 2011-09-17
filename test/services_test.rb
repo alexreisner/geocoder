@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class ServicesTest < Test::Unit::TestCase 
+class ServicesTest < Test::Unit::TestCase
 
 
   # --- Google ---

@@ -9,5 +9,5 @@ class ConfigurationTest < Test::Unit::TestCase
       Geocoder.search "something dumb"
     end
   end
-  
+
 end

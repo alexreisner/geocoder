@@ -231,12 +231,12 @@ end
 
 
 class Test::Unit::TestCase
-  
+
   def teardown
     Geocoder.send(:remove_const, :Configuration)
     load "geocoder/configuration.rb"
   end
-  
+
   def venue_params(abbrev)
     {
       :msg => ["Madison Square Garden", "4 Penn Plaza, New York, NY"]

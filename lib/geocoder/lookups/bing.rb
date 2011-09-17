@@ -12,7 +12,7 @@ module Geocoder::Lookup
 
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query, reverse)
-      
+
       if doc['statusDescription'] == "OK"
         return doc['resourceSets'].first['estimatedTotal'] > 0 ? doc['resourceSets'].first['resources'] : []
       else
