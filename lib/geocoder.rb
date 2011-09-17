@@ -106,7 +106,7 @@ module Geocoder
       klass = name.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
       Geocoder::Lookup.const_get(klass).new
     else
-      valids = valid_lookups.join(", ")
+      valids = valid_lookups.map(&:inspect).join(", ")
       raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
         "(#{name.inspect} is not one of: #{valids})."
     end
