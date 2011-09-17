@@ -28,7 +28,7 @@ module Geocoder
       if url == :all
         urls.each{ |u| expire(u) }
       else
-        self[url] = nil
+        expire_single_url(url)
       end
     end
 
@@ -65,6 +65,10 @@ module Geocoder
     #
     def interpret(value)
       value == "" ? nil : value
+    end
+
+    def expire_single_url(url)
+      self[url] = nil
     end
   end
 end
