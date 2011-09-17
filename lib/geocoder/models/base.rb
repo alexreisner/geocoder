@@ -31,7 +31,7 @@ module Geocoder
         unless @geocoder_options
           @geocoder_options = {}
           require "geocoder/stores/#{geocoder_file_name}"
-          include eval("Geocoder::Store::" + geocoder_module_name)
+          include Geocoder::Store.const_get(geocoder_module_name)
         end
         @geocoder_options.merge! options
       end

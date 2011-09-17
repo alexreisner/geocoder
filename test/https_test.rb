@@ -3,10 +3,6 @@ require 'test_helper'
 
 class HttpsTest < Test::Unit::TestCase
 
-  def setup
-    Geocoder::Configuration.set_defaults
-  end
-
   def test_uses_https_for_secure_query
     Geocoder::Configuration.use_https = true
     g = Geocoder::Lookup::Google.new

@@ -39,20 +39,21 @@ module Geocoder
     end
 
     # define getters and setters for all configuration settings
-    self.options_and_defaults.each do |o,d|
-      eval("def self.#{o}; @@#{o}; end")
-      eval("def self.#{o}=(obj); @@#{o} = obj; end")
+    self.options_and_defaults.each do |option, default|
+      class_eval(<<-END, __FILE__, __LINE__ + 1)
+      
+        @@#{option} = default unless defined? @@#{option}
+        
+        def self.#{option}
+          @@#{option}
+        end
+        
+        def self.#{option}=(obj)
+          @@#{option} = obj
+        end
+      
+      END
     end
 
-    ##
-    # Set all values to default.
-    #
-    def self.set_defaults
-      self.options_and_defaults.each do |o,d|
-        self.send("#{o}=", d)
-      end
-    end
   end
 end
-
-Geocoder::Configuration.set_defaults
