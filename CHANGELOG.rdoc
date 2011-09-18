@@ -2,11 +2,16 @@
 
 Per-release changes to Geocoder.
 
+== 1.0.4 (2011 Sep 18)
+
+* Remove klass method from rake task, which could conflict with app methods (thanks github.com/mguterl).
+
 == 1.0.3 (2011 Sep 17)
 
-* Fix: rake assets:precompile (Rails 3.1) not working in some situations.
+* Add support for Google Premier geocoding service (thanks github.com/steveh).
 * Update Google API URL (thanks github.com/soorajb).
 * Allow rescue from timeout with FreeGeoIP (thanks github.com/lukeledet).
+* Fix: rake assets:precompile (Rails 3.1) not working in some situations.
 * Fix: stop double-adjusting units when using kilometers (thanks github.com/hairyheron).
 
 == 1.0.2 (2011 June 25)
