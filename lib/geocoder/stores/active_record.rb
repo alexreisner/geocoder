@@ -170,9 +170,16 @@ module Geocoder::Store
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-        conditions = \
-          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
-          [b[0], b[2], b[1], b[3]]
+        query =  ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"]
+        variables = [b[0], b[2], b[1], b[3]]
+        options[:conditions].each_with_index { |condition, index|
+          if (index.modulo 2) == 0
+            query[0] += " #{condition}"
+          else
+            variables << condition
+          end
+        }
+        conditions = query + variables
         if obj = options[:exclude]
           conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
