@@ -115,12 +115,14 @@ module Geocoder::Store
           "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
           "POWER(SIN((#{longitude} - #{lon_attr}) * PI() / 180 / 2), 2) ))"
         options[:order] ||= "#{distance} ASC"
-        default_near_scope_options(latitude, longitude, radius, options).merge(
+        scope_options = default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || '*'}, " +
             "#{distance} AS distance" +
-            (bearing ? ", #{bearing} AS bearing" : ""),
-          :conditions => "#{distance} <= #{radius}"
+            (bearing ? ", #{bearing} AS bearing" : "")
         )
+        scope_options[:conditions][0] << " AND #{distance} <= ?"
+        scope_options[:conditions] << radius
+        scope_options
       end
 
       ##
