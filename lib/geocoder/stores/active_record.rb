@@ -119,7 +119,7 @@ module Geocoder::Store
           :select => "#{options[:select] || '*'}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
-          :having => "#{distance} <= #{radius}"
+          :conditions => "#{distance} <= #{radius}"
         )
       end
 
@@ -178,7 +178,6 @@ module Geocoder::Store
           conditions << obj.id
         end
         {
-          :group  => columns.map{ |c| "#{table_name}.#{c.name}" }.join(','),
           :order  => options[:order],
           :limit  => options[:limit],
           :offset => options[:offset],
