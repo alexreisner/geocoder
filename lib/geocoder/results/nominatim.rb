@@ -31,12 +31,12 @@ module Geocoder::Result
       @data['address']['state']
     end
 
+    alias_method :state_code, :state
+
 	def postal_code
 		@data['address']['postcode']
 	end
-	
-    alias_method :state, :state_code
-	
+		
 	def county
 		@data['address']['county']
 	end
