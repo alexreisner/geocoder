@@ -63,7 +63,7 @@ module Geocoder
   # All IP address lookups, default first.
   #
   def ip_lookups
-    [:freegeoip]
+    [:freegeoip, :maxmind]
   end
 
 
@@ -81,7 +81,7 @@ module Geocoder
   #
   def lookup(query)
     if ip_address?(query)
-      get_lookup(ip_lookups.first)
+      get_lookup(Configuration.ip_lookup || ip_lookups.first)
     else
       get_lookup(Configuration.lookup || street_lookups.first)
     end

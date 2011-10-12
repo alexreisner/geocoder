@@ -133,6 +133,19 @@ module Geocoder
       end
     end
 
+    class Maxmind < Base
+      private #-----------------------------------------------------------------
+      def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
+        file = case query
+          when "no results";  :no_results
+          else                "74_200_247_59"
+        end
+        read_fixture "maxmind_#{file}.txt"
+      end
+    end
+
     class Bing < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)

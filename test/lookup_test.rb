@@ -27,4 +27,10 @@ class LookupTest < Test::Unit::TestCase
     g = Geocoder::Lookup::Yahoo.new
     assert_match "appid=MY_KEY", g.send(:query_url, "Madison Square Garden, New York, NY  10001, United States")
   end
+
+  def test_maxmind_api_key
+    Geocoder::Configuration.ip_lookup_api_key = "MY_KEY"
+    g = Geocoder::Lookup::Maxmind.new
+    assert_match "l=MY_KEY", g.send(:query_url, "74.200.247.59")
+  end
 end
