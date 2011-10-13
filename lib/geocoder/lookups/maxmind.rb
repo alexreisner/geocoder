@@ -1,5 +1,6 @@
 require 'geocoder/lookups/base'
 require 'geocoder/results/maxmind'
+require 'csv'
 
 module Geocoder::Lookup
   class Maxmind < Base
@@ -24,7 +25,7 @@ module Geocoder::Lookup
     end
 
     def parse_raw_data(raw_data)
-      raw_data.split(',') # Maxmind just returns text/plain
+      CSV.parse_line raw_data # Maxmind just returns text/plain as csv format
     end
 
     def reserved_result
