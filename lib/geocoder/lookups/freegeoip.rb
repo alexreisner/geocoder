@@ -6,11 +6,11 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
+    def results(query, reverse_or_options = false)
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query)] if loopback_address?(query)
       begin
-        return (doc = fetch_data(query, reverse)) ? [doc] : []
+        return (doc = fetch_data(query, reverse_or_options)) ? [doc] : []
       rescue StandardError => err # Freegeoip.net returns HTML on bad request
         raise_error(err)
         return []
@@ -32,7 +32,7 @@ module Geocoder::Lookup
       }
     end
 
-    def query_url(query, reverse = false)
+    def query_url(query, reverse_or_options = false)
       "http://freegeoip.net/json/#{query}"
     end
   end
