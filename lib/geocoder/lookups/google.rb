@@ -42,14 +42,15 @@ module Geocoder::Lookup
       # bounds can be three types:
       # 1. String - we append the string as-is
       # 2. [lat, lng] - a single coordinate
-      # 3. [[lat, lng], [lat, lng]] - two coordinates, the SE corner and the NW corner of the bounds
+      # 3. [[lat, lng], [lat, lng]] - two coordinates, the SW corner and the NE corner of the bounds
       if bounds.is_a?(Array)
         if bounds.first.is_a?(Array)
-          se, nw = *bounds
-          [se.join(','), nw.join(',')].join('|')
+          sw, ne = *bounds
         else
-          bounds.join(',')
+          sw = bounds
+          ne = bounds
         end
+        [sw.join(','), ne.join(',')].join('|')
       else
         bounds.to_s
       end
