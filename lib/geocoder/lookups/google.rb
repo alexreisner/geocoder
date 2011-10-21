@@ -26,14 +26,33 @@ module Geocoder::Lookup
 
     def query_url(query, reverse_or_options = false)
       reverse, options = extract_reverse_and_options(reverse_or_options)
-
       params = {
         (reverse ? :latlng : :address) => query,
         :sensor => "false",
         :language => Geocoder::Configuration.language,
         :key => Geocoder::Configuration.api_key
       }
+      if options[:bounds]
+        params[:bounds] = bounds_string(options[:bounds])
+      end
       "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(params)
+    end
+
+    def bounds_string(bounds)
+      # bounds can be three types:
+      # 1. String - we append the string as-is
+      # 2. [lat, lng] - a single coordinate
+      # 3. [[lat, lng], [lat, lng]] - two coordinates, the SE corner and the NW corner of the bounds
+      if bounds.is_a?(Array)
+        if bounds.first.is_a?(Array)
+          se, nw = *bounds
+          [se.join(','), nw.join(',')].join('|')
+        else
+          bounds.join(',')
+        end
+      else
+        bounds.to_s
+      end
     end
   end
 end
