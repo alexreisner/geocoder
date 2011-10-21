@@ -12,15 +12,15 @@ module Geocoder
   ##
   # Search for information about an address or a set of coordinates.
   #
-  def search(query)
-    blank_query?(query) ? [] : lookup(query).search(query)
+  def search(query, options = nil)
+    blank_query?(query) ? [] : lookup(query).search(query, options)
   end
 
   ##
   # Look up the coordinates of the given street or IP address.
   #
-  def coordinates(address)
-    if (results = search(address)).size > 0
+  def coordinates(address, options = nil)
+    if (results = search(address, options)).size > 0
       results.first.coordinates
     end
   end
@@ -29,8 +29,8 @@ module Geocoder
   # Look up the address of the given coordinates ([lat,lon])
   # or IP address (string).
   #
-  def address(query)
-    if (results = search(query)).size > 0
+  def address(query, options = nil)
+    if (results = search(query, options)).size > 0
       results.first.address
     end
   end

@@ -22,7 +22,7 @@ module Geocoder
       # "205.128.54.202") for geocoding, or coordinates (latitude, longitude)
       # for reverse geocoding. Returns an array of <tt>Geocoder::Result</tt>s.
       #
-      def search(query)
+      def search(query, options = nil)
 
         # if coordinates given as string, turn into array
         query = query.split(/\s*,\s*/) if coordinates?(query)
@@ -33,7 +33,13 @@ module Geocoder
         else
           reverse = false
         end
-        results(query, reverse).map{ |r| result_class.new(r) }
+
+        if options
+          reverse_or_options = options.merge(:reverse => reverse)
+        else
+          reverse_or_options = reverse
+        end
+        results(query, reverse_or_options).map{ |r| result_class.new(r) }
       end
 
       ##
@@ -72,14 +78,14 @@ module Geocoder
       ##
       # Geocoder::Result object or nil on timeout or other error.
       #
-      def results(query, reverse = false)
+      def results(query, reverse_or_options = false)
         fail
       end
 
       ##
       # URL to use for querying the geocoding engine.
       #
-      def query_url(query, reverse = false)
+      def query_url(query, reverse_or_options = false)
         fail
       end
 
@@ -101,9 +107,9 @@ module Geocoder
       ##
       # Returns a parsed search result (Ruby hash).
       #
-      def fetch_data(query, reverse = false)
+      def fetch_data(query, reverse_or_options = false)
         begin
-          parse_raw_data fetch_raw_data(query, reverse)
+          parse_raw_data fetch_raw_data(query, reverse_or_options)
         rescue SocketError => err
           raise_error(err) or warn "Geocoding API connection cannot be established."
         rescue TimeoutError => err
@@ -138,9 +144,9 @@ module Geocoder
       ##
       # Fetches a raw search result (JSON string).
       #
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query, reverse_or_options = false)
         timeout(Geocoder::Configuration.timeout) do
-          url = query_url(query, reverse)
+          url = query_url(query, reverse_or_options)
           uri = URI.parse(url)
           unless cache and response = cache[url]
             client = http_client.new(uri.host, uri.port)
@@ -184,6 +190,16 @@ module Geocoder
         hash.collect{ |p|
           p[1].nil? ? nil : p.map{ |i| CGI.escape i.to_s } * '='
         }.compact.sort * '&'
+      end
+
+      def extract_reverse_and_options(reverse_or_options)
+        reverse = reverse_or_options
+        options = {}
+        if reverse_or_options.respond_to?(:has_key?)
+          options = reverse_or_options
+          reverse = options.has_key?(:reverse) ? options[:reverse] : false
+        end
+        return reverse, options
       end
     end
   end
