@@ -51,7 +51,7 @@ module Geocoder::Result
     end
 
 
-    private # ---------------------------------------------------------------- 
+    private # ----------------------------------------------------------------
 
     def canadian_province_abbreviations
       %w[ON QC NS NB MB BC PE SK AB NL]

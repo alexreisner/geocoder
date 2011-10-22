@@ -38,14 +38,14 @@ module Geocoder
         unless geocoder_initialized?
           @geocoder_options = {}
           require "geocoder/stores/#{geocoder_file_name}"
-          include eval("Geocoder::Store::" + geocoder_module_name)
+          include Geocoder::Store.const_get(geocoder_module_name)
         end
         @geocoder_options.merge! options
       end
 
       def geocoder_initialized?
         begin
-          included_modules.include? eval("Geocoder::Store::" + geocoder_module_name)
+          included_modules.include? Geocoder::Store.const_get(geocoder_module_name)
         rescue NameError
           false
         end

@@ -4,13 +4,19 @@ Bundler::GemHelper.install_tasks
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/*_test.rb'
+  test.pattern = 'test/*_test.rb'
   test.verbose = true
 end
 
-task :default => :test
+Rake::TestTask.new(:integration) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/integration/*_test.rb'
+  test.verbose = true
+end
 
-require 'rake/rdoctask'
+task :default => [:test, :integration]
+
+require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "Geocoder #{Geocoder::VERSION}"

@@ -87,7 +87,7 @@ module Geocoder
       # Class of the result objects
       #
       def result_class
-        eval("Geocoder::Result::#{self.class.to_s.split(":").last}")
+        Geocoder::Result.const_get(self.class.to_s.split(":").last)
       end
 
       ##
@@ -141,8 +141,11 @@ module Geocoder
       def fetch_raw_data(query, reverse = false)
         timeout(Geocoder::Configuration.timeout) do
           url = query_url(query, reverse)
+          uri = URI.parse(url)
           unless cache and response = cache[url]
-            response = http_client.get_response(URI.parse(url)).body
+            client = http_client.new(uri.host, uri.port)
+            client.use_ssl = true if Geocoder::Configuration.use_https
+            response = client.get(uri.request_uri).body
             if cache
               cache[url] = response
             end

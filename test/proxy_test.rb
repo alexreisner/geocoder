@@ -3,10 +3,6 @@ require 'test_helper'
 
 class ProxyTest < Test::Unit::TestCase
 
-  def setup
-    Geocoder::Configuration.set_defaults
-  end
-
   def test_uses_proxy_when_specified
     Geocoder::Configuration.http_proxy = 'localhost'
     lookup = Geocoder::Lookup::Google.new

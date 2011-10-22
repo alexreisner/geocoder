@@ -4,9 +4,9 @@ require 'test/unit'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-Mongoid.configure do |config| 
+Mongoid.configure do |config|
   config.logger = Logger.new($stderr, :debug)
-end 
+end
 
 ##
 # Geocoded model.

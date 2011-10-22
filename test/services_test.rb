@@ -1,11 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class ServicesTest < Test::Unit::TestCase 
-
-  def setup
-    Geocoder::Configuration.set_defaults
-  end
+class ServicesTest < Test::Unit::TestCase
 
 
   # --- Google ---
@@ -24,6 +20,28 @@ class ServicesTest < Test::Unit::TestCase
   def test_google_city_results_returns_nil_if_no_matching_component_types
     result = Geocoder.search("no city data").first
     assert_equal nil, result.city
+  end
+
+  def test_google_precision
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "ROOFTOP",
+      result.precision
+  end
+
+
+  # --- Google Premier ---
+
+  def test_google_premier_result_components
+    Geocoder::Configuration.lookup = :google_premier
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "Manhattan",
+      result.address_components_of_type(:sublocality).first['long_name']
+  end
+
+  def test_google_premier_query_url
+    Geocoder::Configuration.api_key = ["deadbeef", "gme-test", "test-dev"]
+    assert_equal "http://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&channel=test-dev&client=gme-test&language=en&sensor=false&signature=doJvJqX7YJzgV9rJ0DnVkTGZqTg=",
+      Geocoder::Lookup::GooglePremier.new.send(:query_url, "Madison Square Garden, New York, NY", false)
   end
 
 

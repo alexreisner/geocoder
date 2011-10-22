@@ -73,6 +73,9 @@ module Geocoder
       end
     end
 
+    class GooglePremier < Google
+    end
+
     class Yahoo < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
@@ -122,7 +125,11 @@ module Geocoder
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
         raise SocketError if query == "socket_error"
-        read_fixture "freegeoip_74_200_247_59.json"
+        file = case query
+          when "no results";  :no_results
+          else                "74_200_247_59"
+        end
+        read_fixture "freegeoip_#{file}.json"
       end
     end
 
@@ -224,6 +231,12 @@ end
 
 
 class Test::Unit::TestCase
+
+  def teardown
+    Geocoder.send(:remove_const, :Configuration)
+    load "geocoder/configuration.rb"
+  end
+
   def venue_params(abbrev)
     {
       :msg => ["Madison Square Garden", "4 Penn Plaza, New York, NY"]

@@ -22,6 +22,7 @@ module Geocoder
         [:https_proxy, nil],
 
         # API key for geocoding service
+        # for Google Premier use a 3-element array: [key, client, channel]
         [:api_key, nil],
 
         # cache object (must respond to #[], #[]=, and #keys)
@@ -38,20 +39,20 @@ module Geocoder
     end
 
     # define getters and setters for all configuration settings
-    self.options_and_defaults.each do |o,d|
-      eval("def self.#{o}; @@#{o}; end")
-      eval("def self.#{o}=(obj); @@#{o} = obj; end")
-    end
+    self.options_and_defaults.each do |option, default|
+      class_eval(<<-END, __FILE__, __LINE__ + 1)
 
-    ##
-    # Set all values to default.
-    #
-    def self.set_defaults
-      self.options_and_defaults.each do |o,d|
-        self.send("#{o}=", d)
-      end
+        @@#{option} = default unless defined? @@#{option}
+
+        def self.#{option}
+          @@#{option}
+        end
+
+        def self.#{option}=(obj)
+          @@#{option} = obj
+        end
+
+      END
     end
   end
 end
-
-Geocoder::Configuration.set_defaults

@@ -3,10 +3,6 @@ require 'test_helper'
 
 class GeocoderTest < Test::Unit::TestCase
 
-  def setup
-    Geocoder::Configuration.set_defaults
-  end
-
   def test_distance_to_returns_float
     v = Venue.new(*venue_params(:msg))
     v.latitude, v.longitude = [40.750354, -73.993371]
