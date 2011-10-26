@@ -2,6 +2,11 @@
 
 Per-release changes to Geocoder.
 
+== 1.0.5 (2011 Oct 26)
+
+* Fix error with `rake assets:precompile` (thanks github.com/Sush).
+* Improve cache interface.
+
 == 1.0.4 (2011 Sep 18)
 
 * Remove klass method from rake task, which could conflict with app methods (thanks github.com/mguterl).
