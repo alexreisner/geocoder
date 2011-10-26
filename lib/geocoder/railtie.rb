@@ -5,11 +5,9 @@ module Geocoder
   if defined? Rails::Railtie
     require 'rails'
     class Railtie < Rails::Railtie
-      initializer 'geocoder.insert_into_active_record' do |app|
-        unless ENV['RAILS_GROUPS'].to_s == 'assets' && !app.config.assets.initialize_on_precompile
-          ActiveSupport.on_load :active_record do
-            Geocoder::Railtie.insert
-          end
+      initializer 'geocoder.insert_into_active_record' do
+        ActiveSupport.on_load :active_record do
+          Geocoder::Railtie.insert
         end
       end
       rake_tasks do
@@ -20,7 +18,7 @@ module Geocoder
 
   class Railtie
     def self.insert
-      if defined?(::ActiveRecord)
+      if ENV['RAILS_GROUPS'].to_s != 'assets' and defined?(::ActiveRecord)
         ::ActiveRecord::Base.extend(Model::ActiveRecord)
       end
     end
