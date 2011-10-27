@@ -114,12 +114,12 @@ module Geocoder::Store
           "POWER(SIN((#{latitude} - #{lat_attr}) * PI() / 180 / 2), 2) + " +
           "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
           "POWER(SIN((#{longitude} - #{lon_attr}) * PI() / 180 / 2), 2) ))"
-        options[:order] ||= "#{distance} ASC"
+        conditions = ["#{distance} <= ?", radius]
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || '*'}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
-          :having => "#{distance} <= #{radius}"
+          :conditions => add_exclude_condition(conditions, options[:exclude])
         )
       end
 
@@ -155,11 +155,16 @@ module Geocoder::Store
 
         distance = "(#{dy} * ABS(#{lat_attr} - #{latitude}) * #{factor}) + " +
           "(#{dx} * ABS(#{lon_attr} - #{longitude}) * #{factor})"
+        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+        conditions = [
+          "#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
+          [b[0], b[2], b[1], b[3]
+        ]
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || '*'}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
-          :order => distance
+          :conditions => add_exclude_condition(conditions, options[:exclude])
         )
       end
 
@@ -167,23 +172,23 @@ module Geocoder::Store
       # Options used for any near-like scope.
       #
       def default_near_scope_options(latitude, longitude, radius, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
-        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-        conditions = \
-          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
-          [b[0], b[2], b[1], b[3]]
-        if obj = options[:exclude]
-          conditions[0] << " AND #{table_name}.id != ?"
-          conditions << obj.id
-        end
         {
-          :group  => columns.map{ |c| "#{table_name}.#{c.name}" }.join(','),
-          :order  => options[:order],
+          :order  => options[:order] || "distance",
           :limit  => options[:limit],
-          :offset => options[:offset],
-          :conditions => conditions
+          :offset => options[:offset]
         }
+      end
+
+      ##
+      # Adds a condition to exclude a given object by ID.
+      # The given conditions MUST be an array.
+      #
+      def add_exclude_condition(conditions, exclude)
+        if exclude
+          conditions[0] << " AND #{table_name}.id != ?"
+          conditions << exclude.id
+        end
+        conditions
       end
     end
 
