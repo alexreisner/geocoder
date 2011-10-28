@@ -24,6 +24,7 @@ module Geocoder::Lookup
         :jsonp    => 1,
         :callback => "test"
       }
+      params.update({:auth => Geocoder::Configuration.api_key}) if Geocoder::Configuration.api_key.present?
       if reverse
         lat,lon = query.split(',')
         params[:latt] = lat
