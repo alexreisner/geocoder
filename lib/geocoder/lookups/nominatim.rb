@@ -18,7 +18,7 @@ module Geocoder::Lookup
         :format => "json",
         :polygon => "1",
         :addressdetails => "1",
-        #:locale => "#{Geocoder::Configuration.language}_US",
+        :"accept-language" => Geocoder::Configuration.language
       }
       if (reverse)
         method = 'reverse'
