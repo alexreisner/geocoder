@@ -4,6 +4,8 @@ require "geocoder/results/nominatim"
 module Geocoder::Lookup
   class Nominatim < Base
 
+    private # ---------------------------------------------------------------
+
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query, reverse)
       doc.is_a?(Array) ? doc : [doc]
