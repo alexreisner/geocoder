@@ -22,9 +22,9 @@ module Geocoder::Lookup
       params = {
         :geoit    => "xml",
         :jsonp    => 1,
-        :callback => "test"
+        :callback => "test",
+        :auth     => Geocoder::Configuration.api_key
       }
-      params.update({:auth => Geocoder::Configuration.api_key}) if Geocoder::Configuration.api_key.present?
       if reverse
         lat,lon = query.split(',')
         params[:latt] = lat
