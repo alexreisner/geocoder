@@ -4,10 +4,6 @@ require "geocoder/results/nominatim"
 module Geocoder::Lookup
   class Nominatim < Base
 
-    def map_link_url(coordinates)
-      "http://nominatim.openstreetmap.org/reverse?format=html&lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=18&addressdetails=1"
-    end
-
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query, reverse)
       doc.is_a?(Array) ? doc : [doc]
