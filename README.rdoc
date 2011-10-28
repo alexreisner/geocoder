@@ -294,6 +294,17 @@ Documentation:: http://msdn.microsoft.com/en-us/library/ff701715.aspx
 Terms of Service:: http://www.microsoft.com/maps/product/terms.html
 Limitations:: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
 
+==== Nominatim (<tt>:nominatim</tt>)
+
+API key:: none
+Quota:: 1 request/second
+Region:: world
+SSL support:: no
+Languages:: ?
+Documentation:: http://wiki.openstreetmap.org/wiki/Nominatim
+Terms of Service:: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+Limitations:: Please limit request rate to 1 per second and include your contact information in User-Agent headers. Data licensed under CC-BY-SA (you must provide attribution).
+
 ==== Yandex (<tt>:yandex</tt>)
 
 API key:: required
