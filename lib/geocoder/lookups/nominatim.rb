@@ -10,16 +10,7 @@ module Geocoder::Lookup
 
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query, reverse)
-      if doc.kind_of?(Array)
-        if doc.any?
-          return doc[0]['place_id'] != "" ? doc : []
-        else
-          warn "Address not found or Nominatim Geocoding API error."
-          return []
-        end
-      else
-        return doc['place_id'] != "" ? doc = [] << doc : []
-      end
+      doc.is_a?(Array) ? doc : [doc]
     end
 
     def query_url(query, reverse = false)
