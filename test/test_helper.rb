@@ -150,7 +150,7 @@ module Geocoder
       end
     end
 
-	class Nominatim < Base
+  class Nominatim < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"

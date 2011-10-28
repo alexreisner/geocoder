@@ -110,9 +110,9 @@ class ServicesTest < Test::Unit::TestCase
     results = Geocoder.search("no results")
     assert_equal 0, results.length
   end
-  
+
   # --- Nominatim ---
-  
+
    def test_nominatim_result_components
     Geocoder::Configuration.lookup = :nominatim
     result = Geocoder.search("Madison Square Garden, New York, NY").first
@@ -125,7 +125,4 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal "Madison Square Garden, West 31st Street, Long Island City, New York City, New York, 10001, United States of America",
       result.address
   end
- 
-  
-  
 end
