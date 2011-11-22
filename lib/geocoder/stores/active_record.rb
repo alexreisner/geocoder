@@ -135,7 +135,7 @@ module Geocoder::Store
           "POWER(SIN((#{longitude} - #{lon_attr}) * PI() / 180 / 2), 2) ))"
         options[:order] ||= "#{distance} ASC"
         default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || '*'}, " +
+          :select => "#{options[:select] || "#{table_name}.*"}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
           :having => "#{distance} <= #{radius}"
@@ -175,7 +175,7 @@ module Geocoder::Store
         distance = "(#{dy} * ABS(#{lat_attr} - #{latitude}) * #{factor}) + " +
           "(#{dx} * ABS(#{lon_attr} - #{longitude}) * #{factor})"
         default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || '*'}, " +
+          :select => "#{options[:select] || "#{table_name}.*"}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
           :order => distance
