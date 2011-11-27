@@ -54,5 +54,30 @@ module Geocoder
 
       END
     end
+
+    def self.test_mode=(test_mode)
+      if test_mode
+        @original_lookup = lookup
+        self.lookup = :test
+      else
+        self.lookup = @original_lookup
+      end
+    end
+
+    def self.add_stub(query, results)
+      stubs[query] = results
+    end
+
+    def self.read_stub(query)
+      stubs.fetch(query) { raise ArgumentError, "unknown stub request #{query}" }
+    end
+
+    def self.stubs
+      @stubs ||= {}
+    end
+
+    def self.reset_stubs
+      @stubs = {}
+    end
   end
 end
