@@ -13,8 +13,14 @@ module Geocoder
         opts.separator "\nOptions: "
 
         opts.on("-k <key>", "--key <key>",
-          "Key for geocoding API (optional for most)") do |key|
-          Geocoder::Configuration.api_key = key
+          "Key for geocoding API (optional for most). For Google Premier use 'key client channel' separated by spaces") do |key|
+          premier_key = key.split(' ')
+          if premier_key.length == 3
+            Geocoder::Configuration.api_key = premier_key
+          else
+            Geocoder::Configuration.api_key = key
+          end
+          puts Geocoder::Configuration.api_key.inspect
         end
 
         opts.on("-l <language>", "--language <language>",
@@ -30,6 +36,7 @@ module Geocoder
         opts.on("-s <service>", Geocoder.street_lookups, "--service <service>",
           "Geocoding service: #{Geocoder.street_lookups * ', '}") do |service|
           Geocoder::Configuration.lookup = service.to_sym
+          puts Geocoder::Configuration.lookup.inspect
         end
 
         opts.on("-t <seconds>", "--timeout <seconds>",
