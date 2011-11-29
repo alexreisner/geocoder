@@ -93,10 +93,11 @@ module Geocoder
       ##
       # Raise exception instead of warning for specified exceptions.
       #
-      def raise_error(err)
-        raise err if Geocoder::Configuration.always_raise.include?(err.class)
+      def raise_error(error, message = nil)
+        if Geocoder::Configuration.always_raise.include?(error.class)
+          raise error, message
+        end
       end
-
 
       ##
       # Returns a parsed search result (Ruby hash).
