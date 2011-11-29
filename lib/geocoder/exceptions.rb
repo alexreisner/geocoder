@@ -5,4 +5,7 @@ module Geocoder
 
   class ConfigurationError < Error
   end
+
+  class OverQueryLimitError < Error
+  end
 end
