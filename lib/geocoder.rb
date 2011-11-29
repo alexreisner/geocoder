@@ -1,5 +1,6 @@
 require "geocoder/configuration"
 require "geocoder/calculations"
+require "geocoder/exceptions"
 require "geocoder/cache"
 require "geocoder/request"
 require "geocoder/models/active_record"
@@ -65,11 +66,6 @@ module Geocoder
   def ip_lookups
     [:freegeoip]
   end
-
-
-  # exception classes
-  class Error < StandardError; end
-  class ConfigurationError < Error; end
 
 
   private # -----------------------------------------------------------------
