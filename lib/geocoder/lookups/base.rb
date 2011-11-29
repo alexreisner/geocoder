@@ -92,10 +92,13 @@ module Geocoder
 
       ##
       # Raise exception if configuration specifies it should be raised.
+      # Return false if exception not raised.
       #
       def raise_error(error, message = nil)
         if Geocoder::Configuration.always_raise.include?(error.class)
           raise error, message
+        else
+          false
         end
       end
 
