@@ -3,6 +3,10 @@ require 'test_helper'
 
 class ErrorHandlingTest < Test::Unit::TestCase
 
+  def teardown
+    Geocoder::Configuration.always_raise = []
+  end
+
   def test_does_not_choke_on_timeout
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
@@ -21,7 +25,6 @@ class ErrorHandlingTest < Test::Unit::TestCase
         lookup.send(:results, "timeout")
       end
     end
-    Geocoder::Configuration.always_raise = []
   end
 
   def test_always_raise_socket_error
@@ -32,6 +35,5 @@ class ErrorHandlingTest < Test::Unit::TestCase
         lookup.send(:results, "socket_error")
       end
     end
-    Geocoder::Configuration.always_raise = []
   end
 end
