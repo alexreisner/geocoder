@@ -52,7 +52,7 @@ module Geocoder::Store
           return where(:id => false) unless sw_lat && sw_lng && ne_lat && ne_lng
           spans = "latitude BETWEEN #{sw_lat} AND #{ne_lat} AND "
           spans << if sw_lng > ne_lng   # Handle a box that spans 180
-            "longitude BETWEEN #{sw_lng} AND 180 OR longitude BETWEEN #{ne_lng} and -180"
+            "longitude BETWEEN #{sw_lng} AND 180 OR longitude BETWEEN -180 AND #{ne_lng}"
           else
             "longitude BETWEEN #{sw_lng} AND #{ne_lng}"
           end
