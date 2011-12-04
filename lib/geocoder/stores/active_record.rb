@@ -66,6 +66,11 @@ module Geocoder::Store
     #
     module ClassMethods
 
+      def distance_from(location, *args)
+        latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
+        distance_from_options(latitude, longitude, *args) if latitude and longitude
+      end
+
       private # ----------------------------------------------------------------
 
       ##
@@ -92,13 +97,18 @@ module Geocoder::Store
         end
       end
 
+      def distance_from_options(latitude, longitude, options = {})
+        if connection.adapter_name.match /sqlite/i
+          approx_distance_from(latitude, longitude, options)
+        else
+          full_distance_from(latitude, longitude, options)
+        end
+      end
+
       ##
       # Scope options hash for use with a database that supports POWER(),
       # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
       # ATAN2(), DEGREES(), and RADIANS().
-      #
-      # Distance calculations based on the excellent tutorial at:
-      # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
       #
       # Bearing calculation based on:
       # http://www.beginningspatial.com/calculating_bearing_one_point_another
@@ -128,11 +138,8 @@ module Geocoder::Store
             ")) + 360 " +
           "AS decimal) % 360"
         end
-        earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
-        distance = "#{earth} * 2 * ASIN(SQRT(" +
-          "POWER(SIN((#{latitude} - #{lat_attr}) * PI() / 180 / 2), 2) + " +
-          "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
-          "POWER(SIN((#{longitude} - #{lon_attr}) * PI() / 180 / 2), 2) ))"
+
+        distance = full_distance_from(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || "#{table_name}.*"}, " +
@@ -140,6 +147,36 @@ module Geocoder::Store
             (bearing ? ", #{bearing} AS bearing" : ""),
           :conditions => add_exclude_condition(conditions, options[:exclude])
         )
+      end
+
+
+      # Distance calculations based on the excellent tutorial at:
+      # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
+
+      def full_distance_from(latitude, longitude, options)
+        lat_attr = geocoder_options[:latitude]
+        lon_attr = geocoder_options[:longitude]
+
+        earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
+
+        "#{earth} * 2 * ASIN(SQRT(" +
+          "POWER(SIN((#{latitude} - #{table_name}.#{lat_attr}) * PI() / 180 / 2), 2) + " +
+          "COS(#{latitude} * PI() / 180) * COS(#{table_name}.#{lat_attr} * PI() / 180) * " +
+          "POWER(SIN((#{longitude} - #{table_name}.#{lon_attr}) * PI() / 180 / 2), 2) ))"
+      end
+
+      def approx_distance_from(latitude, longitude, options)
+        lat_attr = geocoder_options[:latitude]
+        lon_attr = geocoder_options[:longitude]
+
+        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
+        dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
+
+        # sin of 45 degrees = average x or y component of vector
+        factor = Math.sin(Math::PI / 4)
+
+        "(#{dy} * ABS(#{table_name}.#{lat_attr} - #{latitude}) * #{factor}) + " +
+          "(#{dx} * ABS(#{table_name}.#{lon_attr} - #{longitude}) * #{factor})"
       end
 
       ##
@@ -166,14 +203,8 @@ module Geocoder::Store
           bearing = false
         end
 
-        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
-        dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
+        distance = approx_distance_from(latitude, longitude, options)
 
-        # sin of 45 degrees = average x or y component of vector
-        factor = Math.sin(Math::PI / 4)
-
-        distance = "(#{dy} * ABS(#{lat_attr} - #{latitude}) * #{factor}) + " +
-          "(#{dx} * ABS(#{lon_attr} - #{longitude}) * #{factor})"
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         conditions = [
           "#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
