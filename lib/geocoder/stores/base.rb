@@ -98,18 +98,17 @@ module Geocoder
           return
         end
 
-        if (results = Geocoder.search(query)).size > 0
+        results = Geocoder.search(query)
 
-          # execute custom block, if specified in configuration
-          block_key = reverse ? :reverse_block : :geocode_block
-          if custom_block = options[block_key]
-            custom_block.call(self, results)
+        # execute custom block, if specified in configuration
+        block_key = reverse ? :reverse_block : :geocode_block
+        if custom_block = options[block_key]
+          custom_block.call(self, results)
 
-          # else execute block passed directly to this method,
-          # which generally performs the "auto-assigns"
-          elsif block_given?
-            yield(self, results)
-          end
+        # else execute block passed directly to this method,
+        # which generally performs the "auto-assigns"
+        elsif block_given?
+          yield(self, results)
         end
       end
     end
