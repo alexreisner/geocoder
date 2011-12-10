@@ -66,9 +66,9 @@ module Geocoder::Store
     #
     module ClassMethods
 
-      def distance_from(location, *args)
+      def distance_from_sql(location, *args)
         latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
-        distance_from_options(latitude, longitude, *args) if latitude and longitude
+        distance_from_sql_options(latitude, longitude, *args) if latitude and longitude
       end
 
       private # ----------------------------------------------------------------
@@ -97,11 +97,11 @@ module Geocoder::Store
         end
       end
 
-      def distance_from_options(latitude, longitude, options = {})
+      def distance_from_sql_options(latitude, longitude, options = {})
         if connection.adapter_name.match /sqlite/i
-          approx_distance_from(latitude, longitude, options)
+          approx_distance_from_sql(latitude, longitude, options)
         else
-          full_distance_from(latitude, longitude, options)
+          full_distance_from_sql(latitude, longitude, options)
         end
       end
 
@@ -139,7 +139,7 @@ module Geocoder::Store
           "AS decimal) % 360"
         end
 
-        distance = full_distance_from(latitude, longitude, options)
+        distance = full_distance_from_sql(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || "#{table_name}.*"}, " +
@@ -153,7 +153,7 @@ module Geocoder::Store
       # Distance calculations based on the excellent tutorial at:
       # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
 
-      def full_distance_from(latitude, longitude, options)
+      def full_distance_from_sql(latitude, longitude, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
 
@@ -165,7 +165,7 @@ module Geocoder::Store
           "POWER(SIN((#{longitude} - #{table_name}.#{lon_attr}) * PI() / 180 / 2), 2) ))"
       end
 
-      def approx_distance_from(latitude, longitude, options)
+      def approx_distance_from_sql(latitude, longitude, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
 
@@ -203,7 +203,7 @@ module Geocoder::Store
           bearing = false
         end
 
-        distance = approx_distance_from(latitude, longitude, options)
+        distance = approx_distance_from_sql(latitude, longitude, options)
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         conditions = [
