@@ -2,6 +2,14 @@
 
 Per-release changes to Geocoder.
 
+== 1.1.1 (2012 Feb 16)
+
+* Add distance_from_sql class method to geocoded class (thanks github.com/dwilkie).
+* Add OverQueryLimitError and raise when relevant for Google lookup.
+* Fix: don't cache API data if response indicates an error.
+* Fix: within_bounding_box now uses correct lat/lon DB columns (thanks github.com/kongo).
+* Fix: error accessing city in some cases with Yandex result (thanks github.com/kor6n and sld).
+
 == 1.1.0 (2011 Dec 3)
 
 * A block passed to geocoded_by is now always executed, even if the geocoding service returns no results. This means you need to make sure you have results before trying to assign data to your object.
