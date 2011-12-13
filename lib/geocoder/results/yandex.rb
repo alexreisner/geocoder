@@ -14,10 +14,16 @@ module Geocoder::Result
     def city
       if state.empty?
         address_details['Locality']['LocalityName']
-      elsif address_details['AdministrativeArea']['Locality']
-        address_details['AdministrativeArea']['Locality']['LocalityName']
-      elsif address_details['AdministrativeArea']['SubAdministrativeArea']
-        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['LocalityName']
+      else
+        levels = %w{ AdministrativeArea SubAdministrativeArea }
+        current_level = address_details
+        levels.each do |level|
+          break unless current_level[level]
+          current_level = current_level[level]
+          if entity = current_level['Locality']
+            return entity['LocalityName']
+          end
+        end  
       end
     end
 
