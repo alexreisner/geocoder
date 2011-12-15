@@ -146,15 +146,16 @@ module Geocoder
         timeout(Geocoder::Configuration.timeout) do
           url = query_url(query, reverse)
           uri = URI.parse(url)
-          unless cache and response = cache[url]
+          unless cache and body = cache[url]
             client = http_client.new(uri.host, uri.port)
             client.use_ssl = true if Geocoder::Configuration.use_https
-            response = client.get(uri.request_uri).body
-            if cache
-              cache[url] = response
+            response = client.get(uri.request_uri)
+            body = response.body
+            if cache and (200..399).include?(response.code.to_i)
+              cache[url] = body
             end
           end
-          response
+          body
         end
       end
 
