@@ -10,8 +10,8 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query, options = {})
+      return [] unless doc = fetch_data(query, options)
       case doc['status']; when "OK" # OK status implies >0 results
         return doc['results']
       when "OVER_QUERY_LIMIT"
@@ -25,9 +25,9 @@ module Geocoder::Lookup
       return []
     end
 
-    def query_url(query, reverse = false)
+    def query_url(query, options = {})
       params = {
-        (reverse ? :latlng : :address) => query,
+        (options[:reverse] ? :latlng : :address) => query,
         :sensor => "false",
         :language => Geocoder::Configuration.language,
         :key => Geocoder::Configuration.api_key

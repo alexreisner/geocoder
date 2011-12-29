@@ -10,19 +10,19 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query, options = {})
+      return [] unless doc = fetch_data(query, options)
       doc.is_a?(Array) ? doc : [doc]
     end
 
-    def query_url(query, reverse = false)
+    def query_url(query, options = {})
       params = {
         :format => "json",
         :polygon => "1",
         :addressdetails => "1",
         :"accept-language" => Geocoder::Configuration.language
       }
-      if (reverse)
+      if (options[:reverse])
         method = 'reverse'
         parts = query.split(/\s*,\s*/);
         params[:lat] = parts[0]

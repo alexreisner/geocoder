@@ -60,7 +60,7 @@ module Geocoder
 
     class Google < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query, options = {})
         raise TimeoutError if query == "timeout"
         raise SocketError if query == "socket_error"
         file = case query
@@ -78,7 +78,7 @@ module Geocoder
 
     class Yahoo < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query, options = {})
         raise TimeoutError if query == "timeout"
         raise SocketError if query == "socket_error"
         file = case query
@@ -91,7 +91,7 @@ module Geocoder
 
     class Yandex < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query, options = {})
         raise TimeoutError if query == "timeout"
         raise SocketError if query == "socket_error"
         file = case query
@@ -105,10 +105,10 @@ module Geocoder
 
     class GeocoderCa < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query, options = {})
         raise TimeoutError if query == "timeout"
         raise SocketError if query == "socket_error"
-        if reverse
+        if options[:reverse]
           read_fixture "geocoder_ca_reverse.json"
         else
           file = case query
@@ -122,7 +122,7 @@ module Geocoder
 
     class Freegeoip < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query, options = {})
         raise TimeoutError if query == "timeout"
         raise SocketError if query == "socket_error"
         file = case query
@@ -135,10 +135,10 @@ module Geocoder
 
     class Bing < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query, options = {})
         raise TimeoutError if query == "timeout"
         raise SocketError if query == "socket_error"
-        if reverse
+        if options[:reverse]
           read_fixture "bing_reverse.json"
         else
           file = case query
@@ -152,7 +152,7 @@ module Geocoder
 
   class Nominatim < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query, options = {})
         raise TimeoutError if query == "timeout"
         raise SocketError if query == "socket_error"
         file = case query
