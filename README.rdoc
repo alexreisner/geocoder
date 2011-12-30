@@ -410,6 +410,14 @@ You can use Geocoder outside of Rails by calling the <tt>Geocoder.search</tt> me
 
 This returns an array of <tt>Geocoder::Result</tt> objects with all information provided by the geocoding service. Please see above and in the code for details.
 
+=== Passing Additional Options
+
+It is also possible to pass additional options to a geocoding service when calling <tt>Geocoder.search</tt>:
+
+  results = Geocoder.search("McCarren Park, Brooklyn, NY", :bounds => [[40.8019, -73.7135], [40.5829, -74.0321]])
+
+For a list of options see the documentation for <tt>Geocoder.search</tt>.
+
 
 == Command Line Interface
 

@@ -34,7 +34,6 @@ class ServicesTest < Test::Unit::TestCase
   end
 
 
-
   # --- Google Premier ---
 
   def test_google_premier_result_components
