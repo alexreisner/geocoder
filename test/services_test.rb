@@ -28,6 +28,12 @@ class ServicesTest < Test::Unit::TestCase
       result.precision
   end
 
+  def test_google_query_url_contains_bounds
+    url = Geocoder::Lookup::Google.new.send(:query_url, "Some Intersection", :bounds => [[40.0, -120.0], [39.0, -121.0]])
+    assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
+  end
+
+
 
   # --- Google Premier ---
 
