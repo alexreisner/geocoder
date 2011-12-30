@@ -13,8 +13,8 @@ module Geocoder
   ##
   # Search for information about an address or a set of coordinates.
   #
-  def search(query)
-    blank_query?(query) ? [] : lookup(query).search(query)
+  def search(query, options = {})
+    blank_query?(query) ? [] : lookup(query).search(query, options)
   end
 
   ##
