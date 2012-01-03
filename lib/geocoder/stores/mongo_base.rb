@@ -71,11 +71,12 @@ module Geocoder::Store
     #
     def reverse_geocode
       do_lookup(true) do |o,rs|
-        r = rs.first
-        unless r.address.nil?
-          o.send :write_attribute, self.class.geocoder_options[:fetched_address], r.address
+        if r = rs.first
+          unless r.address.nil?
+            o.send :write_attribute, self.class.geocoder_options[:fetched_address], r.address
+          end
+          r.address
         end
-        r.address
       end
     end
   end
