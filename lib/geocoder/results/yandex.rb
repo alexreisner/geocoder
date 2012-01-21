@@ -36,14 +36,10 @@ module Geocoder::Result
         ""
       end
     end
-    
+
     def sub_state
-      if !state.empty?
-        if state['SubAdministrativeArea']
-          state['SubAdministrativeArea']['SubAdministrativeAreaName']
-        else
-          ""
-        end
+      if !state.empty? and state['SubAdministrativeArea']
+        state['SubAdministrativeArea']['SubAdministrativeAreaName']
       else
         ""
       end
