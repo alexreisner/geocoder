@@ -1,13 +1,19 @@
 require 'test_helper'
+require 'geocoder/lookups/test'
 
 class TestModeTest < Test::Unit::TestCase
 
+  def setup
+    @_original_lookup = Geocoder::Configuration.lookup
+  end
+
   def teardown
-    Geocoder::Configuration.reset_stubs
+    Geocoder::Lookup::Test.reset
+    Geocoder::Configuration.lookup = @_original_lookup
   end
 
   def test_search_with_known_stub
-    Geocoder::Configuration.test_mode = true
+    Geocoder::Configuration.lookup = :test
     attributes = {
       'latitude'   => 40.7143528,
       'longitude'  => -74.0059731,
@@ -19,7 +25,7 @@ class TestModeTest < Test::Unit::TestCase
     }
     coordinates = [attributes['latitude'], attributes['longitude']]
 
-    Geocoder::Configuration.add_stub("New York, NY", [attributes])
+    Geocoder::Lookup::Test.add_stub("New York, NY", [attributes])
 
     results = Geocoder.search("New York, NY")
     assert_equal 1, results.size
@@ -36,19 +42,11 @@ class TestModeTest < Test::Unit::TestCase
   end
 
   def test_search_with_unknown_stub
-    Geocoder::Configuration.test_mode = true
+    Geocoder::Configuration.lookup = :test
 
     assert_raise ArgumentError do
       Geocoder.search("New York, NY")
     end
-  end
-
-  def test_turning_off_test_mode_restores_lookup
-    original_lookup = Geocoder::Configuration.lookup
-    Geocoder::Configuration.test_mode = true
-    Geocoder::Configuration.test_mode = false
-
-    assert_equal original_lookup, Geocoder::Configuration.lookup
   end
 
 end
