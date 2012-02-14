@@ -114,8 +114,8 @@ module Geocoder::Store
       # http://www.beginningspatial.com/calculating_bearing_one_point_another
       #
       def full_near_scope_options(latitude, longitude, radius, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
+        lat_attr = "#{self.table_name}.#{geocoder_options[:latitude]}"
+        lon_attr = "#{self.table_name}.#{geocoder_options[:longitude]}"
         options[:bearing] = :linear unless options.include?(:bearing)
         bearing = case options[:bearing]
         when :linear
@@ -154,8 +154,8 @@ module Geocoder::Store
       # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
 
       def full_distance_from_sql(latitude, longitude, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
+        lat_attr = "#{self.table_name}.#{geocoder_options[:latitude]}"
+        lon_attr = "#{self.table_name}.#{geocoder_options[:longitude]}"
 
         earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
 
@@ -189,8 +189,8 @@ module Geocoder::Store
       # only exist for interface consistency--not intended for production!
       #
       def approx_near_scope_options(latitude, longitude, radius, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
+        lat_attr = "#{self.table_name}.#{geocoder_options[:latitude]}"
+        lon_attr = "#{self.table_name}.#{geocoder_options[:longitude]}"
         options[:bearing] = :linear unless options.include?(:bearing)
         if options[:bearing]
           bearing = "CASE " +
