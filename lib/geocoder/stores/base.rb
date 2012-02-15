@@ -22,7 +22,7 @@ module Geocoder
       # the point. Also takes a symbol specifying the units
       # (:mi or :km; default is :mi).
       #
-      def distance_to(point, units = :mi)
+      def distance_to(point, units = Geocoder::Configuration.units)
         return nil unless geocoded?
         Geocoder::Calculations.distance_between(
           to_coordinates, point, :units => units)

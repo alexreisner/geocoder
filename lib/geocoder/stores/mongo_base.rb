@@ -30,7 +30,7 @@ module Geocoder::Store
           conds[field] = empty.clone
           conds[field]["$nearSphere"]  = coords.reverse
           conds[field]["$maxDistance"] = \
-            Geocoder::Calculations.distance_to_radians(radius, options[:units] || :mi)
+            Geocoder::Calculations.distance_to_radians(radius, options[:units] || Geocoder::Configuration.units)
 
           if obj = options[:exclude]
             conds[:_id.ne] = obj.id

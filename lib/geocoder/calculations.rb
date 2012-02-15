@@ -24,7 +24,7 @@ module Geocoder
     ##
     # Distance spanned by one degree of latitude in the given units.
     #
-    def latitude_degree_distance(units = :mi)
+    def latitude_degree_distance(units = Geocoder::Configuration.units)
       2 * Math::PI * earth_radius(units) / 360
     end
 
@@ -32,7 +32,7 @@ module Geocoder
     # Distance spanned by one degree of longitude at the given latitude.
     # This ranges from around 69 miles at the equator to zero at the poles.
     #
-    def longitude_degree_distance(latitude, units = :mi)
+    def longitude_degree_distance(latitude, units = Geocoder::Configuration.units)
       latitude_degree_distance(units) * Math.cos(to_radians(latitude))
     end
 
@@ -54,7 +54,7 @@ module Geocoder
     def distance_between(point1, point2, options = {})
 
       # set default options
-      options[:units] ||= :mi
+      options[:units] ||= Geocoder::Configuration.units
 
       # convert to coordinate arrays
       point1 = extract_coordinates(point1)
@@ -182,7 +182,7 @@ module Geocoder
     def bounding_box(point, radius, options = {})
       lat,lon = extract_coordinates(point)
       radius  = radius.to_f
-      units   = options[:units] || :mi
+      units   = options[:units] || Geocoder::Configuration.units
       [
         lat - (radius / latitude_degree_distance(units)),
         lon - (radius / longitude_degree_distance(lat, units)),
@@ -219,11 +219,11 @@ module Geocoder
       end
     end
 
-    def distance_to_radians(distance, units = :mi)
+    def distance_to_radians(distance, units = Geocoder::Configuration.units)
       distance.to_f / earth_radius(units)
     end
 
-    def radians_to_distance(radians, units = :mi)
+    def radians_to_distance(radians, units = Geocoder::Configuration.units)
       radians * earth_radius(units)
     end
 
@@ -244,7 +244,7 @@ module Geocoder
     ##
     # Radius of the Earth in the given units (:mi or :km). Default is :mi.
     #
-    def earth_radius(units = :mi)
+    def earth_radius(units = Geocoder::Configuration.units)
       units == :km ? EARTH_RADIUS : to_miles(EARTH_RADIUS)
     end
 
