@@ -20,7 +20,7 @@ module Geocoder::Result
     end
 
     def village
-      @data['address']['villiage']
+      @data['address']['village']
     end
 
     def town
