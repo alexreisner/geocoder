@@ -249,7 +249,7 @@ module Geocoder::Store
       # Add conditions indicated by user
       # The given conditions MUST be an array.
       #
-      def add_conditions(conditions, new_conditions)
+      def add_condition(conditions, new_conditions)
         if new_conditions
           conditions[0] << (" AND "+new_conditions[0])
           new_conditions.shift
