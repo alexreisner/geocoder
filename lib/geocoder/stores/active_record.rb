@@ -141,11 +141,13 @@ module Geocoder::Store
 
         distance = full_distance_from_sql(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
+        conditions = add_exclude_condition(conditions, options[:exclude])
+        conditions = add_condition(conditions, options[:conditions])
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || "#{table_name}.*"}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
-          :conditions => add_exclude_condition(conditions, options[:exclude])
+          :conditions => conditions
         )
       end
 
@@ -210,11 +212,13 @@ module Geocoder::Store
           "#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           [b[0], b[2], b[1], b[3]
         ]
+        conditions = add_exclude_condition(conditions, options[:exclude])
+        conditions = add_condition(conditions, options[:conditions])
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || "#{table_name}.*"}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
-          :conditions => add_exclude_condition(conditions, options[:exclude])
+          :conditions => conditions
         )
       end
 
@@ -237,6 +241,19 @@ module Geocoder::Store
         if exclude
           conditions[0] << " AND #{table_name}.id != ?"
           conditions << exclude.id
+        end
+        conditions
+      end
+      
+      ##
+      # Add conditions indicated by user
+      # The given conditions MUST be an array.
+      #
+      def add_conditions(conditions, new_conditions)
+        if new_conditions
+          conditions[0] << (" AND "+new_conditions[0])
+          new_conditions.shift
+          conditions += new_conditions
         end
         conditions
       end
