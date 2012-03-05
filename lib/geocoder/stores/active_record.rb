@@ -218,20 +218,20 @@ module Geocoder::Store
       def default_near_scope_options(latitude, longitude, radius, distance, bearing, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
-        
+
         if through = geocoder_options[:through]
           through_table_name = through.table_name
 
           lat_attr = "#{through_table_name}.#{geocoder_options[:latitude]}"
           lon_attr = "#{through_table_name}.#{geocoder_options[:longitude]}"
         end
-        
+
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
 
         conditions = \
           ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           [b[0], b[2], b[1], b[3]]
-        
+
         if obj = options[:exclude]
           conditions[0] << " AND #{table_name}.id != ?"
           conditions << obj.id
@@ -242,7 +242,7 @@ module Geocoder::Store
 
         group = columns.map{ |c| "#{table_name}.#{c.name}" }.join(',')
         group << ", #{lat_attr}, #{lon_attr}" if through
-        
+
         {
           :select     =>  select,
           :group      =>  group,
