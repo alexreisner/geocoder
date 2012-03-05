@@ -15,4 +15,12 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n") - %w[geocoder.gemspec Gemfile init.rb]
   s.require_paths = ["lib"]
   s.executables = ["geocode"]
+
+  s.add_development_dependency('rake')  
+  s.add_development_dependency('rails')
+  s.add_development_dependency('activerecord')
+  s.add_development_dependency('mongoid')
+  s.add_development_dependency('mongo_ext')
+  s.add_development_dependency('bson_ext')
+  s.add_development_dependency('mongo_mapper')
 end
