@@ -219,13 +219,6 @@ module Geocoder::Store
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
 
-        if through = geocoder_options[:through]
-          through_table_name = through.table_name
-
-          lat_attr = "#{through_table_name}.#{geocoder_options[:latitude]}"
-          lon_attr = "#{through_table_name}.#{geocoder_options[:longitude]}"
-        end
-
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
 
         conditions = \
