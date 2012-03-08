@@ -234,7 +234,10 @@ module Geocoder::Store
         select << ", #{bearing} AS bearing" if bearing
 
         group = columns.map{ |c| "#{table_name}.#{c.name}" }.join(',')
-        group << ", #{lat_attr}, #{lon_attr}" if through
+        
+        if through = geocoder_options[:through]
+          group << ", #{lat_attr}, #{lon_attr}"
+        end
 
         {
           :select     =>  select,
