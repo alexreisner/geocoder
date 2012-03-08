@@ -116,8 +116,15 @@ module Geocoder::Store
       def full_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+
+        if assoc = geocoder_options[:through]          
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end
+
         options[:bearing] = :linear unless options.include?(:bearing)
         bearing = case options[:bearing]
+          
         when :linear
           "CAST(" +
             "DEGREES(ATAN2( " +
@@ -153,6 +160,11 @@ module Geocoder::Store
       def full_distance_from_sql(latitude, longitude, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        
+        if assoc = geocoder_options[:through]
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end        
 
         earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
 
@@ -165,6 +177,11 @@ module Geocoder::Store
       def approx_distance_from_sql(latitude, longitude, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        
+        if assoc = geocoder_options[:through]
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end
 
         dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
         dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
@@ -188,6 +205,12 @@ module Geocoder::Store
       def approx_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        
+        if assoc = geocoder_options[:through]
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end
+        
         options[:bearing] = :linear unless options.include?(:bearing)
         if options[:bearing]
           bearing = "CASE " +
@@ -218,6 +241,11 @@ module Geocoder::Store
       def default_near_scope_options(latitude, longitude, radius, distance, bearing, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        
+        if assoc = geocoder_options[:through]
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
 
