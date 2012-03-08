@@ -37,14 +37,6 @@ module Geocoder
           include Geocoder::Store.const_get(geocoder_module_name)
         end
         @geocoder_options.merge! options
-
-        if through = @geocoder_options[:through]
-          table_name                    = through.table_name
-          lat_attr                      = @geocoder_options[:latitude]
-          lon_attr                      = @geocoder_options[:longitude]
-          @geocoder_options[:latitude]  = "#{table_name}.#{lat_attr}" unless lat_attr =~ /^#{table_name}\./
-          @geocoder_options[:longitude] = "#{table_name}.#{lon_attr}" unless lon_attr =~ /^#{table_name}\./
-        end
       end
     end
   end

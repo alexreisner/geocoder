@@ -96,10 +96,13 @@ module Geocoder
       #
       def do_lookup(reverse = false)
         options = self.class.geocoder_options
+
+        target = options[:through] ? (send options[:through].name) : self
+
         if reverse and options[:reverse_geocode]
           query = to_coordinates
         elsif !reverse and options[:geocode]
-          query = send(options[:user_address])
+          query = target.send(options[:user_address])
         else
           return
         end
@@ -109,12 +112,12 @@ module Geocoder
         # execute custom block, if specified in configuration
         block_key = reverse ? :reverse_block : :geocode_block
         if custom_block = options[block_key]
-          custom_block.call(self, results)
+          custom_block.call(target, results)
 
         # else execute block passed directly to this method,
         # which generally performs the "auto-assigns"
         elsif block_given?
-          yield(self, results)
+          yield(target, results)
         end
       end
     end
