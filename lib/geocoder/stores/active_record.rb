@@ -90,7 +90,7 @@ module Geocoder::Store
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
-        if connection.adapter_name.match /sqlite/i
+        if using_sqlite?
           approx_near_scope_options(latitude, longitude, radius, options)
         else
           full_near_scope_options(latitude, longitude, radius, options)
@@ -98,7 +98,7 @@ module Geocoder::Store
       end
 
       def distance_from_sql_options(latitude, longitude, options = {})
-        if connection.adapter_name.match /sqlite/i
+        if using_sqlite?
           approx_distance_from_sql(latitude, longitude, options)
         else
           full_distance_from_sql(latitude, longitude, options)
@@ -239,6 +239,10 @@ module Geocoder::Store
           conditions << exclude.id
         end
         conditions
+      end
+
+      def using_sqlite?
+        connection.adapter_name.match /sqlite/i
       end
     end
 
