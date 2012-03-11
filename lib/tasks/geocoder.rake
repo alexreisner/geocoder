@@ -3,7 +3,9 @@ namespace :geocode do
   task :all => :environment do
     class_name = ENV['CLASS'] || ENV['class']
     raise "Please specify a CLASS (model)" unless class_name
-    klass = Object.const_get(class_name)
+
+    klass = Object
+    class_name.split("::").each { |x| klass = klass.const_get(x) }
 
     klass.not_geocoded.each do |obj|
       obj.geocode; obj.save
