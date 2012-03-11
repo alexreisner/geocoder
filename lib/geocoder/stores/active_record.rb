@@ -36,7 +36,7 @@ module Geocoder::Store
           if latitude and longitude
             near_scope_options(latitude, longitude, *args)
           else
-            where(:id => false) # no results if no lat/lon given
+            where(false_condition) # no results if no lat/lon given
           end
         }
 
@@ -243,6 +243,13 @@ module Geocoder::Store
 
       def using_sqlite?
         connection.adapter_name.match /sqlite/i
+      end
+
+      ##
+      # Value which can be passed to where() to produce no results.
+      #
+      def false_condition
+        using_sqlite? ? 0 : "false"
       end
     end
 
