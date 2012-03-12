@@ -17,10 +17,4 @@ Gem::Specification.new do |s|
   s.executables = ["geocode"]
 
   s.add_development_dependency('rake')  
-  s.add_development_dependency('rails')
-  s.add_development_dependency('activerecord')
-  s.add_development_dependency('mongoid')
-  s.add_development_dependency('mongo_ext')
-  s.add_development_dependency('bson_ext')
-  s.add_development_dependency('mongo_mapper')
 end
