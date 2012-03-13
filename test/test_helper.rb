@@ -38,12 +38,6 @@ module ActiveRecord
   end
 end
 
-module Mongoid
-end
-
-module MongoMapper
-end
-
 # simulate Rails module so Railtie gets loaded
 module Rails
 end
