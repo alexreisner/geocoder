@@ -115,7 +115,7 @@ module Geocoder
   # dot-delimited numbers.
   #
   def ip_address?(value)
-    !!value.to_s.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
+    !!value.to_s.match(/^(::ffff:)?(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
   end
 
   ##
