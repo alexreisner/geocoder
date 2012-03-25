@@ -10,14 +10,24 @@ module Geocoder
     # Read from the Cache.
     #
     def [](url)
-      interpret store[key_for(url)]
+      interpret case
+        when store.respond_to?(:[])
+          store[key_for(url)]
+        when store.respond_to?(:get)
+          store.get key_for(url)
+      end
     end
 
     ##
     # Write to the Cache.
     #
     def []=(url, value)
-      store[key_for(url)] = value
+      case
+        when store.respond_to?(:[]=)
+          store[key_for(url)] = value
+        when store.respond_to?(:set)
+          store.set key_for(url), value
+      end
     end
 
     ##
