@@ -116,8 +116,15 @@ module Geocoder::Store
       def full_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+
+        if assoc = geocoder_options[:through]          
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end
+
         options[:bearing] = :linear unless options.include?(:bearing)
         bearing = case options[:bearing]
+          
         when :linear
           "CAST(" +
             "DEGREES(ATAN2( " +
@@ -141,10 +148,7 @@ module Geocoder::Store
 
         distance = full_distance_from_sql(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
-        default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || "#{table_name}.*"}, " +
-            "#{distance} AS distance" +
-            (bearing ? ", #{bearing} AS bearing" : ""),
+        default_near_scope_options(latitude, longitude, radius, distance, bearing, options).merge(
           :conditions => add_exclude_condition(conditions, options[:exclude])
         )
       end
@@ -156,18 +160,28 @@ module Geocoder::Store
       def full_distance_from_sql(latitude, longitude, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        
+        if assoc = geocoder_options[:through]
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end        
 
         earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
 
         "#{earth} * 2 * ASIN(SQRT(" +
-          "POWER(SIN((#{latitude} - #{table_name}.#{lat_attr}) * PI() / 180 / 2), 2) + " +
-          "COS(#{latitude} * PI() / 180) * COS(#{table_name}.#{lat_attr} * PI() / 180) * " +
-          "POWER(SIN((#{longitude} - #{table_name}.#{lon_attr}) * PI() / 180 / 2), 2) ))"
+          "POWER(SIN((#{latitude} - #{lat_attr}) * PI() / 180 / 2), 2) + " +
+          "COS(#{latitude} * PI() / 180) * COS(#{lat_attr} * PI() / 180) * " +
+          "POWER(SIN((#{longitude} - #{lon_attr}) * PI() / 180 / 2), 2) ))"
       end
 
       def approx_distance_from_sql(latitude, longitude, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        
+        if assoc = geocoder_options[:through]
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end
 
         dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
         dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
@@ -175,8 +189,8 @@ module Geocoder::Store
         # sin of 45 degrees = average x or y component of vector
         factor = Math.sin(Math::PI / 4)
 
-        "(#{dy} * ABS(#{table_name}.#{lat_attr} - #{latitude}) * #{factor}) + " +
-          "(#{dx} * ABS(#{table_name}.#{lon_attr} - #{longitude}) * #{factor})"
+        "(#{dy} * ABS(#{lat_attr} - #{latitude}) * #{factor}) + " +
+          "(#{dx} * ABS(#{lon_attr} - #{longitude}) * #{factor})"
       end
 
       ##
@@ -191,6 +205,12 @@ module Geocoder::Store
       def approx_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
+        
+        if assoc = geocoder_options[:through]
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end
+        
         options[:bearing] = :linear unless options.include?(:bearing)
         if options[:bearing]
           bearing = "CASE " +
@@ -210,10 +230,7 @@ module Geocoder::Store
           "#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
           [b[0], b[2], b[1], b[3]
         ]
-        default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || "#{table_name}.*"}, " +
-            "#{distance} AS distance" +
-            (bearing ? ", #{bearing} AS bearing" : ""),
+        default_near_scope_options(latitude, longitude, radius, distance, bearing, options).merge(
           :conditions => add_exclude_condition(conditions, options[:exclude])
         )
       end
@@ -221,12 +238,43 @@ module Geocoder::Store
       ##
       # Options used for any near-like scope.
       #
-      def default_near_scope_options(latitude, longitude, radius, options)
+      def default_near_scope_options(latitude, longitude, radius, distance, bearing, options)
+        lat_attr = geocoder_options[:latitude]
+        lon_attr = geocoder_options[:longitude]
+        
+        if assoc = geocoder_options[:through]
+          lat_attr = "#{assoc.table_name}.#{lat_attr}"
+          lon_attr = "#{assoc.table_name}.#{lon_attr}"
+        end
+
+        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+
+        conditions = \
+          ["#{lat_attr} BETWEEN ? AND ? AND #{lon_attr} BETWEEN ? AND ?"] +
+          [b[0], b[2], b[1], b[3]]
+
+        if obj = options[:exclude]
+          conditions[0] << " AND #{table_name}.id != ?"
+          conditions << obj.id
+        end
+
+        select = "#{options[:select] || "#{table_name}.*"}, #{distance} AS distance"
+        select << ", #{bearing} AS bearing" if bearing
+
+        group = columns.map{ |c| "#{table_name}.#{c.name}" }.join(',')
+        
+        if through = geocoder_options[:through]
+          group << ", #{lat_attr}, #{lon_attr}"
+        end
+
         {
-          :order  => options[:order] || "distance",
-          :limit  => options[:limit],
-          :offset => options[:offset]
-        }
+          :select     =>  select,
+          :group      =>  group,
+          :order      =>  options[:order] || "distance",
+          :limit      =>  options[:limit],
+          :offset     =>  options[:offset],
+          :conditions =>  conditions
+        }.merge!(through ? {:joins =>  through.name} : {})
       end
 
       ##
