@@ -142,7 +142,7 @@ module Geocoder::Store
         distance = full_distance_from_sql(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
         default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || "#{table_name}.*"}, " +
+          :select => "#{options[:select] || full_column_name("*")}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
           :conditions => add_exclude_condition(conditions, options[:exclude])
@@ -160,9 +160,9 @@ module Geocoder::Store
         earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
 
         "#{earth} * 2 * ASIN(SQRT(" +
-          "POWER(SIN((#{latitude} - #{table_name}.#{lat_attr}) * PI() / 180 / 2), 2) + " +
-          "COS(#{latitude} * PI() / 180) * COS(#{table_name}.#{lat_attr} * PI() / 180) * " +
-          "POWER(SIN((#{longitude} - #{table_name}.#{lon_attr}) * PI() / 180 / 2), 2) ))"
+          "POWER(SIN((#{latitude} - #{full_column_name(lat_attr)}) * PI() / 180 / 2), 2) + " +
+          "COS(#{latitude} * PI() / 180) * COS(#{full_column_name(lat_attr)} * PI() / 180) * " +
+          "POWER(SIN((#{longitude} - #{full_column_name(lon_attr)}) * PI() / 180 / 2), 2) ))"
       end
 
       def approx_distance_from_sql(latitude, longitude, options)
@@ -175,8 +175,8 @@ module Geocoder::Store
         # sin of 45 degrees = average x or y component of vector
         factor = Math.sin(Math::PI / 4)
 
-        "(#{dy} * ABS(#{table_name}.#{lat_attr} - #{latitude}) * #{factor}) + " +
-          "(#{dx} * ABS(#{table_name}.#{lon_attr} - #{longitude}) * #{factor})"
+        "(#{dy} * ABS(#{full_column_name(lat_attr)} - #{latitude}) * #{factor}) + " +
+          "(#{dx} * ABS(#{full_column_name(lon_attr)} - #{longitude}) * #{factor})"
       end
 
       ##
@@ -211,7 +211,7 @@ module Geocoder::Store
           [b[0], b[2], b[1], b[3]
         ]
         default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || "#{table_name}.*"}, " +
+          :select => "#{options[:select] || full_column_name("*")}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
           :conditions => add_exclude_condition(conditions, options[:exclude])
@@ -235,7 +235,7 @@ module Geocoder::Store
       #
       def add_exclude_condition(conditions, exclude)
         if exclude
-          conditions[0] << " AND #{table_name}.id != ?"
+          conditions[0] << " AND #{full_column_name(:id)} != ?"
           conditions << exclude.id
         end
         conditions
@@ -250,6 +250,14 @@ module Geocoder::Store
       #
       def false_condition
         using_sqlite? ? 0 : "false"
+      end
+
+      ##
+      # Prepend table name if column name doesn't already contain one.
+      #
+      def full_column_name(column)
+        column = column.to_s
+        column.include?(".") ? column : [table_name, column].join(".")
       end
     end
 
