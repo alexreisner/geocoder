@@ -251,6 +251,9 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and street 
   # caching (see below for details)
   Geocoder::Configuration.cache = Redis.new
   Geocoder::Configuration.cache_prefix = "..."
+  
+  # units (:mi or :km)
+  Geocoder::Configuration.cache = :km
 
 
 === Listing and Comparison
