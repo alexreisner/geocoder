@@ -34,7 +34,10 @@ module Geocoder
         # exceptions that should not be rescued by default
         # (if you want to implement custom error handling);
         # supports SocketError and TimeoutError
-        [:always_raise, []]
+        [:always_raise, []],
+        
+        # units (mi or km)
+        [:units, :mi]
       ]
     end
 
