@@ -6,8 +6,10 @@ class InputHandlingTest < Test::Unit::TestCase
   def test_ip_address_detection
     assert Geocoder.send(:ip_address?, "232.65.123.94")
     assert Geocoder.send(:ip_address?, "666.65.123.94") # technically invalid
+    assert Geocoder.send(:ip_address?, "::ffff:12.34.56.78")
     assert !Geocoder.send(:ip_address?, "232.65.123.94.43")
     assert !Geocoder.send(:ip_address?, "232.65.123")
+    assert !Geocoder.send(:ip_address?, "::ffff:123.456.789")
   end
 
   def test_blank_query_detection
