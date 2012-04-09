@@ -26,6 +26,6 @@ class MongoidTest < Test::Unit::TestCase
   end
 end
 
-rescue LoadError => crash
+rescue LoadError
   warn 'Mongoid not installed, not tested.'
 end
