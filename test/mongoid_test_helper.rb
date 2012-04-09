@@ -1,5 +1,8 @@
 require 'rubygems'
 require 'test/unit'
+require 'test_helper'
+require 'mongoid'
+require 'geocoder/models/mongoid'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
