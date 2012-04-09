@@ -1,12 +1,7 @@
 # encoding: utf-8
-require 'test_helper'
-
-begin
-require 'mongoid'
 require 'mongoid_test_helper'
 
 class MongoidTest < Test::Unit::TestCase
-
   def test_geocoded_check
     p = Place.new(*venue_params(:msg))
     p.location = [40.750354, -73.993371]
@@ -24,8 +19,4 @@ class MongoidTest < Test::Unit::TestCase
     p = Place.near(location)
     assert_equal p.selector[:location]['$nearSphere'], location.reverse
   end
-end
-
-rescue LoadError => crash
-  warn 'Mongoid not installed, not tested.'
 end
