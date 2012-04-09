@@ -106,29 +106,25 @@ module Geocoder
       # Returns a parsed search result (Ruby hash).
       #
       def fetch_data(query, reverse = false)
-        begin
-          parse_raw_data fetch_raw_data(query, reverse)
-        rescue SocketError => err
-          raise_error(err) or warn "Geocoding API connection cannot be established."
-        rescue TimeoutError => err
-          raise_error(err) or warn "Geocoding API not responding fast enough " +
-            "(see Geocoder::Configuration.timeout to set limit)."
-        end
+        parse_raw_data fetch_raw_data(query, reverse)
+      rescue SocketError => err
+        raise_error(err) or warn "Geocoding API connection cannot be established."
+      rescue TimeoutError => err
+        raise_error(err) or warn "Geocoding API not responding fast enough " +
+          "(see Geocoder::Configuration.timeout to set limit)."
       end
 
       ##
       # Parses a raw search result (returns hash or array).
       #
       def parse_raw_data(raw_data)
-        begin
-          if defined?(ActiveSupport::JSON)
-            ActiveSupport::JSON.decode(raw_data)
-          else
-            JSON.parse(raw_data)
-          end
-        rescue
-          warn "Geocoding API's response was not valid JSON."
+        if defined?(ActiveSupport::JSON)
+          ActiveSupport::JSON.decode(raw_data)
+        else
+          JSON.parse(raw_data)
         end
+      rescue
+        warn "Geocoding API's response was not valid JSON."
       end
 
       ##
