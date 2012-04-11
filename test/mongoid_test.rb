@@ -19,4 +19,15 @@ class MongoidTest < Test::Unit::TestCase
     p = Place.near(location)
     assert_equal p.selector[:location]['$nearSphere'], location.reverse
   end
+
+  def test_model_configuration
+    p = Place.new(*venue_params(:msg))
+    p.location = [0, 0]
+
+    Place.geocoded_by :address, :coordinates => :location, :units => :km
+    assert_equal 111, p.distance_to([0,1]).round
+
+    Place.geocoded_by :address, :coordinates => :location, :units => :mi
+    assert_equal 69, p.distance_to([0,1]).round
+  end
 end
