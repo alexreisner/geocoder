@@ -14,6 +14,9 @@ module Geocoder
 
         # use HTTPS for lookup requests? (if supported)
         [:use_https, false],
+        
+        # optionally supply the headers for the HTTP request, e.g. User-Agent
+        [:request_headers, {}],
 
         # HTTP proxy server (user:pass@host:port)
         [:http_proxy, nil],
