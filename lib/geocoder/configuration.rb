@@ -44,7 +44,7 @@ module Geocoder
   class Configuration
     include Singleton
 
-    CONFIGURABLE = [
+    OPTIONS = [
       :timeout,
       :lookup,
       :language,
@@ -59,7 +59,7 @@ module Geocoder
       :distances
     ]
 
-    attr_accessor *CONFIGURABLE
+    attr_accessor *OPTIONS
 
     def initialize  # :nodoc
       set_defaults
@@ -89,15 +89,15 @@ module Geocoder
 
     # Delegates getters and setters for all configuration settings,
     # and +set_defaults+ to the singleton instance.
-    instance_eval(CONFIGURABLE.map do |method|
-      meth = method.to_s
+    instance_eval(OPTIONS.map do |option|
+      o = option.to_s
       <<-EOS
-      def #{meth}
-        instance.#{meth}
+      def #{o}
+        instance.#{o}
       end
 
-      def #{meth}=(value)
-        instance.#{meth} = value
+      def #{o}=(value)
+        instance.#{o} = value
       end
       EOS
     end.join("\n\n"))
