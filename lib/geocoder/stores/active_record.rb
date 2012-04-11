@@ -121,19 +121,19 @@ module Geocoder::Store
         when :linear
           "CAST(" +
             "DEGREES(ATAN2( " +
-              "RADIANS(#{lon_attr} - #{longitude}), " +
-              "RADIANS(#{lat_attr} - #{latitude})" +
+              "RADIANS(#{table_name}.#{lon_attr} - #{longitude}), " +
+              "RADIANS(#{table_name}.#{lat_attr} - #{latitude})" +
             ")) + 360 " +
           "AS decimal) % 360"
         when :spherical
           "CAST(" +
             "DEGREES(ATAN2( " +
-              "SIN(RADIANS(#{lon_attr} - #{longitude})) * " +
-              "COS(RADIANS(#{lat_attr})), (" +
-                "COS(RADIANS(#{latitude})) * SIN(RADIANS(#{lat_attr}))" +
+              "SIN(RADIANS(#{table_name}.#{lon_attr} - #{longitude})) * " +
+              "COS(RADIANS(#{table_name}.#{lat_attr})), (" +
+                "COS(RADIANS(#{latitude})) * SIN(RADIANS(#{table_name}.#{lat_attr}))" +
               ") - (" +
-                "SIN(RADIANS(#{latitude})) * COS(RADIANS(#{lat_attr})) * " +
-                "COS(RADIANS(#{lon_attr} - #{longitude}))" +
+                "SIN(RADIANS(#{latitude})) * COS(RADIANS(#{table_name}.#{lat_attr})) * " +
+                "COS(RADIANS(#{table_name}.#{lon_attr} - #{longitude}))" +
               ")" +
             ")) + 360 " +
           "AS decimal) % 360"
