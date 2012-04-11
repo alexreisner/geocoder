@@ -44,10 +44,20 @@ module Geocoder
   class Configuration
     include Singleton
 
-    CONFIGURABLE = [:timeout     , :lookup    , :language    ,
-                    :use_https   , :http_proxy, :https_proxy ,
-                    :api_key     , :cache     , :cache_prefix,
-                    :always_raise, :units     , :distances   ]
+    CONFIGURABLE = [
+      :timeout,
+      :lookup,
+      :language,
+      :use_https,
+      :http_proxy,
+      :https_proxy,
+      :api_key,
+      :cache,
+      :cache_prefix,
+      :always_raise,
+      :units,
+      :distances
+    ]
 
     attr_accessor *CONFIGURABLE
 
