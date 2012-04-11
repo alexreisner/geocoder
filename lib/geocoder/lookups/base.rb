@@ -149,7 +149,7 @@ module Geocoder
           unless cache and body = cache[url]
             client = http_client.new(uri.host, uri.port)
             client.use_ssl = true if Geocoder::Configuration.use_https
-            response = client.get(uri.request_uri)
+            response = client.get(uri.request_uri, Geocoder::Configuration.request_headers)
             body = response.body
             if cache and (200..399).include?(response.code.to_i)
               cache[url] = body
