@@ -12,6 +12,9 @@ module Geocoder
         # ISO-639 language code
         [:language, :en],
 
+        # :mi for miles or :km for kilometers
+        [:units, :mi],
+
         # use HTTPS for lookup requests? (if supported)
         [:use_https, false],
 

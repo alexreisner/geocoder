@@ -157,7 +157,7 @@ module Geocoder::Store
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
 
-        earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
+        earth = Geocoder::Calculations.earth_radius(options[:units] || Geocoder::Configuration.units)
 
         "#{earth} * 2 * ASIN(SQRT(" +
           "POWER(SIN((#{latitude} - #{full_column_name(lat_attr)}) * PI() / 180 / 2), 2) + " +
@@ -169,8 +169,8 @@ module Geocoder::Store
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
 
-        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
-        dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
+        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || Geocoder::Configuration.units)
+        dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || Geocoder::Configuration.units)
 
         # sin of 45 degrees = average x or y component of vector
         factor = Math.sin(Math::PI / 4)
