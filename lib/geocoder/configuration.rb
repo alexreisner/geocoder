@@ -47,7 +47,7 @@ module Geocoder
     CONFIGURABLE = [:timeout     , :lookup    , :language    ,
                     :use_https   , :http_proxy, :https_proxy ,
                     :api_key     , :cache     , :cache_prefix,
-                    :always_raise, :units     , :method      ]
+                    :always_raise, :units     , :distances   ]
 
     attr_accessor *CONFIGURABLE
 
@@ -72,11 +72,9 @@ module Geocoder
       # supports SocketError and TimeoutError
       @always_raise = []
 
-      # Calculation options
-      @units  = :mi     # :mi or :km - Wouldn't it be better to better change this
-                        # definitions to use the International Units System
-                        # (:km by default)?
-      @method = :linear # :linear or spherical
+      # calculation options
+      @units     = :mi     # :mi or :km
+      @distances = :linear # :linear or :spherical
     end
 
     # Delegates getters and setters for all configuration settings,

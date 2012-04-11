@@ -5,7 +5,7 @@ class CalculationsTest < Test::Unit::TestCase
   def setup
     Geocoder.configure do
       config.units  = :mi
-      config.method = :linear
+      config.distances = :linear
     end
   end
 

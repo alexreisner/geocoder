@@ -25,23 +25,23 @@ class ConfigurationTest < Test::Unit::TestCase
     assert_equal    111, distance
     assert_not_equal 69, distance
 
-    Geocoder::Configuration.method = :spherical
+    Geocoder::Configuration.distances = :spherical
     angle = Geocoder::Calculations.bearing_between([50,-85], [40.750354, -73.993371]).round
     assert_equal     136, angle
     assert_not_equal 130, angle
 
-    Geocoder::Configuration.method = :linear
+    Geocoder::Configuration.distances = :linear
     angle = Geocoder::Calculations.bearing_between([50,-85], [40.750354, -73.993371]).round
     assert_not_equal 136, angle
     assert_equal     130, angle
   end
 
-  # --- Geocoder#configure method configuration ---
+  # --- Geocoder#configure distances configuration ---
   def test_geocoder_configuration
     # DSL
     Geocoder.configure do
       config.units  = :mi
-      config.method = :linear
+      config.distances = :linear
     end
 
     assert_equal Geocoder::Configuration.units, :mi
@@ -49,21 +49,21 @@ class ConfigurationTest < Test::Unit::TestCase
     assert_not_equal 111, distance
     assert_equal      69, distance
 
-    assert_equal Geocoder::Configuration.method, :linear
+    assert_equal Geocoder::Configuration.distances, :linear
     angle = Geocoder::Calculations.bearing_between([50,-85], [40.750354, -73.993371]).round
     assert_not_equal 136, angle
     assert_equal     130, angle
 
     # Direct
     Geocoder.configure.units  = :km
-    Geocoder.configure.method = :spherical
+    Geocoder.configure.distances = :spherical
 
     assert_equal Geocoder::Configuration.units, :km
     distance = Geocoder::Calculations.distance_between([0,0], [0,1]).round
     assert_equal    111, distance
     assert_not_equal 69, distance
 
-    assert_equal Geocoder::Configuration.method, :spherical
+    assert_equal Geocoder::Configuration.distances, :spherical
     angle = Geocoder::Calculations.bearing_between([50,-85], [40.750354, -73.993371]).round
     assert_equal     136, angle
     assert_not_equal 130, angle

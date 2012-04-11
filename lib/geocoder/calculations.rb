@@ -95,7 +95,7 @@ module Geocoder
     def bearing_between(point1, point2, options = {})
 
       # set default options
-      options[:method] ||= Geocoder::Configuration.method
+      options[:method] ||= Geocoder::Configuration.distances
       options[:method] = :linear unless options[:method] == :spherical
 
       # convert to coordinate arrays
