@@ -271,6 +271,7 @@ module Geocoder
     def extract_coordinates(point)
       case point
         when Array; point
+        when Hash; point[:location]
         when String; Geocoder.coordinates(point)
         else point.to_coordinates
       end
