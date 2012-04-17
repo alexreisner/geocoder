@@ -36,6 +36,11 @@ module Geocoder
         results(query, reverse).map{ |r| result_class.new(r) }
       end
 
+
+      def direction(origin, destination, mode = :driving)
+        direction_results(origin, destination, mode).map{ |r| direction_result_class.new(r) }
+      end
+
       ##
       # Return the URL for a map of the given coordinates.
       #
@@ -73,14 +78,21 @@ module Geocoder
       # Geocoder::Result object or nil on timeout or other error.
       #
       def results(query, reverse = false)
-        fail
+        fail "not implemented"
+      end
+
+      ##
+      # Geocoder::Result object or nil on timeout or other error.
+      #
+      def direction_results(origin, destination, mode)
+        fail "not implemented"
       end
 
       ##
       # URL to use for querying the geocoding engine.
       #
       def query_url(query, reverse = false)
-        fail
+        fail "not implemented"
       end
 
       ##
@@ -88,6 +100,13 @@ module Geocoder
       #
       def result_class
         Geocoder::Result.const_get(self.class.to_s.split(":").last)
+      end
+
+      ##
+      # Class of the direction result objects
+      #
+      def direction_result_class
+        Geocoder::DirectionResult.const_get(self.class.to_s.split(":").last)
       end
 
       ##
@@ -108,6 +127,20 @@ module Geocoder
       def fetch_data(query, reverse = false)
         begin
           parse_raw_data fetch_raw_data(query, reverse)
+        rescue SocketError => err
+          raise_error(err) or warn "Geocoding API connection cannot be established."
+        rescue TimeoutError => err
+          raise_error(err) or warn "Geocoding API not responding fast enough " +
+            "(see Geocoder::Configuration.timeout to set limit)."
+        end
+      end
+
+      ##
+      # Returns a parsed search result for direction (Ruby hash).
+      #
+      def direction_fetch_data(origin, destination, mode)
+        begin
+          parse_raw_data direction_fetch_raw_data(origin, destination, mode)
         rescue SocketError => err
           raise_error(err) or warn "Geocoding API connection cannot be established."
         rescue TimeoutError => err
@@ -145,6 +178,26 @@ module Geocoder
       def fetch_raw_data(query, reverse = false)
         timeout(Geocoder::Configuration.timeout) do
           url = query_url(query, reverse)
+          uri = URI.parse(url)
+          unless cache and body = cache[url]
+            client = http_client.new(uri.host, uri.port)
+            client.use_ssl = true if Geocoder::Configuration.use_https
+            response = client.get(uri.request_uri)
+            body = response.body
+            if cache and (200..399).include?(response.code.to_i)
+              cache[url] = body
+            end
+          end
+          body
+        end
+      end
+
+      ##
+      # Fetches a raw direction result (JSON string).
+      #
+      def direction_fetch_raw_data(origin, destination, mode)
+        timeout(Geocoder::Configuration.timeout) do
+          url = direction_query_url(origin, destination, mode)
           uri = URI.parse(url)
           unless cache and body = cache[url]
             client = http_client.new(uri.host, uri.port)

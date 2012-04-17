@@ -37,6 +37,13 @@ module Geocoder
   end
 
   ##
+  # Search the direction between 2 points
+  #
+  def direction(origin, destination, mode = :driving)
+    blank_query?(origin) || blank_query?(destination) ? [] : get_direction_lookup.direction(origin, destination, mode)
+  end
+
+  ##
   # The working Cache object, or +nil+ if none configured.
   #
   def cache
@@ -50,6 +57,7 @@ module Geocoder
   # Array of valid Lookup names.
   #
   def valid_lookups
+    # street_lookups + ip_lookups + direction_lookups
     street_lookups + ip_lookups
   end
 
@@ -57,7 +65,7 @@ module Geocoder
   # All street address lookups, default first.
   #
   def street_lookups
-    [:google, :google_premier, :yahoo, :bing, :geocoder_ca, :yandex, :nominatim]
+    [:google, :google_premier, :google_api_v3, :yahoo, :bing, :geocoder_ca, :yandex, :nominatim]
   end
 
   ##
@@ -66,6 +74,13 @@ module Geocoder
   def ip_lookups
     [:freegeoip]
   end
+
+  ##
+  # All direction lookups, default first.
+  #
+  # def direction_lookups
+  #   [:google_api_v3]
+  # end
 
 
   private # -----------------------------------------------------------------
@@ -106,6 +121,10 @@ module Geocoder
       raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
         "(#{name.inspect} is not one of: #{valids})."
     end
+  end
+
+  def get_direction_lookup
+    get_lookup(Configuration.lookup || street_lookups.first)
   end
 
   ##
