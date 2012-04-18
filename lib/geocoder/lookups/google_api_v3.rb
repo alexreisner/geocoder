@@ -15,8 +15,8 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def route_results(origin, destination, options)
-      return [] unless doc = route_fetch_data(origin, destination, options)
+    def route_results(points, options)
+      return [] unless doc = route_fetch_data(points, options)
       case doc['status']; when "OK" # OK status implies >0 results
         return doc['routes']
       when "OVER_QUERY_LIMIT"
@@ -40,10 +40,10 @@ module Geocoder::Lookup
       "#{protocol}://maps.googleapis.com#{path}"
     end
 
-    def route_query_url(origin, destination, options)
+    def route_query_url(points, options)
       params = {
-        :origin => origin,
-        :destination => destination,
+        :origin => points.first,
+        :destination => points.last,
         :sensor => 'false',
         :language => Geocoder::Configuration.language
       }.merge(options).reject{ |key, value| value.nil? }

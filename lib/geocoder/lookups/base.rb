@@ -37,8 +37,8 @@ module Geocoder
       end
 
 
-      def routes_between(origin, destination, options)
-        route_results(origin, destination, options).map{ |r| route_result_class.new(r) }
+      def routes_between(points, options)
+        route_results(points, options).map{ |r| route_result_class.new(r) }
       end
 
       ##
@@ -84,7 +84,7 @@ module Geocoder
       ##
       # Geocoder::Result object or nil on timeout or other error.
       #
-      def route_results(origin, destination, mode)
+      def route_results(points, mode)
         fail "not implemented"
       end
 
@@ -138,9 +138,9 @@ module Geocoder
       ##
       # Returns a parsed search result for route (Ruby hash).
       #
-      def route_fetch_data(origin, destination, options)
+      def route_fetch_data(points, options)
         begin
-          parse_raw_data route_fetch_raw_data(origin, destination, options)
+          parse_raw_data route_fetch_raw_data(points, options)
         rescue SocketError => err
           raise_error(err) or warn "Geocoding API connection cannot be established."
         rescue TimeoutError => err
@@ -195,9 +195,9 @@ module Geocoder
       ##
       # Fetches a raw route result (JSON string).
       #
-      def route_fetch_raw_data(origin, destination, options)
+      def route_fetch_raw_data(points, options)
         timeout(Geocoder::Configuration.timeout) do
-          url = route_query_url(origin, destination, options)
+          url = route_query_url(points, options)
           uri = URI.parse(url)
           unless cache and body = cache[url]
             client = http_client.new(uri.host, uri.port)

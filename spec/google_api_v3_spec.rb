@@ -16,7 +16,7 @@ describe "GoogleAPIV3" do
     origin_point = '4 Pennsylvania Plaza, New York, NY 10001 (Madison Square Garden)'
     destination_point = '100 8th Avenue, New York, NY, United States'
     
-    routes = Geocoder.routes_between(origin_point, destination_point)
+    routes = Geocoder.routes_between([origin_point, destination_point])
     
     routes.should_not be_nil
     routes.should_not be_empty
@@ -30,5 +30,35 @@ describe "GoogleAPIV3" do
     leg = found_route.parts.first
     leg.distance.should == 1854
     leg.duration.should == 187
+  end
+
+  # ----------------------------------------------------------------
+
+  it "should provide the viewport bounding box of a route" do
+    pending
+  end
+
+  # ----------------------------------------------------------------
+
+  it "should find altenatives routes" do
+    pending
+  end
+
+  # ----------------------------------------------------------------
+  
+  it "should use metric or imperial as units" do
+    pending
+  end
+  
+  # ----------------------------------------------------------------
+  
+  it "should find a route with multipoints" do
+    pending
+  end
+  
+  # ----------------------------------------------------------------
+  
+  it "should avoid tolls or highways" do
+    pending
   end
 end
