@@ -37,8 +37,8 @@ module Geocoder
       end
 
 
-      def direction(origin, destination, mode = :driving)
-        direction_results(origin, destination, mode).map{ |r| direction_result_class.new(r) }
+      def routes_between(origin, destination, options)
+        route_results(origin, destination, options).map{ |r| route_result_class.new(r) }
       end
 
       ##
@@ -84,7 +84,7 @@ module Geocoder
       ##
       # Geocoder::Result object or nil on timeout or other error.
       #
-      def direction_results(origin, destination, mode)
+      def route_results(origin, destination, mode)
         fail "not implemented"
       end
 
@@ -103,10 +103,10 @@ module Geocoder
       end
 
       ##
-      # Class of the direction result objects
+      # Class of the route result objects
       #
-      def direction_result_class
-        Geocoder::DirectionResult.const_get(self.class.to_s.split(":").last)
+      def route_result_class
+        Geocoder::RouteResult.const_get(self.class.to_s.split(":").last)
       end
 
       ##
@@ -136,11 +136,11 @@ module Geocoder
       end
 
       ##
-      # Returns a parsed search result for direction (Ruby hash).
+      # Returns a parsed search result for route (Ruby hash).
       #
-      def direction_fetch_data(origin, destination, mode)
+      def route_fetch_data(origin, destination, options)
         begin
-          parse_raw_data direction_fetch_raw_data(origin, destination, mode)
+          parse_raw_data route_fetch_raw_data(origin, destination, options)
         rescue SocketError => err
           raise_error(err) or warn "Geocoding API connection cannot be established."
         rescue TimeoutError => err
@@ -193,11 +193,11 @@ module Geocoder
       end
 
       ##
-      # Fetches a raw direction result (JSON string).
+      # Fetches a raw route result (JSON string).
       #
-      def direction_fetch_raw_data(origin, destination, mode)
+      def route_fetch_raw_data(origin, destination, options)
         timeout(Geocoder::Configuration.timeout) do
-          url = direction_query_url(origin, destination, mode)
+          url = route_query_url(origin, destination, options)
           uri = URI.parse(url)
           unless cache and body = cache[url]
             client = http_client.new(uri.host, uri.port)

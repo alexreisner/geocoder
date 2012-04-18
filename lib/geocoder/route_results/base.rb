@@ -1,5 +1,5 @@
 module Geocoder
-  module DirectionResult
+  module RouteResult
     class Base
       attr_accessor :data
 

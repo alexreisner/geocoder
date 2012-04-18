@@ -1,7 +1,7 @@
-require 'geocoder/direction_results/base'
+require 'geocoder/route_results/base'
 
-module Geocoder::DirectionResult
-  class GoogleApiV3Leg
+module Geocoder::RouteResult
+  class GoogleApiV3RoutePart
     def initialize(data)
       @data = data
     end
@@ -23,9 +23,9 @@ module Geocoder::DirectionResult
   # ----------------------------------------------------------------
   
   class GoogleApiV3 < Base
-    def legs
+    def parts
       @legs ||= @data['legs'].collect do |leg_data|
-        GoogleApiV3Leg.new(leg_data)
+        GoogleApiV3RoutePart.new(leg_data)
       end
     end
     

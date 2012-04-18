@@ -37,10 +37,23 @@ module Geocoder
   end
 
   ##
-  # Search the direction between 2 points
+  # Search routes between 2 points
+  # Options (the first one is the default)
+  # - :mode => :driving | :bicycling | :walking
+  # - :alternatives => false | true
+  # - :avoid => nil | :tolls | :highways
+  # - :units => :metric | :imperial
+  # - :waypoints => nil | [points]
   #
-  def direction(origin, destination, mode = :driving)
-    blank_query?(origin) || blank_query?(destination) ? [] : get_direction_lookup.direction(origin, destination, mode)
+  def routes_between(origin, destination, options = {})
+		params = {
+			:mode => :driving,
+			:units => :metric,
+			:avoid => nil,
+			:alternatives => false,
+			:waypoints => nil
+		}.merge(options)
+    blank_query?(origin) || blank_query?(destination) ? [] : get_route_lookup.routes_between(origin, destination, params)
   end
 
   ##
@@ -123,7 +136,7 @@ module Geocoder
     end
   end
 
-  def get_direction_lookup
+  def get_route_lookup
     get_lookup(Configuration.lookup || street_lookups.first)
   end
 
