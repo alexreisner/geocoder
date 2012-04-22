@@ -6,8 +6,8 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query, reverse_or_options = false)
+      return [] unless doc = fetch_data(query, reverse_or_options)
       if doc['error'].nil?
         return [doc]
       elsif doc['error']['code'] == "005"
@@ -18,7 +18,9 @@ module Geocoder::Lookup
       return []
     end
 
-    def query_url(query, reverse = false)
+    def query_url(query, reverse_or_options = false)
+      reverse, options = extract_reverse_and_options(reverse_or_options)
+
       params = {
         :geoit    => "xml",
         :jsonp    => 1,

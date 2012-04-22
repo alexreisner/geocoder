@@ -10,8 +10,8 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query, reverse_or_options = false)
+      return [] unless doc = fetch_data(query, reverse_or_options)
 
       if doc['statusDescription'] == "OK"
         return doc['resourceSets'].first['estimatedTotal'] > 0 ? doc['resourceSets'].first['resources'] : []
@@ -21,7 +21,9 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query, reverse = false)
+    def query_url(query, reverse_or_options = false)
+      reverse, options = extract_reverse_and_options(reverse_or_options)
+
       params = {:key => Geocoder::Configuration.api_key}
       params[:query] = query unless reverse
 
