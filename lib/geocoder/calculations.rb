@@ -21,6 +21,9 @@ module Geocoder
     #
     KM_IN_MI = 0.621371192
 
+    # Not a number constant
+    NAN = defined?(::Float::NAN) ? ::Float::NAN : 0 / 0.0
+
     ##
     # Distance spanned by one degree of latitude in the given units.
     #
@@ -270,10 +273,25 @@ module Geocoder
     #
     def extract_coordinates(point)
       case point
-        when Array; point
-        when String; Geocoder.coordinates(point)
-        else point.to_coordinates
+      when Array
+        if point.size == 2
+          lat, lon = point
+          if !lat.nil? && lat.respond_to?(:to_f) and
+            !lon.nil? && lon.respond_to?(:to_f)
+          then
+            return [ lat.to_f, lon.to_f ]
+          end
+        end
+      when String
+        point = Geocoder.coordinates(point) and return point
+      else
+        if point.respond_to?(:to_coordinates)
+          if Array === array = point.to_coordinates
+            return extract_coordinates(array)
+          end
+        end
       end
+      [ NAN, NAN ]
     end
   end
 end
