@@ -2,7 +2,7 @@
 require 'geocoder'
 require 'pp'
 
-describe "GoogleAPIV3" do
+describe "Google" do
   ORIGIN_POINT = '440 8th Avenue, New York, NY, United States' # Madison Square Garden
   DESTINATION_POINT = '100 8th Avenue, New York, NY, United States'
   MIDDLE_POINT = '244 11th Avenue, New York, NY, United States'
@@ -11,7 +11,7 @@ describe "GoogleAPIV3" do
   LONG_JOURNEY_DESTINATION_POINT = '440 8th Avenue, New York, NY, United States'
   
   before(:all) do
-    Geocoder::Configuration.lookup = :google_api_v3
+    Geocoder::Configuration.lookup = :google
   end
   
   it "should search" do
@@ -27,7 +27,7 @@ describe "GoogleAPIV3" do
     routes.should have(1).item # no alternative
   
     found_route = routes.first
-    found_route.should be_kind_of(Geocoder::Result::Route::GoogleApiV3)
+    found_route.should be_kind_of(Geocoder::Result::Route::Google)
     
     found_route.summary.should == '9th Ave'
     found_route.parts.should have(1).item

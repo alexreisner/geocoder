@@ -106,7 +106,7 @@ module Geocoder
       # Class of the route result objects
       #
       def route_result_class
-        Geocoder::RouteResult.const_get(self.class.to_s.split(":").last)
+        Geocoder::Result::Route.const_get(self.class.to_s.split(":").last)
       end
 
       ##

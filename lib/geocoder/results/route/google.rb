@@ -1,7 +1,7 @@
-require 'geocoder/route_results/base'
+require 'geocoder/results/route/base'
 
-module Geocoder::RouteResult
-  class GoogleApiV3RoutePart
+module Geocoder::Result::Route
+  class GooglePart
     def initialize(data)
       @data = data
     end
@@ -32,13 +32,13 @@ module Geocoder::RouteResult
   
   
   
-  class GoogleApiV3 < Base
+  class Google < Base
 	  # contains an array which contains information about a part of the route, between two locations within the given route.
 	  # A separate part will be present for each waypoint or destination specified. (A route with no waypoints will contain
 	  # exactly one part within the parts array.) Each part consists of a series of steps.
     def parts
       @legs ||= @data['legs'].collect do |leg_data|
-        GoogleApiV3RoutePart.new(leg_data)
+        GooglePart.new(leg_data)
       end
     end
     

@@ -1,8 +1,11 @@
 require 'geocoder/lookups/base'
 require "geocoder/results/google"
 
+require 'geocoder/lookups/route/google'
+
 module Geocoder::Lookup
   class Google < Base
+    include Geocoder::Lookup::Route::Google
 
     def map_link_url(coordinates)
       "http://maps.google.com/maps?q=#{coordinates.join(',')}"
