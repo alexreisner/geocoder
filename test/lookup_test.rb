@@ -7,7 +7,7 @@ class LookupTest < Test::Unit::TestCase
     all_lookups.each do |l|
       lookup = Geocoder.send(:get_lookup, l)
       assert_equal [], lookup.send(:results, "no results"),
-        "Lookup #{l} does not return empty array when no results."
+        "Lookup #{l} did not return empty array when no results."
     end
   end
 

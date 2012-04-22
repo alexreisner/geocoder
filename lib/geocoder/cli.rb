@@ -79,15 +79,15 @@ module Geocoder
 
       if show_url
         lookup = Geocoder.send(:lookup, query)
-        reverse = lookup.send(:coordinates?, query)
-        out << lookup.send(:query_url, query, reverse) + "\n"
+        options = { :reverse => lookup.send(:coordinates?, query) }
+        out << lookup.send(:query_url, query, options) + "\n"
         exit 0
       end
 
       if show_json
         lookup = Geocoder.send(:lookup, query)
-        reverse = lookup.send(:coordinates?, query)
-        out << lookup.send(:fetch_raw_data, query, reverse) + "\n"
+        options = { :reverse => lookup.send(:coordinates?, query) }
+        out << lookup.send(:fetch_raw_data, query, options) + "\n"
         exit 0
       end
 

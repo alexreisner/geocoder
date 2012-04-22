@@ -13,8 +13,27 @@ module Geocoder
   ##
   # Search for information about an address or a set of coordinates.
   #
-  def search(query)
-    blank_query?(query) ? [] : lookup(query).search(query)
+  # There are two syntaxes you can use when querying:
+  #
+  # * Normal geocoding - pass a string (and any desired options) and
+  #   the string will be treated as an address for normal geocoding
+  # * Reverse geocoding - pass two coordinates (latitude and longitude)
+  #   or an array of coordinates (and any desired options) to perform
+  #   a revese geocoding.
+  #
+  # Either syntax will return an array of <tt>Geocoder::Result</tt>s.
+  #
+  # ==== Options
+  #
+  # * <tt>:bounds</tt> - A two-dimensional array representing the
+  #   northeast and southwest corners of a bounding rectangle. If
+  #   supported by your chosen geocoding service this will bias
+  #   results to those that fall within the given bounds (_note:_
+  #   in most cases this will only bias, NOT restrict results to the
+  #   given bounds).
+  #
+  def search(query, options = {})
+    blank_query?(query) ? [] : lookup(query).search(query, options)
   end
 
   ##
