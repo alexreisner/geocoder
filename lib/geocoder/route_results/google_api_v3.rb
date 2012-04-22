@@ -19,10 +19,18 @@ module Geocoder::RouteResult
     def duration
       @data['duration']['value']
     end
+    
   end
+  
+  
+  
   
   # ----------------------------------------------------------------
   # ----------------------------------------------------------------
+  # ----------------------------------------------------------------
+  
+  
+  
   
   class GoogleApiV3 < Base
 	  # contains an array which contains information about a part of the route, between two locations within the given route.
@@ -46,6 +54,18 @@ module Geocoder::RouteResult
     # contains the viewport bounding box of this route
     def bounds
     	@data['bounds']
+    end
+    
+    
+    # ----------------------------------------------------------------
+    
+    # return the bounds of the viewport of the route
+    # [north_east.lattitude, north_east.longitude, south_west.longitude, south_west.longitude]
+    def bounding_box
+      north_east = @data['bounds']['northeast']
+      south_west = @data['bounds']['southwest']
+      
+      [north_east['lat'], north_east['lng'], south_west['lat'], south_west['lng']]
     end
   end
 end

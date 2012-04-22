@@ -44,10 +44,14 @@ module Geocoder::Lookup
       params = {
         :origin => points.first,
         :destination => points.last,
+        :waypoints => (points.size == 2)? nil : points[1..-2].join(','),
+        :units => :metric,
         :sensor => 'false',
         :language => Geocoder::Configuration.language
       }.merge(options).reject{ |key, value| value.nil? }
+      
       path = "/maps/api/directions/json?#{hash_to_query(params)}"
+      
       # puts "#{protocol}://maps.googleapis.com#{path}"
       "#{protocol}://maps.googleapis.com#{path}"
     end

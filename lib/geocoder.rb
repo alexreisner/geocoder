@@ -48,10 +48,8 @@ module Geocoder
   def routes_between(points, options = {})
 		params = {
 			:mode => :driving,
-			:units => :metric,
 			:avoid => nil,
-			:alternatives => false,
-			:waypoints => nil
+			:alternatives => false
 		}.merge(options)
     points.empty? || blank_query?(points.first) || blank_query?(points.last) ? [] : get_route_lookup.routes_between(points, params)
   end
