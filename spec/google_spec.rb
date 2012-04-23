@@ -12,12 +12,14 @@ describe "Google" do
   
   before(:all) do
     Geocoder::Configuration.lookup = :google
+    Geocoder::Configuration.api_key = nil
   end
   
   it "should search" do
     result = Geocoder.search(ORIGIN_POINT).first
     # TODO the result don't work with city
-    result.address_components_of_type(:sublocality).first['long_name'].should == "Manhattan"
+    # result.address_components_of_type(:sublocality).first['long_name'].should == "Manhattan"
+    result.city.should == 'New York'
   end
   
   it "should find the route between 2 points" do

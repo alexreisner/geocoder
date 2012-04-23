@@ -12,6 +12,7 @@ describe "GoogleAPIV3" do
   
   before(:all) do
     Geocoder::Configuration.lookup = :google_api_v3
+    Geocoder::Configuration.api_key = nil
   end
   
   it "should search" do

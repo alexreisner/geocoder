@@ -28,6 +28,9 @@ module Geocoder::Lookup
       
       def route_query_url(points, options)
         params = {
+          :mode => :driving,
+    			:avoid => nil,
+    			:alternatives => false,
           :origin => points.first,
           :destination => points.last,
           :waypoints => (points.size == 2)? nil : points[1..-2].join(','),
