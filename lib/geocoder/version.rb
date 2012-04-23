@@ -1,3 +1,3 @@
 module Geocoder
-  VERSION = "1.1.2FMA"
+  VERSION = "1.1.1"
 end
