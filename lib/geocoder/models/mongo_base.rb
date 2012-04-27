@@ -44,11 +44,9 @@ module Geocoder
       end
 
       def geocoder_initialized?
-        begin
-          included_modules.include? Geocoder::Store.const_get(geocoder_module_name)
-        rescue NameError
-          false
-        end
+        included_modules.include? Geocoder::Store.const_get(geocoder_module_name)
+      rescue NameError
+        false
       end
     end
   end
