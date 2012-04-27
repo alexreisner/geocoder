@@ -18,9 +18,11 @@ module Geocoder::Lookup
         raise_error(Geocoder::OverQueryLimitError) ||
           warn("Google Geocoding API error: over query limit.")
       when "REQUEST_DENIED"
-        warn "Google Geocoding API error: request denied."
+        raise_error(Geocoder::RequestDenied) ||
+          warn("Google Geocoding API error: request denied.")
       when "INVALID_REQUEST"
-        warn "Google Geocoding API error: invalid request."
+        raise_error(Geocoder::InvalidRequest) ||
+          warn("Google Geocoding API error: invalid request.")
       end
       return []
     end
