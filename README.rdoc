@@ -83,6 +83,12 @@ Be sure to read <i>Latitude/Longitude Order</i> in the <i>Notes on MongoDB</i> s
 
 MongoMapper is very similar to Mongoid, just be sure to include <tt>Geocoder::Model::MongoMapper</tt>.
 
+=== MongoMapper, Mongoid Indexes
+
+By default the methods geocoded_by and reverse_geocoded_by will create a geospatial index. If you want to skip this option call the methids with the :skip_index option
+  include Geocoder::Model::Mongoid
+  geocoded_by :address, :skip_index => true
+
 === Bulk Geocoding
 
 If you have just added geocoding to an existing application with a lot of objects you can use this Rake task to geocode them all:

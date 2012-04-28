@@ -16,8 +16,10 @@ module Geocoder
 
       def geocoder_init(options)
         super(options)
-        ensure_index [[ geocoder_options[:coordinates], Mongo::GEO2D ]],
-          :min => -180, :max => 180 # create 2d index
+        if options[:skip_index] == false
+          ensure_index [[ geocoder_options[:coordinates], Mongo::GEO2D ]],
+            :min => -180, :max => 180 # create 2d index
+        end
       end
     end
   end
