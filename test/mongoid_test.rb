@@ -19,4 +19,9 @@ class MongoidTest < Test::Unit::TestCase
     p = Place.near(location)
     assert_equal p.selector[:location]['$nearSphere'], location.reverse
   end
+
+  def test_index_is_skipped_if_skip_option_flag
+    result = PlaceWithoutIndex.index_options.keys.flatten[0] == :coordinates
+    assert_equal result, false
+  end
 end

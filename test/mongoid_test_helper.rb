@@ -29,3 +29,11 @@ class Place
     write_attribute :address, address
   end
 end
+
+class PlaceWithoutIndex
+  include Mongoid::Document
+  include Geocoder::Model::Mongoid
+
+  field :location, :type => Array
+  geocoded_by :location, :skip_index => true
+end

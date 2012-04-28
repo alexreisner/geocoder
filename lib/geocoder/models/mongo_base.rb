@@ -16,7 +16,8 @@ module Geocoder
           :geocode       => true,
           :user_address  => address_attr,
           :coordinates   => options[:coordinates] || :coordinates,
-          :geocode_block => block
+          :geocode_block => block,
+          :skip_index    => options[:skip_index] || false
         )
       end
 
@@ -28,7 +29,8 @@ module Geocoder
           :reverse_geocode => true,
           :fetched_address => options[:address] || :address,
           :coordinates     => coordinates_attr,
-          :reverse_block   => block
+          :reverse_block   => block,
+          :skip_index      => options[:skip_index] || false
         )
       end
 
