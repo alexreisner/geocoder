@@ -27,7 +27,8 @@ module Geocoder
     ##
     # Distance spanned by one degree of latitude in the given units.
     #
-    def latitude_degree_distance(units = :mi)
+    def latitude_degree_distance(units = nil)
+      units ||= Geocoder::Configuration.units
       2 * Math::PI * earth_radius(units) / 360
     end
 
@@ -35,7 +36,8 @@ module Geocoder
     # Distance spanned by one degree of longitude at the given latitude.
     # This ranges from around 69 miles at the equator to zero at the poles.
     #
-    def longitude_degree_distance(latitude, units = :mi)
+    def longitude_degree_distance(latitude, units = nil)
+      units ||= Geocoder::Configuration.units
       latitude_degree_distance(units) * Math.cos(to_radians(latitude))
     end
 
@@ -52,12 +54,13 @@ module Geocoder
     #
     # The options hash supports:
     #
-    # * <tt>:units</tt> - <tt>:mi</tt> (default) or <tt>:km</tt>
+    # * <tt>:units</tt> - <tt>:mi</tt> or <tt>:km</tt>
+    #   See Geocoder::Configuration to know how configure default units.
     #
     def distance_between(point1, point2, options = {})
 
       # set default options
-      options[:units] ||= :mi
+      options[:units] ||= Geocoder::Configuration.units
 
       # convert to coordinate arrays
       point1 = extract_coordinates(point1)
@@ -84,17 +87,18 @@ module Geocoder
     # See Geocoder::Calculations.distance_between for
     # ways of specifying the points. Also accepts an options hash:
     #
-    # * <tt>:method</tt> - <tt>:linear</tt> (default) or <tt>:spherical</tt>;
+    # * <tt>:method</tt> - <tt>:linear</tt> or <tt>:spherical</tt>;
     #   the spherical method is "correct" in that it returns the shortest path
-    #   (one along a great circle) but the linear method is the default as it
-    #   is less confusing (returns due east or west when given two points with
-    #   the same latitude)
+    #   (one along a great circle) but the linear method is less confusing
+    #   (returns due east or west when given two points with the same latitude).
+    #   See Geocoder::Configuration to know how configure default method.
     #
     # Based on: http://www.movable-type.co.uk/scripts/latlong.html
     #
     def bearing_between(point1, point2, options = {})
 
       # set default options
+      options[:method] ||= Geocoder::Configuration.distances
       options[:method] = :linear unless options[:method] == :spherical
 
       # convert to coordinate arrays
@@ -180,12 +184,13 @@ module Geocoder
     # See Geocoder::Calculations.distance_between for
     # ways of specifying the point. Also accepts an options hash:
     #
-    # * <tt>:units</tt> - <tt>:mi</tt> (default) or <tt>:km</tt>
+    # * <tt>:units</tt> - <tt>:mi</tt> or <tt>:km</tt>.
+    #   See Geocoder::Configuration to know how configure default units.
     #
     def bounding_box(point, radius, options = {})
       lat,lon = extract_coordinates(point)
       radius  = radius.to_f
-      units   = options[:units] || :mi
+      units   = options[:units] || Geocoder::Configuration.units
       [
         lat - (radius / latitude_degree_distance(units)),
         lon - (radius / longitude_degree_distance(lat, units)),
@@ -222,11 +227,13 @@ module Geocoder
       end
     end
 
-    def distance_to_radians(distance, units = :mi)
+    def distance_to_radians(distance, units = nil)
+      units ||= Geocoder::Configuration.units
       distance.to_f / earth_radius(units)
     end
 
-    def radians_to_distance(radians, units = :mi)
+    def radians_to_distance(radians, units = nil)
+      units ||= Geocoder::Configuration.units
       radians * earth_radius(units)
     end
 
@@ -245,9 +252,11 @@ module Geocoder
     end
 
     ##
-    # Radius of the Earth in the given units (:mi or :km). Default is :mi.
+    # Radius of the Earth in the given units (:mi or :km).
+    # See Geocoder::Configuration to know how configure default units.
     #
-    def earth_radius(units = :mi)
+    def earth_radius(units = nil)
+      units ||= Geocoder::Configuration.units
       units == :km ? EARTH_RADIUS : to_miles(EARTH_RADIUS)
     end
 
@@ -295,3 +304,4 @@ module Geocoder
     end
   end
 end
+

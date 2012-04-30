@@ -2,7 +2,12 @@
 require 'test_helper'
 
 class CalculationsTest < Test::Unit::TestCase
-
+  def setup
+    Geocoder.configure do
+      config.units  = :mi
+      config.distances = :linear
+    end
+  end
 
   # --- degree distance ---
 
@@ -174,3 +179,4 @@ class CalculationsTest < Test::Unit::TestCase
     assert_in_delta 2.0 / 3, result.last, 1E-5
   end
 end
+

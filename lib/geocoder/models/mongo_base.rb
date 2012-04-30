@@ -16,7 +16,9 @@ module Geocoder
           :geocode       => true,
           :user_address  => address_attr,
           :coordinates   => options[:coordinates] || :coordinates,
-          :geocode_block => block
+          :geocode_block => block,
+          :units         => options[:units],
+          :method        => options[:method]
         )
       end
 
@@ -28,7 +30,9 @@ module Geocoder
           :reverse_geocode => true,
           :fetched_address => options[:address] || :address,
           :coordinates     => coordinates_attr,
-          :reverse_block   => block
+          :reverse_block   => block,
+          :units         => options[:units],
+          :method        => options[:method]
         )
       end
 
@@ -36,7 +40,7 @@ module Geocoder
 
       def geocoder_init(options)
         unless geocoder_initialized?
-          @geocoder_options = {}
+          @geocoder_options = { }
           require "geocoder/stores/#{geocoder_file_name}"
           include Geocoder::Store.const_get(geocoder_module_name)
         end
@@ -51,3 +55,4 @@ module Geocoder
     end
   end
 end
+

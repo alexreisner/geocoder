@@ -75,16 +75,18 @@ module Geocoder::Store
 
       ##
       # Get options hash suitable for passing to ActiveRecord.find to get
-      # records within a radius (in miles) of the given point.
+      # records within a radius (in kilometers) of the given point.
       # Options hash may include:
       #
-      # * +:units+   - <tt>:mi</tt> (default) or <tt>:km</tt>; to be used
+      # * +:units+   - <tt>:mi</tt> or <tt>:km</tt>; to be used.
       #   for interpreting radius as well as the +distance+ attribute which
-      #   is added to each found nearby object
-      # * +:bearing+ - <tt>:linear</tt> (default) or <tt>:spherical</tt>;
+      #   is added to each found nearby object.
+      #   See Geocoder::Configuration to know how configure default units.
+      # * +:bearing+ - <tt>:linear</tt> or <tt>:spherical</tt>.
       #   the method to be used for calculating the bearing (direction)
       #   between the given point and each found nearby point;
-      #   set to false for no bearing calculation
+      #   set to false for no bearing calculation.
+      #   See Geocoder::Configuration to know how configure default method.
       # * +:select+  - string with the SELECT SQL fragment (e.g. “id, name”)
       # * +:order+   - column(s) for ORDER BY SQL clause; default is distance
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
@@ -116,7 +118,9 @@ module Geocoder::Store
       def full_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
-        options[:bearing] = :linear unless options.include?(:bearing)
+        options[:bearing] ||= (options[:method] ||
+                               geocoder_options[:method] ||
+                               Geocoder::Configuration.distances)
         bearing = case options[:bearing]
         when :linear
           "CAST(" +
@@ -138,7 +142,7 @@ module Geocoder::Store
             ")) + 360 " +
           "AS decimal) % 360"
         end
-
+        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         distance = full_distance_from_sql(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
         default_near_scope_options(latitude, longitude, radius, options).merge(
@@ -191,7 +195,11 @@ module Geocoder::Store
       def approx_near_scope_options(latitude, longitude, radius, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
-        options[:bearing] = :linear unless options.include?(:bearing)
+        unless options.include?(:bearing)
+          options[:bearing] = (options[:method] || \
+                               geocoder_options[:method] || \
+                               Geocoder::Configuration.distances)
+        end
         if options[:bearing]
           bearing = "CASE " +
             "WHEN (#{lat_attr} >= #{latitude} AND #{lon_attr} >= #{longitude}) THEN  45.0 " +
@@ -204,6 +212,7 @@ module Geocoder::Store
         end
 
         distance = approx_distance_from_sql(latitude, longitude, options)
+        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         conditions = [
@@ -297,3 +306,4 @@ module Geocoder::Store
     alias_method :fetch_address, :reverse_geocode
   end
 end
+

@@ -272,3 +272,4 @@ class Test::Unit::TestCase
     all_lookups - [:freegeoip]
   end
 end
+
