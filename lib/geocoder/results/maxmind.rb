@@ -17,7 +17,9 @@ module Geocoder::Result
     end
 
     def city
-      @data[2]
+      # According to Maxmind documentation, we get ISO-8859-1 encoded string :
+      # "Name of city or town in ISO-8859-1 encoding"
+      @data[2].force_encoding("ISO-8859-1").encode("UTF-8")
     end
 
     def postal_code
