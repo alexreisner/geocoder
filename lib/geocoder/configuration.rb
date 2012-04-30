@@ -28,6 +28,14 @@ module Geocoder
         # for Google Premier use a 3-element array: [key, client, channel]
         [:api_key, nil],
 
+        # name of IP geocoding service (symbol)
+        # FIXME: temporary added for Maxmind support, need clean rewrite
+        [:ip_lookup, nil],
+
+        # API key for IP geocoding service
+        # FIXME: temporary added for Maxmind support, need clean rewrite
+        [:ip_lookup_api_key, nil],
+
         # cache object (must respond to #[], #[]=, and #keys)
         [:cache, nil],
 

@@ -235,6 +235,12 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and street 
   # to use an API key:
   Geocoder::Configuration.api_key = "..."
 
+  # IP geocoding service :
+  Geocoder::Configuration.ip_lookup = :maxmind
+
+  # to use an API key for IP geocoding service:
+  Geocoder::Configuration.ip_lookup_api_key = "..."
+
   # geocoding service request timeout, in seconds (default 3):
   Geocoder::Configuration.timeout = 5
 
@@ -339,6 +345,16 @@ Documentation:: http://github.com/fiorix/freegeoip/blob/master/README.rst
 Terms of Service:: ?
 Limitations:: ?
 
+==== MaxMind City
+
+API key:: required
+Quota:: Requests Packs can be purchased (starting at 50,000 for 20$)
+Region:: world
+SSL support:: no
+Languages:: English
+Documentation:: http://www.maxmind.com/app/web_services
+Terms of Service:: ?
+Limitations:: ?
 
 == Caching
 
