@@ -144,4 +144,33 @@ class CalculationsTest < Test::Unit::TestCase
     l = Landmark.new(*landmark_params(:msg))
     assert_equal l.bearing_from([50,-86.1]), l.bearing_to([50,-86.1]) - 180
   end
+
+  def test_extract_coordinates
+    result = Geocoder::Calculations.extract_coordinates([ nil, nil ])
+    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+
+    result = Geocoder::Calculations.extract_coordinates([ 1.0 / 3, 2.0 / 3 ])
+    assert_in_delta 1.0 / 3, result.first, 1E-5
+    assert_in_delta 2.0 / 3, result.last, 1E-5
+
+    result = Geocoder::Calculations.extract_coordinates(nil)
+    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+
+    result = Geocoder::Calculations.extract_coordinates('')
+    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+
+    result = Geocoder::Calculations.extract_coordinates([ 'nix' ])
+    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+
+    o = Object.new
+    result = Geocoder::Calculations.extract_coordinates(o)
+    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+
+    def o.to_coordinates
+      [ 1.0 / 3, 2.0 / 3 ]
+    end
+    result = Geocoder::Calculations.extract_coordinates(o)
+    assert_in_delta 1.0 / 3, result.first, 1E-5
+    assert_in_delta 2.0 / 3, result.last, 1E-5
+  end
 end

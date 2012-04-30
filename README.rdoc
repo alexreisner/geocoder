@@ -50,7 +50,7 @@ Next, your model must tell Geocoder which method returns your object's geocodabl
 
 For reverse geocoding, tell Geocoder which attributes store latitude and longitude:
 
-  reverse_geocoded_by :lat, :lon
+  reverse_geocoded_by :latitude, :longitude
   after_validation :reverse_geocode  # auto-fetch address
 
 === Mongoid
@@ -190,7 +190,7 @@ If your model has +street+, +city+, +state+, and +country+ attributes you might 
 
 For reverse geocoding you can also specify an alternate name attribute where the address will be stored, for example:
 
-  reverse_geocoded_by :lat, :lon, :address => :location  # ActiveRecord
+  reverse_geocoded_by :latitude, :longitude, :address => :location  # ActiveRecord
   reverse_geocoded_by :coordinates, :address => :loc     # MongoDB
 
 
@@ -198,7 +198,7 @@ For reverse geocoding you can also specify an alternate name attribute where the
 
 So far we have looked at shortcuts for assigning geocoding results to object attributes. However, if you need to do something fancy you can skip the auto-assignment by providing a block (takes the object to be geocoded and an array of <tt>Geocoder::Result</tt> objects) in which you handle the parsed geocoding result any way you like, for example:
 
-  reverse_geocoded_by :lat, :lon do |obj,results|
+  reverse_geocoded_by :latitude, :longitude do |obj,results|
     if geo = results.first
       obj.city    = geo.city
       obj.zipcode = geo.postal_code
@@ -299,6 +299,17 @@ Languages:: ?
 Documentation:: http://msdn.microsoft.com/en-us/library/ff701715.aspx
 Terms of Service:: http://www.microsoft.com/maps/product/terms.html
 Limitations:: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
+
+==== Nominatim (<tt>:nominatim</tt>)
+
+API key:: none
+Quota:: 1 request/second
+Region:: world
+SSL support:: no
+Languages:: ?
+Documentation:: http://wiki.openstreetmap.org/wiki/Nominatim
+Terms of Service:: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+Limitations:: Please limit request rate to 1 per second and include your contact information in User-Agent headers. Data licensed under CC-BY-SA (you must provide attribution).
 
 ==== Yandex (<tt>:yandex</tt>)
 

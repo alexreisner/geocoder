@@ -163,6 +163,19 @@ module Geocoder
       end
     end
 
+    class Nominatim < Base
+      private #-----------------------------------------------------------------
+      def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
+        file = case query
+          when "no results";  :no_results
+          else                :madison_square_garden
+        end
+        read_fixture "nominatim_#{file}.json"
+      end
+    end
+
   end
 end
 
@@ -200,6 +213,8 @@ class Event < ActiveRecord::Base
   geocoded_by :address do |obj,results|
     if result = results.first
       obj.coords_string = "#{result.latitude},#{result.longitude}"
+    else
+      obj.coords_string = "NOT FOUND"
     end
   end
 

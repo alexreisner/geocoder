@@ -91,25 +91,27 @@ module Geocoder
       end
 
       ##
-      # Raise exception instead of warning for specified exceptions.
+      # Raise exception if configuration specifies it should be raised.
+      # Return false if exception not raised.
       #
-      def raise_error(err)
-        raise err if Geocoder::Configuration.always_raise.include?(err.class)
+      def raise_error(error, message = nil)
+        if Geocoder::Configuration.always_raise.include?( error.is_a?(Class) ? error : error.class )
+          raise error, message
+        else
+          false
+        end
       end
-
 
       ##
       # Returns a parsed search result (Ruby hash).
       #
       def fetch_data(query, reverse = false)
-        begin
-          parse_raw_data fetch_raw_data(query, reverse)
-        rescue SocketError => err
-          raise_error(err) or warn "Geocoding API connection cannot be established."
-        rescue TimeoutError => err
-          raise_error(err) or warn "Geocoding API not responding fast enough " +
-            "(see Geocoder::Configuration.timeout to set limit)."
-        end
+        parse_raw_data fetch_raw_data(query, reverse)
+      rescue SocketError => err
+        raise_error(err) or warn "Geocoding API connection cannot be established."
+      rescue TimeoutError => err
+        raise_error(err) or warn "Geocoding API not responding fast enough " +
+          "(see Geocoder::Configuration.timeout to set limit)."
       end
 
       ##
@@ -119,12 +121,10 @@ module Geocoder
         if defined?(ActiveSupport::JSON)
           ActiveSupport::JSON.decode(raw_data)
         else
-          begin
-            JSON.parse(raw_data)
-          rescue
-            warn "Geocoding API's response was not valid JSON."
-          end
+          JSON.parse(raw_data)
         end
+      rescue
+        warn "Geocoding API's response was not valid JSON."
       end
 
       ##
@@ -142,15 +142,16 @@ module Geocoder
         timeout(Geocoder::Configuration.timeout) do
           url = query_url(query, reverse)
           uri = URI.parse(url)
-          unless cache and response = cache[url]
+          unless cache and body = cache[url]
             client = http_client.new(uri.host, uri.port)
             client.use_ssl = true if Geocoder::Configuration.use_https
-            response = client.get(uri.request_uri).body
-            if cache
-              cache[url] = response
+            response = client.get(uri.request_uri, Geocoder::Configuration.request_headers)
+            body = response.body
+            if cache and (200..399).include?(response.code.to_i)
+              cache[url] = body
             end
           end
-          response
+          body
         end
       end
 

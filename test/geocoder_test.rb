@@ -32,6 +32,12 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal coords, [v.latitude, v.longitude]
   end
 
+  def test_geocode_block_executed_when_no_results
+    v = Event.new("Nowhere", "no results")
+    v.geocode
+    assert_equal "NOT FOUND", v.coords_string
+  end
+
   def test_reverse_geocode_assigns_and_returns_address
     v = Landmark.new(*landmark_params(:msg))
     address = "4 Penn Plaza, New York, NY 10001, USA"

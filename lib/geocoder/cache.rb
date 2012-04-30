@@ -10,25 +10,35 @@ module Geocoder
     # Read from the Cache.
     #
     def [](url)
-      interpret store[key_for(url)]
+      interpret case
+        when store.respond_to?(:[])
+          store[key_for(url)]
+        when store.respond_to?(:get)
+          store.get key_for(url)
+      end
     end
 
     ##
     # Write to the Cache.
     #
     def []=(url, value)
-      store[key_for(url)] = value
+      case
+        when store.respond_to?(:[]=)
+          store[key_for(url)] = value
+        when store.respond_to?(:set)
+          store.set key_for(url), value
+      end
     end
 
     ##
-    # Expire cache entry for given URL,
-    # or pass <tt>:all</tt> to expire everything.
+    # Delete cache entry for given URL,
+    # or pass <tt>:all</tt> to clear all URLs.
     #
     def expire(url)
       if url == :all
         urls.each{ |u| expire(u) }
       else
-        self[url] = nil
+        expire_single_url(url)
       end
     end
 
@@ -65,6 +75,10 @@ module Geocoder
     #
     def interpret(value)
       value == "" ? nil : value
+    end
+
+    def expire_single_url(url)
+      store.del(key_for(url))
     end
   end
 end

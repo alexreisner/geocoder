@@ -15,7 +15,8 @@ module Geocoder::Lookup
       case doc['status']; when "OK" # OK status implies >0 results
         return doc['results']
       when "OVER_QUERY_LIMIT"
-        warn "Google Geocoding API error: over query limit."
+        raise_error(Geocoder::OverQueryLimitError) ||
+          warn("Google Geocoding API error: over query limit.")
       when "REQUEST_DENIED"
         warn "Google Geocoding API error: request denied."
       when "INVALID_REQUEST"

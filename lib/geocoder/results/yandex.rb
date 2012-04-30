@@ -12,7 +12,13 @@ module Geocoder::Result
     end
 
     def city
-      address_details['Locality']['LocalityName']
+      if state.empty?
+        address_details['Locality']['LocalityName']
+      elsif sub_state.empty?
+        address_details['AdministrativeArea']['Locality']['LocalityName']
+      else 
+        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['LocalityName']
+      end
     end
 
     def country
@@ -24,7 +30,19 @@ module Geocoder::Result
     end
 
     def state
-      ""
+      if address_details['AdministrativeArea']
+        address_details['AdministrativeArea']['AdministrativeAreaName']
+      else
+        ""
+      end
+    end
+
+    def sub_state
+      if !state.empty? and address_details['AdministrativeArea']['SubAdministrativeArea']
+        address_details['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName']
+      else
+        ""
+      end
     end
 
     def state_code

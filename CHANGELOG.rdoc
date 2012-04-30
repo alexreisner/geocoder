@@ -2,6 +2,32 @@
 
 Per-release changes to Geocoder.
 
+== 1.1.1 (2012 Feb 16)
+
+* Add distance_from_sql class method to geocoded class (thanks github.com/dwilkie).
+* Add OverQueryLimitError and raise when relevant for Google lookup.
+* Fix: don't cache API data if response indicates an error.
+* Fix: within_bounding_box now uses correct lat/lon DB columns (thanks github.com/kongo).
+* Fix: error accessing city in some cases with Yandex result (thanks github.com/kor6n and sld).
+
+== 1.1.0 (2011 Dec 3)
+
+* A block passed to geocoded_by is now always executed, even if the geocoding service returns no results. This means you need to make sure you have results before trying to assign data to your object.
+* Fix issues with joins and row counts (issues #49, 86, and 108) by not using GROUP BY clause with ActiveRecord scopes.
+* Fix incorrect object ID when join used (fixes issue #140).
+* Fix calculation of bounding box which spans 180th meridian (thanks github.com/hwuethrich).
+* Add within_bounding_box scope for ActiveRecord-based models (thanks github.com/gavinhughes and dbloete).
+* Add option to raise Geocoder::OverQueryLimitError for Google geocoding service.
+* Add support for Nominatim geocoding service (thanks github.com/wranglerdriver).
+* Add support for API key to Geocoder.ca geocoding service (thanks github.com/ryanLonac).
+* Add support for state to Yandex results (thanks github.com/tipugin).
+
+== 1.0.5 (2011 Oct 26)
+
+* Fix error with `rake assets:precompile` (thanks github.com/Sush).
+* Fix HTTPS support (thanks github.com/rsanheim).
+* Improve cache interface.
+
 == 1.0.4 (2011 Sep 18)
 
 * Remove klass method from rake task, which could conflict with app methods (thanks github.com/mguterl).
