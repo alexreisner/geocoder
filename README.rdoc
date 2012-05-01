@@ -83,9 +83,10 @@ Be sure to read <i>Latitude/Longitude Order</i> in the <i>Notes on MongoDB</i> s
 
 MongoMapper is very similar to Mongoid, just be sure to include <tt>Geocoder::Model::MongoMapper</tt>.
 
-=== MongoMapper, Mongoid Indexes
+=== Mongo Indices
 
-By default the methods geocoded_by and reverse_geocoded_by will create a geospatial index. If you want to skip this option call the methids with the :skip_index option
+By default, the methods <tt>geocoded_by</tt> and <tt>reverse_geocoded_by</tt> create a geospatial index. You can avoid index creation with the <tt>:skip_index option</tt>, for example:
+
   include Geocoder::Model::Mongoid
   geocoded_by :address, :skip_index => true
 
