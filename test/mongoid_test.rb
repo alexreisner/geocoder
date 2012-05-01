@@ -33,6 +33,6 @@ class MongoidTest < Test::Unit::TestCase
 
   def test_index_is_skipped_if_skip_option_flag
     result = PlaceWithoutIndex.index_options.keys.flatten[0] == :coordinates
-    assert_equal result, false
+    assert !result
   end
 end
