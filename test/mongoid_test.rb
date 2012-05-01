@@ -30,4 +30,9 @@ class MongoidTest < Test::Unit::TestCase
     Place.geocoded_by :address, :coordinates => :location, :units => :mi
     assert_equal 69, p.distance_to([0,1]).round
   end
+
+  def test_index_is_skipped_if_skip_option_flag
+    result = PlaceWithoutIndex.index_options.keys.flatten[0] == :coordinates
+    assert_equal result, false
+  end
 end

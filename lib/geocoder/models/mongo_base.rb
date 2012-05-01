@@ -18,7 +18,8 @@ module Geocoder
           :coordinates   => options[:coordinates] || :coordinates,
           :geocode_block => block,
           :units         => options[:units],
-          :method        => options[:method]
+          :method        => options[:method],
+          :skip_index    => options[:skip_index] || false
         )
       end
 
@@ -31,8 +32,9 @@ module Geocoder
           :fetched_address => options[:address] || :address,
           :coordinates     => coordinates_attr,
           :reverse_block   => block,
-          :units         => options[:units],
-          :method        => options[:method]
+          :units           => options[:units],
+          :method          => options[:method],
+          :skip_index      => options[:skip_index] || false
         )
       end
 
