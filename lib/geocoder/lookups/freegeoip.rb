@@ -6,6 +6,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def parse_raw_data(raw_data)
+      raw_data.match(/^<html><title>404/) ? nil : super(raw_data)
+    end
+
     def results(query, reverse = false)
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query)] if loopback_address?(query)
