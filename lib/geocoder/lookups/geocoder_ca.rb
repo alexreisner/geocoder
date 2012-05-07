@@ -33,6 +33,7 @@ module Geocoder::Lookup
         params[:reverse] = 1
       else
         params[:locate] = query
+        params[:showpostal] = 1
       end
       "http://geocoder.ca/?" + hash_to_query(params)
     end
