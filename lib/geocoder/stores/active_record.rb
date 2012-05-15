@@ -33,7 +33,7 @@ module Geocoder::Store
         #
         scope :near, lambda{ |location, *args|
           latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
-          if latitude and longitude
+          if latitude and longitude and ![latitude, longitude].include?(Geocoder::Calculations::NAN)
             near_scope_options(latitude, longitude, *args)
           else
             where(false_condition) # no results if no lat/lon given
