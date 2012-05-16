@@ -33,7 +33,11 @@ module Geocoder
         else
           reverse = false
         end
-        results(query, reverse).map{ |r| result_class.new(r) }
+        results(query, reverse).map{ |r| 
+          result = result_class.new(r)
+          result.cache_hit = @cache_hit if cache
+          result
+        }
       end
 
       ##
@@ -142,7 +146,9 @@ module Geocoder
         timeout(Geocoder::Configuration.timeout) do
           url = query_url(query, reverse)
           uri = URI.parse(url)
-          unless cache and body = cache[url]
+          if cache and body = cache[url]
+            @cache_hit = true
+          else
             client = http_client.new(uri.host, uri.port)
             client.use_ssl = true if Geocoder::Configuration.use_https
             response = client.get(uri.request_uri, Geocoder::Configuration.http_headers)
@@ -150,6 +156,7 @@ module Geocoder
             if cache and (200..399).include?(response.code.to_i)
               cache[url] = body
             end
+            @cache_hit = false
           end
           body
         end

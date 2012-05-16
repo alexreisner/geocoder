@@ -1,13 +1,14 @@
 module Geocoder
   module Result
     class Base
-      attr_accessor :data
+      attr_accessor :data, :cache_hit
 
       ##
       # Takes a hash of result data from a parsed Google result document.
       #
       def initialize(data)
         @data = data
+        @cache_hit = nil
       end
 
       ##
