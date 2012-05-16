@@ -156,6 +156,7 @@ module Geocoder
             if cache and (200..399).include?(response.code.to_i)
               cache[url] = body
             end
+            @cache_hit = false
           end
           body
         end
