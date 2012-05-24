@@ -10,17 +10,6 @@ require "geocoder/models/mongo_mapper" if defined?(::MongoMapper)
 module Geocoder
   extend self
 
-  # This method can be used to change some functional aspects, like,
-  # the geocoding service provider, or the units of calculations.
-  # Please see {include:Configuration}
-  def configure(&block)
-    if block_given?
-      module_eval(&block)
-    else
-      Configuration.instance
-    end
-  end
-
   ##
   # Search for information about an address or a set of coordinates.
   #

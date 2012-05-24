@@ -2,6 +2,18 @@ require 'singleton'
 
 module Geocoder
 
+  ##
+  # This method can be used to change some functional aspects, like,
+  # the geocoding service provider, or the units of calculations.
+  # Please see {include:Configuration}
+  def self.configure(&block)
+    if block_given?
+      module_eval(&block)
+    else
+      Configuration.instance
+    end
+  end
+
   # This class handle the configuration process of Geocoder gem, and can be used
   # to change some functional aspects, like, the geocoding service provider, or
   # the units of calculations.
