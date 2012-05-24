@@ -39,7 +39,7 @@ class ConfigurationTest < Test::Unit::TestCase
   # --- Geocoder#configure distances configuration ---
   def test_geocoder_configuration
     # DSL
-    Geocoder.configure do
+    Geocoder.configure do |config|
       config.units  = :mi
       config.distances = :linear
     end

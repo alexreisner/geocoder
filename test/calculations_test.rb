@@ -3,7 +3,7 @@ require 'test_helper'
 
 class CalculationsTest < Test::Unit::TestCase
   def setup
-    Geocoder.configure do
+    Geocoder.configure do |config|
       config.units  = :mi
       config.distances = :linear
     end

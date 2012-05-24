@@ -7,7 +7,7 @@ module Geocoder
   #
   def self.configure(&block)
     if block_given?
-      module_eval(&block)
+      block.call(Configuration.instance)
     else
       Configuration.instance
     end

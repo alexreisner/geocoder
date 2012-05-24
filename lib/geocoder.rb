@@ -70,10 +70,6 @@ module Geocoder
 
   private # -----------------------------------------------------------------
 
-  def config # :nodoc
-    Configuration.instance
-  end
-
   ##
   # Get a Lookup object (which communicates with the remote geocoding API).
   # Takes a search query and returns an IP or street address Lookup
@@ -135,4 +131,3 @@ if defined?(Rails)
   require "geocoder/railtie"
   Geocoder::Railtie.insert
 end
-
