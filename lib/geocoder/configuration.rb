@@ -3,9 +3,8 @@ require 'singleton'
 module Geocoder
 
   ##
-  # This method can be used to change some functional aspects, like,
-  # the geocoding service provider, or the units of calculations.
-  # Please see {include:Configuration}
+  # Provides convenient access to the Configuration singleton.
+  #
   def self.configure(&block)
     if block_given?
       module_eval(&block)
@@ -14,14 +13,12 @@ module Geocoder
     end
   end
 
-  # This class handle the configuration process of Geocoder gem, and can be used
-  # to change some functional aspects, like, the geocoding service provider, or
-  # the units of calculations.
+  ##
+  # This class handles geocoder Geocoder configuration
+  # (geocoding service provider, caching, units of measurement, etc).
+  # Configuration can be done in two ways:
   #
-  # == Geocoder Configuration
-  #
-  # The configuration of Geocoder can be done in to ways:
-  # @example Using +Geocoder#configure+ method:
+  # 1) Using Geocoder.configure and passing a block:
   #
   #   Geocoder.configure do
   #     config.timeout      = 3           # geocoding service timeout (secs)
@@ -39,20 +36,17 @@ module Geocoder
   #     # supports SocketError and TimeoutError
   #     config.always_raise = []
   #
-  #     # Calculation options
-  #     config.units  = :mi        # :km for kilometers or :mi for miles
-  #     config.method = :linear    # :spherical or :linear
+  #     # calculation options
+  #     config.units        = :mi         # :km for kilometers or :mi for miles
+  #     config.distances    = :linear     # :spherical or :linear
   #   end
   #
-  # @example Using +Geocoder::Configuration+ class directly, like in:
+  # 2) Using the Geocoder::Configuration singleton directly:
   #
   #   Geocoder::Configuration.language = 'pt-BR'
   #
-  # == Notes
+  # Default values are defined in Configuration#set_defaults.
   #
-  # All configurations are optional, the default values were shown in the first
-  # example (with +Geocoder#configure+).
-
   class Configuration
     include Singleton
 
@@ -74,11 +68,10 @@ module Geocoder
 
     attr_accessor *OPTIONS
 
-    def initialize  # :nodoc
+    def initialize # :nodoc
       set_defaults
     end
 
-    # This method will set the configuration options to the default values
     def set_defaults
       @timeout      = 3           # geocoding service timeout (secs)
       @lookup       = :google     # name of geocoding service (symbol)
@@ -101,8 +94,6 @@ module Geocoder
       @distances = :linear # :linear or :spherical
     end
 
-    # Delegates getters and setters for all configuration settings,
-    # and +set_defaults+ to the singleton instance.
     instance_eval(OPTIONS.map do |option|
       o = option.to_s
       <<-EOS
@@ -117,7 +108,6 @@ module Geocoder
     end.join("\n\n"))
 
     class << self
-      # This method will set the configuration options to the default values
       def set_defaults
         instance.set_defaults
       end
