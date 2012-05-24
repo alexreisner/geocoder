@@ -18,27 +18,14 @@ module Geocoder
   # (geocoding service provider, caching, units of measurement, etc).
   # Configuration can be done in two ways:
   #
-  # 1) Using Geocoder.configure and passing a block:
+  # 1) Using Geocoder.configure and passing a block
+  #    (useful for configuring multiple things at once):
   #
-  #   Geocoder.configure do
-  #     config.timeout      = 3           # geocoding service timeout (secs)
-  #     config.lookup       = :google     # name of geocoding service (symbol)
-  #     config.language     = :en         # ISO-639 language code
-  #     config.use_https    = false       # use HTTPS for lookup requests? (if supported)
-  #     config.http_proxy   = nil         # HTTP proxy server (user:pass@host:port)
-  #     config.https_proxy  = nil         # HTTPS proxy server (user:pass@host:port)
-  #     config.api_key      = nil         # API key for geocoding service
-  #     config.cache        = nil         # cache object (must respond to #[], #[]=, and #keys)
-  #     config.cache_prefix = "geocoder:" # prefix (string) to use for all cache keys
-  #
-  #     # exceptions that should not be rescued by default
-  #     # (if you want to implement custom error handling);
-  #     # supports SocketError and TimeoutError
-  #     config.always_raise = []
-  #
-  #     # calculation options
-  #     config.units        = :mi         # :km for kilometers or :mi for miles
-  #     config.distances    = :linear     # :spherical or :linear
+  #   Geocoder.configure do |config|
+  #     config.timeout      = 5
+  #     config.lookup       = :yahoo
+  #     config.api_key      = "2a9fsa983jaslfj982fjasd"
+  #     config.units        = :km
   #   end
   #
   # 2) Using the Geocoder::Configuration singleton directly:
