@@ -198,7 +198,7 @@ If your model has +street+, +city+, +state+, and +country+ attributes you might 
 For reverse geocoding you can also specify an alternate name attribute where the address will be stored, for example:
 
   reverse_geocoded_by :latitude, :longitude, :address => :location  # ActiveRecord
-  reverse_geocoded_by :coordinates, :address => :loc     # MongoDB
+  reverse_geocoded_by :coordinates, :address => :loc                # MongoDB
 
 
 == Advanced Geocoding
@@ -232,32 +232,30 @@ If you're familiar with the results returned by the geocoding service you're usi
 
 == Geocoding Services
 
-By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is used for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). The configuration options are:
+By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is used for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
 
   # config/initializers/geocoder.rb
+  Geocoder.configure do |config|
 
-  # geocoding service (see below for supported options):
-  Geocoder::Configuration.lookup = :yahoo
+    # geocoding service (see below for supported options):
+    config.lookup = :yahoo
 
-  # to use an API key:
-  Geocoder::Configuration.api_key = "..."
+    # to use an API key:
+    config.api_key = "..."
 
-  # geocoding service request timeout, in seconds (default 3):
-  Geocoder::Configuration.timeout = 5
+    # geocoding service request timeout, in seconds (default 3):
+    config.timeout = 5
 
-  # use HTTPS for geocoding service connections:
-  Geocoder::Configuration.use_https = true
+    # set default units to kilometers:
+    config.units = :km
 
-  # language to use (for search queries and reverse geocoding):
-  Geocoder::Configuration.language = :de
+    # caching (see below for details):
+    config.cache = Redis.new
+    config.cache_prefix = "..."
 
-  # use a proxy to access the service:
-  Geocoder::Configuration.http_proxy  = "127.4.4.1"
-  Geocoder::Configuration.https_proxy = "127.4.4.2" # only if HTTPS is needed
+  end
 
-  # caching (see below for details)
-  Geocoder::Configuration.cache = Redis.new
-  Geocoder::Configuration.cache_prefix = "..."
+Please see lib/geocoder/configuration.rb for a complete list of configuration options.
 
 
 === Listing and Comparison
@@ -498,4 +496,4 @@ You cannot use the +near+ scope with another scope that provides an +includes+ o
 If anyone has a more elegant solution to this problem I am very interested in seeing it.
 
 
-Copyright (c) 2009-11 Alex Reisner, released under the MIT license
+Copyright (c) 2009-12 Alex Reisner, released under the MIT license
