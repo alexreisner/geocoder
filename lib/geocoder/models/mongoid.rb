@@ -20,7 +20,7 @@ module Geocoder
           # index [[ geocoder_options[:coordinates], Mongo::GEO2D ]],
           #             :min => -180, :max => 180 # create 2d index
             
-          index coordinates: "2d"
+          index geocoder_options[:coordinates] "2d" #Updated to work with new Mongoid 3.0.0rc
         end
       end
     end
