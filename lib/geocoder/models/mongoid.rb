@@ -21,7 +21,7 @@ module Geocoder
           #             :min => -180, :max => 180 # create 2d index
             
           index geocoder_options[:coordinates] => "2d" #Updated to work with new Mongoid 3.0.0rc
-          # Refer to http://mongoid.org/en/mongoid/docs/upgrading.html
+          # Refer to http://mongoid.org/en/mongoid/docs/upgrading.html 
         end
       end
     end
