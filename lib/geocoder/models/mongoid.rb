@@ -17,8 +17,7 @@ module Geocoder
       def geocoder_init(options)
         super(options)
         if options[:skip_index] == false
-          index [[ geocoder_options[:coordinates], "2d" ]],
-            :min => -180, :max => 180 # create 2d index
+          index [[ geocoder_options[:coordinates], "2d" ]]
         end
       end
     end
