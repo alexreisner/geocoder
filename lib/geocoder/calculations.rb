@@ -25,6 +25,18 @@ module Geocoder
     NAN = defined?(::Float::NAN) ? ::Float::NAN : 0 / 0.0
 
     ##
+    # Returns true if all given arguments are valid latitude/longitude values.
+    #
+    def coordinates_present?(*args)
+      args.each do |a|
+        # note that Float::NAN != Float::NAN
+        # still, this could probably be improved:
+        return false if (!a.is_a?(Numeric) or a.to_s == "NaN")
+      end
+      true
+    end
+
+    ##
     # Distance spanned by one degree of latitude in the given units.
     #
     def latitude_degree_distance(units = nil)

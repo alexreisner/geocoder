@@ -178,5 +178,11 @@ class CalculationsTest < Test::Unit::TestCase
     assert_in_delta 1.0 / 3, result.first, 1E-5
     assert_in_delta 2.0 / 3, result.last, 1E-5
   end
-end
 
+  def test_coordinates_present
+    assert Geocoder::Calculations.coordinates_present?(3.23)
+    assert !Geocoder::Calculations.coordinates_present?(nil)
+    assert !Geocoder::Calculations.coordinates_present?(Geocoder::Calculations::NAN)
+    assert !Geocoder::Calculations.coordinates_present?(3.23, nil)
+  end
+end

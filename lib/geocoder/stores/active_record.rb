@@ -33,7 +33,7 @@ module Geocoder::Store
         #
         scope :near, lambda{ |location, *args|
           latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
-          if latitude and longitude and ![latitude, longitude].include?(Geocoder::Calculations::NAN)
+          if Geocoder::Calculations.coordinates_present?(latitude, longitude)
             near_scope_options(latitude, longitude, *args)
           else
             where(false_condition) # no results if no lat/lon given
@@ -68,7 +68,9 @@ module Geocoder::Store
 
       def distance_from_sql(location, *args)
         latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
-        distance_from_sql_options(latitude, longitude, *args) if latitude and longitude
+        if Geocoder::Calculations.coordinates_present?(latitude, longitude)
+          distance_from_sql_options(latitude, longitude, *args)
+        end
       end
 
       private # ----------------------------------------------------------------
