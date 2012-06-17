@@ -8,4 +8,6 @@ group :development, :test do
   gem 'bson_ext'
 
   gem 'rails'
+
+  gem 'rspec'
 end

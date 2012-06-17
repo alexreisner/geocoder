@@ -1,8 +1,11 @@
 require 'geocoder/lookups/base'
 require "geocoder/results/bing"
 
+require 'geocoder/lookups/route/bing'
+
 module Geocoder::Lookup
   class Bing < Base
+    include Geocoder::Lookup::Route::Bing
 
     def map_link_url(coordinates)
       "http://www.bing.com/maps/default.aspx?cp=#{coordinates.join('~')}"
@@ -27,6 +30,7 @@ module Geocoder::Lookup
 
       base_url = "http://dev.virtualearth.net/REST/v1/Locations"
       url_tail = reverse ? "/#{query}?" : "?"
+      puts base_url + url_tail + hash_to_query(params)
       base_url + url_tail + hash_to_query(params)
     end
   end

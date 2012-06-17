@@ -1,6 +1,8 @@
 require 'net/http'
 require 'uri'
 
+require 'geocoder/lookups/route/base'
+
 unless defined?(ActiveSupport::JSON)
   begin
     require 'rubygems' # for Ruby 1.8
@@ -13,6 +15,7 @@ end
 module Geocoder
   module Lookup
     class Base
+      include Geocoder::Lookup::Route::Base
 
       ##
       # Query the geocoding API and return a Geocoder::Result object.
@@ -77,14 +80,14 @@ module Geocoder
       # Geocoder::Result object or nil on timeout or other error.
       #
       def results(query, reverse = false)
-        fail
+        fail "not implemented"
       end
 
       ##
       # URL to use for querying the geocoding engine.
       #
       def query_url(query, reverse = false)
-        fail
+        fail "not implemented"
       end
 
       ##
@@ -93,7 +96,7 @@ module Geocoder
       def result_class
         Geocoder::Result.const_get(self.class.to_s.split(":").last)
       end
-
+      
       ##
       # Raise exception if configuration specifies it should be raised.
       # Return false if exception not raised.
@@ -161,7 +164,7 @@ module Geocoder
           body
         end
       end
-
+      
       ##
       # The working Cache object.
       #
