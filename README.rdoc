@@ -441,7 +441,7 @@ Mongo document classes (Mongoid and MongoMapper) have a built-in +near+ scope, b
 
 === Latitude/Longitude Order
 
-Coordinates are generally printed and spoken as latitude, then logitude ([lat,lon]). Geocoder respects this convention and always expects method arguments to be given in [lat,lon] order. However, MongoDB requires that coordinates be stored in [lon,lat] order as per the GeoJSON spec (http://geojson.org/geojson-spec.html#positions), so internally they are stored "backwards." However, this does not affect order of arguments to methods when using Mongoid or MongoMapper.
+Coordinates are generally printed and spoken as latitude, then longitude ([lat,lon]). Geocoder respects this convention and always expects method arguments to be given in [lat,lon] order. However, MongoDB requires that coordinates be stored in [lon,lat] order as per the GeoJSON spec (http://geojson.org/geojson-spec.html#positions), so internally they are stored "backwards." However, this does not affect order of arguments to methods when using Mongoid or MongoMapper.
 
 To access an object's coordinates in the conventional order, use the <tt>to_coordinates</tt> instance method provided by Geocoder. For example:
 
