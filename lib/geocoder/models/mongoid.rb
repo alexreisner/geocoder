@@ -17,8 +17,8 @@ module Geocoder
       def geocoder_init(options)
         super(options)
         if options[:skip_index] == false
-          
-          # raise Mongoid
+          require "mongoid/version" 
+          raise Mongoid::VERSION
           
           # if Mongoid::VERSION == "3.0.0.rc"
             
