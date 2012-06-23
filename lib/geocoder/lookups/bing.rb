@@ -30,7 +30,7 @@ module Geocoder::Lookup
 
       base_url = "http://dev.virtualearth.net/REST/v1/Locations"
       url_tail = reverse ? "/#{query}?" : "?"
-      puts base_url + url_tail + hash_to_query(params)
+      # puts base_url + url_tail + hash_to_query(params)
       base_url + url_tail + hash_to_query(params)
     end
   end

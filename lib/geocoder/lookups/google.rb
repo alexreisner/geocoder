@@ -35,7 +35,7 @@ module Geocoder::Lookup
         :language => Geocoder::Configuration.language,
         :key => Geocoder::Configuration.api_key
       }
-      puts "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(params)
+      # puts "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(params)
       "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(params)
     end
   end

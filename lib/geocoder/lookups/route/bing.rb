@@ -36,7 +36,7 @@ module Geocoder::Lookup
 
         path = "/REST/V1/Routes/Driving?#{hash_to_query(params)}"
 
-        puts "#{protocol}://dev.virtualearth.net#{path}"
+        # puts "#{protocol}://dev.virtualearth.net#{path}"
         "#{protocol}://dev.virtualearth.net#{path}"
       end
     end
