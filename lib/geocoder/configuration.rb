@@ -99,5 +99,6 @@ module Geocoder
         instance.set_defaults
       end
     end
+
   end
 end
