@@ -17,7 +17,8 @@ class MongoidTest < Test::Unit::TestCase
   def test_custom_coordinate_field_near_scope
     location = [40.750354, -73.993371]
     p = Place.near(location)
-    assert_equal p.selector[:location]['$nearSphere'], location.reverse
+    key = Mongoid::VERSION >= "3" ? "location" : :location
+    assert_equal p.selector[key]['$nearSphere'], location.reverse
   end
 
   def test_model_configuration
