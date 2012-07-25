@@ -12,6 +12,11 @@ module Geocoder::Store
     #
     def self.included(base)
       base.extend ClassMethods
+      if base.connection.adapter_name.match /sqlite/i
+        require 'geocoder/stores/active_record/sqlite'
+        base.extend(ActiveRecord::Sqlite)
+      end
+
       base.class_eval do
 
         # scope: geocoded objects
@@ -94,30 +99,14 @@ module Geocoder::Store
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
-        if using_sqlite?
-          approx_near_scope_options(latitude, longitude, radius, options)
-        else
-          full_near_scope_options(latitude, longitude, radius, options)
-        end
-      end
-
-      def distance_from_sql_options(latitude, longitude, options = {})
-        if using_sqlite?
-          approx_distance_from_sql(latitude, longitude, options)
-        else
-          full_distance_from_sql(latitude, longitude, options)
-        end
-      end
-
-      ##
-      # Scope options hash for use with a database that supports POWER(),
-      # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
-      # ATAN2(), DEGREES(), and RADIANS().
-      #
-      # Bearing calculation based on:
-      # http://www.beginningspatial.com/calculating_bearing_one_point_another
-      #
-      def full_near_scope_options(latitude, longitude, radius, options)
+        ##
+        # Scope options hash for use with a database that supports POWER(),
+        # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
+        # ATAN2(), DEGREES(), and RADIANS().
+        #
+        # Bearing calculation based on:
+        # http://www.beginningspatial.com/calculating_bearing_one_point_another
+        #
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
         options[:bearing] ||= (options[:method] ||
@@ -155,11 +144,10 @@ module Geocoder::Store
         )
       end
 
+      def distance_from_sql_options(latitude, longitude, options = {})
+        # Distance calculations based on the excellent tutorial at:
+        # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
 
-      # Distance calculations based on the excellent tutorial at:
-      # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
-
-      def full_distance_from_sql(latitude, longitude, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
 
@@ -169,64 +157,6 @@ module Geocoder::Store
           "POWER(SIN((#{latitude} - #{full_column_name(lat_attr)}) * PI() / 180 / 2), 2) + " +
           "COS(#{latitude} * PI() / 180) * COS(#{full_column_name(lat_attr)} * PI() / 180) * " +
           "POWER(SIN((#{longitude} - #{full_column_name(lon_attr)}) * PI() / 180 / 2), 2) ))"
-      end
-
-      def approx_distance_from_sql(latitude, longitude, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
-
-        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
-        dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
-
-        # sin of 45 degrees = average x or y component of vector
-        factor = Math.sin(Math::PI / 4)
-
-        "(#{dy} * ABS(#{full_column_name(lat_attr)} - #{latitude}) * #{factor}) + " +
-          "(#{dx} * ABS(#{full_column_name(lon_attr)} - #{longitude}) * #{factor})"
-      end
-
-      ##
-      # Scope options hash for use with a database without trigonometric
-      # functions, like SQLite. Approach is to find objects within a square
-      # rather than a circle, so results are very approximate (will include
-      # objects outside the given radius).
-      #
-      # Distance and bearing calculations are *extremely inaccurate*. They
-      # only exist for interface consistency--not intended for production!
-      #
-      def approx_near_scope_options(latitude, longitude, radius, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
-        unless options.include?(:bearing)
-          options[:bearing] = (options[:method] || \
-                               geocoder_options[:method] || \
-                               Geocoder::Configuration.distances)
-        end
-        if options[:bearing]
-          bearing = "CASE " +
-            "WHEN (#{full_column_name(lat_attr)} >= #{latitude} AND #{full_column_name(lon_attr)} >= #{longitude}) THEN  45.0 " +
-            "WHEN (#{full_column_name(lat_attr)} <  #{latitude} AND #{full_column_name(lon_attr)} >= #{longitude}) THEN 135.0 " +
-            "WHEN (#{full_column_name(lat_attr)} <  #{latitude} AND #{full_column_name(lon_attr)} <  #{longitude}) THEN 225.0 " +
-            "WHEN (#{full_column_name(lat_attr)} >= #{latitude} AND #{full_column_name(lon_attr)} <  #{longitude}) THEN 315.0 " +
-          "END"
-        else
-          bearing = false
-        end
-
-        distance = approx_distance_from_sql(latitude, longitude, options)
-        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
-
-        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-        conditions = [
-          "#{full_column_name(lat_attr)} BETWEEN ? AND ? AND #{full_column_name(lon_attr)} BETWEEN ? AND ?"] +
-          [b[0], b[2], b[1], b[3]
-        ]
-        default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => "#{options[:select] || full_column_name("*")}, " +
-            "#{distance} AS distance" +
-            (bearing ? ", #{bearing} AS bearing" : ""),
-          :conditions => add_exclude_condition(conditions, options[:exclude])
-        )
       end
 
       ##
@@ -252,15 +182,11 @@ module Geocoder::Store
         conditions
       end
 
-      def using_sqlite?
-        connection.adapter_name.match /sqlite/i
-      end
-
       ##
       # Value which can be passed to where() to produce no results.
       #
       def false_condition
-        using_sqlite? ? 0 : "false"
+        "false"
       end
 
       ##

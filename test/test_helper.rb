@@ -4,11 +4,20 @@ require 'test/unit'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
+ADAPTER = ENV['ADAPTER'] || 'postgresql'
+
 ##
 # Simulate enough of ActiveRecord::Base that objects can be used for testing.
 #
 module ActiveRecord
   class Base
+    Connection = Struct.new('Connection', :adapter_name)
+
+    class << self
+      def connection
+        Connection.new(ADAPTER)
+      end
+    end
 
     def initialize
       @attributes = {}
