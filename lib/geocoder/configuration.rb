@@ -40,6 +40,7 @@ module Geocoder
     OPTIONS = [
       :timeout,
       :lookup,
+      :nominatim_url,
       :language,
       :http_headers,
       :use_https,
@@ -62,6 +63,7 @@ module Geocoder
     def set_defaults
       @timeout      = 3           # geocoding service timeout (secs)
       @lookup       = :google     # name of geocoding service (symbol)
+      @nominatim_url= "http://nominatim.openstreetmap.org"     # URL of the Nominatim service
       @language     = :en         # ISO-639 language code
       @http_headers = {}          # HTTP headers for lookup
       @use_https    = false       # use HTTPS for lookup requests? (if supported)
