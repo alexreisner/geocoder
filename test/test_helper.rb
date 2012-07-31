@@ -271,5 +271,14 @@ class Test::Unit::TestCase
   def street_lookups
     all_lookups - [:freegeoip]
   end
+
+  def is_nan_coordinates?(coordinates)
+    if defined?(::Float::NAN)
+      coordinates == ([ Geocoder::Calculations::NAN ] * 2 )
+    else
+      return false unless coordinates.respond_to? :size 
+      coordinates.size == 2 && coordinates[0].nan? && coordinates[1].nan?
+    end
+  end
 end
 
