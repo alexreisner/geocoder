@@ -1,0 +1,23 @@
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+  - jruby-19mode
+gemfile:
+  - Gemfile
+  - gemfiles/Gemfile.mongoid-2.4.x
+env: SSL_CERT_DIR=/etc/ssl/certs
+matrix:
+  exclude:
+    - rvm: 1.8.7
+      gemfile: Gemfile
+      env: SSL_CERT_DIR=/etc/ssl/certs
+    - rvm: 1.9.2
+      gemfile: Gemfile
+      env: SSL_CERT_DIR=/etc/ssl/certs
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.mongoid-2.4.x
+      env: SSL_CERT_DIR=/etc/ssl/certs
+    - rvm: jruby-19mode
+      gemfile: gemfiles/Gemfile.mongoid-2.4.x
+      env: SSL_CERT_DIR=/etc/ssl/certs 

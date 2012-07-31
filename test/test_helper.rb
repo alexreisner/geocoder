@@ -273,12 +273,9 @@ class Test::Unit::TestCase
   end
 
   def is_nan_coordinates?(coordinates)
-    if defined?(::Float::NAN)
-      coordinates == ([ Geocoder::Calculations::NAN ] * 2 )
-    else
-      return false unless coordinates.respond_to? :size 
-      coordinates.size == 2 && coordinates[0].nan? && coordinates[1].nan?
-    end
+    return false unless coordinates.respond_to? :size # Should be an array
+    return false unless coordinates.size == 2 # Should have dimension 2
+    coordinates[0].nan? && coordinates[1].nan? # Both coordinates should be NaN
   end
 end
 
