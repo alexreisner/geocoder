@@ -7,6 +7,7 @@ module Geocoder::Result
       ["stadium","bus_stop","tram_stop"].each do |key|
         return @data['address'][key] if @data['address'].key? key
       end
+      nil
     end
 
     def house_number
@@ -18,15 +19,17 @@ module Geocoder::Result
     end
 
     def street
-      ["road","pedestrian","highway","place"].each do |key|
+      ["road","pedestrian","highway"].each do |key|
         return @data['address'][key] if @data['address'].key? key
       end
+      nil
     end
 
     def city
       ["city","town","village","hamlet"].each do |key|
         return @data['address'][key] if @data['address'].key? key
       end
+      nil
     end
 
     def village
@@ -64,8 +67,8 @@ module Geocoder::Result
     end
 
     def self.response_attributes
-      %w[place_id, osm_type, osm_id, boundingbox, license,
-         polygonpoints, display_name, class, type, stadium, suburb]
+      %w[place_id osm_type osm_id boundingbox license
+         polygonpoints display_name class type stadium suburb]
     end
 
     response_attributes.each do |a|
@@ -73,5 +76,6 @@ module Geocoder::Result
         @data[a]
       end
     end
+    
   end
 end
