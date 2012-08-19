@@ -152,24 +152,24 @@ class CalculationsTest < Test::Unit::TestCase
 
   def test_extract_coordinates
     result = Geocoder::Calculations.extract_coordinates([ nil, nil ])
-    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+    assert is_nan_coordinates?(result)
 
     result = Geocoder::Calculations.extract_coordinates([ 1.0 / 3, 2.0 / 3 ])
     assert_in_delta 1.0 / 3, result.first, 1E-5
     assert_in_delta 2.0 / 3, result.last, 1E-5
 
     result = Geocoder::Calculations.extract_coordinates(nil)
-    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+    assert is_nan_coordinates?(result)
 
     result = Geocoder::Calculations.extract_coordinates('')
-    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+    assert is_nan_coordinates?(result)
 
     result = Geocoder::Calculations.extract_coordinates([ 'nix' ])
-    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+    assert is_nan_coordinates?(result)
 
     o = Object.new
     result = Geocoder::Calculations.extract_coordinates(o)
-    assert_equal [ Geocoder::Calculations::NAN ] * 2, result
+    assert is_nan_coordinates?(result)
 
     def o.to_coordinates
       [ 1.0 / 3, 2.0 / 3 ]
