@@ -1,15 +1,15 @@
 source "http://rubygems.org"
 
-gemspec
+gemspec :path => '..'
 
 group :development, :test do
   gem 'rake'
-  gem 'mongoid'
+  gem 'mongoid', '2.4.11'
   gem 'bson_ext', :platforms => :ruby
 
   gem 'rails'
 
   platforms :jruby do
-  	gem 'jruby-openssl'
+    gem 'jruby-openssl'
   end
 end

@@ -7,8 +7,12 @@ require 'geocoder/models/mongoid'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-Mongoid.configure do |config|
-  config.logger = Logger.new($stderr, :debug)
+if (::Mongoid::VERSION >= "3")
+  Mongoid.logger = Logger.new($stderr, :debug)
+else
+  Mongoid.configure do |config|
+    config.logger = Logger.new($stderr, :debug)
+  end
 end
 
 ##
