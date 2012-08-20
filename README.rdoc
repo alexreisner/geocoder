@@ -118,6 +118,16 @@ To find objects by location, use the following scopes:
   Venue.geocoded                     # venues with coordinates
   Venue.not_geocoded                 # venues without coordinates
 
+You can also restrict the bounds used in location queries via the <tt>within_bounding_box</tt> scope. This
+can have a dramatic effect on query performance, especially when used in conjunction with indexes on the lat,
+lng columns.
+
+  distance = 20
+  center_point = [40.71, 100.23]
+  box = Geocoder::Calculations.bounding_box(center_point, distance)
+  Venue.near(center_point, distance).within_bounding_box(box, distance) # same results as above, potentially faster
+  Venue.within_bounding_box(box, distance) # even faster query, but no distance ordering
+
 With geocoded objects you can do things like this:
 
   obj.nearbys(30)                      # other objects within 30 miles
