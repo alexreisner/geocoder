@@ -19,7 +19,7 @@ Geocoder.configure do |config|
   # config.always_raise = []
 
   ## Calculation options
-  # config.units  = :mi        # :km for kilometers or :mi for miles
-  # config.method = :linear    # :spherical or :linear
+  # config.units     = :mi        # :km for kilometers or :mi for miles
+  # config.distances = :linear    # :spherical or :linear
 end
 
