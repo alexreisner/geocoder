@@ -326,9 +326,8 @@ Limitations:: Please limit request rate to 1 per second and include your contact
 
 ==== Yandex (<tt>:yandex</tt>)
 
-API key:: required
-Key signup:: http://api.yandex.ru/maps/intro/concepts/intro.xml#apikey
-Quota:: ?
+API key:: none
+Quota:: 25000 requests / day
 Region:: Russia
 SSL support:: no
 Languages:: Russian, Belarusian, and Ukrainian
