@@ -44,6 +44,7 @@ module Geocoder::Result
     def country
       @data['address']['country']
     end
+
     def country_code
       @data['address']['country_code']
     end
@@ -53,8 +54,7 @@ module Geocoder::Result
     end
 
     def self.response_attributes
-      %w[place_id, boundingbox, license,
-         polygonpoints, display_name, class, type, stadium, suburb]
+      %w[place_id boundingbox license polygonpoints display_name class type stadium suburb]
     end
 
     response_attributes.each do |a|
