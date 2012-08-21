@@ -346,6 +346,17 @@ Documentation:: ?
 Terms of Service:: http://geocoder.ca/?terms=1
 Limitations:: "Under no circumstances can our data be re-distributed or re-sold by anyone to other parties without our written permission."
 
+==== Mapquest (<tt>:mapquest</tt>)
+
+API key:: none
+Quota:: ?
+Region:: world
+SSL support:: no
+Languages:: English
+Documentation:: http://www.mapquestapi.com/geocoding/
+Terms of Service:: http://info.mapquest.com/terms-of-use/
+Limitations:: ?
+
 ==== FreeGeoIP
 
 API key:: none
