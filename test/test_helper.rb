@@ -163,6 +163,19 @@ module Geocoder
       end
     end
 
+    class Mapquest < Base
+      private #-----------------------------------------------------------------
+      def fetch_raw_data(query, reverse = false)
+        raise TimeoutError if query == "timeout"
+        raise SocketError if query == "socket_error"
+        file = case query
+          when "no results";  :no_results
+          else                :madison_square_garden
+        end
+        read_fixture "mapquest_#{file}.json"
+      end
+    end
+
   end
 end
 
