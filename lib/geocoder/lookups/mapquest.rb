@@ -14,7 +14,6 @@ module Geocoder::Lookup
     def query_url(query, reverse = false)
       params = {
         :format => "json",
-        :json_callback=>"?",
         :polygon => "1",
         :addressdetails => "1",
         :"accept-language" => Geocoder::Configuration.language
