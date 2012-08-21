@@ -4,10 +4,6 @@ require "geocoder/results/mapquest"
 module Geocoder::Lookup
   class Mapquest < Base
 
-    def map_link_url(coordinates)
-      "http://www.openstreetmap.org/?lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=15&layers=M"
-    end
-
     private # ---------------------------------------------------------------
 
     def results(query, reverse = false)
