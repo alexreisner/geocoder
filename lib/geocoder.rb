@@ -3,9 +3,9 @@ require "geocoder/calculations"
 require "geocoder/exceptions"
 require "geocoder/cache"
 require "geocoder/request"
-require "geocoder/models/active_record"
-require "geocoder/models/mongoid"
-require "geocoder/models/mongo_mapper"
+require "geocoder/models/active_record" if defined?(::ActiveRecord)
+require "geocoder/models/mongoid" if defined?(::Mongoid)
+require "geocoder/models/mongo_mapper" if defined?(::MongoMapper)
 
 module Geocoder
   extend self
@@ -115,7 +115,7 @@ module Geocoder
   # dot-delimited numbers.
   #
   def ip_address?(value)
-    !!value.to_s.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
+    !!value.to_s.match(/^(::ffff:)?(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
   end
 
   ##

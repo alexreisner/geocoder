@@ -1,4 +1,5 @@
 require 'net/http'
+require 'net/https'
 require 'uri'
 
 unless defined?(ActiveSupport::JSON)
@@ -33,7 +34,11 @@ module Geocoder
         else
           reverse = false
         end
-        results(query, reverse).map{ |r| result_class.new(r) }
+        results(query, reverse).map{ |r| 
+          result = result_class.new(r)
+          result.cache_hit = @cache_hit if cache
+          result
+        }
       end
 
       ##
@@ -95,7 +100,7 @@ module Geocoder
       # Return false if exception not raised.
       #
       def raise_error(error, message = nil)
-        if Geocoder::Configuration.always_raise.include?(error.class)
+        if Geocoder::Configuration.always_raise.include?( error.is_a?(Class) ? error : error.class )
           raise error, message
         else
           false
@@ -106,29 +111,25 @@ module Geocoder
       # Returns a parsed search result (Ruby hash).
       #
       def fetch_data(query, reverse = false)
-        begin
-          parse_raw_data fetch_raw_data(query, reverse)
-        rescue SocketError => err
-          raise_error(err) or warn "Geocoding API connection cannot be established."
-        rescue TimeoutError => err
-          raise_error(err) or warn "Geocoding API not responding fast enough " +
-            "(see Geocoder::Configuration.timeout to set limit)."
-        end
+        parse_raw_data fetch_raw_data(query, reverse)
+      rescue SocketError => err
+        raise_error(err) or warn "Geocoding API connection cannot be established."
+      rescue TimeoutError => err
+        raise_error(err) or warn "Geocoding API not responding fast enough " +
+          "(see Geocoder::Configuration.timeout to set limit)."
       end
 
       ##
       # Parses a raw search result (returns hash or array).
       #
       def parse_raw_data(raw_data)
-        begin
-          if defined?(ActiveSupport::JSON)
-            ActiveSupport::JSON.decode(raw_data)
-          else
-            JSON.parse(raw_data)
-          end
-        rescue
-          warn "Geocoding API's response was not valid JSON."
+        if defined?(ActiveSupport::JSON)
+          ActiveSupport::JSON.decode(raw_data)
+        else
+          JSON.parse(raw_data)
         end
+      rescue
+        warn "Geocoding API's response was not valid JSON."
       end
 
       ##
@@ -146,14 +147,17 @@ module Geocoder
         timeout(Geocoder::Configuration.timeout) do
           url = query_url(query, reverse)
           uri = URI.parse(url)
-          unless cache and body = cache[url]
+          if cache and body = cache[url]
+            @cache_hit = true
+          else
             client = http_client.new(uri.host, uri.port)
             client.use_ssl = true if Geocoder::Configuration.use_https
-            response = client.get(uri.request_uri)
+            response = client.get(uri.request_uri, Geocoder::Configuration.http_headers)
             body = response.body
             if cache and (200..399).include?(response.code.to_i)
               cache[url] = body
             end
+            @cache_hit = false
           end
           body
         end

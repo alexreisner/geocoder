@@ -57,6 +57,10 @@ module Geocoder::Result
       address_details['Locality']['Premise']['PremiseName']
     end
 
+    def precision
+      @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['precision']
+    end
+
     private # ----------------------------------------------------------------
 
     def address_details

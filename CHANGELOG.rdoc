@@ -2,6 +2,17 @@
 
 Per-release changes to Geocoder.
 
+== 1.1.2 (2012 May 24)
+
+* Add ability to specify default units and distance calculation method (thanks github.com/abravalheri).
+* Add new (optional) configuration syntax (thanks github.com/abravalheri).
+* Add support for cache stores that provide :get and :set methods.
+* Add support for custom HTTP request headers (thanks github.com/robotmay).
+* Add Result#cache_hit attribute (thanks github.com/s01ipsist).
+* Fix: rake geocode:all wasn't properly loading namespaced classes.
+* Fix: properly recognize IP addresses with ::ffff: prefix (thanks github.com/brian-ewell).
+* Fix: avoid exception during calculations when coordinates not known (thanks github.com/flori).
+
 == 1.1.1 (2012 Feb 16)
 
 * Add distance_from_sql class method to geocoded class (thanks github.com/dwilkie).

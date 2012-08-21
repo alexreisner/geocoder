@@ -1,58 +1,103 @@
+require 'singleton'
+
 module Geocoder
+
+  ##
+  # Provides convenient access to the Configuration singleton.
+  #
+  def self.configure(&block)
+    if block_given?
+      block.call(Configuration.instance)
+    else
+      Configuration.instance
+    end
+  end
+
+  ##
+  # This class handles geocoder Geocoder configuration
+  # (geocoding service provider, caching, units of measurement, etc).
+  # Configuration can be done in two ways:
+  #
+  # 1) Using Geocoder.configure and passing a block
+  #    (useful for configuring multiple things at once):
+  #
+  #   Geocoder.configure do |config|
+  #     config.timeout      = 5
+  #     config.lookup       = :yahoo
+  #     config.api_key      = "2a9fsa983jaslfj982fjasd"
+  #     config.units        = :km
+  #   end
+  #
+  # 2) Using the Geocoder::Configuration singleton directly:
+  #
+  #   Geocoder::Configuration.language = 'pt-BR'
+  #
+  # Default values are defined in Configuration#set_defaults.
+  #
   class Configuration
+    include Singleton
 
-    def self.options_and_defaults
-      [
-        # geocoding service timeout (secs)
-        [:timeout, 3],
+    OPTIONS = [
+      :timeout,
+      :lookup,
+      :language,
+      :http_headers,
+      :use_https,
+      :http_proxy,
+      :https_proxy,
+      :api_key,
+      :cache,
+      :cache_prefix,
+      :always_raise,
+      :units,
+      :distances
+    ]
 
-        # name of geocoding service (symbol)
-        [:lookup, :google],
+    attr_accessor *OPTIONS
 
-        # ISO-639 language code
-        [:language, :en],
-
-        # use HTTPS for lookup requests? (if supported)
-        [:use_https, false],
-
-        # HTTP proxy server (user:pass@host:port)
-        [:http_proxy, nil],
-
-        # HTTPS proxy server (user:pass@host:port)
-        [:https_proxy, nil],
-
-        # API key for geocoding service
-        # for Google Premier use a 3-element array: [key, client, channel]
-        [:api_key, nil],
-
-        # cache object (must respond to #[], #[]=, and #keys)
-        [:cache, nil],
-
-        # prefix (string) to use for all cache keys
-        [:cache_prefix, "geocoder:"],
-
-        # exceptions that should not be rescued by default
-        # (if you want to implement custom error handling);
-        # supports SocketError and TimeoutError
-        [:always_raise, []]
-      ]
+    def initialize # :nodoc
+      set_defaults
     end
 
-    # define getters and setters for all configuration settings
-    self.options_and_defaults.each do |option, default|
-      class_eval(<<-END, __FILE__, __LINE__ + 1)
+    def set_defaults
+      @timeout      = 3           # geocoding service timeout (secs)
+      @lookup       = :google     # name of geocoding service (symbol)
+      @language     = :en         # ISO-639 language code
+      @http_headers = {}          # HTTP headers for lookup
+      @use_https    = false       # use HTTPS for lookup requests? (if supported)
+      @http_proxy   = nil         # HTTP proxy server (user:pass@host:port)
+      @https_proxy  = nil         # HTTPS proxy server (user:pass@host:port)
+      @api_key      = nil         # API key for geocoding service
+      @cache        = nil         # cache object (must respond to #[], #[]=, and #keys)
+      @cache_prefix = "geocoder:" # prefix (string) to use for all cache keys
 
-        @@#{option} = default unless defined? @@#{option}
+      # exceptions that should not be rescued by default
+      # (if you want to implement custom error handling);
+      # supports SocketError and TimeoutError
+      @always_raise = []
 
-        def self.#{option}
-          @@#{option}
-        end
+      # calculation options
+      @units     = :mi     # :mi or :km
+      @distances = :linear # :linear or :spherical
+    end
 
-        def self.#{option}=(obj)
-          @@#{option} = obj
-        end
+    instance_eval(OPTIONS.map do |option|
+      o = option.to_s
+      <<-EOS
+      def #{o}
+        instance.#{o}
+      end
 
-      END
+      def #{o}=(value)
+        instance.#{o} = value
+      end
+      EOS
+    end.join("\n\n"))
+
+    class << self
+      def set_defaults
+        instance.set_defaults
+      end
     end
   end
 end

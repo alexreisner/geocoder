@@ -150,7 +150,7 @@ module Geocoder
       end
     end
 
-  class Nominatim < Base
+    class Nominatim < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query, reverse = false)
         raise TimeoutError if query == "timeout"
@@ -271,4 +271,11 @@ class Test::Unit::TestCase
   def street_lookups
     all_lookups - [:freegeoip]
   end
+
+  def is_nan_coordinates?(coordinates)
+    return false unless coordinates.respond_to? :size # Should be an array
+    return false unless coordinates.size == 2 # Should have dimension 2
+    coordinates[0].nan? && coordinates[1].nan? # Both coordinates should be NaN
+  end
 end
+
