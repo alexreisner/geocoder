@@ -213,8 +213,8 @@ module Geocoder::Store
           bearing = false
         end
 
-        distance = approx_distance_from_sql(latitude, longitude, options)
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
+        distance = approx_distance_from_sql(latitude, longitude, options)
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         conditions = [
