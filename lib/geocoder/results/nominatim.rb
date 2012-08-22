@@ -18,11 +18,17 @@ module Geocoder::Result
     end
 
     def street
-      @data['address']['road']
+      %w[road pedestrian highway].each do |key|
+        return @data['address'][key] if @data['address'].key?(key)
+      end
+      return nil
     end
 
     def city
-      @data['address']['city']
+      %w[city town village hamlet].each do |key|
+        return @data['address'][key] if @data['address'].key?(key)
+      end
+      return nil
     end
 
     def village
