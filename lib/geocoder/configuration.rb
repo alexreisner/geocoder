@@ -50,7 +50,10 @@ module Geocoder
       :cache_prefix,
       :always_raise,
       :units,
-      :distances
+      :distances,
+      :limit,
+      :polygon,
+      :countrycodes
     ]
 
     attr_accessor *OPTIONS
@@ -70,6 +73,11 @@ module Geocoder
       @api_key      = nil         # API key for geocoding service
       @cache        = nil         # cache object (must respond to #[], #[]=, and #keys)
       @cache_prefix = "geocoder:" # prefix (string) to use for all cache keys
+      
+      # nominatim parameters
+      @limit                  = 8           # limit of results
+      @polygon                = 1           # enable polygon parameter for nominatim service
+      @countrycodes           = []          #
 
       # exceptions that should not be rescued by default
       # (if you want to implement custom error handling);

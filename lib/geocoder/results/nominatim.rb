@@ -3,6 +3,13 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class Nominatim < Base
 
+    def poi
+      ["stadium","bus_stop","tram_stop"].each do |key|
+        return @data['address'][key] if @data['address'].key? key
+      end
+      nil
+    end
+
     def house_number
       @data['address']['house_number']
     end
@@ -12,11 +19,17 @@ module Geocoder::Result
     end
 
     def street
-      @data['address']['road']
+      ["road","pedestrian","highway"].each do |key|
+        return @data['address'][key] if @data['address'].key? key
+      end
+      nil
     end
 
     def city
-      @data['address']['city']
+      ["city","town","village","hamlet","state"].each do |key|
+        return @data['address'][key] if @data['address'].key? key
+      end
+      nil
     end
 
     def village
@@ -49,13 +62,17 @@ module Geocoder::Result
       @data['address']['country_code']
     end
 
+    def suburb
+      @data['address']['suburb']
+    end
+
     def coordinates
       [@data['lat'].to_f, @data['lon'].to_f]
     end
 
     def self.response_attributes
-      %w[place_id, osm_type, osm_id, boundingbox, license,
-         polygonpoints, display_name, class, type, stadium, suburb]
+      %w[place_id osm_type osm_id boundingbox license
+         polygonpoints display_name class type stadium]
     end
 
     response_attributes.each do |a|
@@ -63,5 +80,6 @@ module Geocoder::Result
         @data[a]
       end
     end
+    
   end
 end
