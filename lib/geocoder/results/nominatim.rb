@@ -66,8 +66,8 @@ module Geocoder::Result
     end
 
     def self.response_attributes
-      %w[place_id, osm_type, osm_id, boundingbox, license,
-         polygonpoints, display_name, class, type, stadium, suburb]
+      %w[place_id osm_type osm_id boundingbox license 
+         polygonpoints display_name class type stadium suburb]
     end
 
     response_attributes.each do |a|
