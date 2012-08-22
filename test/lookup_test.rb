@@ -33,5 +33,17 @@ class LookupTest < Test::Unit::TestCase
     g = Geocoder::Lookup::GeocoderCa.new
     assert_match "showpostal=1", g.send(:query_url, "Madison Square Garden, New York, NY  10001, United States")
   end
+  
+  def test_nominatim_polygon
+    Geocoder::Configuration.polygon = 0
+    g = Geocoder::Lookup::Nominatim.new
+    assert_match "polygon=0", g.send(:query_url, "Madison Square Garden, New York, NY  10001, United States")
+  end
+  
+  def test_nominatim_limit
+    Geocoder::Configuration.limit = 20
+    g = Geocoder::Lookup::Nominatim.new
+    assert_match "limit=20", g.send(:query_url, "Madison Square Garden, New York, NY  10001, United States")
+  end
 
 end
