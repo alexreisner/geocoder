@@ -3,6 +3,12 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class Nominatim < Base
 
+    def poi
+      %w[stadium bus_stop tram_stop].each do |key|
+        @data['address'][key] if @data['address'].key?(key)
+      end
+    end
+
     def house_number
       @data['address']['house_number']
     end
