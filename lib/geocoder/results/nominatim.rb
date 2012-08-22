@@ -26,7 +26,7 @@ module Geocoder::Result
     end
 
     def city
-      ["city","town","village","hamlet"].each do |key|
+      ["city","town","village","hamlet","state"].each do |key|
         return @data['address'][key] if @data['address'].key? key
       end
       nil
