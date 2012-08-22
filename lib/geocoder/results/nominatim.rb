@@ -62,13 +62,17 @@ module Geocoder::Result
       @data['address']['country_code']
     end
 
+    def suburb
+      @data['address']['suburb']
+    end
+
     def coordinates
       [@data['lat'].to_f, @data['lon'].to_f]
     end
 
     def self.response_attributes
       %w[place_id osm_type osm_id boundingbox license
-         polygonpoints display_name class type stadium suburb]
+         polygonpoints display_name class type stadium]
     end
 
     response_attributes.each do |a|
