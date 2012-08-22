@@ -31,7 +31,7 @@ module Geocoder::Lookup
         method = 'search'
         params[:q] = query
       end
-      "http://nominatim.openstreetmap.org/#{method}?" + hash_to_query(params)
+      Geocoder::Configuration.nominatim_url+"/#{method}?" + hash_to_query(params)
     end
   end
 end
