@@ -18,8 +18,10 @@ module Geocoder::Lookup
     def query_url(query, reverse = false)
       params = {
         :format => "json",
-        :polygon => "1",
+        :polygon => Geocoder::Configuration.polygon,
         :addressdetails => "1",
+        :limit => Geocoder::Configuration.limit,
+        :countrycodes => Geocoder::Configuration.countrycodes,
         :"accept-language" => Geocoder::Configuration.language
       }
       if (reverse)
