@@ -8,4 +8,11 @@ module Geocoder
 
   class OverQueryLimitError < Error
   end
+
+  class RequestDenied < Error
+  end
+
+  class InvalidRequest < Error
+  end
+
 end
