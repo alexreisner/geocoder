@@ -54,6 +54,13 @@ module Geocoder
   end
 
   ##
+  # Array of valid Lookup names, excluding :test.
+  #
+  def valid_lookups_except_test
+    valid_lookups - [:test]
+  end
+
+  ##
   # All street address lookups, default first.
   #
   def street_lookups
@@ -77,7 +84,7 @@ module Geocoder
   #
   def lookup(query)
     if ip_address?(query)
-      get_lookup(ip_lookups.first)
+      get_lookup(Configuration.ip_lookup || ip_lookups.first)
     else
       get_lookup(Configuration.lookup || street_lookups.first)
     end

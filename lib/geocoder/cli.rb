@@ -32,9 +32,10 @@ module Geocoder
           Geocoder::Configuration.http_proxy = proxy
         end
 
-        opts.on("-s <service>", Geocoder.street_lookups, "--service <service>",
-          "Geocoding service: #{Geocoder.street_lookups * ', '}") do |service|
+        opts.on("-s <service>", Geocoder.valid_lookups_except_test, "--service <service>",
+          "Geocoding service: #{Geocoder.valid_lookups_except_test * ', '}") do |service|
           Geocoder::Configuration.lookup = service.to_sym
+          Geocoder::Configuration.ip_lookup = service.to_sym
         end
 
         opts.on("-t <seconds>", "--timeout <seconds>",

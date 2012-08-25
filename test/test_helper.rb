@@ -282,11 +282,11 @@ class Test::Unit::TestCase
   end
 
   def all_lookups_except_test
-    Geocoder.valid_lookups - [:test]
+    Geocoder.valid_lookups_except_test
   end
 
   def street_lookups
-    all_lookups - [:freegeoip]
+    Geocoder.street_lookups
   end
 
   def is_nan_coordinates?(coordinates)
