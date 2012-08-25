@@ -440,6 +440,29 @@ You can use Geocoder outside of Rails by calling the <tt>Geocoder.search</tt> me
 This returns an array of <tt>Geocoder::Result</tt> objects with all information provided by the geocoding service. Please see above and in the code for details.
 
 
+== Testing Apps that Use Geocoder
+
+When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure and use the <tt>:test</tt> lookup. For example:
+
+  Geocoder::Configuration.lookup = :test
+
+  Geocoder::Lookup::Test.add_stub(
+    "New York, NY", [
+      {
+        'latitude'     => 40.7143528,
+        'longitude'    => -74.0059731,
+        'address'      => 'New York, NY, USA',
+        'state'        => 'New York',
+        'state_code'   => 'NY',
+        'country'      => 'United States',
+        'country_code' => 'US'
+      }
+    ]
+  )
+
+Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes.
+
+
 == Command Line Interface
 
 When you install the Geocoder gem it adds a +geocode+ command to your shell. You can search for a street address, IP address, postal code, coordinates, etc just like you can with the Geocoder.search method for example:
