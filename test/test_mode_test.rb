@@ -5,6 +5,7 @@ class TestModeTest < Test::Unit::TestCase
 
   def setup
     @_original_lookup = Geocoder::Configuration.lookup
+    Geocoder::Configuration.lookup = :test
   end
 
   def teardown
@@ -13,17 +14,17 @@ class TestModeTest < Test::Unit::TestCase
   end
 
   def test_search_with_known_stub
-    Geocoder::Configuration.lookup = :test
+    coordinates = [40.7143528, -74.0059731]
     attributes = {
-      'latitude'   => 40.7143528,
-      'longitude'  => -74.0059731,
-      'address'    => 'New York, NY, USA',
-      'state'      => 'New York',
-      'state_code' => 'NY',
-      'country'    => 'United States',
+      'coordinates'  => coordinates,
+      'latitude'     => coordinates[0],
+      'longitude'    => coordinates[1],
+      'address'      => 'New York, NY, USA',
+      'state'        => 'New York',
+      'state_code'   => 'NY',
+      'country'      => 'United States',
       'country_code' => 'US',
     }
-    coordinates = [attributes['latitude'], attributes['longitude']]
 
     Geocoder::Lookup::Test.add_stub("New York, NY", [attributes])
 
@@ -42,8 +43,6 @@ class TestModeTest < Test::Unit::TestCase
   end
 
   def test_search_with_unknown_stub
-    Geocoder::Configuration.lookup = :test
-
     assert_raise ArgumentError do
       Geocoder.search("New York, NY")
     end

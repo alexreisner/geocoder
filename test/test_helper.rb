@@ -281,6 +281,10 @@ class Test::Unit::TestCase
     Geocoder.valid_lookups
   end
 
+  def all_lookups_except_test
+    Geocoder.valid_lookups - [:test]
+  end
+
   def street_lookups
     all_lookups - [:freegeoip]
   end

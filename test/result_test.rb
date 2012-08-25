@@ -4,7 +4,7 @@ require 'test_helper'
 class ResultTest < Test::Unit::TestCase
 
   def test_result_has_required_attributes
-    all_lookups.each do |l|
+    all_lookups_except_test.each do |l|
       Geocoder::Configuration.lookup = l
       result = Geocoder.search([45.423733, -75.676333]).first
       assert_result_has_required_attributes(result)
