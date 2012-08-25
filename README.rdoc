@@ -532,6 +532,12 @@ By default Geocoder will rescue any exceptions raised by calls to the geocoding 
 
   Geocoder::Configuration.always_raise = [SocketError, TimeoutError]
 
+You can also do this to raise all exceptions:
+
+  Geocoder::Configuration.always_raise = :all
+
+See <tt>lib/geocoder/exceptions.rb</tt> for a list of raise-able exceptions.
+
 
 == Known Issue
 
