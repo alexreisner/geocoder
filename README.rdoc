@@ -357,7 +357,7 @@ Documentation:: http://www.mapquestapi.com/geocoding/
 Terms of Service:: http://info.mapquest.com/terms-of-use/
 Limitations:: ?
 
-==== FreeGeoIP
+==== FreeGeoIP (<tt>:freegeoip</tt>)
 
 API key:: none
 Quota:: 1000 requests per hour.  After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
