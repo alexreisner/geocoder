@@ -2,6 +2,19 @@
 
 Per-release changes to Geocoder.
 
+== 1.1.3 (2012 Aug 26)
+
+* Add support for Mapquest geocoding service (thanks github.com/razorinc).
+* Add :test lookup for easy testing of apps using Geocoder (thanks github.com/mguterl).
+* Add #precision method to Yandex results (thanks github.com/gemaker).
+* Add support for raising :all exceptions (thanks github.com/andyvb).
+* Add exceptions for certain Google geocoder responses (thanks github.com/andyvb).
+* Add Travis-CI integration (thanks github.com/petergoldstein).
+* Fix: unit config was not working with SQLite (thanks github.com/balvig).
+* Fix: get tests to pass under Jruby (thanks github.com/petergoldstein).
+* Fix: bug in distance_from_sql method (error occurred when coordinates not found).
+* Fix: incompatibility with Mongoid 3.0.x (thanks github.com/petergoldstein).
+
 == 1.1.2 (2012 May 24)
 
 * Add ability to specify default units and distance calculation method (thanks github.com/abravalheri).
