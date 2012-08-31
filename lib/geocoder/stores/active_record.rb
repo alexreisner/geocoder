@@ -247,16 +247,23 @@ module Geocoder::Store
         }
       end
 
+      # AND two conditions together. The given conditions MUST be an array.
+      def and_conditions(c1, c2)
+        c1[0] << " AND " + c2[0]
+        c1 += c2[1..-1]
+        c1
+      end
+
       ##
       # Adds a condition to exclude a given object by ID.
       # The given conditions MUST be an array.
       #
       def add_exclude_condition(conditions, exclude)
         if exclude
-          conditions[0] << " AND #{full_column_name(:id)} != ?"
-          conditions << exclude.id
+          and_conditions(conditions, ["#{full_column_name(:id)} != ?", exclude.id])
+        else
+          conditions
         end
-        conditions
       end
 
       def using_sqlite?
