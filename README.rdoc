@@ -328,11 +328,11 @@ Limitations:: Please limit request rate to 1 per second and include your contact
 
 API key:: none
 Quota:: 25000 requests / day
-Region:: Russia
+Region:: world
 SSL support:: no
-Languages:: Russian, Belarusian, and Ukrainian
-Documentation:: http://api.yandex.ru/maps/geocoder/doc/desc/concepts/response_structure.xml
-Terms of Service:: http://api.yandex.com/direct/eula.xml?ncrnd=8453
+Languages:: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
+Documentation:: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
+Terms of Service:: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
 Limitations:: ?
 
 ==== Geocoder.ca (<tt>:geocoder_ca</tt>)
