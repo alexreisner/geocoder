@@ -185,6 +185,16 @@ module Geocoder::Store
           "(#{dx} * ABS(#{full_column_name(lon_attr)} - #{longitude}) * #{factor})"
       end
 
+      def bounding_box_sql_condition(latitude, longitude, radius, options)
+        lat_attr = geocoder_options[:latitude]
+        lon_attr = geocoder_options[:longitude]
+        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+        [
+          "#{full_column_name(lat_attr)} BETWEEN ? AND ? AND #{full_column_name(lon_attr)} BETWEEN ? AND ?",
+          b[0], b[2], b[1], b[3]
+        ]
+      end
+
       ##
       # Scope options hash for use with a database without trigonometric
       # functions, like SQLite. Approach is to find objects within a square
@@ -216,16 +226,13 @@ module Geocoder::Store
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         distance = approx_distance_from_sql(latitude, longitude, options)
 
-        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-        conditions = [
-          "#{full_column_name(lat_attr)} BETWEEN ? AND ? AND #{full_column_name(lon_attr)} BETWEEN ? AND ?"] +
-          [b[0], b[2], b[1], b[3]
-        ]
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || full_column_name("*")}, " +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
-          :conditions => add_exclude_condition(conditions, options[:exclude])
+          :conditions => add_exclude_condition(
+            bounding_box_sql_condition(latitude, longitude, radius, options),
+            options[:exclude])
         )
       end
 
