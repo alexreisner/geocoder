@@ -146,7 +146,9 @@ module Geocoder::Store
         end
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         distance = full_distance_from_sql(latitude, longitude, options)
-        conditions = ["#{distance} <= ?", radius]
+        conditions = and_conditions(
+          bounding_box_sql_condition(latitude, longitude, radius, options),
+          ["#{distance} <= ?", radius])
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => "#{options[:select] || full_column_name("*")}, " +
             "#{distance} AS distance" +
