@@ -8,9 +8,9 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def query_url(query, reverse = false)
+    def query_url(query)
       params = {
-        (reverse ? :latlng : :address) => query,
+        (query.reverse_geocode? ? :latlng : :address) => query.sanitized_text,
         :sensor => 'false',
         :language => Geocoder::Configuration.language,
         :client => Geocoder::Configuration.api_key[1],

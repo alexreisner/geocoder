@@ -185,4 +185,11 @@ class CalculationsTest < Test::Unit::TestCase
     assert !Geocoder::Calculations.coordinates_present?(Geocoder::Calculations::NAN)
     assert !Geocoder::Calculations.coordinates_present?(3.23, nil)
   end
+
+  def test_extract_coordinates
+    coords = [-23,47]
+    l = Landmark.new("Madagascar", coords[0], coords[1])
+    assert_equal coords, Geocoder::Calculations.extract_coordinates(l)
+    assert_equal coords, Geocoder::Calculations.extract_coordinates(coords)
+  end
 end

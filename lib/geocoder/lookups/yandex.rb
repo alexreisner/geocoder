@@ -10,8 +10,8 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query)
+      return [] unless doc = fetch_data(query)
       if err = doc['error']
         warn "Yandex Geocoding API error: #{err['status']} (#{err['message']})."
         return []
@@ -25,10 +25,14 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query, reverse = false)
-      query = query.split(",").reverse.join(",") if reverse
+    def query_url(query)
+      if query.reverse_geocode?
+        q = query.coordinates.reverse.join(",")
+      else
+        q = query.sanitized_text
+      end
       params = {
-        :geocode => query,
+        :geocode => q,
         :format => "json",
         :plng => "#{Geocoder::Configuration.language}", # supports ru, uk, be
         :key => Geocoder::Configuration.api_key

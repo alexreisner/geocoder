@@ -6,26 +6,26 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query)
+      return [] unless doc = fetch_data(query)
       doc.is_a?(Array) ? doc : [doc]
     end
 
-    def query_url(query, reverse = false)
+    def query_url(query)
       params = {
         :format => "json",
         :polygon => "1",
         :addressdetails => "1",
         :"accept-language" => Geocoder::Configuration.language
       }
-      if (reverse)
+      if (query.reverse_geocode?)
         method = 'reverse'
-        parts = query.split(/\s*,\s*/);
-        params[:lat] = parts[0]
-        params[:lon] = parts[1]
+        lat,lon = query.coordinates
+        params[:lat] = lat
+        params[:lon] = lon
       else
         method = 'search'
-        params[:q] = query
+        params[:q] = query.sanitized_text
       end
       "http://open.mapquestapi.com/#{method}?" + hash_to_query(params)
     end

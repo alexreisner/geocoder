@@ -10,8 +10,8 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query)
+      return [] unless doc = fetch_data(query)
       if doc = doc['ResultSet'] and doc['Error'] == 0
         return doc['Found'] > 0 ? doc['Results'] : []
       else
@@ -20,11 +20,11 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query, reverse = false)
+    def query_url(query)
       params = {
-        :location => query,
+        :location => query.sanitized_text,
         :flags => "JXTSR",
-        :gflags => "AC#{'R' if reverse}",
+        :gflags => "AC#{'R' if query.reverse_geocode?}",
         :locale => "#{Geocoder::Configuration.language}_US",
         :appid => Geocoder::Configuration.api_key
       }

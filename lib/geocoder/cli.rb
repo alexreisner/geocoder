@@ -32,8 +32,8 @@ module Geocoder
           Geocoder::Configuration.http_proxy = proxy
         end
 
-        opts.on("-s <service>", Geocoder.valid_lookups_except_test, "--service <service>",
-          "Geocoding service: #{Geocoder.valid_lookups_except_test * ', '}") do |service|
+        opts.on("-s <service>", Geocoder::Lookup.all_services_except_test, "--service <service>",
+          "Geocoding service: #{Geocoder::Lookup.all_services_except_test * ', '}") do |service|
           Geocoder::Configuration.lookup = service.to_sym
           Geocoder::Configuration.ip_lookup = service.to_sym
         end
@@ -93,7 +93,7 @@ module Geocoder
       end
 
       if (result = Geocoder.search(query).first)
-        lookup = Geocoder.send(:get_lookup, :google)
+        lookup = Geocoder::Lookup.get(:google)
         lines = [
           ["Latitude",       result.latitude],
           ["Longitude",      result.longitude],
