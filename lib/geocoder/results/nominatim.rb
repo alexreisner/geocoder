@@ -5,8 +5,9 @@ module Geocoder::Result
 
     def poi
       %w[stadium bus_stop tram_stop].each do |key|
-        @data['address'][key] if @data['address'].key?(key)
+        return @data['address'][key] if @data['address'].key?(key)
       end
+      return nil
     end
 
     def house_number
