@@ -18,13 +18,13 @@ module Geocoder::Lookup
       return []
     end
 
-    def query_url(query)
-      params = {
+    def query_url_params(query)
+      params = super.merge(
         :geoit    => "xml",
         :jsonp    => 1,
         :callback => "test",
         :auth     => Geocoder::Configuration.api_key
-      }
+      )
       if query.reverse_geocode?
         lat,lon = query.coordinates
         params[:latt] = lat
@@ -35,7 +35,11 @@ module Geocoder::Lookup
         params[:locate] = query.sanitized_text
         params[:showpostal] = 1
       end
-      "http://geocoder.ca/?" + hash_to_query(params)
+      params
+    end
+
+    def query_url(query)
+      "http://geocoder.ca/?" + url_query_string(query)
     end
 
     def parse_raw_data(raw_data)

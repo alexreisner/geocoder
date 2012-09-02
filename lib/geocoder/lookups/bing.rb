@@ -21,13 +21,17 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query)
-      params = {:key => Geocoder::Configuration.api_key}
-      params[:query] = query.sanitized_text unless query.reverse_geocode?
+    def query_url_params(query)
+      super.merge(
+        :key => Geocoder::Configuration.api_key,
+        :query => query.reverse_geocode? ? nil : query.sanitized_text
+      )
+    end
 
-      base_url = "http://dev.virtualearth.net/REST/v1/Locations"
-      url_tail = query.reverse_geocode? ? "/#{query.sanitized_text}?" : "?"
-      base_url + url_tail + hash_to_query(params)
+    def query_url(query)
+      "http://dev.virtualearth.net/REST/v1/Locations" +
+        (query.reverse_geocode? ? "/#{query.sanitized_text}?" : "?") +
+        url_query_string(query)
     end
   end
 end

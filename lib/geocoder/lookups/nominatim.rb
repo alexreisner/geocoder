@@ -16,12 +16,12 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      params = {
+      params = super.merge(
         :format => "json",
         :polygon => "1",
         :addressdetails => "1",
         :"accept-language" => Geocoder::Configuration.language
-      }
+      )
       if query.reverse_geocode?
         lat,lon = query.coordinates
         params[:lat] = lat
@@ -33,9 +33,8 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      params = query_url_params(query)
       method = query.reverse_geocode? ? "reverse" : "search"
-      "http://nominatim.openstreetmap.org/#{method}?" + hash_to_query(params)
+      "http://nominatim.openstreetmap.org/#{method}?" + url_query_string(query)
     end
   end
 end

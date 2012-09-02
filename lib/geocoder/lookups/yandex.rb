@@ -25,19 +25,22 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query)
+    def query_url_params(query)
       if query.reverse_geocode?
         q = query.coordinates.reverse.join(",")
       else
         q = query.sanitized_text
       end
-      params = {
+      super.merge(
         :geocode => q,
         :format => "json",
         :plng => "#{Geocoder::Configuration.language}", # supports ru, uk, be
         :key => Geocoder::Configuration.api_key
-      }
-      "http://geocode-maps.yandex.ru/1.x/?" + hash_to_query(params)
+      )
+    end
+
+    def query_url(query)
+      "http://geocode-maps.yandex.ru/1.x/?" + url_query_string(query)
     end
   end
 end

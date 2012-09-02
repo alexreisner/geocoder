@@ -20,15 +20,18 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query)
-      params = {
+    def query_url_params(query)
+      super.merge(
         :location => query.sanitized_text,
         :flags => "JXTSR",
         :gflags => "AC#{'R' if query.reverse_geocode?}",
         :locale => "#{Geocoder::Configuration.language}_US",
         :appid => Geocoder::Configuration.api_key
-      }
-      "http://where.yahooapis.com/geocode?" + hash_to_query(params)
+      )
+    end
+
+    def query_url(query)
+      "http://where.yahooapis.com/geocode?" + url_query_string(query)
     end
   end
 end

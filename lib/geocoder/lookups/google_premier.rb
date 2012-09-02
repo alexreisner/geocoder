@@ -8,12 +8,16 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def query_url(query)
-      params = query_url_base_params(query).merge(
+    def query_url_params(query)
+      super.merge(query_url_google_params(query)).merge(
+        :key => nil, # don't use param inherited from Google lookup
         :client => Geocoder::Configuration.api_key[1],
         :channel => Geocoder::Configuration.api_key[2]
-      ).reject{ |key, value| value.nil? }
-      path = "/maps/api/geocode/json?#{hash_to_query(params)}"
+      )
+    end
+
+    def query_url(query)
+      path = "/maps/api/geocode/json?" + url_query_string(query)
       "#{protocol}://maps.googleapis.com#{path}&signature=#{sign(path)}"
     end
 

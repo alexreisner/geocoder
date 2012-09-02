@@ -8,9 +8,8 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def query_url(query)
-      params = query_url_params(query)
       method = query.reverse_geocode? ? "reverse" : "search"
-      "http://open.mapquestapi.com/#{method}?" + hash_to_query(params)
+      "http://open.mapquestapi.com/#{method}?" + url_query_string(query)
     end
   end
 end

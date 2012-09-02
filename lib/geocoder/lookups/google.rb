@@ -27,7 +27,7 @@ module Geocoder::Lookup
       return []
     end
 
-    def query_url_base_params(query)
+    def query_url_google_params(query)
       params = {
         (query.reverse_geocode? ? :latlng : :address) => query.sanitized_text,
         :sensor => "false",
@@ -39,11 +39,14 @@ module Geocoder::Lookup
       params
     end
 
-    def query_url(query)
-      params = query_url_base_params(query).merge(
+    def query_url_params(query)
+      super.merge(query_url_google_params(query)).merge(
         :key => Geocoder::Configuration.api_key
-      ).reject{ |key, value| value.nil? }
-      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(params)
+      )
+    end
+
+    def query_url(query)
+      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query)
     end
   end
 end
