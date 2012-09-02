@@ -163,7 +163,7 @@ module Geocoder
       end
     end
 
-    class Mapquest < Base
+    class Mapquest < Nominatim
       private #-----------------------------------------------------------------
       def fetch_raw_data(query)
         raise TimeoutError if query.text == "timeout"
