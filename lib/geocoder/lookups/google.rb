@@ -27,13 +27,22 @@ module Geocoder::Lookup
       return []
     end
 
-    def query_url(query)
+    def query_url_base_params(query)
       params = {
         (query.reverse_geocode? ? :latlng : :address) => query.sanitized_text,
         :sensor => "false",
-        :language => Geocoder::Configuration.language,
-        :key => Geocoder::Configuration.api_key
+        :language => Geocoder::Configuration.language
       }
+      unless (bounds = query.options[:bounds]).nil?
+        params[:bounds] = bounds.map{ |point| "%f,%f" % point }.join('|')
+      end
+      params
+    end
+
+    def query_url(query)
+      params = query_url_base_params(query).merge(
+        :key => Geocoder::Configuration.api_key
+      ).reject{ |key, value| value.nil? }
       "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(params)
     end
   end

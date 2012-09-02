@@ -9,13 +9,10 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def query_url(query)
-      params = {
-        (query.reverse_geocode? ? :latlng : :address) => query.sanitized_text,
-        :sensor => 'false',
-        :language => Geocoder::Configuration.language,
+      params = query_url_base_params(query).merge(
         :client => Geocoder::Configuration.api_key[1],
         :channel => Geocoder::Configuration.api_key[2]
-      }.reject{ |key, value| value.nil? }
+      ).reject{ |key, value| value.nil? }
       path = "/maps/api/geocode/json?#{hash_to_query(params)}"
       "#{protocol}://maps.googleapis.com#{path}&signature=#{sign(path)}"
     end
