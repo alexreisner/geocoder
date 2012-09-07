@@ -20,7 +20,7 @@ Add to your Gemfile:
   gem "geocoder"
 
 and run at the command prompt:
-/
+
   bundle install
 
 === Or As a Plugin
