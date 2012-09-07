@@ -5,12 +5,14 @@ module Geocoder
   module Lookup
     class Test < Base
 
-      def self.add_stub(query, results)
-        stubs[query] = results
+      def self.add_stub(query_text, results)
+        stubs[query_text] = results
       end
 
-      def self.read_stub(query)
-        stubs.fetch(query) { raise ArgumentError, "unknown stub request #{query}" }
+      def self.read_stub(query_text)
+        stubs.fetch(query_text) {
+          raise ArgumentError, "unknown stub request #{query_text}"
+        }
       end
 
       def self.stubs
@@ -23,8 +25,8 @@ module Geocoder
 
       private
 
-      def results(query, reverse = false)
-        Geocoder::Lookup::Test.read_stub(query)
+      def results(query)
+        Geocoder::Lookup::Test.read_stub(query.text)
       end
 
     end

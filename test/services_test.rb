@@ -4,6 +4,18 @@ require 'test_helper'
 class ServicesTest < Test::Unit::TestCase
 
 
+  def test_query_url_contains_values_in_params_hash
+    Geocoder::Lookup.all_services_except_test.each do |l|
+      next if l == :google_premier # TODO: need to set keys to test
+      next if l == :freegeoip # does not use query string
+      url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
+        "test", :params => {:one_in_the_hand => "two in the bush"}
+      ))
+      assert_match /one_in_the_hand=two\+in\+the\+bush/, url,
+        "Lookup #{l} does not appear to support arbitrary params in URL"
+    end
+  end
+
   # --- Google ---
 
   def test_google_result_components
@@ -28,6 +40,14 @@ class ServicesTest < Test::Unit::TestCase
       result.precision
   end
 
+  def test_google_query_url_contains_bounds
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.send(:query_url, Geocoder::Query.new(
+      "Some Intersection",
+      :bounds => [[40.0, -120.0], [39.0, -121.0]]
+    ))
+    assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
+  end
 
   # --- Google Premier ---
 
@@ -41,7 +61,7 @@ class ServicesTest < Test::Unit::TestCase
   def test_google_premier_query_url
     Geocoder::Configuration.api_key = ["deadbeef", "gme-test", "test-dev"]
     assert_equal "http://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&channel=test-dev&client=gme-test&language=en&sensor=false&signature=doJvJqX7YJzgV9rJ0DnVkTGZqTg=",
-      Geocoder::Lookup::GooglePremier.new.send(:query_url, "Madison Square Garden, New York, NY", false)
+      Geocoder::Lookup::GooglePremier.new.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY"))
   end
 
 

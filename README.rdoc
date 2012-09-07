@@ -269,7 +269,10 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and street 
 
   end
 
-Please see lib/geocoder/configuration.rb for a complete list of configuration options.
+Please see lib/geocoder/configuration.rb for a complete list of configuration options. Additionally, some lookups have their own configuration options which are listed in the comparison chart below, and as of version 1.2.0 you can pass arbitrary parameters to any geocoding service. For example, to use Nominatim's <tt>countrycodes</tt> parameter:
+
+  Geocoder::Configuration.lookup = :nominatim
+  Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
 
 
 === Listing and Comparison
@@ -284,6 +287,7 @@ Quota:: 2,500 requests/day, 100,000 with Google Maps API Premier
 Region:: world
 SSL support:: yes
 Languages:: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+Extra options:: <tt>:bounds</tt> - pass SW and NE coordinates as an array of two arrays to bias results towards a viewport
 Documentation:: http://code.google.com/apis/maps/documentation/geocoding/#JSON
 Terms of Service:: http://code.google.com/apis/maps/terms.html#section_10_12
 Limitations:: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
@@ -357,7 +361,7 @@ Documentation:: http://www.mapquestapi.com/geocoding/
 Terms of Service:: http://info.mapquest.com/terms-of-use/
 Limitations:: ?
 
-==== FreeGeoIP
+==== FreeGeoIP (<tt>:freegeoip</tt>)
 
 API key:: none
 Quota:: 1000 requests per hour.  After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.

@@ -60,10 +60,10 @@ module Geocoder
 
     class Google < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        file = case query
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
           when "no results";   :no_results
           when "no locality";  :no_locality
           when "no city data"; :no_city_data
@@ -78,10 +78,10 @@ module Geocoder
 
     class Yahoo < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        file = case query
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
           when "no results";  :no_results
           else                :madison_square_garden
         end
@@ -91,10 +91,10 @@ module Geocoder
 
     class Yandex < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        file = case query
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
           when "no results";  :no_results
           when "invalid key"; :invalid_key
           else                :kremlin
@@ -105,13 +105,13 @@ module Geocoder
 
     class GeocoderCa < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        if reverse
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        if query.reverse_geocode?
           read_fixture "geocoder_ca_reverse.json"
         else
-          file = case query
+          file = case query.text
             when "no results";  :no_results
             else                :madison_square_garden
           end
@@ -122,10 +122,10 @@ module Geocoder
 
     class Freegeoip < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        file = case query
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
           when "no results";  :no_results
           else                "74_200_247_59"
         end
@@ -135,13 +135,13 @@ module Geocoder
 
     class Bing < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        if reverse
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        if query.reverse_geocode?
           read_fixture "bing_reverse.json"
         else
-          file = case query
+          file = case query.text
             when "no results";  :no_results
             else                :madison_square_garden
           end
@@ -152,10 +152,10 @@ module Geocoder
 
     class Nominatim < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        file = case query
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
           when "no results";  :no_results
           else                :madison_square_garden
         end
@@ -163,12 +163,12 @@ module Geocoder
       end
     end
 
-    class Mapquest < Base
+    class Mapquest < Nominatim
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        file = case query
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
           when "no results";  :no_results
           else                :madison_square_garden
         end
@@ -275,18 +275,6 @@ class Test::Unit::TestCase
     {
       :msg => ["Madison Square Garden", 40.750354, -73.993371]
     }[abbrev]
-  end
-
-  def all_lookups
-    Geocoder.valid_lookups
-  end
-
-  def all_lookups_except_test
-    Geocoder.valid_lookups - [:test]
-  end
-
-  def street_lookups
-    all_lookups - [:freegeoip]
   end
 
   def is_nan_coordinates?(coordinates)

@@ -13,6 +13,7 @@ end
 
 module Geocoder
   module Lookup
+
     class Base
 
       ##
@@ -23,18 +24,9 @@ module Geocoder
       # "205.128.54.202") for geocoding, or coordinates (latitude, longitude)
       # for reverse geocoding. Returns an array of <tt>Geocoder::Result</tt>s.
       #
-      def search(query)
-
-        # if coordinates given as string, turn into array
-        query = query.split(/\s*,\s*/) if coordinates?(query)
-
-        if query.is_a?(Array)
-          reverse = true
-          query = query.join(',')
-        else
-          reverse = false
-        end
-        results(query, reverse).map{ |r| 
+      def search(query, options = {})
+        query = Geocoder::Query.new(query, options) unless query.is_a?(Geocoder::Query)
+        results(query).map{ |r|
           result = result_class.new(r)
           result.cache_hit = @cache_hit if cache
           result
@@ -77,14 +69,24 @@ module Geocoder
       ##
       # Geocoder::Result object or nil on timeout or other error.
       #
-      def results(query, reverse = false)
+      def results(query)
         fail
+      end
+
+      def query_url_params(query)
+        query.options[:params] || {}
+      end
+
+      def url_query_string(query)
+        hash_to_query(
+          query_url_params(query).reject{ |key,value| value.nil? }
+        )
       end
 
       ##
       # URL to use for querying the geocoding engine.
       #
-      def query_url(query, reverse = false)
+      def query_url(query)
         fail
       end
 
@@ -111,8 +113,8 @@ module Geocoder
       ##
       # Returns a parsed search result (Ruby hash).
       #
-      def fetch_data(query, reverse = false)
-        parse_raw_data fetch_raw_data(query, reverse)
+      def fetch_data(query)
+        parse_raw_data fetch_raw_data(query)
       rescue SocketError => err
         raise_error(err) or warn "Geocoding API connection cannot be established."
       rescue TimeoutError => err
@@ -144,9 +146,9 @@ module Geocoder
       ##
       # Fetches a raw search result (JSON string).
       #
-      def fetch_raw_data(query, reverse = false)
+      def fetch_raw_data(query)
         timeout(Geocoder::Configuration.timeout) do
-          url = query_url(query, reverse)
+          url = query_url(query)
           uri = URI.parse(url)
           if cache and body = cache[url]
             @cache_hit = true
@@ -169,20 +171,6 @@ module Geocoder
       #
       def cache
         Geocoder.cache
-      end
-
-      ##
-      # Is the given string a loopback IP address?
-      #
-      def loopback_address?(ip)
-        !!(ip == "0.0.0.0" or ip.to_s.match(/^127/))
-      end
-
-      ##
-      # Does the given string look like latitude/longitude coordinates?
-      #
-      def coordinates?(value)
-        value.is_a?(String) and !!value.to_s.match(/^-?[0-9\.]+, *-?[0-9\.]+$/)
       end
 
       ##

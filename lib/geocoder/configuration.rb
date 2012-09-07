@@ -40,6 +40,7 @@ module Geocoder
     OPTIONS = [
       :timeout,
       :lookup,
+      :ip_lookup,
       :language,
       :http_headers,
       :use_https,
@@ -61,7 +62,8 @@ module Geocoder
 
     def set_defaults
       @timeout      = 3           # geocoding service timeout (secs)
-      @lookup       = :google     # name of geocoding service (symbol)
+      @lookup       = :google     # name of street address geocoding service (symbol)
+      @ip_lookup    = :freegeoip  # name of IP address geocoding service (symbol)
       @language     = :en         # ISO-639 language code
       @http_headers = {}          # HTTP headers for lookup
       @use_https    = false       # use HTTPS for lookup requests? (if supported)

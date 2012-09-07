@@ -10,7 +10,7 @@ class ErrorHandlingTest < Test::Unit::TestCase
   def test_does_not_choke_on_timeout
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
-    all_lookups_except_test.each do |l|
+    Geocoder::Lookup.all_services_except_test.each do |l|
       Geocoder::Configuration.lookup = l
       assert_nothing_raised { Geocoder.search("timeout") }
     end
@@ -19,20 +19,20 @@ class ErrorHandlingTest < Test::Unit::TestCase
 
   def test_always_raise_timeout_error
     Geocoder::Configuration.always_raise = [TimeoutError]
-    all_lookups_except_test.each do |l|
-      lookup = Geocoder.send(:get_lookup, l)
+    Geocoder::Lookup.all_services_except_test.each do |l|
+      lookup = Geocoder::Lookup.get(l)
       assert_raises TimeoutError do
-        lookup.send(:results, "timeout")
+        lookup.send(:results, Geocoder::Query.new("timeout"))
       end
     end
   end
 
   def test_always_raise_socket_error
     Geocoder::Configuration.always_raise = [SocketError]
-    all_lookups_except_test.each do |l|
-      lookup = Geocoder.send(:get_lookup, l)
+    Geocoder::Lookup.all_services_except_test.each do |l|
+      lookup = Geocoder::Lookup.get(l)
       assert_raises SocketError do
-        lookup.send(:results, "socket_error")
+        lookup.send(:results, Geocoder::Query.new("socket_error"))
       end
     end
   end

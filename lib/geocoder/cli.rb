@@ -32,9 +32,10 @@ module Geocoder
           Geocoder::Configuration.http_proxy = proxy
         end
 
-        opts.on("-s <service>", Geocoder.street_lookups, "--service <service>",
-          "Geocoding service: #{Geocoder.street_lookups * ', '}") do |service|
+        opts.on("-s <service>", Geocoder::Lookup.all_services_except_test, "--service <service>",
+          "Geocoding service: #{Geocoder::Lookup.all_services_except_test * ', '}") do |service|
           Geocoder::Configuration.lookup = service.to_sym
+          Geocoder::Configuration.ip_lookup = service.to_sym
         end
 
         opts.on("-t <seconds>", "--timeout <seconds>",
@@ -92,7 +93,7 @@ module Geocoder
       end
 
       if (result = Geocoder.search(query).first)
-        lookup = Geocoder.send(:get_lookup, :google)
+        lookup = Geocoder::Lookup.get(:google)
         lines = [
           ["Latitude",       result.latitude],
           ["Longitude",      result.longitude],

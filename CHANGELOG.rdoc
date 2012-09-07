@@ -2,6 +2,12 @@
 
 Per-release changes to Geocoder.
 
+== 1.2.0 (???)
+
+* Add support for setting arbitrary params in geocoding request URL.
+* Add support for Google's :bounds parameter (thanks to github.com/rosscooperman and github.com/peterjm for submitting suggestions).
+* Code refactoring and cleanup (most notably, added Geocoder::Query class).
+
 == 1.1.3 (2012 Aug 26)
 
 * Add support for Mapquest geocoding service (thanks github.com/razorinc).
