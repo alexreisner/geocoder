@@ -20,7 +20,7 @@ Add to your Gemfile:
   gem "geocoder"
 
 and run at the command prompt:
-
+/
   bundle install
 
 === Or As a Plugin
@@ -208,11 +208,11 @@ When querying for objects (if you're using ActiveRecord) you can also look withi
   distance = 20
   center_point = [40.71, 100.23]
   box = Geocoder::Calculations.bounding_box(center_point, distance)
-  Venue.within_bounding_box(box, distance)
+  Venue.within_bounding_box(box)
 
 This can also dramatically improve query performance, especially when used in conjunction with indexes on the latitude/longitude columns. Note, however, that returned results do not include +distance+ and +bearing+ attributes. If you want to improve performance AND have access to distance and bearing info, use both scopes:
 
-  Venue.near(center_point, distance).within_bounding_box(box, distance)
+  Venue.near(center_point, distance).within_bounding_box(box)
 
 
 == Advanced Geocoding
