@@ -73,8 +73,6 @@ module Geocoder::Store
         end
       end
 
-      private # ----------------------------------------------------------------
-
       ##
       # Get options hash suitable for passing to ActiveRecord.find to get
       # records within a radius (in kilometers) of the given point.
@@ -100,6 +98,8 @@ module Geocoder::Store
           full_near_scope_options(latitude, longitude, radius, options)
         end
       end
+
+      private # ----------------------------------------------------------------
 
       def distance_from_sql_options(latitude, longitude, options = {})
         if using_sqlite?
@@ -146,7 +146,9 @@ module Geocoder::Store
         end
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         distance = full_distance_from_sql(latitude, longitude, options)
-        conditions = ["#{distance} <= ?", radius]
+        conditions = and_conditions(
+          bounding_box_sql_condition(latitude, longitude, radius, options),
+          ["#{distance} <= ?", radius])
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => select_addon(options) +
             "#{distance} AS distance" +
@@ -185,6 +187,16 @@ module Geocoder::Store
           "(#{dx} * ABS(#{full_column_name(lon_attr)} - #{longitude}) * #{factor})"
       end
 
+      def bounding_box_sql_condition(latitude, longitude, radius, options)
+        lat_attr = geocoder_options[:latitude]
+        lon_attr = geocoder_options[:longitude]
+        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+        [
+          "#{full_column_name(lat_attr)} BETWEEN ? AND ? AND #{full_column_name(lon_attr)} BETWEEN ? AND ?",
+          b[0], b[2], b[1], b[3]
+        ]
+      end
+
       ##
       # Scope options hash for use with a database without trigonometric
       # functions, like SQLite. Approach is to find objects within a square
@@ -216,16 +228,13 @@ module Geocoder::Store
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         distance = approx_distance_from_sql(latitude, longitude, options)
 
-        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-        conditions = [
-          "#{full_column_name(lat_attr)} BETWEEN ? AND ? AND #{full_column_name(lon_attr)} BETWEEN ? AND ?"] +
-          [b[0], b[2], b[1], b[3]
-        ]
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => select_addon(options) +
             "#{distance} AS distance" +
             (bearing ? ", #{bearing} AS bearing" : ""),
-          :conditions => add_exclude_condition(conditions, options[:exclude])
+          :conditions => add_exclude_condition(
+            bounding_box_sql_condition(latitude, longitude, radius, options),
+            options[:exclude])
         )
       end
 
@@ -247,16 +256,23 @@ module Geocoder::Store
         }
       end
 
+      # AND two conditions together. The given conditions MUST be an array.
+      def and_conditions(c1, c2)
+        c1[0] << " AND " + c2[0]
+        c1 += c2[1..-1]
+        c1
+      end
+
       ##
       # Adds a condition to exclude a given object by ID.
       # The given conditions MUST be an array.
       #
       def add_exclude_condition(conditions, exclude)
         if exclude
-          conditions[0] << " AND #{full_column_name(:id)} != ?"
-          conditions << exclude.id
+          and_conditions(conditions, ["#{full_column_name(:id)} != ?", exclude.id])
+        else
+          conditions
         end
-        conditions
       end
 
       def using_sqlite?
