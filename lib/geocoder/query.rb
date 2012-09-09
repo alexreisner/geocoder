@@ -37,10 +37,14 @@ module Geocoder
     end
 
     ##
-    # Is the Query text blank? (ie, should we not bother searching?)
+    # Is the Query blank? (ie, should we not bother searching?)
+    # A query is considered blank if its text is nil or empty string AND
+    # no URL parameters are specified.
     #
     def blank?
-      !!text.to_s.match(/^\s*$/)
+      !!text.to_s.match(/^\s*$/) and (
+        !options[:params].is_a?(Hash) or options[:params].keys.size == 0
+      )
     end
 
     ##

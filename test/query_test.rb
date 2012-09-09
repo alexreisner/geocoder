@@ -18,6 +18,9 @@ class QueryTest < Test::Unit::TestCase
     assert Geocoder::Query.new("\t  ").blank?
     assert !Geocoder::Query.new("a").blank?
     assert !Geocoder::Query.new("Москва").blank? # no ASCII characters
+
+    assert Geocoder::Query.new(nil, :params => {}).blank?
+    assert !Geocoder::Query.new(nil, :params => {:woeid => 1234567}).blank?
   end
 
   def test_coordinates_detection
