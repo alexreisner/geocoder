@@ -25,8 +25,8 @@ module Geocoder::Lookup
         :location => query.sanitized_text,
         :flags => "JXTSR",
         :gflags => "AC#{'R' if query.reverse_geocode?}",
-        :locale => "#{Geocoder::Configuration.language}_US",
-        :appid => Geocoder::Configuration.api_key
+        :locale => "#{configuration.language}_US",
+        :appid => configuration.api_key
       )
     end
 

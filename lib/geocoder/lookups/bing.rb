@@ -23,7 +23,7 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       super.merge(
-        :key => Geocoder::Configuration.api_key,
+        :key => configuration.api_key,
         :query => query.reverse_geocode? ? nil : query.sanitized_text
       )
     end

@@ -47,12 +47,19 @@ module Geocoder
       private # -------------------------------------------------------------
 
       ##
+      # An object with configuration data for this particular lookup.
+      #
+      def configuration
+        Geocoder::Configuration
+      end
+
+      ##
       # Object used to make HTTP requests.
       #
       def http_client
-        protocol = "http#{'s' if Geocoder::Configuration.use_https}"
+        protocol = "http#{'s' if configuration.use_https}"
         proxy_name = "#{protocol}_proxy"
-        if proxy = Geocoder::Configuration.send(proxy_name)
+        if proxy = configuration.send(proxy_name)
           proxy_url = protocol + '://' + proxy
           begin
             uri = URI.parse(proxy_url)
@@ -102,7 +109,7 @@ module Geocoder
       # Return false if exception not raised.
       #
       def raise_error(error, message = nil)
-        exceptions = Geocoder::Configuration.always_raise
+        exceptions = configuration.always_raise
         if exceptions == :all or exceptions.include?( error.is_a?(Class) ? error : error.class )
           raise error, message
         else
@@ -140,22 +147,22 @@ module Geocoder
       # Set in configuration but not available for every service.
       #
       def protocol
-        "http" + (Geocoder::Configuration.use_https ? "s" : "")
+        "http" + (configuration.use_https ? "s" : "")
       end
 
       ##
       # Fetches a raw search result (JSON string).
       #
       def fetch_raw_data(query)
-        timeout(Geocoder::Configuration.timeout) do
+        timeout(configuration.timeout) do
           url = query_url(query)
           uri = URI.parse(url)
           if cache and body = cache[url]
             @cache_hit = true
           else
             client = http_client.new(uri.host, uri.port)
-            client.use_ssl = true if Geocoder::Configuration.use_https
-            response = client.get(uri.request_uri, Geocoder::Configuration.http_headers)
+            client.use_ssl = true if configuration.use_https
+            response = client.get(uri.request_uri, configuration.http_headers)
             body = response.body
             if cache and (200..399).include?(response.code.to_i)
               cache[url] = body
