@@ -253,7 +253,7 @@ module Geocoder::Store
       #
       def add_exclude_condition(conditions, exclude)
         if exclude
-          conditions[0] << " AND #{full_column_name(:id)} != ?"
+          conditions[0] << " AND #{full_column_name(primary_key)} != ?"
           conditions << exclude.id
         end
         conditions
