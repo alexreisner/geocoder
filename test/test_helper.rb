@@ -35,6 +35,17 @@ module ActiveRecord
         read_attribute name
       end
     end
+
+    class << self
+      def table_name
+        'test_table_name'
+      end
+
+      def primary_key
+        :id
+      end
+    end
+
   end
 end
 
@@ -190,6 +201,20 @@ class Venue < ActiveRecord::Base
     write_attribute :name, name
     write_attribute :address, address
   end
+end
+
+##
+# Geocoded model.
+# - Has user-defined primary key (not just 'id')
+#
+class VenuePlus < Venue
+
+  class << self
+    def primary_key
+      :custom_primary_key_id
+    end
+  end
+
 end
 
 ##
