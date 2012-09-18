@@ -70,14 +70,25 @@ module Geocoder::Result
       [@data['lat'].to_f, @data['lon'].to_f]
     end
 
+    def place_class
+      @data['class']
+    end
+
     def self.response_attributes
       %w[place_id osm_type osm_id boundingbox license
          polygonpoints display_name class type stadium]
     end
 
+    define_method 'class' do
+      warn "Method 'class' is deprecated. Use 'place_class' instead"
+      @data['class']
+    end
+
     response_attributes.each do |a|
-      define_method a do
-        @data[a]
+      unless method_defined?(a)
+        define_method a do
+          @data[a]
+        end
       end
     end
   end
