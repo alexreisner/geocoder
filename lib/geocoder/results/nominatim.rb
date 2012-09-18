@@ -79,11 +79,6 @@ module Geocoder::Result
          polygonpoints display_name class type stadium]
     end
 
-    define_method 'class' do
-      warn "DEPRECATION WARNING: The 'class' method of Geocoder::Result::Nominatim objects is deprecated and will be removed in Geocoder version 1.2.0. Please use 'place_class' instead."
-      @data['class']
-    end
-
     response_attributes.each do |a|
       unless method_defined?(a)
         define_method a do
