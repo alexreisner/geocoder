@@ -79,21 +79,19 @@ module Geocoder
       end
 
       if show_url
-        lookup = Geocoder.send(:lookup, query)
-        reverse = lookup.send(:coordinates?, query)
-        out << lookup.send(:query_url, query, reverse) + "\n"
+        q = Geocoder::Query.new(query)
+        out << q.lookup.send(:query_url, q) + "\n"
         exit 0
       end
 
       if show_json
-        lookup = Geocoder.send(:lookup, query)
-        reverse = lookup.send(:coordinates?, query)
-        out << lookup.send(:fetch_raw_data, query, reverse) + "\n"
+        q = Geocoder::Query.new(query)
+        out << q.lookup.send(:fetch_raw_data, q) + "\n"
         exit 0
       end
 
       if (result = Geocoder.search(query).first)
-        lookup = Geocoder::Lookup.get(:google)
+        google = Geocoder::Lookup.get(:google)
         lines = [
           ["Latitude",       result.latitude],
           ["Longitude",      result.longitude],
@@ -102,7 +100,7 @@ module Geocoder
           ["State/province", result.state],
           ["Postal code",    result.postal_code],
           ["Country",        result.country],
-          ["Google map",     lookup.map_link_url(result.coordinates)],
+          ["Google map",     google.map_link_url(result.coordinates)],
         ]
         lines.each do |line|
           out << (line[0] + ": ").ljust(18) + line[1].to_s + "\n"
