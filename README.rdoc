@@ -403,6 +403,39 @@ Do *not* include the prefix when passing a URL to be expired. Expiring <tt>:all<
 
 <i>Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service.</i>
 
+If you want to use Redis as a cache store, with values that expire automatically every 24 hours (or any other TTL), you can do this in the initialize :
+
+  class GeocoderAutoexpireCache
+    def initialize(store)
+      @store = store
+      @ttl = 86400
+    end
+
+    def [](url)
+      @store.[](url)
+    end
+
+    def []=(url, value)
+      @store.[]=(url, value)
+      @store.expire(url, @ttl)
+    end
+
+    def keys
+      @store.keys
+    end
+
+    def del(url)
+      @store.del(url)
+    end
+  end
+
+  Geocoder.configure do |config|
+    config.cache = GeocoderAutoexpireCache.new(Redis.new)
+  end
+
+It's a simple delegation to the Redis store, but when it creates a key/value pair, it is also sending an `EXPIRE` command with a `TTL`
+
+It should be fairly simple to do the same thing with `Memcached`.
 
 == Forward and Reverse Geocoding in the Same Model
 
