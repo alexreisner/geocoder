@@ -384,6 +384,7 @@ This example uses Redis, but the cache store can be any object that supports the
 * <tt>store#[](key)</tt>         - retrieves a value
 * <tt>store#[]=(key, value)</tt> - stores a value
 * <tt>store#keys</tt>            - lists all keys
+* <tt>store#del(url)</tt>        - deletes a value
 
 Even a plain Ruby hash will work, though it's not a great choice (cleared out when app is restarted, not shared between app instances, etc).
 
