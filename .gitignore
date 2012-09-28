@@ -3,3 +3,4 @@ rdoc/*
 *.gem
 .bundle
 Gemfile.lock
+tags
