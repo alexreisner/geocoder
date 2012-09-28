@@ -74,14 +74,23 @@ module Geocoder::Result
       @data['class']
     end
 
+    def place_type
+      @data['type']
+    end
+
     def self.response_attributes
       %w[place_id osm_type osm_id boundingbox license
          polygonpoints display_name class type stadium]
     end
 
-    define_method 'class' do
+    def class
       warn "DEPRECATION WARNING: The 'class' method of Geocoder::Result::Nominatim objects is deprecated and will be removed in Geocoder version 1.2.0. Please use 'place_class' instead."
       @data['class']
+    end
+
+    def type
+      warn "DEPRECATION WARNING: The 'type' method of Geocoder::Result::Nominatim objects is deprecated and will be removed in Geocoder version 1.2.0. Please use 'place_type' instead."
+      @data['type']
     end
 
     response_attributes.each do |a|
