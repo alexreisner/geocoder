@@ -289,8 +289,8 @@ module Geocoder::Store
       do_lookup(false) do |o,rs|
         if r = rs.first
           unless r.latitude.nil? or r.longitude.nil?
-            o.send :write_attribute, self.class.geocoder_options[:latitude],  r.latitude
-            o.send :write_attribute, self.class.geocoder_options[:longitude], r.longitude
+            o.__send__  "#{self.class.geocoder_options[:latitude]}=",  r.latitude
+            o.__send__  "#{self.class.geocoder_options[:longitude]}=", r.longitude
           end
           r.coordinates
         end
@@ -307,7 +307,7 @@ module Geocoder::Store
       do_lookup(true) do |o,rs|
         if r = rs.first
           unless r.address.nil?
-            o.send :write_attribute, self.class.geocoder_options[:fetched_address], r.address
+            o.__send__ "#{self.class.geocoder_options[:fetched_address]}=", r.address
           end
           r.address
         end
