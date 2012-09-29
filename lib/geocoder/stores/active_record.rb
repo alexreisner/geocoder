@@ -52,7 +52,8 @@ module Geocoder::Store
           return where(false_condition) unless sw_lat && sw_lng && ne_lat && ne_lng
           spans = "#{geocoder_options[:latitude]} BETWEEN #{sw_lat} AND #{ne_lat} AND "
           spans << if sw_lng > ne_lng   # Handle a box that spans 180
-            "#{geocoder_options[:longitude]} BETWEEN #{sw_lng} AND 180 OR #{geocoder_options[:longitude]} BETWEEN -180 AND #{ne_lng}"
+            "#{geocoder_options[:longitude]} BETWEEN #{sw_lng} AND 180 OR " +
+            "#{geocoder_options[:longitude]} BETWEEN -180 AND #{ne_lng}"
           else
             "#{geocoder_options[:longitude]} BETWEEN #{sw_lng} AND #{ne_lng}"
           end
@@ -133,9 +134,10 @@ module Geocoder::Store
         )
       end
 
-      # Distance calculations based on the excellent tutorial at:
+      ##
+      # Distance calculation based on the excellent tutorial at:
       # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
-
+      #
       def full_distance_from_sql(latitude, longitude, options)
         lat_attr = geocoder_options[:latitude]
         lon_attr = geocoder_options[:longitude]
@@ -145,7 +147,8 @@ module Geocoder::Store
         "#{earth} * 2 * ASIN(SQRT(" +
           "POWER(SIN((#{latitude} - #{full_column_name(lat_attr)}) * PI() / 180 / 2), 2) + " +
           "COS(#{latitude} * PI() / 180) * COS(#{full_column_name(lat_attr)} * PI() / 180) * " +
-          "POWER(SIN((#{longitude} - #{full_column_name(lon_attr)}) * PI() / 180 / 2), 2) ))"
+          "POWER(SIN((#{longitude} - #{full_column_name(lon_attr)}) * PI() / 180 / 2), 2)" +
+        "))"
       end
 
       def approx_distance_from_sql(latitude, longitude, options)
