@@ -116,24 +116,30 @@ module Geocoder::Store
         )
       end
 
-      ##
-      # Scope options hash for use with a database that supports POWER(),
-      # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
-      # ATAN2(), DEGREES(), and RADIANS().
-      #
-      def full_near_scope_options(latitude, longitude, radius, options)
+      def bearing_from_sql_options(latitude, longitude, options = {})
         if !options.include?(:bearing)
           options[:bearing] = Geocoder::Configuration.distances
         end
         if options[:bearing]
-          bearing = Geocoder::Sql.full_bearing(
+          method_prefix = using_sqlite? ? "approx" : "full"
+          Geocoder::Sql.send(
+            method_prefix + "_bearing",
             latitude, longitude,
             full_column_name(geocoder_options[:latitude]),
             full_column_name(geocoder_options[:longitude]),
             options
           )
         end
+      end
+
+      ##
+      # Scope options hash for use with a database that supports POWER(),
+      # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
+      # ATAN2(), DEGREES(), and RADIANS().
+      #
+      def full_near_scope_options(latitude, longitude, radius, options)
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
+        bearing = bearing_from_sql_options(latitude, longitude, options)
         distance = distance_from_sql_options(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
         default_near_scope_options(latitude, longitude, radius, options).merge(
@@ -152,22 +158,9 @@ module Geocoder::Store
       # only exist for interface consistency--not intended for production!
       #
       def approx_near_scope_options(latitude, longitude, radius, options)
-        if !options.include?(:bearing)
-          options[:bearing] = Geocoder::Configuration.distances
-        end
-        if options[:bearing]
-          bearing = Geocoder::Sql.approx_bearing(
-            latitude, longitude,
-            full_column_name(geocoder_options[:latitude]),
-            full_column_name(geocoder_options[:longitude])
-          )
-        else
-          bearing = false
-        end
-
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
+        bearing = bearing_from_sql_options(latitude, longitude, options)
         distance = distance_from_sql_options(latitude, longitude, options)
-
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         args = b + [
           full_column_name(geocoder_options[:latitude]),
