@@ -122,15 +122,17 @@ module Geocoder::Store
       # ATAN2(), DEGREES(), and RADIANS().
       #
       def full_near_scope_options(latitude, longitude, radius, options)
-        options[:bearing] ||= (options[:method] ||
-                               geocoder_options[:method] ||
-                               Geocoder::Configuration.distances)
-        bearing = Geocoder::Sql.full_bearing(
-          latitude, longitude,
-          full_column_name(geocoder_options[:latitude]),
-          full_column_name(geocoder_options[:longitude]),
-          options
-        )
+        if !options.include?(:bearing)
+          options[:bearing] = Geocoder::Configuration.distances
+        end
+        if options[:bearing]
+          bearing = Geocoder::Sql.full_bearing(
+            latitude, longitude,
+            full_column_name(geocoder_options[:latitude]),
+            full_column_name(geocoder_options[:longitude]),
+            options
+          )
+        end
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         distance = distance_from_sql_options(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
@@ -150,10 +152,8 @@ module Geocoder::Store
       # only exist for interface consistency--not intended for production!
       #
       def approx_near_scope_options(latitude, longitude, radius, options)
-        unless options.include?(:bearing)
-          options[:bearing] = (options[:method] || \
-                               geocoder_options[:method] || \
-                               Geocoder::Configuration.distances)
+        if !options.include?(:bearing)
+          options[:bearing] = Geocoder::Configuration.distances
         end
         if options[:bearing]
           bearing = Geocoder::Sql.approx_bearing(
