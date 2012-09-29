@@ -1,3 +1,4 @@
+require 'geocoder/sql'
 require 'geocoder/stores/base'
 
 ##
@@ -43,7 +44,6 @@ module Geocoder::Store
           end
         }
 
-
         ##
         # Find all objects within the area of a given bounding box.
         # Bounds must be an array of locations specifying the southwest
@@ -52,17 +52,15 @@ module Geocoder::Store
         #
         scope :within_bounding_box, lambda{ |bounds|
           sw_lat, sw_lng, ne_lat, ne_lng = bounds.flatten if bounds
-          unless sw_lat && sw_lng && ne_lat && ne_lng
-            return select(select_clause(nil, "NULL", "NULL")).where(false_condition)
-          end
-          spans = "#{geocoder_options[:latitude]} BETWEEN #{sw_lat} AND #{ne_lat} AND "
-          spans << if sw_lng.to_f > ne_lng.to_f # handle box that spans 180 longitude
-            "#{geocoder_options[:longitude]} BETWEEN #{sw_lng} AND 180 OR " +
-            "#{geocoder_options[:longitude]} BETWEEN -180 AND #{ne_lng}"
+          if sw_lat && sw_lng && ne_lat && ne_lng
+            {:conditions => Geocoder::Sql.within_bounding_box(
+              sw_lat, sw_lng, ne_lat, ne_lng,
+              full_column_name(geocoder_options[:latitude]),
+              full_column_name(geocoder_options[:longitude])
+            )}
           else
-            "#{geocoder_options[:longitude]} BETWEEN #{sw_lng} AND #{ne_lng}"
+            select(select_clause(nil, "NULL", "NULL")).where(false_condition)
           end
-          { :conditions => spans }
         }
       end
     end
@@ -100,19 +98,22 @@ module Geocoder::Store
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
-        if using_sqlite?
-          approx_near_scope_options(latitude, longitude, radius, options)
-        else
-          full_near_scope_options(latitude, longitude, radius, options)
-        end
+        method_prefix = using_sqlite? ? "approx" : "full"
+        send(
+          method_prefix + "_near_scope_options",
+          latitude, longitude, radius, options
+        )
       end
 
       def distance_from_sql_options(latitude, longitude, options = {})
-        if using_sqlite?
-          approx_distance_from_sql(latitude, longitude, options)
-        else
-          full_distance_from_sql(latitude, longitude, options)
-        end
+        method_prefix = using_sqlite? ? "approx" : "full"
+        Geocoder::Sql.send(
+          method_prefix + "_distance",
+          latitude, longitude,
+          full_column_name(geocoder_options[:latitude]),
+          full_column_name(geocoder_options[:longitude]),
+          options
+        )
       end
 
       ##
@@ -120,54 +121,23 @@ module Geocoder::Store
       # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
       # ATAN2(), DEGREES(), and RADIANS().
       #
-      # Bearing calculation based on:
-      # http://www.beginningspatial.com/calculating_bearing_one_point_another
-      #
       def full_near_scope_options(latitude, longitude, radius, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
         options[:bearing] ||= (options[:method] ||
                                geocoder_options[:method] ||
                                Geocoder::Configuration.distances)
-        bearing = full_bearing_sql(latitude, longitude, options)
+        bearing = Geocoder::Sql.full_bearing(
+          latitude, longitude,
+          full_column_name(geocoder_options[:latitude]),
+          full_column_name(geocoder_options[:longitude]),
+          options
+        )
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
-        distance = full_distance_from_sql(latitude, longitude, options)
+        distance = distance_from_sql_options(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => select_clause(options[:select], distance, bearing),
           :conditions => add_exclude_condition(conditions, options[:exclude])
         )
-      end
-
-      ##
-      # Distance calculation based on the excellent tutorial at:
-      # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
-      #
-      def full_distance_from_sql(latitude, longitude, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
-
-        earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
-
-        "#{earth} * 2 * ASIN(SQRT(" +
-          "POWER(SIN((#{latitude} - #{full_column_name(lat_attr)}) * PI() / 180 / 2), 2) + " +
-          "COS(#{latitude} * PI() / 180) * COS(#{full_column_name(lat_attr)} * PI() / 180) * " +
-          "POWER(SIN((#{longitude} - #{full_column_name(lon_attr)}) * PI() / 180 / 2), 2)" +
-        "))"
-      end
-
-      def approx_distance_from_sql(latitude, longitude, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
-
-        dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
-        dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
-
-        # sin of 45 degrees = average x or y component of vector
-        factor = Math.sin(Math::PI / 4)
-
-        "(#{dy} * ABS(#{full_column_name(lat_attr)} - #{latitude}) * #{factor}) + " +
-          "(#{dx} * ABS(#{full_column_name(lon_attr)} - #{longitude}) * #{factor})"
       end
 
       ##
@@ -180,77 +150,34 @@ module Geocoder::Store
       # only exist for interface consistency--not intended for production!
       #
       def approx_near_scope_options(latitude, longitude, radius, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
         unless options.include?(:bearing)
           options[:bearing] = (options[:method] || \
                                geocoder_options[:method] || \
                                Geocoder::Configuration.distances)
         end
-        bearing = options[:bearing] ?
-          approx_bearing_sql(latitude, longitude) : false
+        if options[:bearing]
+          bearing = Geocoder::Sql.approx_bearing(
+            latitude, longitude,
+            full_column_name(geocoder_options[:latitude]),
+            full_column_name(geocoder_options[:longitude])
+          )
+        else
+          bearing = false
+        end
 
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
-        distance = approx_distance_from_sql(latitude, longitude, options)
+        distance = distance_from_sql_options(latitude, longitude, options)
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-        conditions = [
-          "#{full_column_name(lat_attr)} BETWEEN ? AND ? AND #{full_column_name(lon_attr)} BETWEEN ? AND ?"] +
-          [b[0], b[2], b[1], b[3]
+        args = b + [
+          full_column_name(geocoder_options[:latitude]),
+          full_column_name(geocoder_options[:longitude])
         ]
+        conditions = Geocoder::Sql.within_bounding_box(*args)
         default_near_scope_options(latitude, longitude, radius, options).merge(
           :select => select_clause(options[:select], distance, bearing),
           :conditions => add_exclude_condition(conditions, options[:exclude])
         )
-      end
-
-      ##
-      # SQL for bearing calculation. Takes a latitude, longitude, and an
-      # options has which must include a :bearing value
-      # (:linear or :spherical).
-      #
-      def full_bearing_sql(latitude, longitude, options)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
-        case options[:bearing]
-        when :linear
-          "CAST(" +
-            "DEGREES(ATAN2( " +
-              "RADIANS(#{full_column_name(lon_attr)} - #{longitude}), " +
-              "RADIANS(#{full_column_name(lat_attr)} - #{latitude})" +
-            ")) + 360 " +
-          "AS decimal) % 360"
-        when :spherical
-          "CAST(" +
-            "DEGREES(ATAN2( " +
-              "SIN(RADIANS(#{full_column_name(lon_attr)} - #{longitude})) * " +
-              "COS(RADIANS(#{full_column_name(lat_attr)})), (" +
-                "COS(RADIANS(#{latitude})) * SIN(RADIANS(#{full_column_name(lat_attr)}))" +
-              ") - (" +
-                "SIN(RADIANS(#{latitude})) * COS(RADIANS(#{full_column_name(lat_attr)})) * " +
-                "COS(RADIANS(#{full_column_name(lon_attr)} - #{longitude}))" +
-              ")" +
-            ")) + 360 " +
-          "AS decimal) % 360"
-        end
-      end
-
-      ##
-      # SQL for really lame bearing calculation.
-      #
-      def approx_bearing_sql(latitude, longitude)
-        lat_attr = geocoder_options[:latitude]
-        lon_attr = geocoder_options[:longitude]
-        "CASE " +
-          "WHEN (#{full_column_name(lat_attr)} >= #{latitude} AND " +
-            "#{full_column_name(lon_attr)} >= #{longitude}) THEN  45.0 " +
-          "WHEN (#{full_column_name(lat_attr)} <  #{latitude} AND " +
-            "#{full_column_name(lon_attr)} >= #{longitude}) THEN 135.0 " +
-          "WHEN (#{full_column_name(lat_attr)} <  #{latitude} AND " +
-            "#{full_column_name(lon_attr)} <  #{longitude}) THEN 225.0 " +
-          "WHEN (#{full_column_name(lat_attr)} >= #{latitude} AND " +
-            "#{full_column_name(lon_attr)} <  #{longitude}) THEN 315.0 " +
-        "END"
       end
 
       ##
@@ -279,9 +206,10 @@ module Geocoder::Store
 
       ##
       # Adds a condition to exclude a given object by ID.
-      # The given conditions MUST be an array.
+      # Expects conditions as an array or string. Returns array.
       #
       def add_exclude_condition(conditions, exclude)
+        conditions = [conditions] if conditions.is_a?(String)
         if exclude
           conditions[0] << " AND #{full_column_name(primary_key)} != ?"
           conditions << exclude.id
