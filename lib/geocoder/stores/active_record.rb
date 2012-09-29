@@ -123,27 +123,7 @@ module Geocoder::Store
         options[:bearing] ||= (options[:method] ||
                                geocoder_options[:method] ||
                                Geocoder::Configuration.distances)
-        bearing = case options[:bearing]
-        when :linear
-          "CAST(" +
-            "DEGREES(ATAN2( " +
-              "RADIANS(#{full_column_name(lon_attr)} - #{longitude}), " +
-              "RADIANS(#{full_column_name(lat_attr)} - #{latitude})" +
-            ")) + 360 " +
-          "AS decimal) % 360"
-        when :spherical
-          "CAST(" +
-            "DEGREES(ATAN2( " +
-              "SIN(RADIANS(#{full_column_name(lon_attr)} - #{longitude})) * " +
-              "COS(RADIANS(#{full_column_name(lat_attr)})), (" +
-                "COS(RADIANS(#{latitude})) * SIN(RADIANS(#{full_column_name(lat_attr)}))" +
-              ") - (" +
-                "SIN(RADIANS(#{latitude})) * COS(RADIANS(#{full_column_name(lat_attr)})) * " +
-                "COS(RADIANS(#{full_column_name(lon_attr)} - #{longitude}))" +
-              ")" +
-            ")) + 360 " +
-          "AS decimal) % 360"
-        end
+        bearing = full_bearing_sql(latitude, longitude, options)
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         distance = full_distance_from_sql(latitude, longitude, options)
         conditions = ["#{distance} <= ?", radius]
@@ -152,7 +132,6 @@ module Geocoder::Store
           :conditions => add_exclude_condition(conditions, options[:exclude])
         )
       end
-
 
       # Distance calculations based on the excellent tutorial at:
       # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
@@ -200,16 +179,8 @@ module Geocoder::Store
                                geocoder_options[:method] || \
                                Geocoder::Configuration.distances)
         end
-        if options[:bearing]
-          bearing = "CASE " +
-            "WHEN (#{full_column_name(lat_attr)} >= #{latitude} AND #{full_column_name(lon_attr)} >= #{longitude}) THEN  45.0 " +
-            "WHEN (#{full_column_name(lat_attr)} <  #{latitude} AND #{full_column_name(lon_attr)} >= #{longitude}) THEN 135.0 " +
-            "WHEN (#{full_column_name(lat_attr)} <  #{latitude} AND #{full_column_name(lon_attr)} <  #{longitude}) THEN 225.0 " +
-            "WHEN (#{full_column_name(lat_attr)} >= #{latitude} AND #{full_column_name(lon_attr)} <  #{longitude}) THEN 315.0 " +
-          "END"
-        else
-          bearing = false
-        end
+        bearing = options[:bearing] ?
+          approx_bearing_sql(latitude, longitude) : false
 
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         distance = approx_distance_from_sql(latitude, longitude, options)
@@ -223,6 +194,55 @@ module Geocoder::Store
           :select => select_clause(options[:select], distance, bearing),
           :conditions => add_exclude_condition(conditions, options[:exclude])
         )
+      end
+
+      ##
+      # SQL for bearing calculation. Takes a latitude, longitude, and an
+      # options has which must include a :bearing value
+      # (:linear or :spherical).
+      #
+      def full_bearing_sql(latitude, longitude, options)
+        lat_attr = geocoder_options[:latitude]
+        lon_attr = geocoder_options[:longitude]
+        case options[:bearing]
+        when :linear
+          "CAST(" +
+            "DEGREES(ATAN2( " +
+              "RADIANS(#{full_column_name(lon_attr)} - #{longitude}), " +
+              "RADIANS(#{full_column_name(lat_attr)} - #{latitude})" +
+            ")) + 360 " +
+          "AS decimal) % 360"
+        when :spherical
+          "CAST(" +
+            "DEGREES(ATAN2( " +
+              "SIN(RADIANS(#{full_column_name(lon_attr)} - #{longitude})) * " +
+              "COS(RADIANS(#{full_column_name(lat_attr)})), (" +
+                "COS(RADIANS(#{latitude})) * SIN(RADIANS(#{full_column_name(lat_attr)}))" +
+              ") - (" +
+                "SIN(RADIANS(#{latitude})) * COS(RADIANS(#{full_column_name(lat_attr)})) * " +
+                "COS(RADIANS(#{full_column_name(lon_attr)} - #{longitude}))" +
+              ")" +
+            ")) + 360 " +
+          "AS decimal) % 360"
+        end
+      end
+
+      ##
+      # SQL for really lame bearing calculation.
+      #
+      def approx_bearing_sql(latitude, longitude)
+        lat_attr = geocoder_options[:latitude]
+        lon_attr = geocoder_options[:longitude]
+        "CASE " +
+          "WHEN (#{full_column_name(lat_attr)} >= #{latitude} AND " +
+            "#{full_column_name(lon_attr)} >= #{longitude}) THEN  45.0 " +
+          "WHEN (#{full_column_name(lat_attr)} <  #{latitude} AND " +
+            "#{full_column_name(lon_attr)} >= #{longitude}) THEN 135.0 " +
+          "WHEN (#{full_column_name(lat_attr)} <  #{latitude} AND " +
+            "#{full_column_name(lon_attr)} <  #{longitude}) THEN 225.0 " +
+          "WHEN (#{full_column_name(lat_attr)} >= #{latitude} AND " +
+            "#{full_column_name(lon_attr)} <  #{longitude}) THEN 315.0 " +
+        "END"
       end
 
       ##
