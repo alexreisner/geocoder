@@ -56,7 +56,7 @@ module Geocoder::Store
             return select(select_clause(nil, "NULL", "NULL")).where(false_condition)
           end
           spans = "#{geocoder_options[:latitude]} BETWEEN #{sw_lat} AND #{ne_lat} AND "
-          spans << if sw_lng > ne_lng   # Handle a box that spans 180
+          spans << if sw_lng.to_f > ne_lng.to_f # handle box that spans 180 longitude
             "#{geocoder_options[:longitude]} BETWEEN #{sw_lng} AND 180 OR " +
             "#{geocoder_options[:longitude]} BETWEEN -180 AND #{ne_lng}"
           else
