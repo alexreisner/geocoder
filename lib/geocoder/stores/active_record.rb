@@ -111,10 +111,11 @@ module Geocoder::Store
         else
           conditions = ["#{distance} <= ?", radius]
         end
-        default_near_scope_options(latitude, longitude, radius, options).merge(
+        {
           :select => select_clause(options[:select], distance, bearing),
-          :conditions => add_exclude_condition(conditions, options[:exclude])
-        )
+          :conditions => add_exclude_condition(conditions, options[:exclude]),
+          :order => options.include?(:order) ? options[:order] : "distance ASC"
+        }
       end
 
       def distance_from_sql_options(latitude, longitude, options = {})
@@ -155,17 +156,6 @@ module Geocoder::Store
         end
         clause + "#{distance} AS distance" +
           (bearing ? ", #{bearing} AS bearing" : "")
-      end
-
-      ##
-      # Options used for any near-like scope.
-      #
-      def default_near_scope_options(latitude, longitude, radius, options)
-        {
-          :order  => options[:order] || "distance",
-          :limit  => options[:limit],
-          :offset => options[:offset]
-        }
       end
 
       ##
