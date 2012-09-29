@@ -98,10 +98,22 @@ module Geocoder::Store
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
-        method_prefix = using_sqlite? ? "approx" : "full"
-        send(
-          method_prefix + "_near_scope_options",
-          latitude, longitude, radius, options
+        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
+        bearing = bearing_from_sql_options(latitude, longitude, options)
+        distance = distance_from_sql_options(latitude, longitude, options)
+        if using_sqlite?
+          b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+          args = b + [
+            full_column_name(geocoder_options[:latitude]),
+            full_column_name(geocoder_options[:longitude])
+          ]
+          conditions = Geocoder::Sql.within_bounding_box(*args)
+        else
+          conditions = ["#{distance} <= ?", radius]
+        end
+        default_near_scope_options(latitude, longitude, radius, options).merge(
+          :select => select_clause(options[:select], distance, bearing),
+          :conditions => add_exclude_condition(conditions, options[:exclude])
         )
       end
 
@@ -130,47 +142,6 @@ module Geocoder::Store
             options
           )
         end
-      end
-
-      ##
-      # Scope options hash for use with a database that supports POWER(),
-      # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
-      # ATAN2(), DEGREES(), and RADIANS().
-      #
-      def full_near_scope_options(latitude, longitude, radius, options)
-        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
-        bearing = bearing_from_sql_options(latitude, longitude, options)
-        distance = distance_from_sql_options(latitude, longitude, options)
-        conditions = ["#{distance} <= ?", radius]
-        default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => select_clause(options[:select], distance, bearing),
-          :conditions => add_exclude_condition(conditions, options[:exclude])
-        )
-      end
-
-      ##
-      # Scope options hash for use with a database without trigonometric
-      # functions, like SQLite. Approach is to find objects within a square
-      # rather than a circle, so results are very approximate (will include
-      # objects outside the given radius).
-      #
-      # Distance and bearing calculations are *extremely inaccurate*. They
-      # only exist for interface consistency--not intended for production!
-      #
-      def approx_near_scope_options(latitude, longitude, radius, options)
-        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
-        bearing = bearing_from_sql_options(latitude, longitude, options)
-        distance = distance_from_sql_options(latitude, longitude, options)
-        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-        args = b + [
-          full_column_name(geocoder_options[:latitude]),
-          full_column_name(geocoder_options[:longitude])
-        ]
-        conditions = Geocoder::Sql.within_bounding_box(*args)
-        default_near_scope_options(latitude, longitude, radius, options).merge(
-          :select => select_clause(options[:select], distance, bearing),
-          :conditions => add_exclude_condition(conditions, options[:exclude])
-        )
       end
 
       ##
