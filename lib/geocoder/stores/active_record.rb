@@ -73,7 +73,7 @@ module Geocoder::Store
       def distance_from_sql(location, *args)
         latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
         if Geocoder::Calculations.coordinates_present?(latitude, longitude)
-          distance_from_sql_options(latitude, longitude, *args)
+          distance_sql(latitude, longitude, *args)
         end
       end
 
@@ -99,8 +99,8 @@ module Geocoder::Store
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
-        bearing = bearing_from_sql_options(latitude, longitude, options)
-        distance = distance_from_sql_options(latitude, longitude, options)
+        bearing = bearing_sql(latitude, longitude, options)
+        distance = distance_sql(latitude, longitude, options)
         if using_sqlite?
           b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
           args = b + [
@@ -118,7 +118,11 @@ module Geocoder::Store
         }
       end
 
-      def distance_from_sql_options(latitude, longitude, options = {})
+      ##
+      # SQL for calculating distance based on the current database's
+      # capabilities (trig functions?).
+      #
+      def distance_sql(latitude, longitude, options = {})
         method_prefix = using_sqlite? ? "approx" : "full"
         Geocoder::Sql.send(
           method_prefix + "_distance",
@@ -129,7 +133,11 @@ module Geocoder::Store
         )
       end
 
-      def bearing_from_sql_options(latitude, longitude, options = {})
+      ##
+      # SQL for calculating bearing based on the current database's
+      # capabilities (trig functions?).
+      #
+      def bearing_sql(latitude, longitude, options = {})
         if !options.include?(:bearing)
           options[:bearing] = Geocoder::Configuration.distances
         end
