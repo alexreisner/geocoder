@@ -94,7 +94,8 @@ module Geocoder::Store
       #   set to false for no bearing calculation.
       #   See Geocoder::Configuration to know how configure default method.
       # * +:select+  - string with the SELECT SQL fragment (e.g. “id, name”)
-      # * +:order+   - column(s) for ORDER BY SQL clause; default is distance
+      # * +:order+   - column(s) for ORDER BY SQL clause; default is distance;
+      #                set to false or nil to omit the ORDER BY clause
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
