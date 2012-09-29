@@ -184,7 +184,7 @@ module Geocoder
     end
 
     ##
-    # Returns coordinates of the lower-left and upper-right corners of a box
+    # Returns coordinates of the southwest and northeast corners of a box
     # with the given point at its center. The radius is the shortest distance
     # from the center point to any side of the box (the length of each side
     # is twice the radius).
