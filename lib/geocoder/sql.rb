@@ -3,7 +3,11 @@ module Geocoder
     extend self
 
     ##
-    # Distance calculation based on the excellent tutorial at:
+    # Distance calculation for use with a database that supports POWER(),
+    # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
+    # ATAN2(), DEGREES(), and RADIANS().
+    #
+    # Based on the excellent tutorial at:
     # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
     #
     def full_distance(latitude, longitude, lat_attr, lon_attr, options = {})
@@ -16,6 +20,16 @@ module Geocoder
       "))"
     end
 
+    ##
+    # Distance calculation for use with a database without trigonometric
+    # functions, like SQLite. Approach is to find objects within a square
+    # rather than a circle, so results are very approximate (will include
+    # objects outside the given radius).
+    #
+    # Distance and bearing calculations are *extremely inaccurate*. To be
+    # clear: this only exists to provide interface consistency. Results
+    # are not intended for use in production!
+    #
     def approx_distance(latitude, longitude, lat_attr, lon_attr, options = {})
       dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
       dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
