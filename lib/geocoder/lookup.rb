@@ -49,7 +49,6 @@ module Geocoder
     #
     def spawn(name)
       if all_services.include?(name)
-        name = name.to_s
         Geocoder::Lookup.const_get(classify_name(name)).new
       else
         valids = all_services.map(&:inspect).join(", ")
@@ -58,8 +57,11 @@ module Geocoder
       end
     end
 
+    ##
+    # Convert an "underscore" version of a name into a "class" version.
+    #
     def classify_name(filename)
-      filename.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
+      filename.to_s.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
     end
   end
 end
