@@ -50,13 +50,16 @@ module Geocoder
       if all_services.include?(name)
         name = name.to_s
         require "geocoder/lookups/#{name}"
-        klass = name.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
-        Geocoder::Lookup.const_get(klass).new
+        Geocoder::Lookup.const_get(classify_name(name)).new
       else
         valids = all_services.map(&:inspect).join(", ")
         raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
           "(#{name.inspect} is not one of: #{valids})."
       end
+    end
+
+    def self.classify_name(filename)
+      filename.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
     end
   end
 end
