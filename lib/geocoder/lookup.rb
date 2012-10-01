@@ -49,7 +49,6 @@ module Geocoder
     def self.spawn(name)
       if all_services.include?(name)
         name = name.to_s
-        require "geocoder/lookups/#{name}"
         Geocoder::Lookup.const_get(classify_name(name)).new
       else
         valids = all_services.map(&:inspect).join(", ")
@@ -62,4 +61,8 @@ module Geocoder
       filename.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
     end
   end
+end
+
+Geocoder::Lookup.all_services.each do |name|
+  require "geocoder/lookups/#{name}"
 end
