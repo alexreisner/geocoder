@@ -12,8 +12,15 @@ module Geocoder::Lookup
 
     def results(query)
       return [] unless doc = fetch_data(query)
-      if doc = doc['ResultSet'] and doc['Error'] == 0
-        return doc['Found'] > 0 ? Array(doc['Result']) : []
+      doc = doc['ResultSet']
+      # seems to have Error == 7 when no results, though this is not documented
+      if [0, 7].include?(doc['Error'].to_i)
+        if doc['Found'].to_i > 0
+          r = doc['Result']
+          return r.is_a?(Array) ? r : [r]
+        else
+          return []
+        end
       else
         warn "Yahoo Geocoding API error: #{doc['Error']} (#{doc['ErrorMessage']})."
         return []

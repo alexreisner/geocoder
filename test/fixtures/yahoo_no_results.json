@@ -1,10 +1,12 @@
 {
-  "ResultSet":{
-    "version":"1.0",
-    "Error":0,
-    "ErrorMessage":"No error",
-    "Locale":"us_US",
-    "Quality":10,
-    "Found":0
-  }
+    "@lang": "en-US",
+    "ResultSet": {
+        "@version": "2.0",
+        "@lang": "en-US",
+        "Error": "7",
+        "ErrorMessage": "No result",
+        "Locale": "en-US",
+        "Found": "0",
+        "Quality": "0"
+    }
 }
