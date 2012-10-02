@@ -2,11 +2,17 @@
 
 Per-release changes to Geocoder.
 
-== 1.2.0 (???)
+== 1.1.4 (2012 Oct 2)
 
-* Add support for setting arbitrary params in geocoding request URL.
+* Deprecate Geocoder::Result::Nominatim#class and #type methods. Use #place_class and #place_type instead.
+* Add support for setting arbitrary parameters in geocoding request URL.
 * Add support for Google's :bounds parameter (thanks to github.com/rosscooperman and github.com/peterjm for submitting suggestions).
-* Code refactoring and cleanup (most notably, added Geocoder::Query class).
+* Add support for :select => :geo_only option to near scope (thanks github.com/gugl).
+* Add ability to omit ORDER BY clause from .near scope (pass option :order => false).
+* Fix: error on Yahoo lookup due to API change (thanks github.com/kynesun).
+* Fix: problem with Mongoid field aliases not being respected.
+* Fix: :exclude option to .near scope when primary key != :id (thanks github.com/smisml).
+* Much code refactoring (added Geocoder::Query class and Geocoder::Sql module).
 
 == 1.1.3 (2012 Aug 26)
 
