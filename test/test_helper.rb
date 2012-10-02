@@ -93,8 +93,10 @@ module Geocoder
         raise TimeoutError if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
         file = case query.text
-          when "no results";  :no_results
-          else                :madison_square_garden
+          when "no results v1"; :v1_no_results
+          when "madison square garden v1"; :v1_madison_square_garden
+          when "no results";    :no_results
+          else                  :madison_square_garden
         end
         read_fixture "yahoo_#{file}.json"
       end

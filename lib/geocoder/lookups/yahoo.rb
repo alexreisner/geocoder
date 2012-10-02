@@ -13,6 +13,38 @@ module Geocoder::Lookup
     def results(query)
       return [] unless doc = fetch_data(query)
       doc = doc['ResultSet']
+      if api_version(doc).to_i == 1
+        return version_1_results(doc)
+      elsif api_version(doc).to_i == 2
+        return version_2_results(doc)
+      else
+        warn "Yahoo Geocoding API error: #{doc['Error']} (#{doc['ErrorMessage']})."
+        return []
+      end
+    end
+
+    def api_version(doc)
+      if doc.include?('version')
+        return doc['version'].to_f
+      elsif doc.include?('@version')
+        return doc['@version'].to_f
+      end
+    end
+
+    def version_1_results(doc)
+      if doc['Error'] == 0
+        if doc['Found'] > 0
+          return doc['Results']
+        else
+          return []
+        end
+      end
+    end
+
+    ##
+    # Return array of results, or nil if an error.
+    #
+    def version_2_results(doc)
       # seems to have Error == 7 when no results, though this is not documented
       if [0, 7].include?(doc['Error'].to_i)
         if doc['Found'].to_i > 0
@@ -21,9 +53,6 @@ module Geocoder::Lookup
         else
           return []
         end
-      else
-        warn "Yahoo Geocoding API error: #{doc['Error']} (#{doc['ErrorMessage']})."
-        return []
       end
     end
 
