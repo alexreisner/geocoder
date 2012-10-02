@@ -59,7 +59,7 @@ module Geocoder::Store
       do_lookup(false) do |o,rs|
         if r = rs.first
           unless r.coordinates.nil?
-            o.send :write_attribute, self.class.geocoder_options[:coordinates], r.coordinates.reverse
+            o.__send__ "#{self.class.geocoder_options[:coordinates]}=", r.coordinates.reverse
           end
           r.coordinates
         end
@@ -74,7 +74,7 @@ module Geocoder::Store
       do_lookup(true) do |o,rs|
         if r = rs.first
           unless r.address.nil?
-            o.send :write_attribute, self.class.geocoder_options[:fetched_address], r.address
+            o.__send__ "#{self.class.geocoder_options[:fetched_address]}=", r.address
           end
           r.address
         end
