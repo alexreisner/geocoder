@@ -13,10 +13,10 @@ module Geocoder::Lookup
     def results(query)
       return [] unless doc = fetch_data(query)
       doc = doc['ResultSet']
-      if api_version(doc).to_i == 1
-        return version_1_results(doc)
-      elsif api_version(doc).to_i == 2
-        return version_2_results(doc)
+      if api_version(doc).to_i == 1 and r = version_1_results(doc)
+        return r
+      elsif api_version(doc).to_i == 2 and r = version_2_results(doc)
+        return r
       else
         warn "Yahoo Geocoding API error: #{doc['Error']} (#{doc['ErrorMessage']})."
         return []
