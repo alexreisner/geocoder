@@ -8,11 +8,17 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if l == :google_premier # TODO: need to set keys to test
       next if l == :freegeoip # does not use query string
+      # mapquest seems to like URI instead of CGI escaping
+      regex = if l == :mapquest
+        /one_in_the_hand=two%20in%20the%20bush/
+      else
+        /one_in_the_hand=two\+in\+the\+bush/
+      end
       url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
-      assert_match /one_in_the_hand=two\+in\+the\+bush/, url,
-        "Lookup #{l} does not appear to support arbitrary params in URL"
+      assert_match(regex, url,
+        "Lookup #{l} does not appear to support arbitrary params in URL")
     end
   end
 
@@ -46,7 +52,7 @@ class ServicesTest < Test::Unit::TestCase
       "Some Intersection",
       :bounds => [[40.0, -120.0], [39.0, -121.0]]
     ))
-    assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
+    assert_match(/bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url)
   end
 
   # --- Google Premier ---
@@ -154,7 +160,7 @@ class ServicesTest < Test::Unit::TestCase
 
   # --- Nominatim ---
 
-   def test_nominatim_result_components
+  def test_nominatim_result_components
     Geocoder::Configuration.lookup = :nominatim
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "10001", result.postal_code
@@ -164,6 +170,31 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder::Configuration.lookup = :nominatim
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Madison Square Garden, West 31st Street, Long Island City, New York City, New York, 10001, United States of America",
+      result.address
+  end
+  # --- MapQuest ---
+
+  def test_api_route
+    Geocoder::Configuration.lookup = :mapquest
+    Geocoder::Configuration.api_key = "abc123"
+
+    lookup = Geocoder::Lookup::Mapquest.new
+    query = Geocoder::Query.new("Bluffton, SC")
+    res = lookup.send(:query_url, query)
+    assert_equal "http://www.mapquestapi.com/geocoding/v1/address?key=abc123&location=Bluffton,%20SC",
+      res
+  end
+
+  def test_mapquest_result_components
+    Geocoder::Configuration.lookup = :mapquest
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "10001", result.postal_code
+  end
+
+  def test_mapquest_address_formatting
+    Geocoder::Configuration.lookup = :mapquest
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "46 West 31st Street, New York, NY, 10001, US",
       result.address
   end
 end
