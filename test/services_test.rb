@@ -8,13 +8,11 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if l == :google_premier # TODO: need to set keys to test
       next if l == :freegeoip # does not use query string
-      # mapquest seems to like URI instead of CGI escaping
-      regex = /one_in_the_hand=two\+in\+the\+bush/
       url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
-      assert_match(regex, url,
-        "Lookup #{l} does not appear to support arbitrary params in URL")
+      assert_match /one_in_the_hand=two\+in\+the\+bush/, url,
+        "Lookup #{l} does not appear to support arbitrary params in URL"
     end
   end
 
@@ -48,7 +46,7 @@ class ServicesTest < Test::Unit::TestCase
       "Some Intersection",
       :bounds => [[40.0, -120.0], [39.0, -121.0]]
     ))
-    assert_match(/bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url)
+    assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
   end
 
   # --- Google Premier ---
