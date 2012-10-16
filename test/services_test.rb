@@ -9,11 +9,7 @@ class ServicesTest < Test::Unit::TestCase
       next if l == :google_premier # TODO: need to set keys to test
       next if l == :freegeoip # does not use query string
       # mapquest seems to like URI instead of CGI escaping
-      regex = if l == :mapquest
-        /one_in_the_hand=two%20in%20the%20bush/
-      else
-        /one_in_the_hand=two\+in\+the\+bush/
-      end
+      regex = /one_in_the_hand=two\+in\+the\+bush/
       url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
@@ -181,7 +177,7 @@ class ServicesTest < Test::Unit::TestCase
     lookup = Geocoder::Lookup::Mapquest.new
     query = Geocoder::Query.new("Bluffton, SC")
     res = lookup.send(:query_url, query)
-    assert_equal "http://www.mapquestapi.com/geocoding/v1/address?key=abc123&location=Bluffton,%20SC",
+    assert_equal "http://www.mapquestapi.com/geocoding/v1/address?key=abc123&location=Bluffton%2C+SC",
       res
   end
 

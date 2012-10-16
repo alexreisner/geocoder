@@ -1,4 +1,4 @@
-require 'uri'
+require 'cgi'
 require 'geocoder/lookups/base'
 require "geocoder/results/mapquest"
 
@@ -22,7 +22,7 @@ module Geocoder::Lookup
       key = Geocoder::Configuration.api_key
       params = { :location => query.sanitized_text }
       if key
-        params[:key] = URI.unescape(key)
+        params[:key] = CGI.unescape(key)
       end
       super.merge(params)
     end
@@ -32,11 +32,5 @@ module Geocoder::Lookup
       doc["results"][0]['locations']
     end
 
-    def hash_to_query(hash)
-      require 'uri' unless defined?(URI) && defined?(URI.escape)
-      hash.collect{ |p|
-        p[1].nil? ? nil : p.map{ |i| URI.escape i.to_s } * '='
-      }.compact.sort * '&'
-    end
   end
 end
