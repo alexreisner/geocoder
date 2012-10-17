@@ -363,8 +363,11 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 
 #### Mapquest (`:mapquest`)
 
-* **API key**: none
+* **API key**: required for the licensed API, do not use for open tier
 * **Quota**: ?
+* **HTTP Headers**: in order to use the licensed API you can configure the http_headers to include a referer as so:
+    `Geocoder::Configuration.http_headers = { "Referer" => "http://foo.com" }`
+  You can also allow a blank referer from the API management console via mapquest but it is potentially a security risk that someone else could use your API key from another domain.
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
