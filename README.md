@@ -372,6 +372,17 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Terms of Service**: http://info.mapquest.com/terms-of-use/
 * **Limitations**: ?
 
+#### ovi.com (Nokia maps) (`:ovi`)
+
+* **API key**: none
+* **Quota**: ?
+* **Region**: world
+* **SSL support**: no
+* **Languages**: English
+* **Documentation**: ?
+* **Terms of Service**: ?
+* **Limitations**: ?
+
 #### FreeGeoIP (`:freegeoip`)
 
 * **API key**: none

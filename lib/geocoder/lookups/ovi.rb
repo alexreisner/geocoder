@@ -15,9 +15,9 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      {
+      super.merge(
         :searchtext => query.sanitized_text
-      }
+      )
     end
 
     def query_url(query)
