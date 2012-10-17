@@ -157,8 +157,10 @@ module Geocoder::Store
       ##
       # Generate the SELECT clause.
       #
-      def select_clause(columns, distance, bearing = nil)
-        if columns == :geo_only
+      def select_clause(columns, distance = nil, bearing = nil)
+        if columns == :id_only
+          return full_column_name(primary_key)
+        elsif columns == :geo_only
           clause = ""
         else
           clause = (columns || full_column_name("*")) + ", "
