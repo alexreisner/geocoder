@@ -154,7 +154,7 @@ class ServicesTest < Test::Unit::TestCase
 
   # --- Nominatim ---
 
-   def test_nominatim_result_components
+  def test_nominatim_result_components
     Geocoder::Configuration.lookup = :nominatim
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "10001", result.postal_code
@@ -164,6 +164,31 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder::Configuration.lookup = :nominatim
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Madison Square Garden, West 31st Street, Long Island City, New York City, New York, 10001, United States of America",
+      result.address
+  end
+  # --- MapQuest ---
+
+  def test_api_route
+    Geocoder::Configuration.lookup = :mapquest
+    Geocoder::Configuration.api_key = "abc123"
+
+    lookup = Geocoder::Lookup::Mapquest.new
+    query = Geocoder::Query.new("Bluffton, SC")
+    res = lookup.send(:query_url, query)
+    assert_equal "http://www.mapquestapi.com/geocoding/v1/address?key=abc123&location=Bluffton%2C+SC",
+      res
+  end
+
+  def test_mapquest_result_components
+    Geocoder::Configuration.lookup = :mapquest
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "10001", result.postal_code
+  end
+
+  def test_mapquest_address_formatting
+    Geocoder::Configuration.lookup = :mapquest
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "46 West 31st Street, New York, NY, 10001, US",
       result.address
   end
 end
