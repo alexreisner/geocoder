@@ -41,7 +41,7 @@ module Geocoder::Result
         city state statecode country countrycode postal
         neighborhood county countycode
         level0 level1 level2 level3 level4 level0code level1code level2code
-        timezone areacode uzip hash woeid woetype]
+        timezone areacode uzip woeid woetype]
     end
 
     response_attributes.each do |a|
