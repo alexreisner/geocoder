@@ -36,7 +36,7 @@ module Geocoder::Result
         line1 line2 line3 line4 cross house street xstreet unittype unit
         neighborhood county countycode
         level0 level1 level2 level3 level4 level0code level1code level2code
-        timezone areacode uzip hash woeid woetype]
+        timezone areacode uzip woeid woetype]
     end
 
     response_attributes.each do |a|
