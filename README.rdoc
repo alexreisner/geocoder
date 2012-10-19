@@ -506,7 +506,7 @@ In MySQL and Postgres the finding of objects near a given point is speeded up by
 
 To take advantage of this optimisation you need to add a composite index on latitude and longitude. In your Rails migration:
 
-    add_index :table, [:lat, :lng]
+    add_index :table, [:latitude, :longitude]
 
 == Distance Queries in SQLite
 
