@@ -4,6 +4,12 @@ require 'test/unit'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
+class MysqlConnection
+  def adapter_name
+    "mysql"
+  end
+end
+
 ##
 # Simulate enough of ActiveRecord::Base that objects can be used for testing.
 #
@@ -27,6 +33,10 @@ module ActiveRecord
     end
 
     def self.scope(*args); end
+
+    def self.connection
+      MysqlConnection.new
+    end
 
     def method_missing(name, *args, &block)
       if name.to_s[-1..-1] == "="
