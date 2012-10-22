@@ -100,15 +100,18 @@ module Geocoder::Store
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         bearing = bearing_sql(latitude, longitude, options)
         distance = distance_sql(latitude, longitude, options)
+
+        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+        args = b + [
+          full_column_name(geocoder_options[:latitude]),
+          full_column_name(geocoder_options[:longitude])
+        ]
+        bounding_box_conditions = Geocoder::Sql.within_bounding_box(*args)
+
         if using_sqlite?
-          b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-          args = b + [
-            full_column_name(geocoder_options[:latitude]),
-            full_column_name(geocoder_options[:longitude])
-          ]
-          conditions = Geocoder::Sql.within_bounding_box(*args)
+          conditions = bounding_box_conditions
         else
-          conditions = ["#{distance} <= ?", radius]
+          conditions = [bounding_box_conditions + " AND #{distance} <= ?", radius]
         end
         {
           :select => select_clause(options[:select], distance, bearing),
