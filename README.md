@@ -527,6 +527,15 @@ Calling `obj.coordinates` directly returns the internal representation of the co
 
 For consistency with the rest of Geocoder, always use the `to_coordinates` method instead.
 
+Optimisation of Distance Queries
+--------------------------------
+
+In MySQL and Postgres the finding of objects near a given point is speeded up by using a bounding box to limit the number of points over which a full distance calculation needs to be done.
+
+To take advantage of this optimisation you need to add a composite index on latitude and longitude. In your Rails migration:
+
+    add_index :table, [:latitude, :longitude]
+
 
 Distance Queries in SQLite
 --------------------------
