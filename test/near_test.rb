@@ -2,19 +2,10 @@ require 'test_helper'
 
 class NearTest < Test::Unit::TestCase
 
-  def test_near_scope_options
+  def test_near_scope_options_without_sqlite_includes_bounding_box_condition
     result = Event.near_scope_options(1.0, 2.0, 5)
-    expected = {
-      :select =>
-        "test_table_name.*, 3958.755864232 * 2 * ASIN(SQRT(POWER(SIN((1.0 - test_table_name.latitude) * PI() / 180 / 2), 2) + COS(1.0 * PI() / 180) * COS(test_table_name.latitude * PI() / 180) * POWER(SIN((2.0 - test_table_name.longitude) * PI() / 180 / 2), 2))) AS distance, CAST(DEGREES(ATAN2( RADIANS(test_table_name.longitude - 2.0), RADIANS(test_table_name.latitude - 1.0))) + 360 AS decimal) % 360 AS bearing",
-      :conditions =>
-        [
-          "test_table_name.latitude BETWEEN 0.927634108444576 AND 1.072365891555424 AND test_table_name.longitude BETWEEN 1.9276230850898697 AND 2.07237691491013 AND 3958.755864232 * 2 * ASIN(SQRT(POWER(SIN((1.0 - test_table_name.latitude) * PI() / 180 / 2), 2) + COS(1.0 * PI() / 180) * COS(test_table_name.latitude * PI() / 180) * POWER(SIN((2.0 - test_table_name.longitude) * PI() / 180 / 2), 2))) <= ?",
-          5
-        ],
-      :order => "distance ASC"
-    }
 
-    assert_equal expected, result
+    assert_match /test_table_name.latitude BETWEEN 0.9276\d* AND 1.0723\d* AND test_table_name.longitude BETWEEN 1.9276\d* AND 2.0723\d* AND /,
+      result[:conditions][0]
   end
 end
