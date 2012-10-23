@@ -40,7 +40,13 @@ module Geocoder
     # Is the Query text blank? (ie, should we not bother searching?)
     #
     def blank?
-      !!text.to_s.match(/^\s*$/)
+      # check whether both coordinates given
+      if text.is_a?(Array)
+        text.compact.size < 2
+      # else assume a string
+      else
+        !!text.to_s.match(/^\s*$/)
+      end
     end
 
     ##

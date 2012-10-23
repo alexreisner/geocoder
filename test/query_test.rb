@@ -20,6 +20,11 @@ class QueryTest < Test::Unit::TestCase
     assert !Geocoder::Query.new("Москва").blank? # no ASCII characters
   end
 
+  def test_blank_query_detection_for_coordinates
+    assert Geocoder::Query.new([nil,nil]).blank?
+    assert Geocoder::Query.new([87,nil]).blank?
+  end
+
   def test_coordinates_detection
     assert Geocoder::Query.new("51.178844,5").coordinates?
     assert Geocoder::Query.new("51.178844, -1.826189").coordinates?
