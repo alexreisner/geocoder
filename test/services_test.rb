@@ -49,6 +49,28 @@ class ServicesTest < Test::Unit::TestCase
     assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
   end
 
+  def test_google_region
+    old_region = Geocoder::Configuration.region
+    Geocoder::Configuration.region = :de
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.send(:query_url, Geocoder::Query.new(
+      "50670"
+    ))
+    assert_match /region=de/, url
+    Geocoder::Configuration.region = old_region
+  end
+
+  def test_google_no_region
+    old_region = Geocoder::Configuration.region
+    Geocoder::Configuration.region = nil
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.send(:query_url, Geocoder::Query.new(
+      "50670"
+    ))
+    assert_not_match /region/, url
+    Geocoder::Configuration.region = old_region
+  end
+
   # --- Google Premier ---
 
   def test_google_premier_result_components
