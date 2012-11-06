@@ -23,7 +23,7 @@ module Geocoder
   #
   #   Geocoder.configure do |config|
   #     config.timeout      = 5
-  #     config.lookup       = :yahoo
+  #     config.lookup       = :yandex
   #     config.api_key      = "2a9fsa983jaslfj982fjasd"
   #     config.units        = :km
   #   end

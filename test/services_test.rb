@@ -8,10 +8,20 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if l == :google_premier # TODO: need to set keys to test
       next if l == :freegeoip # does not use query string
+      # need to set API key for Yahoo for OAuth encoding
+      if l == :yahoo
+        Geocoder::Configuration.api_key = [
+          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+          'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+        ]
+      else
+        Geocoder::Configuration.api_key = nil
+      end
       url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
-      assert_match /one_in_the_hand=two\+in\+the\+bush/, url,
+      # should be "+"s for all lookups except Yahoo
+      assert_match /one_in_the_hand=two(%20|\+)in(%20|\+)the(%20|\+)bush/, url,
         "Lookup #{l} does not appear to support arbitrary params in URL"
     end
   end
@@ -67,37 +77,20 @@ class ServicesTest < Test::Unit::TestCase
 
   # --- Yahoo ---
 
-  def test_yahoo_v1_no_results
-    Geocoder::Configuration.lookup = :yahoo
-    assert_equal [], Geocoder.search("no results v1")
-  end
-
-  def test_yahoo_v1_result_components
-    Geocoder::Configuration.lookup = :yahoo
-    result = Geocoder.search("madison square garden v1").first
-    assert_equal "10001", result.postal_code
-  end
-
-  def test_yahoo_v1_address_formatting
-    Geocoder::Configuration.lookup = :yahoo
-    result = Geocoder.search("madison square garden v1").first
-    assert_equal "Madison Square Garden, New York, NY  10001, United States", result.address
-  end
-
-  def test_yahoo_v2_no_results
+  def test_yahoo_no_results
     Geocoder::Configuration.lookup = :yahoo
     assert_equal [], Geocoder.search("no results")
   end
 
-  def test_yahoo_v2_result_components
+  def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
-    result = Geocoder.search("madison square garden v2").first
+    result = Geocoder.search("madison square garden").first
     assert_equal "10001", result.postal_code
   end
 
-  def test_yahoo_v2_address_formatting
+  def test_yahoo_address_formatting
     Geocoder::Configuration.lookup = :yahoo
-    result = Geocoder.search("madison square garden v2").first
+    result = Geocoder.search("madison square garden").first
     assert_equal "Madison Square Garden, New York, NY 10001, United States", result.address
   end
 

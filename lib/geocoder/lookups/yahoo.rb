@@ -1,5 +1,6 @@
 require 'geocoder/lookups/base'
 require "geocoder/results/yahoo"
+require 'oauth_util'
 
 module Geocoder::Lookup
   class Yahoo < Base
@@ -12,47 +13,16 @@ module Geocoder::Lookup
 
     def results(query)
       return [] unless doc = fetch_data(query)
-      doc = doc['ResultSet']
-      if api_version(doc).to_i == 1 and r = version_1_results(doc)
-        return r
-      elsif api_version(doc).to_i == 2 and r = version_2_results(doc)
-        return r
+      doc = doc['bossresponse']
+      if doc['responsecode'].to_i == 200
+        if doc['placefinder']['count'].to_i > 0
+          return doc['placefinder']['results']
+        else
+          return []
+        end
       else
-        warn "Yahoo Geocoding API error: #{doc['Error']} (#{doc['ErrorMessage']})."
+        warn "Yahoo Geocoding API error: #{doc['responsecode']}."
         return []
-      end
-    end
-
-    def api_version(doc)
-      if doc.include?('version')
-        return doc['version'].to_f
-      elsif doc.include?('@version')
-        return doc['@version'].to_f
-      end
-    end
-
-    def version_1_results(doc)
-      if doc['Error'] == 0
-        if doc['Found'] > 0
-          return doc['Results']
-        else
-          return []
-        end
-      end
-    end
-
-    ##
-    # Return array of results, or nil if an error.
-    #
-    def version_2_results(doc)
-      # seems to have Error == 7 when no results, though this is not documented
-      if [0, 7].include?(doc['Error'].to_i)
-        if doc['Found'].to_i > 0
-          r = doc['Result']
-          return r.is_a?(Array) ? r : [r]
-        else
-          return []
-        end
       end
     end
 
@@ -60,14 +30,17 @@ module Geocoder::Lookup
       super.merge(
         :location => query.sanitized_text,
         :flags => "JXTSR",
-        :gflags => "AC#{'R' if query.reverse_geocode?}",
-        :locale => "#{Geocoder::Configuration.language}_US",
-        :appid => Geocoder::Configuration.api_key
+        :gflags => "AC#{'R' if query.reverse_geocode?}"
       )
     end
 
     def query_url(query)
-      "http://where.yahooapis.com/geocode?" + url_query_string(query)
+      base_url = "http://yboss.yahooapis.com/geo/placefinder?"
+      parsed_url = URI.parse(base_url + url_query_string(query))
+      o = OauthUtil.new
+      o.consumer_key = Geocoder::Configuration.api_key[0]
+      o.consumer_secret = Geocoder::Configuration.api_key[1]
+      base_url + o.sign(parsed_url).query_string
     end
   end
 end

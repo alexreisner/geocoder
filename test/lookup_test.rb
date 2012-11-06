@@ -29,12 +29,6 @@ class LookupTest < Test::Unit::TestCase
     assert_match "key=MY_KEY", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
-  def test_yahoo_app_id
-    Geocoder::Configuration.api_key = "MY_KEY"
-    g = Geocoder::Lookup::Yahoo.new
-    assert_match "appid=MY_KEY", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
-  end
-
   def test_geocoder_ca_showpostal
     Geocoder::Configuration.api_key = "MY_KEY"
     g = Geocoder::Lookup::GeocoderCa.new

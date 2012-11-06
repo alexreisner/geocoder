@@ -263,7 +263,7 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and street 
     Geocoder.configure do |config|
 
       # geocoding service (see below for supported options):
-      config.lookup = :yahoo
+      config.lookup = :yandex
 
       # to use an API key:
       config.api_key = "..."
@@ -304,17 +304,19 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
 * **Notes**: To use Google Premier set `Geocoder::Configuration.lookup = :google_premier` and `Geocoder::Configuration.api_key = [key, client, channel]`.
 
-#### Yahoo (`:yahoo`)
+#### Yahoo BOSS (`:yahoo`)
 
-* **API key**: optional in development (required for production apps)
-* **Key signup**: https://developer.apps.yahoo.com/wsregapp
-* **Quota**: 50,000 requests/day, more available by special arrangement
+Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer offers a free geocoding API.
+
+* **API key**: requires OAuth consumer key and secret (set `Geocoder::Configuration.api_key = [key, secret]`)
+* **Key signup**: http://developer.yahoo.com/boss/geo/
+* **Quota**: unlimited, but subject to usage fees
 * **Region**: world
 * **SSL support**: no
 * **Languages**: ?
-* **Documentation**: http://developer.yahoo.com/geo/placefinder/guide/responses.html
-* **Terms of Service**: http://info.yahoo.com/legal/us/yahoo/maps/mapsapi/mapsapi-2141.html
-* **Limitations**: "YOU SHALL NOT... (viii) store or allow end users to store map imagery, map data or geocoded location information from the Yahoo! Maps APIs for any future use; (ix) use the stand-alone geocoder for any use other than displaying Yahoo! Maps or displaying points on Yahoo! Maps;"
+* **Documentation**: http://developer.yahoo.com/boss/geo/docs/index.html
+* **Terms of Service**: http://info.yahoo.com/legal/us/yahoo/boss/tou/?pir=ucJPcJ1ibUn.h.d.lVmlcbcEkoHjwJ_PvxG9SLK9VIbIQAw1XFrnDqY-
+* **Limitations**: No mass downloads, no commercial map production based on the data, no storage of data except for caching.
 
 #### Bing (`:bing`)
 
