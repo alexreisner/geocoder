@@ -104,6 +104,7 @@ module Geocoder
         raise SocketError if query.text == "socket_error"
         file = case query.text
           when "no results"; :no_results
+          when "error";      :error
           else               :madison_square_garden
         end
         read_fixture "yahoo_#{file}.json"

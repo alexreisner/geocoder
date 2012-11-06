@@ -82,6 +82,14 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal [], Geocoder.search("no results")
   end
 
+  def test_yahoo_error
+    Geocoder::Configuration.lookup = :yahoo
+    # keep test output clean: suppress timeout warning
+    orig = $VERBOSE; $VERBOSE = nil
+    assert_equal [], Geocoder.search("error")
+    $VERBOSE = orig
+  end
+
   def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
     result = Geocoder.search("madison square garden").first

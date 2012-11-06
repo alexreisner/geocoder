@@ -21,7 +21,7 @@ module Geocoder::Lookup
           return []
         end
       else
-        warn "Yahoo Geocoding API error: #{doc['responsecode']}."
+        warn "Yahoo Geocoding API error: #{doc['responsecode']} (#{doc['reason']})."
         return []
       end
     end
