@@ -34,9 +34,20 @@ module Geocoder::Lookup
       )
     end
 
+    def cache_key(query)
+      raw_url(query)
+    end
+
+    def base_url
+      "http://yboss.yahooapis.com/geo/placefinder?"
+    end
+
+    def raw_url(query)
+      base_url + url_query_string(query)
+    end
+
     def query_url(query)
-      base_url = "http://yboss.yahooapis.com/geo/placefinder?"
-      parsed_url = URI.parse(base_url + url_query_string(query))
+      parsed_url = URI.parse(raw_url(query))
       o = OauthUtil.new
       o.consumer_key = Geocoder::Configuration.api_key[0]
       o.consumer_secret = Geocoder::Configuration.api_key[1]

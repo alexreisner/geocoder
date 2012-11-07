@@ -91,6 +91,16 @@ module Geocoder
       end
 
       ##
+      # Key to use for caching a geocoding result. Usually this will be the
+      # request URL, but in cases where OAuth is used and the nonce,
+      # timestamp, etc varies from one request to another, we need to use
+      # something else (like the URL before OAuth encoding).
+      #
+      def cache_key(query)
+        query_url(query)
+      end
+
+      ##
       # Class of the result objects
       #
       def result_class
@@ -150,7 +160,8 @@ module Geocoder
         timeout(Geocoder::Configuration.timeout) do
           url = query_url(query)
           uri = URI.parse(url)
-          if cache and body = cache[url]
+          key = cache_key(query)
+          if cache and body = cache[key]
             @cache_hit = true
           else
             client = http_client.new(uri.host, uri.port)
@@ -158,7 +169,7 @@ module Geocoder
             response = client.get(uri.request_uri, Geocoder::Configuration.http_headers)
             body = response.body
             if cache and (200..399).include?(response.code.to_i)
-              cache[url] = body
+              cache[key] = body
             end
             @cache_hit = false
           end

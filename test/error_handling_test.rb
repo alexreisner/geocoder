@@ -14,6 +14,7 @@ class ErrorHandlingTest < Test::Unit::TestCase
       Geocoder::Configuration.lookup = l
       assert_nothing_raised { Geocoder.search("timeout") }
     end
+  ensure
     $VERBOSE = orig
   end
 

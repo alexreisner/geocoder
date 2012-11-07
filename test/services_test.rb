@@ -87,6 +87,7 @@ class ServicesTest < Test::Unit::TestCase
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     assert_equal [], Geocoder.search("error")
+  ensure
     $VERBOSE = orig
   end
 
@@ -110,6 +111,7 @@ class ServicesTest < Test::Unit::TestCase
     orig = $VERBOSE; $VERBOSE = nil
     Geocoder::Configuration.lookup = :yandex
     assert_equal [], Geocoder.search("invalid key")
+  ensure
     $VERBOSE = orig
   end
 
