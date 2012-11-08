@@ -29,6 +29,8 @@ module Geocoder
         :yandex,
         :nominatim,
         :mapquest,
+        :google_places,
+        :google_details,
         :test
       ]
     end
