@@ -54,6 +54,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_google_premier_result_components
     Geocoder::Configuration.lookup = :google_premier
+    set_api_key!(:google_premier)
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Manhattan",
       result.address_components_of_type(:sublocality).first['long_name']
@@ -184,24 +185,5 @@ class ServicesTest < Test::Unit::TestCase
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "46 West 31st Street, New York, NY, 10001, US",
       result.address
-  end
-
-  private # ------------------------------------------------------------------
-
-  def set_api_key!(lookup_name)
-    if lookup_name == :google_premier
-      Geocoder::Configuration.api_key = [
-        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
-        'cccccccccccccccccccccccccccccc'
-      ]
-    elsif lookup_name == :yahoo
-      Geocoder::Configuration.api_key = [
-        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-      ]
-    else
-      Geocoder::Configuration.api_key = nil
-    end
   end
 end

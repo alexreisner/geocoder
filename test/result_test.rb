@@ -6,6 +6,7 @@ class ResultTest < Test::Unit::TestCase
   def test_result_has_required_attributes
     Geocoder::Lookup.all_services_except_test.each do |l|
       Geocoder::Configuration.lookup = l
+      set_api_key!(l)
       result = Geocoder.search([45.423733, -75.676333]).first
       assert_result_has_required_attributes(result)
     end
