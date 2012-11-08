@@ -154,26 +154,34 @@ module Geocoder
       end
 
       ##
-      # Fetches a raw search result (JSON string).
+      # Fetch a raw geocoding result (JSON string).
+      # The result might or might not be cached.
       #
       def fetch_raw_data(query)
-        timeout(Geocoder::Configuration.timeout) do
-          url = query_url(query)
-          uri = URI.parse(url)
-          key = cache_key(query)
-          if cache and body = cache[key]
-            @cache_hit = true
-          else
-            client = http_client.new(uri.host, uri.port)
-            client.use_ssl = true if Geocoder::Configuration.use_https
-            response = client.get(uri.request_uri, Geocoder::Configuration.http_headers)
-            body = response.body
-            if cache and (200..399).include?(response.code.to_i)
-              cache[key] = body
-            end
-            @cache_hit = false
+        key = cache_key(query)
+        if cache and body = cache[key]
+          @cache_hit = true
+        else
+          response = make_api_request(query)
+          body = response.body
+          if cache and (200..399).include?(response.code.to_i)
+            cache[key] = body
           end
-          body
+          @cache_hit = false
+        end
+        body
+      end
+
+      ##
+      # Make an HTTP(S) request to a geocoding API and
+      # return the response object.
+      #
+      def make_api_request(query)
+        timeout(Geocoder::Configuration.timeout) do
+          uri = URI.parse(query_url(query))
+          client = http_client.new(uri.host, uri.port)
+          client.use_ssl = true if Geocoder::Configuration.use_https
+          client.get(uri.request_uri, Geocoder::Configuration.http_headers)
         end
       end
 
