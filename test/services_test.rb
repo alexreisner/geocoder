@@ -6,17 +6,8 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if l == :google_premier # TODO: need to set keys to test
       next if l == :freegeoip # does not use query string
-      # need to set API key for Yahoo for OAuth encoding
-      if l == :yahoo
-        Geocoder::Configuration.api_key = [
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-          'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-        ]
-      else
-        Geocoder::Configuration.api_key = nil
-      end
+      set_api_key!(l)
       url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
@@ -193,5 +184,24 @@ class ServicesTest < Test::Unit::TestCase
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "46 West 31st Street, New York, NY, 10001, US",
       result.address
+  end
+
+  private # ------------------------------------------------------------------
+
+  def set_api_key!(lookup_name)
+    if lookup_name == :google_premier
+      Geocoder::Configuration.api_key = [
+        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        'cccccccccccccccccccccccccccccc'
+      ]
+    elsif lookup_name == :yahoo
+      Geocoder::Configuration.api_key = [
+        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+      ]
+    else
+      Geocoder::Configuration.api_key = nil
+    end
   end
 end
