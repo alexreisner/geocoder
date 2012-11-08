@@ -39,7 +39,7 @@ module Geocoder::Lookup
     end
 
     def base_url
-      "http://yboss.yahooapis.com/geo/placefinder?"
+      "#{protocol}://yboss.yahooapis.com/geo/placefinder?"
     end
 
     def raw_url(query)

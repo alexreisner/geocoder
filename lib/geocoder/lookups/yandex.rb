@@ -40,7 +40,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://geocode-maps.yandex.ru/1.x/?" + url_query_string(query)
+      "#{protocol}://geocode-maps.yandex.ru/1.x/?" + url_query_string(query)
     end
   end
 end

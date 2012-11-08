@@ -10,7 +10,7 @@ module Geocoder::Lookup
     def query_url(query)
       key = Geocoder::Configuration.api_key
       domain = key ? "www" : "open"
-      url = "http://#{domain}.mapquestapi.com/geocoding/v1/#{search_type(query)}?"
+      url = "#{protocol}://#{domain}.mapquestapi.com/geocoding/v1/#{search_type(query)}?"
       url + url_query_string(query)
     end
 
