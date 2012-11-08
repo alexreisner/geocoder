@@ -313,7 +313,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Quota**: unlimited, but subject to usage fees
 * **Region**: world
 * **SSL support**: no
-* **Languages**: ?
+* **Languages**: en, fr, de, it, es, pt, nl, zh, ja, ko
 * **Documentation**: http://developer.yahoo.com/boss/geo/docs/index.html
 * **Terms of Service**: http://info.yahoo.com/legal/us/yahoo/boss/tou/?pir=ucJPcJ1ibUn.h.d.lVmlcbcEkoHjwJ_PvxG9SLK9VIbIQAw1XFrnDqY-
 * **Limitations**: No mass downloads, no commercial map production based on the data, no storage of data except for caching.
