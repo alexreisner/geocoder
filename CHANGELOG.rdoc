@@ -2,6 +2,15 @@
 
 Per-release changes to Geocoder.
 
+== 1.1.5 (2012 Nov 9)
+
+* Replace support for old Yahoo Placefinder with Yahoo BOSS (thanks github.com/pwoltman).
+* Add support for actual Mapquest API (was previously just a proxy for Nominatim), including the paid service (thanks github.com/jedschneider).
+* Add support for :select => :id_only option to near scope.
+* Treat a given query as blank (don't do a lookup) if coordinates are given but latitude or longitude is nil.
+* Speed up 'near' queries by adding bounding box condition (thanks github.com/mlandauer).
+* Fix: don't redefine Object#hash in Yahoo result object (thanks github.com/m0thman).
+
 == 1.1.4 (2012 Oct 2)
 
 * Deprecate Geocoder::Result::Nominatim#class and #type methods. Use #place_class and #place_type instead.
