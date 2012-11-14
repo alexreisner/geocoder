@@ -45,6 +45,19 @@ Your model must have two attributes (database columns) for storing latitude and 
     rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
     rake db:migrate
 
+To add a Geocoder query interface to a model, you must first extend the module:
+
+    class Airport < ActiveRecord::Base
+        extend Geocoder::Model::ActiveRecord
+        
+        # if your :latitude, :longitude is already populated
+        reverse_geocoded_by :latitude, :longitude 
+    end
+
+**Note:** Even if you do not need any actual geocoding in your app, but you still want to do something like `Airport.first.nearbys(10)` (to find all airports within 10 miles of the first), then you *must* have the call to `reverse_geocoded_by`
+
+
+
 For reverse geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`).
 
 Next, your model must tell Geocoder which method returns your object's geocodable address:
