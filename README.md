@@ -507,7 +507,6 @@ When you install the Geocoder gem it adds a `geocode` command to your shell. You
 
 There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON reponse, and more. Please run `geocode -h` for details.
 
-
 Notes on MongoDB
 ----------------
 
@@ -528,6 +527,13 @@ Calling `obj.coordinates` directly returns the internal representation of the co
     obj.coordinates     # => [-122.3951096, 37.7941013] # [lon, lat]
 
 For consistency with the rest of Geocoder, always use the `to_coordinates` method instead.
+
+Notes on Non-Rails Frameworks
+-----------------------------
+
+If you are using Geocoder with ActiveRecord and a framework other than Rails (like Sinatra or Padrino) you will need to add this in your model before calling Geocoder methods:
+
+   extend Geocoder::Model::ActiveRecord 
 
 Optimisation of Distance Queries
 --------------------------------
