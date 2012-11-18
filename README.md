@@ -81,6 +81,10 @@ Reverse geocoding is similar:
     reverse_geocoded_by :coordinates
     after_validation :reverse_geocode  # auto-fetch address
 
+Once you've set up your model you'll need to create the necessary spatial indices in your database:
+
+    rake db:mongoid:create_indexes
+
 Be sure to read _Latitude/Longitude Order_ in the _Notes on MongoDB_ section below on how to properly retrieve latitude/longitude coordinates from your objects.
 
 ### MongoMapper
