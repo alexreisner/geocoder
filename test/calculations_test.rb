@@ -27,16 +27,23 @@ class CalculationsTest < Test::Unit::TestCase
   # --- distance between ---
 
   def test_distance_between_in_miles
-    assert_equal 69, Geocoder::Calculations.distance_between([0,0], [0,1]).round
-    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74]).round
-    assert (la_to_ny - 2444).abs < 10
+    methods = [:linear, :spherical]
+    methods.each do |m|
+      assert_equal 69, Geocoder::Calculations.distance_between([0,0], [0,1], :method=>m).round
+    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], :method=>m).round
+      assert (la_to_ny - 2444).abs < 10
+    end
   end
 
   def test_distance_between_in_kilometers
-    assert_equal 111, Geocoder::Calculations.distance_between([0,0], [0,1], :units => :km).round
-    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], :units => :km).round
-    assert (la_to_ny - 3942).abs < 10
+    methods = [:linear, :spherical]
+    methods.each do |m|
+      assert_equal 111, Geocoder::Calculations.distance_between([0,0], [0,1], :units => :km, :method=>m).round
+      la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], :units => :km, :method=>m).round
+     assert (la_to_ny - 3942).abs < 10
+    end
   end
+  
 
 
   # --- geographic center ---

@@ -54,7 +54,7 @@ module Geocoder
     end
 
     ##
-    # Distance between two points on Earth (Haversine formula).
+    # Distance between two points on Earth (Haversine formula or Spherical Law of Cosines formula).
     # Takes two points and an options hash.
     # The points are given in the same way that points are given to all
     # Geocoder methods that accept points as arguments. They can be:
@@ -67,12 +67,15 @@ module Geocoder
     # The options hash supports:
     #
     # * <tt>:units</tt> - <tt>:mi</tt> or <tt>:km</tt>
+    # * <tt>:method</tt> - <tt>:linear</tt> or <tt>:spherical</tt>
     #   See Geocoder::Configuration to know how configure default units.
     #
     def distance_between(point1, point2, options = {})
 
       # set default options
       options[:units] ||= Geocoder::Configuration.units
+      options[:method] ||= Geocoder::Configuration.distances
+      options[:method] = :linear unless options[:method] == :spherical
 
       # convert to coordinate arrays
       point1 = extract_coordinates(point1)
@@ -81,15 +84,23 @@ module Geocoder
       # convert degrees to radians
       point1 = to_radians(point1)
       point2 = to_radians(point2)
-
-      # compute deltas
-      dlat = point2[0] - point1[0]
+      
+      #longitudinal delta needed for both cases
       dlon = point2[1] - point1[1]
-
-      a = (Math.sin(dlat / 2))**2 + Math.cos(point1[0]) *
-          (Math.sin(dlon / 2))**2 * Math.cos(point2[0])
-      c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
-      c * earth_radius(options[:units])
+      case options[:method]
+      when :linear #use haversine formula
+        # compute deltas
+        dlat = point2[0] - point1[0]
+  
+        a = (Math.sin(dlat / 2))**2 + Math.cos(point1[0]) *
+            (Math.sin(dlon / 2))**2 * Math.cos(point2[0])
+        c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
+        c * earth_radius(options[:units])
+      when :spherical #use spherical law of cosines formula
+        Math.acos(Math.sin(point1[0])*Math.sin(point2[0]) + 
+                  Math.cos(point1[0])*Math.cos(point2[0]) *
+                  Math.cos(dlon)) * earth_radius(options[:units])
+      end
     end
 
     ##
