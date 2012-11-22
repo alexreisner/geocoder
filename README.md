@@ -537,7 +537,7 @@ Notes on Non-Rails Frameworks
 
 If you are using Geocoder with ActiveRecord and a framework other than Rails (like Sinatra or Padrino) you will need to add this in your model before calling Geocoder methods:
 
-   extend Geocoder::Model::ActiveRecord 
+    extend Geocoder::Model::ActiveRecord 
 
 Optimisation of Distance Queries
 --------------------------------
