@@ -590,6 +590,17 @@ You can also do this to raise all exceptions:
 See `lib/geocoder/exceptions.rb` for a list of raise-able exceptions.
 
 
+Troubleshooting
+---------------
+
+If you get one of these errors:
+
+    uninitialized constant Geocoder::Model::Mongoid
+    uninitialized constant Geocoder::Model::Mongoid::Mongo
+
+you should check your Gemfile to make sure the Mongoid gem is listed _before_ Geocoder. If Mongoid isn't loaded when Geocoder is initialized, Geocoder will not load support for Mongoid.
+
+
 Known Issue
 -----------
 
