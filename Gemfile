@@ -1,7 +1,5 @@
 source "http://rubygems.org"
 
-gemspec
-
 group :development, :test do
   gem 'rake'
   gem 'mongoid'
@@ -13,3 +11,5 @@ group :development, :test do
   	gem 'jruby-openssl'
   end
 end
+
+gemspec
