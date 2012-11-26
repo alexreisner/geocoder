@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 group :development, :test do
   gem 'rake'
-  gem 'mongoid'
+  gem 'mongoid', '3.0.13'
   gem 'bson_ext', :platforms => :ruby
 
   gem 'rails'
