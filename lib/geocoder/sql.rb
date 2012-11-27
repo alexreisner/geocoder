@@ -11,7 +11,8 @@ module Geocoder
     # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
     #
     def full_distance(latitude, longitude, lat_attr, lon_attr, options = {})
-      earth = Geocoder::Calculations.earth_radius(options[:units] || :mi)
+      units = options[:units] || Geocoder::Configuration.units
+      earth = Geocoder::Calculations.earth_radius(units)
 
       "#{earth} * 2 * ASIN(SQRT(" +
         "POWER(SIN((#{latitude.to_f} - #{lat_attr}) * PI() / 180 / 2), 2) + " +
@@ -31,8 +32,9 @@ module Geocoder
     # are not intended for use in production!
     #
     def approx_distance(latitude, longitude, lat_attr, lon_attr, options = {})
-      dx = Geocoder::Calculations.longitude_degree_distance(30, options[:units] || :mi)
-      dy = Geocoder::Calculations.latitude_degree_distance(options[:units] || :mi)
+      units = options[:units] || Geocoder::Configuration.units
+      dx = Geocoder::Calculations.longitude_degree_distance(30, units)
+      dy = Geocoder::Calculations.latitude_degree_distance(units)
 
       # sin of 45 degrees = average x or y component of vector
       factor = Math.sin(Math::PI / 4)
@@ -61,7 +63,7 @@ module Geocoder
     # http://www.beginningspatial.com/calculating_bearing_one_point_another
     #
     def full_bearing(latitude, longitude, lat_attr, lon_attr, options = {})
-      case options[:bearing]
+      case options[:bearing] || Geocoder::Configuration.distances
       when :linear
         "CAST(" +
           "DEGREES(ATAN2( " +

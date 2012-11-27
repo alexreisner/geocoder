@@ -590,6 +590,26 @@ You can also do this to raise all exceptions:
 See `lib/geocoder/exceptions.rb` for a list of raise-able exceptions.
 
 
+Troubleshooting
+---------------
+
+### Mongoid
+
+If you get one of these errors:
+
+    uninitialized constant Geocoder::Model::Mongoid
+    uninitialized constant Geocoder::Model::Mongoid::Mongo
+
+you should check your Gemfile to make sure the Mongoid gem is listed _before_ Geocoder. If Mongoid isn't loaded when Geocoder is initialized, Geocoder will not load support for Mongoid.
+
+### ActiveRecord
+
+A lot of debugging time can be saved by understanding how Geocoder works with ActiveRecord. When you use the `near` scope or the `nearbys` method of a geocoded object, Geocoder creates an ActiveModel::Relation object which adds some attributes (eg: distance, bearing) to the SELECT clause. It also adds a condition to the WHERE clause to check that distance is within the given radius. Because the SELECT clause is modified, anything else that modifies the SELECT clause may produce strange results, for example:
+
+* using the `pluck` method (selects only a single column)
+* specifying another model through `includes` (selects columns from other tables)
+
+
 Known Issue
 -----------
 
