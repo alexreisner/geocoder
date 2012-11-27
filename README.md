@@ -130,9 +130,11 @@ To find objects by location, use the following scopes:
 
 With geocoded objects you can do things like this:
 
-    obj.nearbys(30)                      # other objects within 30 miles
-    obj.distance_from([40.714,-100.234]) # distance from arbitrary point to object
-    obj.bearing_to("Paris, France")      # direction from object to arbitrary point
+    if obj.geocoded?
+      obj.nearbys(30)                      # other objects within 30 miles
+      obj.distance_from([40.714,-100.234]) # distance from arbitrary point to object
+      obj.bearing_to("Paris, France")      # direction from object to arbitrary point
+    end
 
 Some utility methods are also available:
 
