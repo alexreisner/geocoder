@@ -7,6 +7,8 @@ module Geocoder
       unless defined?(@location)
         if env.has_key?('HTTP_X_REAL_IP')
           @location = Geocoder.search(env['HTTP_X_REAL_IP']).first
+        elsif env.has_key?('HTTP_X_FORWARDED_FOR')
+          @location = Geocoder.search(env['HTTP_X_FORWARDED_FOR']).first
         else
           @location = Geocoder.search(ip).first
         end
