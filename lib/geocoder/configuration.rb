@@ -41,6 +41,7 @@ module Geocoder
       :timeout,
       :lookup,
       :ip_lookup,
+      :ip_lookup_host,
       :language,
       :http_headers,
       :use_https,

@@ -6,7 +6,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if l == :freegeoip # does not use query string
+      next if (l == :freegeoip || l == :geoip_server) # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
@@ -121,13 +121,30 @@ class ServicesTest < Test::Unit::TestCase
   # --- FreeGeoIp ---
 
   def test_freegeoip_result_on_ip_address_search
+    Geocoder::Configuration.ip_lookup = :freegeoip
     result = Geocoder.search("74.200.247.59").first
     assert result.is_a?(Geocoder::Result::Freegeoip)
   end
 
   def test_freegeoip_result_components
+    Geocoder::Configuration.ip_lookup = :freegeoip
     result = Geocoder.search("74.200.247.59").first
     assert_equal "Plano, TX 75093, United States", result.address
+  end
+
+
+  # --- GeoIpServer ---
+
+  def test_geoip_server_result_on_ip_address_search
+    Geocoder::Configuration.ip_lookup = :geoip_server
+    result = Geocoder.search("74.200.247.59").first
+    assert result.is_a?(Geocoder::Result::GeoipServer)
+  end
+
+  def test_geoip_server_result_components
+    Geocoder::Configuration.ip_lookup = :geoip_server
+    result = Geocoder.search("74.200.247.59").first
+    assert_equal "San Francisco, CA 94110, United States", result.address
   end
 
 
