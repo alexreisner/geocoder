@@ -271,6 +271,9 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and street 
       # geocoding service (see below for supported options):
       config.lookup = :yandex
 
+      # allow user defined geocoding service:
+      config.allow_custom_lookup = false
+
       # to use an API key:
       config.api_key = "..."
 
@@ -394,6 +397,10 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Terms of Service**: ?
 * **Limitations**: ?
 
+#### Custom service (`:example`)
+
+Enabling the `allow_custom_lookup` option allows you to create custom services in your project. To do this, you have to create your custom lookup and result classes to handle your new service.
+Read the code of one the included services to begin with.
 
 Caching
 -------
