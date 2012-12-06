@@ -37,7 +37,10 @@ module Geocoder
     # All IP address lookup services, default first.
     #
     def ip_services
-      [:freegeoip]
+      [
+        :freegeoip,
+        :geoip_server
+      ]
     end
 
     ##

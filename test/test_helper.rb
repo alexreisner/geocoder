@@ -161,6 +161,19 @@ module Geocoder
       end
     end
 
+    class GeoipServer < Base
+      private #-----------------------------------------------------------------
+      def make_api_request(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
+          when "no results";  :no_results
+          else                "74_200_247_59"
+        end
+        read_fixture "geoip_server_#{file}.json"
+      end
+    end
+
     class Bing < Base
       private #-----------------------------------------------------------------
       def make_api_request(query)
