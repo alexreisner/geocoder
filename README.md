@@ -291,6 +291,11 @@ Please see lib/geocoder/configuration.rb for a complete list of configuration op
     Geocoder::Configuration.lookup = :nominatim
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
 
+You may select multiple geocoder services.
+In that case, you'll get results of the first one returning a non empty result set.
+For example, to use Geocoder.ca and fallback on Google :
+
+    Geocoder::Configuration.lookup = [:geocoder_ca, :google]
 
 ### Listing and Comparison
 
