@@ -25,6 +25,12 @@ class ServicesTest < Test::Unit::TestCase
       result.address_components_of_type(:sublocality).first['long_name']
   end
 
+  def test_google_result_components_contains_route
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "Penn Plaza",
+      result.address_components_of_type(:route).first['long_name']
+  end
+
   def test_google_returns_city_when_no_locality_in_result
     result = Geocoder.search("no locality").first
     assert_equal "Haram", result.city
