@@ -400,7 +400,88 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 #### Custom service (`:example`)
 
 Enabling the `allow_custom_lookup` option allows you to create custom services in your project. To do this, you have to create your custom lookup and result classes to handle your new service.
-Read the code of one the included services to begin with.
+Read the code of one the included services to begin with. See next chapter for a real example.
+
+
+Custom geololazation service
+----------------------------
+
+If you've geolocalization in your own database (like geonames.org), you may want to create a custom service for geocoder.
+That's the case in the following example, we want to search in a local database for geolocalization.
+
+Define your **Geocoder::Lookup** class to access the data
+
+    # lib/geocoder/lookup/geonames_dumped.rb
+    module Geocoder::Lookup
+      class GeonamesDumped < Base
+    
+        private
+    
+        def results(query)
+          # ... perform the search in your database
+          MyModel.where(...)
+          # or create a scope which separate country, city, ...
+          MyModel.search(...)
+        end
+    
+      end
+    end
+
+Define your **Geocoder::Result** class to return the result in a standard way
+
+    # lib/geocoder/result/geonames_dumped.rb
+    module Geocoder::Result
+      class GeonamesDumped < Base
+
+        ##
+        # Add the methods to handle your data and return the appropriate fields
+        #
+    
+        def coordinates
+        end
+    
+        def address(format = :full)
+        end
+    
+        def street_address
+        end
+    
+        def city
+        end
+    
+        def state
+        end
+    
+        def state_code
+        end
+    
+        def postal_code
+        end
+    
+        def country
+        end
+    
+        def country_code
+        end
+    
+      end
+    end
+
+Select your new geocoding service in the configuration
+
+    # config/initializers/geocoder.rb
+    Geocoder.configure do |config|
+      # ...
+      config.lookup              = :geonames_dumped     # name of your custom geocoding service (symbol)
+      config.allow_custom_lookup = true                 # allow custom services
+      # ...
+    end
+
+If you're using Rails, do not forget to load your classes. To do this, simply add : 
+
+    # config/application.rb
+    config.autoload_paths += %W(#{config.root}/lib)
+
 
 Caching
 -------
