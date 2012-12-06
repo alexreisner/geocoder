@@ -77,11 +77,13 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_yahoo_no_results
     Geocoder::Configuration.lookup = :yahoo
+    set_api_key!(:yahoo)
     assert_equal [], Geocoder.search("no results")
   end
 
   def test_yahoo_error
     Geocoder::Configuration.lookup = :yahoo
+    set_api_key!(:yahoo)
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     assert_equal [], Geocoder.search("error")
@@ -91,12 +93,14 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_yahoo_result_components
     Geocoder::Configuration.lookup = :yahoo
+    set_api_key!(:yahoo)
     result = Geocoder.search("madison square garden").first
     assert_equal "10001", result.postal_code
   end
 
   def test_yahoo_address_formatting
     Geocoder::Configuration.lookup = :yahoo
+    set_api_key!(:yahoo)
     result = Geocoder.search("madison square garden").first
     assert_equal "Madison Square Garden, New York, NY 10001, United States", result.address
   end
@@ -108,6 +112,7 @@ class ServicesTest < Test::Unit::TestCase
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     Geocoder::Configuration.lookup = :yandex
+    set_api_key!(:yandex)
     assert_equal [], Geocoder.search("invalid key")
   ensure
     $VERBOSE = orig
@@ -118,6 +123,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_geocoder_ca_result_components
     Geocoder::Configuration.lookup = :geocoder_ca
+    set_api_key!(:geocoder_ca)
     result = Geocoder.search([45.423733, -75.676333]).first
     assert_equal "CA", result.country_code
     assert_equal "289 Somerset ST E, Ottawa, ON K1N6W1, Canada", result.address
@@ -141,6 +147,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_bing_result_components
     Geocoder::Configuration.lookup = :bing
+    set_api_key!(:bing)
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Madison Square Garden, NY", result.address
     assert_equal "NY", result.state
@@ -149,6 +156,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_bing_no_results
     Geocoder::Configuration.lookup = :bing
+    set_api_key!(:bing)
     results = Geocoder.search("no results")
     assert_equal 0, results.length
   end
@@ -157,22 +165,24 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_nominatim_result_components
     Geocoder::Configuration.lookup = :nominatim
+    set_api_key!(:nominatim)
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "10001", result.postal_code
   end
 
   def test_nominatim_address_formatting
     Geocoder::Configuration.lookup = :nominatim
+    set_api_key!(:nominatim)
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Madison Square Garden, West 31st Street, Long Island City, New York City, New York, 10001, United States of America",
       result.address
   end
+
   # --- MapQuest ---
 
   def test_api_route
     Geocoder::Configuration.lookup = :mapquest
     Geocoder::Configuration.api_key = "abc123"
-
     lookup = Geocoder::Lookup::Mapquest.new
     query = Geocoder::Query.new("Bluffton, SC")
     res = lookup.send(:query_url, query)
@@ -182,12 +192,14 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_mapquest_result_components
     Geocoder::Configuration.lookup = :mapquest
+    set_api_key!(:mapquest)
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "10001", result.postal_code
   end
 
   def test_mapquest_address_formatting
     Geocoder::Configuration.lookup = :mapquest
+    set_api_key!(:mapquest)
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "46 West 31st Street, New York, NY, 10001, US",
       result.address

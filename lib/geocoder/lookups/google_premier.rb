@@ -6,6 +6,14 @@ require 'geocoder/results/google_premier'
 module Geocoder::Lookup
   class GooglePremier < Google
 
+    def name
+      "Google Premier"
+    end
+
+    def required_api_key_parts
+      ["private key", "client", "channel"]
+    end
+
     private # ---------------------------------------------------------------
 
     def query_url_params(query)

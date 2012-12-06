@@ -4,6 +4,10 @@ require 'geocoder/results/freegeoip'
 module Geocoder::Lookup
   class Freegeoip < Base
 
+    def name
+      "FreeGeoIP"
+    end
+
     private # ---------------------------------------------------------------
 
     def parse_raw_data(raw_data)
