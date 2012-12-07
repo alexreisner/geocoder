@@ -4,6 +4,14 @@ require "geocoder/results/geocoder_ca"
 module Geocoder::Lookup
   class GeocoderCa < Base
 
+    def name
+      "Geocoder.ca"
+    end
+
+    def required_api_key_parts
+      ["key"]
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -39,7 +47,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://geocoder.ca/?" + url_query_string(query)
+      "#{protocol}://geocoder.ca/?" + url_query_string(query)
     end
 
     def parse_raw_data(raw_data)

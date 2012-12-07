@@ -81,6 +81,10 @@ Reverse geocoding is similar:
     reverse_geocoded_by :coordinates
     after_validation :reverse_geocode  # auto-fetch address
 
+Once you've set up your model you'll need to create the necessary spatial indices in your database:
+
+    rake db:mongoid:create_indexes
+
 Be sure to read _Latitude/Longitude Order_ in the _Notes on MongoDB_ section below on how to properly retrieve latitude/longitude coordinates from your objects.
 
 ### MongoMapper
@@ -126,9 +130,11 @@ To find objects by location, use the following scopes:
 
 With geocoded objects you can do things like this:
 
-    obj.nearbys(30)                      # other objects within 30 miles
-    obj.distance_from([40.714,-100.234]) # distance from arbitrary point to object
-    obj.bearing_to("Paris, France")      # direction from object to arbitrary point
+    if obj.geocoded?
+      obj.nearbys(30)                      # other objects within 30 miles
+      obj.distance_from([40.714,-100.234]) # distance from arbitrary point to object
+      obj.bearing_to("Paris, France")      # direction from object to arbitrary point
+    end
 
 Some utility methods are also available:
 
@@ -263,7 +269,7 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and street 
     Geocoder.configure do |config|
 
       # geocoding service (see below for supported options):
-      config.lookup = :yahoo
+      config.lookup = :yandex
 
       # to use an API key:
       config.api_key = "..."
@@ -304,17 +310,19 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
 * **Notes**: To use Google Premier set `Geocoder::Configuration.lookup = :google_premier` and `Geocoder::Configuration.api_key = [key, client, channel]`.
 
-#### Yahoo (`:yahoo`)
+#### Yahoo BOSS (`:yahoo`)
 
-* **API key**: optional in development (required for production apps)
-* **Key signup**: https://developer.apps.yahoo.com/wsregapp
-* **Quota**: 50,000 requests/day, more available by special arrangement
+Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer offers a free geocoding API.
+
+* **API key**: requires OAuth consumer key and secret (set `Geocoder::Configuration.api_key = [key, secret]`)
+* **Key signup**: http://developer.yahoo.com/boss/geo/
+* **Quota**: unlimited, but subject to usage fees
 * **Region**: world
 * **SSL support**: no
-* **Languages**: ?
-* **Documentation**: http://developer.yahoo.com/geo/placefinder/guide/responses.html
-* **Terms of Service**: http://info.yahoo.com/legal/us/yahoo/maps/mapsapi/mapsapi-2141.html
-* **Limitations**: "YOU SHALL NOT... (viii) store or allow end users to store map imagery, map data or geocoded location information from the Yahoo! Maps APIs for any future use; (ix) use the stand-alone geocoder for any use other than displaying Yahoo! Maps or displaying points on Yahoo! Maps;"
+* **Languages**: en, fr, de, it, es, pt, nl, zh, ja, ko
+* **Documentation**: http://developer.yahoo.com/boss/geo/docs/index.html
+* **Terms of Service**: http://info.yahoo.com/legal/us/yahoo/boss/tou/?pir=ucJPcJ1ibUn.h.d.lVmlcbcEkoHjwJ_PvxG9SLK9VIbIQAw1XFrnDqY-
+* **Limitations**: No mass downloads, no commercial map production based on the data, no storage of data except for caching.
 
 #### Bing (`:bing`)
 
@@ -363,8 +371,11 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 
 #### Mapquest (`:mapquest`)
 
-* **API key**: none
+* **API key**: required for the licensed API, do not use for open tier
 * **Quota**: ?
+* **HTTP Headers**: in order to use the licensed API you can configure the http_headers to include a referer as so:
+    `Geocoder::Configuration.http_headers = { "Referer" => "http://foo.com" }`
+  You can also allow a blank referer from the API management console via mapquest but it is potentially a security risk that someone else could use your API key from another domain.
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
@@ -502,7 +513,6 @@ When you install the Geocoder gem it adds a `geocode` command to your shell. You
 
 There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON reponse, and more. Please run `geocode -h` for details.
 
-
 Notes on MongoDB
 ----------------
 
@@ -523,6 +533,22 @@ Calling `obj.coordinates` directly returns the internal representation of the co
     obj.coordinates     # => [-122.3951096, 37.7941013] # [lon, lat]
 
 For consistency with the rest of Geocoder, always use the `to_coordinates` method instead.
+
+Notes on Non-Rails Frameworks
+-----------------------------
+
+If you are using Geocoder with ActiveRecord and a framework other than Rails (like Sinatra or Padrino) you will need to add this in your model before calling Geocoder methods:
+
+    extend Geocoder::Model::ActiveRecord 
+
+Optimisation of Distance Queries
+--------------------------------
+
+In MySQL and Postgres the finding of objects near a given point is speeded up by using a bounding box to limit the number of points over which a full distance calculation needs to be done.
+
+To take advantage of this optimisation you need to add a composite index on latitude and longitude. In your Rails migration:
+
+    add_index :table, [:latitude, :longitude]
 
 
 Distance Queries in SQLite
@@ -564,6 +590,26 @@ You can also do this to raise all exceptions:
     Geocoder::Configuration.always_raise = :all
 
 See `lib/geocoder/exceptions.rb` for a list of raise-able exceptions.
+
+
+Troubleshooting
+---------------
+
+### Mongoid
+
+If you get one of these errors:
+
+    uninitialized constant Geocoder::Model::Mongoid
+    uninitialized constant Geocoder::Model::Mongoid::Mongo
+
+you should check your Gemfile to make sure the Mongoid gem is listed _before_ Geocoder. If Mongoid isn't loaded when Geocoder is initialized, Geocoder will not load support for Mongoid.
+
+### ActiveRecord
+
+A lot of debugging time can be saved by understanding how Geocoder works with ActiveRecord. When you use the `near` scope or the `nearbys` method of a geocoded object, Geocoder creates an ActiveModel::Relation object which adds some attributes (eg: distance, bearing) to the SELECT clause. It also adds a condition to the WHERE clause to check that distance is within the given radius. Because the SELECT clause is modified, anything else that modifies the SELECT clause may produce strange results, for example:
+
+* using the `pluck` method (selects only a single column)
+* specifying another model through `includes` (selects columns from other tables)
 
 
 Known Issue

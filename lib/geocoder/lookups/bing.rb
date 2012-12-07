@@ -4,8 +4,16 @@ require "geocoder/results/bing"
 module Geocoder::Lookup
   class Bing < Base
 
+    def name
+      "Bing"
+    end
+
     def map_link_url(coordinates)
       "http://www.bing.com/maps/default.aspx?cp=#{coordinates.join('~')}"
+    end
+
+    def required_api_key_parts
+      ["key"]
     end
 
     private # ---------------------------------------------------------------
@@ -29,7 +37,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://dev.virtualearth.net/REST/v1/Locations" +
+      "#{protocol}://dev.virtualearth.net/REST/v1/Locations" +
         (query.reverse_geocode? ? "/#{query.sanitized_text}?" : "?") +
         url_query_string(query)
     end

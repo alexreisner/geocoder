@@ -4,6 +4,10 @@ require 'geocoder/results/freegeoip'
 module Geocoder::Lookup
   class Freegeoip < Base
 
+    def name
+      "FreeGeoIP"
+    end
+
     private # ---------------------------------------------------------------
 
     def parse_raw_data(raw_data)
@@ -37,7 +41,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://freegeoip.net/json/#{query.sanitized_text}"
+      "#{protocol}://freegeoip.net/json/#{query.sanitized_text}"
     end
   end
 end

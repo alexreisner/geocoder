@@ -94,22 +94,26 @@ module Geocoder::Store
       #   set to false for no bearing calculation.
       #   See Geocoder::Configuration to know how configure default method.
       # * +:select+  - string with the SELECT SQL fragment (e.g. “id, name”)
-      # * +:order+   - column(s) for ORDER BY SQL clause; default is distance
+      # * +:order+   - column(s) for ORDER BY SQL clause; default is distance;
+      #                set to false or nil to omit the ORDER BY clause
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
         bearing = bearing_sql(latitude, longitude, options)
         distance = distance_sql(latitude, longitude, options)
+
+        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+        args = b + [
+          full_column_name(geocoder_options[:latitude]),
+          full_column_name(geocoder_options[:longitude])
+        ]
+        bounding_box_conditions = Geocoder::Sql.within_bounding_box(*args)
+
         if using_sqlite?
-          b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
-          args = b + [
-            full_column_name(geocoder_options[:latitude]),
-            full_column_name(geocoder_options[:longitude])
-          ]
-          conditions = Geocoder::Sql.within_bounding_box(*args)
+          conditions = bounding_box_conditions
         else
-          conditions = ["#{distance} <= ?", radius]
+          conditions = [bounding_box_conditions + " AND #{distance} <= ?", radius]
         end
         {
           :select => select_clause(options[:select], distance, bearing),
@@ -156,8 +160,10 @@ module Geocoder::Store
       ##
       # Generate the SELECT clause.
       #
-      def select_clause(columns, distance, bearing = nil)
-        if columns == :geo_only
+      def select_clause(columns, distance = nil, bearing = nil)
+        if columns == :id_only
+          return full_column_name(primary_key)
+        elsif columns == :geo_only
           clause = ""
         else
           clause = (columns || full_column_name("*")) + ", "

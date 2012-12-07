@@ -31,17 +31,24 @@ module Geocoder::Result
       @data['postal']
     end
 
+    def address_hash
+      @data['hash']
+    end
+
     def self.response_attributes
       %w[quality offsetlat offsetlon radius boundingbox name
         line1 line2 line3 line4 cross house street xstreet unittype unit
+        city state statecode country countrycode postal
         neighborhood county countycode
         level0 level1 level2 level3 level4 level0code level1code level2code
         timezone areacode uzip hash woeid woetype]
     end
 
     response_attributes.each do |a|
-      define_method a do
-        @data[a]
+      unless method_defined?(a)
+        define_method a do
+          @data[a]
+        end
       end
     end
   end

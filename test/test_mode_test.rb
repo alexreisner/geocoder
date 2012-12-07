@@ -1,5 +1,4 @@
 require 'test_helper'
-require 'geocoder/lookups/test'
 
 class TestModeTest < Test::Unit::TestCase
 

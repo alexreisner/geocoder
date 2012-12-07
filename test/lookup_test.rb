@@ -6,6 +6,7 @@ class LookupTest < Test::Unit::TestCase
   def test_search_returns_empty_array_when_no_results
     Geocoder::Lookup.all_services_except_test.each do |l|
       lookup = Geocoder::Lookup.get(l)
+      set_api_key!(l)
       assert_equal [], lookup.send(:results, Geocoder::Query.new("no results")),
         "Lookup #{l} does not return empty array when no results."
     end
@@ -29,16 +30,17 @@ class LookupTest < Test::Unit::TestCase
     assert_match "key=MY_KEY", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
-  def test_yahoo_app_id
-    Geocoder::Configuration.api_key = "MY_KEY"
-    g = Geocoder::Lookup::Yahoo.new
-    assert_match "appid=MY_KEY", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
-  end
-
   def test_geocoder_ca_showpostal
     Geocoder::Configuration.api_key = "MY_KEY"
     g = Geocoder::Lookup::GeocoderCa.new
     assert_match "showpostal=1", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
+  def test_raises_configuration_error_on_missing_key
+    assert_raises Geocoder::ConfigurationError do
+      Geocoder::Configuration.lookup = :bing
+      Geocoder::Configuration.api_key = nil
+      Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
+    end
+  end
 end
