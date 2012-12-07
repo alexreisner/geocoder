@@ -210,12 +210,14 @@ module Geocoder
       end
 
       def check_api_key_configuration!(query)
-        key_parts = query.lookup.required_api_key_parts
-        if key_parts.size > Array(Geocoder::Configuration.api_key).size
-          parts_string = key_parts.size == 1 ? key_parts.first : key_parts
-          raise Geocoder::ConfigurationError,
-            "The #{query.lookup.name} API requires a key to be configured: " +
-            parts_string.inspect
+        query.lookups.each do |lookup|
+          key_parts = lookup.required_api_key_parts
+          if key_parts.size > Array(Geocoder::Configuration[lookup_name].api_key).size
+            parts_string = key_parts.size == 1 ? key_parts.first : key_parts
+            raise Geocoder::ConfigurationError,
+              "The #{lookup.name} API requires a key to be configured: " +
+              parts_string.inspect
+          end
         end
       end
 
