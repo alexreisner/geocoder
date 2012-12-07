@@ -41,7 +41,7 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       super.merge(query_url_google_params(query)).merge(
-        :key => Geocoder::Configuration.api_key
+        :key => Geocoder::Configuration[lookup_name].api_key
       )
     end
 

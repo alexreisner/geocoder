@@ -49,8 +49,8 @@ module Geocoder::Lookup
     def query_url(query)
       parsed_url = URI.parse(raw_url(query))
       o = OauthUtil.new
-      o.consumer_key = Geocoder::Configuration.api_key[0]
-      o.consumer_secret = Geocoder::Configuration.api_key[1]
+      o.consumer_key = Geocoder::Configuration[lookup_name].api_key[0]
+      o.consumer_secret = Geocoder::Configuration[lookup_name].api_key[1]
       base_url + o.sign(parsed_url).query_string
     end
   end

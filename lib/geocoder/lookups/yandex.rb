@@ -34,8 +34,8 @@ module Geocoder::Lookup
       super.merge(
         :geocode => q,
         :format => "json",
-        :plng => "#{Geocoder::Configuration.language}", # supports ru, uk, be
-        :key => Geocoder::Configuration.api_key
+        :plng => "#{Geocoder::Configuration[lookup_name].language}", # supports ru, uk, be
+        :key => Geocoder::Configuration[lookup_name].api_key
       )
     end
 

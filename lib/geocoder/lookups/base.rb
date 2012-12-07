@@ -50,9 +50,9 @@ module Geocoder
       # Object used to make HTTP requests.
       #
       def http_client
-        protocol = "http#{'s' if Geocoder::Configuration.use_https}"
+        protocol = "http#{'s' if Geocoder::Configuration[lookup_name].use_https}"
         proxy_name = "#{protocol}_proxy"
-        if proxy = Geocoder::Configuration.send(proxy_name)
+        if proxy = Geocoder::Configuration[lookup_name].send(proxy_name)
           proxy_url = protocol + '://' + proxy
           begin
             uri = URI.parse(proxy_url)
@@ -101,6 +101,14 @@ module Geocoder
       end
 
       ##
+      # Name of the lookup objects
+      #
+      def lookup_name
+        #self.class.to_s.split(":").last.underscore.to_sym
+        self.class.to_s.split(":").last.gsub(/([a-z])([A-Z])/, '\1_\2').downcase.to_sym
+      end
+
+      ##
       # Class of the result objects
       #
       def result_class
@@ -112,7 +120,7 @@ module Geocoder
       # Return false if exception not raised.
       #
       def raise_error(error, message = nil)
-        exceptions = Geocoder::Configuration.always_raise
+        exceptions = Geocoder::Configuration[lookup_name].always_raise
         if exceptions == :all or exceptions.include?( error.is_a?(Class) ? error : error.class )
           raise error, message
         else
@@ -129,7 +137,7 @@ module Geocoder
         raise_error(err) or warn "Geocoding API connection cannot be established."
       rescue TimeoutError => err
         raise_error(err) or warn "Geocoding API not responding fast enough " +
-          "(see Geocoder::Configuration.timeout to set limit)."
+          "(see Geocoder::Configuration[lookup_name].timeout to set limit)."
       end
 
       ##
@@ -150,7 +158,7 @@ module Geocoder
       # Set in configuration but not available for every service.
       #
       def protocol
-        "http" + (Geocoder::Configuration.use_https ? "s" : "")
+        "http" + (Geocoder::Configuration[lookup_name].use_https ? "s" : "")
       end
 
       ##
@@ -177,11 +185,11 @@ module Geocoder
       # return the response object.
       #
       def make_api_request(query)
-        timeout(Geocoder::Configuration.timeout) do
+        timeout(Geocoder::Configuration[lookup_name].timeout) do
           uri = URI.parse(query_url(query))
           client = http_client.new(uri.host, uri.port)
-          client.use_ssl = true if Geocoder::Configuration.use_https
-          client.get(uri.request_uri, Geocoder::Configuration.http_headers)
+          client.use_ssl = true if Geocoder::Configuration[lookup_name].use_https
+          client.get(uri.request_uri, Geocoder::Configuration[lookup_name].http_headers)
         end
       end
 
