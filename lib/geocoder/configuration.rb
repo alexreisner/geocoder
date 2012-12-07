@@ -14,6 +14,20 @@ module Geocoder
   end
 
   ##
+  # Direct read access to the singleton's config data.
+  #
+  def self.config
+    Configuration.instance.data
+  end
+
+  ##
+  # Direct write access to the singleton's config data.
+  #
+  def self.config=(value)
+    Configuration.instance.data = value
+  end
+
+  ##
   # This class handles geocoder Geocoder configuration
   # (geocoding service provider, caching, units of measurement, etc).
   # Configuration can be done in two ways:
@@ -54,7 +68,7 @@ module Geocoder
       :distances
     ]
 
-    attr_reader :data
+    attr_accessor :data
 
     OPTIONS.each do |o|
       define_method o do
@@ -72,6 +86,7 @@ module Geocoder
 
     def set_defaults
       @data = {
+        # geocoding options
         :timeout      => 3,           # geocoding service timeout (secs)
         :lookup       => :google,     # name of street address geocoding service (symbol)
         :ip_lookup    => :freegeoip,  # name of IP address geocoding service (symbol)

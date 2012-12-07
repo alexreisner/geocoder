@@ -16,11 +16,13 @@ class ConfigurationTest < Test::Unit::TestCase
   def test_setting_with_class_method
     Geocoder::Configuration.units = :test
     assert_equal :test, Geocoder.configure.units
+    assert_equal :test, Geocoder.config[:units]
   end
 
   def test_setting_with_configure_method
     Geocoder.configure.units = :test
     assert_equal :test, Geocoder::Configuration.units
+    assert_equal :test, Geocoder.config[:units]
   end
 
   def test_setting_with_block_syntax
@@ -29,6 +31,7 @@ class ConfigurationTest < Test::Unit::TestCase
     end
     assert_equal :test, Geocoder::Configuration.units
     assert_equal :test, Geocoder.configure.units
+    assert_equal :test, Geocoder.config[:units]
   end
 
   def test_model_configuration
