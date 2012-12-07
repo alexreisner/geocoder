@@ -42,8 +42,9 @@ module Geocoder
     # no URL parameters are specified.
     #
     def blank?
-      !!text.to_s.match(/^\s*$/) and (
-        !options[:params].is_a?(Hash) or options[:params].keys.size == 0
+      !params_given? and (
+        (text.is_a?(Array) and text.compact.size < 2) or
+        text.to_s.match(/^\s*$/)
       )
     end
 
@@ -87,6 +88,12 @@ module Geocoder
     #
     def reverse_geocode?
       coordinates?
+    end
+
+    private # ----------------------------------------------------------------
+
+    def params_given?
+      !!(options[:params].is_a?(Hash) and options[:params].keys.size > 0)
     end
   end
 end
