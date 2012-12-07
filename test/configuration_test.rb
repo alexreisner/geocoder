@@ -34,6 +34,18 @@ class ConfigurationTest < Test::Unit::TestCase
     assert_equal :test, Geocoder.config[:units]
   end
 
+  def test_config_for_lookup
+    Geocoder.config = {
+      :timeout => 5,
+      :api_key => "aaa",
+      :google => {
+        :timeout => 2
+      }
+    }
+    assert_equal 2, Geocoder.config_for_lookup(:google)[:timeout]
+    assert_equal "aaa", Geocoder.config_for_lookup(:google)[:api_key]
+  end
+
   def test_model_configuration
     Landmark.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :km
     assert_equal :km,        Landmark.geocoder_options[:units]

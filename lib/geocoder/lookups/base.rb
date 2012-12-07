@@ -24,6 +24,14 @@ module Geocoder
       end
 
       ##
+      # Symbol which is used in configuration to refer to this Lookup.
+      #
+      def handle
+        str = self.class.to_s
+        str[str.rindex(':')+1..-1].gsub(/([a-z\d]+)([A-Z])/,'\1_\2').downcase.to_sym
+      end
+
+      ##
       # Query the geocoding API and return a Geocoder::Result object.
       # Returns +nil+ on timeout or error.
       #
@@ -65,7 +73,7 @@ module Geocoder
       # An object with configuration data for this particular lookup.
       #
       def configuration
-        Geocoder::Configuration
+        Geocoder.config_for_lookup(handle)
       end
 
       ##
@@ -203,14 +211,14 @@ module Geocoder
         timeout(configuration.timeout) do
           uri = URI.parse(query_url(query))
           client = http_client.new(uri.host, uri.port)
-          client.use_ssl = true if Geocoder::Configuration.use_https
-          client.get(uri.request_uri, Geocoder::Configuration.http_headers)
+          client.use_ssl = true if configuration.use_https
+          client.get(uri.request_uri, configuration.http_headers)
         end
       end
 
       def check_api_key_configuration!(query)
         key_parts = query.lookup.required_api_key_parts
-        if key_parts.size > Array(Geocoder::Configuration.api_key).size
+        if key_parts.size > Array(configuration.api_key).size
           parts_string = key_parts.size == 1 ? key_parts.first : key_parts
           raise Geocoder::ConfigurationError,
             "The #{query.lookup.name} API requires a key to be configured: " +

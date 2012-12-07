@@ -27,6 +27,20 @@ module Geocoder
     Configuration.instance.data = value
   end
 
+  def self.config_for_lookup(lookup_name)
+    data = config.select{ |key,value| Configuration::OPTIONS.include? key }
+    if config.has_key?(lookup_name)
+      data.merge!(config[lookup_name])
+    end
+    # allow method-like access
+    data.instance_eval do
+      def method_missing(meth, *args, &block)
+        has_key?(meth) ? self[meth] : super
+      end
+    end
+    data
+  end
+
   ##
   # This class handles geocoder Geocoder configuration
   # (geocoding service provider, caching, units of measurement, etc).

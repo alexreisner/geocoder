@@ -43,4 +43,9 @@ class LookupTest < Test::Unit::TestCase
       Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
     end
   end
+
+  def test_handle
+    assert_equal :google, Geocoder::Lookup::Google.new.handle
+    assert_equal :geocoder_ca, Geocoder::Lookup::GeocoderCa.new.handle
+  end
 end
