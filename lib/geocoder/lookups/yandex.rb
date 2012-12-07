@@ -4,8 +4,16 @@ require "geocoder/results/yandex"
 module Geocoder::Lookup
   class Yandex < Base
 
+    def name
+      "Yandex"
+    end
+
     def map_link_url(coordinates)
       "http://maps.yandex.ru/?ll=#{coordinates.reverse.join(',')}"
+    end
+
+    def required_api_key_parts
+      ["key"]
     end
 
     private # ---------------------------------------------------------------

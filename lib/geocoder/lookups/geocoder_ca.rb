@@ -4,6 +4,14 @@ require "geocoder/results/geocoder_ca"
 module Geocoder::Lookup
   class GeocoderCa < Base
 
+    def name
+      "Geocoder.ca"
+    end
+
+    def required_api_key_parts
+      ["key"]
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)

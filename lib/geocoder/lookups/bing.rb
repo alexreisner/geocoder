@@ -4,8 +4,16 @@ require "geocoder/results/bing"
 module Geocoder::Lookup
   class Bing < Base
 
+    def name
+      "Bing"
+    end
+
     def map_link_url(coordinates)
       "http://www.bing.com/maps/default.aspx?cp=#{coordinates.join('~')}"
+    end
+
+    def required_api_key_parts
+      ["key"]
     end
 
     private # ---------------------------------------------------------------

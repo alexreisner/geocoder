@@ -4,6 +4,10 @@ require "geocoder/results/nominatim"
 module Geocoder::Lookup
   class Nominatim < Base
 
+    def name
+      "Nominatim"
+    end
+
     def map_link_url(coordinates)
       "http://www.openstreetmap.org/?lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=15&layers=M"
     end

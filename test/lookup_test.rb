@@ -36,4 +36,11 @@ class LookupTest < Test::Unit::TestCase
     assert_match "showpostal=1", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
+  def test_raises_configuration_error_on_missing_key
+    assert_raises Geocoder::ConfigurationError do
+      Geocoder::Configuration.lookup = :bing
+      Geocoder::Configuration.api_key = nil
+      Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
+    end
+  end
 end

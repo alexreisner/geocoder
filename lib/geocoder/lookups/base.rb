@@ -17,6 +17,13 @@ module Geocoder
     class Base
 
       ##
+      # Human-readable name of the geocoding API.
+      #
+      def name
+        fail
+      end
+
+      ##
       # Query the geocoding API and return a Geocoder::Result object.
       # Returns +nil+ on timeout or error.
       #
@@ -41,6 +48,14 @@ module Geocoder
       #
       def map_link_url(coordinates)
         nil
+      end
+
+      ##
+      # Array containing string descriptions of keys required by the API.
+      # Empty array if keys are optional or not required.
+      #
+      def required_api_key_parts
+        []
       end
 
 
@@ -170,6 +185,7 @@ module Geocoder
         if cache and body = cache[key]
           @cache_hit = true
         else
+          check_api_key_configuration!(query)
           response = make_api_request(query)
           body = response.body
           if cache and (200..399).include?(response.code.to_i)
@@ -190,6 +206,16 @@ module Geocoder
           client = http_client.new(uri.host, uri.port)
           client.use_ssl = true if Geocoder::Configuration[lookup_name].use_https
           client.get(uri.request_uri, Geocoder::Configuration[lookup_name].http_headers)
+        end
+      end
+
+      def check_api_key_configuration!(query)
+        key_parts = query.lookup.required_api_key_parts
+        if key_parts.size > Array(Geocoder::Configuration.api_key).size
+          parts_string = key_parts.size == 1 ? key_parts.first : key_parts
+          raise Geocoder::ConfigurationError,
+            "The #{query.lookup.name} API requires a key to be configured: " +
+            parts_string.inspect
         end
       end
 

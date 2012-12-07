@@ -326,19 +326,14 @@ class Test::Unit::TestCase
   end
 
   def set_api_key!(lookup_name)
-    if lookup_name == :google_premier
-      Geocoder::Configuration.api_key = [
-        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
-        'cccccccccccccccccccccccccccccc'
-      ]
-    elsif lookup_name == :yahoo
-      Geocoder::Configuration.api_key = [
-        'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
-      ]
+    lookup = Geocoder::Lookup.get(lookup_name)
+    if lookup.required_api_key_parts.size == 1
+      key = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+    elsif lookup.required_api_key_parts.size > 1
+      key = lookup.required_api_key_parts
     else
-      Geocoder::Configuration.api_key = nil
+      key = nil
     end
+    Geocoder::Configuration.api_key = key
   end
 end

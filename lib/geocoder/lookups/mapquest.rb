@@ -5,6 +5,14 @@ require "geocoder/results/mapquest"
 module Geocoder::Lookup
   class Mapquest < Base
 
+    def name
+      "Mapquest"
+    end
+
+    def required_api_key_parts
+      ["key"]
+    end
+
     private # ---------------------------------------------------------------
 
     def query_url(query)
