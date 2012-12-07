@@ -54,44 +54,56 @@ module Geocoder
       :distances
     ]
 
-    attr_accessor *OPTIONS
+    attr_reader :data
+
+    OPTIONS.each do |o|
+      define_method o do
+        @data[o]
+      end
+      define_method "#{o}=" do |value|
+        @data[o] = value
+      end
+    end
 
     def initialize # :nodoc
+      @data = {}
       set_defaults
     end
 
     def set_defaults
-      @timeout      = 3           # geocoding service timeout (secs)
-      @lookup       = :google     # name of street address geocoding service (symbol)
-      @ip_lookup    = :freegeoip  # name of IP address geocoding service (symbol)
-      @language     = :en         # ISO-639 language code
-      @http_headers = {}          # HTTP headers for lookup
-      @use_https    = false       # use HTTPS for lookup requests? (if supported)
-      @http_proxy   = nil         # HTTP proxy server (user:pass@host:port)
-      @https_proxy  = nil         # HTTPS proxy server (user:pass@host:port)
-      @api_key      = nil         # API key for geocoding service
-      @cache        = nil         # cache object (must respond to #[], #[]=, and #keys)
-      @cache_prefix = "geocoder:" # prefix (string) to use for all cache keys
+      @data = {
+        :timeout      => 3,           # geocoding service timeout (secs)
+        :lookup       => :google,     # name of street address geocoding service (symbol)
+        :ip_lookup    => :freegeoip,  # name of IP address geocoding service (symbol)
+        :language     => :en,         # ISO-639 language code
+        :http_headers => {},          # HTTP headers for lookup
+        :use_https    => false,       # use HTTPS for lookup requests? (if supported)
+        :http_proxy   => nil,         # HTTP proxy server (user:pass@host:port)
+        :https_proxy  => nil,         # HTTPS proxy server (user:pass@host:port)
+        :api_key      => nil,         # API key for geocoding service
+        :cache        => nil,         # cache object (must respond to #[], #[]=, and #keys)
+        :cache_prefix => "geocoder:", # prefix (string) to use for all cache keys
 
-      # exceptions that should not be rescued by default
-      # (if you want to implement custom error handling);
-      # supports SocketError and TimeoutError
-      @always_raise = []
+        # exceptions that should not be rescued by default
+        # (if you want to implement custom error handling);
+        # supports SocketError and TimeoutError
+        :always_raise => [],
 
-      # calculation options
-      @units     = :mi     # :mi or :km
-      @distances = :linear # :linear or :spherical
+        # calculation options
+        :units     => :mi,     # :mi or :km
+        :distances => :linear  # :linear or :spherical
+      }
     end
 
     instance_eval(OPTIONS.map do |option|
       o = option.to_s
       <<-EOS
       def #{o}
-        instance.#{o}
+        instance.data[:#{o}]
       end
 
       def #{o}=(value)
-        instance.#{o} = value
+        instance.data[:#{o}] = value
       end
       EOS
     end.join("\n\n"))
