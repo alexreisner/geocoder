@@ -13,63 +13,24 @@ class ConfigurationTest < Test::Unit::TestCase
     end
   end
 
-  # --- class method configuration ---
-  def test_configurated_by_class_method
-    Geocoder::Configuration.units = :mi
-    distance = Geocoder::Calculations.distance_between([0,0], [0,1]).round
-    assert_not_equal 111, distance
-    assert_equal      69, distance
-
-    Geocoder::Configuration.units = :km
-    distance = Geocoder::Calculations.distance_between([0,0], [0,1]).round
-    assert_equal    111, distance
-    assert_not_equal 69, distance
-
-    Geocoder::Configuration.distances = :spherical
-    angle = Geocoder::Calculations.bearing_between([50,-85], [40.750354, -73.993371]).round
-    assert_equal     136, angle
-    assert_not_equal 130, angle
-
-    Geocoder::Configuration.distances = :linear
-    angle = Geocoder::Calculations.bearing_between([50,-85], [40.750354, -73.993371]).round
-    assert_not_equal 136, angle
-    assert_equal     130, angle
+  def test_setting_with_class_method
+    Geocoder::Configuration.units = :test
+    assert_equal :test, Geocoder.configure.units
   end
 
-  # --- Geocoder#configure distances configuration ---
-  def test_geocoder_configuration
-    # DSL
+  def test_setting_with_configure_method
+    Geocoder.configure.units = :test
+    assert_equal :test, Geocoder::Configuration.units
+  end
+
+  def test_setting_with_block_syntax
     Geocoder.configure do |config|
-      config.units  = :mi
-      config.distances = :linear
+      config.units = :test
     end
-
-    assert_equal Geocoder::Configuration.units, :mi
-    distance = Geocoder::Calculations.distance_between([0,0], [0,1]).round
-    assert_not_equal 111, distance
-    assert_equal      69, distance
-
-    assert_equal Geocoder::Configuration.distances, :linear
-    angle = Geocoder::Calculations.bearing_between([50,-85], [40.750354, -73.993371]).round
-    assert_not_equal 136, angle
-    assert_equal     130, angle
-
-    # Direct
-    Geocoder.configure.units  = :km
-    Geocoder.configure.distances = :spherical
-
-    assert_equal Geocoder::Configuration.units, :km
-    distance = Geocoder::Calculations.distance_between([0,0], [0,1]).round
-    assert_equal    111, distance
-    assert_not_equal 69, distance
-
-    assert_equal Geocoder::Configuration.distances, :spherical
-    angle = Geocoder::Calculations.bearing_between([50,-85], [40.750354, -73.993371]).round
-    assert_equal     136, angle
-    assert_not_equal 130, angle
+    assert_equal :test, Geocoder::Configuration.units
+    assert_equal :test, Geocoder.configure.units
   end
 
-  # Geocoder per-model configuration
   def test_model_configuration
     Landmark.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :km
     assert_equal :km,        Landmark.geocoder_options[:units]
