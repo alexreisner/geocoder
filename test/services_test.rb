@@ -178,6 +178,13 @@ class ServicesTest < Test::Unit::TestCase
       result.address
   end
 
+  def test_nominatim_host_config
+    Geocoder.configure(:lookup => :nominatim, :nominatim => {:host => "local.com"})
+    lookup = Geocoder::Lookup::Nominatim.new
+    query = Geocoder::Query.new("Bluffton, SC")
+    assert_match %r(http://local\.com), lookup.send(:query_url, query)
+  end
+
   # --- MapQuest ---
 
   def test_api_route
