@@ -24,7 +24,7 @@ module Geocoder::Lookup
         :format => "json",
         :polygon => "1",
         :addressdetails => "1",
-        :"accept-language" => Geocoder::Configuration.language
+        :"accept-language" => Geocoder::Configuration[lookup_name].language
       )
       if query.reverse_geocode?
         lat,lon = query.coordinates

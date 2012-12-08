@@ -263,22 +263,43 @@ If you're familiar with the results returned by the geocoding service you're usi
 Geocoding Services
 ------------------
 
-By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is used for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
+By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is used for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). You may select multiple geocoder services.
+In that case, you'll get results of the first one returning a non empty result set. For example, to use Geocoder.ca and fallback on Google premier :
+
+ Some common configuration options are:
 
     # config/initializers/geocoder.rb
     Geocoder.configure do |config|
 
-      # geocoding service (see below for supported options):
-      config.lookup = :yandex
+      ##
+      # Option without hash are used as default configuration
+      # example : 
+      #   config.timeout = 5
+      #
+      # Option with hash are used for service specific configuration
+      # example : 
+      #   config[:google_premier].api_key = "..."
+      #
 
-      # to use an API key:
-      config.api_key = "..."
+      # geocoding service (see below for supported options):
+      config.lookup = [:geocoder_ca, :google_premier]
+
+      # to specify an API key only for google service:
+      config[:google_premier].api_key = "..."
 
       # geocoding service request timeout, in seconds (default 3):
       config.timeout = 5
+      config[:geocoder_ca]timeout = 10
 
       # set default units to kilometers:
       config.units = :km
+
+      # use https for geocoder_ca, not for google (for example purpose)
+      config.use_https = false  # default value
+      config[:geocoder_ca].use_https = true
+      # which is equivalent to
+      config.use_https = true  # default value
+      config[:google_premier].use_https = false
 
       # caching (see below for details):
       config.cache = Redis.new

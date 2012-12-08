@@ -31,7 +31,7 @@ module Geocoder::Lookup
         :geoit    => "xml",
         :jsonp    => 1,
         :callback => "test",
-        :auth     => Geocoder::Configuration.api_key
+        :auth     => Geocoder::Configuration[lookup_name].api_key
       )
       if query.reverse_geocode?
         lat,lon = query.coordinates

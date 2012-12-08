@@ -8,7 +8,14 @@ module Geocoder
     end
 
     def execute
-      lookup.search(text, options)
+      found = []
+
+      lookups.each do |lookup|
+        found = lookup.search(text, options)
+        break unless found.nil? || found.empty?
+      end
+
+      found
     end
 
     def to_s
@@ -24,16 +31,19 @@ module Geocoder
     end
 
     ##
-    # Get a Lookup object (which communicates with the remote geocoding API)
+    # Get an array of Lookup objects (which communicates with the remote geocoding API)
     # appropriate to the Query text.
     #
-    def lookup
+    def lookups(options = {})
       if ip_address?
-        name = Configuration.ip_lookup || Geocoder::Lookup.ip_services.first
+        names = Configuration.ip_lookup || Geocoder::Lookup.ip_services.first
       else
-        name = Configuration.lookup || Geocoder::Lookup.street_services.first
+        names = Configuration.lookup || Geocoder::Lookup.street_services.first
       end
-      Lookup.get(name)
+
+      names = [names] unless names.is_a? Array
+
+      names.collect { |name| Lookup.get(name) }
     end
 
     ##
