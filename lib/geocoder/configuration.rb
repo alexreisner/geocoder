@@ -30,7 +30,7 @@ module Geocoder
   #
   def self.config_for_lookup(lookup_name)
     data = config.clone
-    data.select!{ |key,value| Configuration::OPTIONS.include? key }
+    data.reject!{ |key,value| !Configuration::OPTIONS.include?(key) }
     if config.has_key?(lookup_name)
       data.merge!(config[lookup_name])
     end
