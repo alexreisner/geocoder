@@ -159,7 +159,7 @@ module Geocoder
         raise_error(err) or warn "Geocoding API connection cannot be established."
       rescue TimeoutError => err
         raise_error(err) or warn "Geocoding API not responding fast enough " +
-          "(use Geocoder.config[:timeout] to set limit)."
+          "(use Geocoder.configure(:timeout => ...) to set limit)."
       end
 
       ##

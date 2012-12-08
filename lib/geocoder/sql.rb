@@ -11,7 +11,7 @@ module Geocoder
     # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
     #
     def full_distance(latitude, longitude, lat_attr, lon_attr, options = {})
-      units = options[:units] || Geocoder::Configuration.units
+      units = options[:units] || Geocoder.config.units
       earth = Geocoder::Calculations.earth_radius(units)
 
       "#{earth} * 2 * ASIN(SQRT(" +
@@ -32,7 +32,7 @@ module Geocoder
     # are not intended for use in production!
     #
     def approx_distance(latitude, longitude, lat_attr, lon_attr, options = {})
-      units = options[:units] || Geocoder::Configuration.units
+      units = options[:units] || Geocoder.config.units
       dx = Geocoder::Calculations.longitude_degree_distance(30, units)
       dy = Geocoder::Calculations.latitude_degree_distance(units)
 
@@ -63,7 +63,7 @@ module Geocoder
     # http://www.beginningspatial.com/calculating_bearing_one_point_another
     #
     def full_bearing(latitude, longitude, lat_attr, lon_attr, options = {})
-      case options[:bearing] || Geocoder::Configuration.distances
+      case options[:bearing] || Geocoder.config.distances
       when :linear
         "CAST(" +
           "DEGREES(ATAN2( " +

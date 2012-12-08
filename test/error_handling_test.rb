@@ -4,14 +4,14 @@ require 'test_helper'
 class ErrorHandlingTest < Test::Unit::TestCase
 
   def teardown
-    Geocoder::Configuration.always_raise = []
+    Geocoder.configure(:always_raise => [])
   end
 
   def test_does_not_choke_on_timeout
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     Geocoder::Lookup.all_services_except_test.each do |l|
-      Geocoder::Configuration.lookup = l
+      Geocoder.configure(:lookup => l)
       set_api_key!(l)
       assert_nothing_raised { Geocoder.search("timeout") }
     end
@@ -20,7 +20,7 @@ class ErrorHandlingTest < Test::Unit::TestCase
   end
 
   def test_always_raise_timeout_error
-    Geocoder::Configuration.always_raise = [TimeoutError]
+    Geocoder.configure(:always_raise => [TimeoutError])
     Geocoder::Lookup.all_services_except_test.each do |l|
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
@@ -31,7 +31,7 @@ class ErrorHandlingTest < Test::Unit::TestCase
   end
 
   def test_always_raise_socket_error
-    Geocoder::Configuration.always_raise = [SocketError]
+    Geocoder.configure(:always_raise => [SocketError])
     Geocoder::Lookup.all_services_except_test.each do |l|
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)

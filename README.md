@@ -266,29 +266,29 @@ Geocoding Services
 By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is used for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
 
     # config/initializers/geocoder.rb
-    Geocoder.configure do |config|
+    Geocoder.configure(
 
       # geocoding service (see below for supported options):
-      config.lookup = :yandex
+      :lookup => :yandex,
 
       # to use an API key:
-      config.api_key = "..."
+      :api_key => "...",
 
       # geocoding service request timeout, in seconds (default 3):
-      config.timeout = 5
+      :timeout => 5,
 
       # set default units to kilometers:
-      config.units = :km
+      :units => :km,
 
       # caching (see below for details):
-      config.cache = Redis.new
-      config.cache_prefix = "..."
+      :cache => Redis.new,
+      :cache_prefix => "..."
 
     end
 
 Please see lib/geocoder/configuration.rb for a complete list of configuration options. Additionally, some lookups have their own configuration options which are listed in the comparison chart below, and as of version 1.2.0 you can pass arbitrary parameters to any geocoding service. For example, to use Nominatim's `countrycodes` parameter:
 
-    Geocoder::Configuration.lookup = :nominatim
+    Geocoder.configure(:lookup => :nominatim)
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
 
 
@@ -308,13 +308,13 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Documentation**: http://code.google.com/apis/maps/documentation/geocoding/#JSON
 * **Terms of Service**: http://code.google.com/apis/maps/terms.html#section_10_12
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
-* **Notes**: To use Google Premier set `Geocoder::Configuration.lookup = :google_premier` and `Geocoder::Configuration.api_key = [key, client, channel]`.
+* **Notes**: To use Google Premier set `Geocoder.configure(:lookup => :google_premier, :api_key => [key, client, channel])`.
 
 #### Yahoo BOSS (`:yahoo`)
 
 Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer offers a free geocoding API.
 
-* **API key**: requires OAuth consumer key and secret (set `Geocoder::Configuration.api_key = [key, secret]`)
+* **API key**: requires OAuth consumer key and secret (set `Geocoder.configure(:api_key => [key, secret])`)
 * **Key signup**: http://developer.yahoo.com/boss/geo/
 * **Quota**: unlimited, but subject to usage fees
 * **Region**: world
@@ -374,7 +374,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **API key**: required for the licensed API, do not use for open tier
 * **Quota**: ?
 * **HTTP Headers**: in order to use the licensed API you can configure the http_headers to include a referer as so:
-    `Geocoder::Configuration.http_headers = { "Referer" => "http://foo.com" }`
+    `Geocoder.configure(:http_headers => { "Referer" => "http://foo.com" })`
   You can also allow a blank referer from the API management console via mapquest but it is potentially a security risk that someone else could use your API key from another domain.
 * **Region**: world
 * **SSL support**: no
@@ -400,7 +400,7 @@ Caching
 
 It's a good idea, when relying on any external service, to cache retrieved data. When implemented correctly it improves your app's response time and stability. It's easy to cache geocoding results with Geocoder, just configure a cache store:
 
-    Geocoder::Configuration.cache = Redis.new
+    Geocoder.configure(:cache => Redis.new)
 
 This example uses Redis, but the cache store can be any object that supports these methods:
 
@@ -413,7 +413,7 @@ Even a plain Ruby hash will work, though it's not a great choice (cleared out wh
 
 You can also set a custom prefix to be used for cache keys:
 
-    Geocoder::Configuration.cache_prefix = "..."
+    Geocoder.configure(:cache_prefix => "...")
 
 By default the prefix is `geocoder:`
 
@@ -477,7 +477,7 @@ Testing Apps that Use Geocoder
 
 When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure and use the `:test` lookup. For example:
 
-    Geocoder::Configuration.lookup = :test
+    Geocoder.configure(:lookup => :test)
 
     Geocoder::Lookup::Test.add_stub(
       "New York, NY", [
@@ -583,11 +583,11 @@ Error Handling
 
 By default Geocoder will rescue any exceptions raised by calls to the geocoding service and return an empty array (using warn() to inform you of the error). You can override this and implement custom error handling for certain exceptions by using the `:always_raise` option:
 
-    Geocoder::Configuration.always_raise = [SocketError, TimeoutError]
+    Geocoder.configure(:always_raise => [SocketError, TimeoutError])
 
 You can also do this to raise all exceptions:
 
-    Geocoder::Configuration.always_raise = :all
+    Geocoder.configure(:always_raise => :all)
 
 See `lib/geocoder/exceptions.rb` for a list of raise-able exceptions.
 

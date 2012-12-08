@@ -1,66 +1,52 @@
 require 'singleton'
+require 'geocoder/configuration_hash'
 
 module Geocoder
 
   ##
   # Provides convenient access to the Configuration singleton.
   #
-  def self.configure(&block)
+  def self.configure(options = nil, &block)
     if block_given?
+      warn "WARNING: Passing a block to Geocoder.configure is DEPRECATED. Please pass a hash instead (eg: Geocoder.configure(:units => ..., :api_key => ...))."
       block.call(Configuration.instance)
+    elsif !options.nil?
+      Configuration.instance.configure(options)
     else
+      warn "WARNING: Use of Geocoder.configure to read or write single config options is DEPRECATED. To write to the config please pass a hash (eg: Geocoder.configure(:units => ...)). To read config options please use the Geocoder.config object (eg: Geocoder.config.units)."
       Configuration.instance
     end
   end
 
   ##
-  # Direct read access to the singleton's config data.
+  # Read-only access to the singleton's config data.
   #
   def self.config
     Configuration.instance.data
   end
 
   ##
-  # Direct write access to the singleton's config data.
+  # Read-only access to lookup-specific config data.
   #
-  def self.config=(value)
-    Configuration.instance.data = value
-  end
-
   def self.config_for_lookup(lookup_name)
-    data = config.select{ |key,value| Configuration::OPTIONS.include? key }
+    data = config.clone
+    data.select!{ |key,value| Configuration::OPTIONS.include? key }
     if config.has_key?(lookup_name)
       data.merge!(config[lookup_name])
-    end
-    # allow method-like access
-    data.instance_eval do
-      def method_missing(meth, *args, &block)
-        has_key?(meth) ? self[meth] : super
-      end
     end
     data
   end
 
   ##
-  # This class handles geocoder Geocoder configuration
-  # (geocoding service provider, caching, units of measurement, etc).
-  # Configuration can be done in two ways:
+  # Configuration options should be set by passing a hash to
+  # the configure method:
   #
-  # 1) Using Geocoder.configure and passing a block
-  #    (useful for configuring multiple things at once):
-  #
-  #   Geocoder.configure do |config|
-  #     config.timeout      = 5
-  #     config.lookup       = :yandex
-  #     config.api_key      = "2a9fsa983jaslfj982fjasd"
-  #     config.units        = :km
-  #   end
-  #
-  # 2) Using the Geocoder::Configuration singleton directly:
-  #
-  #   Geocoder::Configuration.language = 'pt-BR'
-  #
-  # Default values are defined in Configuration#set_defaults.
+  #   Geocoder.configure(
+  #     :timeout  => 5,
+  #     :lookup   => :yandex,
+  #     :api_key  => "2a9fsa983jaslfj982fjasd",
+  #     :units    => :km
+  #   )
   #
   class Configuration
     include Singleton
@@ -84,6 +70,10 @@ module Geocoder
 
     attr_accessor :data
 
+    def self.set_defaults
+      instance.set_defaults
+    end
+
     OPTIONS.each do |o|
       define_method o do
         @data[o]
@@ -93,35 +83,38 @@ module Geocoder
       end
     end
 
+    def configure(options)
+      @data.rmerge!(options)
+    end
+
     def initialize # :nodoc
-      @data = {}
+      @data = Geocoder::ConfigurationHash.new
       set_defaults
     end
 
     def set_defaults
-      @data = {
-        # geocoding options
-        :timeout      => 3,           # geocoding service timeout (secs)
-        :lookup       => :google,     # name of street address geocoding service (symbol)
-        :ip_lookup    => :freegeoip,  # name of IP address geocoding service (symbol)
-        :language     => :en,         # ISO-639 language code
-        :http_headers => {},          # HTTP headers for lookup
-        :use_https    => false,       # use HTTPS for lookup requests? (if supported)
-        :http_proxy   => nil,         # HTTP proxy server (user:pass@host:port)
-        :https_proxy  => nil,         # HTTPS proxy server (user:pass@host:port)
-        :api_key      => nil,         # API key for geocoding service
-        :cache        => nil,         # cache object (must respond to #[], #[]=, and #keys)
-        :cache_prefix => "geocoder:", # prefix (string) to use for all cache keys
 
-        # exceptions that should not be rescued by default
-        # (if you want to implement custom error handling);
-        # supports SocketError and TimeoutError
-        :always_raise => [],
+      # geocoding options
+      @data[:timeout]      = 3           # geocoding service timeout (secs)
+      @data[:lookup]       = :google     # name of street address geocoding service (symbol)
+      @data[:ip_lookup]    = :freegeoip  # name of IP address geocoding service (symbol)
+      @data[:language]     = :en         # ISO-639 language code
+      @data[:http_headers] = {}          # HTTP headers for lookup
+      @data[:use_https]    = false       # use HTTPS for lookup requests? (if supported)
+      @data[:http_proxy]   = nil         # HTTP proxy server (user:pass@host:port)
+      @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
+      @data[:api_key]      = nil         # API key for geocoding service
+      @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
+      @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
 
-        # calculation options
-        :units     => :mi,     # :mi or :km
-        :distances => :linear  # :linear or :spherical
-      }
+      # exceptions that should not be rescued by default
+      # (if you want to implement custom error handling);
+      # supports SocketError and TimeoutError
+      @data[:always_raise] = []
+
+      # calculation options
+      @data[:units]     = :mi      # :mi or :km
+      @data[:distances] = :linear  # :linear or :spherical
     end
 
     instance_eval(OPTIONS.map do |option|
@@ -136,12 +129,6 @@ module Geocoder
       end
       EOS
     end.join("\n\n"))
-
-    class << self
-      def set_defaults
-        instance.set_defaults
-      end
-    end
 
   end
 end

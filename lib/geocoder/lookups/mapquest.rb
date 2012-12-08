@@ -16,7 +16,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def query_url(query)
-      key = Geocoder::Configuration.api_key
+      key = configuration.api_key
       domain = key ? "www" : "open"
       url = "#{protocol}://#{domain}.mapquestapi.com/geocoding/v1/#{search_type(query)}?"
       url + url_query_string(query)
@@ -27,7 +27,7 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      key = Geocoder::Configuration.api_key
+      key = configuration.api_key
       params = { :location => query.sanitized_text }
       if key
         params[:key] = CGI.unescape(key)

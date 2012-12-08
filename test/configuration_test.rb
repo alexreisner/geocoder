@@ -7,7 +7,7 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def test_exception_raised_on_bad_lookup_config
-    Geocoder::Configuration.lookup = :stoopid
+    Geocoder.configure(:lookup => :stoopid)
     assert_raises Geocoder::ConfigurationError do
       Geocoder.search "something dumb"
     end
@@ -15,35 +15,34 @@ class ConfigurationTest < Test::Unit::TestCase
 
   def test_setting_with_class_method
     Geocoder::Configuration.units = :test
-    assert_equal :test, Geocoder.configure.units
-    assert_equal :test, Geocoder.config[:units]
+    assert_equal :test, Geocoder.config.units
   end
 
   def test_setting_with_configure_method
-    Geocoder.configure.units = :test
-    assert_equal :test, Geocoder::Configuration.units
-    assert_equal :test, Geocoder.config[:units]
+    Geocoder.configure(:units => :test)
+    assert_equal :test, Geocoder.config.units
   end
 
   def test_setting_with_block_syntax
+    orig = $VERBOSE; $VERBOSE = nil
     Geocoder.configure do |config|
       config.units = :test
     end
-    assert_equal :test, Geocoder::Configuration.units
-    assert_equal :test, Geocoder.configure.units
-    assert_equal :test, Geocoder.config[:units]
+    assert_equal :test, Geocoder.config.units
+  ensure
+    $VERBOSE = orig
   end
 
   def test_config_for_lookup
-    Geocoder.config = {
+    Geocoder.configure(
       :timeout => 5,
       :api_key => "aaa",
       :google => {
         :timeout => 2
       }
-    }
-    assert_equal 2, Geocoder.config_for_lookup(:google)[:timeout]
-    assert_equal "aaa", Geocoder.config_for_lookup(:google)[:api_key]
+    )
+    assert_equal 2, Geocoder.config_for_lookup(:google).timeout
+    assert_equal "aaa", Geocoder.config_for_lookup(:google).api_key
   end
 
   def test_model_configuration
@@ -66,7 +65,7 @@ class ConfigurationTest < Test::Unit::TestCase
     v.longitude = 0
 
     # method option > global configuration
-    Geocoder.configure.units  = :km
+    Geocoder.configure(:units => :km)
     assert_equal 69, v.distance_to([0,1], :mi).round
 
     # per-model configuration > global configuration
