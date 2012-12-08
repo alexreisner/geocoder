@@ -230,7 +230,10 @@ module Geocoder
       # The working Cache object.
       #
       def cache
-        Geocoder.cache
+        if @cache.nil? and store = configuration.cache
+          @cache = Cache.new(store, configuration.cache_prefix)
+        end
+        @cache
       end
 
       ##
