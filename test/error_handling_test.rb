@@ -12,8 +12,10 @@ class ErrorHandlingTest < Test::Unit::TestCase
     orig = $VERBOSE; $VERBOSE = nil
     Geocoder::Lookup.all_services_except_test.each do |l|
       Geocoder::Configuration.lookup = l
+      set_api_key!(l)
       assert_nothing_raised { Geocoder.search("timeout") }
     end
+  ensure
     $VERBOSE = orig
   end
 
@@ -21,6 +23,7 @@ class ErrorHandlingTest < Test::Unit::TestCase
     Geocoder::Configuration.always_raise = [TimeoutError]
     Geocoder::Lookup.all_services_except_test.each do |l|
       lookup = Geocoder::Lookup.get(l)
+      set_api_key!(l)
       assert_raises TimeoutError do
         lookup.send(:results, Geocoder::Query.new("timeout"))
       end
@@ -31,6 +34,7 @@ class ErrorHandlingTest < Test::Unit::TestCase
     Geocoder::Configuration.always_raise = [SocketError]
     Geocoder::Lookup.all_services_except_test.each do |l|
       lookup = Geocoder::Lookup.get(l)
+      set_api_key!(l)
       assert_raises SocketError do
         lookup.send(:results, Geocoder::Query.new("socket_error"))
       end

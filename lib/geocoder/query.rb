@@ -42,9 +42,15 @@ module Geocoder
     # no URL parameters are specified.
     #
     def blank?
-      !!text.to_s.match(/^\s*$/) and (
-        !options[:params].is_a?(Hash) or options[:params].keys.size == 0
-      )
+      # check whether both coordinates given
+      if text.is_a?(Array)
+        text.compact.size < 2
+      # else assume a string
+      else
+        !!text.to_s.match(/^\s*$/) and (
+          !options[:params].is_a?(Hash) or options[:params].keys.size == 0
+        )
+      end
     end
 
     ##

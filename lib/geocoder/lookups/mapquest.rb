@@ -1,15 +1,44 @@
+require 'cgi'
 require 'geocoder/lookups/base'
-require "geocoder/lookups/nominatim"
 require "geocoder/results/mapquest"
 
 module Geocoder::Lookup
-  class Mapquest < Nominatim
+  class Mapquest < Base
+
+    def name
+      "Mapquest"
+    end
+
+    def required_api_key_parts
+      ["key"]
+    end
 
     private # ---------------------------------------------------------------
 
     def query_url(query)
-      method = query.reverse_geocode? ? "reverse" : "search"
-      "http://open.mapquestapi.com/#{method}?" + url_query_string(query)
+      key = Geocoder::Configuration.api_key
+      domain = key ? "www" : "open"
+      url = "#{protocol}://#{domain}.mapquestapi.com/geocoding/v1/#{search_type(query)}?"
+      url + url_query_string(query)
     end
+
+    def search_type(query)
+      query.reverse_geocode? ? "reverse" : "address"
+    end
+
+    def query_url_params(query)
+      key = Geocoder::Configuration.api_key
+      params = { :location => query.sanitized_text }
+      if key
+        params[:key] = CGI.unescape(key)
+      end
+      super.merge(params)
+    end
+
+    def results(query)
+      return [] unless doc = fetch_data(query)
+      doc["results"][0]['locations']
+    end
+
   end
 end

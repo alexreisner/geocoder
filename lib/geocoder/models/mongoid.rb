@@ -18,7 +18,7 @@ module Geocoder
         super(options)
         if options[:skip_index] == false
           # create 2d index
-          if (::Mongoid::VERSION >= "3")
+          if defined?(::Mongoid::VERSION) && ::Mongoid::VERSION >= "3"
             index({ geocoder_options[:coordinates].to_sym => '2d' }, 
                   {:min => -180, :max => 180})
           else
