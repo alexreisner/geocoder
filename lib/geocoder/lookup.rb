@@ -2,6 +2,20 @@ module Geocoder
   module Lookup
     extend self
 
+    INCLUDED_STREET_SERVICES = [
+        :google,
+        :google_premier,
+        :yahoo,
+        :bing,
+        :geocoder_ca,
+        :yandex,
+        :nominatim,
+        :mapquest,
+        :test
+      ]
+
+    INCLUDED_IP_SERVICES = [:freegeoip]
+
     ##
     # Array of valid Lookup service names.
     #
@@ -20,24 +34,14 @@ module Geocoder
     # All street address lookup services, default first.
     #
     def street_services
-      [
-        :google,
-        :google_premier,
-        :yahoo,
-        :bing,
-        :geocoder_ca,
-        :yandex,
-        :nominatim,
-        :mapquest,
-        :test
-      ]
+      merge_lookups(INCLUDED_STREET_SERVICES, Geocoder::Configuration.lookup)
     end
 
     ##
     # All IP address lookup services, default first.
     #
     def ip_services
-      [:freegeoip]
+      merge_lookups(INCLUDED_IP_SERVICES, Geocoder::Configuration.ip_lookup)
     end
 
     ##
@@ -53,6 +57,21 @@ module Geocoder
 
 
     private # -----------------------------------------------------------------
+
+    ##
+    # Merge base lookups and custom configured ones
+    #
+    def merge_lookups(included_services, configured_services)
+      services = included_services
+
+      if Geocoder::Configuration.allow_custom_lookup
+        custom_services = configured_services
+        custom_services = [custom_services] unless custom_services.is_a? Array
+        services = (custom_services + services).uniq
+      end
+
+      services
+    end
 
     ##
     # Spawn a Lookup of the given name.
