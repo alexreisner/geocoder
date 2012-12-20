@@ -56,7 +56,7 @@ class OauthUtil
   def query_string
     pairs = []
     @params.sort.each { | key, val | 
-      pairs.push( "#{ percent_encode( key ) }=#{ percent_encode( val.to_s ) }" )
+      pairs.push( "#{ CGI.escape(key.to_s).gsub(/%(5B|5D)/n) { [$1].pack('H*') } }=#{ CGI.escape(val.to_s) }" )
     }
     pairs.join '&'
   end
