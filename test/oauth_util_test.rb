@@ -5,7 +5,7 @@ require 'uri'
 
 class OauthUtilTest < Test::Unit::TestCase
   def test_query_string_escapes_single_quote
-    base_url = "http://example.com?location=d%27iberville"
+    base_url = "http://example.com?location=d'iberville"
 
     o = OauthUtil.new
     o.consumer_key = 'consumer_key'
