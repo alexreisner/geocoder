@@ -105,6 +105,21 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal "Madison Square Garden, New York, NY 10001, United States", result.address
   end
 
+  def test_yahoo_raises_exception_when_over_query_limit
+    Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
+    l = Geocoder::Lookup.get(:yahoo)
+    assert_raises Geocoder::OverQueryLimitError do
+      l.send(:results, Geocoder::Query.new("over limit"))
+    end
+  end
+
+  def test_yahoo_raises_exception_on_invalid_key
+    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
+    l = Geocoder::Lookup.get(:yahoo)
+    assert_raises Geocoder::InvalidApiKey do
+      l.send(:results, Geocoder::Query.new("invalid key"))
+    end
+  end
 
   # --- Yandex ---
 

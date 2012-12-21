@@ -110,6 +110,8 @@ module Geocoder
         raise SocketError if query.text == "socket_error"
         file = case query.text
           when "no results"; :no_results
+          when "over limit"; :over_limit
+          when "invalid key"; :invalid_key
           when "error";      :error
           else               :madison_square_garden
         end

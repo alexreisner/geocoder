@@ -34,6 +34,23 @@ module Geocoder::Lookup
       end
     end
 
+    ##
+    # Yahoo returns errors as XML even when JSON format is specified.
+    # Handle that here, without parsing the XML
+    # (which would add unnecessary complexity).
+    #
+    def parse_raw_data(raw_data)
+      if raw_data.match /^<\?xml/
+        if raw_data.include?("Rate Limit Exceeded")
+          raise_error(Geocoder::OverQueryLimitError) || warn("Over API query limit.")
+        elsif raw_data.include?("Please provide valid credentials")
+          raise_error(Geocoder::InvalidApiKey) || warn("Invalid API key.")
+        end
+      else
+        super(raw_data)
+      end
+    end
+
     def query_url_params(query)
       super.merge(
         :location => query.sanitized_text,

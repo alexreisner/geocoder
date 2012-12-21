@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?> <yahoo:error xmlns:yahoo="http://yahooapis.com/v1/base.rng\ <http://yahooapis.com/v1/base.rng%5C>" xml:lang="en-US"> 
+          <yahoo:description>Rate Limit Exceeded</yahoo:description> <yahoo:detail>Key has exceeded its configured rate limit.</yahoo:detail> </yahoo:error>
