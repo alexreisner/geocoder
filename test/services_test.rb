@@ -142,6 +142,20 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal "Plano, TX 75093, United States", result.address
   end
 
+  # --- MaxMind ---
+
+  def test_maxmind_result_on_ip_address_search
+    Geocoder::Configuration.ip_lookup = :maxmind
+    result = Geocoder.search("74.200.247.59").first
+    assert result.is_a?(Geocoder::Result::Maxmind)
+  end
+
+  def test_maxmind_result_components
+    Geocoder::Configuration.ip_lookup = :maxmind
+    result = Geocoder.search("74.200.247.59").first
+    assert_equal "Plano, TX 75093, US", result.address
+  end
+
 
   # --- Bing ---
 
