@@ -32,7 +32,7 @@ module Geocoder::Lookup
       if raw_data.respond_to?(:force_encoding)
         raw_data = raw_data.force_encoding("ISO-8859-1").encode("UTF-8")
       end
-      CSV.parse_line encoded
+      CSV.parse_line raw_data
     end
 
     def reserved_result
