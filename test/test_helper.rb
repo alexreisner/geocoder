@@ -168,6 +168,7 @@ module Geocoder
         raise SocketError if query.text == "socket_error"
         file = case query.text
           when "no results";  :no_results
+          when "invalid key"; :invalid_key
           else                "74_200_247_59"
         end
         read_fixture "maxmind_#{file}.txt"

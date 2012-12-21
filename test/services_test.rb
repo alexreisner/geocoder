@@ -156,6 +156,16 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal "Plano, TX 75093, US", result.address
   end
 
+  def test_maxmind_raises_exception_on_invalid_key
+    Geocoder.configure(
+      :always_raise => [Geocoder::InvalidApiKey]
+    )
+    l = Geocoder::Lookup.get(:maxmind)
+    assert_raises Geocoder::InvalidApiKey do
+      l.send(:results, Geocoder::Query.new("invalid key"))
+    end
+  end
+
 
   # --- Bing ---
 

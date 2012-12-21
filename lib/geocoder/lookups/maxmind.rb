@@ -14,14 +14,16 @@ module Geocoder::Lookup
     def results(query)
       # don't look up a loopback address, just return the stored result
       return [reserved_result] if query.loopback_ip_address?
-      begin
-        doc = fetch_data(query)
-        if doc && doc.size == 10
+      doc = fetch_data(query)
+      if doc and doc.is_a?(Array)
+        if doc.size == 10
           return [doc]
-        else
-          return []
+        elsif doc.size > 10 and doc[10] == "INVALID_LICENSE_KEY"
+          raise_error(Geocoder::InvalidApiKey) ||
+            warn("Invalid MaxMind API key.")
         end
       end
+      return []
     end
 
     def parse_raw_data(raw_data)
