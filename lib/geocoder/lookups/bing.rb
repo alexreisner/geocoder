@@ -21,12 +21,14 @@ module Geocoder::Lookup
     def results(query)
       return [] unless doc = fetch_data(query)
 
-      if doc['statusDescription'] == "OK"
+      if doc['statusCode'] == 200
         return doc['resourceSets'].first['estimatedTotal'] > 0 ? doc['resourceSets'].first['resources'] : []
+      elsif doc['statusCode'] == 401 and doc["authenticationResultCode"] == "InvalidCredentials"
+        raise_error(Geocoder::InvalidApiKey) || warn("Invalid Bing API key.")
       else
         warn "Bing Geocoding API error: #{doc['statusCode']} (#{doc['statusDescription']})."
-        return []
       end
+      return []
     end
 
     def query_url_params(query)

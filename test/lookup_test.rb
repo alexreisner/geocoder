@@ -23,7 +23,7 @@ class LookupTest < Test::Unit::TestCase
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
-    [:yahoo, :yandex, :maxmind].each do |l|
+    [:bing, :yahoo, :yandex, :maxmind].each do |l|
       lookup = Geocoder::Lookup.get(l)
       assert_raises Geocoder::InvalidApiKey do
         lookup.send(:results, Geocoder::Query.new("invalid key"))
