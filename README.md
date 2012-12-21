@@ -592,7 +592,7 @@ http://github.com/alexreisner/geocoder_test
 Error Handling
 --------------
 
-By default Geocoder will rescue any exceptions raised by calls to the geocoding service and return an empty array (using warn() to inform you of the error). You can override this and implement custom error handling for certain exceptions by using the `:always_raise` option:
+By default Geocoder will rescue any exceptions raised by calls to a geocoding service and return an empty array (using warn() to inform you of the error). You can override this on a per-exception basis, and also have Geocoder raise its own exceptions for certain events (eg: API quota exceeded) by using the `:always_raise` option:
 
     Geocoder.configure(:always_raise => [SocketError, TimeoutError])
 
@@ -600,7 +600,16 @@ You can also do this to raise all exceptions:
 
     Geocoder.configure(:always_raise => :all)
 
-See `lib/geocoder/exceptions.rb` for a list of raise-able exceptions.
+The raise-able exceptions are:
+
+    SocketError
+    TimeoutError
+    Geocoder::OverQueryLimitError
+    Geocoder::RequestDenied
+    Geocoder::InvalidRequest
+    Geocoder::InvalidApiKey
+
+Note that not all lookups support all exceptions.
 
 
 Troubleshooting
