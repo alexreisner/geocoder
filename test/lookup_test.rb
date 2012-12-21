@@ -35,7 +35,7 @@ class LookupTest < Test::Unit::TestCase
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     #Geocoder::Lookup.all_services_except_test.each do |l|
-    [:yahoo, :yandex, :maxmind].each do |l|
+    [:bing, :yahoo, :yandex, :maxmind].each do |l|
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
       assert_equal [], Geocoder.search("invalid key")
