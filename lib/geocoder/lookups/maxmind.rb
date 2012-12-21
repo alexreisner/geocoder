@@ -18,9 +18,6 @@ module Geocoder::Lookup
           warn "Maxmind error : #{doc[10]}" if doc
           return []
         end
-      rescue StandardError => err
-        raise_error(err)
-        return []
       end
     end
 
