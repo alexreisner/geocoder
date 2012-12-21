@@ -38,7 +38,9 @@ module Geocoder::Lookup
       super.merge(
         :location => query.sanitized_text,
         :flags => "JXTSR",
-        :gflags => "AC#{'R' if query.reverse_geocode?}"
+        :gflags => "AC#{'R' if query.reverse_geocode?}",
+        :locale => "#{configuration.language}_US",
+        :appid => configuration.api_key
       )
     end
 
@@ -57,8 +59,8 @@ module Geocoder::Lookup
     def query_url(query)
       parsed_url = URI.parse(raw_url(query))
       o = OauthUtil.new
-      o.consumer_key = Geocoder::Configuration.api_key[0]
-      o.consumer_secret = Geocoder::Configuration.api_key[1]
+      o.consumer_key = configuration.api_key[0]
+      o.consumer_secret = configuration.api_key[1]
       base_url + o.sign(parsed_url).query_string
     end
   end

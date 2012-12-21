@@ -43,10 +43,8 @@ module Geocoder
   # The working Cache object, or +nil+ if none configured.
   #
   def cache
-    if @cache.nil? and store = Configuration.cache
-      @cache = Cache.new(store, Configuration.cache_prefix)
-    end
-    @cache
+    warn "WARNING: Calling Geocoder.cache is DEPRECATED. The #cache method now belongs to the Geocoder::Lookup object."
+    Geocoder::Lookup.get(Geocoder.config.lookup).send(:configuration).cache
   end
 end
 

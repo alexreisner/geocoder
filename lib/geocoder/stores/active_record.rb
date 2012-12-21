@@ -87,19 +87,19 @@ module Geocoder::Store
       # * +:units+   - <tt>:mi</tt> or <tt>:km</tt>; to be used.
       #   for interpreting radius as well as the +distance+ attribute which
       #   is added to each found nearby object.
-      #   See Geocoder::Configuration to know how configure default units.
+      #   Use Geocoder.configure[:units] to configure default units.
       # * +:bearing+ - <tt>:linear</tt> or <tt>:spherical</tt>.
       #   the method to be used for calculating the bearing (direction)
       #   between the given point and each found nearby point;
-      #   set to false for no bearing calculation.
-      #   See Geocoder::Configuration to know how configure default method.
+      #   set to false for no bearing calculation. Use
+      #   Geocoder.configure[:distances] to configure default calculation method.
       # * +:select+  - string with the SELECT SQL fragment (e.g. “id, name”)
       # * +:order+   - column(s) for ORDER BY SQL clause; default is distance;
       #                set to false or nil to omit the ORDER BY clause
       # * +:exclude+ - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
-        options[:units] ||= (geocoder_options[:units] || Geocoder::Configuration.units)
+        options[:units] ||= (geocoder_options[:units] || Geocoder.config.units)
         bearing = bearing_sql(latitude, longitude, options)
         distance = distance_sql(latitude, longitude, options)
 
@@ -143,7 +143,7 @@ module Geocoder::Store
       #
       def bearing_sql(latitude, longitude, options = {})
         if !options.include?(:bearing)
-          options[:bearing] = Geocoder::Configuration.distances
+          options[:bearing] = Geocoder.config.distances
         end
         if options[:bearing]
           method_prefix = using_sqlite? ? "approx" : "full"

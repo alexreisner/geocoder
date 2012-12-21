@@ -14,7 +14,7 @@ class LookupTest < Test::Unit::TestCase
 
   def test_does_not_choke_on_nil_address
     Geocoder::Lookup.all_services.each do |l|
-      Geocoder::Configuration.lookup = l
+      Geocoder.configure(:lookup => l)
       assert_nothing_raised { Venue.new("Venue", nil).geocode }
     end
   end
@@ -25,28 +25,26 @@ class LookupTest < Test::Unit::TestCase
   end
 
   def test_google_api_key
-    Geocoder::Configuration.api_key = "MY_KEY"
+    Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::Google.new
     assert_match "key=MY_KEY", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
   def test_geocoder_ca_showpostal
-    Geocoder::Configuration.api_key = "MY_KEY"
+    Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::GeocoderCa.new
     assert_match "showpostal=1", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
   def test_raises_configuration_error_on_missing_key
     assert_raises Geocoder::ConfigurationError do
-      Geocoder::Configuration.lookup = :bing
-      Geocoder::Configuration.api_key = nil
+      Geocoder.configure(:lookup => :bing, :api_key => nil)
       Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
     end
   end
 
-  def test_maxmind_api_key
-    Geocoder::Configuration.ip_lookup_api_key = "MY_KEY"
-    g = Geocoder::Lookup::Maxmind.new
-    assert_match "l=MY_KEY", g.send(:query_url, "74.200.247.59")
+  def test_handle
+    assert_equal :google, Geocoder::Lookup::Google.new.handle
+    assert_equal :geocoder_ca, Geocoder::Lookup::GeocoderCa.new.handle
   end
 end
