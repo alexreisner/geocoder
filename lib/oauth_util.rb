@@ -76,8 +76,12 @@ class OauthUtil
     if parsed_url.query
       #@params.merge! CGI.parse( parsed_url.query )
       CGI.parse( parsed_url.query ).each do |k,v|
-        if v.is_a?(Array) && v.count == 1
-          @params[k] = v.first
+        if v.is_a?(Array)
+          if v.respond_to?(:size) && v.size == 1
+            @params[k] = v.first
+          elsif v.respond_to?(:count) && v.count == 1
+            @params[k] = v.first
+          end
         else
           @params[k] = v
         end
