@@ -73,7 +73,11 @@ require "geocoder/lookups/base"
 module Geocoder
   module Lookup
     class Base
-      private #-----------------------------------------------------------------
+      private
+      def fixture_exists?(filename)
+        File.exist?(File.join("test", "fixtures", filename))
+      end
+
       def read_fixture(file)
         filepath = File.join("test", "fixtures", file)
         s = File.read(filepath).strip.gsub(/\n\s*/, "")
@@ -83,140 +87,56 @@ module Geocoder
         end
         s
       end
-    end
 
-    class Google < Base
-      private #-----------------------------------------------------------------
-      def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
-        raise SocketError if query.text == "socket_error"
-        file = case query.text
-          when "no results";   :no_results
-          when "no locality";  :no_locality
-          when "no city data"; :no_city_data
-          else                 :madison_square_garden
-        end
-        read_fixture "google_#{file}.json"
+      def default_fixture_filename
+        "#{fixture_prefix}_madison_square_garden"
       end
-    end
 
-    class GooglePremier < Google
-    end
-
-    class Yahoo < Base
-      private #-----------------------------------------------------------------
-      def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
-        raise SocketError if query.text == "socket_error"
-        file = case query.text
-          when "no results"; :no_results
-          when "over limit"; :over_limit
-          when "invalid key"; :invalid_key
-          when "error";      :error
-          else               :madison_square_garden
-        end
-        read_fixture "yahoo_#{file}.json"
+      def fixture_prefix
+        handle
       end
-    end
 
-    class Yandex < Base
-      private #-----------------------------------------------------------------
-      def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
-        raise SocketError if query.text == "socket_error"
-        file = case query.text
-          when "no results";  :no_results
-          when "invalid key"; :invalid_key
-          else                :kremlin
-        end
-        read_fixture "yandex_#{file}.json"
-      end
-    end
-
-    class GeocoderCa < Base
-      private #-----------------------------------------------------------------
       def make_api_request(query)
         raise TimeoutError if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
         if query.reverse_geocode?
-          read_fixture "geocoder_ca_reverse.json"
+          filename = "#{fixture_prefix}_reverse"
         else
-          file = case query.text
-            when "no results";  :no_results
-            else                :madison_square_garden
-          end
-          read_fixture "geocoder_ca_#{file}.json"
+          filename = "#{fixture_prefix}_#{query.text.gsub(" ", "_")}"
         end
-      end
-    end
-
-    class Freegeoip < Base
-      private #-----------------------------------------------------------------
-      def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
-        raise SocketError if query.text == "socket_error"
-        file = case query.text
-          when "no results";  :no_results
-          else                "74_200_247_59"
-        end
-        read_fixture "freegeoip_#{file}.json"
-      end
-    end
-
-    class Maxmind < Base
-      private #-----------------------------------------------------------------
-      def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
-        raise SocketError if query.text == "socket_error"
-        file = case query.text
-          when "no results";  :no_results
-          when "invalid key"; :invalid_key
-          else                "74_200_247_59"
-        end
-        read_fixture "maxmind_#{file}.txt"
-      end
-    end
-
-    class Bing < Base
-      private #-----------------------------------------------------------------
-      def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
-        raise SocketError if query.text == "socket_error"
-        if query.reverse_geocode?
-          read_fixture "bing_reverse.json"
+        if fixture_exists?(filename)
+          read_fixture "#{filename}"
         else
-          file = case query.text
-            when "no results";  :no_results
-            else                :madison_square_garden
-          end
-          read_fixture "bing_#{file}.json"
+          read_fixture default_fixture_filename
         end
       end
     end
 
-    class Nominatim < Base
-      private #-----------------------------------------------------------------
-      def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
-        raise SocketError if query.text == "socket_error"
-        file = case query.text
-          when "no results";  :no_results
-          else                :madison_square_garden
-        end
-        read_fixture "nominatim_#{file}.json"
+    class GooglePremier
+      private
+      def fixture_prefix
+        "google"
       end
     end
 
-    class Mapquest < Base
-      private #-----------------------------------------------------------------
-      def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
-        raise SocketError if query.text == "socket_error"
-        file = case query.text
-          when "no results";  :no_results
-          else                :madison_square_garden
-        end
-        read_fixture "mapquest_#{file}.json"
+    class Yandex
+      private
+      def default_fixture_filename
+        "yandex_kremlin"
+      end
+    end
+
+    class Freegeoip
+      private
+      def default_fixture_filename
+        "freegeoip_74_200_247_59"
+      end
+    end
+
+    class Maxmind
+      private
+      def default_fixture_filename
+        "maxmind_74_200_247_59"
       end
     end
 
