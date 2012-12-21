@@ -5,6 +5,10 @@ require 'csv'
 module Geocoder::Lookup
   class Maxmind < Base
 
+    def name
+      "MaxMind"
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
