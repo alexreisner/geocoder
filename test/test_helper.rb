@@ -163,10 +163,10 @@ module Geocoder
 
     class Maxmind < Base
       private #-----------------------------------------------------------------
-      def fetch_raw_data(query, reverse = false)
-        raise TimeoutError if query == "timeout"
-        raise SocketError if query == "socket_error"
-        file = case query
+      def make_api_request(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
           when "no results";  :no_results
           else                "74_200_247_59"
         end
