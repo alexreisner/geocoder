@@ -19,7 +19,6 @@ module Geocoder::Lookup
         if doc && doc.size == 10
           return [doc]
         else
-          warn "Maxmind error : #{doc[10]}" if doc
           return []
         end
       end
