@@ -65,7 +65,17 @@ class ServicesTest < Test::Unit::TestCase
     assert_match /region=gb/, url
   end
 
-  def test_google_query_url_contains_properly_formatted_components
+  def test_google_query_url_contains_components_when_given_as_string
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.send(:query_url, Geocoder::Query.new(
+      "Some Intersection",
+      :components => "locality:ES"
+    ))
+    formatted = "components=" + CGI.escape("locality:ES")
+    assert url.include?(formatted), "Expected #{formatted} to be included in #{url}"
+  end
+
+  def test_google_query_url_contains_components_when_given_as_array
     lookup = Geocoder::Lookup::Google.new
     url = lookup.send(:query_url, Geocoder::Query.new(
       "Some Intersection",
