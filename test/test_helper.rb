@@ -334,6 +334,6 @@ class Test::Unit::TestCase
     else
       key = nil
     end
-    Geocoder::Configuration.api_key = key
+    Geocoder.configure(:api_key => key)
   end
 end

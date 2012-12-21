@@ -19,8 +19,8 @@ module Geocoder::Lookup
     def query_url_params(query)
       super.merge(query_url_google_params(query)).merge(
         :key => nil, # don't use param inherited from Google lookup
-        :client => Geocoder::Configuration.api_key[1],
-        :channel => Geocoder::Configuration.api_key[2]
+        :client => configuration.api_key[1],
+        :channel => configuration.api_key[2]
       )
     end
 
@@ -30,7 +30,7 @@ module Geocoder::Lookup
     end
 
     def sign(string)
-      raw_private_key = url_safe_base64_decode(Geocoder::Configuration.api_key[0])
+      raw_private_key = url_safe_base64_decode(configuration.api_key[0])
       digest = OpenSSL::Digest::Digest.new('sha1')
       raw_signature = OpenSSL::HMAC.digest(digest, raw_private_key, string)
       url_safe_base64_encode(raw_signature)

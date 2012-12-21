@@ -3,13 +3,13 @@ require 'test_helper'
 class TestModeTest < Test::Unit::TestCase
 
   def setup
-    @_original_lookup = Geocoder::Configuration.lookup
-    Geocoder::Configuration.lookup = :test
+    @_original_lookup = Geocoder.config.lookup
+    Geocoder.configure(:lookup => :test)
   end
 
   def teardown
     Geocoder::Lookup::Test.reset
-    Geocoder::Configuration.lookup = @_original_lookup
+    Geocoder.configure(:lookup => @_original_lookup)
   end
 
   def test_search_with_known_stub

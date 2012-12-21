@@ -4,7 +4,7 @@ require 'test_helper'
 class ProxyTest < Test::Unit::TestCase
 
   def test_uses_proxy_when_specified
-    Geocoder::Configuration.http_proxy = 'localhost'
+    Geocoder.configure(:http_proxy => 'localhost')
     lookup = Geocoder::Lookup::Google.new
     assert lookup.send(:http_client).proxy_class?
   end
@@ -15,7 +15,7 @@ class ProxyTest < Test::Unit::TestCase
   end
 
   def test_exception_raised_on_bad_proxy_url
-    Geocoder::Configuration.http_proxy = ' \\_O< Quack Quack'
+    Geocoder.configure(:http_proxy => ' \\_O< Quack Quack')
     assert_raise Geocoder::ConfigurationError do
       Geocoder::Lookup::Google.new.send(:http_client)
     end

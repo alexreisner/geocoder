@@ -14,13 +14,13 @@ class SmokeTest < Test::Unit::TestCase
   end
 
   def test_simple_zip_code_search_with_ssl
-    Geocoder::Configuration.use_https = true
+    Geocoder.configure(:use_https => true)
     result = Geocoder.search "27701"
     assert_not_nil (r = result.first)
     assert_equal "Durham", r.city
     assert_equal "North Carolina", r.state
   ensure
-    Geocoder::Configuration.use_https = false
+    Geocoder.configure(:use_https => false)
   end
 
 end

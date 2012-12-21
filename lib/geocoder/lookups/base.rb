@@ -24,6 +24,14 @@ module Geocoder
       end
 
       ##
+      # Symbol which is used in configuration to refer to this Lookup.
+      #
+      def handle
+        str = self.class.to_s
+        str[str.rindex(':')+1..-1].gsub(/([a-z\d]+)([A-Z])/,'\1_\2').downcase.to_sym
+      end
+
+      ##
       # Query the geocoding API and return a Geocoder::Result object.
       # Returns +nil+ on timeout or error.
       #
@@ -62,12 +70,19 @@ module Geocoder
       private # -------------------------------------------------------------
 
       ##
+      # An object with configuration data for this particular lookup.
+      #
+      def configuration
+        Geocoder.config_for_lookup(handle)
+      end
+
+      ##
       # Object used to make HTTP requests.
       #
       def http_client
-        protocol = "http#{'s' if Geocoder::Configuration.use_https}"
+        protocol = "http#{'s' if configuration.use_https}"
         proxy_name = "#{protocol}_proxy"
-        if proxy = Geocoder::Configuration.send(proxy_name)
+        if proxy = configuration.send(proxy_name)
           proxy_url = protocol + '://' + proxy
           begin
             uri = URI.parse(proxy_url)
@@ -127,7 +142,7 @@ module Geocoder
       # Return false if exception not raised.
       #
       def raise_error(error, message = nil)
-        exceptions = Geocoder::Configuration.always_raise
+        exceptions = configuration.always_raise
         if exceptions == :all or exceptions.include?( error.is_a?(Class) ? error : error.class )
           raise error, message
         else
@@ -144,7 +159,7 @@ module Geocoder
         raise_error(err) or warn "Geocoding API connection cannot be established."
       rescue TimeoutError => err
         raise_error(err) or warn "Geocoding API not responding fast enough " +
-          "(see Geocoder::Configuration.timeout to set limit)."
+          "(use Geocoder.configure(:timeout => ...) to set limit)."
       end
 
       ##
@@ -165,7 +180,7 @@ module Geocoder
       # Set in configuration but not available for every service.
       #
       def protocol
-        "http" + (Geocoder::Configuration.use_https ? "s" : "")
+        "http" + (configuration.use_https ? "s" : "")
       end
 
       ##
@@ -193,17 +208,17 @@ module Geocoder
       # return the response object.
       #
       def make_api_request(query)
-        timeout(Geocoder::Configuration.timeout) do
+        timeout(configuration.timeout) do
           uri = URI.parse(query_url(query))
           client = http_client.new(uri.host, uri.port)
-          client.use_ssl = true if Geocoder::Configuration.use_https
-          client.get(uri.request_uri, Geocoder::Configuration.http_headers)
+          client.use_ssl = true if configuration.use_https
+          client.get(uri.request_uri, configuration.http_headers)
         end
       end
 
       def check_api_key_configuration!(query)
         key_parts = query.lookup.required_api_key_parts
-        if key_parts.size > Array(Geocoder::Configuration.api_key).size
+        if key_parts.size > Array(configuration.api_key).size
           parts_string = key_parts.size == 1 ? key_parts.first : key_parts
           raise Geocoder::ConfigurationError,
             "The #{query.lookup.name} API requires a key to be configured: " +
@@ -215,7 +230,10 @@ module Geocoder
       # The working Cache object.
       #
       def cache
-        Geocoder.cache
+        if @cache.nil? and store = configuration.cache
+          @cache = Cache.new(store, configuration.cache_prefix)
+        end
+        @cache
       end
 
       ##
