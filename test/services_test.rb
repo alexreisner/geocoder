@@ -113,35 +113,6 @@ class ServicesTest < Test::Unit::TestCase
     end
   end
 
-  def test_yahoo_raises_exception_on_invalid_key
-    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
-    l = Geocoder::Lookup.get(:yahoo)
-    assert_raises Geocoder::InvalidApiKey do
-      l.send(:results, Geocoder::Query.new("invalid key"))
-    end
-  end
-
-  # --- Yandex ---
-
-  def test_yandex_warns_about_invalid_key
-    # keep test output clean: suppress timeout warning
-    orig = $VERBOSE; $VERBOSE = nil
-    Geocoder.configure(:lookup => :yandex)
-    set_api_key!(:yandex)
-    assert_equal [], Geocoder.search("invalid key")
-  ensure
-    $VERBOSE = orig
-  end
-
-  def test_yandex_raises_exception_on_invalid_key
-    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
-    l = Geocoder::Lookup.get(:yandex)
-    assert_raises Geocoder::InvalidApiKey do
-      l.send(:results, Geocoder::Query.new("invalid key"))
-    end
-  end
-
-
   # --- Geocoder.ca ---
 
   def test_geocoder_ca_result_components
@@ -177,16 +148,6 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder::Configuration.ip_lookup = :maxmind
     result = Geocoder.search("74.200.247.59").first
     assert_equal "Plano, TX 75093, US", result.address
-  end
-
-  def test_maxmind_raises_exception_on_invalid_key
-    Geocoder.configure(
-      :always_raise => [Geocoder::InvalidApiKey]
-    )
-    l = Geocoder::Lookup.get(:maxmind)
-    assert_raises Geocoder::InvalidApiKey do
-      l.send(:results, Geocoder::Query.new("invalid key"))
-    end
   end
 
 

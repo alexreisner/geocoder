@@ -20,6 +20,30 @@ class LookupTest < Test::Unit::TestCase
     end
   end
 
+  def test_raises_exception_on_invalid_key
+    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
+    #Geocoder::Lookup.all_services_except_test.each do |l|
+    [:yahoo, :yandex, :maxmind].each do |l|
+      lookup = Geocoder::Lookup.get(l)
+      assert_raises Geocoder::InvalidApiKey do
+        lookup.send(:results, Geocoder::Query.new("invalid key"))
+      end
+    end
+  end
+
+  def test_warns_about_invalid_key
+    # keep test output clean: suppress timeout warning
+    orig = $VERBOSE; $VERBOSE = nil
+    #Geocoder::Lookup.all_services_except_test.each do |l|
+    [:yahoo, :yandex, :maxmind].each do |l|
+      Geocoder.configure(:lookup => l)
+      set_api_key!(l)
+      assert_equal [], Geocoder.search("invalid key")
+    end
+  ensure
+    $VERBOSE = orig
+  end
+
   def test_does_not_choke_on_nil_address
     Geocoder::Lookup.all_services.each do |l|
       Geocoder.configure(:lookup => l)
