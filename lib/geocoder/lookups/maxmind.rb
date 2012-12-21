@@ -31,8 +31,15 @@ module Geocoder::Lookup
       ",,,,0,0,0,0,,"
     end
 
-    def query_url(query, reverse = false)
-      "http://geoip3.maxmind.com/f?l=#{Geocoder::Configuration.ip_lookup_api_key}&i=#{query}"
+    def query_url_params(query)
+      super.merge(
+        :l => configuration.api_key,
+        :i => query.sanitized_text
+      )
+    end
+
+    def query_url(query)
+      "#{protocol}://geoip3.maxmind.com/f?" + url_query_string(query)
     end
   end
 end
