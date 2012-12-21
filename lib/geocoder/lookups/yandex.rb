@@ -21,7 +21,11 @@ module Geocoder::Lookup
     def results(query)
       return [] unless doc = fetch_data(query)
       if err = doc['error']
-        warn "Yandex Geocoding API error: #{err['status']} (#{err['message']})."
+        if err["status"] == 401 and err["message"] == "invalid key"
+          raise_error(Geocoder::InvalidApiKey) || warn("Invalid API key.")
+        else
+          warn "Yandex Geocoding API error: #{err['status']} (#{err['message']})."
+        end
         return []
       end
       if doc = doc['response']['GeoObjectCollection']

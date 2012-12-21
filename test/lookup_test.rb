@@ -3,6 +3,14 @@ require 'test_helper'
 
 class LookupTest < Test::Unit::TestCase
 
+  def test_responds_to_name_method
+    Geocoder::Lookup.all_services.each do |l|
+      lookup = Geocoder::Lookup.get(l)
+      assert lookup.respond_to?(:name),
+        "Lookup #{l} does not respond to #name method."
+    end
+  end
+
   def test_search_returns_empty_array_when_no_results
     Geocoder::Lookup.all_services_except_test.each do |l|
       lookup = Geocoder::Lookup.get(l)

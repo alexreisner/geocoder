@@ -394,6 +394,17 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Terms of Service**: ?
 * **Limitations**: ?
 
+#### MaxMind Web Services (`:maxmind`)
+
+* **API key**: required
+* **Quota**: Request Packs can be purchased
+* **Region**: world
+* **SSL support**: no
+* **Languages**: English
+* **Documentation**: http://www.maxmind.com/app/web_services
+* **Terms of Service**: ?
+* **Limitations**: ?
+
 
 Caching
 -------

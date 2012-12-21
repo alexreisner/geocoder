@@ -105,10 +105,25 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal "Madison Square Garden, New York, NY 10001, United States", result.address
   end
 
+  def test_yahoo_raises_exception_when_over_query_limit
+    Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
+    l = Geocoder::Lookup.get(:yahoo)
+    assert_raises Geocoder::OverQueryLimitError do
+      l.send(:results, Geocoder::Query.new("over limit"))
+    end
+  end
+
+  def test_yahoo_raises_exception_on_invalid_key
+    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
+    l = Geocoder::Lookup.get(:yahoo)
+    assert_raises Geocoder::InvalidApiKey do
+      l.send(:results, Geocoder::Query.new("invalid key"))
+    end
+  end
 
   # --- Yandex ---
 
-  def test_yandex_with_invalid_key
+  def test_yandex_warns_about_invalid_key
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     Geocoder.configure(:lookup => :yandex)
@@ -116,6 +131,14 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal [], Geocoder.search("invalid key")
   ensure
     $VERBOSE = orig
+  end
+
+  def test_yandex_raises_exception_on_invalid_key
+    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
+    l = Geocoder::Lookup.get(:yandex)
+    assert_raises Geocoder::InvalidApiKey do
+      l.send(:results, Geocoder::Query.new("invalid key"))
+    end
   end
 
 
@@ -140,6 +163,30 @@ class ServicesTest < Test::Unit::TestCase
   def test_freegeoip_result_components
     result = Geocoder.search("74.200.247.59").first
     assert_equal "Plano, TX 75093, United States", result.address
+  end
+
+  # --- MaxMind ---
+
+  def test_maxmind_result_on_ip_address_search
+    Geocoder::Configuration.ip_lookup = :maxmind
+    result = Geocoder.search("74.200.247.59").first
+    assert result.is_a?(Geocoder::Result::Maxmind)
+  end
+
+  def test_maxmind_result_components
+    Geocoder::Configuration.ip_lookup = :maxmind
+    result = Geocoder.search("74.200.247.59").first
+    assert_equal "Plano, TX 75093, US", result.address
+  end
+
+  def test_maxmind_raises_exception_on_invalid_key
+    Geocoder.configure(
+      :always_raise => [Geocoder::InvalidApiKey]
+    )
+    l = Geocoder::Lookup.get(:maxmind)
+    assert_raises Geocoder::InvalidApiKey do
+      l.send(:results, Geocoder::Query.new("invalid key"))
+    end
   end
 
 
