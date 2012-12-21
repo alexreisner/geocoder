@@ -31,7 +31,7 @@ class LookupTest < Test::Unit::TestCase
     end
   end
 
-  def test_warns_about_invalid_key
+  def test_returns_empty_array_on_invalid_key
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     #Geocoder::Lookup.all_services_except_test.each do |l|
