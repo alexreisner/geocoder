@@ -13,10 +13,9 @@ module Geocoder
         opts.separator "\nOptions: "
 
         opts.on("-k <key>", "--key <key>",
-          "Key for geocoding API (optional for most). For Google Premier use 'key client channel' separated by spaces") do |key|
-          premier_key = key.split(' ')
-          if premier_key.length == 3
-            Geocoder.configure(:api_key => premier_key)
+          "Key for geocoding API (usually optional). Enclose multi-part keys in quotes and separate parts by spaces") do |key|
+          if (key_parts = key.split(' ')).size > 1
+            Geocoder.configure(:api_key => key_parts)
           else
             Geocoder.configure(:api_key => key)
           end
