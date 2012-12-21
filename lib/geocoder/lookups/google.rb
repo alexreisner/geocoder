@@ -44,7 +44,7 @@ module Geocoder::Lookup
         params[:region] = region
       end
       unless (components = query.options[:components]).nil?
-        params[:components] = components
+        params[:components] = components.join("|")
       end
       params
     end

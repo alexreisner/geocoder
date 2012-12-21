@@ -56,6 +56,25 @@ class ServicesTest < Test::Unit::TestCase
     assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
   end
 
+  def test_google_query_url_contains_region
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.send(:query_url, Geocoder::Query.new(
+      "Some Intersection",
+      :region => "gb"
+    ))
+    assert_match /region=gb/, url
+  end
+
+  def test_google_query_url_contains_properly_formatted_components
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.send(:query_url, Geocoder::Query.new(
+      "Some Intersection",
+      :components => ["country:ES", "locality:ES"]
+    ))
+    formatted = "components=" + CGI.escape("country:ES|locality:ES")
+    assert url.include?(formatted), "Expected #{formatted} to be included in #{url}"
+  end
+
   # --- Google Premier ---
 
   def test_google_premier_result_components
