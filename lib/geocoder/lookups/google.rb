@@ -40,6 +40,12 @@ module Geocoder::Lookup
       unless (bounds = query.options[:bounds]).nil?
         params[:bounds] = bounds.map{ |point| "%f,%f" % point }.join('|')
       end
+      unless (region = query.options[:region]).nil?
+        params[:region] = region
+      end
+      unless (components = query.options[:components]).nil?
+        params[:components] = components
+      end
       params
     end
 
