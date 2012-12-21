@@ -7,11 +7,11 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
+    def results(query)
       # don't look up a loopback address, just return the stored result
       return [reserved_result] if loopback_address?(query)
       begin
-        doc = fetch_data(query, reverse)
+        doc = fetch_data(query)
         if doc && doc.size == 10
           return [doc]
         else
