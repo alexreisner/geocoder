@@ -12,10 +12,6 @@ module Geocoder::Lookup
       "http://maps.yandex.ru/?ll=#{coordinates.reverse.join(',')}"
     end
 
-    def required_api_key_parts
-      ["key"]
-    end
-
     private # ---------------------------------------------------------------
 
     def results(query)
