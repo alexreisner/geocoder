@@ -123,7 +123,7 @@ class ServicesTest < Test::Unit::TestCase
 
   # --- Yandex ---
 
-  def test_yandex_with_invalid_key
+  def test_yandex_warns_about_invalid_key
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     Geocoder.configure(:lookup => :yandex)
@@ -131,6 +131,14 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal [], Geocoder.search("invalid key")
   ensure
     $VERBOSE = orig
+  end
+
+  def test_yandex_raises_exception_on_invalid_key
+    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
+    l = Geocoder::Lookup.get(:yandex)
+    assert_raises Geocoder::InvalidApiKey do
+      l.send(:results, Geocoder::Query.new("invalid key"))
+    end
   end
 
 
