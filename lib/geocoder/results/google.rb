@@ -35,6 +35,18 @@ module Geocoder::Result
       end
     end
 
+    def sub_state
+      if state = address_components_of_type(:administrative_area_level_2).first
+        state['long_name']
+      end
+    end
+
+    def sub_state_code
+      if state = address_components_of_type(:administrative_area_level_2).first
+        state['short_name']
+      end
+    end
+
     def country
       if country = address_components_of_type(:country).first
         country['long_name']
