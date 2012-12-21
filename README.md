@@ -284,7 +284,7 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and street 
       :cache => Redis.new,
       :cache_prefix => "..."
 
-    end
+    )
 
 Please see lib/geocoder/configuration.rb for a complete list of configuration options. Additionally, some lookups have their own configuration options which are listed in the comparison chart below, and as of version 1.2.0 you can pass arbitrary parameters to any geocoding service. For example, to use Nominatim's `countrycodes` parameter:
 
