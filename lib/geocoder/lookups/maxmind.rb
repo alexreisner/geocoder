@@ -27,11 +27,6 @@ module Geocoder::Lookup
     end
 
     def parse_raw_data(raw_data)
-      # Maxmind just returns text/plain as csv format but according to documentation,
-      # we get ISO-8859-1 encoded string. We need to convert it.
-      if raw_data.respond_to?(:force_encoding)
-        raw_data = raw_data.force_encoding("ISO-8859-1").encode("UTF-8")
-      end
       CSV.parse_line raw_data
     end
 
