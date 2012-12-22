@@ -37,11 +37,11 @@ module Geocoder::Result
     end
 
     def isp
-      @data[8][1,@data[8].length-2]
+      @data[8]
     end
 
     def organization
-      @data[9][1,@data[9].length-2]
+      @data[9]
     end
 
     def country #not given by MaxMind
