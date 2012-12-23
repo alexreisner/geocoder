@@ -14,7 +14,7 @@ module Geocoder
 
         opts.on("-k <key>", "--key <key>",
           "Key for geocoding API (usually optional). Enclose multi-part keys in quotes and separate parts by spaces") do |key|
-          if (key_parts = key.split(' ')).size > 1
+          if (key_parts = key.split(/\s+/)).size > 1
             Geocoder.configure(:api_key => key_parts)
           else
             Geocoder.configure(:api_key => key)
