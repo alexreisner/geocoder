@@ -39,10 +39,10 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      super.merge(
+      {
         :l => configuration.api_key,
         :i => query.sanitized_text
-      )
+      }.merge(super)
     end
   end
 end

@@ -27,12 +27,11 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      key = configuration.api_key
       params = { :location => query.sanitized_text }
-      if key
+      if key = configuration.api_key
         params[:key] = CGI.unescape(key)
       end
-      super.merge(params)
+      params.merge(super)
     end
 
     def results(query)

@@ -33,6 +33,27 @@ class LookupTest < Test::Unit::TestCase
     end
   end
 
+  {
+    :bing => :key,
+    :geocoder_ca => :auth,
+    :google => :language,
+    :google_premier => :language,
+    :mapquest => :key,
+    :maxmind => :l,
+    :nominatim => :"accept-language",
+    :yahoo => :locale,
+    :yandex => :plng
+  }.each do |l,p|
+    define_method "test_passing_param_to_#{l}_query_overrides_configuration_value" do
+      set_api_key!(l)
+      url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
+        "test", :params => {p => "xxxx"}
+      ))
+      assert_match /#{p}=xxxx/, url,
+        "Param passed to #{l} lookup does not override configuration value"
+    end
+  end
+
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|

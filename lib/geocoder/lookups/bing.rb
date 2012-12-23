@@ -38,10 +38,10 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      super.merge(
+      {
         :key => configuration.api_key,
         :query => query.reverse_geocode? ? nil : query.sanitized_text
-      )
+      }.merge(super)
     end
   end
 end

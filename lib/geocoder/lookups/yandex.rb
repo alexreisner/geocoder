@@ -43,12 +43,12 @@ module Geocoder::Lookup
       else
         q = query.sanitized_text
       end
-      super.merge(
+      {
         :geocode => q,
         :format => "json",
         :plng => "#{configuration.language}", # supports ru, uk, be
         :key => configuration.api_key
-      )
+      }.merge(super)
     end
   end
 end

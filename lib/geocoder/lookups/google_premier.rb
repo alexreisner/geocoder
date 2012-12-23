@@ -22,7 +22,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def query_url_params(query)
-      super.merge(query_url_google_params(query)).merge(
+      query_url_google_params(query).merge(super).merge(
         :key => nil, # don't use param inherited from Google lookup
         :client => configuration.api_key[1],
         :channel => configuration.api_key[2]

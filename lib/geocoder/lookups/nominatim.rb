@@ -26,12 +26,12 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      params = super.merge(
+      params = {
         :format => "json",
         :polygon => "1",
         :addressdetails => "1",
         :"accept-language" => configuration.language
-      )
+      }.merge(super)
       if query.reverse_geocode?
         lat,lon = query.coordinates
         params[:lat] = lat
