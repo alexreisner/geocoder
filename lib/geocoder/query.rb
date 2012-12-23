@@ -36,6 +36,10 @@ module Geocoder
       Lookup.get(name)
     end
 
+    def url
+      lookup.query_url(self)
+    end
+
     ##
     # Is the Query blank? (ie, should we not bother searching?)
     # A query is considered blank if its text is nil or empty string AND

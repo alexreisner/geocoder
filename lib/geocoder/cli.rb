@@ -79,7 +79,7 @@ module Geocoder
 
       if show_url
         q = Geocoder::Query.new(query)
-        out << q.lookup.query_url(q) + "\n"
+        out << q.url + "\n"
         exit 0
       end
 
