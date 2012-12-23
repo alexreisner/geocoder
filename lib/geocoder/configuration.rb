@@ -4,7 +4,14 @@ require 'geocoder/configuration_hash'
 module Geocoder
 
   ##
-  # Provides convenient access to the Configuration singleton.
+  # Configuration options should be set by passing a hash:
+  #
+  #   Geocoder.configure(
+  #     :timeout  => 5,
+  #     :lookup   => :yandex,
+  #     :api_key  => "2a9fsa983jaslfj982fjasd",
+  #     :units    => :km
+  #   )
   #
   def self.configure(options = nil, &block)
     if block_given?
@@ -37,17 +44,6 @@ module Geocoder
     data
   end
 
-  ##
-  # Configuration options should be set by passing a hash to
-  # the configure method:
-  #
-  #   Geocoder.configure(
-  #     :timeout  => 5,
-  #     :lookup   => :yandex,
-  #     :api_key  => "2a9fsa983jaslfj982fjasd",
-  #     :units    => :km
-  #   )
-  #
   class Configuration
     include Singleton
 
