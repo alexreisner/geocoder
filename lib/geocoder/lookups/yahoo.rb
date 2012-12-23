@@ -17,6 +17,14 @@ module Geocoder::Lookup
       ["consumer key", "consumer secret"]
     end
 
+    def query_url(query)
+      parsed_url = URI.parse(raw_url(query))
+      o = OauthUtil.new
+      o.consumer_key = configuration.api_key[0]
+      o.consumer_secret = configuration.api_key[1]
+      base_url + o.sign(parsed_url).query_string
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -71,14 +79,6 @@ module Geocoder::Lookup
 
     def raw_url(query)
       base_url + url_query_string(query)
-    end
-
-    def query_url(query)
-      parsed_url = URI.parse(raw_url(query))
-      o = OauthUtil.new
-      o.consumer_key = configuration.api_key[0]
-      o.consumer_secret = configuration.api_key[1]
-      base_url + o.sign(parsed_url).query_string
     end
   end
 end

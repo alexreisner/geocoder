@@ -12,6 +12,10 @@ module Geocoder::Lookup
       "http://maps.yandex.ru/?ll=#{coordinates.reverse.join(',')}"
     end
 
+    def query_url(query)
+      "#{protocol}://geocode-maps.yandex.ru/1.x/?" + url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -45,10 +49,6 @@ module Geocoder::Lookup
         :plng => "#{configuration.language}", # supports ru, uk, be
         :key => configuration.api_key
       )
-    end
-
-    def query_url(query)
-      "#{protocol}://geocode-maps.yandex.ru/1.x/?" + url_query_string(query)
     end
   end
 end

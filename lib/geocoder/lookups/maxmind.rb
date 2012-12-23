@@ -9,6 +9,10 @@ module Geocoder::Lookup
       "MaxMind"
     end
 
+    def query_url(query)
+      "#{protocol}://geoip3.maxmind.com/f?" + url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -39,10 +43,6 @@ module Geocoder::Lookup
         :l => configuration.api_key,
         :i => query.sanitized_text
       )
-    end
-
-    def query_url(query)
-      "#{protocol}://geoip3.maxmind.com/f?" + url_query_string(query)
     end
   end
 end

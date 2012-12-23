@@ -16,6 +16,12 @@ module Geocoder::Lookup
       ["key"]
     end
 
+    def query_url(query)
+      "#{protocol}://dev.virtualearth.net/REST/v1/Locations" +
+        (query.reverse_geocode? ? "/#{query.sanitized_text}?" : "?") +
+        url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -36,12 +42,6 @@ module Geocoder::Lookup
         :key => configuration.api_key,
         :query => query.reverse_geocode? ? nil : query.sanitized_text
       )
-    end
-
-    def query_url(query)
-      "#{protocol}://dev.virtualearth.net/REST/v1/Locations" +
-        (query.reverse_geocode? ? "/#{query.sanitized_text}?" : "?") +
-        url_query_string(query)
     end
   end
 end

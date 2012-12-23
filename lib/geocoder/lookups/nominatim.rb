@@ -12,6 +12,12 @@ module Geocoder::Lookup
       "http://www.openstreetmap.org/?lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=15&layers=M"
     end
 
+    def query_url(query)
+      method = query.reverse_geocode? ? "reverse" : "search"
+      host = configuration[:host] || "nominatim.openstreetmap.org"
+      "#{protocol}://#{host}/#{method}?" + url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -34,12 +40,6 @@ module Geocoder::Lookup
         params[:q] = query.sanitized_text
       end
       params
-    end
-
-    def query_url(query)
-      method = query.reverse_geocode? ? "reverse" : "search"
-      host = configuration[:host] || "nominatim.openstreetmap.org"
-      "#{protocol}://#{host}/#{method}?" + url_query_string(query)
     end
   end
 end

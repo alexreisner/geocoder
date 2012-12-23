@@ -35,7 +35,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_google_query_url_contains_bounds
     lookup = Geocoder::Lookup::Google.new
-    url = lookup.send(:query_url, Geocoder::Query.new(
+    url = lookup.query_url(Geocoder::Query.new(
       "Some Intersection",
       :bounds => [[40.0, -120.0], [39.0, -121.0]]
     ))
@@ -44,7 +44,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_google_query_url_contains_region
     lookup = Geocoder::Lookup::Google.new
-    url = lookup.send(:query_url, Geocoder::Query.new(
+    url = lookup.query_url(Geocoder::Query.new(
       "Some Intersection",
       :region => "gb"
     ))
@@ -53,7 +53,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_google_query_url_contains_components_when_given_as_string
     lookup = Geocoder::Lookup::Google.new
-    url = lookup.send(:query_url, Geocoder::Query.new(
+    url = lookup.query_url(Geocoder::Query.new(
       "Some Intersection",
       :components => "locality:ES"
     ))
@@ -63,7 +63,7 @@ class ServicesTest < Test::Unit::TestCase
 
   def test_google_query_url_contains_components_when_given_as_array
     lookup = Geocoder::Lookup::Google.new
-    url = lookup.send(:query_url, Geocoder::Query.new(
+    url = lookup.query_url(Geocoder::Query.new(
       "Some Intersection",
       :components => ["country:ES", "locality:ES"]
     ))
@@ -84,7 +84,7 @@ class ServicesTest < Test::Unit::TestCase
   def test_google_premier_query_url
     Geocoder.configure(:api_key => ["deadbeef", "gme-test", "test-dev"])
     assert_equal "http://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&channel=test-dev&client=gme-test&language=en&sensor=false&signature=doJvJqX7YJzgV9rJ0DnVkTGZqTg=",
-      Geocoder::Lookup::GooglePremier.new.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY"))
+      Geocoder::Lookup::GooglePremier.new.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY"))
   end
 
 
@@ -205,7 +205,7 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder.configure(:lookup => :nominatim, :nominatim => {:host => "local.com"})
     lookup = Geocoder::Lookup::Nominatim.new
     query = Geocoder::Query.new("Bluffton, SC")
-    assert_match %r(http://local\.com), lookup.send(:query_url, query)
+    assert_match %r(http://local\.com), lookup.query_url(query)
   end
 
   # --- MapQuest ---
@@ -214,7 +214,7 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder.configure(:lookup => :mapquest, :api_key => "abc123")
     lookup = Geocoder::Lookup::Mapquest.new
     query = Geocoder::Query.new("Bluffton, SC")
-    res = lookup.send(:query_url, query)
+    res = lookup.query_url(query)
     assert_equal "http://www.mapquestapi.com/geocoding/v1/address?key=abc123&location=Bluffton%2C+SC",
       res
   end

@@ -66,6 +66,12 @@ module Geocoder
         []
       end
 
+      ##
+      # URL to use for querying the geocoding engine.
+      #
+      def query_url(query)
+        fail
+      end
 
       private # -------------------------------------------------------------
 
@@ -111,13 +117,6 @@ module Geocoder
         hash_to_query(
           query_url_params(query).reject{ |key,value| value.nil? }
         )
-      end
-
-      ##
-      # URL to use for querying the geocoding engine.
-      #
-      def query_url(query)
-        fail
       end
 
       ##

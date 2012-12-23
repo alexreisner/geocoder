@@ -8,6 +8,10 @@ module Geocoder::Lookup
       "Geocoder.ca"
     end
 
+    def query_url(query)
+      "#{protocol}://geocoder.ca/?" + url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -40,10 +44,6 @@ module Geocoder::Lookup
         params[:showpostal] = 1
       end
       params
-    end
-
-    def query_url(query)
-      "#{protocol}://geocoder.ca/?" + url_query_string(query)
     end
 
     def parse_raw_data(raw_data)

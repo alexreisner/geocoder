@@ -12,6 +12,10 @@ module Geocoder::Lookup
       "http://maps.google.com/maps?q=#{coordinates.join(',')}"
     end
 
+    def query_url(query)
+      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -54,10 +58,5 @@ module Geocoder::Lookup
         :key => configuration.api_key
       )
     end
-
-    def query_url(query)
-      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query)
-    end
   end
 end
-

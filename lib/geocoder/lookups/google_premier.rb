@@ -14,6 +14,11 @@ module Geocoder::Lookup
       ["private key", "client", "channel"]
     end
 
+    def query_url(query)
+      path = "/maps/api/geocode/json?" + url_query_string(query)
+      "#{protocol}://maps.googleapis.com#{path}&signature=#{sign(path)}"
+    end
+
     private # ---------------------------------------------------------------
 
     def query_url_params(query)
@@ -22,11 +27,6 @@ module Geocoder::Lookup
         :client => configuration.api_key[1],
         :channel => configuration.api_key[2]
       )
-    end
-
-    def query_url(query)
-      path = "/maps/api/geocode/json?" + url_query_string(query)
-      "#{protocol}://maps.googleapis.com#{path}&signature=#{sign(path)}"
     end
 
     def sign(string)

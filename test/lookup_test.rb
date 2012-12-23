@@ -24,7 +24,7 @@ class LookupTest < Test::Unit::TestCase
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if l == :freegeoip # does not use query string
       set_api_key!(l)
-      url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
+      url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
       # should be "+"s for all lookups except Yahoo
@@ -72,13 +72,13 @@ class LookupTest < Test::Unit::TestCase
   def test_google_api_key
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::Google.new
-    assert_match "key=MY_KEY", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
+    assert_match "key=MY_KEY", g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
   def test_geocoder_ca_showpostal
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::GeocoderCa.new
-    assert_match "showpostal=1", g.send(:query_url, Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
+    assert_match "showpostal=1", g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
   def test_raises_configuration_error_on_missing_key

@@ -8,6 +8,10 @@ module Geocoder::Lookup
       "FreeGeoIP"
     end
 
+    def query_url(query)
+      "#{protocol}://freegeoip.net/json/#{query.sanitized_text}"
+    end
+
     private # ---------------------------------------------------------------
 
     def parse_raw_data(raw_data)
@@ -38,10 +42,6 @@ module Geocoder::Lookup
         "country_name" => "Reserved",
         "country_code" => "RD"
       }
-    end
-
-    def query_url(query)
-      "#{protocol}://freegeoip.net/json/#{query.sanitized_text}"
     end
   end
 end
