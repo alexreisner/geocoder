@@ -3,6 +3,13 @@
 # Source: http://gist.github.com/383159
 # License: http://gist.github.com/375593
 # Usage: see example.rb below
+#
+# NOTE: This file has been modified from the original Gist:
+#
+# 1. Fix to prevent param-array conversion, as mentioned in Gist comment.
+# 2. Query string escaping has been changed. See:
+#   https://github.com/alexreisner/geocoder/pull/360
+#
 
 require 'uri'
 require 'cgi'
@@ -74,7 +81,6 @@ class OauthUtil
 
     # if url has query, merge key/values into params obj overwriting defaults
     if parsed_url.query
-      #@params.merge! CGI.parse( parsed_url.query )
       CGI.parse( parsed_url.query ).each do |k,v|
         if v.is_a?(Array) && v.count == 1
           @params[k] = v.first
