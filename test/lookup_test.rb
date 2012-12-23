@@ -20,6 +20,19 @@ class LookupTest < Test::Unit::TestCase
     end
   end
 
+  def test_query_url_contains_values_in_params_hash
+    Geocoder::Lookup.all_services_except_test.each do |l|
+      next if l == :freegeoip # does not use query string
+      set_api_key!(l)
+      url = Geocoder::Lookup.get(l).send(:query_url, Geocoder::Query.new(
+        "test", :params => {:one_in_the_hand => "two in the bush"}
+      ))
+      # should be "+"s for all lookups except Yahoo
+      assert_match /one_in_the_hand=two(%20|\+)in(%20|\+)the(%20|\+)bush/, url,
+        "Lookup #{l} does not appear to support arbitrary params in URL"
+    end
+  end
+
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
