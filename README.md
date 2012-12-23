@@ -286,9 +286,14 @@ By default Geocoder uses Google's geocoding API to fetch coordinates and street 
 
     )
 
-Please see lib/geocoder/configuration.rb for a complete list of configuration options. Additionally, some lookups have their own configuration options which are listed in the comparison chart below, and as of version 1.1.4 you can pass arbitrary parameters to any geocoding service. For example, to use Nominatim's `countrycodes` parameter:
+Please see lib/geocoder/configuration.rb for a complete list of configuration options. Additionally, some lookups have their own configuration options, some of which are directly supported by Geocoder. For example, to specify a value for Google's `bounds` parameter:
 
-    Geocoder.configure(:lookup => :nominatim)
+    # with Google:
+    Geocoder.search("Paris", :bounds => [[32.1,-95.9], [33.9,-94.3]])
+
+Please see the [source code for each lookup](https://github.com/alexreisner/geocoder/tree/master/lib/geocoder/lookups) to learn about directly supported parameters. Parameters which are not directly supported can be specified using the `:params` option, by which you can pass arbitrary parameters to any geocoding service. For example, to use Nominatim's `countrycodes` parameter:
+
+    # with Nominatim:
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
 
 
