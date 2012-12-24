@@ -29,10 +29,8 @@ and run at the command prompt:
     bundle install
 
 
-Configure Object Geocoding
---------------------------
-
-In the below, note that addresses may be street or IP addresses.
+Object Geocoding
+----------------
 
 ### ActiveRecord
 
