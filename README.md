@@ -34,7 +34,7 @@ Object Geocoding
 
 ### ActiveRecord
 
-Your model must have two attributes (database columns) for storing latitude and longitude coordinates. By default they should be called `latitude` and `longitude` but this can be changed (see "More on Configuration" below):
+Your model must have two attributes (database columns) for storing latitude and longitude coordinates. By default they should be called `latitude` and `longitude` but this can be changed (see "Model Configuration" below):
 
     rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
     rake db:migrate
@@ -181,8 +181,8 @@ To calculate accurate distance and bearing with SQLite or MongoDB:
 The `bearing_from/to` methods take a single argument which can be: a `[lat,lon]` array, a geocoded object, or a geocodable address (string). The `distance_from/to` methods also take a units argument (`:mi` or `:km`).
 
 
-More on Configuration
----------------------
+Model Configuration
+-------------------
 
 You are not stuck with using the `latitude` and `longitude` database column names (with ActiveRecord) or the `coordinates` array (Mongo) for storing coordinates. For example:
 
@@ -257,7 +257,7 @@ If you're familiar with the results returned by the geocoding service you're usi
 Geocoding Services
 ------------------
 
-By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is used for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
+By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is the default for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
 
     # config/initializers/geocoder.rb
     Geocoder.configure(
@@ -398,7 +398,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **API key**: required
 * **Quota**: Request Packs can be purchased
 * **Region**: world
-* **SSL support**: no
+* **SSL support**: yes
 * **Languages**: English
 * **Documentation**: http://www.maxmind.com/app/web_services
 * **Terms of Service**: ?
@@ -479,7 +479,7 @@ You can use Geocoder outside of Rails by calling the `Geocoder.search` method:
 
     results = Geocoder.search("McCarren Park, Brooklyn, NY")
 
-This returns an array of `Geocoder::Result` objects with all information provided by the geocoding service. Please see above and in the code for details.
+This returns an array of `Geocoder::Result` objects with all data provided by the geocoding service.
 
 
 Testing Apps that Use Geocoder
