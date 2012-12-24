@@ -102,7 +102,8 @@ module Geocoder
         if query.reverse_geocode?
           filename = "#{fixture_prefix}_reverse"
         else
-          filename = "#{fixture_prefix}_#{query.text.gsub(" ", "_")}"
+          label = query.text.gsub(/[ \.]/, "_")
+          filename = "#{fixture_prefix}_#{label}"
         end
         if fixture_exists?(filename)
           read_fixture "#{filename}"
@@ -237,6 +238,10 @@ end
 
 
 class Test::Unit::TestCase
+
+  def setup
+    Geocoder.configure(:maxmind => {:service => :omni})
+  end
 
   def teardown
     Geocoder.send(:remove_const, :Configuration)

@@ -154,15 +154,45 @@ class ServicesTest < Test::Unit::TestCase
   # --- MaxMind ---
 
   def test_maxmind_result_on_ip_address_search
-    Geocoder::Configuration.ip_lookup = :maxmind
+    Geocoder.configure(:ip_lookup => :maxmind, :maxmind => {:service => :city_isp_org})
     result = Geocoder.search("74.200.247.59").first
     assert result.is_a?(Geocoder::Result::Maxmind)
   end
 
-  def test_maxmind_result_components
-    Geocoder::Configuration.ip_lookup = :maxmind
-    result = Geocoder.search("74.200.247.59").first
-    assert_equal "Plano, TX 75093, US", result.address
+  def test_maxmind_result_knows_country_service_name
+    Geocoder.configure(:ip_lookup => :maxmind)
+    assert_equal :country, Geocoder.search("24.24.24.21").first.service_name
+  end
+
+  def test_maxmind_result_knows_city_service_name
+    Geocoder.configure(:ip_lookup => :maxmind)
+    assert_equal :city, Geocoder.search("24.24.24.22").first.service_name
+  end
+
+  def test_maxmind_result_knows_city_isp_org_service_name
+    Geocoder.configure(:ip_lookup => :maxmind)
+    assert_equal :city_isp_org, Geocoder.search("24.24.24.23").first.service_name
+  end
+
+  def test_maxmind_result_knows_omni_service_name
+    Geocoder.configure(:ip_lookup => :maxmind)
+    assert_equal :omni, Geocoder.search("24.24.24.24").first.service_name
+  end
+
+  def test_maxmind_special_result_components
+    Geocoder.configure(:ip_lookup => :maxmind)
+    result = Geocoder.search("24.24.24.24").first
+    assert_equal "Road Runner", result.isp_name
+    assert_equal "Cable/DSL", result.netspeed
+    assert_equal "rr.com", result.domain
+  end
+
+  def test_maxmind_raises_exception_when_service_not_configured
+    Geocoder.configure(:ip_lookup => :maxmind)
+    Geocoder.configure(:maxmind => {:service => nil})
+    assert_raises Geocoder::ConfigurationError do
+      Geocoder::Query.new("24.24.24.24").url
+    end
   end
 
 
