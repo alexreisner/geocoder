@@ -13,24 +13,20 @@ Compatibility
 * Works very well outside of Rails, you just need to install either the `json` (for MRI) or `json_pure` (for JRuby) gem.
 
 
-Install
--------
+Installation
+------------
 
-### As a Gem
+Install Geocoder like any other Ruby gem:
 
-Add to your Gemfile:
+    gem install geocoder
+
+Or, if you're using Rails/Bundler, add this to your Gemfile:
 
     gem "geocoder"
 
 and run at the command prompt:
 
     bundle install
-
-### Or As a Plugin
-
-At the command prompt:
-
-    rails plugin install git://github.com/alexreisner/geocoder.git
 
 
 Configure Object Geocoding
