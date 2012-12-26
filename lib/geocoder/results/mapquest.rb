@@ -29,7 +29,7 @@ module Geocoder::Result
     alias_method :state_code, :state
 
     #FIXME: these might not be right, unclear with MQ documentation
-    alias_method :provinice, :state
+    alias_method :province, :state
     alias_method :province_code, :state
 
     def postal_code
