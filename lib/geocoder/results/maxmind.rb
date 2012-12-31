@@ -71,7 +71,7 @@ module Geocoder::Result
     #
     def service_name
       self.class.field_names.to_a.each do |n,f|
-        return n if f.size == @data.size
+        return n if (@data.size..@data.size+1).include?(f.size)
       end
       nil
     end

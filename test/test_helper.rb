@@ -239,7 +239,7 @@ end
 class Test::Unit::TestCase
 
   def setup
-    Geocoder.configure(:maxmind => {:service => :omni})
+    Geocoder.configure(:maxmind => {:service => :city_isp_org})
   end
 
   def teardown

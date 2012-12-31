@@ -15,9 +15,12 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def service_code
+    ##
+    # Return the name of the configured service, or raise an exception.
+    #
+    def configured_service!
       if s = configuration[:service] and services.keys.include?(s)
-        services[s]
+        return s
       else
         raise(
           Geocoder::ConfigurationError,
@@ -26,6 +29,19 @@ module Geocoder::Lookup
           "where '...' is one of: #{services.keys.inspect}"
         )
       end
+    end
+
+    def service_code
+      services[configured_service!]
+    end
+
+    def service_response_fields_count
+      Geocoder::Result::Maxmind.field_names[configured_service!].size
+    end
+
+    def data_contains_error?(parsed_data)
+      # if all fields given then there is an error
+      parsed_data.size == service_response_fields_count and !parsed_data.last.nil?
     end
 
     ##
@@ -45,7 +61,7 @@ module Geocoder::Lookup
       return [reserved_result] if query.loopback_ip_address?
       doc = fetch_data(query)
       if doc and doc.is_a?(Array)
-        if doc.last.nil?
+        if !data_contains_error?(doc)
           return [doc]
         elsif doc.last == "INVALID_LICENSE_KEY"
           raise_error(Geocoder::InvalidApiKey) || warn("Invalid MaxMind API key.")
