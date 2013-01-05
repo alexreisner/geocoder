@@ -1,0 +1,13 @@
+{
+    "Items": [
+        {
+            "Accuracy": "Standard",
+            "Easting": 531070,
+            "Latitude": 51.5244,
+            "Location": "Farringdon Road, London",
+            "Longitude": -0.1121,
+            "Northing": 182310,
+            "OsGrid": "TQ 31070 82310"
+        }
+    ]
+}
