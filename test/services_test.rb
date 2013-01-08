@@ -17,6 +17,12 @@ class ServicesTest < Test::Unit::TestCase
       result.address_components_of_type(:route).first['long_name']
   end
 
+  def test_google_result_components_contains_street_number
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "4",
+      result.address_components_of_type(:street_number).first['long_name']
+  end
+
   def test_google_returns_city_when_no_locality_in_result
     result = Geocoder.search("no locality").first
     assert_equal "Haram", result.city
@@ -25,6 +31,11 @@ class ServicesTest < Test::Unit::TestCase
   def test_google_city_results_returns_nil_if_no_matching_component_types
     result = Geocoder.search("no city data").first
     assert_equal nil, result.city
+  end
+
+  def test_google_street_address_returns_formatted_street_address
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "4 Penn Plaza", result.street_address
   end
 
   def test_google_precision
