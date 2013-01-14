@@ -29,6 +29,7 @@ module Geocoder
         :yandex,
         :nominatim,
         :mapquest,
+        :cloudmade,
         :test
       ]
     end
