@@ -97,6 +97,7 @@ module Geocoder::Store
       # * +:select+          - string with the SELECT SQL fragment (e.g. “id, name”)
       # * +:select_distance+ - whether to include the distance alias in the
       #                        SELECT SQL fragment (e.g. <formula> AS distance)
+      # * +:select_bearing+  - like +:select_distance+ but for bearing.
       # * +:order+           - column(s) for ORDER BY SQL clause; default is distance;
       #                        set to false or nil to omit the ORDER BY clause
       # * +:exclude+         - an object to exclude (used by the +nearbys+ method)
@@ -105,6 +106,7 @@ module Geocoder::Store
         options[:units] ||= (geocoder_options[:units] || Geocoder.config.units)
         select_distance = options.fetch(:select_distance, true)
         options[:order] = "" if !select_distance && !options.include?(:order)
+        select_bearing = options.fetch(:select_bearing, true)
         bearing = bearing_sql(latitude, longitude, options)
         distance = distance_sql(latitude, longitude, options)
 
@@ -123,7 +125,7 @@ module Geocoder::Store
         {
           :select => select_clause(options[:select],
                                    select_distance ? distance : nil,
-                                   bearing),
+                                   select_bearing ? bearing : nil),
           :conditions => add_exclude_condition(conditions, options[:exclude]),
           :order => options.include?(:order) ? options[:order] : "distance ASC"
         }
@@ -179,8 +181,11 @@ module Geocoder::Store
           clause += ", " unless clause.empty?
           clause += "#{distance} AS distance"
         end
-        clause +
-          (bearing ? ", #{bearing} AS bearing" : "")
+        if bearing
+          clause += ", " unless clause.empty?
+          clause += "#{bearing} AS bearing"
+        end
+        clause
       end
 
       ##

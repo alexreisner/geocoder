@@ -27,6 +27,14 @@ class NearTest < Test::Unit::TestCase
     assert_no_consecutive_comma(result[:select])
   end
 
+  def test_near_scope_options_with_no_bearing
+    result = Event.send(:near_scope_options, 1.0, 2.0, 5, :select_bearing => false)
+
+    assert_match /AS distance/, result[:select]
+    assert_no_match /AS bearing/, result[:select]
+    assert_no_consecutive_comma(result[:select])
+  end
+
   private
 
   def assert_no_consecutive_comma(string)
