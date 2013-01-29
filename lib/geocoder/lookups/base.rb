@@ -194,6 +194,19 @@ module Geocoder
           check_api_key_configuration!(query)
           response = make_api_request(query)
           body = response.body
+
+          # apply the charset from the Content-Type header, if possible
+          ct = response['content-type']
+
+          if ct && ct['charset']
+            charset = ct.split(';').select do |s|
+              s['charset']
+            end.first.to_s.split('=')
+            if charset.length == 2
+              body.force_encoding(charset.last) rescue ArgumentError
+            end
+          end
+
           if cache and (200..399).include?(response.code.to_i)
             cache[key] = body
           end
