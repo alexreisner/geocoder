@@ -29,6 +29,7 @@ module Geocoder
         :yandex,
         :nominatim,
         :mapquest,
+        :postcodeanywhere_uk,
         :test
       ]
     end
