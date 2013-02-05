@@ -12,11 +12,13 @@ class ResultTest < Test::Unit::TestCase
     end
   end
 
-  def test_yandex_result_without_city_has_not_raises_exception
-    Geocoder.configure(:lookup => :yandex)
-    set_api_key!(:yandex)
-    result = Geocoder.search([45.423733, -75.676333]).first
-    assert result.city, ""
+  def test_yandex_result_without_city_does_not_raise_exception
+    assert_nothing_raised do
+      Geocoder.configure(:lookup => :yandex)
+      set_api_key!(:yandex)
+      result = Geocoder.search("no city and town").first
+      assert_equal "", result.city
+    end
   end
 
 
