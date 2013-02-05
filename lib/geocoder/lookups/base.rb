@@ -1,4 +1,5 @@
 require 'net/http'
+require 'net/https'
 require 'uri'
 
 unless defined?(ActiveSupport::JSON)
@@ -12,7 +13,23 @@ end
 
 module Geocoder
   module Lookup
+
     class Base
+
+      ##
+      # Human-readable name of the geocoding API.
+      #
+      def name
+        fail
+      end
+
+      ##
+      # Symbol which is used in configuration to refer to this Lookup.
+      #
+      def handle
+        str = self.class.to_s
+        str[str.rindex(':')+1..-1].gsub(/([a-z\d]+)([A-Z])/,'\1_\2').downcase.to_sym
+      end
 
       ##
       # Query the geocoding API and return a Geocoder::Result object.
@@ -22,18 +39,13 @@ module Geocoder
       # "205.128.54.202") for geocoding, or coordinates (latitude, longitude)
       # for reverse geocoding. Returns an array of <tt>Geocoder::Result</tt>s.
       #
-      def search(query)
-
-        # if coordinates given as string, turn into array
-        query = query.split(/\s*,\s*/) if coordinates?(query)
-
-        if query.is_a?(Array)
-          reverse = true
-          query = query.join(',')
-        else
-          reverse = false
-        end
-        results(query, reverse).map{ |r| result_class.new(r) }
+      def search(query, options = {})
+        query = Geocoder::Query.new(query, options) unless query.is_a?(Geocoder::Query)
+        results(query).map{ |r|
+          result = result_class.new(r)
+          result.cache_hit = @cache_hit if cache
+          result
+        }
       end
 
       ##
@@ -46,16 +58,37 @@ module Geocoder
         nil
       end
 
+      ##
+      # Array containing string descriptions of keys required by the API.
+      # Empty array if keys are optional or not required.
+      #
+      def required_api_key_parts
+        []
+      end
+
+      ##
+      # URL to use for querying the geocoding engine.
+      #
+      def query_url(query)
+        fail
+      end
 
       private # -------------------------------------------------------------
+
+      ##
+      # An object with configuration data for this particular lookup.
+      #
+      def configuration
+        Geocoder.config_for_lookup(handle)
+      end
 
       ##
       # Object used to make HTTP requests.
       #
       def http_client
-        protocol = "http#{'s' if Geocoder::Configuration.use_https}"
+        protocol = "http#{'s' if configuration.use_https}"
         proxy_name = "#{protocol}_proxy"
-        if proxy = Geocoder::Configuration.send(proxy_name)
+        if proxy = configuration.send(proxy_name)
           proxy_url = protocol + '://' + proxy
           begin
             uri = URI.parse(proxy_url)
@@ -72,15 +105,28 @@ module Geocoder
       ##
       # Geocoder::Result object or nil on timeout or other error.
       #
-      def results(query, reverse = false)
+      def results(query)
         fail
       end
 
+      def query_url_params(query)
+        query.options[:params] || {}
+      end
+
+      def url_query_string(query)
+        hash_to_query(
+          query_url_params(query).reject{ |key,value| value.nil? }
+        )
+      end
+
       ##
-      # URL to use for querying the geocoding engine.
+      # Key to use for caching a geocoding result. Usually this will be the
+      # request URL, but in cases where OAuth is used and the nonce,
+      # timestamp, etc varies from one request to another, we need to use
+      # something else (like the URL before OAuth encoding).
       #
-      def query_url(query, reverse = false)
-        fail
+      def cache_key(query)
+        query_url(query)
       end
 
       ##
@@ -95,7 +141,8 @@ module Geocoder
       # Return false if exception not raised.
       #
       def raise_error(error, message = nil)
-        if Geocoder::Configuration.always_raise.include?(error.class)
+        exceptions = configuration.always_raise
+        if exceptions == :all or exceptions.include?( error.is_a?(Class) ? error : error.class )
           raise error, message
         else
           false
@@ -105,30 +152,26 @@ module Geocoder
       ##
       # Returns a parsed search result (Ruby hash).
       #
-      def fetch_data(query, reverse = false)
-        begin
-          parse_raw_data fetch_raw_data(query, reverse)
-        rescue SocketError => err
-          raise_error(err) or warn "Geocoding API connection cannot be established."
-        rescue TimeoutError => err
-          raise_error(err) or warn "Geocoding API not responding fast enough " +
-            "(see Geocoder::Configuration.timeout to set limit)."
-        end
+      def fetch_data(query)
+        parse_raw_data fetch_raw_data(query)
+      rescue SocketError => err
+        raise_error(err) or warn "Geocoding API connection cannot be established."
+      rescue TimeoutError => err
+        raise_error(err) or warn "Geocoding API not responding fast enough " +
+          "(use Geocoder.configure(:timeout => ...) to set limit)."
       end
 
       ##
       # Parses a raw search result (returns hash or array).
       #
       def parse_raw_data(raw_data)
-        begin
-          if defined?(ActiveSupport::JSON)
-            ActiveSupport::JSON.decode(raw_data)
-          else
-            JSON.parse(raw_data)
-          end
-        rescue
-          warn "Geocoding API's response was not valid JSON."
+        if defined?(ActiveSupport::JSON)
+          ActiveSupport::JSON.decode(raw_data)
+        else
+          JSON.parse(raw_data)
         end
+      rescue
+        warn "Geocoding API's response was not valid JSON."
       end
 
       ##
@@ -136,26 +179,49 @@ module Geocoder
       # Set in configuration but not available for every service.
       #
       def protocol
-        "http" + (Geocoder::Configuration.use_https ? "s" : "")
+        "http" + (configuration.use_https ? "s" : "")
       end
 
       ##
-      # Fetches a raw search result (JSON string).
+      # Fetch a raw geocoding result (JSON string).
+      # The result might or might not be cached.
       #
-      def fetch_raw_data(query, reverse = false)
-        timeout(Geocoder::Configuration.timeout) do
-          url = query_url(query, reverse)
-          uri = URI.parse(url)
-          unless cache and body = cache[url]
-            client = http_client.new(uri.host, uri.port)
-            client.use_ssl = true if Geocoder::Configuration.use_https
-            response = client.get(uri.request_uri)
-            body = response.body
-            if cache and (200..399).include?(response.code.to_i)
-              cache[url] = body
-            end
+      def fetch_raw_data(query)
+        key = cache_key(query)
+        if cache and body = cache[key]
+          @cache_hit = true
+        else
+          check_api_key_configuration!(query)
+          response = make_api_request(query)
+          body = response.body
+          if cache and (200..399).include?(response.code.to_i)
+            cache[key] = body
           end
-          body
+          @cache_hit = false
+        end
+        body
+      end
+
+      ##
+      # Make an HTTP(S) request to a geocoding API and
+      # return the response object.
+      #
+      def make_api_request(query)
+        timeout(configuration.timeout) do
+          uri = URI.parse(query_url(query))
+          client = http_client.new(uri.host, uri.port)
+          client.use_ssl = true if configuration.use_https
+          client.get(uri.request_uri, configuration.http_headers)
+        end
+      end
+
+      def check_api_key_configuration!(query)
+        key_parts = query.lookup.required_api_key_parts
+        if key_parts.size > Array(configuration.api_key).size
+          parts_string = key_parts.size == 1 ? key_parts.first : key_parts
+          raise Geocoder::ConfigurationError,
+            "The #{query.lookup.name} API requires a key to be configured: " +
+            parts_string.inspect
         end
       end
 
@@ -163,21 +229,10 @@ module Geocoder
       # The working Cache object.
       #
       def cache
-        Geocoder.cache
-      end
-
-      ##
-      # Is the given string a loopback IP address?
-      #
-      def loopback_address?(ip)
-        !!(ip == "0.0.0.0" or ip.to_s.match(/^127/))
-      end
-
-      ##
-      # Does the given string look like latitude/longitude coordinates?
-      #
-      def coordinates?(value)
-        value.is_a?(String) and !!value.to_s.match(/^-?[0-9\.]+, *-?[0-9\.]+$/)
+        if @cache.nil? and store = configuration.cache
+          @cache = Cache.new(store, configuration.cache_prefix)
+        end
+        @cache
       end
 
       ##

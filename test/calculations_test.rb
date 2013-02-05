@@ -2,7 +2,12 @@
 require 'test_helper'
 
 class CalculationsTest < Test::Unit::TestCase
-
+  def setup
+    Geocoder.configure(
+      :units => :mi,
+      :distances => :linear
+    )
+  end
 
   # --- degree distance ---
 
@@ -143,5 +148,48 @@ class CalculationsTest < Test::Unit::TestCase
   def test_linear_bearing_from_and_to_are_exactly_opposite
     l = Landmark.new(*landmark_params(:msg))
     assert_equal l.bearing_from([50,-86.1]), l.bearing_to([50,-86.1]) - 180
+  end
+
+  def test_extract_coordinates
+    result = Geocoder::Calculations.extract_coordinates([ nil, nil ])
+    assert is_nan_coordinates?(result)
+
+    result = Geocoder::Calculations.extract_coordinates([ 1.0 / 3, 2.0 / 3 ])
+    assert_in_delta 1.0 / 3, result.first, 1E-5
+    assert_in_delta 2.0 / 3, result.last, 1E-5
+
+    result = Geocoder::Calculations.extract_coordinates(nil)
+    assert is_nan_coordinates?(result)
+
+    result = Geocoder::Calculations.extract_coordinates('')
+    assert is_nan_coordinates?(result)
+
+    result = Geocoder::Calculations.extract_coordinates([ 'nix' ])
+    assert is_nan_coordinates?(result)
+
+    o = Object.new
+    result = Geocoder::Calculations.extract_coordinates(o)
+    assert is_nan_coordinates?(result)
+
+    def o.to_coordinates
+      [ 1.0 / 3, 2.0 / 3 ]
+    end
+    result = Geocoder::Calculations.extract_coordinates(o)
+    assert_in_delta 1.0 / 3, result.first, 1E-5
+    assert_in_delta 2.0 / 3, result.last, 1E-5
+  end
+
+  def test_coordinates_present
+    assert Geocoder::Calculations.coordinates_present?(3.23)
+    assert !Geocoder::Calculations.coordinates_present?(nil)
+    assert !Geocoder::Calculations.coordinates_present?(Geocoder::Calculations::NAN)
+    assert !Geocoder::Calculations.coordinates_present?(3.23, nil)
+  end
+
+  def test_extract_coordinates
+    coords = [-23,47]
+    l = Landmark.new("Madagascar", coords[0], coords[1])
+    assert_equal coords, Geocoder::Calculations.extract_coordinates(l)
+    assert_equal coords, Geocoder::Calculations.extract_coordinates(coords)
   end
 end

@@ -13,33 +13,33 @@ module Geocoder
         opts.separator "\nOptions: "
 
         opts.on("-k <key>", "--key <key>",
-          "Key for geocoding API (optional for most). For Google Premier use 'key client channel' separated by spaces") do |key|
-          premier_key = key.split(' ')
-          if premier_key.length == 3
-            Geocoder::Configuration.api_key = premier_key
+          "Key for geocoding API (usually optional). Enclose multi-part keys in quotes and separate parts by spaces") do |key|
+          if (key_parts = key.split(/\s+/)).size > 1
+            Geocoder.configure(:api_key => key_parts)
           else
-            Geocoder::Configuration.api_key = key
+            Geocoder.configure(:api_key => key)
           end
         end
 
         opts.on("-l <language>", "--language <language>",
           "Language of output (see API docs for valid choices)") do |language|
-          Geocoder::Configuration.language = language
+          Geocoder.configure(:language => language)
         end
 
         opts.on("-p <proxy>", "--proxy <proxy>",
           "HTTP proxy server to use (user:pass@host:port)") do |proxy|
-          Geocoder::Configuration.http_proxy = proxy
+          Geocoder.configure(:http_proxy => proxy)
         end
 
-        opts.on("-s <service>", Geocoder.street_lookups, "--service <service>",
-          "Geocoding service: #{Geocoder.street_lookups * ', '}") do |service|
-          Geocoder::Configuration.lookup = service.to_sym
+        opts.on("-s <service>", Geocoder::Lookup.all_services_except_test, "--service <service>",
+          "Geocoding service: #{Geocoder::Lookup.all_services_except_test * ', '}") do |service|
+          Geocoder.configure(:lookup => service.to_sym)
+          Geocoder.configure(:ip_lookup => service.to_sym)
         end
 
         opts.on("-t <seconds>", "--timeout <seconds>",
           "Maximum number of seconds to wait for API response") do |timeout|
-          Geocoder::Configuration.timeout = timeout.to_i
+          Geocoder.configure(:timeout => timeout.to_i)
         end
 
         opts.on("-j", "--json", "Print API's raw JSON response") do
@@ -78,21 +78,19 @@ module Geocoder
       end
 
       if show_url
-        lookup = Geocoder.send(:lookup, query)
-        reverse = lookup.send(:coordinates?, query)
-        out << lookup.send(:query_url, query, reverse) + "\n"
+        q = Geocoder::Query.new(query)
+        out << q.url + "\n"
         exit 0
       end
 
       if show_json
-        lookup = Geocoder.send(:lookup, query)
-        reverse = lookup.send(:coordinates?, query)
-        out << lookup.send(:fetch_raw_data, query, reverse) + "\n"
+        q = Geocoder::Query.new(query)
+        out << q.lookup.send(:fetch_raw_data, q) + "\n"
         exit 0
       end
 
       if (result = Geocoder.search(query).first)
-        lookup = Geocoder.send(:get_lookup, :google)
+        google = Geocoder::Lookup.get(:google)
         lines = [
           ["Latitude",       result.latitude],
           ["Longitude",      result.longitude],
@@ -101,7 +99,7 @@ module Geocoder
           ["State/province", result.state],
           ["Postal code",    result.postal_code],
           ["Country",        result.country],
-          ["Google map",     lookup.map_link_url(result.coordinates)],
+          ["Google map",     google.map_link_url(result.coordinates)],
         ]
         lines.each do |line|
           out << (line[0] + ": ").ljust(18) + line[1].to_s + "\n"

@@ -4,13 +4,25 @@ require 'geocoder/results/freegeoip'
 module Geocoder::Lookup
   class Freegeoip < Base
 
+    def name
+      "FreeGeoIP"
+    end
+
+    def query_url(query)
+      "#{protocol}://freegeoip.net/json/#{query.sanitized_text}"
+    end
+
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
+    def parse_raw_data(raw_data)
+      raw_data.match(/^<html><title>404/) ? nil : super(raw_data)
+    end
+
+    def results(query)
       # don't look up a loopback address, just return the stored result
-      return [reserved_result(query)] if loopback_address?(query)
+      return [reserved_result(query.text)] if query.loopback_ip_address?
       begin
-        return (doc = fetch_data(query, reverse)) ? [doc] : []
+        return (doc = fetch_data(query)) ? [doc] : []
       rescue StandardError => err # Freegeoip.net returns HTML on bad request
         raise_error(err)
         return []
@@ -30,10 +42,6 @@ module Geocoder::Lookup
         "country_name" => "Reserved",
         "country_code" => "RD"
       }
-    end
-
-    def query_url(query, reverse = false)
-      "http://freegeoip.net/json/#{query}"
     end
   end
 end

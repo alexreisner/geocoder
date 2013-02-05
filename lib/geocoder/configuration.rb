@@ -1,58 +1,130 @@
+require 'singleton'
+require 'geocoder/configuration_hash'
+
 module Geocoder
+
+  ##
+  # Configuration options should be set by passing a hash:
+  #
+  #   Geocoder.configure(
+  #     :timeout  => 5,
+  #     :lookup   => :yandex,
+  #     :api_key  => "2a9fsa983jaslfj982fjasd",
+  #     :units    => :km
+  #   )
+  #
+  def self.configure(options = nil, &block)
+    if block_given?
+      warn "WARNING: Passing a block to Geocoder.configure is DEPRECATED. Please pass a hash instead (eg: Geocoder.configure(:units => ..., :api_key => ...))."
+      block.call(Configuration.instance)
+    elsif !options.nil?
+      Configuration.instance.configure(options)
+    else
+      warn "WARNING: Use of Geocoder.configure to read or write single config options is DEPRECATED. To write to the config please pass a hash (eg: Geocoder.configure(:units => ...)). To read config options please use the Geocoder.config object (eg: Geocoder.config.units)."
+      Configuration.instance
+    end
+  end
+
+  ##
+  # Read-only access to the singleton's config data.
+  #
+  def self.config
+    Configuration.instance.data
+  end
+
+  ##
+  # Read-only access to lookup-specific config data.
+  #
+  def self.config_for_lookup(lookup_name)
+    data = config.clone
+    data.reject!{ |key,value| !Configuration::OPTIONS.include?(key) }
+    if config.has_key?(lookup_name)
+      data.merge!(config[lookup_name])
+    end
+    data
+  end
+
   class Configuration
+    include Singleton
 
-    def self.options_and_defaults
-      [
-        # geocoding service timeout (secs)
-        [:timeout, 3],
+    OPTIONS = [
+      :timeout,
+      :lookup,
+      :ip_lookup,
+      :language,
+      :http_headers,
+      :use_https,
+      :http_proxy,
+      :https_proxy,
+      :api_key,
+      :cache,
+      :cache_prefix,
+      :always_raise,
+      :units,
+      :distances
+    ]
 
-        # name of geocoding service (symbol)
-        [:lookup, :google],
+    attr_accessor :data
 
-        # ISO-639 language code
-        [:language, :en],
-
-        # use HTTPS for lookup requests? (if supported)
-        [:use_https, false],
-
-        # HTTP proxy server (user:pass@host:port)
-        [:http_proxy, nil],
-
-        # HTTPS proxy server (user:pass@host:port)
-        [:https_proxy, nil],
-
-        # API key for geocoding service
-        # for Google Premier use a 3-element array: [key, client, channel]
-        [:api_key, nil],
-
-        # cache object (must respond to #[], #[]=, and #keys)
-        [:cache, nil],
-
-        # prefix (string) to use for all cache keys
-        [:cache_prefix, "geocoder:"],
-
-        # exceptions that should not be rescued by default
-        # (if you want to implement custom error handling);
-        # supports SocketError and TimeoutError
-        [:always_raise, []]
-      ]
+    def self.set_defaults
+      instance.set_defaults
     end
 
-    # define getters and setters for all configuration settings
-    self.options_and_defaults.each do |option, default|
-      class_eval(<<-END, __FILE__, __LINE__ + 1)
-
-        @@#{option} = default unless defined? @@#{option}
-
-        def self.#{option}
-          @@#{option}
-        end
-
-        def self.#{option}=(obj)
-          @@#{option} = obj
-        end
-
-      END
+    OPTIONS.each do |o|
+      define_method o do
+        @data[o]
+      end
+      define_method "#{o}=" do |value|
+        @data[o] = value
+      end
     end
+
+    def configure(options)
+      @data.rmerge!(options)
+    end
+
+    def initialize # :nodoc
+      @data = Geocoder::ConfigurationHash.new
+      set_defaults
+    end
+
+    def set_defaults
+
+      # geocoding options
+      @data[:timeout]      = 3           # geocoding service timeout (secs)
+      @data[:lookup]       = :google     # name of street address geocoding service (symbol)
+      @data[:ip_lookup]    = :freegeoip  # name of IP address geocoding service (symbol)
+      @data[:language]     = :en         # ISO-639 language code
+      @data[:http_headers] = {}          # HTTP headers for lookup
+      @data[:use_https]    = false       # use HTTPS for lookup requests? (if supported)
+      @data[:http_proxy]   = nil         # HTTP proxy server (user:pass@host:port)
+      @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
+      @data[:api_key]      = nil         # API key for geocoding service
+      @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
+      @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
+
+      # exceptions that should not be rescued by default
+      # (if you want to implement custom error handling);
+      # supports SocketError and TimeoutError
+      @data[:always_raise] = []
+
+      # calculation options
+      @data[:units]     = :mi      # :mi or :km
+      @data[:distances] = :linear  # :linear or :spherical
+    end
+
+    instance_eval(OPTIONS.map do |option|
+      o = option.to_s
+      <<-EOS
+      def #{o}
+        instance.data[:#{o}]
+      end
+
+      def #{o}=(value)
+        instance.data[:#{o}] = value
+      end
+      EOS
+    end.join("\n\n"))
+
   end
 end

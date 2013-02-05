@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='UTF-8'?>\n<yahoo:error xmlns:yahoo='http://yahooapis.com/v1/base.rng'\n  xml:lang='en-US'>
+  <yahoo:description>Please provide valid credentials. OAuth oauth_problem="consumer_key_unknown", realm="yahooapis.com"</yahoo:description>\n</yahoo:error>

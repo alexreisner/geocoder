@@ -1,3 +1,3 @@
 module Geocoder
-  VERSION = "1.1.1"
+  VERSION = "1.1.6"
 end

@@ -4,16 +4,28 @@ require "geocoder/results/yandex"
 module Geocoder::Lookup
   class Yandex < Base
 
+    def name
+      "Yandex"
+    end
+
     def map_link_url(coordinates)
       "http://maps.yandex.ru/?ll=#{coordinates.reverse.join(',')}"
     end
 
+    def query_url(query)
+      "#{protocol}://geocode-maps.yandex.ru/1.x/?" + url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query)
+      return [] unless doc = fetch_data(query)
       if err = doc['error']
-        warn "Yandex Geocoding API error: #{err['status']} (#{err['message']})."
+        if err["status"] == 401 and err["message"] == "invalid key"
+          raise_error(Geocoder::InvalidApiKey) || warn("Invalid API key.")
+        else
+          warn "Yandex Geocoding API error: #{err['status']} (#{err['message']})."
+        end
         return []
       end
       if doc = doc['response']['GeoObjectCollection']
@@ -25,15 +37,18 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query, reverse = false)
-      query = query.split(",").reverse.join(",") if reverse
-      params = {
-        :geocode => query,
+    def query_url_params(query)
+      if query.reverse_geocode?
+        q = query.coordinates.reverse.join(",")
+      else
+        q = query.sanitized_text
+      end
+      {
+        :geocode => q,
         :format => "json",
-        :plng => "#{Geocoder::Configuration.language}", # supports ru, uk, be
-        :key => Geocoder::Configuration.api_key
-      }
-      "http://geocode-maps.yandex.ru/1.x/?" + hash_to_query(params)
+        :plng => "#{configuration.language}", # supports ru, uk, be
+        :key => configuration.api_key
+      }.merge(super)
     end
   end
 end

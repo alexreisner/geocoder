@@ -1,12 +1,7 @@
 # encoding: utf-8
-require 'test_helper'
-
-begin
-require 'mongoid'
 require 'mongoid_test_helper'
 
 class MongoidTest < Test::Unit::TestCase
-
   def test_geocoded_check
     p = Place.new(*venue_params(:msg))
     p.location = [40.750354, -73.993371]
@@ -22,10 +17,23 @@ class MongoidTest < Test::Unit::TestCase
   def test_custom_coordinate_field_near_scope
     location = [40.750354, -73.993371]
     p = Place.near(location)
-    assert_equal p.selector[:location]['$nearSphere'], location.reverse
+    key = Mongoid::VERSION >= "3" ? "location" : :location
+    assert_equal p.selector[key]['$nearSphere'], location.reverse
   end
-end
 
-rescue LoadError => crash
-  warn 'Mongoid not installed, not tested.'
+  def test_model_configuration
+    p = Place.new(*venue_params(:msg))
+    p.location = [0, 0]
+
+    Place.geocoded_by :address, :coordinates => :location, :units => :km
+    assert_equal 111, p.distance_to([0,1]).round
+
+    Place.geocoded_by :address, :coordinates => :location, :units => :mi
+    assert_equal 69, p.distance_to([0,1]).round
+  end
+
+  def test_index_is_skipped_if_skip_option_flag
+    result = PlaceWithoutIndex.index_options.keys.flatten[0] == :coordinates
+    assert !result
+  end
 end

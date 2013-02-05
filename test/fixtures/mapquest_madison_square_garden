@@ -1,0 +1,52 @@
+{
+  "results": [
+    {
+      "locations": [
+        {
+          "latLng": {
+            "lng": -73.994637,
+            "lat": 40.720409
+          },
+          "adminArea4": "New York County",
+          "adminArea5Type": "City",
+          "adminArea4Type": "County",
+          "adminArea5": "New York",
+          "street": "46 West 31st Street",
+          "adminArea1": "US",
+          "adminArea3": "NY",
+          "type": "s",
+          "displayLatLng": {
+            "lng": -73.994637,
+            "lat": 40.720409
+          },
+          "linkId": 0,
+          "postalCode": "10001",
+          "sideOfStreet": "N",
+          "dragPoint": false,
+          "adminArea1Type": "Country",
+          "geocodeQuality": "CITY",
+          "geocodeQualityCode": "A5XAX",
+          "mapUrl": "http://www.mapquestapi.com/staticmap/v3/getmap?type=map&size=225,160&pois=purple-1,40.720409,-73.994637,0,0|&center=40.720409,-73.994637&zoom=9&key=Gmjtd|luua2hu2nd,7x=o5-lz8lg&rand=604519389",
+          "adminArea3Type": "State"
+        }
+      ],
+      "providedLocation": {
+        "location": "Madison Square Garden, New York, NY"
+      }
+    }
+  ],
+  "options": {
+    "ignoreLatLngInput": false,
+    "maxResults": -1,
+    "thumbMaps": true
+  },
+  "info": {
+    "copyright": {
+      "text": "© 2012 MapQuest, Inc.",
+      "imageUrl": "http://api.mqcdn.com/res/mqlogo.gif",
+      "imageAltText": "© 2012 MapQuest, Inc."
+    },
+    "statuscode": 0,
+    "messages": []
+  }
+}

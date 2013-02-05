@@ -1,0 +1,52 @@
+{
+  "bossresponse": {
+    "responsecode": "200",
+    "placefinder": {
+      "start": "0",
+      "count": "1",
+      "request": "flags=JXTSR&location=Madison%20Square%20Garden%2C%20NY%2C%20NY&%unsafe%appid=%5B%22dj0yJmk9ZmZ5NXFrNGhNcEthJmQ9WVdrOVFUSlhPV2x1TjJVbWNHbzlORE0wT0RFME9UWXkmcz1jb25zdW1lcnNlY3JldCZ4PTAy%22%2C%20%22b57b1b98eb21f171231f5b441cba505261d6c9bb%22%5D&gflags=AC&locale=en_US",
+      "results": [
+        {
+          "quality": "90",
+          "latitude": "40.750381",
+          "longitude": "-73.993988",
+          "offsetlat": "40.750381",
+          "offsetlon": "-73.993988",
+          "radius": "400",
+          "boundingbox": {
+            "north": "40.750832",
+            "south": "40.749931",
+            "east": "-73.993393",
+            "west": "-73.994591"
+          },
+          "name": "Madison Square Garden",
+          "line1": "Madison Square Garden",
+          "line2": "New York, NY 10001",
+          "line3": "",
+          "line4": "United States",
+          "cross": "",
+          "house": "",
+          "street": "",
+          "xstreet": "",
+          "unittype": "",
+          "unit": "",
+          "postal": "10001",
+          "neighborhood": "Garment District|Midtown|Midtown West|Manhattan",
+          "city": "New York",
+          "county": "New York County",
+          "state": "New York",
+          "country": "United States",
+          "countrycode": "US",
+          "statecode": "NY",
+          "countycode": "",
+          "timezone": "America/New_York",
+          "areacode": "212",
+          "uzip": "10001",
+          "hash": "",
+          "woeid": "23617041",
+          "woetype": "20"
+        }
+      ]
+    }
+  }
+}

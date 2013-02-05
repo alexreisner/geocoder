@@ -3,6 +3,13 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class Nominatim < Base
 
+    def poi
+      %w[stadium bus_stop tram_stop].each do |key|
+        return @data['address'][key] if @data['address'].key?(key)
+      end
+      return nil
+    end
+
     def house_number
       @data['address']['house_number']
     end
@@ -12,15 +19,21 @@ module Geocoder::Result
     end
 
     def street
-      @data['address']['road']
+      %w[road pedestrian highway].each do |key|
+        return @data['address'][key] if @data['address'].key?(key)
+      end
+      return nil
     end
 
     def city
-      @data['address']['city']
+      %w[city town village hamlet].each do |key|
+        return @data['address'][key] if @data['address'].key?(key)
+      end
+      return nil
     end
 
     def village
-      @data['address']['villiage']
+      @data['address']['village']
     end
 
     def town
@@ -49,18 +62,32 @@ module Geocoder::Result
       @data['address']['country_code']
     end
 
+    def suburb
+      @data['address']['suburb']
+    end
+
     def coordinates
       [@data['lat'].to_f, @data['lon'].to_f]
     end
 
+    def place_class
+      @data['class']
+    end
+
+    def place_type
+      @data['type']
+    end
+
     def self.response_attributes
-      %w[place_id, osm_type, osm_id, boundingbox, license,
-         polygonpoints, display_name, class, type, stadium, suburb]
+      %w[place_id osm_type osm_id boundingbox license
+         polygonpoints display_name class type stadium]
     end
 
     response_attributes.each do |a|
-      define_method a do
-        @data[a]
+      unless method_defined?(a)
+        define_method a do
+          @data[a]
+        end
       end
     end
   end

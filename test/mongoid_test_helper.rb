@@ -1,11 +1,18 @@
 require 'rubygems'
 require 'test/unit'
+require 'test_helper'
+require 'mongoid'
+require 'geocoder/models/mongoid'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-Mongoid.configure do |config|
-  config.logger = Logger.new($stderr, :debug)
+if (::Mongoid::VERSION >= "3")
+  Mongoid.logger = Logger.new($stderr, :debug)
+else
+  Mongoid.configure do |config|
+    config.logger = Logger.new($stderr, :debug)
+  end
 end
 
 ##
@@ -25,4 +32,12 @@ class Place
     write_attribute :name, name
     write_attribute :address, address
   end
+end
+
+class PlaceWithoutIndex
+  include Mongoid::Document
+  include Geocoder::Model::Mongoid
+
+  field :location, :type => Array
+  geocoded_by :location, :skip_index => true
 end

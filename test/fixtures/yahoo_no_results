@@ -1,0 +1,10 @@
+{
+  "bossresponse": {
+    "responsecode": "200",
+    "placefinder": {
+      "start": "0",
+      "count": "0",
+      "request": "flags=JXTSR&location=asdfasdf28394782sdfj2983&%unsafe%appid=%5B%22dj0yJmk9ZmZ5NXFrNGhNcEthJmQ9WVdrOVFUSlhPV2x1TjJVbWNHbzlORE0wT0RFME9UWXkmcz1jb25zdW1lcnNlY3JldCZ4PTAy%22%2C%20%22b57b1b98eb21f171231f5b441cba505261d6c9bb%22%5D&gflags=AC&locale=en_US"
+    }
+  }
+}

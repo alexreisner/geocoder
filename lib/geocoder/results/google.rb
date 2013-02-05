@@ -53,6 +53,22 @@ module Geocoder::Result
       end
     end
 
+    def route
+      if route = address_components_of_type(:route).first
+        route['long_name']
+      end
+    end
+
+    def street_number
+      if street_number = address_components_of_type(:street_number).first
+        street_number['long_name']
+      end
+    end
+
+    def street_address
+      [street_number, route].compact.join(' ')
+    end
+
     def types
       @data['types']
     end

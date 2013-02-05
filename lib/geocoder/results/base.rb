@@ -1,13 +1,20 @@
 module Geocoder
   module Result
     class Base
+
+      # data (hash) fetched from geocoding service
       attr_accessor :data
 
+      # true if result came from cache, false if from request to geocoding
+      # service; nil if cache is not configured
+      attr_accessor :cache_hit
+
       ##
-      # Takes a hash of result data from a parsed Google result document.
+      # Takes a hash of data from a parsed geocoding service response.
       #
       def initialize(data)
         @data = data
+        @cache_hit = nil
       end
 
       ##

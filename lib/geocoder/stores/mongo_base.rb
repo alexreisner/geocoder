@@ -20,6 +20,7 @@ module Geocoder::Store
 
           radius  = args.size > 0 ? args.shift : 20
           options = args.size > 0 ? args.shift : {}
+          options[:units] ||= geocoder_options[:units]
 
           # Use BSON::OrderedHash if Ruby's hashes are unordered.
           # Conditions must be in order required by indexes (see mongo gem).
@@ -30,7 +31,7 @@ module Geocoder::Store
           conds[field] = empty.clone
           conds[field]["$nearSphere"]  = coords.reverse
           conds[field]["$maxDistance"] = \
-            Geocoder::Calculations.distance_to_radians(radius, options[:units] || :mi)
+            Geocoder::Calculations.distance_to_radians(radius, options[:units])
 
           if obj = options[:exclude]
             conds[:_id.ne] = obj.id
@@ -58,7 +59,7 @@ module Geocoder::Store
       do_lookup(false) do |o,rs|
         if r = rs.first
           unless r.coordinates.nil?
-            o.send :write_attribute, self.class.geocoder_options[:coordinates], r.coordinates.reverse
+            o.__send__ "#{self.class.geocoder_options[:coordinates]}=", r.coordinates.reverse
           end
           r.coordinates
         end
@@ -73,7 +74,7 @@ module Geocoder::Store
       do_lookup(true) do |o,rs|
         if r = rs.first
           unless r.address.nil?
-            o.send :write_attribute, self.class.geocoder_options[:fetched_address], r.address
+            o.__send__ "#{self.class.geocoder_options[:fetched_address]}=", r.address
           end
           r.address
         end
@@ -81,3 +82,4 @@ module Geocoder::Store
     end
   end
 end
+

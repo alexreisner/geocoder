@@ -4,34 +4,42 @@ require "geocoder/results/nominatim"
 module Geocoder::Lookup
   class Nominatim < Base
 
+    def name
+      "Nominatim"
+    end
+
     def map_link_url(coordinates)
       "http://www.openstreetmap.org/?lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=15&layers=M"
     end
 
+    def query_url(query)
+      method = query.reverse_geocode? ? "reverse" : "search"
+      host = configuration[:host] || "nominatim.openstreetmap.org"
+      "#{protocol}://#{host}/#{method}?" + url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
-    def results(query, reverse = false)
-      return [] unless doc = fetch_data(query, reverse)
+    def results(query)
+      return [] unless doc = fetch_data(query)
       doc.is_a?(Array) ? doc : [doc]
     end
 
-    def query_url(query, reverse = false)
+    def query_url_params(query)
       params = {
         :format => "json",
         :polygon => "1",
         :addressdetails => "1",
-        :"accept-language" => Geocoder::Configuration.language
-      }
-      if (reverse)
-        method = 'reverse'
-        parts = query.split(/\s*,\s*/);
-        params[:lat] = parts[0]
-        params[:lon] = parts[1]
+        :"accept-language" => configuration.language
+      }.merge(super)
+      if query.reverse_geocode?
+        lat,lon = query.coordinates
+        params[:lat] = lat
+        params[:lon] = lon
       else
-        method = 'search'
-        params[:q] = query
+        params[:q] = query.sanitized_text
       end
-      "http://nominatim.openstreetmap.org/#{method}?" + hash_to_query(params)
+      params
     end
   end
 end
