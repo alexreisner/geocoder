@@ -1,0 +1,112 @@
+{
+   "response":{
+      "GeoObjectCollection":{
+         "metaDataProperty":{
+            "GeocoderResponseMetaData":{
+               "request":"57.423359,55.892596",
+               "found":"3",
+               "results":"10",
+               "Point":{
+                  "pos":"57.423359 55.892596"
+               }
+            }
+         },
+         "featureMember":[
+            {
+               "GeoObject":{
+                  "metaDataProperty":{
+                     "GeocoderMetaData":{
+                        "kind":"area",
+                        "text":"Россия, республика Башкортостан, Караидельский район",
+                        "precision":"other",
+                        "AddressDetails":{
+                           "Country":{
+                              "AddressLine":"республика Башкортостан, Караидельский район",
+                              "CountryNameCode":"RU",
+                              "CountryName":"Россия",
+                              "AdministrativeArea":{
+                                 "AdministrativeAreaName":"республика Башкортостан",
+                                 "SubAdministrativeArea":{
+                                    "SubAdministrativeAreaName":"Караидельский район"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "description":"республика Башкортостан, Россия",
+                  "name":"Караидельский район",
+                  "boundedBy":{
+                     "Envelope":{
+                        "lowerCorner":"56.231384 55.462814",
+                        "upperCorner":"57.705348 56.076117"
+                     }
+                  },
+                  "Point":{
+                     "pos":"57.423359 55.892596"
+                  }
+               }
+            },
+            {
+               "GeoObject":{
+                  "metaDataProperty":{
+                     "GeocoderMetaData":{
+                        "kind":"province",
+                        "text":"Россия, республика Башкортостан",
+                        "precision":"other",
+                        "AddressDetails":{
+                           "Country":{
+                              "AddressLine":"республика Башкортостан",
+                              "CountryNameCode":"RU",
+                              "CountryName":"Россия",
+                              "AdministrativeArea":{
+                                 "AdministrativeAreaName":"республика Башкортостан"
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "description":"Россия",
+                  "name":"республика Башкортостан",
+                  "boundedBy":{
+                     "Envelope":{
+                        "lowerCorner":"53.157475 51.571991",
+                        "upperCorner":"60.001577 56.533651"
+                     }
+                  },
+                  "Point":{
+                     "pos":"56.579526 54.127354"
+                  }
+               }
+            },
+            {
+               "GeoObject":{
+                  "metaDataProperty":{
+                     "GeocoderMetaData":{
+                        "kind":"country",
+                        "text":"Россия",
+                        "precision":"other",
+                        "AddressDetails":{
+                           "Country":{
+                              "CountryNameCode":"RU",
+                              "CountryName":"Россия"
+                           }
+                        }
+                     }
+                  },
+                  "name":"Россия",
+                  "boundedBy":{
+                     "Envelope":{
+                        "lowerCorner":"19.641673 36.84312",
+                        "upperCorner":"179.999997 81.848739"
+                     }
+                  },
+                  "Point":{
+                     "pos":"37.617761 55.755773"
+                  }
+               }
+            }
+         ]
+      }
+   }
+}
