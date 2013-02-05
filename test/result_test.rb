@@ -12,16 +12,6 @@ class ResultTest < Test::Unit::TestCase
     end
   end
 
-
-  # Redefine Yandex to work with fixture without city and town
-  class Yandex
-    private
-    def default_fixture_filename
-      "yandex_no_city_and_town"
-    end
-  end
-
-
   def test_yandex_result_without_city_has_not_raises_exception
     Geocoder.configure(:lookup => :yandex)
     set_api_key!(:yandex)
