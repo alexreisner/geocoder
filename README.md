@@ -374,7 +374,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 
 #### ovi.com (Nokia maps) (`:ovi`)
 
-* **API key**: none
+* **API key**: required: `config.api_key = %w{app_id app_token}`
 * **Quota**: ?
 * **Region**: world
 * **SSL support**: no

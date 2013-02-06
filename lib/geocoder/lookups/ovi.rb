@@ -16,7 +16,10 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       super.merge(
-        :searchtext => query.sanitized_text
+        searchtext:query.sanitized_text,
+        gen:1,
+        app_id:Geocoder::Configuration.api_key[0],
+        app_code:Geocoder::Configuration.api_key[1]
       )
     end
 
