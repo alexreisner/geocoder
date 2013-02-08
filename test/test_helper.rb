@@ -163,6 +163,19 @@ module Geocoder
       end
     end
 
+    class Ovi < Base
+      private #-----------------------------------------------------------------
+      def fetch_raw_data(query)
+        raise TimeoutError if query.text == "timeout"
+        raise SocketError if query.text == "socket_error"
+        file = case query.text
+          when "no results";  :no_results
+          else                :madison_square_garden
+        end
+        read_fixture "ovi_#{file}.json"
+      end
+    end
+
     class Nominatim < Base
       private #-----------------------------------------------------------------
       def fetch_raw_data(query)

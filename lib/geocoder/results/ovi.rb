@@ -21,7 +21,7 @@ module Geocoder::Result
 
     def state
       fail unless d = @data['Location']['Address']
-      d['State']
+      d['County']
     end
 
     def province
@@ -29,17 +29,31 @@ module Geocoder::Result
       d['County']
     end
 
+    def postal_code
+      fail unless d = @data['Location']['Address']
+      d['PostalCode']
+    end
+
+    def city
+      fail unless d = @data['Location']['Address']
+      d['City']
+    end
+
     def state_code
-      fail
+      fail unless d = @data['Location']['Address']
+      d['State']
     end
 
     def province_code
-      fail
+      fail unless d = @data['Location']['Address']
+      d['State']
     end
 
     def country
       fail unless d = @data['Location']['Address']['AdditionalData']
-      d.find{|ad| ad['value'] if ad['key']=='CountryName'}
+      if v = d.find{|ad| ad['key']=='CountryName'}
+        return v['value']
+      end
     end
 
     def country_code

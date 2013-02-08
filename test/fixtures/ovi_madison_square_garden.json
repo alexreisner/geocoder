@@ -1,0 +1,72 @@
+{
+  "Response": {
+    "MetaInfo": {
+      "Timestamp": "2013-02-08T16:26:39.382+0000"
+    },
+    "View": [
+      {
+        "_type": "SearchResultsViewType",
+        "ViewId": 0,
+        "Result": [
+          {
+            "Relevance": 1.0,
+            "MatchLevel": "houseNumber",
+            "MatchQuality": {
+              "State": 1.0,
+              "City": 1.0,
+              "Street": [
+                1.0
+              ],
+              "HouseNumber": 1.0
+            },
+            "MatchType": "pointAddress",
+            "Location": {
+              "LocationId": "NT_ArsGdYbpo6dqjPQel9gTID_4",
+              "LocationType": "point",
+              "DisplayPosition": {
+                "Latitude": 40.7504692,
+                "Longitude": -73.9933777
+              },
+              "NavigationPosition": [
+                {
+                  "Latitude": 40.7500305,
+                  "Longitude": -73.9942398
+                }
+              ],
+              "MapView": {
+                "TopLeft": {
+                  "Latitude": 40.7515934,
+                  "Longitude": -73.9948616
+                },
+                "BottomRight": {
+                  "Latitude": 40.7493451,
+                  "Longitude": -73.9918938
+                }
+              },
+              "Address": {
+                "Label": "4 Penn Plz, New York, NY 10001, United States",
+                "Country": "USA",
+                "State": "NY",
+                "County": "New York",
+                "City": "New York",
+                "Street": "Penn Plz",
+                "HouseNumber": "4",
+                "PostalCode": "10001",
+                "AdditionalData": [
+                  {
+                    "value": "United States",
+                    "key": "CountryName"
+                  },
+                  {
+                    "value": "New York",
+                    "key": "StateName"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
