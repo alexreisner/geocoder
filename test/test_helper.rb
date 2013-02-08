@@ -64,8 +64,8 @@ module Rails
 end
 
 # Require Geocoder after ActiveRecord simulator.
-require 'geocoder'
-require "geocoder/lookups/base"
+require "#{File.dirname(__FILE__)}/../lib/geocoder"
+require "#{File.dirname(__FILE__)}/../lib/geocoder/lookups/base"
 
 ##
 # Mock HTTP request to geocoding service.
@@ -102,6 +102,7 @@ module Geocoder
       def fixture_for_query(query)
         label = query.reverse_geocode? ? "reverse" : query.text.gsub(/[ \.]/, "_")
         filename = "#{fixture_prefix}_#{label}"
+
         fixture_exists?(filename) ? filename : default_fixture_filename
       end
 
@@ -137,6 +138,13 @@ module Geocoder
       private
       def default_fixture_filename
         "maxmind_74_200_247_59"
+      end
+    end
+
+    class Ipgeobase
+      private
+      def default_fixture_filename
+        "ipgeobase_213_5_100_86"
       end
     end
 
