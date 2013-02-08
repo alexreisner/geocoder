@@ -1,6 +1,7 @@
 require 'cgi'
-require 'geocoder/lookups/base'
-require "geocoder/results/mapquest"
+
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/mapquest"
 
 module Geocoder::Lookup
   class Mapquest < Base

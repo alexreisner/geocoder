@@ -1,13 +1,15 @@
-require "geocoder/configuration"
-require "geocoder/query"
-require "geocoder/calculations"
-require "geocoder/exceptions"
-require "geocoder/cache"
-require "geocoder/request"
-require "geocoder/lookup"
-require "geocoder/models/active_record" if defined?(::ActiveRecord)
-require "geocoder/models/mongoid" if defined?(::Mongoid)
-require "geocoder/models/mongo_mapper" if defined?(::MongoMapper)
+path = File.dirname(__FILE__)
+
+require "#{path}/geocoder/configuration"
+require "#{path}/geocoder/query"
+require "#{path}/geocoder/calculations"
+require "#{path}/geocoder/exceptions"
+require "#{path}/geocoder/cache"
+require "#{path}/geocoder/request"
+require "#{path}/geocoder/lookup"
+require "#{path}/geocoder/models/active_record" if defined?(::ActiveRecord)
+require "#{path}/geocoder/models/mongoid" if defined?(::Mongoid)
+require "#{path}/geocoder/models/mongo_mapper" if defined?(::MongoMapper)
 
 module Geocoder
   extend self

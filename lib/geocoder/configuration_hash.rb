@@ -1,4 +1,4 @@
-require 'hash_recursive_merge'
+require "#{File.dirname(__FILE__)}/../hash_recursive_merge"
 
 module Geocoder
   class ConfigurationHash < Hash

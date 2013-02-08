@@ -1,5 +1,5 @@
-require 'geocoder'
 require 'optparse'
+require "#{File.dirname(__FILE__)}/../geocoder"
 
 module Geocoder
   class Cli

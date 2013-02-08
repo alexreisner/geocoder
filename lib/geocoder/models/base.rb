@@ -1,5 +1,3 @@
-require 'geocoder'
-
 module Geocoder
 
   ##

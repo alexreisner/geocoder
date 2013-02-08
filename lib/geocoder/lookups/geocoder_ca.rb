@@ -1,5 +1,5 @@
-require 'geocoder/lookups/base'
-require "geocoder/results/geocoder_ca"
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/geocoder_ca"
 
 module Geocoder::Lookup
   class GeocoderCa < Base

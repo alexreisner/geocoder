@@ -1,7 +1,8 @@
 require 'openssl'
 require 'base64'
-require 'geocoder/lookups/google'
-require 'geocoder/results/google_premier'
+
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/google_premier"
 
 module Geocoder::Lookup
   class GooglePremier < Google

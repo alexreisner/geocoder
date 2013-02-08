@@ -1,5 +1,5 @@
-require 'geocoder/lookups/base'
-require "geocoder/results/yandex"
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/yandex"
 
 module Geocoder::Lookup
   class Yandex < Base

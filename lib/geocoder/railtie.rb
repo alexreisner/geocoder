@@ -1,5 +1,4 @@
-require 'geocoder'
-require 'geocoder/models/active_record'
+require "#{File.dirname(__FILE__)}/models/active_record"
 
 module Geocoder
   if defined? Rails::Railtie
