@@ -15,7 +15,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://lbs.ovi.com/search/6.2/geocode.json?" + url_query_string(query)
+      "#{protocol}://lbs.ovi.com/search/6.2/geocode.json?" + url_query_string(query)
     end
 
     private # ---------------------------------------------------------------
