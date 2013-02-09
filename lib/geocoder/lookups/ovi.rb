@@ -1,5 +1,3 @@
-# ovi.com store
-
 require 'geocoder/lookups/base'
 require 'geocoder/results/ovi'
 
