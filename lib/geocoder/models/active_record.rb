@@ -1,4 +1,4 @@
-require 'geocoder/models/base'
+require "#{File.dirname(__FILE__)}/base"
 
 module Geocoder
   module Model

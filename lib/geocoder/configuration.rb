@@ -1,5 +1,5 @@
 require 'singleton'
-require 'geocoder/configuration_hash'
+require "#{File.dirname(__FILE__)}/configuration_hash"
 
 module Geocoder
 

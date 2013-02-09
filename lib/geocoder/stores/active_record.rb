@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-require 'geocoder/sql'
-require 'geocoder/stores/base'
+
+require "#{File.dirname(__FILE__)}/../sql"
+require "#{File.dirname(__FILE__)}/base"
 
 ##
 # Add geocoding functionality to any ActiveRecord object.

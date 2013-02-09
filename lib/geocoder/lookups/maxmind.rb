@@ -1,6 +1,7 @@
-require 'geocoder/lookups/base'
-require 'geocoder/results/maxmind'
 require 'csv'
+
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/maxmind"
 
 module Geocoder::Lookup
   class Maxmind < Base

@@ -1,5 +1,5 @@
-require 'geocoder/lookups/base'
-require "geocoder/results/bing"
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/bing"
 
 module Geocoder::Lookup
   class Bing < Base

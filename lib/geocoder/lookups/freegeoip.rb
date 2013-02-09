@@ -1,5 +1,5 @@
-require 'geocoder/lookups/base'
-require 'geocoder/results/freegeoip'
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/freegeoip"
 
 module Geocoder::Lookup
   class Freegeoip < Base

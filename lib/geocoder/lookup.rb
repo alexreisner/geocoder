@@ -38,7 +38,7 @@ module Geocoder
     # All IP address lookup services, default first.
     #
     def ip_services
-      [:freegeoip, :maxmind]
+      [:freegeoip, :maxmind, :ipgeobase]
     end
 
     ##
@@ -77,6 +77,8 @@ module Geocoder
   end
 end
 
+path = File.dirname(__FILE__)
+
 Geocoder::Lookup.all_services.each do |name|
-  require "geocoder/lookups/#{name}"
+  require "#{path}/lookups/#{name}"
 end

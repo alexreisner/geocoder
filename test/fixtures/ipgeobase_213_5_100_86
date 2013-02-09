@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='Windows-1251'?>
+  <ip-answer>
+    <ip value='213.5.100.86'>
+    <inetnum>213.5.96.0 - 213.5.103.255</inetnum>
+    <country>RU</country>
+    <city>Тверь</city>
+    <region>Тверская область</region>
+    <district>Центральный федеральный округ</district>
+    <lat>56.857929</lat>
+    <lng>35.923828</lng>
+  </ip>
+</ip-answer>

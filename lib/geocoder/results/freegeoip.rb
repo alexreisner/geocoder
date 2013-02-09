@@ -1,4 +1,4 @@
-require 'geocoder/results/base'
+require "#{File.dirname(__FILE__)}/base"
 
 module Geocoder::Result
   class Freegeoip < Base

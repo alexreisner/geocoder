@@ -1,5 +1,5 @@
-require 'geocoder/lookups/base'
-require "geocoder/results/nominatim"
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/nominatim"
 
 module Geocoder::Lookup
   class Nominatim < Base

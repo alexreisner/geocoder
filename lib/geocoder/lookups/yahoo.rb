@@ -1,6 +1,7 @@
-require 'geocoder/lookups/base'
-require "geocoder/results/yahoo"
 require 'oauth_util'
+
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/../results/yahoo"
 
 module Geocoder::Lookup
   class Yahoo < Base

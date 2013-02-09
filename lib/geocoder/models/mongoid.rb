@@ -1,5 +1,5 @@
-require 'geocoder/models/base'
-require 'geocoder/models/mongo_base'
+require "#{File.dirname(__FILE__)}/base"
+require "#{File.dirname(__FILE__)}/mongo_base"
 
 module Geocoder
   module Model

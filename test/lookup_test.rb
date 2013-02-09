@@ -22,7 +22,7 @@ class LookupTest < Test::Unit::TestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if l == :freegeoip # does not use query string
+      next if l == :freegeoip || l == :ipgeobase # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
