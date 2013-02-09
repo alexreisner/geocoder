@@ -7,8 +7,7 @@ module Geocoder::Result
     # A string in the given format.
     #
     def address(format = :full)
-      fail unless d = @data['Location']['Address']
-      d['Label']
+      address_data['Label']
     end
 
     ##
@@ -20,45 +19,44 @@ module Geocoder::Result
     end
 
     def state
-      fail unless d = @data['Location']['Address']
-      d['County']
+      address_data['County']
     end
 
     def province
-      fail unless d = @data['Location']['Address']
-      d['County']
+      address_data['County']
     end
 
     def postal_code
-      fail unless d = @data['Location']['Address']
-      d['PostalCode']
+      address_data['PostalCode']
     end
 
     def city
-      fail unless d = @data['Location']['Address']
-      d['City']
+      address_data['City']
     end
 
     def state_code
-      fail unless d = @data['Location']['Address']
-      d['State']
+      address_data['State']
     end
 
     def province_code
-      fail unless d = @data['Location']['Address']
-      d['State']
+      address_data['State']
     end
 
     def country
-      fail unless d = @data['Location']['Address']['AdditionalData']
+      fail unless d = address_data['AdditionalData']
       if v = d.find{|ad| ad['key']=='CountryName'}
         return v['value']
       end
     end
 
     def country_code
-      fail unless d = @data['Location']['Address']
-      d['Country']
+      address_data['Country']
+    end
+
+    private # ----------------------------------------------------------------
+
+    def address_data
+      @data['Location']['Address'] || fail
     end
   end
 end
