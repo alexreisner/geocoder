@@ -6,6 +6,18 @@ require 'geocoder/results/ovi'
 module Geocoder::Lookup
   class Ovi < Base
 
+    def name
+      "Ovi"
+    end
+
+    def required_api_key_parts
+      []
+    end
+
+    def query_url(query)
+      "http://lbs.ovi.com/search/6.2/geocode.json?" + url_query_string(query)
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query)
@@ -28,19 +40,15 @@ module Geocoder::Lookup
     end
 
     def api_key
-      if a=Geocoder::Configuration.api_key
+      if a=configuration.api_key
         return a.first if a.is_a?(Array)
       end
     end
 
     def api_code
-      if a=Geocoder::Configuration.api_key
+      if a=configuration.api_key
         return a.last if a.is_a?(Array)
       end
-    end
-
-    def query_url(query)
-      "http://lbs.ovi.com/search/6.2/geocode.json?" + url_query_string(query)
     end
   end
 end
