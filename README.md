@@ -382,15 +382,15 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Terms of Service**: http://info.mapquest.com/terms-of-use/
 * **Limitations**: ?
 
-#### ovi.com (Nokia maps) (`:ovi`)
+#### Ovi/Nokia (`:ovi`)
 
-* **API key**: required: `config.api_key = %w{app_id app_token}`
+* **API key**: not required, but performance restricted without it
 * **Quota**: ?
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
-* **Documentation**: ?
-* **Terms of Service**: ?
+* **Documentation**: http://api.maps.ovi.com/devguide/overview.html
+* **Terms of Service**: http://www.developer.nokia.com/Develop/Maps/TC.html
 * **Limitations**: ?
 
 #### FreeGeoIP (`:freegeoip`)
