@@ -48,7 +48,7 @@ module Geocoder
     def blank?
       !params_given? and (
         (text.is_a?(Array) and text.compact.size < 2) or
-        text.to_s.match(/^\s*$/)
+        text.to_s.match(/\A\s*\z/)
       )
     end
 
@@ -59,14 +59,14 @@ module Geocoder
     # dot-delimited numbers.
     #
     def ip_address?
-      !!text.to_s.match(/^(::ffff:)?(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/)
+      !!text.to_s.match(/\A(::ffff:)?(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\z/)
     end
 
     ##
     # Is the Query text a loopback IP address?
     #
     def loopback_ip_address?
-      !!(text == "0.0.0.0" or text.to_s.match(/^127/))
+      !!(self.ip_address? and (text == "0.0.0.0" or text.to_s.match(/\A127/)))
     end
 
     ##
@@ -75,7 +75,7 @@ module Geocoder
     def coordinates?
       text.is_a?(Array) or (
         text.is_a?(String) and
-        !!text.to_s.match(/^-?[0-9\.]+, *-?[0-9\.]+$/)
+        !!text.to_s.match(/\A-?[0-9\.]+, *-?[0-9\.]+\z/)
       )
     end
 
