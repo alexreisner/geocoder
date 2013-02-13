@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "rexml/document"
 require 'iconv' unless String.instance_methods.include?(:encode)
 
@@ -19,9 +21,9 @@ module Geocoder::Lookup
 
     def parse_raw_data(raw_data)
       encoded_data = if raw_data.respond_to?(:encode)
-        raw_data.encode('windows-1251', 'utf-8')
+        raw_data.encode
       else
-        Iconv.iconv('windows-1251', 'utf-8', raw_data).first
+        Iconv.iconv('windows-1251', 'UTF-8', raw_data).first
       end
 
       if encoded_data.match(/Incorrect request|Not found/)
@@ -41,7 +43,7 @@ module Geocoder::Lookup
 
       begin
         return (doc = fetch_data(query)) ? [doc] : []
-      rescue StandardError => err                
+      rescue StandardError => err
         raise_error(err)
         return []
       end

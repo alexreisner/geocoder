@@ -218,7 +218,7 @@ class ServicesTest < Test::Unit::TestCase
     Geocoder.configure(:ip_lookup => :ipgeobase)
 
     result = Geocoder.search("213.5.100.86").first
-    assert_equal "Тверь, Тверская область, RU", result.address
+    assert_equal "Tver, Tver Region, RU", result.address
   end
 
   # --- Bing ---
