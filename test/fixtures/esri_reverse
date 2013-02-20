@@ -1,0 +1,21 @@
+{
+ "address": {
+  "Address": "4 Avenue Gustave Eiffel",
+  "Neighborhood": "7e Arrondissement",
+  "City": "Paris",
+  "Subregion": "Paris",
+  "Region": "Île-de-France",
+  "Postal": "75007",
+  "PostalExt": null,
+  "CountryCode": "FRA",
+  "Loc_name": "FRA.PointAddress"
+ },
+ "location": {
+  "x": 2.2956200048981574,
+  "y": 48.858129997357558,
+  "spatialReference": {
+   "wkid": 4326,
+   "latestWkid": 4326
+  }
+ }
+}

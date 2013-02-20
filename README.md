@@ -415,6 +415,17 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Terms of Service**: ?
 * **Limitations**: ?
 
+#### ESRI (`:esri`)
+
+* **API key**: none
+* **Quota**: Required for some scenarios (see Terms of Service)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: http://resources.arcgis.com/en/help/arcgis-online-geocoding-rest-api/
+* **Terms of Service**: http://www.esri.com/software/arcgis/arcgisonline/services/geoservices
+* **Limitations**: ?
+
 
 Caching
 -------
