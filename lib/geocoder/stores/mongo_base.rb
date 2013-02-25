@@ -24,7 +24,8 @@ module Geocoder::Store
 
           # Use BSON::OrderedHash if Ruby's hashes are unordered.
           # Conditions must be in order required by indexes (see mongo gem).
-          empty = RUBY_VERSION.split('.')[1].to_i < 9 ? BSON::OrderedHash.new : {}
+          version = RUBY_VERSION.split('.').map { |i| i.to_i }
+          empty = version[0] < 2 && version[1] < 9 ? BSON::OrderedHash.new : {}
 
           conds = empty.clone
           field = geocoder_options[:coordinates]
