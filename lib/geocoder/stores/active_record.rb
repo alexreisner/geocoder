@@ -103,6 +103,9 @@ module Geocoder::Store
       # * +:exclude+         - an object to exclude (used by the +nearbys+ method)
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
+        if options[:units]
+          options[:units] = options[:units].to_sym
+        end
         options[:units] ||= (geocoder_options[:units] || Geocoder.config.units)
         select_distance = options.fetch(:select_distance, true)
         options[:order] = "" if !select_distance && !options.include?(:order)
