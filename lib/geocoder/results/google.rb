@@ -11,6 +11,12 @@ module Geocoder::Result
       formatted_address
     end
 
+    def neighborhood
+      if neighborhood = address_components_of_type(:neighborhood).first
+        neighborhood['long_name']
+      end
+    end
+
     def city
       fields = [:locality, :sublocality,
         :administrative_area_level_3,
