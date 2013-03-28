@@ -5,7 +5,7 @@ class CalculationsTest < Test::Unit::TestCase
   def setup
     Geocoder.configure(
       :units => :mi,
-      :distances => :linear
+      :distances => :haversine
     )
   end
 
@@ -36,6 +36,30 @@ class CalculationsTest < Test::Unit::TestCase
     assert_equal 111, Geocoder::Calculations.distance_between([0,0], [0,1], :units => :km).round
     la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], :units => :km).round
     assert (la_to_ny - 3942).abs < 10
+  end
+
+  def test_spherical_distance_between_in_miles
+    assert_equal 69, Geocoder::Calculations.distance_between([0,0], [0,1], :method => :spherical).round
+    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], :method => :spherical).round
+    assert (la_to_ny - 2444).abs < 10
+  end
+
+  def test_spherical_distance_between_in_kilometers
+    assert_equal 111, Geocoder::Calculations.distance_between([0,0], [0,1], {:units => :km, :method => :spherical}).round
+    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], {:units => :km, :method => :spherical}).round
+    assert (la_to_ny - 3942).abs < 10
+  end
+
+  def test_linear_distance_between_in_miles
+    assert_equal 69, Geocoder::Calculations.distance_between([0,0], [0,1], :method => :linear).round
+    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], :method => :linear).round
+    assert (la_to_ny - 2473).abs < 10
+  end
+
+  def test_linear_distance_between_in_kilometers
+    assert_equal 111, Geocoder::Calculations.distance_between([0,0], [0,1], {:units => :km, :method => :linear}).round
+    la_to_ny = Geocoder::Calculations.distance_between([34.05,-118.25], [40.72,-74], {:units => :km, :method => :linear}).round
+    assert (la_to_ny - 3979).abs < 10
   end
 
 

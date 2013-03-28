@@ -110,7 +110,7 @@ module Geocoder
 
       # calculation options
       @data[:units]     = :mi      # :mi or :km
-      @data[:distances] = :linear  # :linear or :spherical
+      @data[:distances] = :haversine  # :haversine (only in distance_between), :linear or :spherical
     end
 
     instance_eval(OPTIONS.map do |option|
