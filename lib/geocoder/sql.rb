@@ -63,7 +63,9 @@ module Geocoder
     # http://www.beginningspatial.com/calculating_bearing_one_point_another
     #
     def full_bearing(latitude, longitude, lat_attr, lon_attr, options = {})
-      case options[:bearing] || Geocoder.config.distances
+      options[:bearing] ||= Geocoder.config.distances
+      options[:bearing] = :linear unless options[:bearing] == :spherical
+      case options[:bearing]
       when :linear
         "CAST(" +
           "DEGREES(ATAN2( " +
