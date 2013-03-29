@@ -68,11 +68,18 @@ module Geocoder
     #
     # * <tt>:units</tt> - <tt>:mi</tt> or <tt>:km</tt>
     #   Use Geocoder.configure(:units => ...) to configure default units.
+    # * <tt>:method</tt> - <tt>:linear</tt> or <tt>:spherical</tt> or <tt>:haversine</tt>;
+    #   the haversine method is "correct"
+    #   the linear method is less accurate but faster
+    #   the spherical method performs better than the haversine method with very close
+    #   accuracy (because it depends on the precision of floating point calculations).
+    #   Use Geocoder.configure(:distances => ...) to configure calculation method.
     #
     def distance_between(point1, point2, options = {})
 
       # set default options
       options[:units] ||= Geocoder.config.units
+      options[:method] ||= Geocoder.config.distances
 
       # convert to coordinate arrays
       point1 = extract_coordinates(point1)
@@ -86,10 +93,23 @@ module Geocoder
       dlat = point2[0] - point1[0]
       dlon = point2[1] - point1[1]
 
-      a = (Math.sin(dlat / 2))**2 + Math.cos(point1[0]) *
-          (Math.sin(dlon / 2))**2 * Math.cos(point2[0])
-      c = 2 * Math.atan2( Math.sqrt(a), Math.sqrt(1-a))
-      c * earth_radius(options[:units])
+      case options[:method]
+      when :haversine
+        a = (Math.sin(dlat / 2))**2 + Math.cos(point1[0]) *
+            (Math.sin(dlon / 2))**2 * Math.cos(point2[0])
+        c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+        c * earth_radius(options[:units])
+      when :spherical
+        Math.acos(
+          Math.sin(point1[0]) * Math.sin(point2[0]) +
+          Math.cos(point1[0]) * Math.cos(point2[0]) *
+          Math.cos(dlon)
+        ) * earth_radius(options[:units])
+      when :linear
+        x = dlon * Math.cos((point1[0] + point2[0])/2)
+        y = dlat
+        Math.sqrt(x*x + y*y) * earth_radius(options[:units])
+      end
     end
 
     ##
