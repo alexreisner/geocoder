@@ -53,7 +53,7 @@ module Geocoder::Lookup
       if raw_data.match /^<\?xml/
         if raw_data.include?("Rate Limit Exceeded")
           raise_error(Geocoder::OverQueryLimitError) || warn("Over API query limit.")
-        elsif raw_data =~ /\n(.*Please provide valid credentials.*)\n/
+        elsif raw_data =~ /<yahoo:description>(Please provide valid credentials.*)<\/yahoo:description>/i
           raise_error(Geocoder::InvalidApiKey) || warn("Invalid API key. Error response: #{$1}")
         end
       else
