@@ -46,13 +46,15 @@ module Geocoder::Lookup
     # Yahoo returns errors as XML even when JSON format is specified.
     # Handle that here, without parsing the XML
     # (which would add unnecessary complexity).
+    # Yahoo auth errors can also be cryptic, so add raw error desc
+    # to warning message.
     #
     def parse_raw_data(raw_data)
       if raw_data.match /^<\?xml/
         if raw_data.include?("Rate Limit Exceeded")
           raise_error(Geocoder::OverQueryLimitError) || warn("Over API query limit.")
-        elsif raw_data.include?("Please provide valid credentials")
-          raise_error(Geocoder::InvalidApiKey) || warn("Invalid API key.")
+        elsif raw_data =~ /\n(.*Please provide valid credentials.*)\n/
+          raise_error(Geocoder::InvalidApiKey) || warn("Invalid API key. Error response: #{$1}")
         end
       else
         super(raw_data)
