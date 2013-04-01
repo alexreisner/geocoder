@@ -7,6 +7,10 @@ module Geocoder::Result
       @data['address']['formattedAddress']
     end
 
+    def street
+      @data['address']['addressLine']
+    end
+
     def city
       @data['address']['locality']
     end

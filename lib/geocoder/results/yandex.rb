@@ -11,9 +11,21 @@ module Geocoder::Result
       @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['text']
     end
 
+    def street
+      if locality = address_details['Locality'] and thoroughfare = locality['Thoroughfare']
+        thoroughfare['ThoroughfareName']
+      else
+        ""
+      end
+    end
+
     def city
       if state.empty?
-        address_details['Locality']['LocalityName']
+        if address_details['Locality']
+          address_details['Locality']['LocalityName']
+        else
+          ""
+        end
       elsif sub_state.empty?
         address_details['AdministrativeArea']['Locality']['LocalityName']
       elsif not sub_state_city.empty?
@@ -71,7 +83,7 @@ module Geocoder::Result
 
     def sub_state_city
       if sub_state && sub_state["Locality"]
-        sub_state['Locality']['LocalityName']          
+        sub_state['Locality']['LocalityName']
       else
         ""
       end
