@@ -282,12 +282,9 @@ module Geocoder
     def earth_radius(units = nil)
       units ||= Geocoder.config.units
       case units
-	when :km
-      		EARTH_RADIUS
-	when :mi
-        	to_miles(EARTH_RADIUS)
-	when :nm
-      		to_nautical_miles(EARTH_RADIUS)
+        when :km; EARTH_RADIUS
+        when :mi; to_miles(EARTH_RADIUS)
+        when :nm; to_nautical_miles(EARTH_RADIUS)
       end
     end
 
