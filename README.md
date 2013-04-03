@@ -178,7 +178,7 @@ To calculate accurate distance and bearing with SQLite or MongoDB:
     obj.bearing_to([43.9,-98.6])   # bearing from obj to point
     obj.bearing_from(obj2)         # bearing from obj2 to obj
 
-The `bearing_from/to` methods take a single argument which can be: a `[lat,lon]` array, a geocoded object, or a geocodable address (string). The `distance_from/to` methods also take a units argument (`:mi` or `:km`).
+The `bearing_from/to` methods take a single argument which can be: a `[lat,lon]` array, a geocoded object, or a geocodable address (string). The `distance_from/to` methods also take a units argument (`:mi`, `:km`, or `:nm` for nautical miles).
 
 
 Model Configuration
