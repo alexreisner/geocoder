@@ -20,6 +20,7 @@ module Geocoder
     # Conversion factor: multiply by kilometers to get miles.
     #
     KM_IN_MI = 0.621371192
+    KM_IN_NM = 0.540
 
     # Not a number constant
     NAN = defined?(::Float::NAN) ? ::Float::NAN : 0 / 0.0
@@ -264,12 +265,26 @@ module Geocoder
     end
 
     ##
+    # Convert kilometers to nautical miles.
+    #
+    def to_nauticalmiles(km)
+      km * km_in_nm
+    end
+
+    ##
     # Radius of the Earth in the given units (:mi or :km).
     # Use Geocoder.configure(:units => ...) to configure default units.
     #
     def earth_radius(units = nil)
       units ||= Geocoder.config.units
-      units == :km ? EARTH_RADIUS : to_miles(EARTH_RADIUS)
+      case units
+	when :km
+      		EARTH_RADIUS
+	when :mi
+        	to_miles(EARTH_RADIUS)
+	when :nm
+      		to_nauticalmiles(EARTH_RADIUS)
+      end
     end
 
     ##
@@ -280,10 +295,26 @@ module Geocoder
     end
 
     ##
+    # Conversion factor: km to nm.
+    #
+    def km_in_nm
+      KM_IN_NM
+    end
+
+
+
+    ##
     # Conversion factor: mi to km.
     #
     def mi_in_km
       1.0 / KM_IN_MI
+    end
+
+    ##
+    # Conversion factor: nm to km.
+    #
+    def nm_in_km
+      1.0 / KM_IN_NM
     end
 
     ##
