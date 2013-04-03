@@ -271,7 +271,7 @@ module Geocoder
     ##
     # Convert kilometers to nautical miles.
     #
-    def to_nauticalmiles(km)
+    def to_nautical_miles(km)
       km * km_in_nm
     end
 
@@ -287,7 +287,7 @@ module Geocoder
 	when :mi
         	to_miles(EARTH_RADIUS)
 	when :nm
-      		to_nauticalmiles(EARTH_RADIUS)
+      		to_nautical_miles(EARTH_RADIUS)
       end
     end
 
