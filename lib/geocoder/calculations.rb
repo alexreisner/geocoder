@@ -20,7 +20,11 @@ module Geocoder
     # Conversion factor: multiply by kilometers to get miles.
     #
     KM_IN_MI = 0.621371192
-    KM_IN_NM = 0.540
+
+    ##
+    # Conversion factor: multiply by nautical miles to get miles.
+    #
+    KM_IN_NM = 0.539957
 
     # Not a number constant
     NAN = defined?(::Float::NAN) ? ::Float::NAN : 0 / 0.0
