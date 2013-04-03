@@ -13,9 +13,17 @@ module Geocoder
         stubs[query_text] = results
       end
 
+      def self.add_default_stub(&block)
+        @default_stub = block
+      end
+
       def self.read_stub(query_text)
         stubs.fetch(query_text) {
-          raise ArgumentError, "unknown stub request #{query_text}"
+          if @default_stub
+            @default_stub.call
+          else
+            raise ArgumentError, "unknown stub request #{query_text}"
+          end
         }
       end
 
@@ -25,6 +33,7 @@ module Geocoder
 
       def self.reset
         @stubs = {}
+        @default_stub = nil
       end
 
       private
