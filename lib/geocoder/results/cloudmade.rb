@@ -30,7 +30,7 @@ module Geocoder::Result
     end
 
     def address
-      [street, city, state, postal_code, country].reject{|s| s.length == 0 }.join(", ")
+      [street, city, state, postal_code, country].compact.reject{|s| s.length == 0 }.join(", ")
     end
 
   end
