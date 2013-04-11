@@ -482,7 +482,7 @@ However, there can be only one set of latitude/longitude attributes, and whichev
 
 The reason for this is that we don't want ambiguity when doing distance calculations. We need a single, authoritative source for coordinates!
 
-It is then possible to call both forward and reverse geocoding sequentially.
+Once both forward and reverse geocoding has been applied, it is possible to call them sequentially.
 
 For example:
 
@@ -492,11 +492,11 @@ For example:
 
     end
 
-For certain geolocation services such as Google geolocation API this may cause issues during subsequent updates to database records if the longtitude and latitude attributes are not on a known feature, because the following call:
+For certain geolocation services such as Google geolocation API this may cause issues during subsequent updates to database records if the longtitude and latitude coordinates cannot be associated known location address (on a large body of water for example). On subsequent callbacks the following call:
 
      after_validation :geocode
 
-will change the longtitude and latitude based on the location field, which would be the closest known location to the original coordinates. In this case it is better to add conditions to each call, as not to override coordinates that do not have features associated with them.
+will alter the longtitude and latitude attributes based on the location field, which would be the closest known location to the original coordinates. In this case it is better to add conditions to each call, as not to override coordinates that do not have known location addresses associated with them.
 
 For example:
 
