@@ -482,6 +482,30 @@ However, there can be only one set of latitude/longitude attributes, and whichev
 
 The reason for this is that we don't want ambiguity when doing distance calculations. We need a single, authoritative source for coordinates!
 
+Once both forward and reverse geocoding has been applied, it is possible to call them sequentially.
+
+For example:
+
+    class Venue
+
+      after_validation :geocode, :reverse_geocode
+
+    end
+
+For certain geolocation services such as Google geolocation API this may cause issues during subsequent updates to database records if the longtitude and latitude coordinates cannot be associated known location address (on a large body of water for example). On subsequent callbacks the following call:
+
+     after_validation :geocode
+
+will alter the longtitude and latitude attributes based on the location field, which would be the closest known location to the original coordinates. In this case it is better to add conditions to each call, as not to override coordinates that do not have known location addresses associated with them.
+
+For example:
+
+    class Venue
+
+      after_validation :reverse_geocode, :if => :has_coordinates
+      after_validation :geocode, :if => :has_location, :unless => :has_coordinates
+
+    end  
 
 Use Outside of Rails
 --------------------
