@@ -13,8 +13,39 @@ class TestModeTest < Test::Unit::TestCase
   end
 
   def test_search_with_known_stub
+    Geocoder::Lookup::Test.add_stub("New York, NY", [mock_attributes])
+
+    results = Geocoder.search("New York, NY")
+    result = results.first
+
+    assert_equal 1, results.size
+    mock_attributes.keys.each do |attr|
+      assert_equal mock_attributes[attr], result.send(attr)
+    end
+  end
+
+  def test_search_with_unknown_stub_without_default
+    assert_raise ArgumentError do
+      Geocoder.search("New York, NY")
+    end
+  end
+
+  def test_search_with_unknown_stub_with_default
+    Geocoder::Lookup::Test.set_default_stub([mock_attributes])
+
+    results = Geocoder.search("Atlantis, OC")
+    result = results.first
+
+    assert_equal 1, results.size
+    mock_attributes.keys.each do |attr|
+      assert_equal mock_attributes[attr], result.send(attr)
+    end
+  end
+
+  private
+  def mock_attributes
     coordinates = [40.7143528, -74.0059731]
-    attributes = {
+    @mock_attributes ||= {
       'coordinates'  => coordinates,
       'latitude'     => coordinates[0],
       'longitude'    => coordinates[1],
@@ -24,27 +55,5 @@ class TestModeTest < Test::Unit::TestCase
       'country'      => 'United States',
       'country_code' => 'US',
     }
-
-    Geocoder::Lookup::Test.add_stub("New York, NY", [attributes])
-
-    results = Geocoder.search("New York, NY")
-    assert_equal 1, results.size
-
-    result = results.first
-    assert_equal coordinates,                result.coordinates
-    assert_equal attributes['latitude'],     result.latitude
-    assert_equal attributes['longitude'],    result.longitude
-    assert_equal attributes['address'],      result.address
-    assert_equal attributes['state'],        result.state
-    assert_equal attributes['state_code'],   result.state_code
-    assert_equal attributes['country'],      result.country
-    assert_equal attributes['country_code'], result.country_code
   end
-
-  def test_search_with_unknown_stub
-    assert_raise ArgumentError do
-      Geocoder.search("New York, NY")
-    end
-  end
-
 end
