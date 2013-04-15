@@ -22,7 +22,9 @@ Install Geocoder like any other Ruby gem:
 
 Or, if you're using Rails/Bundler, add this to your Gemfile:
 
-    gem "geocoder"
+```ruby
+gem "geocoder"
+```
 
 and run at the command prompt:
 
@@ -43,37 +45,49 @@ For reverse geocoding your model must provide a method that returns an address. 
 
 Next, your model must tell Geocoder which method returns your object's geocodable address:
 
-    geocoded_by :full_street_address   # can also be an IP address
-    after_validation :geocode          # auto-fetch coordinates
+```ruby
+geocoded_by :full_street_address   # can also be an IP address
+after_validation :geocode          # auto-fetch coordinates
+```
 
 For reverse geocoding, tell Geocoder which attributes store latitude and longitude:
 
-    reverse_geocoded_by :latitude, :longitude
-    after_validation :reverse_geocode  # auto-fetch address
+```ruby
+reverse_geocoded_by :latitude, :longitude
+after_validation :reverse_geocode  # auto-fetch address
+```
 
 ### Mongoid
 
 First, your model must have an array field for storing coordinates:
 
-    field :coordinates, :type => Array
+```ruby
+field :coordinates, :type => Array
+```
 
 You may also want an address field, like this:
 
-    field :address
+```ruby
+field :address
+```
 
 but if you store address components (city, state, country, etc) in separate fields you can instead define a method called `address` that combines them into a single string which will be used to query the geocoding service.
 
 Once your fields are defined, include the `Geocoder::Model::Mongoid` module and then call `geocoded_by`:
 
-    include Geocoder::Model::Mongoid
-    geocoded_by :address               # can also be an IP address
-    after_validation :geocode          # auto-fetch coordinates
+```ruby
+include Geocoder::Model::Mongoid
+geocoded_by :address               # can also be an IP address
+after_validation :geocode          # auto-fetch coordinates
+```
 
 Reverse geocoding is similar:
 
-    include Geocoder::Model::Mongoid
-    reverse_geocoded_by :coordinates
-    after_validation :reverse_geocode  # auto-fetch address
+```ruby
+include Geocoder::Model::Mongoid
+reverse_geocoded_by :coordinates
+after_validation :reverse_geocode  # auto-fetch address
+```
 
 Once you've set up your model you'll need to create the necessary spatial indices in your database:
 
@@ -89,8 +103,10 @@ MongoMapper is very similar to Mongoid, just be sure to include `Geocoder::Model
 
 By default, the methods `geocoded_by` and `reverse_geocoded_by` create a geospatial index. You can avoid index creation with the `:skip_index option`, for example:
 
-    include Geocoder::Model::Mongoid
-    geocoded_by :address, :skip_index => true
+```ruby
+include Geocoder::Model::Mongoid
+geocoded_by :address, :skip_index => true
+```
 
 ### Bulk Geocoding
 
@@ -106,8 +122,10 @@ Request Geocoding by IP Address
 
 Geocoder adds a `location` method to the standard `Rack::Request` object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller or a Sinatra app:
 
-    # returns Geocoder::Result object
-    result = request.location
+```ruby
+# returns Geocoder::Result object
+result = request.location
+```
 
 See _Advanced Geocoding_ below for more information about `Geocoder::Result` objects.
 
@@ -117,32 +135,38 @@ Location-Aware Database Queries
 
 To find objects by location, use the following scopes:
 
-    Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
-    Venue.near([40.71, 100.23], 20)    # venues within 20 miles of a point
-    Venue.geocoded                     # venues with coordinates
-    Venue.not_geocoded                 # venues without coordinates
+```ruby
+Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
+Venue.near([40.71, 100.23], 20)    # venues within 20 miles of a point
+Venue.geocoded                     # venues with coordinates
+Venue.not_geocoded                 # venues without coordinates
+```
 
 With geocoded objects you can do things like this:
 
-    if obj.geocoded?
-      obj.nearbys(30)                      # other objects within 30 miles
-      obj.distance_from([40.714,-100.234]) # distance from arbitrary point to object
-      obj.bearing_to("Paris, France")      # direction from object to arbitrary point
-    end
+```ruby
+if obj.geocoded?
+  obj.nearbys(30)                      # other objects within 30 miles
+  obj.distance_from([40.714,-100.234]) # distance from arbitrary point to object
+  obj.bearing_to("Paris, France")      # direction from object to arbitrary point
+end
+```
 
 Some utility methods are also available:
 
-    # look up coordinates of some location (like searching Google Maps)
-    Geocoder.coordinates("25 Main St, Cooperstown, NY")
-     => [42.700149, -74.922767]
+```ruby
+# look up coordinates of some location (like searching Google Maps)
+Geocoder.coordinates("25 Main St, Cooperstown, NY")
+  # => [42.700149, -74.922767]
 
-    # distance (in miles) between Eiffel Tower and Empire State Building
-    Geocoder::Calculations.distance_between([47.858205,2.294359], [40.748433,-73.985655])
-     => 3619.77359999382
+# distance (in miles) between Eiffel Tower and Empire State Building
+Geocoder::Calculations.distance_between([47.858205,2.294359], [40.748433,-73.985655])
+  # => 3619.77359999382
 
-    # find the geographic center (aka center of gravity) of objects or points
-    Geocoder::Calculations.geographic_center([city1, city2, [40.22,-73.99], city4])
-     => [35.14968, -90.048929]
+# find the geographic center (aka center of gravity) of objects or points
+Geocoder::Calculations.geographic_center([city1, city2, [40.22,-73.99], city4])
+  # => [35.14968, -90.048929]
+```
 
 Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
 
@@ -166,17 +190,21 @@ Results are automatically sorted by distance from the search point, closest to f
 
 You can convert these numbers to compass point names by using the utility method provided:
 
-    Geocoder::Calculations.compass_point(355) # => "N"
-    Geocoder::Calculations.compass_point(45)  # => "NE"
-    Geocoder::Calculations.compass_point(208) # => "SW"
+```ruby
+Geocoder::Calculations.compass_point(355) # => "N"
+Geocoder::Calculations.compass_point(45)  # => "NE"
+Geocoder::Calculations.compass_point(208) # => "SW"
+```
 
 _Note: when using SQLite `distance` and `bearing` values are provided for interface consistency only. They are not very accurate._
 
 To calculate accurate distance and bearing with SQLite or MongoDB:
 
-    obj.distance_to([43.9,-98.6])  # distance from obj to point
-    obj.bearing_to([43.9,-98.6])   # bearing from obj to point
-    obj.bearing_from(obj2)         # bearing from obj2 to obj
+```ruby
+obj.distance_to([43.9,-98.6])  # distance from obj to point
+obj.bearing_to([43.9,-98.6])   # bearing from obj to point
+obj.bearing_from(obj2)         # bearing from obj2 to obj
+```
 
 The `bearing_from/to` methods take a single argument which can be: a `[lat,lon]` array, a geocoded object, or a geocodable address (string). The `distance_from/to` methods also take a units argument (`:mi`, `:km`, or `:nm` for nautical miles).
 
@@ -186,8 +214,10 @@ Model Configuration
 
 You are not stuck with using the `latitude` and `longitude` database column names (with ActiveRecord) or the `coordinates` array (Mongo) for storing coordinates. For example:
 
-    geocoded_by :address, :latitude  => :lat, :longitude => :lon # ActiveRecord
-    geocoded_by :address, :coordinates => :coords                # MongoDB
+```ruby
+geocoded_by :address, :latitude  => :lat, :longitude => :lon # ActiveRecord
+geocoded_by :address, :coordinates => :coords                # MongoDB
+```
 
 The `address` method can return any string you'd use to search Google Maps. For example, any of the following are acceptable:
 
@@ -197,46 +227,54 @@ The `address` method can return any string you'd use to search Google Maps. For 
 
 If your model has `street`, `city`, `state`, and `country` attributes you might do something like this:
 
-    geocoded_by :address
+```ruby
+geocoded_by :address
 
-    def address
-      [street, city, state, country].compact.join(', ')
-    end
+def address
+  [street, city, state, country].compact.join(', ')
+end
+```
 
 For reverse geocoding you can also specify an alternate name attribute where the address will be stored, for example:
 
-    reverse_geocoded_by :latitude, :longitude, :address => :location  # ActiveRecord
-    reverse_geocoded_by :coordinates, :address => :loc                # MongoDB
-
+```ruby
+reverse_geocoded_by :latitude, :longitude, :address => :location  # ActiveRecord
+reverse_geocoded_by :coordinates, :address => :loc                # MongoDB
+```
 
 Advanced Querying
 -----------------
 
 When querying for objects (if you're using ActiveRecord) you can also look within a square rather than a radius (circle) by using the `within_bounding_box` scope:
 
-    distance = 20
-    center_point = [40.71, 100.23]
-    box = Geocoder::Calculations.bounding_box(center_point, distance)
-    Venue.within_bounding_box(box)
+```ruby
+distance = 20
+center_point = [40.71, 100.23]
+box = Geocoder::Calculations.bounding_box(center_point, distance)
+Venue.within_bounding_box(box)
+```
 
 This can also dramatically improve query performance, especially when used in conjunction with indexes on the latitude/longitude columns. Note, however, that returned results do not include `distance` and `bearing` attributes. If you want to improve performance AND have access to distance and bearing info, use both scopes:
 
-    Venue.near(center_point, distance).within_bounding_box(box)
-
+```ruby
+Venue.near(center_point, distance).within_bounding_box(box)
+```
 
 Advanced Geocoding
 ------------------
 
 So far we have looked at shortcuts for assigning geocoding results to object attributes. However, if you need to do something fancy you can skip the auto-assignment by providing a block (takes the object to be geocoded and an array of `Geocoder::Result` objects) in which you handle the parsed geocoding result any way you like, for example:
 
-    reverse_geocoded_by :latitude, :longitude do |obj,results|
-      if geo = results.first
-        obj.city    = geo.city
-        obj.zipcode = geo.postal_code
-        obj.country = geo.country_code
-      end
-    end
-    after_validation :reverse_geocode
+```ruby
+reverse_geocoded_by :latitude, :longitude do |obj,results|
+  if geo = results.first
+    obj.city    = geo.city
+    obj.zipcode = geo.postal_code
+    obj.country = geo.country_code
+  end
+end
+after_validation :reverse_geocode
+```
 
 Every `Geocoder::Result` object, `result`, provides the following data:
 
@@ -259,37 +297,42 @@ Geocoding Services
 
 By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is the default for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
 
-    # config/initializers/geocoder.rb
-    Geocoder.configure(
+```ruby
+# config/initializers/geocoder.rb
+Geocoder.configure(
 
-      # geocoding service (see below for supported options):
-      :lookup => :yandex,
+  # geocoding service (see below for supported options):
+  :lookup => :yandex,
 
-      # to use an API key:
-      :api_key => "...",
+  # to use an API key:
+  :api_key => "...",
 
-      # geocoding service request timeout, in seconds (default 3):
-      :timeout => 5,
+  # geocoding service request timeout, in seconds (default 3):
+  :timeout => 5,
 
-      # set default units to kilometers:
-      :units => :km,
+  # set default units to kilometers:
+  :units => :km,
 
-      # caching (see below for details):
-      :cache => Redis.new,
-      :cache_prefix => "..."
+  # caching (see below for details):
+  :cache => Redis.new,
+  :cache_prefix => "..."
 
-    )
+)
+```
 
 Please see lib/geocoder/configuration.rb for a complete list of configuration options. Additionally, some lookups have their own configuration options, some of which are directly supported by Geocoder. For example, to specify a value for Google's `bounds` parameter:
 
-    # with Google:
-    Geocoder.search("Paris", :bounds => [[32.1,-95.9], [33.9,-94.3]])
+```ruby
+# with Google:
+Geocoder.search("Paris", :bounds => [[32.1,-95.9], [33.9,-94.3]])
+```
 
 Please see the [source code for each lookup](https://github.com/alexreisner/geocoder/tree/master/lib/geocoder/lookups) to learn about directly supported parameters. Parameters which are not directly supported can be specified using the `:params` option, by which you can pass arbitrary parameters to any geocoding service. For example, to use Nominatim's `countrycodes` parameter:
 
-    # with Nominatim:
-    Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
-
+```ruby
+# with Nominatim:
+Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
+```
 
 ### Listing and Comparison
 
@@ -421,7 +464,9 @@ Caching
 
 It's a good idea, when relying on any external service, to cache retrieved data. When implemented correctly it improves your app's response time and stability. It's easy to cache geocoding results with Geocoder, just configure a cache store:
 
-    Geocoder.configure(:cache => Redis.new)
+```ruby
+Geocoder.configure(:cache => Redis.new)
+```
 
 This example uses Redis, but the cache store can be any object that supports these methods:
 
@@ -434,14 +479,18 @@ Even a plain Ruby hash will work, though it's not a great choice (cleared out wh
 
 You can also set a custom prefix to be used for cache keys:
 
-    Geocoder.configure(:cache_prefix => "...")
+```ruby
+Geocoder.configure(:cache_prefix => "...")
+```
 
 By default the prefix is `geocoder:`
 
 If you need to expire cached content:
 
-    Geocoder.cache.expire("http://...") # expire cached result for a URL
-    Geocoder.cache.expire(:all)         # expire all cached results
+```ruby
+Geocoder.cache.expire("http://...") # expire cached result for a URL
+Geocoder.cache.expire(:all)         # expire all cached results
+```
 
 Do *not* include the prefix when passing a URL to be expired. Expiring `:all` will only expire keys with the configured prefix (won't kill every entry in your key/value store).
 
@@ -460,25 +509,29 @@ If you apply both forward and reverse geocoding functionality to the same model 
 
 For example:
 
-    class Venue
+```ruby
+class Venue
 
-      # build an address from street, city, and state attributes
-      geocoded_by :address_from_components
+  # build an address from street, city, and state attributes
+  geocoded_by :address_from_components
 
-      # store the fetched address in the full_address attribute
-      reverse_geocoded_by :latitude, :longitude, :address => :full_address
-    end
+  # store the fetched address in the full_address attribute
+  reverse_geocoded_by :latitude, :longitude, :address => :full_address
+end
+```
 
 However, there can be only one set of latitude/longitude attributes, and whichever you specify last will be used. For example:
 
-    class Venue
+```ruby
+class Venue
 
-      geocoded_by :address,
-        :latitude  => :fetched_latitude,  # this will be overridden by the below
-        :longitude => :fetched_longitude  # same here
+  geocoded_by :address,
+    :latitude  => :fetched_latitude,  # this will be overridden by the below
+    :longitude => :fetched_longitude  # same here
 
-      reverse_geocoded_by :latitude, :longitude
-    end
+  reverse_geocoded_by :latitude, :longitude
+end
+```
 
 The reason for this is that we don't want ambiguity when doing distance calculations. We need a single, authoritative source for coordinates!
 
@@ -512,7 +565,9 @@ Use Outside of Rails
 
 You can use Geocoder outside of Rails by calling the `Geocoder.search` method:
 
-    results = Geocoder.search("McCarren Park, Brooklyn, NY")
+```ruby
+results = Geocoder.search("McCarren Park, Brooklyn, NY")
+```
 
 This returns an array of `Geocoder::Result` objects with all data provided by the geocoding service.
 
@@ -522,21 +577,23 @@ Testing Apps that Use Geocoder
 
 When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure and use the `:test` lookup. For example:
 
-    Geocoder.configure(:lookup => :test)
+```ruby
+Geocoder.configure(:lookup => :test)
 
-    Geocoder::Lookup::Test.add_stub(
-      "New York, NY", [
-        {
-          'latitude'     => 40.7143528,
-          'longitude'    => -74.0059731,
-          'address'      => 'New York, NY, USA',
-          'state'        => 'New York',
-          'state_code'   => 'NY',
-          'country'      => 'United States',
-          'country_code' => 'US'
-        }
-      ]
-    )
+Geocoder::Lookup::Test.add_stub(
+  "New York, NY", [
+    {
+      'latitude'     => 40.7143528,
+      'longitude'    => -74.0059731,
+      'address'      => 'New York, NY, USA',
+      'state'        => 'New York',
+      'state_code'   => 'NY',
+      'country'      => 'United States',
+      'country_code' => 'US'
+    }
+  ]
+)
+```
 
 Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. You can also set a default stub:
 
@@ -588,11 +645,15 @@ Coordinates are generally printed and spoken as latitude, then longitude ([lat,l
 
 To access an object's coordinates in the conventional order, use the `to_coordinates` instance method provided by Geocoder. For example:
 
-    obj.to_coordinates  # => [37.7941013, -122.3951096] # [lat, lon]
+```ruby
+obj.to_coordinates  # => [37.7941013, -122.3951096] # [lat, lon]
+```
 
 Calling `obj.coordinates` directly returns the internal representation of the coordinates which, in the case of MongoDB, is probably the reverse of what you want:
 
-    obj.coordinates     # => [-122.3951096, 37.7941013] # [lon, lat]
+```ruby
+obj.coordinates     # => [-122.3951096, 37.7941013] # [lon, lat]
+```
 
 For consistency with the rest of Geocoder, always use the `to_coordinates` method instead.
 
@@ -601,7 +662,9 @@ Notes on Non-Rails Frameworks
 
 If you are using Geocoder with ActiveRecord and a framework other than Rails (like Sinatra or Padrino) you will need to add this in your model before calling Geocoder methods:
 
-    extend Geocoder::Model::ActiveRecord 
+```ruby
+extend Geocoder::Model::ActiveRecord 
+```
 
 Optimisation of Distance Queries
 --------------------------------
@@ -610,8 +673,9 @@ In MySQL and Postgres the finding of objects near a given point is speeded up by
 
 To take advantage of this optimisation you need to add a composite index on latitude and longitude. In your Rails migration:
 
-    add_index :table, [:latitude, :longitude]
-
+```ruby
+add_index :table, [:latitude, :longitude]
+```
 
 Distance Queries in SQLite
 --------------------------
@@ -645,20 +709,26 @@ Error Handling
 
 By default Geocoder will rescue any exceptions raised by calls to a geocoding service and return an empty array (using warn() to inform you of the error). You can override this on a per-exception basis, and also have Geocoder raise its own exceptions for certain events (eg: API quota exceeded) by using the `:always_raise` option:
 
-    Geocoder.configure(:always_raise => [SocketError, TimeoutError])
+```ruby
+Geocoder.configure(:always_raise => [SocketError, TimeoutError])
+```
 
 You can also do this to raise all exceptions:
 
-    Geocoder.configure(:always_raise => :all)
+```ruby
+Geocoder.configure(:always_raise => :all)
+```
 
 The raise-able exceptions are:
 
-    SocketError
-    TimeoutError
-    Geocoder::OverQueryLimitError
-    Geocoder::RequestDenied
-    Geocoder::InvalidRequest
-    Geocoder::InvalidApiKey
+```ruby
+SocketError
+TimeoutError
+Geocoder::OverQueryLimitError
+Geocoder::RequestDenied
+Geocoder::InvalidRequest
+Geocoder::InvalidApiKey
+```
 
 Note that not all lookups support all exceptions.
 
@@ -688,8 +758,10 @@ Known Issue
 
 You cannot use the `near` scope with another scope that provides an `includes` option because the `SELECT` clause generated by `near` will overwrite it (or vice versa). Instead, try using `joins` and pass a `:select` option to the `near` scope to get the columns you want. For example:
 
-    # instead of City.near(...).includes(:venues)
-    City.near("Omaha, NE", 20, :select => "cities.*, venues.*").joins(:venues)
+```ruby
+# instead of City.near(...).includes(:venues)
+City.near("Omaha, NE", 20, :select => "cities.*, venues.*").joins(:venues)
+```
 
 If anyone has a more elegant solution to this problem I am very interested in seeing it.
 
