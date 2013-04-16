@@ -112,6 +112,13 @@ module Geocoder
       end
     end
 
+    class Esri
+      private
+      def fixture_prefix
+        "esri"
+      end
+    end
+
     class GooglePremier
       private
       def fixture_prefix
