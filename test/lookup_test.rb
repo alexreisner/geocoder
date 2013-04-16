@@ -34,6 +34,7 @@ class LookupTest < Test::Unit::TestCase
   end
 
   {
+    :esri => :l,
     :bing => :key,
     :geocoder_ca => :auth,
     :google => :language,

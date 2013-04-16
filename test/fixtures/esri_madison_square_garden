@@ -1,0 +1,59 @@
+{
+ "spatialReference": {
+  "wkid": 4326,
+  "latestWkid": 4326
+ },
+ "locations": [
+  {
+   "name": "Madison Square Garden",
+   "extent": {
+    "xmin": -74.000241000000003,
+    "ymin": 40.744050000000001,
+    "xmax": -73.988241000000002,
+    "ymax": 40.756050000000002
+   },
+   "feature": {
+    "geometry": {
+     "x": -73.994238897999651,
+     "y": 40.750049813000487
+    },
+    "attributes": {
+     "Loc_name": "Gaz.WorldGazetteer.POI2",
+     "Score": 100,
+     "Match_addr": "Madison Square Garden",
+     "Addr_type": "POI",
+     "Type": "Sports Complex",
+     "PlaceName": "Madison Square Garden",
+     "Rank": "18",
+     "AddBldg": "",
+     "AddNum": "",
+     "AddNumFrom": "",
+     "AddNumTo": "",
+     "Side": "",
+     "StPreDir": "",
+     "StPreType": "",
+     "StName": "",
+     "StType": "",
+     "StDir": "",
+     "Nbrhd": "",
+     "City": "New York",
+     "Subregion": "New York",
+     "Region": "New York",
+     "Postal": "10001",
+     "PostalExt": "",
+     "Country": "USA",
+     "LangCode": "",
+     "Distance": 0,
+     "X": -73.994240000000005,
+     "Y": 40.750050000000002,
+     "DisplayX": -73.994240000000005,
+     "DisplayY": 40.750050000000002,
+     "Xmin": -74.000241000000003,
+     "Xmax": -73.988241000000002,
+     "Ymin": 40.744050000000001,
+     "Ymax": 40.756050000000002
+    }
+   }
+  }
+ ]
+}
