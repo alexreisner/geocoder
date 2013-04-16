@@ -682,6 +682,20 @@ A lot of debugging time can be saved by understanding how Geocoder works with Ac
 * using the `pluck` method (selects only a single column)
 * specifying another model through `includes` (selects columns from other tables)
 
+### Unexpected Responses from Geocoding Services
+
+Take a look at the server's raw JSON response. You can do this by getting the request URL in an app console:
+
+    Geocoder::Lookup.get(:google).query_url(Geocoder::Query.new("..."))
+
+Replace `:google` with the lookup you are using and replace `...` with the address you are trying to geocode. Then visit the returned URL in your web browser. Often the API will return an error message that helps you resolve the problem. If, after reading the raw response, you believe there is a problem with Geocoder, please post an issue and include both the URL and raw response body.
+
+
+Reporting Issues
+----------------
+
+When reporting an issue, please list the version of Geocoder you are using and any relevant information about your application (Rails version, database type and version, etc). Also avoid vague language like "it doesn't work." Please describe as specifically as you can what behavior your are actually seeing (eg: an error message? a nil return value?).
+
 
 Known Issue
 -----------
