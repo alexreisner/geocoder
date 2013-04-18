@@ -1,5 +1,4 @@
-require 'net/http'
-require 'net/https'
+require 'faraday'
 require 'uri'
 
 unless defined?(ActiveSupport::JSON)
@@ -86,6 +85,8 @@ module Geocoder
       # Object used to make HTTP requests.
       #
       def http_client
+        connection = Faraday.new(:headers => configuration.http_headers)
+
         protocol = "http#{'s' if configuration.use_https}"
         proxy_name = "#{protocol}_proxy"
         if proxy = configuration.send(proxy_name)
@@ -96,10 +97,11 @@ module Geocoder
             raise ConfigurationError,
               "Error parsing #{protocol.upcase} proxy URL: '#{proxy_url}'"
           end
-          Net::HTTP::Proxy(uri.host, uri.port, uri.user, uri.password)
-        else
-          Net::HTTP
+
+          connection.proxy(proxy_url)
         end
+
+        connection
       end
 
       ##
@@ -209,9 +211,7 @@ module Geocoder
       def make_api_request(query)
         timeout(configuration.timeout) do
           uri = URI.parse(query_url(query))
-          client = http_client.new(uri.host, uri.port)
-          client.use_ssl = true if configuration.use_https
-          client.get(uri.request_uri, configuration.http_headers)
+          http_client.get(uri)
         end
       end
 

@@ -6,12 +6,12 @@ class ProxyTest < Test::Unit::TestCase
   def test_uses_proxy_when_specified
     Geocoder.configure(:http_proxy => 'localhost')
     lookup = Geocoder::Lookup::Google.new
-    assert lookup.send(:http_client).proxy_class?
+    assert_not_nil lookup.send(:http_client).proxy
   end
 
   def test_doesnt_use_proxy_when_not_specified
     lookup = Geocoder::Lookup::Google.new
-    assert !lookup.send(:http_client).proxy_class?
+    assert_nil lookup.send(:http_client).proxy
   end
 
   def test_exception_raised_on_bad_proxy_url

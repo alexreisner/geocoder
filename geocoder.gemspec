@@ -16,4 +16,6 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n") - %w[geocoder.gemspec Gemfile init.rb]
   s.require_paths = ["lib"]
   s.executables = ["geocode"]
+
+  s.add_dependency 'faraday'
 end
