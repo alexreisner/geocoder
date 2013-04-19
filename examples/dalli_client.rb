@@ -9,17 +9,17 @@ class DalliClient
     @store = Dalli::Client.new(:expires_in => ttl)
   end
 
-  def [](key)
-    res = @store.get(key)
+  def [](url)
+    res = @store.get(url)
     res = YAML::load(res) if res.present?
     res
   end
 
-  def []=(key, value)
+  def []=(url, value)
     if value.nil?
-      del(key)
+      del(url)
     else
-      key_cache_add(key) if @store.add(key, YAML::dump(value))
+      key_cache_add(url) if @store.add(key, YAML::dump(value))
     end
     value
   end
@@ -28,8 +28,8 @@ class DalliClient
     key_cache
   end
 
-  def del(key)
-    key_cache_delete(key) if @store.delete(key)
+  def del(url)
+    key_cache_delete(url) if @store.delete(key)
   end
 
   private
