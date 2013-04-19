@@ -1,5 +1,3 @@
-# gem install dalli
-
 require 'dalli/client'
 require 'yaml'
 
