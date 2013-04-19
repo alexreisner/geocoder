@@ -1,10 +1,18 @@
-# This class implements a cache with simple delegation to the Redis store, but
-# when it creates a key/value pair, it also sends an EXPIRE command with a TTL.
-# It should be fairly simple to do the same thing with Memcached.
+# This class implements a common cache interface with simple delegation to the chosen cache store.
+
+require 'dalli_client'
+require 'redis_client'
+
 class AutoexpireCache
-  def initialize(store)
-    @store = store
-    @ttl = 86400
+  def initialize(store_type = :redis, ttl = 86400)
+    @store = case store_type
+               when :redis
+                 RedisClient.new(ttl)
+               when :dalli
+                 DalliClient.new(ttl)
+               else
+                 raise 'Unknown client type'
+             end
   end
 
   def [](url)
@@ -13,7 +21,6 @@ class AutoexpireCache
 
   def []=(url, value)
     @store.[]=(url, value)
-    @store.expire(url, @ttl)
   end
 
   def keys
@@ -25,4 +32,4 @@ class AutoexpireCache
   end
 end
 
-Geocoder.configure(:cache => AutoexpireCache.new(Redis.new))
+Geocoder.configure(:cache => AutoexpireCache.new)
