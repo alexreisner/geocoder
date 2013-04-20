@@ -22,6 +22,10 @@ class RequestTest < Test::Unit::TestCase
     req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => "74.200.247.59, 74.200.247.59"})
     assert req.location.is_a?(Geocoder::Result::Freegeoip)
   end
+  def test_action_dispatch_remote_ip
+    req = MockRequest.new({"action_dispatch.remote_ip" => "74.200.247.59"})
+    assert req.location.is_a?(Geocoder::Result::Freegeoip)
+  end
   def test_with_request_ip
     req = MockRequest.new({}, "74.200.247.59")
     assert req.location.is_a?(Geocoder::Result::Freegeoip)

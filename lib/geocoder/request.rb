@@ -5,7 +5,9 @@ module Geocoder
 
     def location
       unless defined?(@location)
-        if env.has_key?('HTTP_X_REAL_IP')
+        if env.has_key?('action_dispatch.remote_ip')
+          @location = Geocoder.search(env["action_dispatch.remote_ip"]).first
+        elsif env.has_key?('HTTP_X_REAL_IP')
           @location = Geocoder.search(env['HTTP_X_REAL_IP']).first
         elsif env.has_key?('HTTP_X_FORWARDED_FOR')
           @location = Geocoder.search(env['HTTP_X_FORWARDED_FOR'].split(/\s*,\s*/)[0]).first
