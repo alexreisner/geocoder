@@ -2,8 +2,8 @@
 # when it creates a key/value pair, it also sends an EXPIRE command with a TTL.
 # It should be fairly simple to do the same thing with Memcached.
 class AutoexpireCacheRedis
-  def initialize(ttl = 86400)
-    @store = Redis.new
+  def initialize(store, ttl = 86400)
+    @store = store
     @ttl = ttl
   end
 
@@ -24,3 +24,5 @@ class AutoexpireCacheRedis
     @store.del(url)
   end
 end
+
+Geocoder.configure(:cache => AutoexpireCacheRedis.new(Redis.new))

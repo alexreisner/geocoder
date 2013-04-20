@@ -2,17 +2,12 @@
 # https://github.com/mperham/dalli
 #
 # A TTL is set on initialization
-# Dalli is set up as on Heroku using the Memcachier gem.
-# https://devcenter.heroku.com/articles/memcachier#ruby
-# On other setups you might have to specify your Memcached server in Dalli::Client.new
-
-require 'dalli/client'
-require 'yaml'
 
 class AutoexpireCacheDalli
-  def initialize(ttl = 86400)
+  def initialize(store, ttl = 86400)
+    @store = store
     @keys = 'GeocoderDalliClientKeys'
-    @store = Dalli::Client.new(:expires_in => ttl)
+    @ttl = ttl
   end
 
   def [](url)
@@ -25,7 +20,7 @@ class AutoexpireCacheDalli
     if value.nil?
       del(url)
     else
-      key_cache_add(url) if @store.add(key, YAML::dump(value))
+      key_cache_add(url) if @store.add(key, YAML::dump(value), @ttl)
     end
     value
   end
@@ -60,3 +55,8 @@ class AutoexpireCacheDalli
     @store.replace(@keys, YAML::dump(tmp))
   end
 end
+
+# Here Dalli is set up as on Heroku using the Memcachier gem.
+# https://devcenter.heroku.com/articles/memcachier#ruby
+# On other setups you might have to specify your Memcached server in Dalli::Client.new
+Geocoder.configure(:cache => AutoexpireCacheDalli.new(Dalli::Client.new))
