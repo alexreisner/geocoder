@@ -65,6 +65,8 @@ module Geocoder::Result
       end
     end
 
+    alias_method :street, :route
+
     def street_number
       if street_number = address_components_of_type(:street_number).first
         street_number['long_name']
