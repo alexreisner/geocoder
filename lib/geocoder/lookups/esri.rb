@@ -35,10 +35,10 @@ module Geocoder::Lookup
     def query_url_params(query)
       if query.reverse_geocode?
         {
-          :location => query.text.reverse.join(','),
+          :location => query.coordinates.reverse.join(','),
           :outFields => :*,
           :p => :pjson
-          }.merge(super)
+        }.merge(super)
       else
         {
           :f => :pjson,
