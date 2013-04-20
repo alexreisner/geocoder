@@ -72,6 +72,16 @@ module Geocoder
       def query_url(query)
         fail
       end
+      
+      ##
+      # The working Cache object.
+      #
+      def cache
+        if @cache.nil? and store = configuration.cache
+          @cache = Cache.new(store, configuration.cache_prefix)
+        end
+        @cache
+      end
 
       private # -------------------------------------------------------------
 
@@ -223,16 +233,6 @@ module Geocoder
             "The #{query.lookup.name} API requires a key to be configured: " +
             parts_string.inspect
         end
-      end
-
-      ##
-      # The working Cache object.
-      #
-      def cache
-        if @cache.nil? and store = configuration.cache
-          @cache = Cache.new(store, configuration.cache_prefix)
-        end
-        @cache
       end
 
       ##

@@ -44,7 +44,7 @@ module Geocoder
   #
   def cache
     warn "WARNING: Calling Geocoder.cache is DEPRECATED. The #cache method now belongs to the Geocoder::Lookup object."
-    Geocoder::Lookup.get(Geocoder.config.lookup).send(:configuration).cache
+    Geocoder::Lookup.get(Geocoder.config.lookup).cache
   end
 end
 
