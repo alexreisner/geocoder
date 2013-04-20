@@ -1,9 +1,15 @@
+# This class implements a cache with simple delegation to the the Dalli Memcached client
+# https://github.com/mperham/dalli
+#
+# A TTL is set on initialization
+# Dalli is set up as on Heroku using the Memcachier gem.
+# https://devcenter.heroku.com/articles/memcachier#ruby
+# On other setups you might have to specify your Memcached server in Dalli::Client.new
+
 require 'dalli/client'
 require 'yaml'
 
-class DalliClient
-  # Setup Dalli as on Heroku using the Memcachier gem.
-  # On other setups you'll have to specify your Memcached server
+class AutoexpireCacheDalli
   def initialize(ttl = 86400)
     @keys = 'GeocoderDalliClientKeys'
     @store = Dalli::Client.new(:expires_in => ttl)

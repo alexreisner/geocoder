@@ -1,7 +1,7 @@
 # This class implements a cache with simple delegation to the Redis store, but
 # when it creates a key/value pair, it also sends an EXPIRE command with a TTL.
 # It should be fairly simple to do the same thing with Memcached.
-class RedisClient
+class AutoexpireCacheRedis
   def initialize(ttl = 86400)
     @store = Redis.new
     @ttl = ttl
