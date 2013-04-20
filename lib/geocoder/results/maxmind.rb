@@ -67,13 +67,12 @@ module Geocoder::Result
 
     ##
     # Name of the MaxMind service being used.
-    # Inferred from format of @data.
     #
     def service_name
-      self.class.field_names.to_a.each do |n,f|
-        return n if (@data.size..@data.size+1).include?(f.size)
-      end
-      nil
+      # it would be much better to infer this from the length of the @data
+      # array, but MaxMind seems to send inconsistent and wide-ranging response
+      # lengths (see https://github.com/alexreisner/geocoder/issues/396)
+      Geocoder.config.maxmind[:service]
     end
 
     def field_names

@@ -171,27 +171,27 @@ class ServicesTest < Test::Unit::TestCase
   end
 
   def test_maxmind_result_knows_country_service_name
-    Geocoder.configure(:ip_lookup => :maxmind)
+    Geocoder.configure(:ip_lookup => :maxmind, :maxmind => {:service => :country})
     assert_equal :country, Geocoder.search("24.24.24.21").first.service_name
   end
 
   def test_maxmind_result_knows_city_service_name
-    Geocoder.configure(:ip_lookup => :maxmind)
+    Geocoder.configure(:ip_lookup => :maxmind, :maxmind => {:service => :city})
     assert_equal :city, Geocoder.search("24.24.24.22").first.service_name
   end
 
   def test_maxmind_result_knows_city_isp_org_service_name
-    Geocoder.configure(:ip_lookup => :maxmind)
+    Geocoder.configure(:ip_lookup => :maxmind, :maxmind => {:service => :city_isp_org})
     assert_equal :city_isp_org, Geocoder.search("24.24.24.23").first.service_name
   end
 
   def test_maxmind_result_knows_omni_service_name
-    Geocoder.configure(:ip_lookup => :maxmind)
+    Geocoder.configure(:ip_lookup => :maxmind, :maxmind => {:service => :omni})
     assert_equal :omni, Geocoder.search("24.24.24.24").first.service_name
   end
 
   def test_maxmind_special_result_components
-    Geocoder.configure(:ip_lookup => :maxmind)
+    Geocoder.configure(:ip_lookup => :maxmind, :maxmind => {:service => :omni})
     result = Geocoder.search("24.24.24.24").first
     assert_equal "Road Runner", result.isp_name
     assert_equal "Cable/DSL", result.netspeed
