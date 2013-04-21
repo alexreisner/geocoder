@@ -109,6 +109,8 @@ Geocoder adds a `location` method to the standard `Rack::Request` object so you 
     # returns Geocoder::Result object
     result = request.location
 
+Note that this will usually return `nil` in your test and development environments because things like "localhost" and "0.0.0.0" are not an Internet IP addresses.
+
 See _Advanced Geocoding_ below for more information about `Geocoder::Result` objects.
 
 
