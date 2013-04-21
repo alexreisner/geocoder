@@ -1,6 +1,9 @@
-require 'net/http'
-require 'net/https'
 require 'uri'
+begin
+  require 'faraday'
+rescue LoadError
+  require 'net/https'
+end
 
 unless defined?(ActiveSupport::JSON)
   begin
@@ -98,17 +101,26 @@ module Geocoder
       def http_client
         protocol = "http#{'s' if configuration.use_https}"
         proxy_name = "#{protocol}_proxy"
+
         if proxy = configuration.send(proxy_name)
           proxy_url = protocol + '://' + proxy
           begin
-            uri = URI.parse(proxy_url)
+            proxy_uri = URI.parse(proxy_url)
           rescue URI::InvalidURIError
-            raise ConfigurationError,
-              "Error parsing #{protocol.upcase} proxy URL: '#{proxy_url}'"
+            raise ConfigurationError, "Error parsing #{protocol.upcase} proxy URL: '#{proxy_url}'"
           end
-          Net::HTTP::Proxy(uri.host, uri.port, uri.user, uri.password)
+        end
+
+        if defined?(Faraday)
+          connection = Faraday.new
+          connection.proxy(proxy_uri) if proxy_uri
+          connection
         else
-          Net::HTTP
+          if proxy_uri
+            Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port, proxy_uri.user, proxy_uri.password)
+          else
+            Net::HTTP
+          end
         end
       end
 
@@ -219,9 +231,16 @@ module Geocoder
       def make_api_request(query)
         timeout(configuration.timeout) do
           uri = URI.parse(query_url(query))
-          client = http_client.new(uri.host, uri.port)
-          client.use_ssl = true if configuration.use_https
-          client.get(uri.request_uri, configuration.http_headers)
+          if defined?(Faraday)
+            client = http_client
+            client.get(uri) do |req|
+              req.headers = configuration.http_headers
+            end
+          else
+            client = http_client.new(uri.host, uri.port)
+            client.use_ssl = true if configuration.use_https
+            client.get(uri.request_uri, configuration.http_headers)
+          end
         end
       end
 
