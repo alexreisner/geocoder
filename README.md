@@ -416,6 +416,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Documentation**: http://www.maxmind.com/app/web_services
 * **Terms of Service**: ?
 * **Limitations**: ?
+* **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
 
 #### ESRI (`:esri`)
 
