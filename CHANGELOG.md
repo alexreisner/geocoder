@@ -1,7 +1,21 @@
 Changelog
 =========
 
-Per-release changes to Geocoder.
+Per-release changes to Geocoder. Note that only major changes are summarized here. Please see the Git log for all changes.
+
+1.1.7 (2013 Apr 21)
+-------------------
+
+* Add support for Ovi/Nokia API (thanks github.com/datenimperator).
+* Add support for ESRI API (thanks github.com/rpepato).
+* Add ability to omit distance and bearing from SQL select clause (thanks github.com/nicolasdespres).
+* Add support for caches that use read/write methods (thanks github.com/eskil).
+* Add support for nautical miles (thanks github.com/vanboom).
+* Fix: bug in parsing of MaxMind responses.
+* Fix: bugs in query regular expressions (thanks github.com/boone).
+* Fix: various bugs in MaxMind implementation.
+* Fix: don't require a key for MapQuest.
+* Fix: bug in handling of HTTP_X_FORWARDED_FOR header (thanks github.com/robdimarco).
 
 1.1.6 (2012 Dec 24)
 -------------------
