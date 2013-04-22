@@ -289,7 +289,7 @@ class ServicesTest < Test::Unit::TestCase
     query = Geocoder::Query.new([45.423733, -75.676333])
     lookup = Geocoder::Lookup.get(:esri)
     res = lookup.query_url(query)
-    assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?location=-75.676333%2C45.423733&outFields=%2A&p=pjson",
+    assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&location=-75.676333%2C45.423733&outFields=%2A",
       res
   end
 
