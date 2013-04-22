@@ -292,6 +292,19 @@ Please see the [source code for each lookup](https://github.com/alexreisner/geoc
     # with Nominatim:
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
 
+Esri provider can work with many map coordinate projections. If you need to use some projection different from WGS Web Mercator (this is the default and the most used projection in web mapping, used by bing maps, google maps, arcgis online, among others) you can specify it through the wkid (stands for well known ID) parameter. Just provide the wkid code in the configuration hash to make it work. For example, if you need the geocoding output on the WGS84 (World Geodetic System 1984) projection or need to do reverse geocoding for some coordinate data stored on any projection different from web mercator, just use:
+
+    Geocoder.configure(
+
+      :wkid => 4326,
+
+      ...
+
+    )
+
+  For more info on map projections please see [this link](https://en.wikipedia.org/wiki/Map_projection)
+
+
 
 ### Listing and Comparison
 
@@ -427,7 +440,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Languages**: English
 * **Documentation**: http://resources.arcgis.com/en/help/arcgis-online-geocoding-rest-api/
 * **Terms of Service**: http://www.esri.com/software/arcgis/arcgisonline/services/geoservices
-* **Limitations**: ?
+* **Limitations**: Some licensing restrictions may apply. See Terms of Service.
 
 
 Caching

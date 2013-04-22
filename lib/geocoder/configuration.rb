@@ -61,7 +61,8 @@ module Geocoder
       :cache_prefix,
       :always_raise,
       :units,
-      :distances
+      :distances,
+      :wkid
     ]
 
     attr_accessor :data
@@ -111,6 +112,11 @@ module Geocoder
       # calculation options
       @data[:units]     = :mi      # :mi or :km
       @data[:distances] = :linear  # :linear or :spherical
+
+      # sets the default projection to web mercator (used by google and most of map providers)
+      # this option is used by the esri provider and defines which geographic projection must be used
+      # for geocoding operations
+      @data[:wkid] = 102100
     end
 
     instance_eval(OPTIONS.map do |option|

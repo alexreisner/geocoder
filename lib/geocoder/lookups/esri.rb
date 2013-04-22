@@ -36,13 +36,15 @@ module Geocoder::Lookup
         {
           :location => query.coordinates.reverse.join(','),
           :outFields => :*,
-          :p => :pjson
+          :f => :pjson,
+          :outSR => configuration.wkid
         }.merge(super)
       else
         {
           :f => :pjson,
           :outFields => :*,
-          :text => query.sanitized_text
+          :text => query.sanitized_text,
+          :outSR => configuration.wkid
         }.merge(super)
       end
     end  
