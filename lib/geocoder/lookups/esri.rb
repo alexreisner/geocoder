@@ -1,6 +1,5 @@
 require 'geocoder/lookups/base'
 require "geocoder/results/esri"
-require 'rack/utils'
 
 module Geocoder::Lookup
   class Esri < Base
