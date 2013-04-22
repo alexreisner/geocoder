@@ -3,6 +3,11 @@ Changelog
 
 Per-release changes to Geocoder. Note that only major changes are summarized here. Please see the Git log for all changes.
 
+1.1.8 (2013 Apr 22)
+-------------------
+
+* Fix bug in ESRI lookup that caused an exception on load in environments without rack/utils.
+
 1.1.7 (2013 Apr 21)
 -------------------
 
