@@ -87,6 +87,7 @@ module Geocoder::Store
       ##
       # Get options hash suitable for passing to ActiveRecord.find to get
       # records within a radius (in kilometers) of the given point.
+      # If radius is a symbol, it is intepreted as a column name in the table.
       # Options hash may include:
       #
       # * +:units+   - <tt>:mi</tt> or <tt>:km</tt>; to be used.
@@ -127,7 +128,11 @@ module Geocoder::Store
         if using_sqlite?
           conditions = bounding_box_conditions
         else
-          conditions = [bounding_box_conditions + " AND #{distance} <= ?", radius]
+          if radius.kind_of?(Symbol)
+            conditions = [bounding_box_conditions + " AND #{distance} <= #{radius.to_s}"]
+          else
+            conditions = [bounding_box_conditions + " AND #{distance} <= ?", radius]
+          end
         end
         {
           :select => select_clause(options[:select],

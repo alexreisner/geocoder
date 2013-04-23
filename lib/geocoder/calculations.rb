@@ -206,13 +206,18 @@ module Geocoder
     #
     def bounding_box(point, radius, options = {})
       lat,lon = extract_coordinates(point)
-      radius  = radius.to_f
+      if radius.kind_of?(Symbol)
+        radius = radius.to_s
+      else
+        radius  = radius.to_f
+      end
+      
       units   = options[:units] || Geocoder.config.units
       [
-        lat - (radius / latitude_degree_distance(units)),
-        lon - (radius / longitude_degree_distance(lat, units)),
-        lat + (radius / latitude_degree_distance(units)),
-        lon + (radius / longitude_degree_distance(lat, units))
+        "#{lat} - (#{radius} / #{latitude_degree_distance(units)})",
+        "#{lon} - (#{radius} / #{longitude_degree_distance(lat, units)})",
+        "#{lat} + (#{radius} / #{latitude_degree_distance(units)})",
+        "#{lon} + (#{radius} / #{longitude_degree_distance(lat, units)})"
       ]
     end
 
