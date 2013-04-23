@@ -21,12 +21,8 @@ module Geocoder::Lookup
     def results(query)
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query.text)] if query.loopback_ip_address?
-      begin
-        return (doc = fetch_data(query)) ? [doc] : []
-      rescue StandardError => err # Freegeoip.net returns HTML on bad request
-        raise_error(err)
-        return []
-      end
+      # note: Freegeoip.net returns plain text "Not Found" on bad request
+      (doc = fetch_data(query)) ? [doc] : []
     end
 
     def reserved_result(ip)
