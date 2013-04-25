@@ -101,7 +101,7 @@ module Geocoder
           return
         end
 
-        results = Geocoder.search(query)
+        results = Geocoder.search(query,options[:search_options])
 
         # execute custom block, if specified in configuration
         block_key = reverse ? :reverse_block : :geocode_block
