@@ -121,6 +121,8 @@ To find objects by location, use the following scopes:
 
     Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
     Venue.near([40.71, 100.23], 20)    # venues within 20 miles of a point
+    Venue.near([40.71, 100.23], 20, :units => :km)
+                                       # venues within 20 kilometres of a point
     Venue.geocoded                     # venues with coordinates
     Venue.not_geocoded                 # venues without coordinates
 
