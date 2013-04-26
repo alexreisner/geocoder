@@ -13,13 +13,14 @@ module Geocoder
       #
       def geocoded_by(address_attr, options = {}, &block)
         geocoder_init(
-          :geocode       => true,
-          :user_address  => address_attr,
-          :coordinates   => options[:coordinates] || :coordinates,
-          :geocode_block => block,
-          :units         => options[:units],
-          :method        => options[:method],
-          :skip_index    => options[:skip_index] || false
+          :geocode        => true,
+          :user_address   => address_attr,
+          :coordinates    => options[:coordinates] || :coordinates,
+          :geocode_block  => block,
+          :search_options => options[:search_options],
+          :units          => options[:units],
+          :method         => options[:method],
+          :skip_index     => options[:skip_index] || false
         )
       end
 
