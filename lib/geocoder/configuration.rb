@@ -1,3 +1,5 @@
+# -*- encoding : utf-8 -*-
+
 require 'singleton'
 require 'geocoder/configuration_hash'
 
@@ -95,7 +97,7 @@ module Geocoder
       @data[:lookup]       = :google     # name of street address geocoding service (symbol)
       @data[:ip_lookup]    = :freegeoip  # name of IP address geocoding service (symbol)
       @data[:language]     = :en         # ISO-639 language code
-      @data[:http_headers] = {}          # HTTP headers for lookup
+      @data[:http_headers] = {"Accept-Encoding" => "gzip"} # HTTP headers for lookup
       @data[:use_https]    = false       # use HTTPS for lookup requests? (if supported)
       @data[:http_proxy]   = nil         # HTTP proxy server (user:pass@host:port)
       @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)

@@ -1,3 +1,5 @@
+# -*- encoding : utf-8 -*-
+
 require 'net/http'
 require 'net/https'
 require 'uri'
@@ -72,7 +74,7 @@ module Geocoder
       def query_url(query)
         fail
       end
-      
+
       ##
       # The working Cache object.
       #
@@ -203,7 +205,19 @@ module Geocoder
         else
           check_api_key_configuration!(query)
           response = make_api_request(query)
-          body = response.body
+
+          if response && response.respond_to?(:header) && response.header['Content-Encoding'].eql?('gzip')
+            begin
+              sio  = StringIO.new(response.body)
+              gz   = Zlib::GzipReader.new(sio)
+              body = gz.read()
+            rescue
+              warn "Geocoding API returned a gzip response which failed to decode properly."
+            end
+          else
+            body = response.body
+          end
+
           if cache and (200..399).include?(response.code.to_i)
             cache[key] = body
           end
