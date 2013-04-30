@@ -13,7 +13,7 @@ module Geocoder
     # Array of valid Lookup service names, excluding :test.
     #
     def all_services_except_test
-      all_services - [:test]
+      all_services - [:test, :maxmind_database]
     end
 
     ##
