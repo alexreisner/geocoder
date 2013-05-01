@@ -29,7 +29,7 @@ class Geocoder::CacheBypass
   end
 
   def del(key)
-    with_bypass { @target.del(key)
+    with_bypass { @target.del(key) }
   end
 
   private
