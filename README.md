@@ -400,7 +400,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 #### FreeGeoIP (`:freegeoip`)
 
 * **API key**: none
-* **Quota**: 1000 requests per hour.  After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
+* **Quota**: 10000 requests per hour.  After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
