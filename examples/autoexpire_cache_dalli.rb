@@ -20,7 +20,7 @@ class AutoexpireCacheDalli
     if value.nil?
       del(url)
     else
-      key_cache_add(url) if @store.add(key, YAML::dump(value), @ttl)
+      key_cache_add(url) if @store.add(url, YAML::dump(value), @ttl)
     end
     value
   end
@@ -30,7 +30,7 @@ class AutoexpireCacheDalli
   end
 
   def del(url)
-    key_cache_delete(url) if @store.delete(key)
+    key_cache_delete(url) if @store.delete(url)
   end
 
   private
