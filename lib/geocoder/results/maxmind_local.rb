@@ -3,32 +3,32 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class MaxmindLocal < Base
     def address(format = :full)
-      s = state_code.to_s == "" ? "" : ", #{state_code}"
+      s = state.to_s == "" ? "" : ", #{state}"
       "#{city}#{s} #{postal_code}, #{country}".sub(/^[ ,]*/, "")
     end
 
     def city
-      @data.city_name
+      @data[:city_name]
     end
 
     def state
-      @data.region_name
+      @data[:region_name]
     end
 
     def state_code
-      @data.region_code
+      "" # Not available in Maxmind's database
     end
 
     def country
-      @data.country_name
+      @data[:country_name]
     end
 
     def country_code
-      @data.country_code3
+      @data[:country_code3]
     end
 
     def postal_code
-      @data.postal_code
+      @data[:postal_code]
     end
 
     def self.response_attributes

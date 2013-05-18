@@ -23,8 +23,8 @@ module Geocoder::Lookup
           "Geocoder.configure(:maxmind_local => {:database => ...}), "
         )
       end
-
-      [GeoIP.new(configuration[:database]).city(query.to_s)]
+      
+      [GeoIP.new(configuration[:database]).city(query.to_s).to_hash]
     end
   end
 end
