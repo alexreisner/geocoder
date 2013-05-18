@@ -61,7 +61,8 @@ module Geocoder
       :cache_prefix,
       :always_raise,
       :units,
-      :distances
+      :distances,
+      :path
     ]
 
     attr_accessor :data
