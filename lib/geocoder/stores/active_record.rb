@@ -105,6 +105,9 @@ module Geocoder::Store
       # * +:order+           - column(s) for ORDER BY SQL clause; default is distance;
       #                        set to false or nil to omit the ORDER BY clause
       # * +:exclude+         - an object to exclude (used by the +nearbys+ method)
+      # * +:order_function+  - a function of distance (e.g. ranking score based on distance)
+      #                        that will be added as a transient column in the select clause.
+      #                        This option will override any pre-populated select clause.
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         if options[:units]
