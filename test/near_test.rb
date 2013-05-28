@@ -40,7 +40,7 @@ class NearTest < Test::Unit::TestCase
     sql = Event.send(:distance_sql, 1.0, 2.0, options)
     result = Event.send(:near_scope_options, 1.0, 2.0, 5, options)
 
-    assert_include result[:select], "(#{sql} * 2) AS RANK_ORDER"
+    assert result[:select].include?("(#{sql} * 2) AS RANK_ORDER")
   end
 
   def test_near_scope_with_order_function_with_select
@@ -48,8 +48,8 @@ class NearTest < Test::Unit::TestCase
     sql = Event.send(:distance_sql, 1.0, 2.0, options)
     result = Event.send(:near_scope_options, 1.0, 2.0, 5, options)
 
-    assert_include result[:select], "(#{sql} * 2) AS RANK_ORDER"
-    assert_include result[:select], "name AS events_name"
+    assert result[:select].include?("(#{sql} * 2) AS RANK_ORDER")
+    assert result[:select].include?("name AS events_name")
   end
 
   private
