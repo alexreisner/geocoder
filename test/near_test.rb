@@ -35,6 +35,23 @@ class NearTest < Test::Unit::TestCase
     assert_no_consecutive_comma(result[:select])
   end
 
+  def test_near_scope_with_order_function_without_select
+    options = {:order_function => "(distance * 2) AS RANK_ORDER"}
+    sql = Event.send(:distance_sql, 1.0, 2.0, options)
+    result = Event.send(:near_scope_options, 1.0, 2.0, 5, options)
+
+    assert_include result[:select], "(#{sql} * 2) AS RANK_ORDER"
+  end
+
+  def test_near_scope_with_order_function_with_select
+    options = {:order_function => "(distance * 2) AS RANK_ORDER", :select => "name AS events_name"}
+    sql = Event.send(:distance_sql, 1.0, 2.0, options)
+    result = Event.send(:near_scope_options, 1.0, 2.0, 5, options)
+
+    assert_include result[:select], "(#{sql} * 2) AS RANK_ORDER"
+    assert_include result[:select], "name AS events_name"
+  end
+
   private
 
   def assert_no_consecutive_comma(string)

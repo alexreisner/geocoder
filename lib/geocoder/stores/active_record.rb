@@ -124,6 +124,15 @@ module Geocoder::Store
         ]
         bounding_box_conditions = Geocoder::Sql.within_bounding_box(*args)
 
+        if options[:order_function]
+          order_function = options[:order_function].gsub("distance", distance)
+          if options[:select].nil?
+            options[:select] = order_function
+          else
+            options[:select] += ", #{order_function}"
+          end
+        end
+
         if using_sqlite?
           conditions = bounding_box_conditions
         else
