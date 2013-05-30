@@ -182,7 +182,7 @@ module Geocoder::Store
       ##
       # Generate the SELECT clause.
       #
-      def select_clause(columns, distance = nil, bearing = nil, distance_column = nil, bearing_column = nil)
+      def select_clause(columns, distance = nil, bearing = nil, distance_column = 'distance', bearing_column = 'bearing')
         if columns == :id_only
           return full_column_name(primary_key)
         elsif columns == :geo_only
