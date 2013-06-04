@@ -223,9 +223,7 @@ When querying for objects (if you're using ActiveRecord) you can also look withi
     box = Geocoder::Calculations.bounding_box(center_point, distance)
     Venue.within_bounding_box(box)
 
-This can also dramatically improve query performance, especially when used in conjunction with indexes on the latitude/longitude columns. Note, however, that returned results do not include `distance` and `bearing` attributes. If you want to improve performance AND have access to distance and bearing info, use both scopes:
-
-    Venue.near(center_point, distance).within_bounding_box(box)
+This can also dramatically improve query performance, especially when used in conjunction with indexes on the latitude/longitude columns. Note, however, that returned results do not include `distance` and `bearing` attributes. Note that `#near` performs both bounding box and radius queries for speed.
 
 
 Advanced Geocoding
