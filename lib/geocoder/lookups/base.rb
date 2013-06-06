@@ -100,13 +100,17 @@ module Geocoder
         proxy_name = "#{protocol}_proxy"
         if proxy = configuration.send(proxy_name)
           proxy_url = protocol + '://' + proxy
+        else
+          proxy_url =  ENV[proxy_name]
+        end
+        if proxy_url
           begin
-            uri = URI.parse(proxy_url)
+            proxy_uri = URI.parse(proxy_url)
           rescue URI::InvalidURIError
             raise ConfigurationError,
               "Error parsing #{protocol.upcase} proxy URL: '#{proxy_url}'"
           end
-          Net::HTTP::Proxy(uri.host, uri.port, uri.user, uri.password)
+          Net::HTTP::Proxy(proxy_uri.host, proxy_uri.port, proxy_uri.user, proxy_uri.password)
         else
           Net::HTTP
         end
