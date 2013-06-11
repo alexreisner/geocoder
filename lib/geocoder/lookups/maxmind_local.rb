@@ -1,6 +1,11 @@
 require 'geocoder/lookups/base'
 require 'geocoder/results/maxmind_local'
-require 'geoip'
+
+begin
+  require 'geoip'
+rescue LoadError => e
+  raise 'Could not load geoip dependency. To use MaxMind Local lookup you must add geoip gem to your Gemfile or have it installed in your system.'
+end
 
 module Geocoder::Lookup
   class MaxmindLocal < Base
