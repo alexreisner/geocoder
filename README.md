@@ -418,6 +418,18 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
 
+#### MaxMind Local (`:maxmind_local`)
+
+* **API key**: none. But requires the city database which can be downloaded here http://dev.maxmind.com/geoip/geolite
+* **Quota**: none
+* **Region**: world
+* **SSL support**: N/A
+* **Languages**: English
+* **Documentation**: http://www.maxmind.com/en/city
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: You must add the **geoip gem** to your Gemfile or have it installed in your system. You also have to specify the path of the MaxMind database in your configuration. For example: `Geocoder.configure(:maxmind_local => {:database => File.join('folder', 'GeoLiteCity.dat')})`.
+
 #### ESRI (`:esri`)
 
 * **API key**: none
