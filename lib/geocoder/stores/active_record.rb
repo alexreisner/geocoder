@@ -28,6 +28,8 @@ module Geocoder::Store
             "OR #{geocoder_options[:longitude]} IS NULL")
         }
 
+        scope :none, where('1==0')
+
         ##
         # Find all objects within a radius of the given location.
         # Location may be either a string to geocode or an array of
