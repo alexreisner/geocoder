@@ -24,7 +24,7 @@ module Geocoder
       #
       def distance_to(point, units = nil)
         units ||= self.class.geocoder_options[:units]
-        return self.class.none unless geocoded?
+        return nil unless geocoded?
         Geocoder::Calculations.distance_between(
           to_coordinates, point, :units => units)
       end
@@ -38,7 +38,7 @@ module Geocoder
       #
       def bearing_to(point, options = {})
         options[:method] ||= self.class.geocoder_options[:method]
-        return self.class.none unless geocoded?
+        return nil unless geocoded?
         Geocoder::Calculations.bearing_between(
           to_coordinates, point, options)
       end
@@ -50,7 +50,7 @@ module Geocoder
       #
       def bearing_from(point, options = {})
         options[:method] ||= self.class.geocoder_options[:method]
-        return self.class.none unless geocoded?
+        return nil unless geocoded?
         Geocoder::Calculations.bearing_between(
           point, to_coordinates, options)
       end
@@ -58,10 +58,11 @@ module Geocoder
       ##
       # Get nearby geocoded objects.
       # Takes the same options hash as the near class method (scope).
-      # Returns nil if the object is not geocoded.
+      # Returns null relation with ActiveRecord and
+      # nil for mongoid if the object is not geocoded.
       #
       def nearbys(radius = 20, options = {})
-        return self.class.none unless geocoded?
+        return self.class.not_geocoded unless geocoded?
         options.merge!(:exclude => self) unless send(self.class.primary_key).nil?
         self.class.near(self, radius, options)
       end

@@ -81,6 +81,13 @@ module Geocoder::Store
         end
       end
     end
+
+    ##
+    # Returns nil to support mongodb users
+    #
+    def not_geocoded
+      self.where("0==1")
+    end
   end
 end
 
