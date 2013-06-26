@@ -402,7 +402,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
-* **Documentation**: http://github.com/fiorix/freegeoip/blob/master/README.rst
+* **Documentation**: http://github.com/fiorix/freegeoip/blob/master/README.md
 * **Terms of Service**: ?
 * **Limitations**: ?
 
