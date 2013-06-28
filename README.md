@@ -737,4 +737,19 @@ You cannot use the `near` scope with another scope that provides an `includes` o
 If anyone has a more elegant solution to this problem I am very interested in seeing it.
 
 
+Contributing
+------------
+
+Contributions are welcome via pull requests on Github. Please respect the following guidelines:
+
+* Each pull request should implement ONE feature or bugfix. If you want to add or fix more than one thing, submit more than one pull request.
+* Do not commit changes to files that are irrelevant to your feature or bugfix (eg: `.gitignore`).
+* Do not add dependencies on other gems.
+* Do not add unnecessary `require` statements which could cause LoadErrors on certain systems.
+* Remember: Geocoder needs to run outside of Rails. Don't assume things like ActiveSupport are available.
+* Do not add to base configuration options; instead document required lookup-specific options in ther README.
+* Be willing to accept criticism and work on improving your code; Geocoder is used by thousands of developers and care must be taken not to introduce bugs.
+* Be aware that the pull request review process is not immediate, and is generally proportional to the size of the pull request.
+
+
 Copyright (c) 2009-12 Alex Reisner, released under the MIT license
