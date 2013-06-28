@@ -311,17 +311,6 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
 * **Notes**: To use Google Premier set `Geocoder.configure(:lookup => :google_premier, :api_key => [key, client, channel])`.
 
-#### Data Science Toolkit (`:dstk`)
-
-* **Host**: if you are running this behind your own firewall
-* **Quota**: no quota if you are running on your own hardware
-* **Region**: world
-* **SSL support**: ?
-* **Languages**: en
-* **Documentation**: http://www.datasciencetoolkit.org/developerdocs
-* **Terms of Service**: http://www.datasciencetoolkit.org/developerdocs#googlestylegeocoder
-* **Limitations**: None.
-
 #### Yahoo BOSS (`:yahoo`)
 
 Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer offers a free geocoding API.
@@ -406,10 +395,36 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Terms of Service**: http://www.developer.nokia.com/Develop/Maps/TC.html
 * **Limitations**: ?
 
+#### ESRI (`:esri`)
+
+* **API key**: none
+* **Quota**: Required for some scenarios (see Terms of Service)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: http://resources.arcgis.com/en/help/arcgis-online-geocoding-rest-api/
+* **Terms of Service**: http://www.esri.com/software/arcgis/arcgisonline/services/geoservices
+* **Limitations**: ?
+* **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(:esri => {:outSR => 102100})`.
+
+#### Data Science Toolkit (`:dstk`)
+
+Data Science Toolkit provides an API whose reponse format is like Google's but which can be set up as a privately hosted service.
+
+* **API key**: none
+* **Quota**: None quota if you are self-hosting the service.
+* **Region**: world
+* **SSL support**: ?
+* **Languages**: en
+* **Documentation**: http://www.datasciencetoolkit.org/developerdocs
+* **Terms of Service**: http://www.datasciencetoolkit.org/developerdocs#googlestylegeocoder
+* **Limitations**: No reverse geocoding.
+* **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(:lookup => :dstk, :host => "localhost:4567")`.
+
 #### FreeGeoIP (`:freegeoip`)
 
 * **API key**: none
-* **Quota**: 10000 requests per hour.  After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
+* **Quota**: 10000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
@@ -428,18 +443,6 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
-
-#### ESRI (`:esri`)
-
-* **API key**: none
-* **Quota**: Required for some scenarios (see Terms of Service)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: http://resources.arcgis.com/en/help/arcgis-online-geocoding-rest-api/
-* **Terms of Service**: http://www.esri.com/software/arcgis/arcgisonline/services/geoservices
-* **Limitations**: ?
-* **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(:esri => {:outSR => 102100})`.
 
 
 Caching
