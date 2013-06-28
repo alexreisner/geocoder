@@ -3,4 +3,3 @@ rdoc/*
 *.gem
 .bundle
 Gemfile.lock
-.DS_Store
