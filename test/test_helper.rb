@@ -119,6 +119,13 @@ module Geocoder
       end
     end
 
+    class Dstk
+      private
+      def fixture_prefix
+        "google"
+      end
+    end
+
     class Yandex
       private
       def default_fixture_filename

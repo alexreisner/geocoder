@@ -21,6 +21,7 @@ module Geocoder
     #
     def street_services
       [
+        :dstk,
         :esri,
         :google,
         :google_premier,
