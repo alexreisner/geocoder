@@ -28,7 +28,6 @@ module Geocoder::Lookup
     def query_url_params(query)
       params = {
         :format => "json",
-        :polygon => "1",
         :addressdetails => "1",
         :"accept-language" => configuration.language
       }.merge(super)
