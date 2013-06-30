@@ -604,12 +604,12 @@ When you install the Geocoder gem it adds a `geocode` command to your shell. You
 
 There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON reponse, and more. Please run `geocode -h` for details.
 
-Data Types and Accuracy
------------------------
+Numeric Data Types and Precision
+--------------------------------
 
 Geocoder works with any numeric data type (e.g. float, double, decimal) on which trig (and other mathematical) functions can be performed.
 
-A summary on the relationship between location accuracy and the number of decimal places in latitude and longitude degree values is available at http://en.wikipedia.org/wiki/Decimal_degrees#Accuracy (as an example, at the equator, degree values with 4 decimal places give about 11 metres accuracy, whereas 5 decimal places gives roughly 1 metre accuracy).
+A summary of the relationship between geographic precision and the number of decimal places in latitude and longitude degree values is available on [Wikipedia](http://en.wikipedia.org/wiki/Decimal_degrees#Accuracy). As an example: at the equator, latitude/longitude values with 4 decimal places give about 11 metres precision, whereas 5 decimal places gives roughly 1 metre precision.
 
 Notes on MongoDB
 ----------------
