@@ -36,7 +36,6 @@ Object Geocoding
 
 Your model must have two attributes (database columns) for storing latitude and longitude coordinates. By default they should be called `latitude` and `longitude` but this can be changed (see "Model Configuration" below):
 
-    # Numeric data types other than float are supported, see 'Data Types and Accuracy' section
     rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
     rake db:migrate
 
@@ -608,7 +607,7 @@ There are also a number of options for setting the geocoding API, key, and langu
 Data Types and Accuracy
 -----------------------
 
-Geocoder works with any numeric column type (e.g. float, double, decimal) on which trig (and other mathematical) functions can be performed.
+Geocoder works with any numeric data type (e.g. float, double, decimal) on which trig (and other mathematical) functions can be performed.
 
 A summary on the relationship between location accuracy and the number of decimal places in latitude and longitude degree values is available at http://en.wikipedia.org/wiki/Decimal_degrees#Accuracy (as an example, at the equator, degree values with 4 decimal places give about 11 metres accuracy, whereas 5 decimal places gives roughly 1 metre accuracy).
 
