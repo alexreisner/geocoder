@@ -2,11 +2,13 @@ namespace :geocode do
   desc "Geocode all objects without coordinates."
   task :all => :environment do
     class_name = ENV['CLASS'] || ENV['class']
+    sleep_timer = ENV['SLEEP'] || ENV['sleep']
     raise "Please specify a CLASS (model)" unless class_name
     klass = class_from_string(class_name)
 
     klass.not_geocoded.each do |obj|
       obj.geocode; obj.save
+      sleep(sleep_timer.to_f) if sleep_timer.present?
     end
   end
 end
