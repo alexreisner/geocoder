@@ -53,6 +53,23 @@ class ServicesTest < Test::Unit::TestCase
     assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
   end
 
+  def test_google_query_url_when_config_contains_bounds
+    Geocoder.configure(:bounds => [[40.0, -120.0], [39.0, -121.0]])
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.query_url(Geocoder::Query.new("Paris"))
+    assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
+  end
+
+  def test_google_query_url_uses_search_bounds_when_config_contains_bounds
+    Geocoder.configure(:bounds => [[32.1,-95.9], [33.9,-94.3]])
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "Some Intersection",
+      :bounds => [[40.0, -120.0], [39.0, -121.0]]
+    ))
+    assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
+  end
+
   def test_google_query_url_contains_region
     lookup = Geocoder::Lookup::Google.new
     url = lookup.query_url(Geocoder::Query.new(
@@ -324,7 +341,7 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal 40.75004981300049, result.coordinates[0]
     assert_equal -73.99423889799965, result.coordinates[1]
   end
-  
+
   def test_esri_results_component_when_reverse_geocoding
     Geocoder.configure(:lookup => :esri)
     result = Geocoder.search([45.423733, -75.676333]).first
