@@ -8,7 +8,7 @@ namespace :geocode do
 
     klass.not_geocoded.each do |obj|
       obj.geocode; obj.save
-      sleep(sleep_timer.to_f) if sleep_timer.present?
+      sleep(sleep_timer.to_f) unless sleep_timer.nil?
     end
   end
 end
