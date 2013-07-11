@@ -10,12 +10,11 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      []
+      ["key"]
     end
 
     def query_url(query)
-      key = configuration.api_key
-      domain = key ? "www" : "open"
+      domain = configuration[:licensed] ? "www" : "open"
       url = "#{protocol}://#{domain}.mapquestapi.com/geocoding/v1/#{search_type(query)}?"
       url + url_query_string(query)
     end
