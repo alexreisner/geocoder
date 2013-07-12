@@ -374,7 +374,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 
 #### Mapquest (`:mapquest`)
 
-* **API key**: required for the licensed API, do not use for open tier
+* **API key**: required
 * **Quota**: ?
 * **HTTP Headers**: in order to use the licensed API you can configure the http_headers to include a referer as so:
     `Geocoder.configure(:http_headers => { "Referer" => "http://foo.com" })`
@@ -385,6 +385,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Documentation**: http://www.mapquestapi.com/geocoding/
 * **Terms of Service**: http://info.mapquest.com/terms-of-use/
 * **Limitations**: ?
+* **Notes**: You can specify the licensed API by setting: `Geocoder.configure(:mapquest => {:licensed => true})` (defaults to free "open" version)
 
 #### Ovi/Nokia (`:ovi`)
 
