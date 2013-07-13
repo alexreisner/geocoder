@@ -32,7 +32,7 @@ module Geocoder::Store
         # Find all objects within a radius of the given location.
         # Location may be either a string to geocode or an array of
         # coordinates (<tt>[lat,lon]</tt>). Also takes an options hash
-        # (see Geocoder::Orm::ActiveRecord::ClassMethods.near_scope_options
+        # (see Geocoder::Store::ActiveRecord::ClassMethods.near_scope_options
         # for details).
         #
         scope :near, lambda{ |location, *args|
