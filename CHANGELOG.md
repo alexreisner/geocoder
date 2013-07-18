@@ -3,6 +3,14 @@ Changelog
 
 Per-release changes to Geocoder. Note that only major changes are summarized here. Please see the Git log for all changes.
 
+1.1.9 (TBD)
+-------------------
+
+* Require API key for MapQuest (thanks github.com/robdiciuccio).
+* Add support for Data Science Toolkit lookup (thanks github.com/ejhayes).
+* Fix: #nearbys method with Mongoid (thanks github.com/pascalbetz).
+* Fix: bug in FreeGeoIp lookup that was preventing exception from being raised when configured cache was unavailable.
+
 1.1.8 (2013 Apr 22)
 -------------------
 
