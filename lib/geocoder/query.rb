@@ -17,7 +17,11 @@ module Geocoder
 
     def sanitized_text
       if coordinates?
-        text.split(/\s*,\s*/).join(',')
+        if text.is_a?(Array)
+          text.join(',')
+        else
+          text.split(/\s*,\s*/).join(',')
+        end
       else
         text
       end
