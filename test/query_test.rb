@@ -44,4 +44,9 @@ class QueryTest < Test::Unit::TestCase
     assert !Geocoder::Query.new("127 Main St.").loopback_ip_address?
     assert !Geocoder::Query.new("John Doe\n127 Main St.\nAnywhere, USA").loopback_ip_address?
   end
+
+  def test_sanitized_text_with_array
+    q = Geocoder::Query.new([43.1313,11.3131])
+    assert_equal "43.1313,11.3131", q.sanitized_text
+  end
 end
