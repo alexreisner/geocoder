@@ -14,7 +14,7 @@ Rake::TestTask.new(:integration) do |test|
   test.verbose = true
 end
 
-task :default => [:test, :integration]
+task :default => [:test]
 
 require 'rdoc/task'
 Rake::RDocTask.new do |rdoc|
