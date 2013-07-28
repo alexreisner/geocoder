@@ -8,6 +8,11 @@ module Geocoder
       show_url  = false
       show_json = false
 
+      # remove arguments that are probably coordinates so they are not
+      # processed as arguments (eg: -31.96047031,115.84274631)
+      coords = args.select{ |i| i.match(/^-\d/) }
+      args -= coords
+
       OptionParser.new{ |opts|
         opts.banner = "Usage:\n    geocode [options] <location>"
         opts.separator "\nOptions: "
@@ -65,7 +70,9 @@ module Geocoder
         end
       }.parse!(args)
 
-      query = args.join(" ")
+      # concatenate args with coords that might have been removed
+      # before option processing
+      query = (args + coords).join(" ")
 
       if query == ""
         out << "Please specify a location (run `geocode -h` for more info).\n"
