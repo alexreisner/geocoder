@@ -274,6 +274,16 @@ class ServicesTest < Test::Unit::TestCase
     assert_no_match /query/, url
   end
 
+  def test_bing_query_url_contains_address_with_trailing_and_leading_spaces
+    lookup = Geocoder::Lookup::Bing.new
+    url = lookup.query_url(Geocoder::Query.new(
+      " manchester, lancashire ",
+      :region => "uk"
+    ))
+    assert_match /Locations\/uk\/manchester,%20lancashire/, url
+    assert_no_match /query/, url
+  end
+
   # --- Nominatim ---
 
   def test_nominatim_result_components
