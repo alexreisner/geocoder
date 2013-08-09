@@ -245,6 +245,16 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal 0, results.length
   end
 
+  def test_bing_query_url_contains_region
+    lookup = Geocoder::Lookup::Bing.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "manchester",
+      :region => "uk"
+    ))
+    assert_match /Locations\/uk\/manchester/, url
+    assert_no_match /query/, url
+  end
+
   # --- Nominatim ---
 
   def test_nominatim_result_components
@@ -333,7 +343,7 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal 40.75004981300049, result.coordinates[0]
     assert_equal -73.99423889799965, result.coordinates[1]
   end
-  
+
   def test_esri_results_component_when_reverse_geocoding
     Geocoder.configure(:lookup => :esri)
     result = Geocoder.search([45.423733, -75.676333]).first
