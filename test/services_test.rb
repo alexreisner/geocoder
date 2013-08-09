@@ -255,6 +255,15 @@ class ServicesTest < Test::Unit::TestCase
     assert_no_match /query/, url
   end
 
+  def test_bing_query_url_without_region
+    lookup = Geocoder::Lookup::Bing.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "manchester"
+    ))
+    assert_match /Locations\/manchester/, url
+    assert_no_match /query/, url
+  end
+
   # --- Nominatim ---
 
   def test_nominatim_result_components
