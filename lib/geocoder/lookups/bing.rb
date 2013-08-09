@@ -23,8 +23,13 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_url(query)
-      ["#{protocol}://dev.virtualearth.net/REST/v1/Locations", query.options[:region]].compact.join("/") +
-      (query.reverse_geocode? ? "?" : "/#{query.sanitized_text}?")
+      ["#{protocol}://dev.virtualearth.net/REST/v1/Locations",
+        query.options[:region],
+        sanitized_text(query)].compact.join("/") + "?"
+    end
+
+    def sanitized_text(query)
+      query.sanitized_text if !query.reverse_geocode?
     end
 
     def results(query)
