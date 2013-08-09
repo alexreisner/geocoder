@@ -29,7 +29,7 @@ module Geocoder::Lookup
     end
 
     def sanitized_text(query)
-      query.sanitized_text if !query.reverse_geocode?
+      URI.escape(query.sanitized_text) if !query.reverse_geocode?
     end
 
     def results(query)
