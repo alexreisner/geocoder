@@ -16,4 +16,20 @@ class CacheTest < Test::Unit::TestCase
         "Lookup #{l} did not return cached result."
     end
   end
+
+  def test_google_over_query_limit_does_not_hit_cache
+    Geocoder.configure(:cache => {})
+    Geocoder.configure(:lookup => :google)
+    set_api_key!(:google)
+    Geocoder.configure(:always_raise => :all)
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder.search("over limit")
+    end
+    lookup = Geocoder::Lookup.get(:google)
+    assert_equal false, lookup.instance_variable_get(:@cache_hit)
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder.search("over limit")
+    end
+    assert_equal false, lookup.instance_variable_get(:@cache_hit)
+  end
 end
