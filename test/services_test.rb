@@ -281,11 +281,11 @@ class ServicesTest < Test::Unit::TestCase
   end
 
   def test_api_route_licensed
-    Geocoder.configure(:lookup => :mapquest, :api_key => "abc123", :mapquest => {:licensed => true})
+    Geocoder.configure(:lookup => :mapquest, :api_key => "abc123", :mapquest => {:licensed => true, :version => 2})
     lookup = Geocoder::Lookup::Mapquest.new
     query = Geocoder::Query.new("Bluffton, SC")
     res = lookup.query_url(query)
-    assert_equal "http://www.mapquestapi.com/geocoding/v1/address?key=abc123&location=Bluffton%2C+SC",
+    assert_equal "http://www.mapquestapi.com/geocoding/v2/address?key=abc123&location=Bluffton%2C+SC",
       res
   end
 
