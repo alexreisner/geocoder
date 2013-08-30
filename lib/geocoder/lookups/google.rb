@@ -17,7 +17,7 @@ module Geocoder::Lookup
     end
 
     def valid_response(response)
-      super(response) && JSON.parse(response.body)["status"] == "OK"
+      super(response) && parse_json(response.body)["status"] == "OK"
     end
 
     private # ---------------------------------------------------------------

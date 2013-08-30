@@ -171,22 +171,26 @@ module Geocoder
           "(use Geocoder.configure(:timeout => ...) to set limit)."
       end
 
+      def parse_json(data)
+        if defined?(ActiveSupport::JSON)
+          ActiveSupport::JSON.decode(data)
+        else
+          JSON.parse(data)
+        end
+      end
+
       ##
       # Parses a raw search result (returns hash or array).
       #
       def parse_raw_data(raw_data)
-        if defined?(ActiveSupport::JSON)
-          ActiveSupport::JSON.decode(raw_data)
-        else
-          JSON.parse(raw_data)
-        end
+        parse_json(raw_data)
       rescue
         warn "Geocoding API's response was not valid JSON."
       end
 
       ##
       # Protocol to use for communication with geocoding services.
-      # Set in configuration but not available for every service.
+      # Set in configuration but no available for every service.
       #
       def protocol
         "http" + (configuration.use_https ? "s" : "")
