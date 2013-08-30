@@ -44,6 +44,15 @@ class ServicesTest < Test::Unit::TestCase
       result.precision
   end
 
+  def test_google_query_url_contains_language
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "Some language",
+      :language => :ru
+    ))
+    assert_match /language=ru/, url
+  end
+
   def test_google_query_url_contains_bounds
     lookup = Geocoder::Lookup::Google.new
     url = lookup.query_url(Geocoder::Query.new(
@@ -333,7 +342,7 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal 40.75004981300049, result.coordinates[0]
     assert_equal -73.99423889799965, result.coordinates[1]
   end
-  
+
   def test_esri_results_component_when_reverse_geocoding
     Geocoder.configure(:lookup => :esri)
     result = Geocoder.search([45.423733, -75.676333]).first
