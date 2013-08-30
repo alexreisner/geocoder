@@ -196,7 +196,7 @@ module Geocoder
         "http" + (configuration.use_https ? "s" : "")
       end
 
-      def valid_response(response)
+      def valid_response?(response)
         (200..399).include?(response.code.to_i)
       end
 
@@ -212,7 +212,7 @@ module Geocoder
           check_api_key_configuration!(query)
           response = make_api_request(query)
           body = response.body
-          if cache and valid_response(response)
+          if cache and valid_response?(response)
             cache[key] = body
           end
           @cache_hit = false
