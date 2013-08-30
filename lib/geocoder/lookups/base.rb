@@ -190,7 +190,7 @@ module Geocoder
 
       ##
       # Protocol to use for communication with geocoding services.
-      # Set in configuration but no available for every service.
+      # Set in configuration but not available for every service.
       #
       def protocol
         "http" + (configuration.use_https ? "s" : "")
