@@ -16,12 +16,12 @@ module Geocoder::Lookup
       "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query)
     end
 
+    private # ---------------------------------------------------------------
+
     def valid_response?(response)
       status = parse_json(response.body)["status"]
       super(response) and ['OK', 'ZERO_RESULTS'].include?(status)
     end
-
-    private # ---------------------------------------------------------------
 
     def results(query)
       return [] unless doc = fetch_data(query)
