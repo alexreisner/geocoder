@@ -171,15 +171,19 @@ module Geocoder
           "(use Geocoder.configure(:timeout => ...) to set limit)."
       end
 
+      def parse_json(data)
+        if defined?(ActiveSupport::JSON)
+          ActiveSupport::JSON.decode(data)
+        else
+          JSON.parse(data)
+        end
+      end
+
       ##
       # Parses a raw search result (returns hash or array).
       #
       def parse_raw_data(raw_data)
-        if defined?(ActiveSupport::JSON)
-          ActiveSupport::JSON.decode(raw_data)
-        else
-          JSON.parse(raw_data)
-        end
+        parse_json(raw_data)
       rescue
         warn "Geocoding API's response was not valid JSON."
       end
@@ -190,6 +194,10 @@ module Geocoder
       #
       def protocol
         "http" + (configuration.use_https ? "s" : "")
+      end
+
+      def valid_response(response)
+        (200..399).include?(response.code.to_i)
       end
 
       ##
@@ -204,7 +212,7 @@ module Geocoder
           check_api_key_configuration!(query)
           response = make_api_request(query)
           body = response.body
-          if cache and (200..399).include?(response.code.to_i)
+          if cache and valid_response(response)
             cache[key] = body
           end
           @cache_hit = false
