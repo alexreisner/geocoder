@@ -58,7 +58,7 @@ module Geocoder::Lookup
 
     def results(query)
       # don't look up a loopback address, just return the stored result
-      return [reserved_result] if query.loopback_ip_address?
+      return [reserved_result.split(",")] if query.loopback_ip_address?
       doc = fetch_data(query)
       if doc and doc.is_a?(Array)
         if !data_contains_error?(doc)

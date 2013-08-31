@@ -226,6 +226,18 @@ class ServicesTest < Test::Unit::TestCase
     end
   end
 
+  def test_maxmind_works_when_loopback_address_on_omni
+    Geocoder.configure(:ip_lookup => :maxmind, :maxmind => { :service => :omni })
+    result = Geocoder.search("127.0.0.1").first
+    assert_equal "", result.country_code
+  end
+
+  def test_maxmind_works_when_loopback_address_on_country
+    Geocoder.configure(:ip_lookup => :maxmind, :maxmind => { :service => :country })
+    result = Geocoder.search("127.0.0.1").first
+    assert_equal "", result.country_code
+  end
+
 
   # --- Bing ---
 
@@ -333,7 +345,7 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal 40.75004981300049, result.coordinates[0]
     assert_equal -73.99423889799965, result.coordinates[1]
   end
-  
+
   def test_esri_results_component_when_reverse_geocoding
     Geocoder.configure(:lookup => :esri)
     result = Geocoder.search([45.423733, -75.676333]).first
