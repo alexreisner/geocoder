@@ -63,14 +63,14 @@ module Geocoder
     # dot-delimited numbers.
     #
     def ip_address?
-      !!text.to_s.match(/\A(::ffff:)?(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\z/)
+      IpAddress.new(text).valid? rescue false
     end
 
     ##
     # Is the Query text a loopback IP address?
     #
     def loopback_ip_address?
-      !!(self.ip_address? and (text == "0.0.0.0" or text.to_s.match(/\A127/)))
+      ip_address? && IpAddress.new(text).loopback?
     end
 
     ##
