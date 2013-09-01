@@ -13,5 +13,7 @@ class MaxmindLocalTest < Test::Unit::TestCase
     assert_equal result.country, 'United States'
     assert_equal result.country_code, 'USA'
     assert_equal result.postal_code, '94043'
+    assert_equal result.latitude, 37.41919999999999
+    assert_equal result.longitude, -122.0574
   end
 end

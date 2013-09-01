@@ -7,6 +7,14 @@ module Geocoder::Result
       "#{city}#{s} #{postal_code}, #{country}".sub(/^[ ,]*/, "")
     end
 
+    def latitude
+      @data[:latitude]
+    end
+
+    def longitude
+      @data[:longitude]
+    end
+
     def city
       @data[:city_name]
     end
