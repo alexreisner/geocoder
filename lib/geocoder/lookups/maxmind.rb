@@ -75,7 +75,7 @@ module Geocoder::Lookup
     end
 
     def reserved_result
-      ",,,,0,0,0,0,,,"
+      ",,,,0,0,0,0,,,".split(",")
     end
 
     def query_url_params(query)
