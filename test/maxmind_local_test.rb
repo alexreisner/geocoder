@@ -16,4 +16,12 @@ class MaxmindLocalTest < Test::Unit::TestCase
     assert_equal result.latitude, 37.41919999999999
     assert_equal result.longitude, -122.0574
   end
+
+  def test_it_returns_empty_results_when_nothing_is_found
+    g = Geocoder::Lookup::MaxmindLocal.new
+
+    result = g.search(Geocoder::Query.new('127.0.0.1'))
+    
+    assert result.empty?, "Result wasn't empty."
+  end
 end

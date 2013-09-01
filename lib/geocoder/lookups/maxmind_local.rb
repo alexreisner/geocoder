@@ -33,7 +33,9 @@ module Geocoder::Lookup
         )
       end
       
-      [GeoIP.new(configuration[:database]).city(query.to_s).to_hash]
+      result = GeoIP.new(configuration[:database]).city(query.to_s)
+      
+      result.nil? ? [] : [result.to_hash]
     end
   end
 end
