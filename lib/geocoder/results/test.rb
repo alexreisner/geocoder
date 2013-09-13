@@ -6,7 +6,7 @@ module Geocoder
 
       %w[latitude longitude city state state_code province
       province_code postal_code country country_code address
-      street_address street_number route].each do |attr|
+      street_address street_number route geometry].each do |attr|
         define_method(attr) do
           @data[attr.to_s] || @data[attr.to_sym]
         end
