@@ -32,7 +32,8 @@ module Geocoder::Lookup
       options = {
         :gen=>1,
         :app_id=>api_key,
-        :app_code=>api_code
+        :app_code=>api_code,
+        :language=>configuration.language
       }
 
       if query.reverse_geocode?
