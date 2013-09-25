@@ -302,7 +302,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 #### Google (`:google`, `:google_premier`)
 
 * **API key**: required for Premier (do NOT use a key for the free version)
-* **Key signup**: http://code.google.com/apis/maps/signup.html
+* **Key signup**: https://developers.google.com/maps/documentation/business/
 * **Quota**: 2,500 requests/day, 100,000 with Google Maps API Premier
 * **Region**: world
 * **SSL support**: yes
