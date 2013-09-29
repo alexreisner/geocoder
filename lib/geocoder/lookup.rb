@@ -28,6 +28,7 @@ module Geocoder
         :yahoo,
         :bing,
         :geocoder_ca,
+        :geocoder_us,
         :yandex,
         :nominatim,
         :mapquest,
