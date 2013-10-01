@@ -662,7 +662,7 @@ Command Line Interface
 ----------------------
 
 When you install the Geocoder gem it adds a `geocode` command to your shell. You can search for a street address, IP address, postal code, coordinates, etc just like you can with the Geocoder.search method for example:
-```
+```sh
 $ geocode 29.951,-90.081
 Latitude:         29.952211
 Longitude:        -90.080563
@@ -713,7 +713,9 @@ Notes on Non-Rails Frameworks
 
 If you are using Geocoder with ActiveRecord and a framework other than Rails (like Sinatra or Padrino) you will need to add this in your model before calling Geocoder methods:
 
+```ruby
 extend Geocoder::Model::ActiveRecord 
+```
 
 Optimisation of Distance Queries
 --------------------------------
@@ -722,7 +724,9 @@ In MySQL and Postgres the finding of objects near a given point is speeded up by
 
 To take advantage of this optimisation you need to add a composite index on latitude and longitude. In your Rails migration:
 
+```ruby
 add_index :table, [:latitude, :longitude]
+```
 
 
 Distance Queries in SQLite
@@ -757,11 +761,15 @@ Error Handling
 
 By default Geocoder will rescue any exceptions raised by calls to a geocoding service and return an empty array (using warn() to inform you of the error). You can override this on a per-exception basis, and also have Geocoder raise its own exceptions for certain events (eg: API quota exceeded) by using the `:always_raise` option:
 
+```ruby
 Geocoder.configure(:always_raise => [SocketError, TimeoutError])
+```
 
 You can also do this to raise all exceptions:
 
+```ruby
 Geocoder.configure(:always_raise => :all)
+```
 
 The raise-able exceptions are:
 
@@ -802,7 +810,9 @@ A lot of debugging time can be saved by understanding how Geocoder works with Ac
 
 Take a look at the server's raw JSON response. You can do this by getting the request URL in an app console:
 
+```ruby
 Geocoder::Lookup.get(:google).query_url(Geocoder::Query.new("..."))
+```
 
 Replace `:google` with the lookup you are using and replace `...` with the address you are trying to geocode. Then visit the returned URL in your web browser. Often the API will return an error message that helps you resolve the problem. If, after reading the raw response, you believe there is a problem with Geocoder, please post an issue and include both the URL and raw response body.
 
