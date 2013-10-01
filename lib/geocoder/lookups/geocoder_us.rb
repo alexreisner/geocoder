@@ -20,7 +20,7 @@ module Geocoder::Lookup
 
     def results(query)
       return [] unless doc = fetch_data(query)
-      if doc.to_s =~ /^(\d+)\:/
+      if doc[0].to_s =~ /^(\d+)\:/
         return []
       else
         return [doc.size == 5 ? ((doc[0..1] << nil) + doc[2..4]) : doc]
