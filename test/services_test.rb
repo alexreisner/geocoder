@@ -316,6 +316,38 @@ class ServicesTest < Test::Unit::TestCase
       result.address
   end
 
+  def test_mapquest_no_results
+    Geocoder.configure(:lookup => :mapquest)
+    set_api_key!(:mapquest)
+    assert_equal [], Geocoder.search("no results")
+  end
+
+  def test_mapquest_raises_exception_when_invalid_request
+    Geocoder.configure(:always_raise => [Geocoder::InvalidRequest])
+    l = Geocoder::Lookup.get(:mapquest)
+    assert_raises Geocoder::InvalidRequest do
+      l.send(:results, Geocoder::Query.new("invalid request"))
+    end
+  end
+
+  def test_mapquest_raises_exception_when_invalid_api_key
+    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
+    l = Geocoder::Lookup.get(:mapquest)
+    assert_raises Geocoder::InvalidApiKey do
+      l.send(:results, Geocoder::Query.new("invalid api key"))
+    end
+  end
+
+  def test_mapquest_raises_exception_when_error
+    Geocoder.configure(:always_raise => [Geocoder::Error])
+    l = Geocoder::Lookup.get(:mapquest)
+    assert_raises Geocoder::Error do
+      l.send(:results, Geocoder::Query.new("error"))
+    end
+  end
+
+
+
   # --- Esri ---
 
   def test_esri_query_for_geocode
