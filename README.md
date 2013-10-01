@@ -553,9 +553,11 @@ class Venue
   # store the fetched address in the full_address attribute
   reverse_geocoded_by :latitude, :longitude, :address => :full_address
 end
+```
 
 However, there can be only one set of latitude/longitude attributes, and whichever you specify last will be used. For example:
 
+```ruby
 class Venue
 
   geocoded_by :address,
@@ -564,6 +566,7 @@ class Venue
 
   reverse_geocoded_by :latitude, :longitude
 end
+```
 
 The reason for this is that we don't want ambiguity when doing distance calculations. We need a single, authoritative source for coordinates!
 
@@ -571,33 +574,41 @@ Once both forward and reverse geocoding has been applied, it is possible to call
 
 For example:
 
+```ruby
 class Venue
 
   after_validation :geocode, :reverse_geocode
 
 end
+```
 
 For certain geolocation services such as Google geolocation API this may cause issues during subsequent updates to database records if the longtitude and latitude coordinates cannot be associated known location address (on a large body of water for example). On subsequent callbacks the following call:
 
- after_validation :geocode
+```ruby
+after_validation :geocode
+```
 
 will alter the longtitude and latitude attributes based on the location field, which would be the closest known location to the original coordinates. In this case it is better to add conditions to each call, as not to override coordinates that do not have known location addresses associated with them.
 
 For example:
 
+```ruby
 class Venue
 
   after_validation :reverse_geocode, :if => :has_coordinates
   after_validation :geocode, :if => :has_location, :unless => :has_coordinates
 
 end  
+```
 
 Use Outside of Rails
 --------------------
 
 You can use Geocoder outside of Rails by calling the `Geocoder.search` method:
 
+```ruby
 results = Geocoder.search("McCarren Park, Brooklyn, NY")
+```
 
 This returns an array of `Geocoder::Result` objects with all data provided by the geocoding service.
 
@@ -607,6 +618,7 @@ Testing Apps that Use Geocoder
 
 When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure and use the `:test` lookup. For example:
 
+```ruby
 Geocoder.configure(:lookup => :test)
 
 Geocoder::Lookup::Test.add_stub(
@@ -622,9 +634,11 @@ Geocoder::Lookup::Test.add_stub(
     }
   ]
 )
+```
 
 Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. You can also set a default stub:
 
+```ruby
 Geocoder.configure(:lookup => :test)
 
 Geocoder::Lookup::Test.set_default_stub(
@@ -640,6 +654,7 @@ Geocoder::Lookup::Test.set_default_stub(
     }
   ]
 )
+```
 
 Any query that hasn't been explicitly stubbed will return that result.
 
@@ -647,7 +662,7 @@ Command Line Interface
 ----------------------
 
 When you install the Geocoder gem it adds a `geocode` command to your shell. You can search for a street address, IP address, postal code, coordinates, etc just like you can with the Geocoder.search method for example:
-
+```
 $ geocode 29.951,-90.081
 Latitude:         29.952211
 Longitude:        -90.080563
@@ -657,6 +672,7 @@ State/province:   Louisiana
 Postal code:      70112
 Country:          United States
 Google map:       http://maps.google.com/maps?q=29.952211,-90.080563
+```
 
 There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON reponse, and more. Please run `geocode -h` for details.
 
@@ -680,11 +696,15 @@ Coordinates are generally printed and spoken as latitude, then longitude ([lat,l
 
 To access an object's coordinates in the conventional order, use the `to_coordinates` instance method provided by Geocoder. For example:
 
+```ruby
 obj.to_coordinates  # => [37.7941013, -122.3951096] # [lat, lon]
+```
 
 Calling `obj.coordinates` directly returns the internal representation of the coordinates which, in the case of MongoDB, is probably the reverse of what you want:
 
+```ruby
 obj.coordinates     # => [-122.3951096, 37.7941013] # [lon, lat]
+```
 
 For consistency with the rest of Geocoder, always use the `to_coordinates` method instead.
 
@@ -745,12 +765,14 @@ Geocoder.configure(:always_raise => :all)
 
 The raise-able exceptions are:
 
+```ruby
 SocketError
 TimeoutError
 Geocoder::OverQueryLimitError
 Geocoder::RequestDenied
 Geocoder::InvalidRequest
 Geocoder::InvalidApiKey
+```
 
 Note that not all lookups support all exceptions.
 
@@ -762,8 +784,10 @@ Troubleshooting
 
 If you get one of these errors:
 
+```
 uninitialized constant Geocoder::Model::Mongoid
 uninitialized constant Geocoder::Model::Mongoid::Mongo
+```
 
 you should check your Gemfile to make sure the Mongoid gem is listed _before_ Geocoder. If Mongoid isn't loaded when Geocoder is initialized, Geocoder will not load support for Mongoid.
 
@@ -796,6 +820,7 @@ You cannot use the `near` scope with another scope that provides an `includes` o
 
 Instead of using `includes` to reduce the number of database queries, try using `joins` with either the `:select` option or a call to `preload`. For example:
 
+```ruby
 # Pass a :select option to the near scope to get the columns you want.
 # Instead of City.near(...).includes(:venues), try:
 City.near("Omaha, NE", 20, :select => "cities.*, venues.*").joins(:venues)
@@ -804,6 +829,7 @@ City.near("Omaha, NE", 20, :select => "cities.*, venues.*").joins(:venues)
 # number of results; one query on hotels, and one query on administrators.
 # Instead of Hotel.near(...).includes(:administrator), try:
 Hotel.near("London, UK", 50).joins(:administrator).preload(:administrator)
+```
 
 If anyone has a more elegant solution to this problem I am very interested in seeing it.
 
