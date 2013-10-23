@@ -20,4 +20,16 @@ class ProxyTest < Test::Unit::TestCase
       Geocoder::Lookup::Google.new.send(:http_client)
     end
   end
+
+  def test_accepts_proxy_with_http_protocol
+    Geocoder.configure(:http_proxy => 'http://localhost')
+    lookup = Geocoder::Lookup::Google.new
+    assert lookup.send(:http_client).proxy_class?
+  end
+
+  def test_accepts_proxy_with_https_protocol
+    Geocoder.configure(:http_proxy => 'https://localhost')
+    lookup = Geocoder::Lookup::Google.new
+    assert lookup.send(:http_client).proxy_class?
+  end
 end
