@@ -226,6 +226,13 @@ module Geocoder::Store
       end
 
       ##
+      # Returns null Relation which is better than nil when chaining scope
+      #
+      def not_geocoded
+        self.where("0==1")
+      end
+
+      ##
       # Prepend table name if column name doesn't already contain one.
       #
       def full_column_name(column)

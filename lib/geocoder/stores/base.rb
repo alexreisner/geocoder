@@ -58,10 +58,11 @@ module Geocoder
       ##
       # Get nearby geocoded objects.
       # Takes the same options hash as the near class method (scope).
-      # Returns nil if the object is not geocoded.
+      # Returns empty null relation with ActiveRecord and
+      # nil for mongoid if the object is not geocoded.
       #
       def nearbys(radius = 20, options = {})
-        return nil unless geocoded?
+        return self.class.not_geocoded unless geocoded?
         options.merge!(:exclude => self) unless send(self.class.primary_key).nil?
         self.class.near(self, radius, options)
       end
