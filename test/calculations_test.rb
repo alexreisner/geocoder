@@ -100,6 +100,17 @@ class CalculationsTest < Test::Unit::TestCase
     end
   end
 
+  # --- random point ---
+
+  def test_random_point_within_radius
+    20.times do
+      center = [51, 7] # Cologne, DE
+      radius = 10 # miles
+      random_point = Geocoder::Calculations.random_point_near(center, radius)
+      distance = Geocoder::Calculations.distance_between(center, random_point)
+      assert distance <= radius
+    end
+  end
 
   # --- bearing ---
 

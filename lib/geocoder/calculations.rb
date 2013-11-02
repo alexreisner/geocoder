@@ -217,6 +217,44 @@ module Geocoder
     end
 
     ##
+    # Random point within a circle of provided radius centered
+    # around the provided point
+    # Takes one point, one radius, and an options hash.
+    # The points are given in the same way that points are given to all
+    # Geocoder methods that accept points as arguments. They can be:
+    #
+    # * an array of coordinates ([lat,lon])
+    # * a geocodable address (string)
+    # * a geocoded object (one which implements a +to_coordinates+ method
+    #   which returns a [lat,lon] array
+    #
+    # The options hash supports:
+    #
+    # * <tt>:units</tt> - <tt>:mi</tt> or <tt>:km</tt>
+    #   Use Geocoder.configure(:units => ...) to configure default units.
+    def random_point_near(center, radius, options = {})
+
+      # set default options
+      options[:units] ||= Geocoder.config.units
+
+      # convert to coordinate arrays
+      center = extract_coordinates(center)
+
+      earth_circumference = 2 * Math::PI * earth_radius(options[:units])
+      max_degree_delta =  360.0 * (radius / earth_circumference)
+
+      # random bearing in radians
+      theta = 2 * Math::PI * rand
+
+      # random radius, use the square root to ensure a uniform
+      # distribution of points over the circle
+      r = Math.sqrt(rand) * max_degree_delta
+
+      delta_lat, delta_long = [r * Math.cos(theta), r * Math.sin(theta)]
+      [center[0] + delta_lat, center[1] + delta_long]
+    end
+
+    ##
     # Convert degrees to radians.
     # If an array (or multiple arguments) is passed,
     # converts each value and returns array.
