@@ -8,6 +8,7 @@ Per-release changes to Geocoder. Note that only major changes are summarized her
 
 * Require API key for MapQuest (thanks github.com/robdiciuccio).
 * Add support for Data Science Toolkit lookup (thanks github.com/ejhayes).
+* Add Geocoder::Calculations.random_point_near method (thanks github.com/adambray).
 * Fix: #nearbys method with Mongoid (thanks github.com/pascalbetz).
 * Fix: bug in FreeGeoIp lookup that was preventing exception from being raised when configured cache was unavailable.
 
