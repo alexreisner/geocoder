@@ -42,7 +42,7 @@ module Geocoder::Lookup
         )
       else
         super.merge(options).merge(
-          :searchtext=>query.sanitized_text,
+          :searchtext=>query.sanitized_text
         )
       end
     end
