@@ -13,7 +13,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://lbs.ovi.com/search/6.2/geocode.json?" + url_query_string(query)
+      "#{protocol}://lbs.ovi.com/search/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?" + url_query_string(query)
     end
 
     private # ---------------------------------------------------------------
@@ -29,12 +29,22 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      super.merge(
-        :searchtext=>query.sanitized_text,
+      options = {
         :gen=>1,
         :app_id=>api_key,
         :app_code=>api_code
-      )
+      }
+
+      if query.reverse_geocode?
+        super.merge(options).merge(
+          :prox=>query.sanitized_text,
+          :mode=>:retrieveAddresses
+        )
+      else
+        super.merge(options).merge(
+          :searchtext=>query.sanitized_text,
+        )
+      end
     end
 
     def api_key
