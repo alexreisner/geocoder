@@ -255,6 +255,40 @@ module Geocoder
     end
 
     ##
+    # Given a start point, distance, and heading (in degrees), provides
+    # an endpoint.
+    # The starting point is given in the same way that points are given to all
+    # Geocoder methods that accept points as arguments. It can be:
+    #
+    # * an array of coordinates ([lat,lon])
+    # * a geocodable address (string)
+    # * a geocoded object (one which implements a +to_coordinates+ method
+    #   which returns a [lat,lon] array
+    #
+    def endpoint(start, heading, distance, units=nil)
+      units ||= Geocoder.config.units
+      radius = earth_radius(units)
+
+      start = extract_coordinates(start)
+
+      # convert degrees to radians
+      start = to_radians(start)
+
+      lat = start[0]
+      lon = start[1]
+      heading = to_radians(heading)
+      distance = distance.to_f
+
+      end_lat = Math.asin(Math.sin(lat)*Math.cos(distance/radius) +
+                    Math.cos(lat)*Math.sin(distance/radius)*Math.cos(heading))
+
+      end_lon = lon+Math.atan2(Math.sin(heading)*Math.sin(distance/radius)*Math.cos(lat),
+                    Math.cos(distance/radius)-Math.sin(lat)*Math.sin(end_lat))
+
+      to_degrees [end_lat, end_lon]
+    end
+
+    ##
     # Convert degrees to radians.
     # If an array (or multiple arguments) is passed,
     # converts each value and returns array.
