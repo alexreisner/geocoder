@@ -209,4 +209,16 @@ class CalculationsTest < Test::Unit::TestCase
     assert_equal coords, Geocoder::Calculations.extract_coordinates(l)
     assert_equal coords, Geocoder::Calculations.extract_coordinates(coords)
   end
+
+  def test_endpoint
+    # test 5 time with random coordinates and headings
+    [0..5].each do |i|
+      rheading = [*0..359].sample
+      rdistance = [*0..100].sample
+      startpoint = [45.0906, 7.6596]
+      endpoint = Geocoder::Calculations.endpoint([45.0906, 7.6596], rheading, rdistance)
+      assert_in_delta rdistance, Geocoder::Calculations.distance_between(startpoint, endpoint), 1E-5
+      assert_in_delta rheading, Geocoder::Calculations.bearing_between(startpoint, endpoint), 1E-2
+    end
+  end
 end
