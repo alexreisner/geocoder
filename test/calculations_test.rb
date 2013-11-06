@@ -217,8 +217,10 @@ class CalculationsTest < Test::Unit::TestCase
       rdistance = [*0..100].sample
       startpoint = [45.0906, 7.6596]
       endpoint = Geocoder::Calculations.endpoint(startpoint, rheading, rdistance)
-      assert_in_delta rdistance, Geocoder::Calculations.distance_between(startpoint, endpoint), 1E-5
-      assert_in_delta rheading, Geocoder::Calculations.bearing_between(startpoint, endpoint), 1E-2
+      assert_in_delta rdistance, 
+        Geocoder::Calculations.distance_between(startpoint, endpoint, :method => :spherical), 1E-5
+      assert_in_delta rheading, 
+        Geocoder::Calculations.bearing_between(startpoint, endpoint, :method => :spherical), 1E-2
     end
   end
 end
