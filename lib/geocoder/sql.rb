@@ -63,25 +63,26 @@ module Geocoder
     # http://www.beginningspatial.com/calculating_bearing_one_point_another
     #
     def full_bearing(latitude, longitude, lat_attr, lon_attr, options = {})
+      degrees_per_radian = Geocoder::Calculations::DEGREES_PER_RADIAN
       case options[:bearing] || Geocoder.config.distances
       when :linear
         "MOD(CAST(" +
           "(ATAN2( " +
-            "((#{lon_attr} - #{longitude.to_f}) / 57.2957795), " +
-            "((#{lat_attr} - #{latitude.to_f}) / 57.2957795)" +
-          ") * 57.2957795) + 360 " +
+            "((#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian}), " +
+            "((#{lat_attr} - #{latitude.to_f}) / #{degrees_per_radian})" +
+          ") * #{degrees_per_radian}) + 360 " +
         "AS decimal), 360)"
       when :spherical
         "MOD(CAST(" +
           "(ATAN2( " +
-            "SIN( (#{lon_attr} - #{longitude.to_f}) / 57.2957795 ) * " +
-            "COS( (#{lat_attr}) / 57.2957795 ), (" +
-              "COS( (#{latitude.to_f}) / 57.2957795 ) * SIN( (#{lat_attr}) / 57.2957795)" +
+            "SIN( (#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian} ) * " +
+            "COS( (#{lat_attr}) / #{degrees_per_radian} ), (" +
+              "COS( (#{latitude.to_f}) / #{degrees_per_radian} ) * SIN( (#{lat_attr}) / #{degrees_per_radian})" +
             ") - (" +
-              "SIN( (#{latitude.to_f}) / 57.2957795) * COS((#{lat_attr}) / 57.2957795) * " +
-              "COS( (#{lon_attr} - #{longitude.to_f}) / 57.2957795)" +
+              "SIN( (#{latitude.to_f}) / #{degrees_per_radian}) * COS((#{lat_attr}) / #{degrees_per_radian}) * " +
+              "COS( (#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian})" +
             ")" +
-          ") * 57.2957795) + 360 " +
+          ") * #{degrees_per_radian}) + 360 " +
         "AS decimal), 360)"
       end
     end
