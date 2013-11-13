@@ -65,24 +65,24 @@ module Geocoder
     def full_bearing(latitude, longitude, lat_attr, lon_attr, options = {})
       case options[:bearing] || Geocoder.config.distances
       when :linear
-        "CAST(" +
-          "DEGREES(ATAN2( " +
-            "RADIANS(#{lon_attr} - #{longitude.to_f}), " +
-            "RADIANS(#{lat_attr} - #{latitude.to_f})" +
-          ")) + 360 " +
-        "AS decimal) % 360"
+        "MOD(CAST(" +
+          "(ATAN2( " +
+            "((#{lon_attr} - #{longitude.to_f}) / 57.2957795), " +
+            "((#{lat_attr} - #{latitude.to_f}) / 57.2957795)" +
+          ") * 57.2957795) + 360 " +
+        "AS decimal), 360)"
       when :spherical
-        "CAST(" +
-          "DEGREES(ATAN2( " +
-            "SIN(RADIANS(#{lon_attr} - #{longitude.to_f})) * " +
-            "COS(RADIANS(#{lat_attr})), (" +
-              "COS(RADIANS(#{latitude.to_f})) * SIN(RADIANS(#{lat_attr}))" +
+        "MOD(CAST(" +
+          "(ATAN2( " +
+            "SIN( (#{lon_attr} - #{longitude.to_f}) / 57.2957795 ) * " +
+            "COS( (#{lat_attr}) / 57.2957795 ), (" +
+              "COS( (#{latitude.to_f}) / 57.2957795 ) * SIN( (#{lat_attr}) / 57.2957795)" +
             ") - (" +
-              "SIN(RADIANS(#{latitude.to_f})) * COS(RADIANS(#{lat_attr})) * " +
-              "COS(RADIANS(#{lon_attr} - #{longitude.to_f}))" +
+              "SIN( (#{latitude.to_f}) / 57.2957795) * COS((#{lat_attr}) / 57.2957795) * " +
+              "COS( (#{lon_attr} - #{longitude.to_f}) / 57.2957795)" +
             ")" +
-          ")) + 360 " +
-        "AS decimal) % 360"
+          ") * 57.2957795) + 360 " +
+        "AS decimal), 360)"
       end
     end
 
