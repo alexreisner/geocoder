@@ -43,6 +43,22 @@ module Geocoder::Result
       @data['addressComponent']
     end
 
+    def state_code
+      ""
+    end
+
+    def postal_code
+      ""
+    end
+
+    def country
+      "China"
+    end
+
+    def country_code
+      "CN"
+    end
+
     ##
     # Get address components of a given type. Valid types are defined in
     # Baidu's Geocoding API documentation and include (among others):

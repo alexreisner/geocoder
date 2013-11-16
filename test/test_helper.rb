@@ -147,6 +147,15 @@ module Geocoder
       end
     end
 
+    class Baidu
+      private
+      def fixture_prefix
+        "baidu"
+      end
+      def default_fixture_filename
+        "baidu_shanghai_pearl_tower"
+      end
+    end
   end
 end
 

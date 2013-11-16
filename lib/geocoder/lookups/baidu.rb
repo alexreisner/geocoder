@@ -21,7 +21,7 @@ module Geocoder::Lookup
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query)
       case doc['status']; when 0
-        return [doc['result']]
+        return [doc['result']] unless doc['result'].blank?
       when 1, 3, 4
         raise_error(Geocoder::Error, messages) ||
           warn("Baidu Geocoding API error: server error.")
@@ -46,7 +46,7 @@ module Geocoder::Lookup
         (query.reverse_geocode? ? :location : :address) => query.sanitized_text,
         :ak => configuration.api_key,
         :output => "json"
-      }
+      }.merge(super)
     end
 
   end
