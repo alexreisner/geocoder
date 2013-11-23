@@ -36,4 +36,11 @@ class MongoidTest < Test::Unit::TestCase
     result = PlaceWithoutIndex.index_options.keys.flatten[0] == :coordinates
     assert !result
   end
+
+  def test_nil_radius_omits_max_distance
+    location = [40.750354, -73.993371]
+    p = Place.near(location, nil)
+    key = Mongoid::VERSION >= "3" ? "location" : :location
+    assert_equal nil, p.selector[key]['$maxDistance']
+  end
 end
