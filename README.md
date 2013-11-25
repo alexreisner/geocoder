@@ -348,7 +348,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Languages**: ?
 * **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
 * **Terms of Service**: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
-* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers. Data licensed under CC-BY-SA (you must provide attribution).
+* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(:http_headers => { "User-Agent" => "your contact info" })`). Data licensed under CC-BY-SA (you must provide attribution).
 
 #### Yandex (`:yandex`)
 
