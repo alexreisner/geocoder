@@ -443,7 +443,7 @@ module Geocoder
 
           # Get select hash with the most occurences in cluster and add to all top coordinates in clusters
           # Calculating the geographic center is needed because Geohash.decode returns a geo-square
-          top_hash = select_hashes_with_counts.sort_by{ |key, value| value }.reverse.first.keys.first
+          top_hash = select_hashes_with_counts.sort_by{ |hash| hash.values.first }.reverse.first.keys.first
           coordinates_with_counts << { :coordinates => Geocoder::Calculations.geographic_center(GeoHash.decode(top_hash)), :count => cluster.last }
         end
       else
