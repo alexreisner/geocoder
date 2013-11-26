@@ -390,7 +390,7 @@ module Geocoder
     # as well as an options hash consisting of precision,
     # limit and nucleus, returning an array of clusters and the
     # count of clustered coordinates for each, in the form of
-    # [{ [lat,lon] => 3 }, { [lat,lon] => 2 }, ...]
+    # [{ :coordinates => [lat,lon], :count => 3 }, { :coordinates => [lat,lon], :count => 2 }, ...]
     # 
     def cluster_coordinates(coordinates, options = {})
       # Set default options
@@ -444,7 +444,7 @@ module Geocoder
           # Get select hash with the most occurences in cluster and add to all top coordinates in clusters
           # Calculating the geographic center is needed because Geohash.decode returns a geo-square
           top_hash = select_hashes_with_counts.sort_by{ |key, value| value }.reverse.first.keys.first
-          coordinates_with_counts << { Geocoder::Calculations.geographic_center(GeoHash.decode(top_hash)) => cluster.last }
+          coordinates_with_counts << { :coordinates => Geocoder::Calculations.geographic_center(GeoHash.decode(top_hash)), :count => cluster.last }
         end
       else
         clusters.each do |cluster|
@@ -457,12 +457,12 @@ module Geocoder
           # Calculate geographical center of all coordinates in this cluster and assign to array of all centers
           # Calculating the geographic center is needed because Geohash.decode returns a geo-square
           centered_coordinates_pair = Geocoder::Calculations.geographic_center(select_coordinates)
-          coordinates_with_counts << { centered_coordinates_pair => cluster.last }
+          coordinates_with_counts << { :coordinates => centered_coordinates_pair, :count => cluster.last }
         end
       end
 
       # At this point, coordinates_with_counts looks like
-      # [{[33.83140579999999, -118.2820165] => 7}, {[52.52000659999998, 13.404954000000002] => 2}]
+      # [{:coordinates => [33.83140579999999, -118.2820165], :count => 7}, { :coordinates => [52.52000659999998, 13.404954000000002], :count => 2}]
       # In this example, seven coordinates in cluster one, two coordinates in cluster two
       coordinates_with_counts
     end

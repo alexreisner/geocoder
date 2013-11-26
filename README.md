@@ -194,7 +194,7 @@ You can cluster coordinates using `Geocoder::Calculations.cluster_coordinates(co
     Geocoder::Calculations.cluster_coordinates(
       [[52.5200065, 13.404954], [52.5094156, 13.4533962], [52.3941887, 13.072691]]
     )
-    # => [{[52.3941887, 13.072691000000003]=>3}]
+    # => [{ :coordinates => [52.3941887, 13.072691000000003], :count => 3}]
     # Returns the position of your new cluster associated
     # with the number of coordinates it consumed.
 
