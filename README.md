@@ -460,6 +460,17 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
 
+#### Baidu (`:baidu`)
+
+* **API key**: required
+* **Quota**: No quota limits for geocoding
+* **Region**: China
+* **SSL support**: no
+* **Languages**: Chinese (Simplified)
+* **Documentation**: http://developer.baidu.com/map/webservice-geocoding.htm
+* **Terms of Service**: http://developer.baidu.com/map/law.htm
+* **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
+* **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu, :api_key => "your_api_key")`.
 
 Caching
 -------
