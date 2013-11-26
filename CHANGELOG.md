@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Per-release changes to Geocoder. Note that only major changes are summarized here. Please see the Git log for all changes.
+Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
 1.1.9 (TBD)
 -------------------
@@ -9,6 +9,7 @@ Per-release changes to Geocoder. Note that only major changes are summarized her
 * Require API key for MapQuest (thanks github.com/robdiciuccio).
 * Add support for geocoder.us and HTTP basic auth (thanks github.com/komba).
 * Add support for Data Science Toolkit lookup (thanks github.com/ejhayes).
+* Add support for Baidu (thanks github.com/mclee).
 * Add Geocoder::Calculations.random_point_near method (thanks github.com/adambray).
 * Fix: #nearbys method with Mongoid (thanks github.com/pascalbetz).
 * Fix: bug in FreeGeoIp lookup that was preventing exception from being raised when configured cache was unavailable.
