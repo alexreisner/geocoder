@@ -13,7 +13,7 @@ module Geocoder
       # Takes a hash of data from a parsed geocoding service response.
       #
       def initialize(data)
-        @data = data
+        @data = data.with_indifferent_access
         @cache_hit = nil
       end
 
