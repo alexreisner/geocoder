@@ -202,7 +202,10 @@ class CalculationsTest < Test::Unit::TestCase
   private # ------------------------------------------------------------------
 
   def assert_nan_coordinates?(value)
-    nan_array = [Geocoder::Calculations::NAN, Geocoder::Calculations::NAN]
-    assert_equal nan_array, value, "Expected value to be [NaN, NaN] but was #{value}"
+    assert value.is_a?(Array) &&
+      value.size == 2 &&
+      value[0].nan? &&
+      value[1].nan?,
+      "Expected value to be [NaN, NaN] but was #{value}"
   end
 end
