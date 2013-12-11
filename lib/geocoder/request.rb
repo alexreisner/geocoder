@@ -5,12 +5,19 @@ module Geocoder
 
     def location
       @location ||= begin
-        detected_ip = env['HTTP_X_REAL_IP'] ||
-          env['HTTP_X_FORWARDED_FOR'] && env['HTTP_X_FORWARDED_FOR'].split(",").first.strip
-
-        real_ip = detected_ip && (detected_ip = IpAddress.new(detected_ip)) && detected_ip.valid? && !detected_ip.loopback? && detected_ip.to_s || self.ip
+        detected_ip = env['HTTP_X_REAL_IP'] || (
+          env['HTTP_X_FORWARDED_FOR'] &&
+          env['HTTP_X_FORWARDED_FOR'].split(",").first.strip
+        )
+        detected_ip = IpAddress.new(detected_ip.to_s)
+        if detected_ip.valid? and !detected_ip.loopback?
+          real_ip = detected_ip.to_s
+        else
+          real_ip = self.ip
+        end
         Geocoder.search(real_ip).first
       end
+      @location
     end
   end
 end
