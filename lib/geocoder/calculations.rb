@@ -265,9 +265,9 @@ module Geocoder
     # * a geocoded object (one which implements a +to_coordinates+ method
     #   which returns a [lat,lon] array
     #
-    def endpoint(start, heading, distance, units=nil)
-      units ||= Geocoder.config.units
-      radius = earth_radius(units)
+    def endpoint(start, heading, distance, options = {})
+      options[:units] ||= Geocoder.config.units
+      radius = earth_radius(options[:units])
 
       start = extract_coordinates(start)
 
