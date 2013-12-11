@@ -208,4 +208,18 @@ class CalculationsTest < Test::Unit::TestCase
       value[1].nan?,
       "Expected value to be [NaN, NaN] but was #{value}"
   end
+
+  def test_endpoint
+    # test 5 time with random coordinates and headings
+    [0..5].each do |i|
+      rheading = [*0..359].sample
+      rdistance = [*0..100].sample
+      startpoint = [45.0906, 7.6596]
+      endpoint = Geocoder::Calculations.endpoint(startpoint, rheading, rdistance)
+      assert_in_delta rdistance, 
+        Geocoder::Calculations.distance_between(startpoint, endpoint, :method => :spherical), 1E-5
+      assert_in_delta rheading, 
+        Geocoder::Calculations.bearing_between(startpoint, endpoint, :method => :spherical), 1E-2
+    end
+  end
 end
