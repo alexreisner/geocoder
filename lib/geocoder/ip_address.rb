@@ -1,7 +1,8 @@
 module Geocoder
   class IpAddress < String
+
     def loopback?
-      (self == "0.0.0.0" or self.match(/\A127/))
+      valid? and (self == "0.0.0.0" or self.match(/\A127\./))
     end
 
     def valid?
