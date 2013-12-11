@@ -2,6 +2,7 @@ rvm:
   - 1.8.7
   - 1.9.2
   - 1.9.3
+  - 2.0.0
   - jruby-19mode
 gemfile:
   - Gemfile
@@ -16,6 +17,9 @@ matrix:
       gemfile: Gemfile
       env: SSL_CERT_DIR=/etc/ssl/certs
     - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.mongoid-2.4.x
+      env: SSL_CERT_DIR=/etc/ssl/certs
+    - rvm: 2.0.0
       gemfile: gemfiles/Gemfile.mongoid-2.4.x
       env: SSL_CERT_DIR=/etc/ssl/certs
     - rvm: jruby-19mode
