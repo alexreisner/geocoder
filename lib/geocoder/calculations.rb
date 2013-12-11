@@ -26,6 +26,11 @@ module Geocoder
     #
     KM_IN_NM = 0.539957
 
+    ##
+    # Conversion factor: multiply by radians to get degrees.
+    #
+    DEGREES_PER_RADIAN = 57.2957795
+
     # Not a number constant
     NAN = defined?(::Float::NAN) ? ::Float::NAN : 0 / 0.0
 
