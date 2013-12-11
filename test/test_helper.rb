@@ -275,12 +275,6 @@ class Test::Unit::TestCase
     }[abbrev]
   end
 
-  def is_nan_coordinates?(coordinates)
-    return false unless coordinates.respond_to? :size # Should be an array
-    return false unless coordinates.size == 2 # Should have dimension 2
-    coordinates[0].nan? && coordinates[1].nan? # Both coordinates should be NaN
-  end
-
   def set_api_key!(lookup_name)
     lookup = Geocoder::Lookup.get(lookup_name)
     if lookup.required_api_key_parts.size == 1
