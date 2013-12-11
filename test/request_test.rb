@@ -26,4 +26,9 @@ class RequestTest < Test::Unit::TestCase
     req = MockRequest.new({}, "74.200.247.59")
     assert req.location.is_a?(Geocoder::Result::Freegeoip)
   end
+
+  def test_with_loopback_x_forwarded_for
+    req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => "127.0.0.1"}, "74.200.247.59")
+    assert_equal "US", req.location.country_code
+  end
 end
