@@ -3,9 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-1.1.9 (TBD)
+1.1.9 (2013 Dec 11)
 -------------------
 
+* DEPRECATED support for Ruby 1.8.x. Will be dropped in a future version.
 * Require API key for MapQuest (thanks github.com/robdiciuccio).
 * Add support for geocoder.us and HTTP basic auth (thanks github.com/komba).
 * Add support for Data Science Toolkit lookup (thanks github.com/ejhayes).
