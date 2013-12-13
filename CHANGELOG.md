@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+Next Release
+------------
+
+* Fix: Yandex city (thanks github.com/dblock).
+
 1.1.9 (2013 Dec 11)
 -------------------
 
