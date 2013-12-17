@@ -17,7 +17,7 @@ class ResultTest < Test::Unit::TestCase
       Geocoder.configure(:lookup => :yandex)
       set_api_key!(:yandex)
       result = Geocoder.search("no city and town").first
-      assert_equal "New York", result.city
+      assert_equal "", result.city
     end
   end
 
