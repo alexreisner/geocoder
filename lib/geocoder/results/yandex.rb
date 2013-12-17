@@ -70,8 +70,8 @@ module Geocoder::Result
     end
 
     def sub_state_city
-      if sub_state && sub_state["Locality"]
-        sub_state['Locality']['LocalityName']
+      if !sub_state.empty? and address_details['AdministrativeArea']['SubAdministrativeArea'].has_key? 'Locality'
+        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['LocalityName']
       else
         ""
       end
