@@ -9,7 +9,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://freegeoip.net/json/#{query.sanitized_text}"
+      "#{protocol}://#{host}/json/#{query.sanitized_text}"
     end
 
     private # ---------------------------------------------------------------
@@ -38,6 +38,10 @@ module Geocoder::Lookup
         "country_name" => "Reserved",
         "country_code" => "RD"
       }
+    end
+
+    def host
+      configuration[:host] || "freegeoip.net"
     end
   end
 end

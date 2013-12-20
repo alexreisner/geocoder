@@ -182,6 +182,13 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal "Plano, TX 75093, United States", result.address
   end
 
+  def test_freegeoip_host_config
+    Geocoder.configure(:lookup => :freegeoip, :freegeoip => {:host => "local.com"})
+    lookup = Geocoder::Lookup::Freegeoip.new
+    query = Geocoder::Query.new("24.24.24.23")
+    assert_match %r(http://local\.com), lookup.query_url(query)
+  end
+
   # --- MaxMind ---
 
   def test_maxmind_result_on_ip_address_search
