@@ -102,6 +102,17 @@ Geocoder will print warnings if you exceed the rate limit for your geocoding ser
 
     rake geocode:all CLASS=YourModel sleep=0.25
 
+### Avoiding Unnecessary API Requests
+
+Geocoding only needs to be performed under certain conditions. To avoid unnecessary work (and quota usage) you will probably want to geocode an object only when:
+
+* an address is present
+* the address has been changed since last save (or it has never been saved)
+
+The exact code will vary depending on the method you use for your geocodable string, but it would be something like this:
+
+    after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
+
 
 Request Geocoding by IP Address
 -------------------------------
