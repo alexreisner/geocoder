@@ -32,7 +32,7 @@ module Geocoder::Store
         # Find all objects within a radius of the given location.
         # Location may be either a string to geocode or an array of
         # coordinates (<tt>[lat,lon]</tt>). Also takes an options hash
-        # (see Geocoder::Store::ActiveRecord::ClassMethods.near_scope_options
+        # (see Geocoder::Orm::ActiveRecord::ClassMethods.near_scope_options
         # for details).
         #
         scope :near, lambda{ |location, *args|
@@ -105,8 +105,6 @@ module Geocoder::Store
       # * +:order+           - column(s) for ORDER BY SQL clause; default is distance;
       #                        set to false or nil to omit the ORDER BY clause
       # * +:exclude+         - an object to exclude (used by the +nearbys+ method)
-      # * +:distance_column+ - used to set the column name of the calculated distance.
-      # * +:bearing_column+  - used to set the column name of the calculated bearing.
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         if options[:units]
@@ -118,8 +116,6 @@ module Geocoder::Store
         select_bearing = options.fetch(:select_bearing, true)
         bearing = bearing_sql(latitude, longitude, options)
         distance = distance_sql(latitude, longitude, options)
-        distance_column = options.fetch(:distance_column, 'distance')
-        bearing_column = options.fetch(:bearing_column, 'bearing')
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         args = b + [
@@ -130,17 +126,15 @@ module Geocoder::Store
 
         if using_sqlite?
           conditions = bounding_box_conditions
-        else
+        elsif radius
           conditions = [bounding_box_conditions + " AND #{distance} <= ?", radius]
         end
         {
           :select => select_clause(options[:select],
                                    select_distance ? distance : nil,
-                                   select_bearing ? bearing : nil,
-                                   distance_column,
-                                   bearing_column),
+                                   select_bearing ? bearing : nil),
           :conditions => add_exclude_condition(conditions, options[:exclude]),
-          :order => options.include?(:order) ? options[:order] : "#{distance_column} ASC"
+          :order => options.include?(:order) ? options[:order] : "distance ASC"
         }
       end
 
@@ -182,7 +176,7 @@ module Geocoder::Store
       ##
       # Generate the SELECT clause.
       #
-      def select_clause(columns, distance = nil, bearing = nil, distance_column = 'distance', bearing_column = 'bearing')
+      def select_clause(columns, distance = nil, bearing = nil)
         if columns == :id_only
           return full_column_name(primary_key)
         elsif columns == :geo_only
@@ -192,11 +186,11 @@ module Geocoder::Store
         end
         if distance
           clause += ", " unless clause.empty?
-          clause += "#{distance} AS #{distance_column}"
+          clause += "#{distance} AS distance"
         end
         if bearing
           clause += ", " unless clause.empty?
-          clause += "#{bearing} AS #{bearing_column}"
+          clause += "#{bearing} AS bearing"
         end
         clause
       end
