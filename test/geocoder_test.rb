@@ -63,6 +63,12 @@ class GeocoderTest < Test::Unit::TestCase
     assert_equal Geocoder::Result::Nominatim, v.result_class
   end
 
+  def test_geocode_with_custom_lookup_proc_param
+    v = BigChurch.new(*venue_params(:msg))
+    v.geocode
+    assert_equal Geocoder::Result::Nominatim, v.result_class
+  end
+
   def test_reverse_geocode_with_custom_lookup_param
     v = Temple.new(*landmark_params(:msg))
     v.reverse_geocode
