@@ -101,7 +101,8 @@ module Geocoder
           return
         end
 
-        results = Geocoder.search(query)
+        query_options = [:lookup, :ip_lookup].inject({}){|hash, key| hash[key] = options[key] if options.has_key?(key); hash }
+        results = Geocoder.search(query, query_options)
 
         # execute custom block, if specified in configuration
         block_key = reverse ? :reverse_block : :geocode_block

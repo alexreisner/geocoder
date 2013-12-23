@@ -56,4 +56,16 @@ class GeocoderTest < Test::Unit::TestCase
     g.reverse_geocode
     assert_not_nil g.location
   end
+
+  def test_geocode_with_custom_lookup_param
+    v = Church.new(*venue_params(:msg))
+    v.geocode
+    assert_equal Geocoder::Result::Nominatim, v.result_class
+  end
+
+  def test_reverse_geocode_with_custom_lookup_param
+    v = Temple.new(*landmark_params(:msg))
+    v.reverse_geocode
+    assert_equal Geocoder::Result::Nominatim, v.result_class
+  end
 end

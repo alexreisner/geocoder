@@ -19,7 +19,8 @@ module Geocoder
           :geocode_block => block,
           :units         => options[:units],
           :method        => options[:method],
-          :skip_index    => options[:skip_index] || false
+          :skip_index    => options[:skip_index] || false,
+          :lookup        => options[:lookup]
         )
       end
 
@@ -34,7 +35,8 @@ module Geocoder
           :reverse_block   => block,
           :units           => options[:units],
           :method          => options[:method],
-          :skip_index      => options[:skip_index] || false
+          :skip_index      => options[:skip_index] || false,
+          :lookup          => options[:lookup]
         )
       end
 

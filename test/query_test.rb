@@ -42,4 +42,9 @@ class QueryTest < Test::Unit::TestCase
     q = Geocoder::Query.new([43.1313,11.3131])
     assert_equal "43.1313,11.3131", q.sanitized_text
   end
+
+  def test_custom_lookup
+    query = Geocoder::Query.new("address", :lookup => :nominatim)
+    assert_equal Geocoder::Lookup::Nominatim, query.lookup.class
+  end
 end
