@@ -238,6 +238,11 @@ When querying for objects (if you're using ActiveRecord) you can also look withi
 
 This can also dramatically improve query performance, especially when used in conjunction with indexes on the latitude/longitude columns. Note, however, that returned results do not include `distance` and `bearing` attributes. Note that `#near` performs both bounding box and radius queries for speed.
 
+You can also specify a minimum radius (if you're using ActiveRecord and not Sqlite) to constrain the 
+lower bound (ie. think of a donut, or ring) by using the `:min_radius` option:
+
+    box = Geocoder::Calculations.bounding_box(center_point, distance, :min_radius => 10.5)
+
 
 Advanced Geocoding
 ------------------
