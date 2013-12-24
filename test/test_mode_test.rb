@@ -42,6 +42,15 @@ class TestModeTest < Test::Unit::TestCase
     end
   end
 
+  def test_search_with_custom_attributes
+    custom_attributes = mock_attributes.merge(:custom => 'NY, NY')
+    Geocoder::Lookup::Test.add_stub("New York, NY", [custom_attributes])
+
+    result = Geocoder.search("New York, NY").first
+
+    assert_equal 'NY, NY', result.custom
+  end
+
   private
   def mock_attributes
     coordinates = [40.7143528, -74.0059731]
