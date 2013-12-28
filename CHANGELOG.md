@@ -7,6 +7,7 @@ Next Release
 ------------
 
 * Add :lookup option to `Geocoder.search` and `geocoded_by` (thanks github.com/Bonias).
+* Add :min_radius option to `near` scope (thanks github.com/phallstrom).
 * Fix: Yandex city attribute caused exception with certain responses (thanks github.com/dblock).
 
 1.1.9 (2013 Dec 11)
