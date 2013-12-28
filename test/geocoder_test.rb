@@ -4,7 +4,7 @@ require 'test_helper'
 class GeocoderTest < Test::Unit::TestCase
 
   def test_distance_to_returns_float
-    v = Venue.new(*venue_params(:msg))
+    v = Place.new(*geocoded_object_params(:msg))
     v.latitude, v.longitude = [40.750354, -73.993371]
     assert (d = v.distance_to([30, -94])).is_a?(Float)
   end
@@ -26,27 +26,27 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
   def test_geocode_assigns_and_returns_coordinates
-    v = Venue.new(*venue_params(:msg))
+    v = Place.new(*geocoded_object_params(:msg))
     coords = [40.750354, -73.993371]
     assert_equal coords, v.geocode
     assert_equal coords, [v.latitude, v.longitude]
   end
 
   def test_geocode_block_executed_when_no_results
-    v = Event.new("Nowhere", "no results")
+    v = PlaceWithCustomResultsHandling.new("Nowhere", "no results")
     v.geocode
     assert_equal "NOT FOUND", v.coords_string
   end
 
   def test_reverse_geocode_assigns_and_returns_address
-    v = Landmark.new(*landmark_params(:msg))
+    v = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
     address = "4 Penn Plaza, New York, NY 10001, USA"
     assert_equal address, v.reverse_geocode
     assert_equal address, v.address
   end
 
   def test_forward_and_reverse_geocoding_on_same_model_works
-    g = GasStation.new("Exxon")
+    g = PlaceWithForwardAndReverseGeocoding.new("Exxon")
     g.address = "404 New St, Middletown, CT"
     g.geocode
     assert_not_nil g.lat
@@ -58,19 +58,19 @@ class GeocoderTest < Test::Unit::TestCase
   end
 
   def test_geocode_with_custom_lookup_param
-    v = Church.new(*venue_params(:msg))
+    v = PlaceWithCustomLookup.new(*geocoded_object_params(:msg))
     v.geocode
     assert_equal Geocoder::Result::Nominatim, v.result_class
   end
 
   def test_geocode_with_custom_lookup_proc_param
-    v = BigChurch.new(*venue_params(:msg))
+    v = PlaceWithCustomLookupProc.new(*geocoded_object_params(:msg))
     v.geocode
     assert_equal Geocoder::Result::Nominatim, v.result_class
   end
 
   def test_reverse_geocode_with_custom_lookup_param
-    v = Temple.new(*landmark_params(:msg))
+    v = PlaceReverseGeocodedWithCustomLookup.new(*reverse_geocoded_object_params(:msg))
     v.reverse_geocode
     assert_equal Geocoder::Result::Nominatim, v.result_class
   end

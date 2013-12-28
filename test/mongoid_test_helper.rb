@@ -18,7 +18,7 @@ end
 ##
 # Geocoded model.
 #
-class Place
+class PlaceUsingMongoid
   include Mongoid::Document
   include Geocoder::Model::Mongoid
 
@@ -34,7 +34,7 @@ class Place
   end
 end
 
-class PlaceWithoutIndex
+class PlaceUsingMongoidWithoutIndex
   include Mongoid::Document
   include Geocoder::Model::Mongoid
 

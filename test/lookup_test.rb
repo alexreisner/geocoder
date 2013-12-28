@@ -82,7 +82,7 @@ class LookupTest < Test::Unit::TestCase
   def test_does_not_choke_on_nil_address
     Geocoder::Lookup.all_services.each do |l|
       Geocoder.configure(:lookup => l)
-      assert_nothing_raised { Venue.new("Venue", nil).geocode }
+      assert_nothing_raised { Place.new("Place", nil).geocode }
     end
   end
 

@@ -162,7 +162,7 @@ end
 ##
 # Geocoded model.
 #
-class Venue < ActiveRecord::Base
+class Place < ActiveRecord::Base
   geocoded_by :address
 
   def initialize(name, address)
@@ -176,7 +176,7 @@ end
 # Geocoded model.
 # - Has user-defined primary key (not just 'id')
 #
-class VenuePlus < Venue
+class PlaceWithCustomPrimaryKey < Place
 
   class << self
     def primary_key
@@ -186,10 +186,7 @@ class VenuePlus < Venue
 
 end
 
-##
-# Reverse geocoded model.
-#
-class Landmark < ActiveRecord::Base
+class PlaceReverseGeocoded < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude
 
   def initialize(name, latitude, longitude)
@@ -200,10 +197,7 @@ class Landmark < ActiveRecord::Base
   end
 end
 
-##
-# Geocoded model with block.
-#
-class Event < ActiveRecord::Base
+class PlaceWithCustomResultsHandling < ActiveRecord::Base
   geocoded_by :address do |obj,results|
     if result = results.first
       obj.coords_string = "#{result.latitude},#{result.longitude}"
@@ -219,10 +213,7 @@ class Event < ActiveRecord::Base
   end
 end
 
-##
-# Reverse geocoded model with block.
-#
-class Party < ActiveRecord::Base
+class PlaceReverseGeocodedWithCustomResultsHandling < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude do |obj,results|
     if result = results.first
       obj.country = result.country_code
@@ -237,11 +228,7 @@ class Party < ActiveRecord::Base
   end
 end
 
-##
-# Forward and reverse geocoded model.
-# Should fill in whatever's missing (coords or address).
-#
-class GasStation < ActiveRecord::Base
+class PlaceWithForwardAndReverseGeocoding < ActiveRecord::Base
   geocoded_by :address, :latitude => :lat, :longitude => :lon
   reverse_geocoded_by :lat, :lon, :address => :location
 
@@ -251,10 +238,7 @@ class GasStation < ActiveRecord::Base
   end
 end
 
-##
-# Geocoded model with custom lookup.
-#
-class Church < ActiveRecord::Base
+class PlaceWithCustomLookup < ActiveRecord::Base
   geocoded_by :address, :lookup => :nominatim do |obj,results|
     if result = results.first
       obj.result_class = result.class
@@ -268,10 +252,7 @@ class Church < ActiveRecord::Base
   end
 end
 
-##
-# Geocoded model with custom lookup as proc.
-#
-class BigChurch < ActiveRecord::Base
+class PlaceWithCustomLookupProc < ActiveRecord::Base
   geocoded_by :address, :lookup => lambda{|obj| obj.custom_lookup } do |obj,results|
     if result = results.first
       obj.result_class = result.class
@@ -289,10 +270,7 @@ class BigChurch < ActiveRecord::Base
   end
 end
 
-##
-# Reverse geocoded model with custom lookup.
-#
-class Temple < ActiveRecord::Base
+class PlaceReverseGeocodedWithCustomLookup < ActiveRecord::Base
   reverse_geocoded_by :latitude, :longitude, :lookup => :nominatim do |obj,results|
     if result = results.first
       obj.result_class = result.class
@@ -319,13 +297,13 @@ class Test::Unit::TestCase
     load "geocoder/configuration.rb"
   end
 
-  def venue_params(abbrev)
+  def geocoded_object_params(abbrev)
     {
       :msg => ["Madison Square Garden", "4 Penn Plaza, New York, NY"]
     }[abbrev]
   end
 
-  def landmark_params(abbrev)
+  def reverse_geocoded_object_params(abbrev)
     {
       :msg => ["Madison Square Garden", 40.750354, -73.993371]
     }[abbrev]

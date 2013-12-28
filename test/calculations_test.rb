@@ -56,7 +56,7 @@ class CalculationsTest < Test::Unit::TestCase
 
   def test_geographic_center_with_mixed_arguments
     p1 = [0, 0]
-    p2 = Landmark.new("Some Cold Place", 0, 1)
+    p2 = PlaceReverseGeocoded.new("Some Cold Place", 0, 1)
     assert_equal [0.0, 0.5], Geocoder::Calculations.geographic_center([p1, p2])
   end
 
@@ -89,7 +89,7 @@ class CalculationsTest < Test::Unit::TestCase
     dlon = radius / Geocoder::Calculations.latitude_degree_distance
     dlat = radius / Geocoder::Calculations.longitude_degree_distance(center[0])
     corners = [50.86, 6.77, 51.14, 7.23]
-    obj = Landmark.new("Cologne", center[0], center[1])
+    obj = PlaceReverseGeocoded.new("Cologne", center[0], center[1])
     assert_equal corners.map{ |i| (i * 100).round },
       Geocoder::Calculations.bounding_box(obj, radius).map{ |i| (i * 100).round }
   end
@@ -153,23 +153,23 @@ class CalculationsTest < Test::Unit::TestCase
   end
 
   def test_spherical_bearing_to
-    l = Landmark.new(*landmark_params(:msg))
+    l = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
     assert_equal 324, l.bearing_to([50,-85], :method => :spherical).round
   end
 
   def test_spherical_bearing_from
-    l = Landmark.new(*landmark_params(:msg))
+    l = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
     assert_equal 136, l.bearing_from([50,-85], :method => :spherical).round
   end
 
   def test_linear_bearing_from_and_to_are_exactly_opposite
-    l = Landmark.new(*landmark_params(:msg))
+    l = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
     assert_equal l.bearing_from([50,-86.1]), l.bearing_to([50,-86.1]) - 180
   end
 
   def test_extract_coordinates
     coords = [-23,47]
-    l = Landmark.new("Madagascar", coords[0], coords[1])
+    l = PlaceReverseGeocoded.new("Madagascar", coords[0], coords[1])
     assert_equal coords, Geocoder::Calculations.extract_coordinates(l)
     assert_equal coords, Geocoder::Calculations.extract_coordinates(coords)
   end

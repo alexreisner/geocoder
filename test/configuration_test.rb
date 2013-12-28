@@ -46,11 +46,11 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def test_model_configuration
-    Landmark.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :km
-    assert_equal :km,        Landmark.geocoder_options[:units]
-    assert_equal :spherical, Landmark.geocoder_options[:method]
+    PlaceReverseGeocoded.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :km
+    assert_equal :km,        PlaceReverseGeocoded.geocoder_options[:units]
+    assert_equal :spherical, PlaceReverseGeocoded.geocoder_options[:method]
 
-    v = Landmark.new(*landmark_params(:msg))
+    v = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
     v.latitude  = 0
     v.longitude = 0
     assert_equal 111, v.distance_to([0,1]).round
@@ -60,7 +60,7 @@ class ConfigurationTest < Test::Unit::TestCase
   end
 
   def test_configuration_chain
-    v = Landmark.new(*landmark_params(:msg))
+    v = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
     v.latitude  = 0
     v.longitude = 0
 
@@ -69,7 +69,7 @@ class ConfigurationTest < Test::Unit::TestCase
     assert_equal 69, v.distance_to([0,1], :mi).round
 
     # per-model configuration > global configuration
-    Landmark.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :mi
+    PlaceReverseGeocoded.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :mi
     assert_equal 69, v.distance_to([0,1]).round
 
     # method option > per-model configuration
