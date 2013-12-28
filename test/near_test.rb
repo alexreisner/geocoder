@@ -10,27 +10,27 @@ class NearTest < Test::Unit::TestCase
   end
 
   def test_near_scope_options_without_sqlite_includes_radius_condition
-    result = Event.send(:near_scope_options, 1.0, 2.0, 5)
+    result = Place.send(:near_scope_options, 1.0, 2.0, 5)
 
     assert_match /BETWEEN \? AND \?$/, result[:conditions][0]
   end
 
   def test_near_scope_options_without_sqlite_includes_radius_default_min_radius
-    result = Event.send(:near_scope_options, 1.0, 2.0, 5)
+    result = Place.send(:near_scope_options, 1.0, 2.0, 5)
 
     assert_equal 0, result[:conditions][1]
     assert_equal 5, result[:conditions][2]
   end
 
   def test_near_scope_options_without_sqlite_includes_radius_custom_min_radius
-    result = Event.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 3)
+    result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 3)
 
     assert_equal 3, result[:conditions][1]
     assert_equal 5, result[:conditions][2]
   end
 
   def test_near_scope_options_without_sqlite_includes_radius_bogus_min_radius
-    result = Event.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 'bogus')
+    result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 'bogus')
 
     assert_equal 0, result[:conditions][1]
     assert_equal 5, result[:conditions][2]
