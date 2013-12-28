@@ -251,6 +251,62 @@ class GasStation < ActiveRecord::Base
   end
 end
 
+##
+# Geocoded model with custom lookup.
+#
+class Church < ActiveRecord::Base
+  geocoded_by :address, :lookup => :nominatim do |obj,results|
+    if result = results.first
+      obj.result_class = result.class
+    end
+  end
+
+  def initialize(name, address)
+    super()
+    write_attribute :name, name
+    write_attribute :address, address
+  end
+end
+
+##
+# Geocoded model with custom lookup as proc.
+#
+class BigChurch < ActiveRecord::Base
+  geocoded_by :address, :lookup => lambda{|obj| obj.custom_lookup } do |obj,results|
+    if result = results.first
+      obj.result_class = result.class
+    end
+  end
+
+  def custom_lookup
+    :nominatim
+  end
+
+  def initialize(name, address)
+    super()
+    write_attribute :name, name
+    write_attribute :address, address
+  end
+end
+
+##
+# Reverse geocoded model with custom lookup.
+#
+class Temple < ActiveRecord::Base
+  reverse_geocoded_by :latitude, :longitude, :lookup => :nominatim do |obj,results|
+    if result = results.first
+      obj.result_class = result.class
+    end
+  end
+
+  def initialize(name, latitude, longitude)
+    super()
+    write_attribute :name, name
+    write_attribute :latitude, latitude
+    write_attribute :longitude, longitude
+  end
+end
+
 
 class Test::Unit::TestCase
 

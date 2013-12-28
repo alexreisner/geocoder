@@ -33,9 +33,9 @@ module Geocoder
     #
     def lookup
       if ip_address?
-        name = Configuration.ip_lookup || Geocoder::Lookup.ip_services.first
+        name = options[:ip_lookup] || Configuration.ip_lookup || Geocoder::Lookup.ip_services.first
       else
-        name = Configuration.lookup || Geocoder::Lookup.street_services.first
+        name = options[:lookup] || Configuration.lookup || Geocoder::Lookup.street_services.first
       end
       Lookup.get(name)
     end
