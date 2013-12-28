@@ -6,7 +6,8 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 Next Release
 ------------
 
-* Fix: Yandex city (thanks github.com/dblock).
+* Add :lookup option to `Geocoder.search` and `geocoded_by` (thanks github.com/Bonias).
+* Fix: Yandex city attribute caused exception with certain responses (thanks github.com/dblock).
 
 1.1.9 (2013 Dec 11)
 -------------------

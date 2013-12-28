@@ -225,6 +225,24 @@ For reverse geocoding you can also specify an alternate name attribute where the
     reverse_geocoded_by :latitude, :longitude, :address => :location  # ActiveRecord
     reverse_geocoded_by :coordinates, :address => :loc                # MongoDB
 
+You can also configure a specific lookup for your model which will override the globally-configured lookup, for example:
+
+    geocoded_by :address, :lookup => :yandex
+
+You can also specify a proc if you want to choose a lookup based on a specific property of an object, for example you can use specialized lookups for different regions:
+
+    geocoded_by :address, :lookup => lambda{ |obj| obj.geocoder_lookup }
+
+    def geocoder_lookup
+      if country_code == "RU"
+        :yandex
+      elsif country_code == "CN"
+        :baidu
+      else
+        :google
+      end
+    end
+
 
 Advanced Querying
 -----------------
