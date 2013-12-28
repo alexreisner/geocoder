@@ -3,9 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-Next Release
-------------
+1.2.0 (TBD)
+-----------
 
+* DROP SUPPORT for Ruby 1.8.x.
 * Add :lookup option to `Geocoder.search` and `geocoded_by` (thanks github.com/Bonias).
 * Fix: Yandex city attribute caused exception with certain responses (thanks github.com/dblock).
 
