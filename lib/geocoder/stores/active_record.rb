@@ -107,6 +107,9 @@ module Geocoder::Store
       # * +:exclude+         - an object to exclude (used by the +nearbys+ method)
       # * +:distance_column+ - used to set the column name of the calculated distance.
       # * +:bearing_column+  - used to set the column name of the calculated bearing.
+      # * +:min_radius+      - the value to use as the minimum radius. 
+      #                        ignored if database is sqlite.
+      #                        default is 0.0
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         if options[:units]
@@ -131,7 +134,8 @@ module Geocoder::Store
         if using_sqlite?
           conditions = bounding_box_conditions
         else
-          conditions = [bounding_box_conditions + " AND #{distance} <= ?", radius]
+          min_radius = options.fetch(:min_radius, 0).to_f
+          conditions = [bounding_box_conditions + " AND (#{distance}) BETWEEN ? AND ?", min_radius, radius]
         end
         {
           :select => select_clause(options[:select],
