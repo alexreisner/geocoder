@@ -4,11 +4,11 @@ module Geocoder::Result
   class Baidu < Base
 
     def coordinates
-      ['lat', 'lng'].map{ |i| @data['location'][i] }
+      from_ip_geocoding? ? [content['point']['y'], content['point']['x']] : ['lat', 'lng'].map{ |i| @data['location'][i] }
     end
 
     def address
-      @data['formatted_address']
+      from_ip_geocoding? ? @data['address'] : @data['formatted_address']
     end
 
     def state
@@ -16,27 +16,31 @@ module Geocoder::Result
     end
     
     def province
-      @data['addressComponent']['province']
+      from_ip_geocoding? ? content['province'] : @data['addressComponent']['province']
     end
 
     def city
-      @data['addressComponent']['city']
+      from_ip_geocoding? ? content['city'] : @data['addressComponent']['city']
     end
 
     def district
-      @data['addressComponent']['district']
+      from_ip_geocoding? ? content['district'] : @data['addressComponent']['district']
     end
 
     def street
-      @data['addressComponent']['street']
+      from_ip_geocoding? ? content['street'] : @data['addressComponent']['street']
     end
 
     def street_number
-      @data['addressComponent']['street_number']
+      from_ip_geocoding? ? content['street_number'] : @data['addressComponent']['street_number']
     end
 
     def formatted_address
       @data['formatted_address']
+    end
+
+    def content
+      @data['content']
     end
 
     def address_components
@@ -57,6 +61,9 @@ module Geocoder::Result
 
     def country_code
       "CN"
+    end
+
+    def from_ip_geocoding?
     end
 
     ##

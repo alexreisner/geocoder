@@ -13,7 +13,11 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://api.map.baidu.com/geocoder/v2/?" + url_query_string(query)
+      if query.ip_address?
+        "http://api.map.baidu.com/location/ip?" + url_query_string(query)
+      else
+        "http://api.map.baidu.com/geocoder/v2/?" + url_query_string(query)
+      end
     end
 
     private # ---------------------------------------------------------------
@@ -21,7 +25,11 @@ module Geocoder::Lookup
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query)
       case doc['status']; when 0
-        return [doc['result']] unless doc['result'].blank?
+        if query.ip_address?
+          return [doc]
+        else
+          return [doc['result']] unless doc['result'].blank?
+        end
       when 1, 3, 4
         raise_error(Geocoder::Error, messages) ||
           warn("Baidu Geocoding API error: server error.")
@@ -43,10 +51,20 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       {
-        (query.reverse_geocode? ? :location : :address) => query.sanitized_text,
+        (query_key(query)) => query.sanitized_text,
         :ak => configuration.api_key,
         :output => "json"
       }.merge(super)
+    end
+
+    def query_key(query)
+      if query.ip_address?
+        :ip
+      elsif query.reverse_geocode
+        :location
+      else
+        :address
+      end
     end
 
   end
