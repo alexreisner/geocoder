@@ -39,6 +39,10 @@ module Geocoder::Result
       @data['formatted_address']
     end
 
+    def content
+      @data['content']
+    end
+
     def address_components
       @data['addressComponent']
     end
