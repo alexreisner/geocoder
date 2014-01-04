@@ -156,6 +156,16 @@ module Geocoder
         "baidu_shanghai_pearl_tower"
       end
     end
+
+    class Baiduip
+      private
+      def fixture_prefix
+        "baiduip"
+      end
+      def default_fixture_filename
+        "baiduip_202_198_16_3"
+      end
+    end
   end
 end
 
