@@ -1,0 +1,19 @@
+{
+  "address": "CN|北京|北京|None|CHINANET|1|None",
+  "content": {
+    "address": "北京市", 
+    "address_detail": {
+      "city": "北京市",
+      "city_code": 131,
+    "district": "", 
+    "province": "北京市",
+    "street": "",
+    "street_number": ""
+    },
+    "point": {
+      "x": "116.39564504",
+      "y": "39.92998578"
+    }
+  },
+  "status": 0
+} 
