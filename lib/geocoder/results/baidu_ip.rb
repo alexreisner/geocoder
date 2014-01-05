@@ -1,7 +1,7 @@
 require 'geocoder/results/base'
 
 module Geocoder::Result
-  class Baiduip < Base
+  class BaiduIp < Base
     def coordinates
       [point['y'].to_f, point['x'].to_f]
     end
@@ -13,7 +13,7 @@ module Geocoder::Result
     def state
       province
     end
-    
+
     def province
       address_detail['province']
     end

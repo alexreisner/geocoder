@@ -157,13 +157,13 @@ module Geocoder
       end
     end
 
-    class Baiduip
+    class BaiduIp
       private
       def fixture_prefix
-        "baiduip"
+        "baidu_ip"
       end
       def default_fixture_filename
-        "baiduip_202_198_16_3"
+        "baidu_ip_202_198_16_3"
       end
     end
   end

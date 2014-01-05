@@ -1,11 +1,11 @@
 require 'geocoder/lookups/base'
-require 'geocoder/results/baiduip'
+require 'geocoder/results/baidu_ip'
 
 module Geocoder::Lookup
-  class Baiduip < Base
+  class BaiduIp < Base
 
     def name
-      "BaiduIP"
+      "Baidu IP"
     end
 
     def required_api_key_parts

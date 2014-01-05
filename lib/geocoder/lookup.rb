@@ -42,7 +42,11 @@ module Geocoder
     # All IP address lookup services, default first.
     #
     def ip_services
-      [:freegeoip, :maxmind, :baiduip]
+      [
+        :freegeoip,
+        :maxmind,
+        :baidu_ip
+      ]
     end
 
     ##
