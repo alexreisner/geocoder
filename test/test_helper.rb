@@ -149,9 +149,6 @@ module Geocoder
 
     class Baidu
       private
-      def fixture_prefix
-        "baidu"
-      end
       def default_fixture_filename
         "baidu_shanghai_pearl_tower"
       end
@@ -159,9 +156,6 @@ module Geocoder
 
     class BaiduIp
       private
-      def fixture_prefix
-        "baidu_ip"
-      end
       def default_fixture_filename
         "baidu_ip_202_198_16_3"
       end
