@@ -3,9 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-Next Release
-------------
+1.2.0 (TBD)
+-----------
 
+* DROP SUPPORT for Ruby 1.8.x.
 * Add :lookup option to `Geocoder.search` and `geocoded_by` (thanks github.com/Bonias).
 * Add :baidu_ip lookup (thanks github.com/yonggu).
 * Add :min_radius option to `near` scope (thanks github.com/phallstrom).
