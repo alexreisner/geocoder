@@ -329,7 +329,7 @@ Please see the [source code for each lookup](https://github.com/alexreisner/geoc
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
 
 
-### Listing and Comparison
+### Street Address Services
 
 The following is a comparison of the supported geocoding APIs. The "Limitations" listed for each are a very brief and incomplete summary of some special limitations beyond basic data source attribution. Please read the official Terms of Service for a service before using it.
 
@@ -471,6 +471,20 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Limitations**: No reverse geocoding.
 * **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(:lookup => :dstk, :host => "localhost:4567")`.
 
+#### Baidu (`:baidu`)
+
+* **API key**: required
+* **Quota**: No quota limits for geocoding
+* **Region**: China
+* **SSL support**: no
+* **Languages**: Chinese (Simplified)
+* **Documentation**: http://developer.baidu.com/map/webservice-geocoding.htm
+* **Terms of Service**: http://developer.baidu.com/map/law.htm
+* **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
+* **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu, :api_key => "your_api_key")`.
+
+### IP Address Services
+
 #### FreeGeoIP (`:freegeoip`)
 
 * **API key**: none
@@ -494,7 +508,7 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
 
-#### Baidu (`:baidu`)
+#### Baidu IP (`:baidu_ip`)
 
 * **API key**: required
 * **Quota**: No quota limits for geocoding
@@ -504,7 +518,8 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Documentation**: http://developer.baidu.com/map/webservice-geocoding.htm
 * **Terms of Service**: http://developer.baidu.com/map/law.htm
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
-* **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu, :api_key => "your_api_key")`.
+* **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
+
 
 Caching
 -------
