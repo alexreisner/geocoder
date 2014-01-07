@@ -29,6 +29,12 @@ module Geocoder::Result
       return nil # no appropriate components found
     end
 
+    def district
+      if district = address_components_of_type(:sublocality).first
+        district['long_name']
+      end
+    end
+
     def state
       if state = address_components_of_type(:administrative_area_level_1).first
         state['long_name']
