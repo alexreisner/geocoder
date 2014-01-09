@@ -49,7 +49,7 @@ class OauthUtil
     key = percent_encode( @consumer_secret ) + '&' + percent_encode( @token_secret )
 
     # ref: http://blog.nathanielbibler.com/post/63031273/openssl-hmac-vs-ruby-hmac-benchmarks
-    digest = OpenSSL::Digest::Digest.new( 'sha1' )
+    digest = OpenSSL::Digest.new( 'sha1' )
     hmac = OpenSSL::HMAC.digest( digest, key, @base_str )
 
     # ref http://groups.google.com/group/oauth-ruby/browse_thread/thread/9110ed8c8f3cae81

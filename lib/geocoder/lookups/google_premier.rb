@@ -31,7 +31,7 @@ module Geocoder::Lookup
 
     def sign(string)
       raw_private_key = url_safe_base64_decode(configuration.api_key[0])
-      digest = OpenSSL::Digest::Digest.new('sha1')
+      digest = OpenSSL::Digest.new('sha1')
       raw_signature = OpenSSL::HMAC.digest(digest, raw_private_key, string)
       url_safe_base64_encode(raw_signature)
     end
