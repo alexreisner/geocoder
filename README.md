@@ -508,6 +508,20 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
 
+#### MaxMind Local (`:maxmind_local`)
+
+* **API key**: none (requires the GeoLite City database which can be downloaded from [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/))
+* **Quota**: none
+* **Region**: world
+* **SSL support**: N/A
+* **Languages**: English
+* **Documentation**: http://www.maxmind.com/en/city
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: You must add the **geoip** gem to your Gemfile or have it installed in your system. You also have to specify the path of the MaxMind database in your configuration. For example:
+ 
+`Geocoder.configure(:ip_lookup => :maxmind_local, :maxmind_local => {:database => File.join('folder', 'GeoLiteCity.dat')})`
+
 #### Baidu IP (`:baidu_ip`)
 
 * **API key**: required

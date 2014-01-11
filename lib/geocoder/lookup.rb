@@ -45,6 +45,7 @@ module Geocoder
       [
         :freegeoip,
         :maxmind,
+        :maxmind_local,
         :baidu_ip
       ]
     end

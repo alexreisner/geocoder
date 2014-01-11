@@ -4,6 +4,7 @@ group :development, :test do
   gem 'rake'
   gem 'mongoid', '2.6.0'
   gem 'bson_ext', :platforms => :ruby
+  gem 'geoip'
 
   gem 'rails'
 
