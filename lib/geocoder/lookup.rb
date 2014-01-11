@@ -34,6 +34,7 @@ module Geocoder
         :mapquest,
         :ovi,
         :baidu,
+        :cloudmade,
         :test
       ]
     end
