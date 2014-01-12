@@ -8,6 +8,7 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 
 * DROP SUPPORT for Ruby 1.8.x.
 * Add :lookup option to `Geocoder.search` and `geocoded_by` (thanks github.com/Bonias).
+* Add :cloudmade lookup (thanks github.com/spoptchev).
 * Add :maxmind_local IP lookup (thanks github.com/fernandomm).
 * Add :baidu_ip lookup (thanks github.com/yonggu).
 * Add :min_radius option to `near` scope (thanks github.com/phallstrom).
