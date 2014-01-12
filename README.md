@@ -486,6 +486,17 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu, :api_key => "your_api_key")`.
 
+#### CloudMade (`:cloudmade`)
+
+* **API key**: required
+* **Quota**: 100,000 free requests, then purchase 100,000 more for $15
+* **Region**: world
+* **SSL support**: yes ($5 per 100,000 requests)
+* **Languages**: en
+* **Documentation**: http://cloudmade.com/documentation/geocoding
+* **Terms of Service**: http://cloudmade.com/api-terms-of-service
+* **Limitations**: ?
+
 ### IP Address Services
 
 #### FreeGeoIP (`:freegeoip`)
