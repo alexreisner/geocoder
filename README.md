@@ -292,10 +292,10 @@ Every `Geocoder::Result` object, `result`, provides the following data:
 If you're familiar with the results returned by the geocoding service you're using you can access even more data, but you'll need to be familiar with the particular `Geocoder::Result` object you're using and the structure of your geocoding service's responses. (See below for links to geocoding service documentation.)
 
 
-Geocoding Services
-------------------
+Geocoding Service ("Lookup") Configuration
+------------------------------------------
 
-By default Geocoder uses Google's geocoding API to fetch coordinates and street addresses (FreeGeoIP is the default for IP address info). However there are several other APIs supported, as well as a variety of settings. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
+Geocoder supports a variety of street and IP address geocoding services. The default lookups are `:google` for street addresses and `:freegeoip` for IP addresses. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
 
     # config/initializers/geocoder.rb
     Geocoder.configure(
@@ -330,6 +330,31 @@ Please see the [source code for each lookup](https://github.com/alexreisner/geoc
 
     # with Nominatim:
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
+
+You can also configure multiple geocoding services at once, like this:
+
+    Geocoder.configure(
+
+      :timeout => 2,
+      :cache => Redis.new,
+
+      :yandex => {
+        :api_key => "...",
+        :timeout => 5
+      },
+
+      :baidu => {
+        :api_key => "..."
+      },
+
+      :maxmind => {
+        :api_key => "...",
+        :service => :omni
+      }
+
+    )
+
+The above combines global and service-specific options and could be useful if you specify different geocoding services for different models or under different conditions. Lookup-specific settings override global settings so, for example, in the above the timeout for all lookups would be 2 seconds, except for Yandex which would be 5.
 
 
 ### Street Address Services
