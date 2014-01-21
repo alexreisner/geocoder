@@ -35,6 +35,7 @@ module Geocoder
         :ovi,
         :baidu,
         :cloudmade,
+        :geocodio,
         :test
       ]
     end

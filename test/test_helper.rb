@@ -174,6 +174,12 @@ module Geocoder
       end
     end
 
+    class Geocodio
+      private
+      def default_fixture_filename
+        "geocodio_1101_pennsylvania_ave"
+      end
+    end
   end
 end
 
