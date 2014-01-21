@@ -1,6 +1,8 @@
 Geocoder
 ========
 
+[![Build Status](https://travis-ci.org/alexreisner/geocoder.png?branch=master)](https://travis-ci.org/alexreisner/geocoder)
+
 Geocoder is a complete geocoding solution for Ruby. With Rails it adds geocoding (by street or IP address), reverse geocoding (find street address based on given coordinates), and distance queries. It's as simple as calling `geocode` on your objects, and then using a scope like `Venue.near("Billings, MT")`.
 
 
