@@ -256,7 +256,7 @@ When querying for objects (if you're using ActiveRecord) you can also look withi
 
 This can also dramatically improve query performance, especially when used in conjunction with indexes on the latitude/longitude columns. Note, however, that returned results do not include `distance` and `bearing` attributes. Note that `#near` performs both bounding box and radius queries for speed.
 
-You can also specify a minimum radius (if you're using ActiveRecord and not Sqlite) to constrain the 
+You can also specify a minimum radius (if you're using ActiveRecord and not Sqlite) to constrain the
 lower bound (ie. think of a donut, or ring) by using the `:min_radius` option:
 
     box = Geocoder::Calculations.bounding_box(center_point, distance, :min_radius => 10.5)
@@ -522,6 +522,17 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Terms of Service**: http://cloudmade.com/api-terms-of-service
 * **Limitations**: ?
 
+#### Geocodio (`:geocodio`)
+
+* **API key**: required
+* **Quota**: 2,500 free requests/day then purchase $.001 for each
+* **Region**: US
+* **SSL support**: no
+* **Languages**: en
+* **Documentation**: http://geocod.io/docs
+* **Terms of Service**: http://geocod.io/terms-of-use
+* **Limitations**: ?
+
 ### IP Address Services
 
 #### FreeGeoIP (`:freegeoip`)
@@ -558,7 +569,7 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: You must add the **geoip** gem to your Gemfile or have it installed in your system. You also have to specify the path of the MaxMind database in your configuration. For example:
- 
+
 `Geocoder.configure(:ip_lookup => :maxmind_local, :maxmind_local => {:database => File.join('folder', 'GeoLiteCity.dat')})`
 
 #### Baidu IP (`:baidu_ip`)

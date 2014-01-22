@@ -13,6 +13,7 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 * Add :baidu_ip lookup (thanks github.com/yonggu).
 * Add :min_radius option to `near` scope (thanks github.com/phallstrom).
 * Fix: Yandex city attribute caused exception with certain responses (thanks github.com/dblock).
+* Add support for Geocod.io API (thanks github.com/dblock).
 
 1.1.9 (2013 Dec 11)
 -------------------

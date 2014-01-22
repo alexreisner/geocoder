@@ -397,4 +397,27 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal 2.2956200048981574, result.coordinates[1]
   end
 
+  # --- Geocodio ---
+
+  def test_geocodio_result_components
+    Geocoder.configure(:lookup => :geocodio)
+    set_api_key!(:geocodio)
+    result = Geocoder.search("1101 Pennsylvania Ave NW, Washington DC").first
+    assert_equal 1.0, result.accuracy
+    assert_equal "1101", result.number
+    assert_equal "Ave", result.suffix
+    assert_equal "DC", result.state
+    assert_equal "20004", result.zip
+    assert_equal "NW", result.postdirectional
+    assert_equal "Washington", result.city
+    assert_equal "1101 Pennsylvania Ave NW, Washington DC, 20004", result.formatted_address
+    assert_equal({ "lat" => 38.895019, "lng" => -77.028095 }, result.location)
+  end
+
+  def test_geocodio_no_results
+    Geocoder.configure(:lookup => :geocodio)
+    set_api_key!(:geocodio)
+    results = Geocoder.search("no results")
+    assert_equal 0, results.length
+  end
 end
