@@ -58,7 +58,7 @@ class LookupTest < Test::Unit::TestCase
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
-    [:bing, :yahoo, :yandex, :maxmind].each do |l|
+    [:bing, :yahoo, :yandex, :maxmind, :baidu, :baidu_ip].each do |l|
       lookup = Geocoder::Lookup.get(l)
       assert_raises Geocoder::InvalidApiKey do
         lookup.send(:results, Geocoder::Query.new("invalid key"))
@@ -70,7 +70,7 @@ class LookupTest < Test::Unit::TestCase
     # keep test output clean: suppress timeout warning
     orig = $VERBOSE; $VERBOSE = nil
     #Geocoder::Lookup.all_services_except_test.each do |l|
-    [:bing, :yahoo, :yandex, :maxmind, :cloudmade].each do |l|
+    [:bing, :yahoo, :yandex, :maxmind, :cloudmade, :baidu, :baidu_ip].each do |l|
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
       assert_equal [], Geocoder.search("invalid key")
@@ -91,6 +91,18 @@ class LookupTest < Test::Unit::TestCase
     assert_equal "a=1&b=2", g.send(:hash_to_query, {:a => 1, :b => 2})
   end
 
+  def test_baidu_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    g = Geocoder::Lookup::BaiduIp.new
+    assert_match "ak=MY_KEY", g.query_url(Geocoder::Query.new("232.65.123.94"))
+  end
+
+  def test_baidu_ip_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    g = Geocoder::Lookup::Baidu.new
+    assert_match "ak=MY_KEY", g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
+  end
+
   def test_google_api_key
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::Google.new
@@ -104,9 +116,11 @@ class LookupTest < Test::Unit::TestCase
   end
 
   def test_raises_configuration_error_on_missing_key
-    assert_raises Geocoder::ConfigurationError do
-      Geocoder.configure(:lookup => :bing, :api_key => nil)
-      Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
+    [:bing, :baidu].each do |l|
+      assert_raises Geocoder::ConfigurationError do
+        Geocoder.configure(:lookup => l, :api_key => nil)
+        Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
+      end
     end
   end
 
