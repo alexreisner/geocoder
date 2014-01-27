@@ -44,8 +44,7 @@ class ResultTest < Test::Unit::TestCase
     assert_nothing_raised do
       Geocoder.configure(:lookup => :yandex)
       set_api_key!(:yandex)
-      house_selector = Proc.new{|i| i.data['GeoObject']['metaDataProperty']['GeocoderMetaData']['kind'] == 'house'}
-      result = Geocoder.search("canada rue dupuis 14").select(&house_selector).last
+      result = Geocoder.search("canada rue dupuis 14")[6]
       assert_equal "", result.city
     end
   end
