@@ -30,6 +30,16 @@ class ResultTest < Test::Unit::TestCase
     end
   end
 
+  def test_yandex_result_kind
+    assert_nothing_raised do
+      Geocoder.configure(:lookup => :yandex)
+      set_api_key!(:yandex)
+      ["new york", [45.423733, -75.676333], "no city and town"].each do |query|
+        Geocoder.search("new york").first.kind
+      end
+    end
+  end
+
   private # ------------------------------------------------------------------
 
   def assert_result_has_required_attributes(result)
