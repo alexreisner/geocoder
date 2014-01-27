@@ -40,6 +40,16 @@ class ResultTest < Test::Unit::TestCase
     end
   end
 
+  def test_yandex_result_without_locality_name
+    assert_nothing_raised do
+      Geocoder.configure(:lookup => :yandex)
+      set_api_key!(:yandex)
+      house_selector = Proc.new{|i| i.data['GeoObject']['metaDataProperty']['GeocoderMetaData']['kind'] == 'house'}
+      result = Geocoder.search("canada rue dupuis 14").select(&house_selector).last
+      assert_equal "", result.city
+    end
+  end
+
   private # ------------------------------------------------------------------
 
   def assert_result_has_required_attributes(result)
