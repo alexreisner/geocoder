@@ -233,7 +233,7 @@ module Geocoder
           opts[:use_ssl] = true if configuration.use_https
 
           http_client.start(*args, opts) do |client|
-            resp = client.get(uri.request_uri, configuration.http_headers)
+            client.get(uri.request_uri, configuration.http_headers)
           end
         end
       end
