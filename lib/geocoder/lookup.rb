@@ -33,6 +33,7 @@ module Geocoder
         :nominatim,
         :mapquest,
         :ovi,
+        :here,
         :baidu,
         :cloudmade,
         :geocodio,

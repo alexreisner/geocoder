@@ -478,6 +478,17 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **Terms of Service**: http://www.developer.nokia.com/Develop/Maps/TC.html
 * **Limitations**: ?
 
+#### Here/Nokia (`:here`)
+
+* **API key**: required
+* **Quota**: Depending on the API key
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
+* **Documentation**: http://developer.here.com/rest-apis/documentation/geocoder
+* **Terms of Service**: http://developer.here.com/faqs#l&t
+* **Limitations**: ?
+
 #### ESRI (`:esri`)
 
 * **API key**: none
