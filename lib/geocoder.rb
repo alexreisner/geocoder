@@ -39,14 +39,6 @@ module Geocoder
       results.first.address
     end
   end
-
-  ##
-  # The working Cache object, or +nil+ if none configured.
-  #
-  def cache
-    warn "WARNING: Calling Geocoder.cache is DEPRECATED. The #cache method now belongs to the Geocoder::Lookup object."
-    Geocoder::Lookup.get(Geocoder.config.lookup).cache
-  end
 end
 
 # load Railtie if Rails exists

@@ -23,16 +23,6 @@ class ConfigurationTest < Test::Unit::TestCase
     assert_equal :test, Geocoder.config.units
   end
 
-  def test_setting_with_block_syntax
-    orig = $VERBOSE; $VERBOSE = nil
-    Geocoder.configure do |config|
-      config.units = :test
-    end
-    assert_equal :test, Geocoder.config.units
-  ensure
-    $VERBOSE = orig
-  end
-
   def test_config_for_lookup
     Geocoder.configure(
       :timeout => 5,

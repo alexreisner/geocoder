@@ -14,14 +14,8 @@ module Geocoder
   #   )
   #
   def self.configure(options = nil, &block)
-    if block_given?
-      warn "WARNING: Passing a block to Geocoder.configure is DEPRECATED. Please pass a hash instead (eg: Geocoder.configure(:units => ..., :api_key => ...))."
-      block.call(Configuration.instance)
-    elsif !options.nil?
+    if !options.nil?
       Configuration.instance.configure(options)
-    else
-      warn "WARNING: Use of Geocoder.configure to read or write single config options is DEPRECATED. To write to the config please pass a hash (eg: Geocoder.configure(:units => ...)). To read config options please use the Geocoder.config object (eg: Geocoder.config.units)."
-      Configuration.instance
     end
   end
 
