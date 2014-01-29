@@ -6,11 +6,10 @@ module Geocoder::Lookup
 
     def initialize
       begin
-        require 'geoip'
+        require (RUBY_PLATFORM == 'java' ? 'jgeoip' : 'geoip')
       rescue LoadError => e
         raise 'Could not load geoip dependency. To use MaxMind Local lookup you must add geoip gem to your Gemfile or have it installed in your system.'
       end
-
       super
     end
 
@@ -32,9 +31,7 @@ module Geocoder::Lookup
           "Geocoder.configure(:maxmind_local => {:database => ...}), "
         )
       end
-      
-      result = GeoIP.new(configuration[:database]).city(query.to_s)
-      
+      result = (RUBY_PLATFORM == "java" ? JGeoIP.new(configuration[:database]).city(query.to_s) : GeoIP.new(configuration[:database]).city(query.to_s))
       result.nil? ? [] : [result.to_hash]
     end
   end
