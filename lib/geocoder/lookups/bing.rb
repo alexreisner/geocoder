@@ -23,13 +23,11 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_url(query)
-      ["#{protocol}://dev.virtualearth.net/REST/v1/Locations",
-        query.options[:region],
-        sanitized_text(query)].compact.join("/") + "?"
-    end
-
-    def sanitized_text(query)
-      URI.escape(query.sanitized_text.strip) if !query.reverse_geocode?
+      url = "#{protocol}://dev.virtualearth.net/REST/v1/Locations"
+      if !query.reverse_geocode? and r = query.options[:region]
+        url << "/#{r}"
+      end
+      url + "/" + URI.escape(query.sanitized_text.strip) + "?"
     end
 
     def results(query)
@@ -47,8 +45,7 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       {
-        :key => configuration.api_key,
-        :query => query.reverse_geocode? ? query.sanitized_text : nil
+        key: configuration.api_key
       }.merge(super)
     end
   end
