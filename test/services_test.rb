@@ -264,6 +264,45 @@ class ServicesTest < Test::Unit::TestCase
     assert_equal 0, results.length
   end
 
+  def test_bing_query_url_contains_region
+    lookup = Geocoder::Lookup::Bing.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "manchester",
+      :region => "uk"
+    ))
+    assert_match /Locations\/uk\/manchester/, url
+    assert_no_match /query/, url
+  end
+
+  def test_bing_query_url_without_region
+    lookup = Geocoder::Lookup::Bing.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "manchester"
+    ))
+    assert_match /Locations\/manchester/, url
+    assert_no_match /query/, url
+  end
+
+  def test_bing_query_url_contains_address_with_spaces
+    lookup = Geocoder::Lookup::Bing.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "manchester, lancashire",
+      :region => "uk"
+    ))
+    assert_match /Locations\/uk\/manchester,%20lancashire/, url
+    assert_no_match /query/, url
+  end
+
+  def test_bing_query_url_contains_address_with_trailing_and_leading_spaces
+    lookup = Geocoder::Lookup::Bing.new
+    url = lookup.query_url(Geocoder::Query.new(
+      " manchester, lancashire ",
+      :region => "uk"
+    ))
+    assert_match /Locations\/uk\/manchester,%20lancashire/, url
+    assert_no_match /query/, url
+  end
+
   # --- Nominatim ---
 
   def test_nominatim_result_components
