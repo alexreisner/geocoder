@@ -248,6 +248,12 @@ class ServicesTest < Test::Unit::TestCase
 
   # --- Bing ---
 
+  def test_bing_query_for_reverse_geocode
+    lookup = Geocoder::Lookup::Bing.new
+    url = lookup.query_url(Geocoder::Query.new([45.423733, -75.676333]))
+    assert_match /Locations\/45.423733/, url
+  end
+
   def test_bing_result_components
     Geocoder.configure(:lookup => :bing)
     set_api_key!(:bing)
