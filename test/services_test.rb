@@ -465,4 +465,10 @@ class ServicesTest < Test::Unit::TestCase
     results = Geocoder.search("no results")
     assert_equal 0, results.length
   end
+
+  def test_geocodio_reverse_url
+    query = Geocoder::Query.new([45.423733, -75.676333])
+    lookup = Geocoder::Lookup.get(:geocodio)
+    assert_match /reverse/, lookup.query_url(query)
+  end
 end
