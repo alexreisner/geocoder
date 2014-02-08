@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class CustomBlockTest < Test::Unit::TestCase
+class ModelTest < Test::Unit::TestCase
 
   def test_geocode_with_block_runs_block
     e = PlaceWithCustomResultsHandling.new(*geocoded_object_params(:msg))
@@ -28,5 +28,10 @@ class CustomBlockTest < Test::Unit::TestCase
     e.reverse_geocode
     assert_nil e.address
   end
-end
 
+  def test_units_and_method
+    PlaceReverseGeocoded.reverse_geocoded_by :latitude, :longitude, method: :spherical, units: :km
+    assert_equal :km,        PlaceReverseGeocoded.geocoder_options[:units]
+    assert_equal :spherical, PlaceReverseGeocoded.geocoder_options[:method]
+  end
+end

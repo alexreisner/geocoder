@@ -35,20 +35,6 @@ class ConfigurationTest < Test::Unit::TestCase
     assert_equal "aaa", Geocoder.config_for_lookup(:google).api_key
   end
 
-  def test_model_configuration
-    PlaceReverseGeocoded.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :km
-    assert_equal :km,        PlaceReverseGeocoded.geocoder_options[:units]
-    assert_equal :spherical, PlaceReverseGeocoded.geocoder_options[:method]
-
-    v = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
-    v.latitude  = 0
-    v.longitude = 0
-    assert_equal 111, v.distance_to([0,1]).round
-    v.latitude  = 40.750354
-    v.longitude = -73.993371
-    assert_equal 136, v.bearing_from([50,-85]).round
-  end
-
   def test_configuration_chain
     v = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
     v.latitude  = 0
@@ -59,7 +45,7 @@ class ConfigurationTest < Test::Unit::TestCase
     assert_equal 69, v.distance_to([0,1], :mi).round
 
     # per-model configuration > global configuration
-    PlaceReverseGeocoded.reverse_geocoded_by :latitude, :longitude, :method => :spherical, :units => :mi
+    PlaceReverseGeocoded.reverse_geocoded_by :latitude, :longitude, method: :spherical, units: :mi
     assert_equal 69, v.distance_to([0,1]).round
 
     # method option > per-model configuration
