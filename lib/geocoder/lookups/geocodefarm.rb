@@ -13,10 +13,16 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://www.geocodefarm.com/api/#{direction}/json/#{configuration.api_key}/#{query.sanitized_text}"
+      direction = direction(query)
+      search_parameter = search_parameter(query)
+      base_url + direction(query) + "/json/" + configuration.api_key + "/" + search_parameter
     end
 
     private # ---------------------------------------------------------------
+
+    def base_url
+      "http://www.geocodefarm.com/api/"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)
@@ -24,7 +30,7 @@ module Geocoder::Lookup
       doc = doc['geocoding_results']
 
       if doc['STATUS']['status'] == 'SUCCESS'
-        return doc
+        return [doc]
       elsif doc['STATUS']['status'] == 'FAILED, NO_RESULTS'
         return []
       elsif doc['STATUS']['access'] == "API_KEY_INVALID"
@@ -35,12 +41,25 @@ module Geocoder::Lookup
       return []
     end
 
-    def direction
+    def direction(query)
       if query.reverse_geocode?
         direction = "reverse"
       else
         direction = "forward"
       end
     end
+
+    def search_parameter(query)
+      if query.reverse_geocode?
+        query.coordinates.join('/')
+      else
+        URI.escape(query.sanitized_text)
+      end
+    end
+
+    def search_coordinates(query)
+
+    end
+
   end
 end
