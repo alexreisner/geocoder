@@ -37,6 +37,7 @@ module Geocoder
         :baidu,
         :cloudmade,
         :geocodio,
+        :geocodefarm,
         :test
       ]
     end
@@ -76,7 +77,7 @@ module Geocoder
       else
         valids = all_services.map(&:inspect).join(", ")
         raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
-          "(#{name.inspect} is not one of: #{valids})."
+          "(#{name.inspect} is not one of: #)."
       end
     end
 

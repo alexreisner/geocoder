@@ -1,0 +1,43 @@
+{
+    "geocoding_results": {
+        "LEGAL_COPYRIGHT": {
+            "copyright_notice": "Copyright (c) 2013 Grabenhofen Corporation (Colorado, USA) - All Rights Reserved.",
+            "result_distribution": "UNPERMITTED, UNLICENSED",
+            "copyright_logo": "https:\/\/www.geocodefarm.com\/assets\/img\/logo.png",
+            "terms_of_service": "https:\/\/www.geocodefarm.com\/policies\/terms-of-service\/",
+            "privacy_policy": "https:\/\/www.geocodefarm.com\/policies\/privacy-policy\/"
+        },
+        "STATUS": {
+            "access": "KEY_VALID, ACCESS_GRANTED",
+            "status": "SUCCESS"
+        },
+        "ACCOUNT": {
+            "name": "your name",
+            "email": "name@domain.com",
+            "api_key": "1111111111111111111111111111111111111111",
+            "monthly_due": "0.00",
+            "next_due": "NEVER",
+            "distribution_license": "NONE, UNLICENSED",
+            "usage_limit": "100",
+            "used_today": "5",
+            "remaining_queries": "95"
+        },
+        "PROVIDER": {
+            "provider": "LOCAL_FARM",
+            "import": "ALREADY_STORED"
+        },
+        "ADDRESS": {
+            "address_provided": "4 Pennsylvania Plaza, New York, NY 10001",
+            "address_returned": "4 Pennsylvania Plaza, New York, NY 10001, USA",
+            "accuracy": "VERY ACCURATE"
+        },
+        "COORDINATES": {
+            "latitude": "40.7508707997060",
+            "longitude": "-73.9942661454621"
+        },
+        "STATISTICS": {
+            "load_time": "0.22",
+            "https_ssl": "DISABLED, INSECURE"
+        }
+    }
+}
