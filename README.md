@@ -366,6 +366,14 @@ The above combines global and service-specific options and could be useful if yo
 
 The following is a comparison of the supported geocoding APIs. The "Limitations" listed for each are a very brief and incomplete summary of some special limitations beyond basic data source attribution. Please read the official Terms of Service for a service before using it.
 
+#### Geocodefarm (`:geocodefarm`)
+
+* **API key**: required
+* **Quality**: Returned as descriptive string. Ex: Unknown Accuracy, Very Accurate
+* **Documentation**: https://geocodefarm.com/dashboard/documentation/
+
+ **Notes**: To use Geocodefarm set `Geocoder.configure(:lookup => :geocodefarm, :api_key => '12345')`.
+
 #### Google (`:google`, `:google_premier`)
 
 * **API key**: required for Premier (do NOT use a key for the free version)
