@@ -53,6 +53,7 @@ module Geocoder::Lookup
         raise_error(Geocoder::Error, messages) ||
           warn("Mapquest Geocoding API error: #{messages}")
       end
+      []
     end
 
   end
