@@ -12,7 +12,7 @@ module Geocoder::Result
     end
 
     def city
-      address_details['AdministrativeArea']["Locality"]["LocalityName"] rescue ""
+      address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['LocalityName'] rescue ""
     end
 
     def country
