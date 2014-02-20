@@ -8,43 +8,35 @@ module Geocoder::Result
     end
 
     def address(format = :full)
-      @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['text']
+      @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['text'] rescue ""
     end
 
     def city
-      if state.empty? and address_details.has_key? 'Locality'
-        address_details['Locality']['LocalityName']
-      elsif sub_state.empty? and address_details['AdministrativeArea'].has_key? 'Locality'
-        address_details['AdministrativeArea']['Locality']['LocalityName']
-      elsif not sub_state_city.empty?
-        sub_state_city
-      else
-        ""
-      end
+      address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['LocalityName'] rescue ""
     end
 
     def country
-      address_details['CountryName']
+      address_details['CountryName'] rescue ""
+    end
+
+    def street
+      address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['Thoroughfare']['ThoroughfareName'] rescue address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['DependentLocality']['Thoroughfare']['ThoroughfareName'] rescue '' #Return street name or empty string
+    end
+
+    def house
+      address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['Thoroughfare']['Premise']['PremiseNumber'] rescue address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['DependentLocality']['Thoroughfare']['Premise']['PremiseNumber'] rescue "" #House number or empty string
     end
 
     def country_code
-      address_details['CountryNameCode']
+      address_details['CountryNameCode'] rescue ""
     end
 
     def state
-      if address_details['AdministrativeArea']
-        address_details['AdministrativeArea']['AdministrativeAreaName']
-      else
-        ""
-      end
+      address_details['AdministrativeArea']['AdministrativeAreaName'] rescue ""
     end
 
     def sub_state
-      if !state.empty? and address_details['AdministrativeArea']['SubAdministrativeArea']
-        address_details['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName']
-      else
-        ""
-      end
+      address_details['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName'] rescue ""
     end
 
     def state_code
@@ -56,7 +48,7 @@ module Geocoder::Result
     end
 
     def premise_name
-      address_details['Locality']['Premise']['PremiseName']
+      address_details['Locality']['Premise']['PremiseName'] rescue ""
     end
 
     def kind

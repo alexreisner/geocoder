@@ -43,9 +43,10 @@ class ResultTest < Test::Unit::TestCase
   def test_yandex_result_without_locality_name
     assert_nothing_raised do
       Geocoder.configure(:lookup => :yandex)
+      Geocoder.configure(:timeout => 600)
       set_api_key!(:yandex)
       result = Geocoder.search("canada rue dupuis 14")[6]
-      assert_equal "", result.city
+      assert_equal "Валь-д'Ор", result.city
     end
   end
 
