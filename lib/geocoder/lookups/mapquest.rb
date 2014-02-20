@@ -14,7 +14,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      domain = configuration[:licensed] ? "www" : "open"
+      domain = configuration[:open] ? "open" : "www"
       version = configuration[:version] || 1
       url = "#{protocol}://#{domain}.mapquestapi.com/geocoding/v#{version}/#{search_type(query)}?"
       url + url_query_string(query)

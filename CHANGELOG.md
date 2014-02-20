@@ -15,6 +15,7 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 * Add :min_radius option to `near` scope (thanks github.com/phallstrom).
 * Fix: Yandex city attribute caused exception with certain responses (thanks github.com/dblock).
 * Add support for Geocod.io API (thanks github.com/dblock).
+* Change name of MapQuest config option from :licensed to :open and revert default behavior to be MapQuest data (not OpenStreetMaps).
 
 1.1.9 (2013 Dec 11)
 -------------------
