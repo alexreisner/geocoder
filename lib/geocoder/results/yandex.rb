@@ -20,11 +20,11 @@ module Geocoder::Result
     end
 
     def street
-      address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['Thoroughfare']['ThoroughfareName'] rescue "" #Return street name or empty string
+      address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['Thoroughfare']['ThoroughfareName'] rescue address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['DependentLocality']['Thoroughfare']['ThoroughfareName'] rescue '' #Return street name or empty string
     end
 
     def house
-      address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['Thoroughfare']['Premise']['PremiseNumber'] rescue "" #House number or empty string
+      address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['Thoroughfare']['Premise']['PremiseNumber'] rescue address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['DependentLocality']['Thoroughfare']['Premise']['PremiseNumber'] rescue "" #House number or empty string
     end
 
     def country_code
