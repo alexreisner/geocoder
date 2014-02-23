@@ -1,5 +1,3 @@
-require 'geocoder'
-
 module Geocoder
 
   ##
@@ -39,4 +37,3 @@ module Geocoder
     end
   end
 end
-
