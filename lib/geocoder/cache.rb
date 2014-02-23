@@ -49,7 +49,8 @@ module Geocoder
 
     private # ----------------------------------------------------------------
 
-    attr_reader :prefix, :store
+    def prefix; @prefix; end
+    def store; @store; end
 
     ##
     # Cache key for a given URL.
