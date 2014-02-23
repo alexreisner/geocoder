@@ -50,7 +50,7 @@ module Geocoder::Lookup
     # to warning message.
     #
     def parse_raw_data(raw_data)
-      if raw_data.match /^<\?xml/
+      if raw_data.match(/^<\?xml/)
         if raw_data.include?("Rate Limit Exceeded")
           raise_error(Geocoder::OverQueryLimitError) || warn("Over API query limit.")
         elsif raw_data =~ /<yahoo:description>(Please provide valid credentials.*)<\/yahoo:description>/i
