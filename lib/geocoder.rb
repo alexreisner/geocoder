@@ -11,12 +11,11 @@ require "geocoder/models/mongoid" if defined?(::Mongoid)
 require "geocoder/models/mongo_mapper" if defined?(::MongoMapper)
 
 module Geocoder
-  extend self
 
   ##
   # Search for information about an address or a set of coordinates.
   #
-  def search(query, options = {})
+  def self.search(query, options = {})
     query = Geocoder::Query.new(query, options) unless query.is_a?(Geocoder::Query)
     query.blank? ? [] : query.execute
   end
@@ -24,7 +23,7 @@ module Geocoder
   ##
   # Look up the coordinates of the given street or IP address.
   #
-  def coordinates(address, options = {})
+  def self.coordinates(address, options = {})
     if (results = search(address, options)).size > 0
       results.first.coordinates
     end
@@ -34,7 +33,7 @@ module Geocoder
   # Look up the address of the given coordinates ([lat,lon])
   # or IP address (string).
   #
-  def address(query, options = {})
+  def self.address(query, options = {})
     if (results = search(query, options)).size > 0
       results.first.address
     end
