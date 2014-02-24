@@ -105,6 +105,8 @@ module Geocoder
         fixture_exists?(filename) ? filename : default_fixture_filename
       end
 
+      remove_method(:make_api_request)
+
       def make_api_request(query)
         raise TimeoutError if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
@@ -149,6 +151,9 @@ module Geocoder
 
     class MaxmindLocal
       private
+
+      remove_method(:results)
+
       def results query
         return [] if query.to_s == "no results"
 
