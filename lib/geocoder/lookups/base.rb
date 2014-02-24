@@ -15,6 +15,9 @@ module Geocoder
   module Lookup
 
     class Base
+      def initialize
+        @cache = nil
+      end
 
       ##
       # Human-readable name of the geocoding API.

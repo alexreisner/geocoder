@@ -8,7 +8,7 @@ module Geocoder::Lookup
       begin
         gem = RUBY_PLATFORM == 'java' ? 'jgeoip' : 'geoip'
         require gem
-      rescue LoadError => e
+      rescue LoadError
         raise 'Could not load geoip dependency. To use MaxMind Local lookup you must add the #{gem} gem to your Gemfile or have it installed in your system.'
       end
       super

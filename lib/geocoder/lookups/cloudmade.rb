@@ -24,7 +24,7 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      params = {
+      {
         :query => query.sanitized_text,
         :return_location => true,
         :return_geometry => false
