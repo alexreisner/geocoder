@@ -7,7 +7,7 @@ module Geocoder::Lookup
     def initialize
       begin
         require 'geoip'
-      rescue LoadError => e
+      rescue LoadError
         raise 'Could not load geoip dependency. To use MaxMind Local lookup you must add geoip gem to your Gemfile or have it installed in your system.'
       end
 
