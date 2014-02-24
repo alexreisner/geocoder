@@ -14,6 +14,7 @@ group :development, :test do
 
   platforms :jruby do
     gem 'jruby-openssl'
+    gem 'jgeoip'
   end
 
   platforms :rbx do
