@@ -6,7 +6,7 @@ class GeocoderTest < Test::Unit::TestCase
   def test_distance_to_returns_float
     v = Place.new(*geocoded_object_params(:msg))
     v.latitude, v.longitude = [40.750354, -73.993371]
-    assert (d = v.distance_to([30, -94])).is_a?(Float)
+    assert (v.distance_to([30, -94])).is_a?(Float)
   end
 
   def test_coordinates_method_returns_array
