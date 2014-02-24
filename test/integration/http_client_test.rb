@@ -1,4 +1,5 @@
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), *%w[ .. .. lib]))
+# encoding: utf-8
+$: << File.join(File.dirname(__FILE__), "..", "..", "lib")
 require 'pathname'
 require 'rubygems'
 require 'test/unit'

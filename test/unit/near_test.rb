@@ -1,3 +1,5 @@
+# encoding: utf-8
+$: << File.join(File.dirname(__FILE__), "..")
 require 'test_helper'
 
 class NearTest < GeocoderTestCase
