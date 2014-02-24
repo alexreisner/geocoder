@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class ProxyTest < Test::Unit::TestCase
+class ProxyTest < GeocoderTestCase
 
   def test_uses_proxy_when_specified
     Geocoder.configure(:http_proxy => 'localhost')

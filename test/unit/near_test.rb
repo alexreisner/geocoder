@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class NearTest < Test::Unit::TestCase
+class NearTest < GeocoderTestCase
 
   def test_near_scope_options_without_sqlite_includes_bounding_box_condition
     result = PlaceWithCustomResultsHandling.send(:near_scope_options, 1.0, 2.0, 5)

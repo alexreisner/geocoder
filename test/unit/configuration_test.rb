@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class ConfigurationTest < Test::Unit::TestCase
+class ConfigurationTest < GeocoderTestCase
   def setup
     Geocoder::Configuration.set_defaults
   end

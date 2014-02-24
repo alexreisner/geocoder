@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class GooglePremierTest < Test::Unit::TestCase
+class GooglePremierTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :google_premier)

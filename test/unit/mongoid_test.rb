@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'mongoid_test_helper'
 
-class MongoidTest < Test::Unit::TestCase
+class MongoidTest < GeocoderTestCase
   def test_geocoded_check
     p = PlaceUsingMongoid.new(*geocoded_object_params(:msg))
     p.location = [40.750354, -73.993371]

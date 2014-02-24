@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class ErrorHandlingTest < Test::Unit::TestCase
+class ErrorHandlingTest < GeocoderTestCase
 
   def teardown
     Geocoder.configure(:always_raise => [])

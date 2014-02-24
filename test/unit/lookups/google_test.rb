@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class GoogleTest < Test::Unit::TestCase
+class GoogleTest < GeocoderTestCase
 
   def test_google_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first

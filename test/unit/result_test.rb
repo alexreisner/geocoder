@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class ResultTest < Test::Unit::TestCase
+class ResultTest < GeocoderTestCase
 
   def test_result_has_required_attributes
     Geocoder::Lookup.all_services_except_test.each do |l|

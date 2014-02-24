@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class DstkTest < Test::Unit::TestCase
+class DstkTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :dstk)

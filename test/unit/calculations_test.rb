@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class CalculationsTest < Test::Unit::TestCase
+class CalculationsTest < GeocoderTestCase
   def setup
     Geocoder.configure(
       :units => :mi,

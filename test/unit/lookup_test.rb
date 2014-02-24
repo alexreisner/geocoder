@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class LookupTest < Test::Unit::TestCase
+class LookupTest < GeocoderTestCase
 
   def test_responds_to_name_method
     Geocoder::Lookup.all_services.each do |l|

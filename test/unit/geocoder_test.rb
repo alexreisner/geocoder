@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class GeocoderTest < Test::Unit::TestCase
+class GeocoderTest < GeocoderTestCase
 
   def test_distance_to_returns_float
     v = Place.new(*geocoded_object_params(:msg))

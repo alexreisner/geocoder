@@ -3,7 +3,7 @@ require 'test_helper'
 require 'cgi'
 require 'uri'
 
-class OauthUtilTest < Test::Unit::TestCase
+class OauthUtilTest < GeocoderTestCase
   def test_query_string_escapes_single_quote
     base_url = "http://example.com?location=d'iberville"
 

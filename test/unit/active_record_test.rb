@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class ActiveRecordTest < Test::Unit::TestCase
+class ActiveRecordTest < GeocoderTestCase
 
   def test_exclude_condition_when_model_has_a_custom_primary_key
     venue = PlaceWithCustomPrimaryKey.new(*geocoded_object_params(:msg))

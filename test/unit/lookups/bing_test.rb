@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class BingTest < Test::Unit::TestCase
+class BingTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :bing)

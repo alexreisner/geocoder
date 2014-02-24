@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class FreegeoipTest < Test::Unit::TestCase
+class FreegeoipTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(ip_lookup: :freegeoip)

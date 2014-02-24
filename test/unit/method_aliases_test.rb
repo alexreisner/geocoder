@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class MethodAliasesTest < Test::Unit::TestCase
+class MethodAliasesTest < GeocoderTestCase
 
   def test_distance_from_is_alias_for_distance_to
     v = Place.new(*geocoded_object_params(:msg))

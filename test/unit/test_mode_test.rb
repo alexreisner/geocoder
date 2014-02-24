@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TestModeTest < Test::Unit::TestCase
+class TestModeTest < GeocoderTestCase
 
   def setup
     @_original_lookup = Geocoder.config.lookup

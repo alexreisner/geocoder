@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class RequestTest < Test::Unit::TestCase
+class RequestTest < GeocoderTestCase
   class MockRequest
     include Geocoder::Request
     attr_accessor :env, :ip

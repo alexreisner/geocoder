@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class YahooTest < Test::Unit::TestCase
+class YahooTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :yahoo)

@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class HttpsTest < Test::Unit::TestCase
+class HttpsTest < GeocoderTestCase
 
   def test_uses_https_for_secure_query
     Geocoder.configure(:use_https => true)

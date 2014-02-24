@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class GeocodioTest < Test::Unit::TestCase
+class GeocodioTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :geocodio)

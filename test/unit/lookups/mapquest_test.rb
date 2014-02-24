@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class MapquestTest < Test::Unit::TestCase
+class MapquestTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :mapquest)

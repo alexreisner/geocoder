@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class ModelTest < Test::Unit::TestCase
+class ModelTest < GeocoderTestCase
 
   def test_geocode_with_block_runs_block
     e = PlaceWithCustomResultsHandling.new(*geocoded_object_params(:msg))

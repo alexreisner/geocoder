@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class QueryTest < Test::Unit::TestCase
+class QueryTest < GeocoderTestCase
 
   def test_ip_address_detection
     assert Geocoder::Query.new("232.65.123.94").ip_address?

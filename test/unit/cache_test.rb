@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class CacheTest < Test::Unit::TestCase
+class CacheTest < GeocoderTestCase
 
   def test_second_occurrence_of_request_is_cache_hit
     Geocoder.configure(:cache => {})

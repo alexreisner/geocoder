@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class IpAddressTest < Test::Unit::TestCase
+class IpAddressTest < GeocoderTestCase
 
   def test_valid
     assert Geocoder::IpAddress.new("232.65.123.94").valid?

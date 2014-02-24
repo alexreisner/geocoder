@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class NominatimTest < Test::Unit::TestCase
+class NominatimTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :nominatim)

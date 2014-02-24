@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class EsriTest < Test::Unit::TestCase
+class EsriTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :esri)
