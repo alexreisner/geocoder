@@ -15,7 +15,7 @@ class GeocoderMaxmindGeoliteCity < ActiveRecord::Migration
       t.string :postalCode, null: false
       t.float :latitude
       t.float :longitude
-      t.integer :dmaCode
+      t.integer :metroCode
       t.integer :areaCode
     end
     add_index :maxmind_location, :locId, unique: true
