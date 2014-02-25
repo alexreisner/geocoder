@@ -26,6 +26,6 @@ class OauthUtilTest < GeocoderTestCase
 
     query_string = o.sign(URI.parse(base_url)).query_string
 
-    assert_match /.*a_param=.*b_param=.*n_param=.*z_param=.*/, query_string
+    assert_match(/.*a_param=.*b_param=.*n_param=.*z_param=.*/, query_string)
   end
 end

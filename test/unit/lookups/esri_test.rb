@@ -31,8 +31,8 @@ class EsriTest < GeocoderTestCase
     assert_equal "Madison Square Garden", result.address
     assert_equal "New York", result.city
     assert_equal "New York", result.state
-    assert_equal 40.75004981300049, result.coordinates[0]
-    assert_equal -73.99423889799965, result.coordinates[1]
+    assert_equal(40.75004981300049, result.coordinates[0])
+    assert_equal(-73.99423889799965, result.coordinates[1])
   end
 
   def test_results_component_when_reverse_geocoding
@@ -42,7 +42,7 @@ class EsriTest < GeocoderTestCase
     assert_equal "4 Avenue Gustave Eiffel", result.address
     assert_equal "Paris", result.city
     assert_equal "Île-de-France", result.state
-    assert_equal 48.858129997357558, result.coordinates[0]
-    assert_equal 2.2956200048981574, result.coordinates[1]
+    assert_equal(48.858129997357558, result.coordinates[0])
+    assert_equal(2.2956200048981574, result.coordinates[1])
   end
 end

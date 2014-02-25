@@ -49,7 +49,7 @@ class GoogleTest < GeocoderTestCase
       "Some Intersection",
       :bounds => [[40.0, -120.0], [39.0, -121.0]]
     ))
-    assert_match /bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url
+    assert_match(/bounds=40.0+%2C-120.0+%7C39.0+%2C-121.0+/, url)
   end
 
   def test_google_query_url_contains_region
@@ -58,7 +58,7 @@ class GoogleTest < GeocoderTestCase
       "Some Intersection",
       :region => "gb"
     ))
-    assert_match /region=gb/, url
+    assert_match(/region=gb/, url)
   end
 
   def test_google_query_url_contains_components_when_given_as_string

@@ -67,8 +67,6 @@ class CalculationsTest < GeocoderTestCase
   def test_bounding_box_calculation_in_miles
     center = [51, 7] # Cologne, DE
     radius = 10 # miles
-    dlon = radius / Geocoder::Calculations.latitude_degree_distance
-    dlat = radius / Geocoder::Calculations.longitude_degree_distance(center[0])
     corners = [50.86, 6.77, 51.14, 7.23]
     assert_equal corners.map{ |i| (i * 100).round },
       Geocoder::Calculations.bounding_box(center, radius).map{ |i| (i * 100).round }
@@ -77,8 +75,6 @@ class CalculationsTest < GeocoderTestCase
   def test_bounding_box_calculation_in_kilometers
     center = [51, 7] # Cologne, DE
     radius = 111 # kilometers (= 1 degree latitude)
-    dlon = radius / Geocoder::Calculations.latitude_degree_distance(:km)
-    dlat = radius / Geocoder::Calculations.longitude_degree_distance(center[0], :km)
     corners = [50, 5.41, 52, 8.59]
     assert_equal corners.map{ |i| (i * 100).round },
       Geocoder::Calculations.bounding_box(center, radius, :units => :km).map{ |i| (i * 100).round }
@@ -87,8 +83,6 @@ class CalculationsTest < GeocoderTestCase
   def test_bounding_box_calculation_with_object
     center = [51, 7] # Cologne, DE
     radius = 10 # miles
-    dlon = radius / Geocoder::Calculations.latitude_degree_distance
-    dlat = radius / Geocoder::Calculations.longitude_degree_distance(center[0])
     corners = [50.86, 6.77, 51.14, 7.23]
     obj = PlaceReverseGeocoded.new("Cologne", center[0], center[1])
     assert_equal corners.map{ |i| (i * 100).round },

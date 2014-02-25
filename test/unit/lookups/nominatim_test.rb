@@ -17,7 +17,6 @@ class NominatimTest < GeocoderTestCase
 
   def test_host_configuration
     Geocoder.configure(nominatim: {host: "local.com"})
-    lookup = Geocoder::Lookup::Nominatim.new
     query = Geocoder::Query.new("Bluffton, SC")
     assert_match %r(http://local\.com), query.url
   end

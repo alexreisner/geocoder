@@ -29,8 +29,8 @@ class LookupTest < GeocoderTestCase
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
       # should be "+"s for all lookups except Yahoo
-      assert_match /one_in_the_hand=two(%20|\+)in(%20|\+)the(%20|\+)bush/, url,
-        "Lookup #{l} does not appear to support arbitrary params in URL"
+      assert_match(/one_in_the_hand=two(%20|\+)in(%20|\+)the(%20|\+)bush/, url,
+        "Lookup #{l} does not appear to support arbitrary params in URL")
     end
   end
 
@@ -51,8 +51,8 @@ class LookupTest < GeocoderTestCase
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {p => "xxxx"}
       ))
-      assert_match /#{p}=xxxx/, url,
-        "Param passed to #{l} lookup does not override configuration value"
+      assert_match(/#{p}=xxxx/, url,
+        "Param passed to #{l} lookup does not override configuration value")
     end
   end
 
