@@ -1,3 +1,5 @@
+require 'zip'
+require 'fileutils'
 require 'maxmind_database'
 
 namespace :geocoder do
@@ -11,15 +13,21 @@ namespace :geocoder do
       task :download do
         dir = ENV['DIR'] || "tmp/"
         Geocoder::MaxmindDatabase.download(:geolite_city_csv, dir)
-        # TODO: confirm data was fetched properly
       end
 
       desc "Extract (unzip) MaxMind GeoLite City data"
       task :extract do
         dir = ENV['DIR'] || "tmp/"
-        filename = Geocoder::MaxmindDatabase.archive_filename(:geolite_city_csv)
-        `unzip -o #{File.join(dir, filename)} -d #{dir}` # TODO: make platform independent, overwrite w/out confirm
-        # TODO: confirm data was unzipped properly
+        archive_filename = Geocoder::MaxmindDatabase.archive_filename(:geolite_city_csv)
+        Zip::File.open(File.join(dir, archive_filename)).each do |entry|
+          filepath = File.join(dir, entry.name)
+          if File.exist? filepath
+            warn "File already exists (#{entry.name}), skipping"
+          else
+            FileUtils.mkdir_p(File.dirname(filepath))
+            entry.extract(filepath)
+          end
+        end
       end
 
       desc "Load/refresh MaxMind GeoLite City data"

@@ -5,7 +5,7 @@ group :development, :test do
   gem 'mongoid', '2.6.0'
   gem 'bson_ext', :platforms => :ruby
   gem 'geoip'
-
+  gem 'rubyzip'
   gem 'rails'
 
   platforms :mri do
