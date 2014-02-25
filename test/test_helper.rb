@@ -319,13 +319,8 @@ class GeocoderTestCase < Test::Unit::TestCase
 
   def setup
     super
+    Geocoder::Configuration.instance.set_defaults
     Geocoder.configure(:maxmind => {:service => :city_isp_org})
-  end
-
-  def teardown
-    Geocoder.send(:remove_const, :Configuration)
-    load "geocoder/configuration.rb"
-    super
   end
 
   def geocoded_object_params(abbrev)
