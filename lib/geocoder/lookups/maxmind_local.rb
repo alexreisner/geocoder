@@ -35,7 +35,7 @@ module Geocoder::Lookup
       else
         addr = IPAddr.new(query.text).to_i
         q = "SELECT l.country, l.region, l.city
-          FROM maxmind_location l JOIN maxmind_blocks b USING (locId)
+          FROM maxmind_geolite_city_location l JOIN maxmind_geolite_city_blocks b USING (locId)
           WHERE b.startIpNum <= #{addr} AND #{addr} <= b.endIpNum"
         if r = ActiveRecord::Base.connection.execute(q).first
           [Hash[*[:country_name, :region_name, :city_name].zip(r).flatten]]

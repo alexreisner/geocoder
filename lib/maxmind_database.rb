@@ -47,7 +47,7 @@ module Geocoder
           end
         end
         insert_into_table(table, headers, rows) if rows.size > 0
-        puts "finished (#{Time.now - start_time} seconds)"
+        puts "done (#{Time.now - start_time} seconds)"
       end
     end
 
@@ -78,7 +78,7 @@ module Geocoder
       when :geolite_city_csv
         # use the last two in case multiple versions exist
         files = Dir.glob(File.join(dir, "GeoLiteCity_*/*.csv"))[-2..-1]
-        Hash[*files.zip(["maxmind_blocks", "maxmind_location"]).flatten]
+        Hash[*files.zip(["maxmind_geolite_city_blocks", "maxmind_geolite_city_location"]).flatten]
       end
     end
 
