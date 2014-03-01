@@ -14,11 +14,9 @@ class YahooTest < GeocoderTestCase
   end
 
   def test_error
-    # keep test output clean: suppress timeout warning
-    orig = $VERBOSE; $VERBOSE = nil
-    assert_equal [], Geocoder.search("error")
-  ensure
-    $VERBOSE = orig
+    silence_warnings do
+      assert_equal [], Geocoder.search("error")
+    end
   end
 
   def test_result_components

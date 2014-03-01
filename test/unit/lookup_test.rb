@@ -68,16 +68,14 @@ class LookupTest < GeocoderTestCase
   end
 
   def test_returns_empty_array_on_invalid_key
-    # keep test output clean: suppress timeout warning
-    orig = $VERBOSE; $VERBOSE = nil
-    #Geocoder::Lookup.all_services_except_test.each do |l|
-    [:bing, :yahoo, :yandex, :maxmind, :cloudmade, :baidu, :baidu_ip].each do |l|
-      Geocoder.configure(:lookup => l)
-      set_api_key!(l)
-      assert_equal [], Geocoder.search("invalid key")
+    silence_warnings do
+      #Geocoder::Lookup.all_services_except_test.each do |l|
+      [:bing, :yahoo, :yandex, :maxmind, :cloudmade, :baidu, :baidu_ip].each do |l|
+        Geocoder.configure(:lookup => l)
+        set_api_key!(l)
+        assert_equal [], Geocoder.search("invalid key")
+      end
     end
-  ensure
-    $VERBOSE = orig
   end
 
   def test_does_not_choke_on_nil_address
