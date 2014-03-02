@@ -1,5 +1,3 @@
-require 'zip'
-require 'fileutils'
 require 'maxmind_database'
 
 namespace :geocoder do
@@ -17,6 +15,13 @@ namespace :geocoder do
 
       desc "Extract (unzip) MaxMind GeoLite City data"
       task :extract do
+        begin
+          require 'zip'
+        rescue LoadError
+          puts "Please install gem: rubyzip (>= 1.0.0)"
+          exit
+        end
+        require 'fileutils'
         dir = ENV['DIR'] || "tmp/"
         archive_filename = Geocoder::MaxmindDatabase.archive_filename(:geolite_city_csv)
         Zip::File.open(File.join(dir, archive_filename)).each do |entry|
