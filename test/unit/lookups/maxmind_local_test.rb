@@ -18,6 +18,7 @@ class MaxmindLocalTest < GeocoderTestCase
     assert_equal result.postal_code, '94043'
     assert_equal result.latitude, 37.41919999999999
     assert_equal result.longitude, -122.0574
+    assert_equal result.coordinates, [37.41919999999999, -122.0574]
   end
 
   def test_loopback
