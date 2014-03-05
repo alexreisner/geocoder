@@ -10,14 +10,14 @@ class MaxmindLocalTest < GeocoderTestCase
 
   def test_result_attributes
     result = Geocoder.search('8.8.8.8').first
-    assert_equal result.address, 'Mountain View, CA 94043, United States'
-    assert_equal result.city, 'Mountain View'
-    assert_equal result.state, 'CA'
-    assert_equal result.country, 'United States'
-    assert_equal result.country_code, 'USA'
-    assert_equal result.postal_code, '94043'
-    assert_equal result.latitude, 37.41919999999999
-    assert_equal result.longitude, -122.0574
+    assert_equal 'Mountain View, CA 94043, United States', result.address
+    assert_equal 'Mountain View', result.city
+    assert_equal 'CA', result.state
+    assert_equal 'United States', result.country
+    assert_equal 'USA', result.country_code
+    assert_equal '94043', result.postal_code
+    assert_equal 37.41919999999999, result.latitude
+    assert_equal -122.0574, result.longitude
   end
 
   def test_loopback
