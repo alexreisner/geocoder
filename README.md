@@ -549,6 +549,17 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Terms of Service**: http://geocod.io/terms-of-use
 * **Limitations**: ?
 
+#### SmartyStreets (`:smarty_streets`)
+
+* **API key**: required
+* **Quota**: 10,000 free, 250/month then purchase at sliding scale. Unlimited free for nonprofits & startups
+* **Region**: US
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: http://smartystreets.com/kb/liveaddress-api/rest-endpoint
+* **Terms of Service**: http://smartystreets.com/legal/terms-of-service
+* **Limitations**: No reverse geocoding.
+
 ### IP Address Services
 
 #### FreeGeoIP (`:freegeoip`)

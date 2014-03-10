@@ -37,6 +37,7 @@ module Geocoder
         :baidu,
         :cloudmade,
         :geocodio,
+        :smarty_streets,
         :test
       ]
     end
