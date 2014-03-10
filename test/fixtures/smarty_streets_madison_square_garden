@@ -1,0 +1,47 @@
+[
+  {
+    "input_index": 0,
+    "candidate_index": 0,
+    "addressee": "Madison Sq Garden",
+    "delivery_line_1": "2 Penn Plz Fl 15",
+    "last_line": "New York NY 10121-1703",
+    "delivery_point_barcode": "101211703022",
+    "components": {
+      "primary_number": "2",
+      "street_name": "Penn",
+      "street_suffix": "Plz",
+      "secondary_number": "15",
+      "secondary_designator": "Fl",
+      "city_name": "New York",
+      "state_abbreviation": "NY",
+      "zipcode": "10121",
+      "plus4_code": "1703",
+      "delivery_point": "02",
+      "delivery_point_check_digit": "2"
+    },
+    "metadata": {
+      "record_type": "F",
+      "zip_type": "Standard",
+      "county_fips": "36061",
+      "county_name": "New York",
+      "carrier_route": "C038",
+      "congressional_district": "12",
+      "rdi": "Commercial",
+      "elot_sequence": "0035",
+      "elot_sort": "A",
+      "latitude": 40.74959,
+      "longitude": -73.99251,
+      "precision": "Zip7",
+      "time_zone": "Eastern",
+      "utc_offset": -5.0,
+      "dst": true
+    },
+    "analysis": {
+      "dpv_match_code": "Y",
+      "dpv_footnotes": "AABB",
+      "dpv_cmra": "N",
+      "dpv_vacant": "N",
+      "active": "Y"
+    }
+  }
+]
