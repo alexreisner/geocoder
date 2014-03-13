@@ -227,13 +227,13 @@ module Geocoder
       def check_response_for_errors!(response)
         if response.code.to_i == 400
           raise_error(Geocoder::InvalidRequest) ||
-            warn("Geocoding API error: 400 Invalid Request")
+            warn("Geocoding API error: 400 Bad Request")
         elsif response.code.to_i == 401
           raise_error(Geocoder::RequestDenied) ||
             warn("Geocoding API error: 401 Unauthorized")
         elsif response.code.to_i == 402
           raise_error(Geocoder::OverQueryLimitError) ||
-            warn("Geocoding API error: 402 Forbidden")
+            warn("Geocoding API error: 402 Payment Required")
         end
       end
 
