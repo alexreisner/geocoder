@@ -72,24 +72,6 @@ class LookupTest < GeocoderTestCase
     end
   end
 
-    def test_raises_exception_on_401_response
-    Geocoder.configure(always_raise: [Geocoder::RequestDenied])
-    assert_raises Geocoder::RequestDenied do
-      lookup = Geocoder::Lookup.get(:smarty_streets)
-      response = MockHttpResponse.new(code: 401)
-      lookup.send(:check_response_for_errors!, response)
-    end
-  end
-
-    def test_raises_exception_on_402_response
-    Geocoder.configure(always_raise: [Geocoder::RequestDenied])
-    assert_raises Geocoder::RequestDenied do
-      lookup = Geocoder::Lookup.get(:smarty_streets)
-      response = MockHttpResponse.new(code: 401)
-      lookup.send(:check_response_for_errors!, response)
-    end
-  end
-
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
