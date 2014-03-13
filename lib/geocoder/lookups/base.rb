@@ -214,6 +214,7 @@ module Geocoder
         else
           check_api_key_configuration!(query)
           response = make_api_request(query)
+          check_response_for_errors!(response)
           body = response.body
           if cache and valid_response?(response)
             cache[key] = body
@@ -221,6 +222,13 @@ module Geocoder
           @cache_hit = false
         end
         body
+      end
+
+      def check_response_for_errors!(response)
+        if response.code.to_i == 401
+          raise_error(Geocoder::RequestDenied) ||
+            warn("Geocoding API error: 401 Unauthorized")
+        end
       end
 
       ##

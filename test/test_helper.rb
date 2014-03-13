@@ -347,3 +347,11 @@ class GeocoderTestCase < Test::Unit::TestCase
     Geocoder.configure(:api_key => key)
   end
 end
+
+class MockHttpResponse
+  attr_reader :code, :body
+  def initialize(options = {})
+    @code = options[:code].to_s
+    @body = options[:body]
+  end
+end
