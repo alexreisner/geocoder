@@ -1,9 +1,3 @@
-#
-# Results from the zipcode endpoint are completely different
-# from the address endpoint. KeyError rescues below will
-# return the appropriate value for each one.
-# ---
-
 require 'geocoder/lookups/base'
 
 module Geocoder::Result
