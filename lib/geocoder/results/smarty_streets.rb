@@ -76,6 +76,7 @@ module Geocoder::Result
       define_method(m) do
         @data[m.to_s] || ''
       end
+      private m
     end
 
     [
@@ -86,6 +87,7 @@ module Geocoder::Result
       define_method(m) do
         @data[m.to_s] || {}
       end
+      private m
     end
 
     [
@@ -95,6 +97,7 @@ module Geocoder::Result
       define_method(m) do
         @data[m.to_s] || []
       end
+      private m
     end
   end
 end

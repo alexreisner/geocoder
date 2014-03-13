@@ -37,6 +37,7 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_equal "1703", result.zip4
     assert_equal "New York", result.city
     assert_equal "36061", result.fips
+    assert !result.zipcode_result?
   end
 
   def test_smarty_streets_result_components_with_zipcode_only_query
@@ -44,6 +45,19 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_equal "Brooklyn", result.city
     assert_equal "New York", result.state
     assert_equal "NY", result.state_code
+    assert result.zipcode_result?
+  end
+
+  def test_smarty_streets_dynamic_methods_are_not_exposed
+    assert_raises NoMethodError do
+      Geocoder.search("Madison Square Garden, New York, NY").first.components
+    end
+    assert_raises NoMethodError do
+      Geocoder.search("Madison Square Garden, New York, NY").first.delivery_line_1
+    end
+    assert_raises NoMethodError do
+      Geocoder.search("11211").first.city_states
+    end
   end
 
   def test_no_results
