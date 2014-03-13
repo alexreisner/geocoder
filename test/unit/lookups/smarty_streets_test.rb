@@ -51,4 +51,19 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_equal 0, results.length
   end
 
+  def test_raises_exception_on_error_http_status
+    error_statuses = {
+      '400' => Geocoder::InvalidRequest,
+      '401' => Geocoder::RequestDenied,
+      '402' => Geocoder::OverQueryLimitError
+    }
+    Geocoder.configure(always_raise: error_statuses.values)
+    lookup = Geocoder::Lookup.get(:smarty_streets)
+    error_statuses.each do |code, err|
+      assert_raises err do
+        response = MockHttpResponse.new(code: code.to_i)
+        lookup.send(:check_response_for_errors!, response)
+      end
+    end
+  end
 end

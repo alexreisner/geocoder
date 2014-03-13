@@ -56,22 +56,6 @@ class LookupTest < GeocoderTestCase
     end
   end
 
-  def test_raises_exception_on_error_http_status
-    error_statuses = {
-      '400' => Geocoder::InvalidRequest,
-      '401' => Geocoder::RequestDenied,
-      '402' => Geocoder::OverQueryLimitError
-    }
-    Geocoder.configure(always_raise: error_statuses.values)
-    error_statuses.each do |code, err|
-      assert_raises err do
-        lookup = Geocoder::Lookup.get(:smarty_streets)
-        response = MockHttpResponse.new(code: code.to_i)
-        lookup.send(:check_response_for_errors!, response)
-      end
-    end
-  end
-
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
