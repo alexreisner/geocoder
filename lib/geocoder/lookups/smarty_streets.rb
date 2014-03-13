@@ -12,16 +12,14 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      return "#{protocol}://api.smartystreets.com/zipcode?#{url_query_string(query)}" if zipcode_only?(query)
-      "#{protocol}://api.smartystreets.com/street-address?#{url_query_string(query)}"
+      path = zipcode_only?(query) ? "zipcode" : "street-address"
+      "#{protocol}://api.smartystreets.com/#{path}?#{url_query_string(query)}"
     end
 
     private # ---------------------------------------------------------------
 
     def zipcode_only?(query)
-      return false if query.text.is_a?(Array)
-      return true unless (query.to_s.strip =~ /\A[\d]{5}(-[\d]{4})?\Z/).nil?
-      false
+      !query.text.is_a?(Array) and query.to_s.strip =~ /\A\d{5}(-\d{4})?\Z/
     end
 
     def query_url_params(query)
@@ -41,8 +39,7 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      return [] unless doc = fetch_data(query)
-      doc
+      fetch_data(query) || []
     end
   end
 end
