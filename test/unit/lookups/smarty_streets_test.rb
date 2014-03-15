@@ -37,7 +37,7 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_equal "1703", result.zip4
     assert_equal "New York", result.city
     assert_equal "36061", result.fips
-    assert !result.zipcode_result?
+    assert !result.zipcode_endpoint?
   end
 
   def test_smarty_streets_result_components_with_zipcode_only_query
@@ -45,7 +45,7 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_equal "Brooklyn", result.city
     assert_equal "New York", result.state
     assert_equal "NY", result.state_code
-    assert result.zipcode_result?
+    assert result.zipcode_endpoint?
   end
 
   def test_no_results
