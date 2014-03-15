@@ -4,7 +4,7 @@ module Geocoder::Result
   class SmartyStreets < Base
     def coordinates
       %w(latitude longitude).map do |i|
-        (zipcode_result? && zipcodes.first[i]) || metadata[i]
+        zipcode_endpoint? ? zipcodes.first[i] : metadata[i]
       end
     end
 
@@ -17,15 +17,15 @@ module Geocoder::Result
     end
 
     def state
-      components['state_abbreviation'] || city_states.first['state']
+      zipcode_endpoint? ?
+        city_states.first['state'] :
+        components['state_abbreviation']
     end
 
     def state_code
-      if cs = city_states.first
-        cs['state_abbreviation']
-      else
-        state
-      end
+      zipcode_endpoint? ?
+        city_states.first['state_abbreviation'] :
+        components['state_abbreviation']
     end
 
     def country
@@ -45,11 +45,15 @@ module Geocoder::Result
     end
 
     def city
-      components['city_name'] || city_states.first['city']
+      zipcode_endpoint? ?
+        city_states.first['city'] :
+        components['city_name']
     end
 
     def zipcode
-      components['zipcode'] || zipcodes.first['zipcode']
+      zipcode_endpoint? ?
+        zipcodes.first['zipcode'] :
+        components['zipcode']
     end
     alias_method :postal_code, :zipcode
 
@@ -59,10 +63,12 @@ module Geocoder::Result
     alias_method :postal_code_extended, :zip4
 
     def fips
-      metadata['county_fips'] || zipcodes.first['county_fips']
+      zipcode_endpoint? ?
+        zipcodes.first['county_fips'] :
+        metadata['county_fips']
     end
 
-    def zipcode_result?
+    def zipcode_endpoint?
       zipcodes.any?
     end
 
