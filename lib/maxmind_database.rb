@@ -22,32 +22,10 @@ module Geocoder
 
     def insert(package, dir = "tmp")
       data_files(package).each do |filepath,table|
-        # delete from table
         print "Resetting table #{table}..."
         ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
         puts "done"
-        # insert into table
-        start_time = Time.now
-        print "Loading data for table #{table}"
-        rows = []
-        headers = nil
-        CSV.foreach(filepath, encoding: "ISO-8859-1") do |line|
-          if line.first[0...9] == "Copyright"
-            next
-          elsif headers.nil?
-            headers = line
-            next
-          else
-            rows << line.to_a
-            if rows.size == 10000
-              insert_into_table(table, headers, rows)
-              rows = []
-              print "."
-            end
-          end
-        end
-        insert_into_table(table, headers, rows) if rows.size > 0
-        puts "done (#{Time.now - start_time} seconds)"
+        insert_into_table(table, filepath)
       end
     end
 
@@ -59,7 +37,35 @@ module Geocoder
 
     private # -------------------------------------------------------------
 
-    def insert_into_table(table, headers, rows)
+    def insert_into_table(table, filepath)
+      start_time = Time.now
+      print "Loading data for table #{table}"
+      rows = []
+      if table =~ /city/
+        headers = nil
+      else
+        headers = %w[startIp endIp startIpNum endIpNum country_code country]
+      end
+      CSV.foreach(filepath, encoding: "ISO-8859-1") do |line|
+        if line.first[0...9] == "Copyright"
+          next
+        elsif headers.nil?
+          headers = line
+          next
+        else
+          rows << line.to_a
+          if rows.size == 10000
+            insert_rows(table, headers, rows)
+            rows = []
+            print "."
+          end
+        end
+      end
+      insert_rows(table, headers, rows) if rows.size > 0
+      puts "done (#{Time.now - start_time} seconds)"
+    end
+
+    def insert_rows(table, headers, rows)
       value_strings = rows.map do |row|
         "(" + row.map{ |col| sql_escaped_value(col) }.join(',') + ")"
       end
@@ -79,6 +85,8 @@ module Geocoder
         # use the last two in case multiple versions exist
         files = Dir.glob(File.join(dir, "GeoLiteCity_*/*.csv"))[-2..-1]
         Hash[*files.zip(["maxmind_geolite_city_blocks", "maxmind_geolite_city_location"]).flatten]
+      when :geolite_country_csv
+        {File.join(dir, "GeoIPCountryWhois.csv") => "maxmind_geolite_country"}
       end
     end
 

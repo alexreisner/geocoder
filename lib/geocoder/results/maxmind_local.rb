@@ -29,7 +29,7 @@ module Geocoder::Result
     end
 
     def country_code
-      @data[:country_code3]
+      @data[:country_code]
     end
 
     def postal_code

@@ -2,44 +2,68 @@ require 'maxmind_database'
 
 namespace :geocoder do
   namespace :maxmind do
-    namespace :geolite_city do
+    namespace :geolite do
 
       desc "Download and load/refresh MaxMind GeoLite City data"
       task load: [:download, :extract, :insert]
 
       desc "Download MaxMind GeoLite City data"
       task :download do
-        dir = ENV['DIR'] || "tmp/"
-        Geocoder::MaxmindDatabase.download(:geolite_city_csv, dir)
+        p = check_for_package!
+        download(p, dir: ENV['DIR'] || "tmp/")
       end
 
       desc "Extract (unzip) MaxMind GeoLite City data"
       task :extract do
-        begin
-          require 'zip'
-        rescue LoadError
-          puts "Please install gem: rubyzip (>= 1.0.0)"
-          exit
-        end
-        require 'fileutils'
-        dir = ENV['DIR'] || "tmp/"
-        archive_filename = Geocoder::MaxmindDatabase.archive_filename(:geolite_city_csv)
-        Zip::File.open(File.join(dir, archive_filename)).each do |entry|
-          filepath = File.join(dir, entry.name)
-          if File.exist? filepath
-            warn "File already exists (#{entry.name}), skipping"
-          else
-            FileUtils.mkdir_p(File.dirname(filepath))
-            entry.extract(filepath)
-          end
-        end
+        p = check_for_package!
+        extract(p, dir: ENV['DIR'] || "tmp/")
       end
 
       desc "Load/refresh MaxMind GeoLite City data"
       task insert: [:environment] do
-        dir = ENV['DIR'] || "tmp/"
-        Geocoder::MaxmindDatabase.insert(:geolite_city_csv, dir)
+        p = check_for_package!
+        insert(p, dir: ENV['DIR'] || "tmp/")
       end
     end
   end
+end
+
+def check_for_package!
+  if %w[city country].include?(p = ENV['PACKAGE'])
+    return p
+  else
+    puts "Please specify PACKAGE=city or PACKAGE=country"
+    exit
+  end
+end
+
+def download(package, options = {})
+  p = "geolite_#{package}_csv".intern
+  Geocoder::MaxmindDatabase.download(p, options[:dir])
+end
+
+def extract(package, options = {})
+  begin
+    require 'zip'
+  rescue LoadError
+    puts "Please install gem: rubyzip (>= 1.0.0)"
+    exit
+  end
+  require 'fileutils'
+  p = "geolite_#{package}_csv".intern
+  archive_filename = Geocoder::MaxmindDatabase.archive_filename(p)
+  Zip::File.open(File.join(options[:dir], archive_filename)).each do |entry|
+    filepath = File.join(options[:dir], entry.name)
+    if File.exist? filepath
+      warn "File already exists (#{entry.name}), skipping"
+    else
+      FileUtils.mkdir_p(File.dirname(filepath))
+      entry.extract(filepath)
+    end
+  end
+end
+
+def insert(package, options = {})
+  p = "geolite_#{package}_csv".intern
+  Geocoder::MaxmindDatabase.insert(p, options[:dir])
 end
