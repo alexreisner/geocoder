@@ -37,31 +37,31 @@ module Geocoder
 
     private # -------------------------------------------------------------
 
+    def table_columns(table_name)
+      {
+        maxmind_geolite_city_blocks: %w[start_ip_num end_ip_num loc_id],
+        maxmind_geolite_city_location: %w[loc_id country region city postal_code latitude longitude metro_code area_code],
+        maxmind_geolite_country: %w[start_ip end_ip start_ip_num end_ip_num country_code country]
+      }[table_name.to_sym]
+    end
+
     def insert_into_table(table, filepath)
       start_time = Time.now
       print "Loading data for table #{table}"
       rows = []
-      if table =~ /city/
-        headers = nil
-      else
-        headers = %w[startIp endIp startIpNum endIpNum country_code country]
-      end
+      columns = table_columns(table)
       CSV.foreach(filepath, encoding: "ISO-8859-1") do |line|
-        if line.first[0...9] == "Copyright"
-          next
-        elsif headers.nil?
-          headers = line
-          next
-        else
-          rows << line.to_a
-          if rows.size == 10000
-            insert_rows(table, headers, rows)
-            rows = []
-            print "."
-          end
+        # Some files have header rows.
+        # skip if starts with "Copyright" or "locId" or "startIpNum"
+        next if line.first.match(/[A-z]/)
+        rows << line.to_a
+        if rows.size == 10000
+          insert_rows(table, columns, rows)
+          rows = []
+          print "."
         end
       end
-      insert_rows(table, headers, rows) if rows.size > 0
+      insert_rows(table, columns, rows) if rows.size > 0
       puts "done (#{Time.now - start_time} seconds)"
     end
 

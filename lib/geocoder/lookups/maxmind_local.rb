@@ -28,26 +28,30 @@ module Geocoder::Lookup
     private
 
     def results(query)
-      if !configuration[:file].nil?
+      if configuration[:file]
         geoip_class = RUBY_PLATFORM == "java" ? JGeoIP : GeoIP
         result = geoip_class.new(configuration[:file]).city(query.to_s)
         result.nil? ? [] : [result.to_hash]
       elsif configuration[:package] == :city
         addr = IPAddr.new(query.text).to_i
         q = "SELECT l.country, l.region, l.city
-          FROM maxmind_geolite_city_location l JOIN maxmind_geolite_city_blocks b USING (locId)
-          WHERE b.startIpNum <= #{addr} AND #{addr} <= b.endIpNum"
-        if r = ActiveRecord::Base.connection.execute(q).first
-          [Hash[*[:country_name, :region_name, :city_name].zip(r).flatten]]
-        end
+          FROM maxmind_geolite_city_location l JOIN maxmind_geolite_city_blocks b USING (loc_id)
+          WHERE b.start_ip_num <= #{addr} AND #{addr} <= b.end_ip_num"
+        format_result(q, [:country_name, :region_name, :city_name])
       elsif configuration[:package] == :country
         addr = IPAddr.new(query.text).to_i
-        q = "SELECT country, country_code
-          FROM maxmind_geolite_country
-          WHERE startIpNum <= #{addr} AND #{addr} <= endIpNum"
-        if r = ActiveRecord::Base.connection.execute(q).first
-          [Hash[*[:country_name, :country_code].zip(r).flatten]]
-        end
+        q = "SELECT country, country_code FROM maxmind_geolite_country
+          WHERE start_ip_num <= #{addr} AND #{addr} <= end_ip_num"
+        format_result(q, [:country_name, :country_code])
+      end
+    end
+
+    def format_result(query, attr_names)
+      if r = ActiveRecord::Base.connection.execute(query).first
+        r = r.values if r.is_a?(Hash) # some db adapters return Hash, some Array
+        [Hash[*attr_names.zip(r).flatten]]
+      else
+        []
       end
     end
   end
