@@ -42,7 +42,7 @@ module Geocoder::Lookup
         addr = IPAddr.new(query.text).to_i
         q = "SELECT country, country_code FROM maxmind_geolite_country
           WHERE start_ip_num <= #{addr} AND #{addr} <= end_ip_num"
-        format_result(q, [:country_name, :country_code])
+        format_result(q, [:country_name, :country_code2])
       end
     end
 
