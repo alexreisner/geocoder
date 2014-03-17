@@ -595,9 +595,24 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Documentation**: http://www.maxmind.com/en/city
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: You must add the **geoip** gem to your Gemfile or have it installed in your system. You also have to specify the path of the MaxMind database in your configuration. For example:
+* **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
 
-`Geocoder.configure(:ip_lookup => :maxmind_local, :maxmind_local => {:database => File.join('folder', 'GeoLiteCity.dat')})`
+    Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')})
+
+**To use a CSV file** you must import it into an SQL database. The GeoLite *City* and *Country* packages are supported. Configure like so:
+
+    Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {package: :city})
+
+You can generate ActiveRecord migrations and download and import data via provided rake tasks:
+
+    rails generate geocoder:maxmind:geolite_city
+
+    rake geocoder:maxmind:geolite_city:download
+    rake geocoder:maxmind:geolite_city:extract
+    rake geocoder:maxmind:geolite_city:insert
+    rake geocoder:maxmind:geolite_city:load # runs the above three in sequence
+
+You can replace `city` with `country` in any of the above tasks, generators, and configurations.
 
 #### Baidu IP (`:baidu_ip`)
 
