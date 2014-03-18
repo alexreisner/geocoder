@@ -585,7 +585,9 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
 
-#### MaxMind Local (`:maxmind_local`)
+#### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
+
+This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
 
 * **API key**: none (requires the GeoLite City database which can be downloaded from [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/))
 * **Quota**: none
