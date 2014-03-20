@@ -497,7 +497,7 @@ Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer of
 * **SSL support**: yes
 * **Languages**: English
 * **Documentation**: http://resources.arcgis.com/en/help/arcgis-online-geocoding-rest-api/
-* **Terms of Service**: http://www.esri.com/software/arcgis/arcgisonline/services/geoservices
+* **Terms of Service**: http://www.esri.com/legal/software-license
 * **Limitations**: ?
 * **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(:esri => {:outSR => 102100})`.
 
