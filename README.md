@@ -597,7 +597,9 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Documentation**: http://www.maxmind.com/en/city
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
+* **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **You must download a database from MaxMind and set either the `:file` or `:package` configuration option for local lookups to work.**
+
+**To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
 
     Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')})
 
