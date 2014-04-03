@@ -195,7 +195,7 @@ module Geocoder::Store
           clause = (columns || full_column_name("*"))
         end
 
-        identifierType = using_postgresql? "::character(255)" : ""
+        identifierType = using_postgresql? ? "::character(255)" : ""
 
         if distance
           clause += ", " unless clause.empty?
