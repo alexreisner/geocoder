@@ -102,6 +102,11 @@ Geocoder will print warnings if you exceed the rate limit for your geocoding ser
 
     rake geocode:all CLASS=YourModel sleep=0.25
 
+Batch processing.If your database is large, you can handle batches:
+
+    rake geocode:all CLASS=YourModel sleep=0.25 batch=100
+
+
 ### Avoiding Unnecessary API Requests
 
 Geocoding only needs to be performed under certain conditions. To avoid unnecessary work (and quota usage) you will probably want to geocode an object only when:
