@@ -216,6 +216,19 @@ module Geocoder
           response = make_api_request(query)
           check_response_for_errors!(response)
           body = response.body
+
+          # apply the charset from the Content-Type header, if possible
+          ct = response['content-type']
+
+          if ct && ct['charset']
+            charset = ct.split(';').select do |s|
+              s['charset']
+            end.first.to_s.split('=')
+            if charset.length == 2
+              body.force_encoding(charset.last) rescue ArgumentError
+            end
+          end
+
           if cache and valid_response?(response)
             cache[key] = body
           end
