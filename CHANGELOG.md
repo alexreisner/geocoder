@@ -3,7 +3,7 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-1.2.0 (TBD)
+1.2.0 (2014 Apr 16)
 -----------
 
 * DROP SUPPORT for Ruby 1.8.x.
