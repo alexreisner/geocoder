@@ -15,6 +15,7 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 * Add :geocodio lookup (thanks github.com/dblock).
 * Add :lookup option to `Geocoder.search` and `geocoded_by` (thanks github.com/Bonias).
 * Add support for :maxmind_local on JRuby via jgeoip gem (thanks github.com/gxbe).
+* Add support for character encodings based on Content-type header (thanks github.com/timaro).
 * Add :min_radius option to `near` scope (thanks github.com/phallstrom).
 * Fix: Yandex city attribute caused exception with certain responses (thanks github.com/dblock).
 * Change name of MapQuest config option from :licensed to :open and revert default behavior to be MapQuest data (not OpenStreetMaps).
