@@ -660,10 +660,11 @@ By default the prefix is `geocoder:`
 
 If you need to expire cached content:
 
-    Geocoder::Lookup.get(Geocoder.config[:lookup]).cache.expire(:all)                               # expire cached results for current Lookup
-    Geocoder::Lookup.get(:google).cache.expire("http://...")                                        # expire cached result for a specific URL
-    Geocoder::Lookup.get(:google).cache.expire(:all)                                                # expire cached results for Google Lookup
-    # expire all cached results for all Lookups. Be aware that this methods spawns a new Lookup object for each Service
+    Geocoder::Lookup.get(Geocoder.config[:lookup]).cache.expire(:all)  # expire cached results for current Lookup
+    Geocoder::Lookup.get(:google).cache.expire("http://...")           # expire cached result for a specific URL
+    Geocoder::Lookup.get(:google).cache.expire(:all)                   # expire cached results for Google Lookup
+    # expire all cached results for all Lookups.
+    # Be aware that this methods spawns a new Lookup object for each Service
     Geocoder::Lookup.all_services.each{|service| Geocoder::Lookup.get(service).cache.expire(:all)}
 
 Do *not* include the prefix when passing a URL to be expired. Expiring `:all` will only expire keys with the configured prefix (won't kill every entry in your key/value store).
