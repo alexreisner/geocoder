@@ -18,6 +18,8 @@ Rails 4.1 Note
 
 Due to [a change in ActiveRecord's `count` method](https://github.com/rails/rails/pull/10710) you will need to use `count(:all)` to explicitly count all columns ("*") when using a `near` scope. Using `near` and calling `count` with no argument will cause exceptions in many cases.
 
+In the case you use the near scope to filter and order the results but not need the distance and bearing values for each record afterwards, you can add `order_by_without_select: :distance` as option to the near clause and still use `count` without argument.
+
 
 Installation
 ------------

@@ -39,8 +39,9 @@ module Geocoder::Store
           latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
           if Geocoder::Calculations.coordinates_present?(latitude, longitude)
             options = near_scope_options(latitude, longitude, *args)
-            select(options[:select]).where(options[:conditions]).
-              order(options[:order])
+            s = where(options[:conditions]).order(options[:order])
+            s.select! options[:select] unless options[:select].nil?
+            s
           else
             # If no lat/lon given we don't want any results, but we still
             # need distance and bearing columns so you can add, for example:
@@ -107,9 +108,12 @@ module Geocoder::Store
       # * +:exclude+         - an object to exclude (used by the +nearbys+ method)
       # * +:distance_column+ - used to set the column name of the calculated distance.
       # * +:bearing_column+  - used to set the column name of the calculated bearing.
-      # * +:min_radius+      - the value to use as the minimum radius. 
+      # * +:min_radius+      - the value to use as the minimum radius.
       #                        ignored if database is sqlite.
       #                        default is 0.0
+      # * +:order_by_without_select+ - filter and order records by this column
+      #                        but query distance and bearing for every records.
+      #                        Currently only :distance is support as option
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         if options[:units]
@@ -137,12 +141,20 @@ module Geocoder::Store
           min_radius = options.fetch(:min_radius, 0).to_f
           conditions = [bounding_box_conditions + " AND (#{distance}) BETWEEN ? AND ?", min_radius, radius]
         end
+        case options[:order_by_without_select]
+          when :distance
+            options[:order] = "#{distance} ASC"
+          when nil, ''
+          else
+            raise ArgumentError.new "Unknown order_by_without_select opion value \"#{options[:order_without_select]}\""
+        end
+
         {
-          :select => select_clause(options[:select],
+          :select => (select_clause(options[:select],
                                    select_distance ? distance : nil,
                                    select_bearing ? bearing : nil,
                                    distance_column,
-                                   bearing_column),
+                                   bearing_column) unless options[:order_by_without_select].present?),
           :conditions => add_exclude_condition(conditions, options[:exclude]),
           :order => options.include?(:order) ? options[:order] : "#{distance_column} ASC"
         }

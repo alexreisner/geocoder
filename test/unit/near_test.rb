@@ -79,6 +79,13 @@ class NearTest < GeocoderTestCase
     assert_no_consecutive_comma(result[:select])
   end
 
+  def test_near_scope_options_with_order_by_without_select_distance
+    result = PlaceWithCustomResultsHandling.send(:near_scope_options, 1.0, 2.0, 5, order_by_without_select: :distance)
+    assert_nil(result[:select])
+    assert_match(/test_table_name.latitude BETWEEN 0.9276\d* AND 1.0723\d* AND test_table_name.longitude BETWEEN 1.9276\d* AND 2.0723\d* AND /, result[:conditions][0])
+    assert_match(%r{ASIN\(SQRT\(POWER\(SIN\(.*\)\) ASC}, result[:order])
+  end
+
   private
 
   def assert_no_consecutive_comma(string)
