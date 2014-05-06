@@ -83,7 +83,7 @@ module Geocoder
       case package
       when :geolite_city_csv
         # use the last two in case multiple versions exist
-        files = Dir.glob(File.join(dir, "GeoLiteCity_*/*.csv"))[-2..-1]
+        files = Dir.glob(File.join(dir, "GeoLiteCity_*/*.csv"))[-2..-1].sort
         Hash[*files.zip(["maxmind_geolite_city_blocks", "maxmind_geolite_city_location"]).flatten]
       when :geolite_country_csv
         {File.join(dir, "GeoIPCountryWhois.csv") => "maxmind_geolite_country"}
