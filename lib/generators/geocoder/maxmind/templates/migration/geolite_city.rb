@@ -22,6 +22,7 @@ class GeocoderMaxmindGeoliteCity < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :maxmind_geolite_city
+    drop_table :maxmind_geolite_city_location
+    drop_table :maxmind_geolite_city_blocks
   end
 end
