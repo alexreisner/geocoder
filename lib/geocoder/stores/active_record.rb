@@ -196,19 +196,11 @@ module Geocoder::Store
         end
         if distance
           clause += ", " unless clause.empty?
-          if using_postgresql?
-            clause += "'#{distance}'::character(255) AS #{distance_column}"
-          else
-            clause += "#{distance} AS #{distance_column}"
-          end
+          clause += "#{distance} AS #{distance_column}"
         end
         if bearing
           clause += ", " unless clause.empty?
-          if using_postgresql?
-            clause += "'#{bearing}'::character(255) AS #{bearing_column}"
-          else
-            clause += "#{bearing} AS #{bearing_column}"
-          end
+          clause += "#{bearing} AS #{bearing_column}"
         end
         clause
       end
@@ -228,10 +220,6 @@ module Geocoder::Store
 
       def using_sqlite?
         connection.adapter_name.match(/sqlite/i)
-      end
-
-      def using_postgresql?
-        connection.adapter_name.match(/postgres/i)
       end
 
       ##
