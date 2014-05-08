@@ -38,6 +38,7 @@ module Geocoder
         :cloudmade,
         :geocodio,
         :smarty_streets,
+        :decarta,
         :test
       ]
     end
