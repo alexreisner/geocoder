@@ -4,7 +4,7 @@ module Geocoder::Result
   class Decarta < Base
 
     def address
-      @data['address']
+      @data['address']['freeformAddress']
     end
 
     def street
@@ -25,6 +25,10 @@ module Geocoder::Result
 
     def country_code
       @data['address']['countryCode']
+    end
+
+    def house_number
+      @data['address']['streetNumber']
     end
 
     def coordinates

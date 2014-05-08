@@ -21,14 +21,14 @@ module Geocoder::Lookup
           "search"
         end
       host = configuration[:host] || "api-eu.decarta.com"
-      "#{protocol}://#{host}/v1/#{configuration[:api_key]}/#{method}/" + custom_query_url_string(query)
+      "#{protocol}://#{host}/v1/#{configuration[:api_key]}/#{method}/" + URI.escape(custom_query_url_string(query))
     end
 
     private # ---------------------------------------------------------------
 
     def results(query)
       return [] unless docc = fetch_data(query)
-      doc = docc["results"]
+      doc = docc["results"] || docc["addresses"]
       doc.is_a?(Array) ? doc : [doc]
     end
 
