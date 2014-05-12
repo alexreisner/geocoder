@@ -3,8 +3,14 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.1 (2014 May 12)
+-------------------
+
+* Fix: correctly handle encoding of MaxMind API responses (thanks github.com/hydrozen, gonzoyumo).
+* Fixes to :maxmind_local database structure (thanks github.com/krakatoa).
+
 1.2.0 (2014 Apr 16)
------------
+-------------------
 
 * DROP SUPPORT for Ruby 1.8.x.
 * Add :here lookup (thanks github.com/christoph-buente).
