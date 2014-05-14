@@ -388,8 +388,6 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 
 #### Yahoo BOSS (`:yahoo`)
 
-Yahoo BOSS is **not a free service**. As of November 17, 2012 Yahoo no longer offers a free geocoding API.
-
 * **API key**: requires OAuth consumer key and secret (set `Geocoder.configure(:api_key => [key, secret])`)
 * **Key signup**: http://developer.yahoo.com/boss/geo/
 * **Quota**: unlimited, but subject to usage fees
