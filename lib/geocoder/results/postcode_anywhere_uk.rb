@@ -14,16 +14,23 @@ module Geocoder::Result
     alias_method :state_code, :blank_result
     alias_method :postal_code, :blank_result
 
+    def address
+      [@data['Location'], @data['OsGrid']].join(', ')
+    end
+
+    def city
+      # is this too big a jump to assume that the API always
+      # returns a City, County as the last elements?
+      city = @data['Location'].split(',')[-2]
+      city.strip
+    end
+
     def country
       'United Kingdom'
     end
 
     def country_code
       'UK'
-    end
-
-    def address
-      [@data['Location'], @data['OsGrid']].join(', ')
     end
   end
 end

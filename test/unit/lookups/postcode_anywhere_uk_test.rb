@@ -13,18 +13,18 @@ class PostcodeAnywhereUkTest < GeocoderTestCase
     results = Geocoder.search('Madison Square Garden')
 
     assert_equal 1, results.size
-    result = results.first
-    assert_equal 'Maidstone, Kent, TQ 76153 55386', result.address
-    assert_equal [51.2703, 0.5238], result.coordinates
+    assert_equal 'Maidstone, Kent, TQ 76153 55386', results.first.address
+    assert_equal [51.2703, 0.5238], results.first.coordinates
+    assert_equal 'Maidstone', results.first.city
   end
 
   def test_WR26NJ
     results = Geocoder.search('WR26NJ')
 
     assert_equal 1, results.size
-    result = results.first
-    assert_equal 'Moseley Road, Hallow, Worcester, SO 81676 59425', result.address
-    assert_equal [52.2327, -2.2697], result.coordinates
+    assert_equal 'Moseley Road, Hallow, Worcester, SO 81676 59425', results.first.address
+    assert_equal [52.2327, -2.2697], results.first.coordinates
+    assert_equal 'Hallow', results.first.city
   end
 
   def test_no_results
