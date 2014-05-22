@@ -220,6 +220,10 @@ module Geocoder
       def fixture_prefix
         'postcode_anywhere_uk_geocode_v200'
       end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_romsey"
+      end
     end
   end
 end
