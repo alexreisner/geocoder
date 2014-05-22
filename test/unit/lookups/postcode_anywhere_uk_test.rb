@@ -27,6 +27,15 @@ class PostcodeAnywhereUkTest < GeocoderTestCase
     assert_equal 'Hallow', results.first.city
   end
 
+  def test_result_components_with_county
+    results = Geocoder.search('hampshire')
+
+    assert_equal 1, results.size
+    assert_equal 'Hampshire, SU 48701 26642', results.first.address
+    assert_equal [51.037, -1.3068], results.first.coordinates
+    assert_equal '', results.first.city
+  end
+
   def test_no_results
     assert_equal [], Geocoder.search('no results')
   end

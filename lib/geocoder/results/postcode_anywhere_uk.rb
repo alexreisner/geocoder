@@ -21,7 +21,7 @@ module Geocoder::Result
     def city
       # is this too big a jump to assume that the API always
       # returns a City, County as the last elements?
-      city = @data['Location'].split(',')[-2]
+      city = @data['Location'].split(',')[-2] || blank_result
       city.strip
     end
 
