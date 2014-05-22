@@ -218,7 +218,7 @@ module Geocoder
     class PostcodeAnywhereUk
       private
       def fixture_prefix
-        'postcode_anywhere_uk_geocode_v200'
+        'postcode_anywhere_uk_geocode_v2_00'
       end
 
       def default_fixture_filename
