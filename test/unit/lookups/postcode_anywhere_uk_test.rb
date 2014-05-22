@@ -9,16 +9,16 @@ class PostcodeAnywhereUkTest < GeocoderTestCase
     set_api_key!(:postcode_anywhere_uk)
   end
 
-  def test_result_components
-    results = Geocoder.search('Madison Square Garden')
+  def test_result_components_with_placename_search
+    results = Geocoder.search('Romsey')
 
     assert_equal 1, results.size
-    assert_equal 'Maidstone, Kent, TQ 76153 55386', results.first.address
-    assert_equal [51.2703, 0.5238], results.first.coordinates
-    assert_equal 'Maidstone', results.first.city
+    assert_equal 'Romsey, Hampshire, SU 35270 21182', results.first.address
+    assert_equal [50.9889, -1.4989], results.first.coordinates
+    assert_equal 'Romsey', results.first.city
   end
 
-  def test_WR26NJ
+  def test_result_components_with_postcode
     results = Geocoder.search('WR26NJ')
 
     assert_equal 1, results.size
@@ -29,5 +29,30 @@ class PostcodeAnywhereUkTest < GeocoderTestCase
 
   def test_no_results
     assert_equal [], Geocoder.search('no results')
+  end
+
+  def test_key_limit_exceeded_error
+    Geocoder.configure(always_raise: [Geocoder::OverQueryLimitError])
+
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder.search('key limit exceeded')
+    end
+  end
+
+  def test_unknown_key_error
+    Geocoder.configure(always_raise: [Geocoder::InvalidApiKey])
+
+    assert_raises Geocoder::InvalidApiKey do
+      Geocoder.search('unknown key')
+    end
+  end
+
+  def test_generic_error
+    Geocoder.configure(always_raise: [Geocoder::Error])
+
+    exception = assert_raises(Geocoder::Error) do
+      Geocoder.search('generic error')
+    end
+    assert_equal 'A generic error occured.', exception.message
   end
 end
