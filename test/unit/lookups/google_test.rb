@@ -4,6 +4,11 @@ require 'test_helper'
 
 class GoogleTest < GeocoderTestCase
 
+  def test_allowing_to_pass_the_language_per_request
+    query = Geocoder::Query.new("Madison Square Garden, New York, NY", language: :fr)
+    assert_equal "http://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&language=fr&sensor=false", query.url
+  end
+
   def test_google_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Manhattan",
