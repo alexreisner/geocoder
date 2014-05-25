@@ -7,6 +7,14 @@ module Geocoder
       self.options = options
     end
 
+    def with_language?
+      !language.nil?
+    end
+
+    def language
+      options[:language]
+    end
+
     def execute
       lookup.search(text, options)
     end
