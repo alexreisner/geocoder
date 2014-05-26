@@ -62,11 +62,13 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
+      lang = (query.language || configuration.language).to_s
+      lang += '_US' if lang == 'en'
       {
         :location => query.sanitized_text,
         :flags => "JXTSR",
         :gflags => "AC#{'R' if query.reverse_geocode?}",
-        :locale => "#{configuration.language}_US",
+        :locale => lang,
         :appid => configuration.api_key
       }.merge(super)
     end

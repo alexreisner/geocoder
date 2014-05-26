@@ -98,6 +98,10 @@ module Geocoder
       coordinates?
     end
 
+    def language
+      options[:language]
+    end
+
     private # ----------------------------------------------------------------
 
     def params_given?

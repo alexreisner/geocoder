@@ -56,6 +56,23 @@ class LookupTest < GeocoderTestCase
     end
   end
 
+  {
+    :google => :language,
+    :google_premier => :language,
+    :nominatim => :"accept-language",
+    :yahoo => :locale,
+    :yandex => :plng
+  }.each do |l,p|
+    define_method "test_passing_language_to_#{l}_query_overrides_configuration_value" do
+      set_api_key!(l)
+      url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
+        "test", :language => 'xxxx'
+      ))
+      assert_match(/#{p}=xxxx/, url,
+        "Param passed to #{l} lookup does not override configuration value")
+    end
+  end
+
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
