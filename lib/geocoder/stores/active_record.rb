@@ -129,7 +129,8 @@ module Geocoder::Store
         else
           distance_latitude, distance_longitude = latitude, longitude
         end
-        distance = distance_sql(distance_latitude, distance_longitude, options)
+        distance_selector = distance_sql(distance_latitude, distance_longitude, options)
+        distance_condition = distance_sql(latitude, longitude, options)
         distance_column = options.fetch(:distance_column, 'distance')
         bearing_column = options.fetch(:bearing_column, 'bearing')
 
@@ -144,11 +145,11 @@ module Geocoder::Store
           conditions = bounding_box_conditions
         else
           min_radius = options.fetch(:min_radius, 0).to_f
-          conditions = [bounding_box_conditions + " AND (#{distance}) BETWEEN ? AND ?", min_radius, radius]
+          conditions = [bounding_box_conditions + " AND (#{distance_condition}) BETWEEN ? AND ?", min_radius, radius]
         end
         {
           :select => select_clause(options[:select],
-                                   select_distance ? distance : nil,
+                                   select_distance ? distance_selector : nil,
                                    select_bearing ? bearing : nil,
                                    distance_column,
                                    bearing_column),
