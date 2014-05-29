@@ -110,6 +110,7 @@ module Geocoder::Store
       # * +:min_radius+      - the value to use as the minimum radius. 
       #                        ignored if database is sqlite.
       #                        default is 0.0
+      # * +:select_location+ - a second set of coordinates to calculate distance from.
       #
       def near_scope_options(latitude, longitude, radius = 20, options = {})
         if options[:units]
@@ -120,7 +121,15 @@ module Geocoder::Store
         options[:order] = "" if !select_distance && !options.include?(:order)
         select_bearing = options.fetch(:select_bearing, true)
         bearing = bearing_sql(latitude, longitude, options)
-        distance = distance_sql(latitude, longitude, options)
+        if options[:select_location]
+          distance_latitude, distance_longitude = Geocoder::Calculations.extract_coordinates(options[:select_location])
+          unless Geocoder::Calculations.coordinates_present?(distance_latitude, distance_longitude)
+            distance_latitude, distance_longitude = latitude, longitude
+          end
+        else
+          distance_latitude, distance_longitude = latitude, longitude
+        end
+        distance = distance_sql(distance_latitude, distance_longitude, options)
         distance_column = options.fetch(:distance_column, 'distance')
         bearing_column = options.fetch(:bearing_column, 'bearing')
 
