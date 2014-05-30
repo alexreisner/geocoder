@@ -5,7 +5,7 @@ require 'test_helper'
 class SimpleExecutionStrategyTest < GeocoderTestCase
 
   def test_strategy_calls_execute_on_lookup
-    lookup = MiniTest::Mock.new
+    lookup = lookup_mock
     lookup.expect(:search, [], ['search', {}])
 
     subject.execute(lookup, 'search', {})

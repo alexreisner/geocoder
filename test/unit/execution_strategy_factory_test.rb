@@ -5,9 +5,7 @@ require 'test_helper'
 class ExecutionStrategyFactoryTest < GeocoderTestCase
 
   def test_with_no_configuration
-    strategy = subject.strategy
-
-    assert strategy.is_a?(Geocoder::SimpleExecutionStrategy)
+    assert subject.strategy.is_a?(Geocoder::SimpleExecutionStrategy)
   end
 
   def test_with_valid_fallback_configuration_setting
@@ -16,8 +14,7 @@ class ExecutionStrategyFactoryTest < GeocoderTestCase
         :on => Geocoder::OverQueryLimitError
     })
 
-    strategy = subject.strategy
-    assert strategy.is_a?(Geocoder::FallbackExecutionStrategy)
+    assert subject.strategy.is_a?(Geocoder::FallbackExecutionStrategy)
   end
 
   def test_with_fallback_configuration_missing_to
@@ -25,8 +22,7 @@ class ExecutionStrategyFactoryTest < GeocoderTestCase
         :on => Geocoder::OverQueryLimitError
     })
 
-    strategy = subject.strategy
-    assert strategy.is_a?(Geocoder::SimpleExecutionStrategy)
+    assert subject.strategy.is_a?(Geocoder::SimpleExecutionStrategy)
   end
 
   def test_with_fallback_configuration_missing_on
@@ -34,8 +30,7 @@ class ExecutionStrategyFactoryTest < GeocoderTestCase
         :to => :google,
     })
 
-    strategy = subject.strategy
-    assert strategy.is_a?(Geocoder::SimpleExecutionStrategy)
+    assert subject.strategy.is_a?(Geocoder::SimpleExecutionStrategy)
   end
 
   private
