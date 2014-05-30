@@ -7,9 +7,12 @@ module Geocoder
       self.options = options
     end
 
+    ##
+    # Execute the lookup request via an ExecutionStrategy determined by
+    # configuration attributes.
+    #
     def execute
-      strategy = execution_strategy.strategy
-      strategy.execute(lookup, text, options)
+      execution_strategy.execute(lookup, text, options)
     end
 
     def to_s
@@ -26,10 +29,6 @@ module Geocoder
       else
         text
       end
-    end
-
-    def execution_strategy
-      ExecutionStrategyFactory.new
     end
 
     ##
@@ -104,6 +103,11 @@ module Geocoder
     end
 
     private # ----------------------------------------------------------------
+
+    def execution_strategy
+      factory = ExecutionStrategyFactory.new
+      factory.strategy
+    end
 
     def params_given?
       !!(options[:params].is_a?(Hash) and options[:params].keys.size > 0)
