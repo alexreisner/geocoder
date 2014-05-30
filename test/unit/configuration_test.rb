@@ -52,4 +52,35 @@ class ConfigurationTest < GeocoderTestCase
     # method option > per-model configuration
     assert_equal 111, v.distance_to([0,1], :km).round
   end
+
+  def test_with_valid_fallback_configuration
+    Geocoder.configure(:lookup_fallback => {
+        :to => :google,
+        :on => 'foo'
+    })
+
+    assert Geocoder::Configuration.fallback_config_valid?
+  end
+
+  def test_with_empty_fallback_configuration
+    Geocoder.configure(:lookup_fallback => {})
+
+    refute Geocoder::Configuration.fallback_config_valid?
+  end
+
+  def test_with_invalid_fallback_configuration_missing_to
+    Geocoder.configure(:lookup_fallback => {
+        :on => 'foo'
+    })
+
+    refute Geocoder::Configuration.fallback_config_valid?
+  end
+
+  def test_with_invalid_fallback_configuration_missing_on
+    Geocoder.configure(:lookup_fallback => {
+        :to => :google
+    })
+
+    refute Geocoder::Configuration.fallback_config_valid?
+  end
 end

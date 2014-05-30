@@ -55,7 +55,8 @@ module Geocoder
       :cache_prefix,
       :always_raise,
       :units,
-      :distances
+      :distances,
+      :lookup_fallback
     ]
 
     attr_accessor :data
@@ -82,20 +83,31 @@ module Geocoder
       set_defaults
     end
 
+    def self.fallback_config_present?
+      !lookup_fallback.empty?
+    end
+
+    def self.fallback_config_valid?
+      fallback_config_present? &&
+        lookup_fallback.has_key?(:to) &&
+          lookup_fallback.has_key?(:on)
+    end
+
     def set_defaults
 
       # geocoding options
-      @data[:timeout]      = 3           # geocoding service timeout (secs)
-      @data[:lookup]       = :google     # name of street address geocoding service (symbol)
-      @data[:ip_lookup]    = :freegeoip  # name of IP address geocoding service (symbol)
-      @data[:language]     = :en         # ISO-639 language code
-      @data[:http_headers] = {}          # HTTP headers for lookup
-      @data[:use_https]    = false       # use HTTPS for lookup requests? (if supported)
-      @data[:http_proxy]   = nil         # HTTP proxy server (user:pass@host:port)
-      @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
-      @data[:api_key]      = nil         # API key for geocoding service
-      @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
-      @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
+      @data[:timeout]         = 3           # geocoding service timeout (secs)
+      @data[:lookup]          = :google     # name of street address geocoding service (symbol)
+      @data[:ip_lookup]       = :freegeoip  # name of IP address geocoding service (symbol)
+      @data[:language]        = :en         # ISO-639 language code
+      @data[:http_headers]    = {}          # HTTP headers for lookup
+      @data[:use_https]       = false       # use HTTPS for lookup requests? (if supported)
+      @data[:http_proxy]      = nil         # HTTP proxy server (user:pass@host:port)
+      @data[:https_proxy]     = nil         # HTTPS proxy server (user:pass@host:port)
+      @data[:api_key]         = nil         # API key for geocoding service
+      @data[:cache]           = nil         # cache object (must respond to #[], #[]=, and #keys)
+      @data[:cache_prefix]    = "geocoder:" # prefix (string) to use for all cache keys
+      @data[:lookup_fallback] = {}          # fallback lookup to use for defined error
 
       # exceptions that should not be rescued by default
       # (if you want to implement custom error handling);
