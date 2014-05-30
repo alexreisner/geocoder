@@ -8,7 +8,8 @@ module Geocoder
     end
 
     def execute
-      lookup.search(text, options)
+      strategy = execution_strategy.strategy
+      strategy.execute(lookup, text, options)
     end
 
     def to_s
@@ -25,6 +26,10 @@ module Geocoder
       else
         text
       end
+    end
+
+    def execution_strategy
+      ExecutionStrategyFactory.new
     end
 
     ##
