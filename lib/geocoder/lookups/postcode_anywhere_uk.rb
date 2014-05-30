@@ -3,8 +3,10 @@ require 'geocoder/results/postcode_anywhere_uk'
 
 module Geocoder::Lookup
   class PostcodeAnywhereUk < Base
-
+    # API documentation: http://www.postcodeanywhere.co.uk/Support/WebService/Geocoding/UK/Geocode/2/
     BASE_URL_GEOCODE_V2_00 = 'services.postcodeanywhere.co.uk/Geocoding/UK/Geocode/v2.00/json.ws'
+    DAILY_LIMIT_EXEEDED_ERROR_CODES = ['8', '17'] # api docs say these two codes are the same error
+    INVALID_API_KEY_ERROR_CODE = '2'
 
     def name
       'PostcodeAnywhereUk'
@@ -30,9 +32,9 @@ module Geocoder::Lookup
 
     def raise_exception_for_response(response)
       case response['Error']
-      when '8', '17' # api docs say these two codes are the same error
+      when *DAILY_LIMIT_EXEEDED_ERROR_CODES
         raise_error(Geocoder::OverQueryLimitError, response['Cause']) || warn(response['Cause'])
-      when '2'
+      when INVALID_API_KEY_ERROR_CODE
         raise_error(Geocoder::InvalidApiKey, response['Cause']) || warn(response['Cause'])
       else # anything else just raise general error with the api cause
         raise_error(Geocoder::Error, response['Cause']) || warn(response['Cause'])

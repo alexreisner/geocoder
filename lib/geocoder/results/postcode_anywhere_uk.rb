@@ -25,6 +25,8 @@ module Geocoder::Result
       city.strip
     end
 
+    # This is a UK only API; all results are UK specific and
+    # so ommitted from API response.
     def country
       'United Kingdom'
     end
