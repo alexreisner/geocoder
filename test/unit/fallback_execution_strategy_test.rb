@@ -8,22 +8,11 @@ class FallbackExecutionStrategyTest < GeocoderTestCase
     Geocoder.configure(:always_raise => [], :lookup_fallback => {})
   end
 
-  def test_strategy_calls_execute_on_lookup
-    lookup = lookup_mock
-    lookup.expect(:search, [], ['search', {}])
-
-    subject.execute(lookup, 'search', {})
-    lookup.verify
-  end
-
   def test_strategy_returns_lookup_results
-    lookup = lookup_mock
-    def lookup.search(text, opts)
-      []
-    end
+    lookup = Geocoder::Lookup.get(:google)
     results = subject.execute(lookup, 'search', {})
 
-    assert_equal [], results
+    assert_equal 1, results.size
   end
 
   def test_strategy_does_fallback_when_exception_occurs

@@ -4,28 +4,16 @@ require 'test_helper'
 
 class SimpleExecutionStrategyTest < GeocoderTestCase
 
-  def test_strategy_calls_execute_on_lookup
-    lookup = lookup_mock
-    lookup.expect(:search, [], ['search', {}])
-
-    subject.execute(lookup, 'search', {})
-    lookup.verify
-  end
-
   def test_strategy_returns_lookup_results
-    lookup = lookup_mock
-    def lookup.search(text, opts)
-      []
-    end
     results = subject.execute(lookup, 'search', {})
 
-    assert_equal [], results
+    assert_equal 1, results.size
   end
 
   private
 
-  def lookup_mock
-    MiniTest::Mock.new
+  def lookup
+    Geocoder::Lookup.get(:google)
   end
 
   def subject
