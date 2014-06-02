@@ -27,7 +27,9 @@ module Geocoder::Lookup
       if !query.reverse_geocode? and r = query.options[:region]
         url << "/#{r}"
       end
-      url + "/" + URI.escape(query.sanitized_text.strip) + "?"
+      # use the more forgiving 'unstructured' query format to allow special
+      # chars, newlines, brackets, typos.
+      url + "?q=" + URI.escape(query.sanitized_text.strip) + "&"
     end
 
     def results(query)

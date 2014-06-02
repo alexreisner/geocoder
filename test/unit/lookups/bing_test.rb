@@ -12,7 +12,7 @@ class BingTest < GeocoderTestCase
   def test_query_for_reverse_geocode
     lookup = Geocoder::Lookup::Bing.new
     url = lookup.query_url(Geocoder::Query.new([45.423733, -75.676333]))
-    assert_match(/Locations\/45.423733/, url)
+    assert_match(/Locations\?q=45.423733/, url)
   end
 
   def test_result_components
@@ -33,7 +33,7 @@ class BingTest < GeocoderTestCase
       "manchester",
       :region => "uk"
     ))
-    assert_match(/Locations\/uk\/manchester/, url)
+    assert_match(/Locations\/uk\?q=manchester/, url)
     assert_no_match(/query/, url)
   end
 
@@ -42,7 +42,7 @@ class BingTest < GeocoderTestCase
     url = lookup.query_url(Geocoder::Query.new(
       "manchester"
     ))
-    assert_match(/Locations\/manchester/, url)
+    assert_match(/Locations\?q=manchester/, url)
     assert_no_match(/query/, url)
   end
 
@@ -52,7 +52,7 @@ class BingTest < GeocoderTestCase
       "manchester, lancashire",
       :region => "uk"
     ))
-    assert_match(/Locations\/uk\/manchester,%20lancashire/, url)
+    assert_match(/Locations\/uk\?q=manchester,%20lancashire/, url)
     assert_no_match(/query/, url)
   end
 
@@ -62,7 +62,7 @@ class BingTest < GeocoderTestCase
       " manchester, lancashire ",
       :region => "uk"
     ))
-    assert_match(/Locations\/uk\/manchester,%20lancashire/, url)
+    assert_match(/Locations\/uk\?q=manchester,%20lancashire/, url)
     assert_no_match(/query/, url)
   end
 end
