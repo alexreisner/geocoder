@@ -154,12 +154,28 @@ module Geocoder
       # Return false if exception not raised.
       #
       def raise_error(error, message = nil)
-        exceptions = configuration.always_raise
-        if exceptions == :all or exceptions.include?( error.is_a?(Class) ? error : error.class )
+        if raise_error?(error)
           raise error, message
         else
           false
         end
+      end
+
+      ##
+      # Determine if a particular error should be raised based on
+      # if present in config :always_raise or :lookup_fallback set.
+      #
+      def raise_error?(error)
+        exceptions = configuration.always_raise
+        if exceptions == :all
+          return true
+        end
+
+        # add the lookup_fallback error if present
+        if Configuration.fallback_config_valid?
+          exceptions |= [Configuration.lookup_fallback[:on]]
+        end
+        exceptions.include?( error.is_a?(Class) ? error : error.class )
       end
 
       ##

@@ -367,6 +367,37 @@ You can also configure multiple geocoding services at once, like this:
 
 The above combines global and service-specific options and could be useful if you specify different geocoding services for different models or under different conditions. Lookup-specific settings override global settings so, for example, in the above the timeout for all lookups would be 2 seconds, except for Yandex which would be 5.
 
+It is also possible to configured Geocoder to fallback back to another lookup service when the primary service returns a specific error. An example use could be to use a primary API by default but fallback to a secondary service if the primary returns the `OverQueryLimitError` if the API has a daily request limit, this way you always get a response.
+
+    # config/initializers/geocoder.rb
+    Geocoder.configure(
+
+      # geocoding service (see below for supported options):
+      :lookup => :yandex,
+
+      # fallback to another provider on specific error
+      :lookup_fallback => {
+        :to => :google,
+        :on => Geocoder::OverQueryLimitError
+      },
+
+      # IP address geocoding service (see below for supported options):
+      :ip_lookup => :maxmind,
+
+      # to use an API key:
+      :api_key => "...",
+
+      # geocoding service request timeout, in seconds (default 3):
+      :timeout => 5,
+
+      # set default units to kilometers:
+      :units => :km,
+
+      # caching (see below for details):
+      :cache => Redis.new,
+      :cache_prefix => "..."
+
+    )
 
 ### Street Address Services
 

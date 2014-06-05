@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.3.0 (2014 May 30)
+-------------------
+
+* Add a configuration attribute to allow setting a lookup fallback; When a configured error is raised for a primary lookup Geocoder can fallback to a secondary lookup and return results from this provider.
+
 1.2.1 (2014 May 12)
 -------------------
 

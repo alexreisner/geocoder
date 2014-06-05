@@ -6,6 +6,9 @@ require "geocoder/cache"
 require "geocoder/request"
 require "geocoder/lookup"
 require "geocoder/ip_address"
+require "geocoder/execution_strategy_factory"
+require "geocoder/simple_execution_strategy"
+require "geocoder/fallback_execution_strategy"
 require "geocoder/models/active_record" if defined?(::ActiveRecord)
 require "geocoder/models/mongoid" if defined?(::Mongoid)
 require "geocoder/models/mongo_mapper" if defined?(::MongoMapper)
