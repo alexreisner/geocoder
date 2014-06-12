@@ -41,4 +41,16 @@ class ErrorHandlingTest < GeocoderTestCase
       end
     end
   end
+
+  def test_always_raise_connection_refused_error
+    Geocoder.configure(:always_raise => [Errno::ECONNREFUSED])
+    Geocoder::Lookup.all_services_except_test.each do |l|
+      next if l == :maxmind_local # local, does not raise timeout
+      lookup = Geocoder::Lookup.get(l)
+      set_api_key!(l)
+      assert_raises Errno::ECONNREFUSED do
+        lookup.send(:results, Geocoder::Query.new("connection_refused"))
+      end
+    end
+  end
 end

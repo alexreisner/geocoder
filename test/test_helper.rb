@@ -110,6 +110,7 @@ module Geocoder
       def make_api_request(query)
         raise TimeoutError if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
+        raise Errno::ECONNREFUSED if query.text == "connection_refused"
         read_fixture fixture_for_query(query)
       end
     end
