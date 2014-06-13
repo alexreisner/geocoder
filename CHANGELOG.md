@@ -3,6 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.2 (2014 Jun 12)
+
+* Add ability to specify language per query (thanks github.com/mkristian).
+* Handle Errno::ECONNREFUSED exceptions like TimeoutError exceptions.
+* Switch to 'unstructured' query format for Bing API (thanks github.com/lukewendling).
+
 1.2.1 (2014 May 12)
 -------------------
 
