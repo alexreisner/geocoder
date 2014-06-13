@@ -576,7 +576,7 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Documentation**: http://github.com/fiorix/freegeoip/blob/master/README.md
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: If you are running your own local instance of the FreeGeoIP service you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
+* **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
 
 #### MaxMind Web Services (`:maxmind`)
 
