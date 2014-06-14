@@ -578,6 +578,17 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Limitations**: ?
 * **Notes**: If you are running your own local instance of the FreeGeoIP service you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
 
+#### Telize (`:telize`)
+
+* **API key**: none
+* **Quota**: none
+* **Region**: world
+* **SSL support**: no
+* **Languages**: English
+* **Documentation**: http://www.telize.com/
+* **Terms of Service**: ?
+* **Limitations**: ?
+
 #### MaxMind Web Services (`:maxmind`)
 
 * **API key**: required
