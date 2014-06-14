@@ -15,15 +15,12 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def parse_raw_data(raw_data)
-      raw_data.match(/^<html><title>404/) ? nil : super(raw_data)
-    end
-
     def results(query)
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query.text)] if query.loopback_ip_address?
-      # note: Freegeoip.net returns plain text "Not Found" on bad request
-      (doc = fetch_data(query)) ? [doc] : []
+      # note: Telize returns json with a code attribute of 401 on bad request
+      doc = fetch_data(query)
+      (doc && doc['code'] == 401) ? [] : [doc]
     end
 
     def reserved_result(ip)

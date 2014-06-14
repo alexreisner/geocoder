@@ -17,4 +17,9 @@ class TelizeTest < GeocoderTestCase
     result = Geocoder.search("74.200.247.59").first
     assert_equal "Plano, TX 75093, United States", result.address
   end
+
+  def test_no_results
+    results = Geocoder.search("10.10.10.10")
+    assert_equal 0, results.length
+  end
 end
