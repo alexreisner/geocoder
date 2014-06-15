@@ -37,9 +37,5 @@ module Geocoder::Lookup
         "country_code" => "RD"
       }
     end
-
-    def host
-      configuration[:host] || "telize.net"
-    end
   end
 end
