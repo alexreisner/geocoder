@@ -143,6 +143,17 @@ module Geocoder
       end
     end
 
+    class Telize
+      private
+      def fixture_prefix
+        "telize"
+      end
+
+      def default_fixture_filename
+        "telize_74_200_247_59"
+      end
+    end
+
     class Maxmind
       private
       def default_fixture_filename

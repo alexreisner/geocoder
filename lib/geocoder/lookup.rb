@@ -47,10 +47,11 @@ module Geocoder
     #
     def ip_services
       [
+        :baidu_ip,
         :freegeoip,
         :maxmind,
         :maxmind_local,
-        :baidu_ip
+        :telize
       ]
     end
 
