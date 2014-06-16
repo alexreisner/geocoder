@@ -18,24 +18,19 @@ module Geocoder::Lookup
     def results(query)
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query.text)] if query.loopback_ip_address?
-      # note: Telize returns json with a code attribute of 401 on bad request
-      doc = fetch_data(query)
-      (doc && doc['code'] == 401) ? [] : [doc]
+      if (doc = fetch_data(query)).nil? or doc['code'] == 401 or empty_result?(doc)
+        []
+      else
+        [doc]
+      end
+    end
+
+    def empty_result?(doc)
+      !doc.is_a?(Hash) or doc.keys == ["ip"]
     end
 
     def reserved_result(ip)
-      {
-        "ip"           => ip,
-        "city"         => "",
-        "region_code"  => "",
-        "region_name"  => "",
-        "metrocode"    => "",
-        "zipcode"      => "",
-        "latitude"     => "0",
-        "longitude"    => "0",
-        "country_name" => "Reserved",
-        "country_code" => "RD"
-      }
+      {"message" => "Input string is not a valid IP address", "code" => 401}
     end
   end
 end

@@ -1,4 +1,1 @@
-{
-"message": "Input string is not a valid IP address",
-"code": 401
-}
+{"ip":"10.10.10.10"}

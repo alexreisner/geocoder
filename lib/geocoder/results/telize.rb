@@ -13,7 +13,7 @@ module Geocoder::Result
     end
 
     def state
-      @data['region_name']
+      @data['region']
     end
 
     def state_code
@@ -21,7 +21,7 @@ module Geocoder::Result
     end
 
     def country
-      @data['country_name']
+      @data['country']
     end
 
     def country_code
@@ -29,11 +29,11 @@ module Geocoder::Result
     end
 
     def postal_code
-      @data['zipcode']
+      @data['postal_code']
     end
 
     def self.response_attributes
-      %w[metrocode ip]
+      %w[timezone isp dma_code area_code ip asn continent_code country_code3]
     end
 
     response_attributes.each do |a|

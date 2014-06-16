@@ -22,4 +22,9 @@ class TelizeTest < GeocoderTestCase
     results = Geocoder.search("10.10.10.10")
     assert_equal 0, results.length
   end
+
+  def test_invalid_address
+    results = Geocoder.search("555.555.555.555")
+    assert_equal 0, results.length
+  end
 end
