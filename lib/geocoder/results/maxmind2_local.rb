@@ -1,45 +1,48 @@
-require 'ipaddr'
-require 'geocoder/lookups/base'
-require 'geocoder/results/maxmind2_local'
+require 'geocoder/results/base'
 
-module Geocoder::Lookup
+module Geocoder::Result
   class Maxmind2Local < Base
 
-    def initialize
-      if !configuration[:file].nil?
-        begin
-          require 'geoip2'
-        rescue LoadError
-          raise "Could not load geoip2 dependency. To use MaxMind Local lookup you must add the geoip2 gem to your Gemfile or have it installed in your system."
-        end
-      else
-        raise "File must be specified when loading GeoIP2 database."
-      end
-      super
+    def address(format = :full)
+      s = state.to_s == "" ? "" : ", #{state}"
+      "#{city}#{s} #{postal_code}, #{country}".sub(/^[ ,]*/, "")
     end
 
-    def name
-      "MaxMind2 Local"
+    def coordinates
+      [@data["latitude"], @data["longitude"]]
     end
 
-    def required_api_key_parts
-      []
+    def city
+      @data["city"]
     end
 
-    private
-
-    def results(query)
-      GeoIP2::file(configuration[:file])
-      result = GeoIP2::locate(query.to_s, 'en')
-      (result.nil? || !result) ? [] : [result.to_hash]
+    def state
+      @data["subdivision"]
     end
 
-    def format_result(query, attr_names)
-      if r = ActiveRecord::Base.connection.execute(query).first
-        r = r.values if r.is_a?(Hash) # some db adapters return Hash, some Array
-        [Hash[*attr_names.zip(r).flatten]]
-      else
-        []
+    def state_code
+      @data["subdivision_code"]
+    end
+
+    def country
+      @data["country"]
+    end
+
+    def country_code
+      @data["country_code"]
+    end
+
+    def postal_code
+      @data["postal_code"]
+    end
+
+    def self.response_attributes
+      %w[ip]
+    end
+
+    response_attributes.each do |a|
+      define_method a do
+        @data[a]
       end
     end
   end
