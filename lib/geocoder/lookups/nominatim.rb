@@ -38,7 +38,7 @@ module Geocoder::Lookup
         :format => "json",
         :addressdetails => "1",
         :"accept-language" => configuration.language
-      }.merge(super)
+      }.merge(super)  
       if query.reverse_geocode?
         lat,lon = query.coordinates
         params[:lat] = lat

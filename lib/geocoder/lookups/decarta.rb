@@ -27,9 +27,19 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def results(query)
-      return [] unless docc = fetch_data(query)
+      docc = fetch_data(query)
+      return [] unless docc
       doc = docc["results"] || docc["addresses"]
       doc.is_a?(Array) ? doc : [doc]
+    end
+
+    def fetch_data(query)
+      parse_raw_data fetch_raw_data(query)
+    rescue SocketError => err
+      raise_error(err) or warn "Geocoding API connection cannot be established."
+    rescue TimeoutError => err
+      raise_error(err) or warn "Geocoding API not responding fast enough " +
+        "(use Geocoder.configure(:timeout => ...) to set limit)."
     end
 
     def parse_raw_data(raw_data)
@@ -47,7 +57,12 @@ module Geocoder::Lookup
       elsif street_only?(query)
         "#{query.text[:street]},#{query.text[:city]}.json?countrySet=#{query.text[:country_iso]}&limit=3"
       else
-        "#{query.sanitized_text}.json"
+        params = hash_to_query(
+          query_url_params(query).reject{ |key,value| value.nil? }
+        )
+        text = "#{query.sanitized_text}.json"
+        text += "?#{params}" if params.present?
+        text
       end
     end
   end
