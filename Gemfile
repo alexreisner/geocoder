@@ -8,9 +8,8 @@ group :development, :test do
   gem 'rubyzip'
   gem 'rails'
 
-  platforms :mri do
-    gem 'debugger'
-  end
+  gem 'debugger', :platforms => [:mri_19]
+  gem 'byebug', :platforms => [:mri_20, :mri_21]
 
   platforms :jruby do
     gem 'jruby-openssl'
