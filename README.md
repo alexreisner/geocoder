@@ -615,6 +615,10 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Limitations**: ?
 * **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **You must download a database from MaxMind and set either the `:file` or `:package` configuration option for local lookups to work.**
 
+**To create a Rails initializer** with an example configuration:
+
+    rails generate geocoder:config
+
 **To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
 
     Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')})
@@ -625,12 +629,12 @@ This lookup provides methods for geocoding IP addresses without making a call to
 
 You can generate ActiveRecord migrations and download and import data via provided rake tasks:
 
-    rails generate geocoder:maxmind:geolite_city
+    rails generate geocoder:maxmind:geolite PACKAGE=city
 
-    rake geocoder:maxmind:geolite_city:download
-    rake geocoder:maxmind:geolite_city:extract
-    rake geocoder:maxmind:geolite_city:insert
-    rake geocoder:maxmind:geolite_city:load # runs the above three in sequence
+    rake geocoder:maxmind:geolite:download PACKAGE=city
+    rake geocoder:maxmind:geolite:extract PACKAGE=city
+    rake geocoder:maxmind:geolite:insert PACKAGE=city
+    rake geocoder:maxmind:geolite:load PACKAGE=city # runs the above three in sequence
 
 You can replace `city` with `country` in any of the above tasks, generators, and configurations.
 
