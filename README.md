@@ -306,7 +306,13 @@ If you're familiar with the results returned by the geocoding service you're usi
 Geocoding Service ("Lookup") Configuration
 ------------------------------------------
 
-Geocoder supports a variety of street and IP address geocoding services. The default lookups are `:google` for street addresses and `:freegeoip` for IP addresses. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services). Some common configuration options are:
+Geocoder supports a variety of street and IP address geocoding services. The default lookups are `:google` for street addresses and `:freegeoip` for IP addresses. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services).
+
+To create a Rails initializer with an example configuration:
+
+    rails generate geocoder:config
+
+Some common configuration options are:
 
     # config/initializers/geocoder.rb
     Geocoder.configure(
@@ -614,10 +620,6 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **You must download a database from MaxMind and set either the `:file` or `:package` configuration option for local lookups to work.**
-
-**To create a Rails initializer** with an example configuration:
-
-    rails generate geocoder:config
 
 **To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
 
