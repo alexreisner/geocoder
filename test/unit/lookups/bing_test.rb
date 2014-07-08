@@ -12,7 +12,7 @@ class BingTest < GeocoderTestCase
   def test_query_for_reverse_geocode
     lookup = Geocoder::Lookup::Bing.new
     url = lookup.query_url(Geocoder::Query.new([45.423733, -75.676333]))
-    assert_match(/Locations\?q=45.423733/, url)
+    assert_match(/Locations\/45.423733/, url)
   end
 
   def test_result_components
