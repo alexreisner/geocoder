@@ -652,7 +652,7 @@ You can replace `city` with `country` in any of the above tasks, generators, and
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
 
-#### Texas A&M (:texas_am)
+#### Texas A&M (`:texas_am`)
 
 * **API key**: required
 * **Quota**: purchase credits for account
