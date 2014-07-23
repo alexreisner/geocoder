@@ -19,7 +19,7 @@ class GeocodioTest < GeocoderTestCase
     assert_equal "NW", result.postdirectional
     assert_equal "Washington", result.city
     assert_equal "1101 Pennsylvania Ave NW, Washington DC, 20004", result.formatted_address
-    assert_equal({ "lat" => 38.895019, "lng" => -77.028095 }, result.location)
+    assert_equal({ "lat" => "38.895019", "lng" => "-77.028095" }, result.location)
   end
 
   def test_no_results

@@ -45,7 +45,7 @@ module Geocoder::Result
     end
 
     def coordinates
-      ['lat', 'lng'].map{ |i| location[i] } if location
+      ['lat', 'lng'].map{ |i| location[i].to_f } if location
     end
 
     def accuracy
