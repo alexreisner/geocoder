@@ -99,7 +99,7 @@ module Geocoder
       # Object used to make HTTP requests.
       #
       def http_client
-        protocol = "http#{'s' if configuration.use_https}"
+        protocol = "http#{'s' if use_ssl?}"
         proxy_name = "#{protocol}_proxy"
         if proxy = configuration.send(proxy_name)
           proxy_url = !!(proxy =~ /^#{protocol}/) ? proxy : protocol + '://' + proxy
@@ -198,7 +198,7 @@ module Geocoder
       # Set in configuration but not available for every service.
       #
       def protocol
-        "http" + (configuration.use_https ? "s" : "")
+        "http" + (use_ssl? ? "s" : "")
       end
 
       def valid_response?(response)
@@ -262,12 +262,16 @@ module Geocoder
           args = [uri.host, uri.port]
           args = args.push(uri.user, uri.password) unless uri.user.nil? or uri.password.nil?
           opts = {}
-          opts[:use_ssl] = true if configuration.use_https
+          opts[:use_ssl] = use_ssl?
 
           http_client.start(*args, opts) do |client|
             client.get(uri.request_uri, configuration.http_headers)
           end
         end
+      end
+
+      def use_ssl?
+        configuration.use_https
       end
 
       def check_api_key_configuration!(query)

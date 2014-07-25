@@ -22,4 +22,10 @@ class HttpClientTest < Test::Unit::TestCase
     results = Geocoder.search "27701"
     assert_not_nil results.first
   end
+
+  def test_ssl_opt_out
+    Geocoder.configure(ip_lookup: :telize, use_https: true)
+    results = Geocoder.search "74.200.247.59"
+    assert_not_nil results.first
+  end
 end

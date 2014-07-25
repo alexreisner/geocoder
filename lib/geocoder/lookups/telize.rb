@@ -15,6 +15,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def use_ssl?
+      false
+    end
+
     def results(query)
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query.text)] if query.loopback_ip_address?
