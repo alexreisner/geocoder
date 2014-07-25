@@ -150,6 +150,13 @@ module Geocoder
       end
     end
 
+    class Pointpin
+      private
+      def default_fixture_filename
+        "pointpin_80_111_555_555"
+      end
+    end
+
     class Maxmind
       private
       def default_fixture_filename

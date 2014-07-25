@@ -584,6 +584,18 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Limitations**: ?
 * **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
 
+#### Pointpin (`:pointpin`)
+
+* **API key**: required
+* **Quota**: 50,000/mo for €9 through 1m/mo for €49
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://pointp.in/docs/get-started
+* **Terms of Service**: https://pointp.in/terms
+* **Limitations**: ?
+* **Notes**: To use Pointpin set `Geocoder.configure(:ip_lookup => :pointpin, :api_key => "your_pointpin_api_key")`.
+
 #### Telize (`:telize`)
 
 * **API key**: none
