@@ -36,7 +36,6 @@ module Geocoder
         :ovi,
         :here,
         :baidu,
-        :cloudmade,
         :geocodio,
         :smarty_streets,
         :test

@@ -6,6 +6,7 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 1.2.4 (???)
 -------------------
 * Add OpenCageData geocoder (thanks github.com/mtmail).
+* Remove CloudMade geocoder.
 
 1.2.3 (2014 Jul 11)
 -------------------
