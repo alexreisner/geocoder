@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.4 (???)
+-------------------
+* Add OpenCageData geocoder (thanks github.com/mtmail).
+
 1.2.3 (2014 Jul 11)
 -------------------
 * Add Telize IP address lookup (thanks github.com/lukeroberts1990).
