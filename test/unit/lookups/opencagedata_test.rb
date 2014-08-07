@@ -39,12 +39,26 @@ class OpencagedataTest < GeocoderTestCase
 
 
 
+  def test_raises_exception_when_invalid_request
+    Geocoder.configure(always_raise: [Geocoder::InvalidRequest])
+    assert_raises Geocoder::InvalidRequest do
+      Geocoder.search("invalid request")
+    end
+  end
 
-  # def test_raises_exception_when_over_query_limit
-  #   Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
-  #   l = Geocoder::Lookup.get(:opencagedata)
-  #   assert_raises Geocoder::OverQueryLimitError do
-  #     l.send(:results, Geocoder::Query.new("over limit"))
-  #   end
-  # end
+  def test_raises_exception_when_invalid_api_key
+    Geocoder.configure(always_raise: [Geocoder::InvalidApiKey])
+    assert_raises Geocoder::InvalidApiKey do
+      Geocoder.search("invalid api key")
+    end
+  end
+
+
+  def test_raises_exception_when_over_query_limit
+    Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
+    l = Geocoder::Lookup.get(:opencagedata)
+    assert_raises Geocoder::OverQueryLimitError do
+      l.send(:results, Geocoder::Query.new("over limit"))
+    end
+  end
 end
