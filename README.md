@@ -272,6 +272,10 @@ lower bound (ie. think of a donut, or ring) by using the `:min_radius` option:
 
     box = Geocoder::Calculations.bounding_box(center_point, distance, :min_radius => 10.5)
 
+With ActiveRecord, you can specify alternate latitude and longitude column names for a geocoded model (useful if you store multiple sets of coordinates for each object):
+
+    Venue.near("Paris", 50, latitude: :secondary_latitude, longitude: :secondary_longitude)
+
 
 Advanced Geocoding
 ------------------
