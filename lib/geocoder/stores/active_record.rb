@@ -115,6 +115,8 @@ module Geocoder::Store
         if options[:units]
           options[:units] = options[:units].to_sym
         end
+        latitude_attribute = options[:latitude] || geocoder_options[:latitude]
+        longitude_attribute = options[:longitude] || geocoder_options[:longitude]
         options[:units] ||= (geocoder_options[:units] || Geocoder.config.units)
         select_distance = options.fetch(:select_distance, true)
         options[:order] = "" if !select_distance && !options.include?(:order)
@@ -126,8 +128,8 @@ module Geocoder::Store
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         args = b + [
-          full_column_name(geocoder_options[:latitude]),
-          full_column_name(geocoder_options[:longitude])
+          full_column_name(latitude_attribute),
+          full_column_name(longitude_attribute)
         ]
         bounding_box_conditions = Geocoder::Sql.within_bounding_box(*args)
 
@@ -157,8 +159,8 @@ module Geocoder::Store
         Geocoder::Sql.send(
           method_prefix + "_distance",
           latitude, longitude,
-          full_column_name(geocoder_options[:latitude]),
-          full_column_name(geocoder_options[:longitude]),
+          full_column_name(options[:latitude] || geocoder_options[:latitude]),
+          full_column_name(options[:longitude]|| geocoder_options[:longitude]),
           options
         )
       end
@@ -176,8 +178,8 @@ module Geocoder::Store
           Geocoder::Sql.send(
             method_prefix + "_bearing",
             latitude, longitude,
-            full_column_name(geocoder_options[:latitude]),
-            full_column_name(geocoder_options[:longitude]),
+            full_column_name(options[:latitude] || geocoder_options[:latitude]),
+            full_column_name(options[:longitude]|| geocoder_options[:longitude]),
             options
           )
         end
