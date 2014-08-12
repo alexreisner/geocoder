@@ -38,7 +38,8 @@ module Geocoder
         :baidu,
         :geocodio,
         :smarty_streets,
-        :test
+        :test,
+        :texas_am
       ]
     end
 

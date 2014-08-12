@@ -664,6 +664,17 @@ You can replace `city` with `country` in any of the above tasks, generators, and
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
 
+#### Texas A&M (`:texas_am`)
+
+* **API key**: required
+* **Quota**: purchase credits for account
+* **Region**: United States
+* **SSL support**: no
+* **Languages**: en
+* **Documentation**: https://geoservices.tamu.edu/Services/Geocode/WebService/
+* **Terms of Service**: https://geoservices.tamu.edu/About/Legal/TermsOfUse.aspx
+* **Limitations**: Only good for non-commercial use. For commercial usage please check https://geoservices.tamu.edu/Pricing/Partner/
+* **Notes**: To use Texas A&M set Geocoder.configure(:lookup => :texas_am, :api_key => "your_api_key"). The query expects a well-formed input string of the form: "[streetAddress],[city],[state],[zip]". Not all parameters are required.
 
 Caching
 -------
