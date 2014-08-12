@@ -3,8 +3,9 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-1.2.4 (???)
+1.2.4 (2014 Aug 12)
 -------------------
+* Add ability to specify lat/lon column names with .near scope (thanks github.com/switzersc).
 * Add OpenCageData geocoder (thanks github.com/mtmail).
 * Remove CloudMade geocoder.
 
