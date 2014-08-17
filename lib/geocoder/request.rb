@@ -1,9 +1,9 @@
 module Geocoder
   module Request
 
-    def location
+    def location(stored_ip = false)
       @location ||= begin
-        detected_ip = env['HTTP_X_REAL_IP'] || (
+        detected_ip = stored_ip || env['HTTP_X_REAL_IP'] || (
           env['HTTP_X_FORWARDED_FOR'] &&
           env['HTTP_X_FORWARDED_FOR'].split(",").first.strip
         )
