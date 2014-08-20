@@ -34,7 +34,7 @@ class OpencagedataTest < GeocoderTestCase
 
   def test_opencagedata_reverse_url
     query = Geocoder::Query.new([45.423733, -75.676333])
-    assert_match /\bquery=45.423733%2C-75.676333\b/, query.url
+    assert_match /\bq=45.423733%2C-75.676333\b/, query.url
   end
 
 
