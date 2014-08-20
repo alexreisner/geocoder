@@ -43,7 +43,7 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       params = {
-        :query => query.sanitized_text,
+        :q => query.sanitized_text,
         :language => (query.language || configuration.language)
       }.merge(super)
 
