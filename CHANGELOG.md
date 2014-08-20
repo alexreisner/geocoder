@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.5 (???)
+-------------------
+* Fix bug in :opencagedata lookup (thanks github.com/duboff).
+
 1.2.4 (2014 Aug 12)
 -------------------
 * Add ability to specify lat/lon column names with .near scope (thanks github.com/switzersc).
