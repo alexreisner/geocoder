@@ -9,7 +9,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://api.opencagedata.com/geocode/v1/json?key=#{configuration.api_key}&q=#{url_query_string(query)}"
+      "#{protocol}://api.opencagedata.com/geocode/v1/json?key=#{configuration.api_key}&#{url_query_string(query)}"
     end
 
     def required_api_key_parts
@@ -21,7 +21,7 @@ module Geocoder::Lookup
     def results(query)
       return [] unless doc = fetch_data(query)
       # return doc["results"]
-      
+
       messages = doc['status']['message']
       case doc['status']['code']
       when 400 # Error with input
