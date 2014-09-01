@@ -17,7 +17,8 @@ module Geocoder
           :geocode_block => block,
           :units         => options[:units],
           :method        => options[:method],
-          :lookup        => options[:lookup]
+          :lookup        => options[:lookup],
+          :language      => options[:language]
         )
       end
 
