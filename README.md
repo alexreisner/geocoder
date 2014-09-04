@@ -566,7 +566,7 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 #### SmartyStreets (`:smarty_streets`)
 
 * **API key**: required
-* **Quota**: 10,000 free, 250/month then purchase at sliding scale. Unlimited free for nonprofits & startups
+* **Quota**: 10,000 free, 250/month then purchase at sliding scale.
 * **Region**: US
 * **SSL support**: yes
 * **Languages**: en
