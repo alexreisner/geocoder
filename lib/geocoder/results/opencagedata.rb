@@ -64,7 +64,7 @@ module Geocoder::Result
     end
 
     def coordinates
-      [@data['lat'].to_f, @data['lon'].to_f]
+      [@data['geometry']['lat'].to_f, @data['geometry']['lng'].to_f]
     end
     def self.response_attributes
       %w[boundingbox license 
