@@ -3,9 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-1.2.5 (???)
+1.2.5 (2014 Sep 12)
 -------------------
-* Fix bug in :opencagedata lookup (thanks github.com/duboff).
+* Fix bugs in :opencagedata lookup (thanks github.com/duboff and kayakyakr).
+* Allow language to be set in model configuration (thanks github.com/viniciusnz).
+* Optimize lookup queries when using MaxMind Local (thanks github.com/gersmann).
 
 1.2.4 (2014 Aug 12)
 -------------------
