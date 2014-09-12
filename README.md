@@ -410,7 +410,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 
 #### Bing (`:bing`)
 
-* **API key**: required
+* **API key**: required (set `Geocoder.configure(:lookup => :bing, :api_key => key)`)
 * **Key signup**: http://www.bingmapsportal.com
 * **Quota**: 50,000 requests/24 hrs
 * **Region**: world
