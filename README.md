@@ -565,7 +565,7 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 
 #### SmartyStreets (`:smarty_streets`)
 
-* **API key**: required
+* **API key**: requires auth_id and auth_token (set `Geocoder.configure(:api_key => [id, token])`)
 * **Quota**: 10,000 free, 250/month then purchase at sliding scale.
 * **Region**: US
 * **SSL support**: yes
