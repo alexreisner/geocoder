@@ -8,7 +8,7 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      %w(auth-token)
+      %w(auti-id auth-token)
     end
 
     def query_url(query)
