@@ -384,7 +384,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 
 #### Google (`:google`, `:google_premier`)
 
-* **API key**: required for Premier, optional for the free service
+* **API key**: required for Premier, optional for the free service (if using the free service with API key, https is required. Add `:use_https  => true` to `Geocoder.configure`)
 * **Key signup**: https://developers.google.com/maps/documentation/business/
 * **Quota**: 2,500 requests/day, 100,000 with Google Maps API Premier
 * **Region**: world
