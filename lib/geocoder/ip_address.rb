@@ -6,7 +6,14 @@ module Geocoder
     end
 
     def valid?
-      !!self.match(/\A(::ffff:)?(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\z/)
+      ipregex = %r{
+        \A(                                     # String Starts
+        ((::ffff:)?((\d{1,3})\.){3}\d{1,3})     # Check for IPv4
+        |                                       # .... Or
+        (\S+?(:\S+?){6}\S+)                     # Check for IPv6
+        )\z                                     
+      }x
+      !!self.match(ipregex)
     end
   end
 end

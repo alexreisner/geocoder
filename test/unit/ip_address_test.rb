@@ -8,6 +8,7 @@ class IpAddressTest < GeocoderTestCase
     assert Geocoder::IpAddress.new("232.65.123.94").valid?
     assert Geocoder::IpAddress.new("666.65.123.94").valid? # technically invalid
     assert Geocoder::IpAddress.new("::ffff:12.34.56.78").valid?
+    assert Geocoder::IpAddress.new("3ffe:0b00:0000:0000:0001:0000:0000:000a").valid?
     assert !Geocoder::IpAddress.new("232.65.123.94.43").valid?
     assert !Geocoder::IpAddress.new("232.65.123").valid?
     assert !Geocoder::IpAddress.new("::ffff:123.456.789").valid?
