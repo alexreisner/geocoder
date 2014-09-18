@@ -6,6 +6,7 @@ class QueryTest < GeocoderTestCase
 
   def test_ip_address_detection
     assert Geocoder::Query.new("232.65.123.94").ip_address?
+    assert Geocoder::Query.new("3ffe:0b00:0000:0000:0001:0000:0000:000a").ip_address?
     assert !Geocoder::Query.new("232.65.123.94.43").ip_address?
     assert !Geocoder::Query.new("::ffff:123.456.789").ip_address?
   end
