@@ -1,0 +1,60 @@
+{
+   "html_attributions" : [],
+   "result" : {
+      "address_components" : [
+         {
+            "long_name" : "25",
+            "short_name" : "25",
+            "types" : [ "street_number" ]
+         },
+         {
+            "long_name" : "Oranienstraße",
+            "short_name" : "Oranienstraße",
+            "types" : [ "route" ]
+         },
+         {
+            "long_name" : "Friedrichshain-Kreuzberg",
+            "short_name" : "Friedrichshain-Kreuzberg",
+            "types" : [ "sublocality_level_1", "sublocality", "political" ]
+         },
+         {
+            "long_name" : "Berlin",
+            "short_name" : "Berlin",
+            "types" : [ "locality", "political" ]
+         },
+         {
+            "long_name" : "Berlin",
+            "short_name" : "Berlin",
+            "types" : [ "administrative_area_level_1", "political" ]
+         },
+         {
+            "long_name" : "Germany",
+            "short_name" : "DE",
+            "types" : [ "country", "political" ]
+         },
+         {
+            "long_name" : "10999",
+            "short_name" : "10999",
+            "types" : [ "postal_code" ]
+         }
+      ],
+      "adr_address" : "\u003cspan class=\"street-address\"\u003eOranienstraße 25\u003c/span\u003e, \u003cspan class=\"postal-code\"\u003e10999\u003c/span\u003e \u003cspan class=\"locality\"\u003eBerlin\u003c/span\u003e, \u003cspan class=\"country-name\"\u003eGermany\u003c/span\u003e",
+      "formatted_address" : "Oranienstraße 25, 10999 Berlin, Germany",
+      "geometry" : {
+         "location" : {
+            "lat" : 52.5010652,
+            "lng" : 13.4206563
+         }
+      },
+      "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+      "id" : "b49e917abd41c247425645a6ac3e5a6756ad80f8",
+      "name" : "Oranienstraße 25",
+      "place_id" : "ChIJQ8-HeTROqEcRGdCTErYy5D0",
+      "reference" : "CpQBjAAAAKrbnaAglhQLI6KPs3EbRp1lVh5UkB4xLEyzOmvvGmtpmwD2EAnlokKcx1VU5PvvB7moRGw6lHTlMTScpGL3GTCC_WM2pzDxgeaAtoB-SR4YQ7PRhHkT2eqxACbaP_70Z9Wyb2J31tG66xBrYASAuBzXgEXYaFpo8dhRBY4xMTfexvMziw6rHs01SxLhCFh-uBIQBQcGVz70_HtaG_g6ZZ5omhoUdIDDSVApRiVoIh61NiCzStYa-x0",
+      "scope" : "GOOGLE",
+      "types" : [ "street_address" ],
+      "url" : "https://maps.google.com/maps/place?q=Oranienstra%C3%9Fe+25,+10999+Berlin,+Germany&ftid=0x47a84e347987cf43:0x3de432b61293d019",
+      "vicinity" : "Friedrichshain-Kreuzberg"
+   },
+   "status" : "OK"
+}

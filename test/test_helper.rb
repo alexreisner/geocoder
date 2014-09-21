@@ -122,6 +122,13 @@ module Geocoder
       end
     end
 
+    class GooglePlacesDetails
+      private
+      def fixture_prefix
+        "google_places_details"
+      end
+    end
+
     class Dstk
       private
       def fixture_prefix

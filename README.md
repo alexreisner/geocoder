@@ -396,6 +396,27 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
 * **Notes**: To use Google Premier set `Geocoder.configure(:lookup => :google_premier, :api_key => [key, client, channel])`.
 
+#### Google Places Details (`:google_places_details`)
+
+The [Google Places Details API](https://developers.google.com/places/documentation/details) extends results provided by the
+[Google Places Autocomplete API](https://developers.google.com/places/documentation/autocomplete) with address information,
+coordinates, ratings and reviews. It can be used as a replacement to the Google Geocoding API, because some information
+provided by the Autocomplete API is not geocodable over the Geocoding API - like hotels, restaurants, bars.
+
+The Google Places Details search requires a valid `place_id` - instead of the usual search query. This `place_id` can be
+obtained over the Google Places Autocomplete API and should be passed to Geocoder as the first search argument:
+`Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", :lookup => :google_places_details)`.
+
+* **API key**: required
+* **Key signup**: https://code.google.com/apis/console/
+* **Quota**: 1,000 request/day, 100,000 after credit card authentication
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+* **Documentation**: https://developers.google.com/places/documentation/details
+* **Terms of Service**: https://developers.google.com/places/policies
+* **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
+
 #### Yahoo BOSS (`:yahoo`)
 
 * **API key**: requires OAuth consumer key and secret (set `Geocoder.configure(:api_key => [key, secret])`)
