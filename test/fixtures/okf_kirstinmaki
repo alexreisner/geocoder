@@ -1,0 +1,67 @@
+{
+   "status" : "OK",
+   "results" : [
+      {
+         "formatted_address" : "Kirstinmäki 1, 02760 Espoo, Suomi",
+         "sources" : [
+            {
+               "name" : "National Land Survey of Finland - Topographic Dataset (2013-03-08)",
+               "terms_of_use" : "National Land Survey open data licence - version 1.0 - 1 May 2012\nhttp://www.maanmittauslaitos.fi/en/NLS_open_data_licence_version1_20120501"
+            },
+            {
+               "name" : "Itella perusosoitteisto (2014-02-01)",
+               "terms_of_use" : "http://www.itella.fi/liitteet/palvelutjatuotteet/yhteystietopalvelut/Postinumeropalvelut-Palvelukuvausjakayttoehdot.pdf"
+            }
+         ],
+         "types" : [
+            "street_address"
+         ],
+         "address_components" : [
+            {
+               "types" : [
+                  "street_number"
+               ],
+               "short_name" : "1",
+               "long_name" : "1"
+            },
+            {
+               "types" : [
+                  "route"
+               ],
+               "short_name" : "Kirstinmäki",
+               "long_name" : "Kirstinmäki"
+            },
+            {
+               "types" : [
+                  "administrative_area_level_3",
+                  "political"
+               ],
+               "short_name" : "Espoo",
+               "long_name" : "Espoo"
+            },
+            {
+               "types" : [
+                  "postal_code"
+               ],
+               "short_name" : "02760",
+               "long_name" : "02760"
+            },
+            {
+               "types" : [
+                  "country",
+                  "political"
+               ],
+               "short_name" : "FI",
+               "long_name" : "Suomi"
+            }
+         ],
+         "geometry" : {
+            "location" : {
+               "lat" : 60.2015185792087,
+               "lng" : 24.6667520050026
+            },
+            "location_type" : "RANGE_INTERPOLATED"
+         }
+      }
+   ]
+}
