@@ -595,6 +595,18 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Terms of Service**: http://smartystreets.com/legal/terms-of-service
 * **Limitations**: No reverse geocoding.
 
+
+#### OKF Geocoder (`:okf`)
+
+* **API key**: none
+* **Quota**: none
+* **Region**: FI
+* **SSL support**: no
+* **Languages**: fi
+* **Documentation**: http://books.okf.fi/geocoder/_full/
+* **Terms of Service**: https://raw.githubusercontent.com/rekola/okffi-geocoder/master/LICENSE
+* **Limitations**: ?
+
 ### IP Address Services
 
 #### FreeGeoIP (`:freegeoip`)
