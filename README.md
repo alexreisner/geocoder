@@ -604,7 +604,7 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **SSL support**: no
 * **Languages**: fi
 * **Documentation**: http://books.okf.fi/geocoder/_full/
-* **Terms of Service**: https://raw.githubusercontent.com/rekola/okffi-geocoder/master/LICENSE
+* **Terms of Service**: ?
 * **Limitations**: ?
 
 ### IP Address Services
