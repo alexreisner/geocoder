@@ -207,6 +207,13 @@ module Geocoder
         "geocodio_1101_pennsylvania_ave"
       end
     end
+
+    class Okf
+      private
+      def default_fixture_filename
+        "okf_kirstinmaki"
+      end
+    end
   end
 end
 
