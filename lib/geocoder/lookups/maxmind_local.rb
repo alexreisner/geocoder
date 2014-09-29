@@ -1,4 +1,5 @@
 require 'ipaddr'
+require 'json'
 require 'geocoder/lookups/base'
 require 'geocoder/results/maxmind_local'
 
@@ -25,34 +26,62 @@ module Geocoder::Lookup
       []
     end
 
+    def cache_key(query)
+      "maxmind_local/geolite_city/#{query.text}"
+    end
+
     private
 
     def results(query)
-      if configuration[:file]
-        geoip_class = RUBY_PLATFORM == "java" ? JGeoIP : GeoIP
-        result = geoip_class.new(configuration[:file]).city(query.to_s)
-        result.nil? ? [] : [result.to_hash]
-      elsif configuration[:package] == :city
-        addr = IPAddr.new(query.text).to_i
-        q = "SELECT l.country, l.region, l.city, l.latitude, l.longitude
-          FROM maxmind_geolite_city_location l WHERE l.loc_id = (SELECT b.loc_id FROM maxmind_geolite_city_blocks b
-          WHERE b.start_ip_num <= #{addr} AND #{addr} <= b.end_ip_num)"
-        format_result(q, [:country_name, :region_name, :city_name, :latitude, :longitude])
-      elsif configuration[:package] == :country
-        addr = IPAddr.new(query.text).to_i
-        q = "SELECT country, country_code FROM maxmind_geolite_country
-          WHERE start_ip_num <= #{addr} AND #{addr} <= end_ip_num"
-        format_result(q, [:country_name, :country_code2])
-      end
+      key    = cache_key(query)
+      result = cache ? cache[key] : nil
+      return deserialize(result) if result
+
+      return [] if query.loopback_ip_address?
+
+      addr = IPAddr.new(query.text).to_i
+      block = MaxmindGeoliteCityBlock
+        .includes(:location)
+        .where("start_ip_num <= ? AND end_ip_num >= ?", addr, addr)
+        .first
+
+      result     = block ? block.to_result : []
+      cache[key] = serialize(result) if cache
+
+      result
     end
 
-    def format_result(query, attr_names)
-      if r = ActiveRecord::Base.connection.execute(query).first
-        r = r.values if r.is_a?(Hash) # some db adapters return Hash, some Array
-        [Hash[*attr_names.zip(r).flatten]]
-      else
-        []
-      end
+    def serialize(result)
+      JSON.generate(result)
+    end
+
+    def deserialize(result)
+      JSON.parse(result, symbolize_names: true)
+    end
+  end
+
+  class MaxmindGeoliteCityBlock < ActiveRecord::Base
+    belongs_to :location, class_name: "MaxmindGeoliteCityLocation", foreign_key: :loc_id, primary_key: :loc_id
+
+    def to_result
+      location ? location.to_result : []
+    end
+  end
+
+  class MaxmindGeoliteCityLocation < ActiveRecord::Base
+    self.table_name  = :maxmind_geolite_city_location
+    self.primary_key = :loc_id
+
+    has_many :blocks, class_name: "MaxmindGeoliteCityBlock", foreign_key: :loc_id
+
+    def to_result
+      [{
+        country_name: country,
+        region_name: region,
+        city_name: city,
+        latitude: latitude,
+        longitude: longitude
+      }]
     end
   end
 end

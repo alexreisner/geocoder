@@ -51,9 +51,17 @@ module ActiveRecord
         'test_table_name'
       end
 
+      def table_name=(*); end
+
       def primary_key
         :id
       end
+
+      def primary_key=(*); end
+
+      def belongs_to(*); end
+
+      def has_many(*); end
     end
 
   end
