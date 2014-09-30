@@ -29,13 +29,13 @@ module Geocoder::Lookup
         return doc['results']
       when "OVER_QUERY_LIMIT"
         raise_error(Geocoder::OverQueryLimitError) ||
-          warn("Google Geocoding API error: over query limit.")
+          log("Google Geocoding API error: over query limit.")
       when "REQUEST_DENIED"
         raise_error(Geocoder::RequestDenied) ||
-          warn("Google Geocoding API error: request denied.")
+          log("Google Geocoding API error: request denied.")
       when "INVALID_REQUEST"
         raise_error(Geocoder::InvalidRequest) ||
-          warn("Google Geocoding API error: invalid request.")
+          log("Google Geocoding API error: invalid request.")
       end
       return []
     end

@@ -45,13 +45,13 @@ module Geocoder::Lookup
       case doc['info']['statuscode']
       when 400 # Error with input
         raise_error(Geocoder::InvalidRequest, messages) ||
-          warn("Mapquest Geocoding API error: #{messages}")
+          log("Mapquest Geocoding API error: #{messages}")
       when 403 # Key related error
         raise_error(Geocoder::InvalidApiKey, messages) ||
-          warn("Mapquest Geocoding API error: #{messages}")
+          log("Mapquest Geocoding API error: #{messages}")
       when 500 # Unknown error
         raise_error(Geocoder::Error, messages) ||
-          warn("Mapquest Geocoding API error: #{messages}")
+          log("Mapquest Geocoding API error: #{messages}")
       end
       []
     end

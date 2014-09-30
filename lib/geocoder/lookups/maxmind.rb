@@ -64,7 +64,7 @@ module Geocoder::Lookup
         if !data_contains_error?(doc)
           return [doc]
         elsif doc.last == "INVALID_LICENSE_KEY"
-          raise_error(Geocoder::InvalidApiKey) || warn("Invalid MaxMind API key.")
+          raise_error(Geocoder::InvalidApiKey) || log("Invalid MaxMind API key.")
         end
       end
       return []

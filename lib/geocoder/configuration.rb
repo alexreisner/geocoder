@@ -55,7 +55,8 @@ module Geocoder
       :cache_prefix,
       :always_raise,
       :units,
-      :distances
+      :distances,
+      :log
     ]
 
     attr_accessor :data
@@ -96,6 +97,7 @@ module Geocoder
       @data[:api_key]      = nil         # API key for geocoding service
       @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
       @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
+      @data[:log]          = true
 
       # exceptions that should not be rescued by default
       # (if you want to implement custom error handling);
