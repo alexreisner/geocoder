@@ -39,6 +39,7 @@ module Geocoder
         :baidu,
         :geocodio,
         :smarty_streets,
+        :okf,
         :test
       ]
     end
