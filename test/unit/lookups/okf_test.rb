@@ -2,7 +2,7 @@
 $: << File.join(File.dirname(__FILE__), "..", "..")
 require 'test_helper'
 
-class OkgTest < GeocoderTestCase
+class OkfTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :okf)
