@@ -13,6 +13,15 @@ module Geocoder::Lookup
       "#{protocol}://api.ipaddresslabs.com/iplocation/v1.7/locateip?key=#{configuration[:api_key]}&ip=#{query}&format=JSON"
     end
 
+    def reserved_result
+      {
+        "city"         => "New York",
+        "region_code"  => "NY",
+        "latitude"     => 40.7127837,
+        "longitude"    => -74.0059413
+      }
+    end
+
     private # ---------------------------------------------------------------
 
 
@@ -26,7 +35,8 @@ module Geocoder::Lookup
       if status == "OK"
         return [ doc["geolocation_data"] ]
       else
-        raise_error(Geocoder::InvalidRequest) || warn("IP Address Labs API Error: #{message}")
+        warn("IP Address Labs API Error: #{message}")
+        []
       end
     end
   end
