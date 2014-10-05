@@ -980,11 +980,15 @@ A lot of debugging time can be saved by understanding how Geocoder works with Ac
 
 ### Unexpected Responses from Geocoding Services
 
-Take a look at the server's raw JSON response. You can do this by getting the request URL in an app console:
+Take a look at the server's raw response. You can do this by getting the request URL in an app console:
 
     Geocoder::Lookup.get(:google).query_url(Geocoder::Query.new("..."))
 
 Replace `:google` with the lookup you are using and replace `...` with the address you are trying to geocode. Then visit the returned URL in your web browser. Often the API will return an error message that helps you resolve the problem. If, after reading the raw response, you believe there is a problem with Geocoder, please post an issue and include both the URL and raw response body.
+
+You can also fetch the response in the console:
+
+    Geocoder::Lookup.get(:google).send(:fetch_raw_data, Geocoder::Query.new("..."))
 
 
 Reporting Issues
