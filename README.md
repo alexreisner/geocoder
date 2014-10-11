@@ -607,6 +607,22 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Terms of Service**: http://www.itella.fi/liitteet/palvelutjatuotteet/yhteystietopalvelut/Postinumeropalvelut-Palvelukuvausjakayttoehdot.pdf
 * **Limitations**: ?
 
+
+#### PostcodeAnywhere Uk (`:postcode_anywhere_uk`)
+
+This uses the PostcodeAnywhere UK Geocode service, this will geocode any string from UK postcode, placename, point of interest or location.
+
+* **API key**: required
+* **Quota**: Dependant on service plan?
+* **Region**: UK
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: [http://www.postcodeanywhere.co.uk/Support/WebService/Geocoding/UK/Geocode/2/](http://www.postcodeanywhere.co.uk/Support/WebService/Geocoding/UK/Geocode/2/)
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: To use PostcodeAnywhere you must include an API key: `Geocoder.configure(:lookup => :postcode_anywhere_uk, :api_key => 'your_api_key')`.
+
+
 ### IP Address Services
 
 #### FreeGeoIP (`:freegeoip`)
