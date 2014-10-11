@@ -15,7 +15,7 @@ module Geocoder::Result
     alias_method :postal_code, :blank_result
 
     def address
-      [@data['Location'], @data['OsGrid']].join(', ')
+      @data['Location']
     end
 
     def city
@@ -23,6 +23,10 @@ module Geocoder::Result
       # returns a City, County as the last elements?
       city = @data['Location'].split(',')[-2] || blank_result
       city.strip
+    end
+
+    def os_grid
+      @data['OsGrid']
     end
 
     # This is a UK only API; all results are UK specific and

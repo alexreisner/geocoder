@@ -13,7 +13,8 @@ class PostcodeAnywhereUkTest < GeocoderTestCase
     results = Geocoder.search('Romsey')
 
     assert_equal 1, results.size
-    assert_equal 'Romsey, Hampshire, SU 35270 21182', results.first.address
+    assert_equal 'Romsey, Hampshire', results.first.address
+    assert_equal 'SU 35270 21182', results.first.os_grid
     assert_equal [50.9889, -1.4989], results.first.coordinates
     assert_equal 'Romsey', results.first.city
   end
@@ -22,7 +23,8 @@ class PostcodeAnywhereUkTest < GeocoderTestCase
     results = Geocoder.search('WR26NJ')
 
     assert_equal 1, results.size
-    assert_equal 'Moseley Road, Hallow, Worcester, SO 81676 59425', results.first.address
+    assert_equal 'Moseley Road, Hallow, Worcester', results.first.address
+    assert_equal 'SO 81676 59425', results.first.os_grid
     assert_equal [52.2327, -2.2697], results.first.coordinates
     assert_equal 'Hallow', results.first.city
   end
@@ -31,7 +33,8 @@ class PostcodeAnywhereUkTest < GeocoderTestCase
     results = Geocoder.search('hampshire')
 
     assert_equal 1, results.size
-    assert_equal 'Hampshire, SU 48701 26642', results.first.address
+    assert_equal 'Hampshire', results.first.address
+    assert_equal 'SU 48701 26642', results.first.os_grid
     assert_equal [51.037, -1.3068], results.first.coordinates
     assert_equal '', results.first.city
   end
