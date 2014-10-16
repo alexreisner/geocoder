@@ -717,6 +717,24 @@ You can replace `city` with `country` in any of the above tasks, generators, and
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
 
+#### GeoLite2 (`:geolite2`) - EXPERIMENTAL
+
+This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
+
+* **API key**: none (requires the free GeoLite2 City or Country MaxMind DB binary database which can be downloaded from [MaxMind](http://dev.maxmind.com/geoip/geoip2/geolite2/))
+* **Quota**: none
+* **Region**: world
+* **SSL support**: N/A
+* **Languages**: English
+* **Documentation**: http://www.maxmind.com/en/city
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: **You must download a database from MaxMind and set the `:file` configuration option for local lookups to work.** The GeoLite2 CSV format is not yet supported since it is still in alpha stage.
+
+**To use the binary database** you must add the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
+
+    Geocoder.configure(ip_lookup: :geolite2, geolite2: { file: File.join('folder', 'GeoLite2-City.mmdb') })
+
 
 Caching
 -------
