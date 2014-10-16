@@ -18,14 +18,14 @@ module Geocoder::Store
 
         # scope: geocoded objects
         scope :geocoded, lambda {
-          where("#{geocoder_options[:latitude]} IS NOT NULL " +
-            "AND #{geocoder_options[:longitude]} IS NOT NULL")
+          where("#{table_name}.#{geocoder_options[:latitude]} IS NOT NULL " +
+            "AND #{table_name}.#{geocoder_options[:longitude]} IS NOT NULL")
         }
 
         # scope: not-geocoded objects
         scope :not_geocoded, lambda {
-          where("#{geocoder_options[:latitude]} IS NULL " +
-            "OR #{geocoder_options[:longitude]} IS NULL")
+          where("#{table_name}.#{geocoder_options[:latitude]} IS NULL " +
+            "OR #{table_name}.#{geocoder_options[:longitude]} IS NULL")
         }
 
         ##
@@ -107,7 +107,7 @@ module Geocoder::Store
       # * +:exclude+         - an object to exclude (used by the +nearbys+ method)
       # * +:distance_column+ - used to set the column name of the calculated distance.
       # * +:bearing_column+  - used to set the column name of the calculated bearing.
-      # * +:min_radius+      - the value to use as the minimum radius. 
+      # * +:min_radius+      - the value to use as the minimum radius.
       #                        ignored if database is sqlite.
       #                        default is 0.0
       #
