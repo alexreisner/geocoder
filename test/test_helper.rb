@@ -150,6 +150,25 @@ module Geocoder
       end
     end
 
+    class Geolite2
+      private
+
+      remove_method(:results)
+
+      def results(query)
+        return [] if query.to_s == 'no results'
+        return [] if query.to_s == '127.0.0.1'
+        [{'city'=>{'names'=>{'en'=>'Mountain View'}},'country'=>{'iso_code'=>'US','names'=>
+        {'en'=>'United States'}},'location'=>{'latitude'=>37.41919999999999,
+        'longitude'=>-122.0574},'postal'=>{'code'=>'94043'},'subdivisions'=>[{
+        'iso_code'=>'CA','names'=>{'en'=>'California'}}]}]
+      end
+
+      def default_fixture_filename
+        'geolite2_74_200_247_59'
+      end
+    end
+
     class Telize
       private
       def default_fixture_filename
