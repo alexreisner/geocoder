@@ -45,8 +45,7 @@ module Geocoder::Store
             # If no lat/lon given we don't want any results, but we still
             # need distance and bearing columns so you can add, for example:
             # .order("distance")
-            null_val = using_postgres? ? 'NULL::text' : 'NULL'
-            select(select_clause(nil, null_val, null_val)).where(false_condition)
+            select(select_clause(nil, null_value, null_value)).where(false_condition)
           end
         }
 
@@ -65,8 +64,7 @@ module Geocoder::Store
               full_column_name(geocoder_options[:longitude])
             ))
           else
-            null_val = using_postgres? ? 'NULL::text' : 'NULL'
-            select(select_clause(nil, null_val, null_val)).where(false_condition)
+            select(select_clause(nil, null_value, null_value)).where(false_condition)
           end
         }
       end
@@ -228,6 +226,13 @@ module Geocoder::Store
 
       def using_postgres?
         connection.adapter_name.match(/postgres/i)
+      end
+
+      ##
+      # Use OID type when running in PosgreSQL
+      #
+      def null_value
+        using_postgres? ? 'NULL::text' : 'NULL'
       end
 
       ##
