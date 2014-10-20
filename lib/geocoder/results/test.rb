@@ -22,7 +22,7 @@ module Geocoder
       end
 
       def initialize(data)
-        data.keys.each do |attr|
+        data.each_key do |attr|
           Test.add_result_attribute(attr)
         end
 

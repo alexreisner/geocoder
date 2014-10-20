@@ -118,13 +118,13 @@ module Geocoder::Store
         latitude_attribute = options[:latitude] || geocoder_options[:latitude]
         longitude_attribute = options[:longitude] || geocoder_options[:longitude]
         options[:units] ||= (geocoder_options[:units] || Geocoder.config.units)
-        select_distance = options.fetch(:select_distance, true)
+        select_distance = options.fetch(:select_distance)  { true }
         options[:order] = "" if !select_distance && !options.include?(:order)
-        select_bearing = options.fetch(:select_bearing, true)
+        select_bearing = options.fetch(:select_bearing) { true }
         bearing = bearing_sql(latitude, longitude, options)
         distance = distance_sql(latitude, longitude, options)
-        distance_column = options.fetch(:distance_column, 'distance')
-        bearing_column = options.fetch(:bearing_column, 'bearing')
+        distance_column = options.fetch(:distance_column) { 'distance' }
+        bearing_column = options.fetch(:bearing_column)  { 'bearing' }
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         args = b + [

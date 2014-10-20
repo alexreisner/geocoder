@@ -21,7 +21,7 @@ class TestModeTest < GeocoderTestCase
     result = results.first
 
     assert_equal 1, results.size
-    mock_attributes.keys.each do |attr|
+    mock_attributes.each_key do |attr|
       assert_equal mock_attributes[attr], result.send(attr)
     end
   end
