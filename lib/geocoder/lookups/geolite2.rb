@@ -7,10 +7,10 @@ module Geocoder
       def initialize
         unless configuration[:file].nil?
           begin
-            gem_name = 'hive_geoip2'
-            require gem_name
+            @gem_name = configuration[:maxminddb_gem] || 'maxminddb'
+            require @gem_name
           rescue LoadError
-            raise "Could not load maxminddb dependency. To use GeoLite2 lookup you must add the #{gem_name} gem to your Gemfile or have it installed in your system."
+            raise "Could not load Maxmind DB dependency. To use GeoLite2 lookup you must add the #{@gem_name} gem to your Gemfile or have it installed in your system."
           end
         end
         super
@@ -28,7 +28,11 @@ module Geocoder
 
       def results(query)
         return [] unless configuration[:file]
-        result = Hive::GeoIP2.lookup(query.to_s, configuration[:file].to_s)
+        if @gem_name == 'hive_geoip2'
+          result = Hive::GeoIP2.lookup(query.to_s, configuration[:file].to_s)
+        else
+          result = MaxMindDB.new(configuration[:file].to_s).lookup(query.to_s)
+        end
         result.nil? ? [] : [result]
       end
     end

@@ -731,10 +731,14 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Limitations**: ?
 * **Notes**: **You must download a database from MaxMind and set the `:file` configuration option for local lookups to work.** The GeoLite2 CSV format is not yet supported since it is still in alpha stage.
 
-**To use the binary database** you must add the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
+**To use the binary database** you must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* gem (native extension that relies on libmaxminddb) or the *[maxminddb](http://rubygems.org/gems/maxminddb)* gem (pure Ruby implementation) to your Gemfile or have it installed in your system.
+Then specify which gem to use with the `:maxminddb_gem` configuration option, and specify the path of the MaxMind database in your configuration. The pure Ruby gem (maxminddb) will be used as default. For example to use the maxminddb gem:
 
     Geocoder.configure(ip_lookup: :geolite2, geolite2: { file: File.join('folder', 'GeoLite2-City.mmdb') })
 
+To use the hive_geoip2 gem:
+
+    Geocoder.configure(ip_lookup: :geolite2, geolite2: { maxminddb_gem: 'hive_geoip2', file: File.join('folder', 'GeoLite2-City.mmdb') })
 
 Caching
 -------
