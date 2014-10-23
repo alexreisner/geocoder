@@ -700,6 +700,10 @@ This lookup provides methods for geocoding IP addresses without making a call to
 
     Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {package: :city})
 
+Generate a migration for your Rails app with the geocoder gem generator:
+
+    rails generate geocoder:maxmind:geolite_city
+
 You can generate ActiveRecord migrations and download and import data via provided rake tasks:
 
     rails generate geocoder:maxmind:geolite PACKAGE=city
