@@ -18,6 +18,12 @@ Rails 4.1 Note
 
 Due to [a change in ActiveRecord's `count` method](https://github.com/rails/rails/pull/10710) you will need to use `count(:all)` to explicitly count all columns ("*") when using a `near` scope. Using `near` and calling `count` with no argument will cause exceptions in many cases.
 
+If the Rake tasks geocoder provides do not show up with `rake -T`, add the following to the Rails `Gemfile` file:
+
+``` ruby
+spec = Gem::Specification.find_by_name 'geocoder'
+load "#{spec.gem_dir}/lib/tasks/maxmind.rake"
+```
 
 Installation
 ------------
