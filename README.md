@@ -323,6 +323,20 @@ Some common configuration options are:
       # geocoding service (see below for supported options):
       :lookup => :yandex,
 
+      # or specify array to provide fallback (see below for api)
+      :lookup => [
+        {
+            :name => :yandex,
+            :skip => ->(query) { !query.match(/russia/i) },
+            :failure => ->(results, exception) { exception == Geocoder::OverQueryLimitError }
+        },
+        {
+            :name => :google,
+            :skip => nil,
+            :failure => nil
+        }
+      ]
+
       # IP address geocoding service (see below for supported options):
       :ip_lookup => :maxmind,
 
@@ -340,6 +354,16 @@ Some common configuration options are:
       :cache_prefix => "..."
 
     )
+
+The `:lookup` fallback configuration can be used to use multiple Geocoding Services. If an array is provided to the `:lookup` configuration then each lookup will be consulted in order. The `:skip` callback is called before the query executes and can be used as a before predicate to interogate the query and skip if necessary. After a query has returned results or an exception then the `:failure` callback can be used to fallback to
+
+If both the `:skip` and `:failure` callbacks return a "truthy" value, that is to say anything other than `nil` or `false` then Geocoder will fallback to the next lookup in the chain. If the callback is `nil` then the callback is not triggered and the lookup is not considered to ever skip or fail.
+
+If multiple services require API keys then these must be provided to the configuration too, for example;
+
+    :bing => {
+        :api_key => "Your-secret-api-key-here"
+    },
 
 Please see lib/geocoder/configuration.rb for a complete list of configuration options. Additionally, some lookups have their own configuration options, some of which are directly supported by Geocoder. For example, to specify a value for Google's `bounds` parameter:
 

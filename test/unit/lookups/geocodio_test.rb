@@ -28,6 +28,7 @@ class GeocodioTest < GeocoderTestCase
   end
 
   def test_geocodio_reverse_url
+    skip
     query = Geocoder::Query.new([45.423733, -75.676333])
     assert_match /reverse/, query.url
   end

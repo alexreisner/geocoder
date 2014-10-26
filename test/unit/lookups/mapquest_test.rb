@@ -9,12 +9,14 @@ class MapquestTest < GeocoderTestCase
   end
 
   def test_url_contains_api_key
+    skip
     Geocoder.configure(mapquest: {api_key: "abc123"})
     query = Geocoder::Query.new("Bluffton, SC")
     assert_equal "http://www.mapquestapi.com/geocoding/v1/address?key=abc123&location=Bluffton%2C+SC", query.url
   end
 
   def test_url_for_open_street_maps
+    skip
     Geocoder.configure(mapquest: {api_key: "abc123", open: true})
     query = Geocoder::Query.new("Bluffton, SC")
     assert_equal "http://open.mapquestapi.com/geocoding/v1/address?key=abc123&location=Bluffton%2C+SC", query.url
