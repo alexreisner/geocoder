@@ -696,12 +696,11 @@ This lookup provides methods for geocoding IP addresses without making a call to
 
 You can generate ActiveRecord migrations and download and import data via provided rake tasks:
 
+    # generate migration to create tables
     rails generate geocoder:maxmind:geolite PACKAGE=city
 
-    rake geocoder:maxmind:geolite:download PACKAGE=city
-    rake geocoder:maxmind:geolite:extract PACKAGE=city
-    rake geocoder:maxmind:geolite:insert PACKAGE=city
-    rake geocoder:maxmind:geolite:load PACKAGE=city # runs the above three in sequence
+    # download, unpack, and import data
+    rake geocoder:maxmind:geolite:load PACKAGE=city
 
 You can replace `city` with `country` in any of the above tasks, generators, and configurations.
 
