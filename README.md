@@ -398,14 +398,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 
 #### Google Places Details (`:google_places_details`)
 
-The [Google Places Details API](https://developers.google.com/places/documentation/details) extends results provided by the
-[Google Places Autocomplete API](https://developers.google.com/places/documentation/autocomplete) with address information,
-coordinates, ratings and reviews. It can be used as a replacement to the Google Geocoding API, because some information
-provided by the Autocomplete API is not geocodable over the Geocoding API - like hotels, restaurants, bars.
-
-The Google Places Details search requires a valid `place_id` - instead of the usual search query. This `place_id` can be
-obtained over the Google Places Autocomplete API and should be passed to Geocoder as the first search argument:
-`Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", :lookup => :google_places_details)`.
+The [Google Places Details API](https://developers.google.com/places/documentation/details) is not, strictly speaking, a geocoding service. It accepts a Google `place_id` and returns address information, ratings and reviews. A `place_id` can be obtained from the Google Places Autocomplete API and should be passed to Geocoder as the first search argument: `Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", :lookup => :google_places_details)`.
 
 * **API key**: required
 * **Key signup**: https://code.google.com/apis/console/
