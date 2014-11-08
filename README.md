@@ -713,7 +713,7 @@ You can replace `city` with `country` in any of the above tasks, generators, and
 
 This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
 
-* **API key**: none (requires the free GeoLite2 City or Country MaxMind DB binary database which can be downloaded from [MaxMind](http://dev.maxmind.com/geoip/geoip2/geoip2/))
+* **API key**: none (requires a GeoIP2 or free GeoLite2 City or Country binary database which can be downloaded from [MaxMind](http://dev.maxmind.com/geoip/geoip2/geoip2/))
 * **Quota**: none
 * **Region**: world
 * **SSL support**: N/A
@@ -721,16 +721,24 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Documentation**: http://www.maxmind.com/en/city
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: **You must download a database from MaxMind and set the `:file` configuration option for local lookups to work.** The GeoLite2 CSV format is not yet supported since it is still in alpha stage.
+* **Notes**: **You must download a binary database file from MaxMind and set the `:file` configuration option.** The CSV format databases are not yet supported since they are still in alpha stage. Set the path to the database file in your configuration:
 
-**To use the binary database** you must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* gem (native extension that relies on libmaxminddb) or the *[maxminddb](http://rubygems.org/gems/maxminddb)* gem (pure Ruby implementation) to your Gemfile or have it installed in your system.
-Then specify which gem to use with the `:maxminddb_gem` configuration option, and specify the path of the MaxMind database in your configuration. The pure Ruby gem (maxminddb) will be used as default. For example to use the maxminddb gem:
+    Geocoder.configure(
+      ip_lookup: :geoip2,
+      geoip2: {
+        file: File.join('folder', 'GeoLite2-City.mmdb')
+      }
+    )
 
-    Geocoder.configure(ip_lookup: :geoip2, geoip2: { file: File.join('folder', 'GeoLite2-City.mmdb') })
+You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* gem (native extension that relies on libmaxminddb) or the *[maxminddb](http://rubygems.org/gems/maxminddb)* gem (pure Ruby implementation) to your Gemfile or have it installed in your system. The pure Ruby gem (maxminddb) will be used by default. To use `hive_geoip2`:
 
-To use the hive_geoip2 gem:
-
-    Geocoder.configure(ip_lookup: :geoip2, geoip2: { maxminddb_gem: 'hive_geoip2', file: File.join('folder', 'GeoLite2-City.mmdb') })
+    Geocoder.configure(
+      ip_lookup: :geoip2, 
+      geoip2: {
+        maxminddb_gem: 'hive_geoip2',
+        file: File.join('folder', 'GeoLite2-City.mmdb')
+      }
+    )
 
 Caching
 -------
