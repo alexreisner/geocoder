@@ -3,6 +3,13 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.6 (2014 Nov 8)
+-------------------
+* Add :geoip2 lookup (thanks github.com/ChristianHoj).
+* Add :okf lookup (thanks github.com/kakoni).
+* Add :postcode_anywhere_uk lookup (thanks github.com/rob-murray).
+* Properly detect IPv6 addresses (thanks github.com/sethherr and github.com/ignatiusreza).
+
 1.2.5 (2014 Sep 12)
 -------------------
 * Fix bugs in :opencagedata lookup (thanks github.com/duboff and kayakyakr).
