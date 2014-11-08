@@ -7,7 +7,7 @@ module Geocoder
       def initialize
         unless configuration[:file].nil?
           begin
-            @gem_name = configuration[:maxminddb_gem] || 'maxminddb'
+            @gem_name = configuration[:lib] || 'maxminddb'
             require @gem_name
           rescue LoadError
             raise "Could not load Maxmind DB dependency. To use the GeoIP2 lookup you must add the #{@gem_name} gem to your Gemfile or have it installed in your system."
