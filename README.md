@@ -709,7 +709,7 @@ You can replace `city` with `country` in any of the above tasks, generators, and
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
 
-#### GeoLite2 (`:geoip2`) - EXPERIMENTAL
+#### GeoLite2 (`:geoip2`)
 
 This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
 
