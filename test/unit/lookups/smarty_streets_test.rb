@@ -4,7 +4,6 @@ require 'test_helper'
 class SmartyStreetsTest < GeocoderTestCase
 
   def setup
-    skip
     Geocoder.configure(lookup: :smarty_streets)
     set_api_key!(:smarty_streets)
   end
@@ -12,22 +11,26 @@ class SmartyStreetsTest < GeocoderTestCase
   def test_url_contains_api_key
     Geocoder.configure(:smarty_streets => {:api_key => 'blah'})
     query = Geocoder::Query.new("Bluffton, SC")
-    assert_equal "https://api.smartystreets.com/street-address?auth-token=blah&street=Bluffton%2C+SC", query.url
+
+    assert_equal "http://api.smartystreets.com/street-address?auth-token=blah&street=Bluffton%2C+SC", subject.query_url(query)
   end
 
   def test_query_for_address_geocode
     query = Geocoder::Query.new("42 Wallaby Way Sydney, AU")
-    assert_match /api\.smartystreets\.com\/street-address\?/, query.url
+
+    assert_match /api\.smartystreets\.com\/street-address\?/, subject.query_url(query)
   end
 
   def test_query_for_zipcode_geocode
     query = Geocoder::Query.new("22204")
-    assert_match /api\.smartystreets\.com\/zipcode\?/, query.url
+
+    assert_match /api\.smartystreets\.com\/zipcode\?/, subject.query_url(query)
   end
 
   def test_query_for_zipfour_geocode
     query = Geocoder::Query.new("22204-1603")
-    assert_match /api\.smartystreets\.com\/zipcode\?/, query.url
+
+    assert_match /api\.smartystreets\.com\/zipcode\?/, subject.query_url(query)
   end
 
   def test_smarty_streets_result_components
@@ -67,5 +70,11 @@ class SmartyStreetsTest < GeocoderTestCase
         lookup.send(:check_response_for_errors!, response)
       end
     end
+  end
+
+  private
+
+  def subject
+    Geocoder::Lookup::SmartyStreets.new
   end
 end

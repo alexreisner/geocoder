@@ -15,10 +15,10 @@ class NominatimTest < GeocoderTestCase
   end
 
   def test_host_configuration
-    skip
     Geocoder.configure(nominatim: {host: "local.com"})
     query = Geocoder::Query.new("Bluffton, SC")
-    assert_match %r(http://local\.com), query.url
+
+    assert_match %r(http://local\.com), subject.query_url(query)
   end
 
   def test_raises_exception_when_over_query_limit
@@ -27,5 +27,11 @@ class NominatimTest < GeocoderTestCase
     assert_raises Geocoder::OverQueryLimitError do
       l.send(:results, Geocoder::Query.new("over limit"))
     end
+  end
+
+  private
+
+  def subject
+    Geocoder::Lookup::Nominatim.new
   end
 end

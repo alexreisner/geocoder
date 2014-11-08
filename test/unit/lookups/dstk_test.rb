@@ -13,15 +13,21 @@ class DstkTest < GeocoderTestCase
   end
 
   def test_dstk_query_url
-    skip
     query = Geocoder::Query.new("Madison Square Garden, New York, NY")
-    assert_equal "http://www.datasciencetoolkit.org/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&language=en&sensor=false", query.url
+
+    assert_equal "http://www.datasciencetoolkit.org/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&language=en&sensor=false", subject.query_url(query)
   end
 
   def test_dstk_query_url_with_custom_host
-    skip
     Geocoder.configure(dstk: {host: 'NOT_AN_ACTUAL_HOST'})
     query = Geocoder::Query.new("Madison Square Garden, New York, NY")
-    assert_equal "http://NOT_AN_ACTUAL_HOST/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&language=en&sensor=false", query.url
+
+    assert_equal "http://NOT_AN_ACTUAL_HOST/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&language=en&sensor=false", subject.query_url(query)
+  end
+
+  private
+
+  def subject
+    Geocoder::Lookup::Dstk.new
   end
 end
