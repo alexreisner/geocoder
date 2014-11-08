@@ -1,23 +1,23 @@
 require 'geocoder/lookups/base'
-require 'geocoder/results/geolite2'
+require 'geocoder/results/geoip2'
 
 module Geocoder
   module Lookup
-    class Geolite2 < Base
+    class Geoip2 < Base
       def initialize
         unless configuration[:file].nil?
           begin
             @gem_name = configuration[:maxminddb_gem] || 'maxminddb'
             require @gem_name
           rescue LoadError
-            raise "Could not load Maxmind DB dependency. To use GeoLite2 lookup you must add the #{@gem_name} gem to your Gemfile or have it installed in your system."
+            raise "Could not load Maxmind DB dependency. To use the GeoIP2 lookup you must add the #{@gem_name} gem to your Gemfile or have it installed in your system."
           end
         end
         super
       end
 
       def name
-        'GeoLite2'
+        'GeoIP2'
       end
 
       def required_api_key_parts

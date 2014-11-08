@@ -150,7 +150,7 @@ module Geocoder
       end
     end
 
-    class Geolite2
+    class Geoip2
       private
 
       remove_method(:results)
@@ -165,7 +165,7 @@ module Geocoder
       end
 
       def default_fixture_filename
-        'geolite2_74_200_247_59'
+        'geoip2_74_200_247_59'
       end
     end
 

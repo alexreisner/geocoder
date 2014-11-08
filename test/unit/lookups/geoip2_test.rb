@@ -1,9 +1,9 @@
 # encoding: utf-8
 require 'test_helper'
 
-class Geolite2Test < GeocoderTestCase
+class Geoip2Test < GeocoderTestCase
   def setup
-    Geocoder.configure(ip_lookup: :geolite2, file: 'test_file')
+    Geocoder.configure(ip_lookup: :geoip2, file: 'test_file')
   end
 
   def test_result_attributes
