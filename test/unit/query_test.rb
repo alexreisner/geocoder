@@ -46,8 +46,9 @@ class QueryTest < GeocoderTestCase
 
   def test_custom_lookup
     query = Geocoder::Query.new("address", :lookup => :nominatim)
+    results = query.execute
 
-    assert_instance_of Geocoder::Result::Nominatim, query.execute.first
+    assert_instance_of Geocoder::Result::Nominatim, results.first
   end
 
   def test_force_specify_ip_address
