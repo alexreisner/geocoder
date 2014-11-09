@@ -11,14 +11,9 @@ module Geocoder
     def search
       results = nil
 
-      #binding.pry
-
       fallback_chain.each do |current_lookup|
-        puts current_lookup[:name]
-
         if current_lookup[:skip]
           if current_lookup[:skip].call(query)
-            puts "skip!!"
             next
           end
         end
@@ -32,7 +27,6 @@ module Geocoder
 
         if current_lookup[:failure]
           if current_lookup[:failure].call(results, exception)
-            puts "fail!"
             next
           end
         end

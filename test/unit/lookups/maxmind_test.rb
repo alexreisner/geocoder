@@ -63,6 +63,6 @@ class MaxmindTest < GeocoderTestCase
   private
 
   def subject
-    Geocoder::Lookup::Dstk.new
+    Geocoder::Lookup::Maxmind.new
   end
 end
