@@ -9,7 +9,7 @@ module Geocoder
     end
 
     def search
-      results = nil
+      results = []
 
       fallback_chain.each do |current_lookup|
         if current_lookup[:skip]
@@ -49,7 +49,7 @@ module Geocoder
     attr_reader :options, :query, :fallback_chain
 
     def find_fallback_chain
-      if query.ip_address?
+      if !options[:street_address] and (options[:ip_address] or query.ip_address?)
         @fallback_chain = find_ip_lookup_config
       else
         @fallback_chain = find_lookup_config

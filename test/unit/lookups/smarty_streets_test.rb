@@ -12,7 +12,7 @@ class SmartyStreetsTest < GeocoderTestCase
     Geocoder.configure(:smarty_streets => {:api_key => 'blah'})
     query = Geocoder::Query.new("Bluffton, SC")
 
-    assert_equal "http://api.smartystreets.com/street-address?auth-token=blah&street=Bluffton%2C+SC", subject.query_url(query)
+    assert_equal "https://api.smartystreets.com/street-address?auth-token=blah&street=Bluffton%2C+SC", subject.query_url(query)
   end
 
   def test_query_for_address_geocode

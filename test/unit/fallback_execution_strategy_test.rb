@@ -14,11 +14,6 @@ class FallbackExecutionStrategyTest < GeocoderTestCase
     assert_equal 1, results.size
   end
 
-  def test_strategy_uses_correct_lookup
-    results = @subject.search
-    assert_instance_of Geocoder::Result::Google, results.first
-  end
-
   def test_strategy_uses_correct_lookup_with_fallback_on_skip
     query = Geocoder::Query.new("foobar")
     subject = Geocoder::FallbackExecutionStrategy.new(query, lookup: [fallback_option_yandex, fallback_option_google])
@@ -27,7 +22,7 @@ class FallbackExecutionStrategyTest < GeocoderTestCase
     assert_instance_of Geocoder::Result::Google, results.first
   end
 
-  def test_strategy_calls_predicates_for_each_lookup
+  def test_strategy_calls_predicates_for_first_lookup_only_when_not_skipped
     skip_count = 0
     fail_count = 0
     fallback_option_yandex = {
@@ -37,8 +32,8 @@ class FallbackExecutionStrategyTest < GeocoderTestCase
     }
     fallback_option_google = {
       :name => :google,
-      :skip => nil,
-      :failure => nil
+      :skip => ->(query) { skip_count += 1; false },
+      :failure => ->(results, exception) { fail_count += 1; false }
     }
 
     query = Geocoder::Query.new("test")
@@ -49,7 +44,7 @@ class FallbackExecutionStrategyTest < GeocoderTestCase
     assert_equal 1, fail_count
   end
 
-  def test_strategy_calls_predicates_for_each_lookup_if_specified
+  def test_strategy_calls_predicates_for_each_lookup_with_fallback
     skip_count = 0
     fail_count = 0
     fallback_option_yandex = {
@@ -93,6 +88,19 @@ class FallbackExecutionStrategyTest < GeocoderTestCase
     assert_equal 0, fail_count
   end
 
+  def test_strategy_uses_correct_lookup_with_fallback_on_skip
+    fallback_option_yandex = {
+      :name => :yandex,
+      :skip => ->(query) { true },
+      :failure => ->(results, exception) { false }
+    }
+    query = Geocoder::Query.new("test")
+    subject = Geocoder::FallbackExecutionStrategy.new(query, lookup: [fallback_option_yandex, fallback_option_google])
+
+    results = subject.search
+    assert_instance_of Geocoder::Result::Google, results.first
+  end
+
   def test_strategy_uses_correct_lookup_with_fallback_on_failure
     fallback_option_yandex = {
       :name => :yandex,
@@ -127,6 +135,32 @@ class FallbackExecutionStrategyTest < GeocoderTestCase
       subject.search
     end
     assert_equal 2, skip_count
+  end
+
+  def test_strategy_returns_empty_array_if_results_empty
+    fallback_option = {
+      :name => :yandex,
+      :skip => ->(query) { false },
+      :failure => ->(results, exception) { false }
+    }
+
+    query = Geocoder::Query.new("no results")
+    subject = Geocoder::FallbackExecutionStrategy.new(query, lookup: [fallback_option])
+
+    assert_equal [], subject.search
+  end
+
+  def test_strategy_returns_empty_array_if_all_skipped
+    fallback_option = {
+      :name => :yandex,
+      :skip => ->(query) { true },
+      :failure => ->(results, exception) { false }
+    }
+
+    query = Geocoder::Query.new("test")
+    subject = Geocoder::FallbackExecutionStrategy.new(query, lookup: [fallback_option])
+
+    assert_equal [], subject.search
   end
 
   private

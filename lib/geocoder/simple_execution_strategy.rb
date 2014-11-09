@@ -14,7 +14,7 @@ module Geocoder
     attr_reader :options, :query
 
     def lookup
-      if query.ip_address?
+      if !options[:street_address] and (options[:ip_address] or query.ip_address?)
         lookup_name = options[:ip_lookup] || Configuration.ip_lookup || Geocoder::Lookup.ip_services.first
       else
         lookup_name = options[:lookup] || Configuration.lookup || Geocoder::Lookup.street_services.first
