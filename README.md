@@ -615,6 +615,18 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: To use PostcodeAnywhere you must include an API key: `Geocoder.configure(:lookup => :postcode_anywhere_uk, :api_key => 'your_api_key')`.
 
+#### AutoNavi (`:amap`)
+
+* **API key**: required
+* **Quota**: none
+* **Region**: China
+* **SSL support**: yes
+* **Languages**: Chinese (Simplified)
+* **Documentation**: http://lbs.amap.com/
+* **Terms of Service**: http://lbs.amap.com/home/terms/
+* **Limitations**: Only good for non-commercial use. For commercial usage please check http://lbs.amap.com/home/terms/
+* **Notes**: To use AutoNavi set `Geocoder.configure(:lookup => :amap, :api_key => "your_api_key")`.
+
 
 ### IP Address Services
 
@@ -730,17 +742,6 @@ This lookup provides methods for geocoding IP addresses without making a call to
       }
     )
     
-#### AutoNavi (`:amap`)
-
-* **API key**: required
-* **Quota**: none
-* **Region**: China
-* **SSL support**: yes
-* **Languages**: Chinese (Simplified)
-* **Documentation**: http://lbs.amap.com/
-* **Terms of Service**: http://lbs.amap.com/home/terms/
-* **Limitations**: Only good for non-commercial use. For commercial usage please check http://lbs.amap.com/home/terms/
-* **Notes**: To use AutoNavi set `Geocoder.configure(:lookup => :amap, :api_key => "your_api_key")`.
 
 You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* gem (native extension that relies on libmaxminddb) or the *[maxminddb](http://rubygems.org/gems/maxminddb)* gem (pure Ruby implementation) to your Gemfile or have it installed in your system. The pure Ruby gem (maxminddb) will be used by default. To use `hive_geoip2`:
 
