@@ -31,7 +31,7 @@ module Geocoder::Lookup
       if configuration[:file]
         geoip_class = RUBY_PLATFORM == "java" ? JGeoIP : GeoIP
         result = geoip_class.new(configuration[:file]).city(query.to_s)
-        result.nil? ? [] : [format_hash_to_utf8(result.to_hash)]
+        result.nil? ? [] : [encode_hash(result.to_hash)]
       elsif configuration[:package] == :city
         addr = IPAddr.new(query.text).to_i
         q = "SELECT l.country, l.region, l.city, l.latitude, l.longitude
@@ -46,10 +46,10 @@ module Geocoder::Lookup
       end
     end
 
-    def format_hash_to_utf8 hash
-      hash.inject({}) do |hsh, arr|
-        hsh[arr[0]] = arr[1].is_a?(String) ? arr[1].encode("UTF-8") : arr[1]
-        hsh
+    def encode_hash(hash, encoding = "UTF-8")
+      hash.inject({}) do |h,i|
+        h[i[0]] = i[1].is_a?(String) ? i[1].encode(encoding) : i[1]
+        h
       end
     end
 
