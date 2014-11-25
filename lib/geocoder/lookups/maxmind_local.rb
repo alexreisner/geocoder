@@ -31,7 +31,7 @@ module Geocoder::Lookup
       if configuration[:file]
         geoip_class = RUBY_PLATFORM == "java" ? JGeoIP : GeoIP
         result = geoip_class.new(configuration[:file]).city(query.to_s)
-        result.nil? ? [] : [result.to_hash]
+        result.nil? ? [] : [format_hash_to_utf8(result.to_hash)]
       elsif configuration[:package] == :city
         addr = IPAddr.new(query.text).to_i
         q = "SELECT l.country, l.region, l.city, l.latitude, l.longitude
@@ -43,6 +43,13 @@ module Geocoder::Lookup
         q = "SELECT country, country_code FROM maxmind_geolite_country
           WHERE start_ip_num <= #{addr} AND #{addr} <= end_ip_num"
         format_result(q, [:country_name, :country_code2])
+      end
+    end
+
+    def format_hash_to_utf8 hash
+      hash.inject({}) do |hsh, arr|
+        hsh[arr[0]] = arr[1].is_a?(String) ? arr[1].encode("UTF-8") : arr[1]
+        hsh
       end
     end
 
