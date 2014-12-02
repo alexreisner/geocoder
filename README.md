@@ -394,7 +394,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Documentation**: http://code.google.com/apis/maps/documentation/geocoding/#JSON
 * **Terms of Service**: http://code.google.com/apis/maps/terms.html#section_10_12
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
-* **Notes**: To use Google Premier set `Geocoder.configure(:lookup => :google_premier, :api_key => [key, client, channel])`.
+* **Notes**: To use Google Premier set `Geocoder.configure(:lookup => :google_premier, :api_key => [client-key, gme-client-id, anyText])`.
 
 #### Google Places Details (`:google_places_details`)
 
