@@ -41,7 +41,8 @@ module Geocoder
         :smarty_streets,
         :okf,
         :postcode_anywhere_uk,
-        :test
+        :test,
+        :amap
       ]
     end
 
@@ -56,7 +57,8 @@ module Geocoder
         :maxmind,
         :maxmind_local,
         :telize,
-        :pointpin
+        :pointpin,
+        :geoplugin
       ]
     end
 
