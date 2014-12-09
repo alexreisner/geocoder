@@ -1,0 +1,20 @@
+{
+  "geoplugin_request":"202.198.16.3",
+  "geoplugin_status":200,
+  "geoplugin_credit":"Some of the returned data includes GeoLite data created by MaxMind, available from <a href=\\'http:\/\/www.maxmind.com\\'>http:\/\/www.maxmind.com<\/a>.",
+  "geoplugin_city":"Changchun",
+  "geoplugin_region":"Jilin",
+  "geoplugin_areaCode":"0",
+  "geoplugin_dmaCode":"0",
+  "geoplugin_countryCode":"CN",
+  "geoplugin_countryName":"China",
+  "geoplugin_continentCode":"AS",
+  "geoplugin_latitude":"43.880001",
+  "geoplugin_longitude":"125.3228",
+  "geoplugin_regionCode":"05",
+  "geoplugin_regionName":"Jilin",
+  "geoplugin_currencyCode":"CNY",
+  "geoplugin_currencySymbol":"&#20803;",
+  "geoplugin_currencySymbol_UTF8":"\u5143",
+  "geoplugin_currencyConverter":6.1502
+}

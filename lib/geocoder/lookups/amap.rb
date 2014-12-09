@@ -22,10 +22,13 @@ module Geocoder::Lookup
 
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query)
-      case doc['status']
-      when "1"
+      case [doc['status'], doc['info']]
+      when ['1', 'OK']
         return [doc['regeocode']] unless doc['regeocode'].blank?
         return doc['geocodes'] unless doc['geocodes'].blank?
+      when ['1', 'INVALID_USER_KEY']
+        raise_error(Geocoder::InvalidApiKey, "invalid api key") ||
+          warn("#{self.name} Geocoding API error: invalid api key.")
       else
         raise_error(Geocoder::Error, "server error.") ||
           warn("#{self.name} Geocoding API error: server error.")

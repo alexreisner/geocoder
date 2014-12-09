@@ -220,6 +220,20 @@ module Geocoder
       end
     end
 
+    class Amap
+      private
+      def default_fixture_filename
+        "amap_madison_square_garden"
+      end
+    end
+
+    class Geoplugin
+      private
+      def default_fixture_filename
+        "geoplugin_202_198_16_3"
+      end
+    end
+
     class Geocodio
       private
       def default_fixture_filename

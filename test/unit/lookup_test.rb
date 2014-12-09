@@ -76,7 +76,7 @@ class LookupTest < GeocoderTestCase
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
-    [:bing, :yahoo, :yandex, :maxmind, :baidu, :baidu_ip].each do |l|
+    [:bing, :yahoo, :yandex, :maxmind, :baidu, :baidu_ip, :amap].each do |l|
       lookup = Geocoder::Lookup.get(l)
       assert_raises Geocoder::InvalidApiKey do
         lookup.send(:results, Geocoder::Query.new("invalid key"))
@@ -87,7 +87,7 @@ class LookupTest < GeocoderTestCase
   def test_returns_empty_array_on_invalid_key
     silence_warnings do
       #Geocoder::Lookup.all_services_except_test.each do |l|
-      [:bing, :yahoo, :yandex, :maxmind, :baidu, :baidu_ip].each do |l|
+      [:bing, :yahoo, :yandex, :maxmind, :baidu, :baidu_ip, :amap].each do |l|
         Geocoder.configure(:lookup => l)
         set_api_key!(l)
         assert_equal [], Geocoder.search("invalid key")
@@ -138,7 +138,7 @@ class LookupTest < GeocoderTestCase
   end
 
   def test_raises_configuration_error_on_missing_key
-    [:bing, :baidu].each do |l|
+    [:bing, :baidu, :amap].each do |l|
       assert_raises Geocoder::ConfigurationError do
         Geocoder.configure(:lookup => l, :api_key => nil)
         Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
