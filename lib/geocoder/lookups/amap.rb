@@ -26,7 +26,7 @@ module Geocoder::Lookup
       when ['1', 'OK']
         return [doc['regeocode']] unless doc['regeocode'].blank?
         return doc['geocodes'] unless doc['geocodes'].blank?
-      when ['1', 'INVALID_USER_KEY']
+      when ['0', 'INVALID_USER_KEY']
         raise_error(Geocoder::InvalidApiKey, "invalid api key") ||
           warn("#{self.name} Geocoding API error: invalid api key.")
       else

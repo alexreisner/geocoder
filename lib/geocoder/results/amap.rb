@@ -3,19 +3,29 @@ require 'geocoder/results/base'
 
 module Geocoder::Result
   class Amap < Base
-
     def coordinates
-      @data["roadinters"]['location'].split(",")
+      location = @data['location'] || @data['roadinters'].try(:[], 'location')
+      location.to_s.split(",").map(&:to_f)
     end
 
+    def street
+      if address_components['neighborhood']['name'] != []
+        return address_components['neighborhood']['name']
+      elsif address_components['township'] != []
+        return address_components['township']
+      else
+        return @data['street'] || address_components['streetNumber'].try(:[], 'street')
+      end
+    end
+    
     def address
+      formatted_address
+    end
+
+    def formatted_address
       @data['formatted_address']
     end
 
-    def state
-      province
-    end
-    
     def province
       address_components['province']
     end
@@ -28,34 +38,16 @@ module Geocoder::Result
       address_components['district']
     end
 
-    def street
-      if address_components["neighborhood"]["name"] != []
-        return address_components["neighborhood"]["name"]
-      elsif address_components["streetNumber"]["street"] != []
-        return address_components["streetNumber"]["street"]
-      else
-        return address_components["township"]
-      end
-    end
-
     def street_number
-      address_components['streetNumber']["number"]
+      @data['number'] || address_components['streetNumber'].try(:[], 'number')
     end
 
-    def formatted_address
-      @data['formatted_address']
+    def state
+      province
     end
 
     def address_components
-      @data['addressComponent']
-    end
-
-    def state_code
-      ""
-    end
-
-    def postal_code
-      ""
+      @data['addressComponent'] || @data
     end
 
     def country
@@ -66,20 +58,13 @@ module Geocoder::Result
       "CN"
     end
 
-    ##
-    # Get address components of a given type. Valid types are defined in
-    # Baidu's Geocoding API documentation and include (among others):
-    #
-    #   :business
-    #   :cityCode
-    #
     def self.response_attributes
-      %w[roads pois roadinters]
+      %w[state_code postal_code]
     end
 
     response_attributes.each do |a|
       define_method a do
-        @data[a]
+        ''
       end
     end
   end

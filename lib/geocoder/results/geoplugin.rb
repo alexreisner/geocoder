@@ -5,7 +5,7 @@ module Geocoder::Result
   class Geoplugin < Base
 
     def coordinates
-      [@data['geoplugin_latitude'].to_f, @data['geoplugin_longitude'].to_f]
+      ['latitude', 'longitude'].map{ |key| @data["geoplugin_#{key}"].to_f }
     end
 
     def address
@@ -38,6 +38,16 @@ module Geocoder::Result
 
     def currency
       @data['geoplugin_currencyConverter'].to_f
+    end
+
+    def self.response_attributes
+      %w[state_code postal_code]
+    end
+
+    response_attributes.each do |a|
+      define_method a do
+        ''
+      end
     end
 
   end

@@ -223,7 +223,7 @@ module Geocoder
     class Amap
       private
       def default_fixture_filename
-        "amap_madison_square_garden"
+        "amap_new_york"
       end
     end
 

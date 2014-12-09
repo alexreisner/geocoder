@@ -10,7 +10,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://www.geoplugin.net/json.gp?ip=" + query.sanitized_text
+      "http://www.geoplugin.net/json.gp?" + url_query_string(query)
     end
 
     private # ---------------------------------------------------------------
@@ -25,6 +25,12 @@ module Geocoder::Lookup
           warn("#{self.name} Geocoding API error: server error.")
       end
       return []
+    end
+
+    def query_url_params(query)
+      {
+        ip: query.sanitized_text
+      }.merge(super)
     end
 
   end
