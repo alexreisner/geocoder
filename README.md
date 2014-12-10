@@ -139,8 +139,8 @@ Location-Aware Database Queries
 To find objects by location, use the following scopes:
 
     Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
-    Venue.near([40.71, 100.23], 20)    # venues within 20 miles of a point
-    Venue.near([40.71, 100.23], 20, :units => :km)
+    Venue.near([40.71, -100.23], 20)    # venues within 20 miles of a point
+    Venue.near([40.71, -100.23], 20, :units => :km)
                                        # venues within 20 kilometres of a point
     Venue.geocoded                     # venues with coordinates
     Venue.not_geocoded                 # venues without coordinates
@@ -733,7 +733,7 @@ This lookup provides methods for geocoding IP addresses without making a call to
 You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* gem (native extension that relies on libmaxminddb) or the *[maxminddb](http://rubygems.org/gems/maxminddb)* gem (pure Ruby implementation) to your Gemfile or have it installed in your system. The pure Ruby gem (maxminddb) will be used by default. To use `hive_geoip2`:
 
     Geocoder.configure(
-      ip_lookup: :geoip2, 
+      ip_lookup: :geoip2,
       geoip2: {
         lib: 'hive_geoip2',
         file: File.join('folder', 'GeoLite2-City.mmdb')
