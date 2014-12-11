@@ -13,13 +13,14 @@ class GeocodioTest < GeocoderTestCase
     result = Geocoder.search("1101 Pennsylvania Ave NW, Washington DC").first
     assert_equal 1.0, result.accuracy
     assert_equal "1101", result.number
+    assert_equal "1101 Pennsylvania Ave NW", result.street_address
     assert_equal "Ave", result.suffix
     assert_equal "DC", result.state
     assert_equal "20004", result.zip
     assert_equal "NW", result.postdirectional
     assert_equal "Washington", result.city
-    assert_equal "1101 Pennsylvania Ave NW, Washington DC, 20004", result.formatted_address
-    assert_equal({ "lat" => "38.895019", "lng" => "-77.028095" }, result.location)
+    assert_equal "1101 Pennsylvania Ave NW, Washington, DC 20004", result.formatted_address
+    assert_equal({ "lat" => 38.895019, "lng" => -77.028095 }, result.location)
   end
 
   def test_no_results

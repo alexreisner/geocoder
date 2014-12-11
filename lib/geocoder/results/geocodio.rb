@@ -14,6 +14,10 @@ module Geocoder::Result
       address_components["suffix"]
     end
 
+    def street_address
+      [number, address_components["formatted_street"]].compact.join(' ')
+    end
+
     def state
       address_components["state"]
     end
