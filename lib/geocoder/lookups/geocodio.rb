@@ -16,16 +16,16 @@ module Geocoder::Lookup
     def results(query)
       return [] unless doc = fetch_data(query)
       return doc["results"] if doc['error'].nil?
-      
+
       if doc['error'] == 'Invalid API key'
         raise_error(Geocoder::InvalidApiKey) ||
-          warn("Geocodio service error: invalid API key.")
+          log("Geocodio service error: invalid API key.")
       elsif doc['error'].match(/You have reached your daily maximum/)
         raise_error(Geocoder::OverQueryLimitError, doc['error']) ||
-          warn("Geocodio service error: #{doc['error']}.")
+          log("Geocodio service error: #{doc['error']}.")
       else
         raise_error(Geocoder::InvalidRequest, doc['error']) ||
-          warn("Geocodio service error: #{doc['error']}.")
+          log("Geocodio service error: #{doc['error']}.")
       end
       []
     end

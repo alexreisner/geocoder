@@ -162,17 +162,21 @@ module Geocoder
         end
       end
 
+      def log(message)
+        warn message if configuration.log
+      end
+
       ##
       # Returns a parsed search result (Ruby hash).
       #
       def fetch_data(query)
         parse_raw_data fetch_raw_data(query)
       rescue SocketError => err
-        raise_error(err) or warn "Geocoding API connection cannot be established."
+        raise_error(err) or log "Geocoding API connection cannot be established."
       rescue Errno::ECONNREFUSED => err
-        raise_error(err) or warn "Geocoding API connection refused."
+        raise_error(err) or log "Geocoding API connection refused."
       rescue TimeoutError => err
-        raise_error(err) or warn "Geocoding API not responding fast enough " +
+        raise_error(err) or log "Geocoding API not responding fast enough " +
           "(use Geocoder.configure(:timeout => ...) to set limit)."
       end
 
@@ -190,7 +194,7 @@ module Geocoder
       def parse_raw_data(raw_data)
         parse_json(raw_data)
       rescue
-        warn "Geocoding API's response was not valid JSON."
+        log "Geocoding API's response was not valid JSON."
       end
 
       ##
@@ -242,16 +246,16 @@ module Geocoder
       def check_response_for_errors!(response)
         if response.code.to_i == 400
           raise_error(Geocoder::InvalidRequest) ||
-            warn("Geocoding API error: 400 Bad Request")
+            log("Geocoding API error: 400 Bad Request")
         elsif response.code.to_i == 401
           raise_error(Geocoder::RequestDenied) ||
-            warn("Geocoding API error: 401 Unauthorized")
+            log("Geocoding API error: 401 Unauthorized")
         elsif response.code.to_i == 402
           raise_error(Geocoder::OverQueryLimitError) ||
-            warn("Geocoding API error: 402 Payment Required")
+            log("Geocoding API error: 402 Payment Required")
         elsif response.code.to_i == 429
           raise_error(Geocoder::OverQueryLimitError) ||
-            warn("Geocoding API error: 429 Too Many Requests")
+            log("Geocoding API error: 429 Too Many Requests")
         end
       end
 

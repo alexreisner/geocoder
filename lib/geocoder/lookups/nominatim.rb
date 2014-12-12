@@ -27,7 +27,7 @@ module Geocoder::Lookup
 
     def parse_raw_data(raw_data)
       if raw_data.include?("Bandwidth limit exceeded")
-        raise_error(Geocoder::OverQueryLimitError) || warn("Over API query limit.")
+        raise_error(Geocoder::OverQueryLimitError) || log("Over API query limit.")
       else
         super(raw_data)
       end

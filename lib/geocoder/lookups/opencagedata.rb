@@ -26,16 +26,16 @@ module Geocoder::Lookup
       case doc['status']['code']
       when 400 # Error with input
         raise_error(Geocoder::InvalidRequest, messages) ||
-          warn("Opencagedata Geocoding API error: #{messages}")
+          log("Opencagedata Geocoding API error: #{messages}")
       when 403 # Key related error
         raise_error(Geocoder::InvalidApiKey, messages) ||
-          warn("Opencagedata Geocoding API error: #{messages}")
+          log("Opencagedata Geocoding API error: #{messages}")
       when 402 # Quata Exceeded
           raise_error(Geocoder::OverQueryLimitError, messages) ||
-          warn("Opencagedata Geocoding API error: #{messages}")
+          log("Opencagedata Geocoding API error: #{messages}")
       when 500 # Unknown error
         raise_error(Geocoder::Error, messages) ||
-          warn("Opencagedata Geocoding API error: #{messages}")
+          log("Opencagedata Geocoding API error: #{messages}")
       end
 
       return doc["results"]

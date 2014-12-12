@@ -43,9 +43,9 @@ module Geocoder::Lookup
       if doc['statusCode'] == 200
         return doc['resourceSets'].first['estimatedTotal'] > 0 ? doc['resourceSets'].first['resources'] : []
       elsif doc['statusCode'] == 401 and doc["authenticationResultCode"] == "InvalidCredentials"
-        raise_error(Geocoder::InvalidApiKey) || warn("Invalid Bing API key.")
+        raise_error(Geocoder::InvalidApiKey) || log("Invalid Bing API key.")
       else
-        warn "Bing Geocoding API error: #{doc['statusCode']} (#{doc['statusDescription']})."
+        log "Bing Geocoding API error: #{doc['statusCode']} (#{doc['statusDescription']})."
       end
       return []
     end
