@@ -182,6 +182,8 @@ module Geocoder
         else
           JSON.parse(data)
         end
+      rescue => err
+        raise_error(ResponseParseError.new(data)) or warn "Geocoding API's response was not valid JSON."
       end
 
       ##
@@ -189,8 +191,6 @@ module Geocoder
       #
       def parse_raw_data(raw_data)
         parse_json(raw_data)
-      rescue
-        warn "Geocoding API's response was not valid JSON."
       end
 
       ##

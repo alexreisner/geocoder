@@ -9,6 +9,14 @@ module Geocoder
   class OverQueryLimitError < Error
   end
 
+  class ResponseParseError < Error
+    attr_reader :response
+
+    def initialize(response)
+      @response = response
+    end
+  end
+
   class RequestDenied < Error
   end
 
