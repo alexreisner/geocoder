@@ -690,7 +690,7 @@ This lookup provides methods for geocoding IP addresses without making a call to
 You can generate ActiveRecord migrations and download and import data via provided rake tasks:
 
     # generate migration to create tables
-    rails generate geocoder:maxmind:geolite PACKAGE=city
+    rails generate geocoder:maxmind:geolite_city
 
     # download, unpack, and import data
     rake geocoder:maxmind:geolite:load PACKAGE=city
