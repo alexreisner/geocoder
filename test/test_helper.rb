@@ -81,11 +81,7 @@ module Geocoder
       def read_fixture(file)
         filepath = File.join("test", "fixtures", file)
         s = File.read(filepath).strip.gsub(/\n\s*/, "")
-        s.instance_eval do
-          def body; self; end
-          def code; "200"; end
-        end
-        s
+        MockHttpResponse.new(body: s, code: "200")
       end
 
       ##
