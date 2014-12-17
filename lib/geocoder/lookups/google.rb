@@ -19,7 +19,8 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def valid_response?(response)
-      status = parse_json(response.body)["status"]
+      json = parse_json(response.body)
+      status = json["status"] if json
       super(response) and ['OK', 'ZERO_RESULTS'].include?(status)
     end
 

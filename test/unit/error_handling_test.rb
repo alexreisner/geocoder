@@ -18,6 +18,29 @@ class ErrorHandlingTest < GeocoderTestCase
     end
   end
 
+  def test_always_raise_response_parse_error
+    Geocoder.configure(:always_raise => [Geocoder::ResponseParseError])
+    [:freegeoip, :google, :okf].each do |l|
+      lookup = Geocoder::Lookup.get(l)
+      set_api_key!(l)
+      assert_raises Geocoder::ResponseParseError do
+        lookup.send(:results, Geocoder::Query.new("invalid_json"))
+      end
+    end
+  end
+
+  def test_never_raise_response_parse_error
+    [:freegeoip, :google, :okf].each do |l|
+      lookup = Geocoder::Lookup.get(l)
+      set_api_key!(l)
+      silence_warnings do
+        assert_nothing_raised do
+          lookup.send(:results, Geocoder::Query.new("invalid_json"))
+        end
+      end
+    end
+  end
+
   def test_always_raise_timeout_error
     Geocoder.configure(:always_raise => [TimeoutError])
     Geocoder::Lookup.all_services_except_test.each do |l|

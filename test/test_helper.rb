@@ -107,6 +107,10 @@ module Geocoder
         raise TimeoutError if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
         raise Errno::ECONNREFUSED if query.text == "connection_refused"
+        if query.text == "invalid_json"
+          return MockHttpResponse.new(:body => 'invalid json', :code => 200)
+        end
+
         read_fixture fixture_for_query(query)
       end
     end
@@ -408,5 +412,9 @@ class MockHttpResponse
   def initialize(options = {})
     @code = options[:code].to_s
     @body = options[:body]
+  end
+
+  def [](key)
+    send key if respond_to?(key)
   end
 end
