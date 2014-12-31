@@ -28,7 +28,7 @@ Install Geocoder like any other Ruby gem:
 
 Or, if you're using Rails/Bundler, add this to your Gemfile:
 
-    gem "geocoder"
+    gem 'geocoder'
 
 and run at the command prompt:
 
