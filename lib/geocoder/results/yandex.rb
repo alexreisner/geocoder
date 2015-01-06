@@ -14,7 +14,8 @@ module Geocoder::Result
     def city
       if state.empty? and address_details.has_key? 'Locality'
         address_details['Locality']['LocalityName']
-      elsif sub_state.empty? and address_details['AdministrativeArea'].has_key? 'Locality'
+      elsif sub_state.empty? and address_details.has_key? 'AdministrativeArea' and
+          address_details['AdministrativeArea'].has_key? 'Locality'
         address_details['AdministrativeArea']['Locality']['LocalityName']
       elsif not sub_state_city.empty?
         sub_state_city
