@@ -67,6 +67,9 @@ end
 require 'geocoder'
 require "geocoder/lookups/base"
 
+# and initialize Railtie manually (since Rails::Railtie doesn't exist)
+Geocoder::Railtie.insert
+
 ##
 # Mock HTTP request to geocoding service.
 #
