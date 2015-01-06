@@ -43,4 +43,5 @@ end
 # load Railtie if Rails exists
 if defined?(Rails)
   require "geocoder/railtie"
+  Geocoder::Railtie.insert
 end
