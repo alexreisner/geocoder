@@ -8,6 +8,9 @@ group :development, :test do
   gem 'rubyzip'
   gem 'rails'
 
+  # i18n gem >=0.7.0 does not work with Ruby 1.9.2
+  gem 'i18n', '0.6.1', :platforms => [:mri_19]
+
   gem 'debugger', :platforms => [:mri_19]
   gem 'byebug', :platforms => [:mri_20, :mri_21]
 
