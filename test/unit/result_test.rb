@@ -22,6 +22,15 @@ class ResultTest < GeocoderTestCase
     end
   end
 
+  def test_yandex_result_without_admin_area_no_exception
+    assert_nothing_raised do
+      Geocoder.configure(:lookup => :yandex)
+      set_api_key!(:yandex)
+      result = Geocoder.search("no administrative area").first
+      assert_equal "", result.city
+    end
+  end
+
   def test_yandex_result_new_york
     assert_nothing_raised do
       Geocoder.configure(:lookup => :yandex)

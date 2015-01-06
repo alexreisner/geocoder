@@ -1,0 +1,53 @@
+{
+   "response":{
+      "GeoObjectCollection":{
+         "metaDataProperty":{
+            "GeocoderResponseMetaData":{
+               "request":"13.813139,100.560291",
+               "found":"1",
+               "results":"1",
+               "Point":{
+                  "pos":"13.813139 100.560291"
+               }
+            }
+         },
+         "featureMember":[
+            {
+               "GeoObject":{
+                  "metaDataProperty":{
+                     "GeocoderMetaData":{
+                        "kind":"house",
+                        "text":"Thailand, Phahon Yothin Road, 1130/5",
+                        "precision":"exact",
+                        "AddressDetails":{
+                           "Country":{
+                              "AddressLine":"Phahon Yothin Road, 1130/5",
+                              "CountryNameCode":"TH",
+                              "CountryName":"Thailand",
+                              "Thoroughfare":{
+                                 "ThoroughfareName":"Phahon Yothin Road",
+                                 "Premise":{
+                                    "PremiseNumber":"1130/5"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "description":"Thailand",
+                  "name":"Phahon Yothin Road, 1130/5",
+                  "boundedBy":{
+                     "Envelope":{
+                        "lowerCorner":"100.552005 13.805102",
+                        "upperCorner":"100.568462 13.821184"
+                     }
+                  },
+                  "Point":{
+                     "pos":"100.560234 13.813143"
+                  }
+               }
+            }
+         ]
+      }
+   }
+}
