@@ -20,7 +20,7 @@ module Geocoder
     # All street address lookup services, default first.
     #
     def street_services
-      [
+      @street_services ||= [
         :dstk,
         :esri,
         :google,
@@ -49,7 +49,7 @@ module Geocoder
     # All IP address lookup services, default first.
     #
     def ip_services
-      [
+      @ip_services ||= [
         :baidu_ip,
         :freegeoip,
         :geoip2,
@@ -59,6 +59,8 @@ module Geocoder
         :pointpin
       ]
     end
+
+    attr_writer :street_services, :ip_services
 
     ##
     # Retrieve a Lookup object from the store.
