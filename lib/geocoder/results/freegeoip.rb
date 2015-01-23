@@ -29,7 +29,7 @@ module Geocoder::Result
     end
 
     def postal_code
-      @data['zipcode']
+      @data['zipcode'] || @data['zip_code']
     end
 
     def self.response_attributes
