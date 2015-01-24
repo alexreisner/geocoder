@@ -7,6 +7,7 @@ group :development, :test do
   gem 'geoip'
   gem 'rubyzip'
   gem 'rails'
+  gem 'test-unit' # needed for Ruby >=2.2.0
 
   # i18n gem >=0.7.0 does not work with Ruby 1.9.2
   gem 'i18n', '0.6.1', :platforms => [:mri_19]
