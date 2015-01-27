@@ -252,6 +252,9 @@ module Geocoder
         elsif response.code.to_i == 429
           raise_error(Geocoder::OverQueryLimitError) ||
             warn("Geocoding API error: 429 Too Many Requests")
+        elsif response.code.to_i == 503
+          raise_error(Geocoder::ServiceUnavailable) ||
+            warn("Geocoding API error: 503 Service Unavailable")
         end
       end
 
