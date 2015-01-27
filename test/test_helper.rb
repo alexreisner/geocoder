@@ -124,7 +124,7 @@ module Geocoder
         if file == "bing_service_unavailable"
           filepath = File.join("test", "fixtures", file)
           s = File.read(filepath).strip.gsub(/\n\s*/, "")
-          MockHttpResponse.new(body: s, code: "200", headers: {'X-MS-BM-WS-INFO' => 1})
+          MockHttpResponse.new(body: s, code: "200", headers: {'x-ms-bm-ws-info' => "1"})
         else
           super
         end
@@ -424,7 +424,7 @@ class GeocoderTestCase < Test::Unit::TestCase
 end
 
 class MockHttpResponse
-  attr_reader :code, :body, :headers
+  attr_reader :code, :body
   def initialize(options = {})
     @code = options[:code].to_s
     @body = options[:body]
@@ -432,6 +432,6 @@ class MockHttpResponse
   end
 
   def [](key)
-    send key if respond_to?(key)
+    @headers[key]
   end
 end

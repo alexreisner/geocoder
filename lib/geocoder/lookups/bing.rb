@@ -58,7 +58,7 @@ module Geocoder::Lookup
 
     def check_response_for_errors!(response)
       super
-      if response.headers['X-MS-BM-WS-INFO'] == 1
+      if response['x-ms-bm-ws-info'].to_i == 1
         # Occasionally, the servers processing service requests can be overloaded, 
         # and you may receive some responses that contain no results for queries that 
         # you would normally receive a result. To identify this situation, 
