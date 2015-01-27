@@ -118,6 +118,19 @@ module Geocoder
       end
     end
 
+    class Bing
+      private
+      def read_fixture(file)
+        if file == "bing_service_unavailable"
+          filepath = File.join("test", "fixtures", file)
+          s = File.read(filepath).strip.gsub(/\n\s*/, "")
+          MockHttpResponse.new(body: s, code: "200", headers: {'x-ms-bm-ws-info' => "1"})
+        else
+          super
+        end
+      end
+    end
+
     class GooglePremier
       private
       def fixture_prefix
@@ -415,9 +428,10 @@ class MockHttpResponse
   def initialize(options = {})
     @code = options[:code].to_s
     @body = options[:body]
+    @headers = options[:headers] || {}
   end
 
   def [](key)
-    send key if respond_to?(key)
+    @headers[key]
   end
 end

@@ -65,4 +65,12 @@ class BingTest < GeocoderTestCase
     assert_match(/Locations\/uk\?q=manchester,%20lancashire/, url)
     assert_no_match(/query/, url)
   end
+
+  def test_raises_exception_when_service_unavailable
+    Geocoder.configure(:always_raise => [Geocoder::ServiceUnavailable])
+    l = Geocoder::Lookup.get(:bing)
+    assert_raises Geocoder::ServiceUnavailable do
+      l.send(:results, Geocoder::Query.new("service unavailable"))
+    end
+  end
 end
