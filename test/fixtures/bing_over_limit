@@ -1,0 +1,16 @@
+{
+   "authenticationResultCode":"ValidCredentials",
+   "brandLogoUri":"http:\/\/dev.virtualearth.net\/Branding\/logo_powered_by.png",
+   "copyright":"Copyright © 2011 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.",
+   "resourceSets":[
+      {
+         "estimatedTotal":0,
+         "resources":[
+
+         ]
+      }
+   ],
+   "statusCode":200,
+   "statusDescription":"OK",
+   "traceId":"907b76a307bc49129a489de3d4c992ea|CH1M001463|02.00.82.2800|CH1MSNVM001383, CH1MSNVM001358, CH1MSNVM001397"
+}

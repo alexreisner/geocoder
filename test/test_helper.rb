@@ -118,6 +118,19 @@ module Geocoder
       end
     end
 
+    class Bing
+      private
+      def read_fixture(file)
+        if file == "bing_over_limit"
+          filepath = File.join("test", "fixtures", file)
+          s = File.read(filepath).strip.gsub(/\n\s*/, "")
+          MockHttpResponse.new(body: s, code: "200", headers: {'X-MS-BM-WS-INFO' => 1})
+        else
+          super
+        end
+      end
+    end
+
     class GooglePremier
       private
       def fixture_prefix
@@ -411,10 +424,11 @@ class GeocoderTestCase < Test::Unit::TestCase
 end
 
 class MockHttpResponse
-  attr_reader :code, :body
+  attr_reader :code, :body, :headers
   def initialize(options = {})
     @code = options[:code].to_s
     @body = options[:body]
+    @headers = options[:headers] || {}
   end
 
   def [](key)

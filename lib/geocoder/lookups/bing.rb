@@ -55,5 +55,19 @@ module Geocoder::Lookup
         key: configuration.api_key
       }.merge(super)
     end
+
+    def check_response_for_errors!(response)
+      super
+      puts response
+      if response.headers['X-MS-BM-WS-INFO'] == 1
+        # Occasionally, the servers processing service requests can be overloaded, 
+        # and you may receive some responses that contain no results for queries that 
+        # you would normally receive a result. To identify this situation, 
+        # check the HTTP headers of the response. If the HTTP header X-MS-BM-WS-INFO is set to 1, 
+        # it is best to wait a few seconds and try again.
+        raise_error(Geocoder::OverQueryLimitError) ||
+          warn("Bing Geocoding API error: Service Requests Overloaded")
+      end   
+    end
   end
 end
