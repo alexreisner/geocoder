@@ -26,4 +26,7 @@ module Geocoder
   class InvalidApiKey < Error
   end
 
+  class ServiceUnavailable < Error
+  end
+
 end

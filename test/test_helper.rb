@@ -121,7 +121,7 @@ module Geocoder
     class Bing
       private
       def read_fixture(file)
-        if file == "bing_over_limit"
+        if file == "bing_service_unavailable"
           filepath = File.join("test", "fixtures", file)
           s = File.read(filepath).strip.gsub(/\n\s*/, "")
           MockHttpResponse.new(body: s, code: "200", headers: {'X-MS-BM-WS-INFO' => 1})
