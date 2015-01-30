@@ -653,14 +653,14 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Terms of Service**: ?
 * **Limitations**: ?
 
-#### MaxMind Web Services (`:maxmind`)
+#### MaxMind Legacy Web Services (`:maxmind`)
 
 * **API key**: required
 * **Quota**: Request Packs can be purchased
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: English
-* **Documentation**: http://www.maxmind.com/app/web_services
+* **Documentation**: http://dev.maxmind.com/geoip/legacy/web-services/
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
