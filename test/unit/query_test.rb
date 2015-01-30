@@ -49,4 +49,14 @@ class QueryTest < GeocoderTestCase
     query = Geocoder::Query.new("address", :lookup => :nominatim)
     assert_equal Geocoder::Lookup::Nominatim, query.lookup.class
   end
+
+  def test_force_specify_ip_lookup
+    query = Geocoder::Query.new("address", :ip_lookup => :baidu_ip)
+    assert !query.ip_address?
+    assert_equal Geocoder::Lookup::BaiduIp, query.lookup.class
+
+    query = Geocoder::Query.new("address", :ip_lookup => :baidu_ip, :lookup => :bing)
+    assert !query.ip_address?
+    assert_equal Geocoder::Lookup::Bing, query.lookup.class
+  end
 end
