@@ -54,12 +54,12 @@ class QueryTest < GeocoderTestCase
     Geocoder.configure({:ip_lookup => :google})
     query = Geocoder::Query.new("address", {:ip_address => true})
     assert !query.ip_address?
-    assert_equal Geocoder::Lookup::Google, query.lookup.class
+    assert_instance_of Geocoder::Lookup::Google, query.lookup
   end
 
   def test_force_specify_ip_address_with_ip_lookup
     query = Geocoder::Query.new("address", {:ip_address => true, :ip_lookup => :google})
     assert !query.ip_address?
-    assert_equal Geocoder::Lookup::Google, query.lookup.class
+    assert_instance_of Geocoder::Lookup::Google, query.lookup
   end
 end
