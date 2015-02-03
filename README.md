@@ -665,6 +665,21 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
 
+#### Baidu IP (`:baidu_ip`)
+
+* **API key**: required
+* **Quota**: No quota limits for geocoding
+* **Region**: China
+* **SSL support**: no
+* **Languages**: Chinese (Simplified)
+* **Documentation**: http://developer.baidu.com/map/webservice-geocoding.htm
+* **Terms of Service**: http://developer.baidu.com/map/law.htm
+* **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
+* **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
+
+
+### IP Address Local Database Services
+
 #### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
 
 This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
@@ -696,18 +711,6 @@ You can generate ActiveRecord migrations and download and import data via provid
     rake geocoder:maxmind:geolite:load PACKAGE=city
 
 You can replace `city` with `country` in any of the above tasks, generators, and configurations.
-
-#### Baidu IP (`:baidu_ip`)
-
-* **API key**: required
-* **Quota**: No quota limits for geocoding
-* **Region**: China
-* **SSL support**: no
-* **Languages**: Chinese (Simplified)
-* **Documentation**: http://developer.baidu.com/map/webservice-geocoding.htm
-* **Terms of Service**: http://developer.baidu.com/map/law.htm
-* **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
-* **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
 
 #### GeoLite2 (`:geoip2`)
 
