@@ -206,6 +206,13 @@ module Geocoder
       end
     end
 
+    class MaxmindGeoip2
+      private
+      def default_fixture_filename
+        "maxmind_geoip2_1_2_3_4"
+      end
+    end
+
     class MaxmindLocal
       private
 
@@ -395,7 +402,9 @@ class GeocoderTestCase < Test::Unit::TestCase
   def setup
     super
     Geocoder::Configuration.instance.set_defaults
-    Geocoder.configure(:maxmind => {:service => :city_isp_org})
+    Geocoder.configure(
+      :maxmind => {:service => :city_isp_org},
+      :maxmind_geoip2 => {:service => :insights, :basic_auth => {:user => "user", :password => "password"}})
   end
 
   def geocoded_object_params(abbrev)
