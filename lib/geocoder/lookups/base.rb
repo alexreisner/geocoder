@@ -266,7 +266,6 @@ module Geocoder
         timeout(configuration.timeout) do
           uri = URI.parse(query_url(query))
           args = [uri.host, uri.port]
-          args = args.push(uri.user, uri.password) unless uri.user.nil? or uri.password.nil?
           opts = {}
           opts[:use_ssl] = use_ssl?
 
