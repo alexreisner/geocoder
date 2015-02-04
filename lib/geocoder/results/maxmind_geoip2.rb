@@ -1,4 +1,4 @@
-require 'geocoder/results/base'
+require 'geocoder/results/geoip2'
 
 module Geocoder::Result
   class MaxmindGeoip2 < Geoip2

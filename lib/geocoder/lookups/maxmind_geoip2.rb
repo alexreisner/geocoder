@@ -1,6 +1,5 @@
 require 'geocoder/lookups/base'
 require 'geocoder/results/maxmind_geoip2'
-require 'csv'
 
 module Geocoder::Lookup
   class MaxmindGeoip2 < Base
