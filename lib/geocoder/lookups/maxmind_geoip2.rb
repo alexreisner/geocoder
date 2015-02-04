@@ -15,7 +15,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://geoip.maxmind.com/geoip/v2.1/#{configured_service!}/" + url_query_string(query)
+      "#{protocol}://geoip.maxmind.com/geoip/v2.1/#{configured_service!}/#{URI.escape(query.sanitized_text.strip)}"
     end
 
     private # ---------------------------------------------------------------
