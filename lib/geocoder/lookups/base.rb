@@ -271,8 +271,8 @@ module Geocoder
           opts[:use_ssl] = use_ssl?
 
           http_client.start(*args, opts) do |client|
-            req = client::Get.new(uri.request_uri, configuration.http_headers)
-            if configuration.basic_auth
+            req = http_client::Get.new(uri.request_uri, configuration.http_headers)
+            if configuration.basic_auth[:user] && configuration.basic_auth[:password]
               req.basic_auth(configuration.basic_auth[:user], configuration.basic_auth[:password])
             end
             client.request(req)
