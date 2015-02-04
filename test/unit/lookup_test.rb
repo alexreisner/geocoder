@@ -107,6 +107,18 @@ class LookupTest < GeocoderTestCase
     assert_equal "a=1&b=2", g.send(:hash_to_query, {:a => 1, :b => 2})
   end
 
+  def test_amap_api_key
+    Geocoder.configure(:api_key => '')
+    g = Geocoder::Lookup::Geoplugin.new
+    assert_match '', g.query_url(Geocoder::Query.new("202.198.16.3"))
+  end
+
+  def test_geoplugin_api_key
+    Geocoder.configure(:api_key => '')
+    g = Geocoder::Lookup::Amap.new
+    assert_match '', g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
+  end
+
   def test_baidu_api_key
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::BaiduIp.new
@@ -138,7 +150,7 @@ class LookupTest < GeocoderTestCase
   end
 
   def test_raises_configuration_error_on_missing_key
-    [:bing, :baidu].each do |l|
+    [:bing, :baidu, :amap].each do |l|
       assert_raises Geocoder::ConfigurationError do
         Geocoder.configure(:lookup => l, :api_key => nil)
         Geocoder.search("Madison Square Garden, New York, NY  10001, United States")

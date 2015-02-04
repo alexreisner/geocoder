@@ -1,0 +1,17 @@
+{
+  "status":"1","info":"OK","regeocode":{
+    "formatted_address":"青海省西宁市湟源县纳尔湾",
+    "province":"青海省",
+    "citycode":"0971",
+    "city":"西宁市",
+    "district":"湟源县",
+    "township":[],
+    "neighborhood":{"name":[], "type":[]},
+    "building":{"name":[], "type":[]},
+    "adcode":"630123",
+    "street":[],
+    "number":[],
+    "location":"101.098680,36.473719",
+    "level":"村庄"
+  }
+}
