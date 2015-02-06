@@ -304,7 +304,7 @@ Every `Geocoder::Result` object, `result`, provides the following data:
 * `result.country` - string
 * `result.country_code` - string
 
-If you're familiar with the results returned by the geocoding service you're using you can access even more data, but you'll need to be familiar with the particular `Geocoder::Result` object you're using and the structure of your geocoding service's responses. (See below for links to geocoding service documentation.)
+If you're familiar with the results returned by the geocoding service you're using you can access even more data (call the `#data` method of any Geocoder::Result object to get the full parsed response), but you'll need to be familiar with the particular `Geocoder::Result` object you're using and the structure of your geocoding service's responses. (See below for links to geocoding service documentation.)
 
 
 Geocoding Service ("Lookup") Configuration
