@@ -53,4 +53,8 @@ class RequestTest < GeocoderTestCase
     req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => ","}, "74.200.247.59")
     assert req.location.is_a?(Geocoder::Result::Freegeoip)
   end
+  def test_non_ip_in_proxy_header
+    req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => "Albequerque NM"})
+    assert req.location.is_a?(Geocoder::Result::Freegeoip)
+  end
 end
