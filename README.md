@@ -996,6 +996,7 @@ The raise-able exceptions are:
     Geocoder::RequestDenied
     Geocoder::InvalidRequest
     Geocoder::InvalidApiKey
+    Geocoder::ServiceUnavailable
 
 Note that not all lookups support all exceptions.
 
