@@ -10,15 +10,15 @@ module Geocoder
     include Singleton
 
     SEVERITY = {
-      debug: Logger::Severity::DEBUG,
-      info: Logger::Severity::INFO,
-      warn: Logger::Severity::WARN,
-      error: Logger::Severity::ERROR,
-      fatal: Logger::Severity::FATAL
+      debug: ::Logger::DEBUG,
+      info: ::Logger::INFO,
+      warn: ::Logger::WARN,
+      error: ::Logger::ERROR,
+      fatal: ::Logger::FATAL
     }
 
     def log(level, message)
-      logger = config[:logger]
+      logger = Geocoder.config[:logger]
       return true unless logger && valid_level?(level)
 
       if logger == :default
@@ -44,7 +44,7 @@ module Geocoder
     end
 
     def valid_level?(level)
-      [:debug, :info, :warn, :error, :fatal].includes? level
+      [:debug, :info, :warn, :error, :fatal].include? level
     end
   end
 end
