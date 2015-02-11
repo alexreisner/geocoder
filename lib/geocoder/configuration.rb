@@ -56,7 +56,8 @@ module Geocoder
       :always_raise,
       :units,
       :distances,
-      :basic_auth
+      :basic_auth,
+      :logger
     ]
 
     attr_accessor :data
@@ -98,6 +99,7 @@ module Geocoder
       @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
       @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
       @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
+      @data[:logger]       = :default    # nil, default, or Logger instance
 
       # exceptions that should not be rescued by default
       # (if you want to implement custom error handling);

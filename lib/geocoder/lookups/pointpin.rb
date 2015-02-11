@@ -28,14 +28,14 @@ module Geocoder::Lookup
         elsif doc['error']
           case doc['error']
           when "Invalid IP address"
-            raise_error(Geocoder::InvalidRequest) || warn("Invalid Pointpin request.")
+            raise_error(Geocoder::InvalidRequest) || Geocoder.log(:warn, "Invalid Pointpin request.")
           when "Invalid API key"
-            raise_error(Geocoder::InvalidApiKey) || warn("Invalid Pointpin API key.")
+            raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid Pointpin API key.")
           when "Address not found"
-            warn("Address not found.")
+            Geocoder.log(:warn, "Address not found.")
           end
         else
-          raise_error(Geocoder::Error) || warn("Pointpin server error")
+          raise_error(Geocoder::Error) || Geocoder.log(:warn, "Pointpin server error")
         end
       end
       

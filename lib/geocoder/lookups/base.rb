@@ -242,19 +242,19 @@ module Geocoder
       def check_response_for_errors!(response)
         if response.code.to_i == 400
           raise_error(Geocoder::InvalidRequest) ||
-            warn("Geocoding API error: 400 Bad Request")
+            Geocoder.log(:warn, "Geocoding API error: 400 Bad Request")
         elsif response.code.to_i == 401
           raise_error(Geocoder::RequestDenied) ||
-            warn("Geocoding API error: 401 Unauthorized")
+            Geocoder.log(:warn, "Geocoding API error: 401 Unauthorized")
         elsif response.code.to_i == 402
           raise_error(Geocoder::OverQueryLimitError) ||
-            warn("Geocoding API error: 402 Payment Required")
+            Geocoder.log(:warn, "Geocoding API error: 402 Payment Required")
         elsif response.code.to_i == 429
           raise_error(Geocoder::OverQueryLimitError) ||
-            warn("Geocoding API error: 429 Too Many Requests")
+            Geocoder.log(:warn, "Geocoding API error: 429 Too Many Requests")
         elsif response.code.to_i == 503
           raise_error(Geocoder::ServiceUnavailable) ||
-            warn("Geocoding API error: 503 Service Unavailable")
+            Geocoder.log(:warn, "Geocoding API error: 503 Service Unavailable")
         end
       end
 

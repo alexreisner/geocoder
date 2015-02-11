@@ -43,7 +43,7 @@ module Geocoder::Lookup
       if doc['statusCode'] == 200
         return doc['resourceSets'].first['estimatedTotal'] > 0 ? doc['resourceSets'].first['resources'] : []
       elsif doc['statusCode'] == 401 and doc["authenticationResultCode"] == "InvalidCredentials"
-        raise_error(Geocoder::InvalidApiKey) || warn("Invalid Bing API key.")
+        raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid Bing API key.")
       else
         warn "Bing Geocoding API error: #{doc['statusCode']} (#{doc['statusDescription']})."
       end
@@ -65,7 +65,7 @@ module Geocoder::Lookup
         # check the HTTP headers of the response. If the HTTP header X-MS-BM-WS-INFO is set to 1, 
         # it is best to wait a few seconds and try again.
         raise_error(Geocoder::ServiceUnavailable) ||
-          warn("Bing Geocoding API error: Service Unavailable")
+          Geocoder.log(:warn, "Bing Geocoding API error: Service Unavailable")
       end   
     end
   end
