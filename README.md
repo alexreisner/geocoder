@@ -123,12 +123,12 @@ The exact code will vary depending on the method you use for your geocodable str
 Request Geocoding by IP Address
 -------------------------------
 
-Geocoder adds `location` and `paranoid_location` methods to the standard `Rack::Request` object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller or a Sinatra app:
+Geocoder adds `location` and `safe_location` methods to the standard `Rack::Request` object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller or a Sinatra app:
 
     # returns Geocoder::Result object
     result = request.location
 
-**The `location` method is vulnerable to trivial IP address spoofing via HTTP headers.**  If that's a problem for your application, use `paranoid_location` instead, but be aware that `paranoid_location` will *not* try to trace a request's originating IP through proxy headers; you will instead get the location of the last proxy the request passed through, if any (excepting any proxies you have explicitly whitelisted in your Rack config).
+**The `location` method is vulnerable to trivial IP address spoofing via HTTP headers.**  If that's a problem for your application, use `safe_location` instead, but be aware that `safe_location` will *not* try to trace a request's originating IP through proxy headers; you will instead get the location of the last proxy the request passed through, if any (excepting any proxies you have explicitly whitelisted in your Rack config).
 
 Note that these methods will usually return `nil` in your test and development environments because things like "localhost" and "0.0.0.0" are not an Internet IP addresses.
 

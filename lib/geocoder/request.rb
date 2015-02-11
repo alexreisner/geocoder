@@ -3,20 +3,20 @@ module Geocoder
 
     # The location() method is vulnerable to trivial IP spoofing.
     #   Don't use it in authorization/authentication code, or any
-    #   other security-sensitive application.  Use paranoid_location
+    #   other security-sensitive application.  Use safe_location
     #   instead.
     def location
       @location ||= Geocoder.search(geocoder_spoofable_ip, ip_address: true).first
     end
 
-    # This paranoid_location() protects you from trivial IP spoofing.
+    # This safe_location() protects you from trivial IP spoofing.
     #   For requests that go through a proxy that you haven't
     #   whitelisted as trusted in your Rack config, you will get the
     #   location for the IP of the last untrusted proxy in the chain,
     #   not the original client IP.  You WILL NOT get the location
     #   corresponding to the original client IP for any request sent
     #   through a non-whitelisted proxy.
-    def paranoid_location
+    def safe_location
       @location ||= Geocoder.search(ip, ip_address: true).first
     end
 

@@ -34,12 +34,12 @@ class RequestTest < GeocoderTestCase
     assert req.location.is_a?(Geocoder::Result::Freegeoip)
     assert_equal "US", req.location.country_code
   end
-  def test_paranoid_http_x_forwarded_for_with_proxy
+  def test_safe_http_x_forwarded_for_with_proxy
     req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => "74.200.247.59, 74.200.247.60"})
     assert req.geocoder_spoofable_ip == '74.200.247.59'
     assert req.ip == '74.200.247.60'
-    assert req.paranoid_location.is_a?(Geocoder::Result::Freegeoip)
-    assert_equal "MX", req.paranoid_location.country_code
+    assert req.safe_location.is_a?(Geocoder::Result::Freegeoip)
+    assert_equal "MX", req.safe_location.country_code
   end
   def test_with_request_ip
     req = MockRequest.new({}, "74.200.247.59")
