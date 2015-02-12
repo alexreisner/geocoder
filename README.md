@@ -618,6 +618,17 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Notes**: To use PostcodeAnywhere you must include an API key: `Geocoder.configure(:lookup => :postcode_anywhere_uk, :api_key => 'your_api_key')`.
 
 
+#### DeCarta Geocoder (`:decarta`)
+
+* **API key**: required
+* **Quota**: none
+* **Region**: world
+* **SSL support**: yes
+* **Documentation**: http://developer.decarta.com/Docs/REST/Search
+* **Terms of Service**: http://www.decarta.com/files/Terms.pdf
+* **Limitations**: ?
+
+
 ### IP Address Services
 
 #### FreeGeoIP (`:freegeoip`)
