@@ -20,11 +20,12 @@ module Geocoder
     # All street address lookup services, default first.
     #
     def street_services
-      [
+      @street_services ||= [
         :dstk,
         :esri,
         :google,
         :google_premier,
+        :google_places_details,
         :yahoo,
         :bing,
         :geocoder_ca,
@@ -32,12 +33,14 @@ module Geocoder
         :yandex,
         :nominatim,
         :mapquest,
+        :opencagedata,
         :ovi,
         :here,
         :baidu,
-        :cloudmade,
         :geocodio,
         :smarty_streets,
+        :okf,
+        :postcode_anywhere_uk,
         :decarta,
         :test
       ]
@@ -47,13 +50,19 @@ module Geocoder
     # All IP address lookup services, default first.
     #
     def ip_services
-      [
+      @ip_services ||= [
+        :baidu_ip,
         :freegeoip,
+        :geoip2,
         :maxmind,
         :maxmind_local,
-        :baidu_ip
+        :telize,
+        :pointpin,
+        :maxmind_geoip2
       ]
     end
+
+    attr_writer :street_services, :ip_services
 
     ##
     # Retrieve a Lookup object from the store.

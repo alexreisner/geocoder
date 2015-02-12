@@ -14,6 +14,10 @@ module Geocoder::Result
       address_components["suffix"]
     end
 
+    def street_address
+      [number, address_components["formatted_street"]].compact.join(' ')
+    end
+
     def state
       address_components["state"]
     end
@@ -45,7 +49,7 @@ module Geocoder::Result
     end
 
     def coordinates
-      ['lat', 'lng'].map{ |i| location[i] } if location
+      ['lat', 'lng'].map{ |i| location[i].to_f } if location
     end
 
     def accuracy

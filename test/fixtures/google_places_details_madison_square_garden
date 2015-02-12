@@ -1,0 +1,120 @@
+{
+   "html_attributions" : [],
+   "result" : {
+      "address_components" : [
+         {
+            "long_name" : "4",
+            "short_name" : "4",
+            "types" : [ "street_number" ]
+         },
+         {
+            "long_name" : "Pennsylvania Plaza",
+            "short_name" : "Pennsylvania Plaza",
+            "types" : [ "route" ]
+         },
+         {
+            "long_name" : "Chelsea",
+            "short_name" : "Chelsea",
+            "types" : [ "neighborhood", "political" ]
+         },
+         {
+            "long_name" : "Manhattan",
+            "short_name" : "Manhattan",
+            "types" : [ "sublocality_level_1", "sublocality", "political" ]
+         },
+         {
+            "long_name" : "New York",
+            "short_name" : "New York",
+            "types" : [ "locality", "political" ]
+         },
+         {
+            "long_name" : "New York County",
+            "short_name" : "New York County",
+            "types" : [ "administrative_area_level_2", "political" ]
+         },
+         {
+            "long_name" : "NY",
+            "short_name" : "NY",
+            "types" : [ "administrative_area_level_1", "political" ]
+         },
+         {
+            "long_name" : "United States",
+            "short_name" : "US",
+            "types" : [ "country", "political" ]
+         },
+         {
+            "long_name" : "10001",
+            "short_name" : "10001",
+            "types" : [ "postal_code" ]
+         }
+      ],
+      "adr_address" : "\u003cspan class=\"street-address\"\u003e4 Pennsylvania Plaza\u003c/span\u003e, \u003cspan class=\"locality\"\u003eNew York\u003c/span\u003e, \u003cspan class=\"region\"\u003eNY\u003c/span\u003e \u003cspan class=\"postal-code\"\u003e10001\u003c/span\u003e, \u003cspan class=\"country-name\"\u003eUnited States\u003c/span\u003e",
+      "formatted_address" : "4 Pennsylvania Plaza, New York, NY, United States",
+      "formatted_phone_number" : "(212) 465-6741",
+      "geometry" : {
+         "location" : {
+            "lat" : 40.750504,
+            "lng" : -73.993439
+         }
+      },
+      "icon" : "http://maps.gstatic.com/mapfiles/place_api/icons/stadium-71.png",
+      "id" : "55e3174d410b31da010030a7dfc0c9819027445a",
+      "international_phone_number" : "+1 212-465-6741",
+      "name" : "Madison Square Garden",
+      "photos" : [
+         {
+            "height" : 267,
+            "html_attributions" : [ "Someone" ],
+            "photo_reference" : "CnRoAAAAB1lz_vOkA1Ffaf7vJ1xcjzVsII-873Z_f8_v3EyW4XbEvlR3VkW_HvNfwF6AwDA0U-ont7fIUqEMyDcovCTWN8RSYN3ibEhqgJPvXxBjeYVi0cc-t-3KfkB_LpV7chPAqhOsdMG56kyzTKIo4lISHxIQqru7QXV6xU11jLaLpi4FNRoUhutg9aq027NghW1d-o9GGE8N3yM",
+            "width" : 400
+         },
+         {
+            "height" : 732,
+            "html_attributions" : [ "Someone else" ],
+            "photo_reference" : "CoQBfwAAADbYj554hM1BgVbBOs6rDjO9UtQ63ecU1P8tI3PfaHame3MB4ipgcNRlv9N2iUa-tXoMq9iXAaDStWgCJ3f48WIuIRbz-Xv-HzSJ0hMCrFiZMRs7kLgaBO7eDJwioTySWcoyAwojretq4mZKF_AcRSUhkqOokBhOstmshWWpSAyyEhAdpL2yp42xDNq2YRiFrx4DGhRZIdt7mochSwZcgSdjESea27Qy9Q",
+            "width" : 929
+         }
+      ],
+      "place_id" : "ChIJhRwB-yFawokR5Phil-QQ3zM",
+      "rating" : 4.4,
+      "reference" : "CnRuAAAArSB-mFxXRjm0ERZIC4c_1gbXwxqmyxUrxws_PQUrz9Y3xZstEwm7_8dLw7zM8hV3vWkPF4RkkZQQ_X01ikDALx2VgV60YwiSX7k3TXxkWnzyFcX0fnHCQLerlYttk_usL7UALQQgMeuf25_eFx3SnhIQxN95Ek3bQVuLVM16yb99ehoU7djcL3cjllohLZ6oJ6X3Tzb9MJQ",
+      "reviews" : [
+         {
+            "aspects" : [
+               {
+                  "rating" : 5,
+                  "type" : "overall"
+               }
+            ],
+            "author_name" : "John Smith",
+            "author_url" : "https://plus.google.com/john.smith",
+            "language" : "en",
+            "rating" : 5,
+            "text" : "It's nice.",
+            "time" : 1407266916
+         },
+         {
+            "aspects" : [
+               {
+                  "rating" : 2,
+                  "type" : "overall"
+               }
+            ],
+            "author_name" : "Jane Smith",
+            "author_url" : "https://plus.google.com/jane.smith",
+            "language" : "en",
+            "rating" : 2,
+            "text" : "Not so nice.",
+            "time" : 1398779079
+         }
+      ],
+      "scope" : "GOOGLE",
+      "types" : [ "stadium", "establishment" ],
+      "url" : "https://plus.google.com/112180896421099179463/about?hl=en-US",
+      "user_ratings_total" : 382,
+      "utc_offset" : -240,
+      "vicinity" : "4 Pennsylvania Plaza, New York",
+      "website" : "http://www.thegarden.com/"
+   },
+   "status" : "OK"
+}

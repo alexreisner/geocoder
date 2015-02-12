@@ -7,7 +7,7 @@ class CacheTest < GeocoderTestCase
   def test_second_occurrence_of_request_is_cache_hit
     Geocoder.configure(:cache => {})
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if l == :maxmind_local # local, does not use cache
+      next if l == :maxmind_local || l == :geoip2 # local, does not use cache
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
       results = Geocoder.search("Madison Square Garden")

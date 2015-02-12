@@ -18,14 +18,14 @@ module Geocoder::Store
 
         # scope: geocoded objects
         scope :geocoded, lambda {
-          where("#{geocoder_options[:latitude]} IS NOT NULL " +
-            "AND #{geocoder_options[:longitude]} IS NOT NULL")
+          where("#{table_name}.#{geocoder_options[:latitude]} IS NOT NULL " +
+            "AND #{table_name}.#{geocoder_options[:longitude]} IS NOT NULL")
         }
 
         # scope: not-geocoded objects
         scope :not_geocoded, lambda {
-          where("#{geocoder_options[:latitude]} IS NULL " +
-            "OR #{geocoder_options[:longitude]} IS NULL")
+          where("#{table_name}.#{geocoder_options[:latitude]} IS NULL " +
+            "OR #{table_name}.#{geocoder_options[:longitude]} IS NULL")
         }
 
         ##
@@ -45,7 +45,7 @@ module Geocoder::Store
             # If no lat/lon given we don't want any results, but we still
             # need distance and bearing columns so you can add, for example:
             # .order("distance")
-            select(select_clause(nil, "NULL", "NULL")).where(false_condition)
+            select(select_clause(nil, null_value, null_value)).where(false_condition)
           end
         }
 
@@ -64,7 +64,7 @@ module Geocoder::Store
               full_column_name(geocoder_options[:longitude])
             ))
           else
-            select(select_clause(nil, "NULL", "NULL")).where(false_condition)
+            select(select_clause(nil, null_value, null_value)).where(false_condition)
           end
         }
       end
@@ -107,7 +107,7 @@ module Geocoder::Store
       # * +:exclude+         - an object to exclude (used by the +nearbys+ method)
       # * +:distance_column+ - used to set the column name of the calculated distance.
       # * +:bearing_column+  - used to set the column name of the calculated bearing.
-      # * +:min_radius+      - the value to use as the minimum radius. 
+      # * +:min_radius+      - the value to use as the minimum radius.
       #                        ignored if database is sqlite.
       #                        default is 0.0
       #
@@ -115,19 +115,21 @@ module Geocoder::Store
         if options[:units]
           options[:units] = options[:units].to_sym
         end
+        latitude_attribute = options[:latitude] || geocoder_options[:latitude]
+        longitude_attribute = options[:longitude] || geocoder_options[:longitude]
         options[:units] ||= (geocoder_options[:units] || Geocoder.config.units)
-        select_distance = options.fetch(:select_distance, true)
+        select_distance = options.fetch(:select_distance)  { true }
         options[:order] = "" if !select_distance && !options.include?(:order)
-        select_bearing = options.fetch(:select_bearing, true)
+        select_bearing = options.fetch(:select_bearing) { true }
         bearing = bearing_sql(latitude, longitude, options)
         distance = distance_sql(latitude, longitude, options)
-        distance_column = options.fetch(:distance_column, 'distance')
-        bearing_column = options.fetch(:bearing_column, 'bearing')
+        distance_column = options.fetch(:distance_column) { 'distance' }
+        bearing_column = options.fetch(:bearing_column)  { 'bearing' }
 
         b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
         args = b + [
-          full_column_name(geocoder_options[:latitude]),
-          full_column_name(geocoder_options[:longitude])
+          full_column_name(latitude_attribute),
+          full_column_name(longitude_attribute)
         ]
         bounding_box_conditions = Geocoder::Sql.within_bounding_box(*args)
 
@@ -157,8 +159,8 @@ module Geocoder::Store
         Geocoder::Sql.send(
           method_prefix + "_distance",
           latitude, longitude,
-          full_column_name(geocoder_options[:latitude]),
-          full_column_name(geocoder_options[:longitude]),
+          full_column_name(options[:latitude] || geocoder_options[:latitude]),
+          full_column_name(options[:longitude]|| geocoder_options[:longitude]),
           options
         )
       end
@@ -176,8 +178,8 @@ module Geocoder::Store
           Geocoder::Sql.send(
             method_prefix + "_bearing",
             latitude, longitude,
-            full_column_name(geocoder_options[:latitude]),
-            full_column_name(geocoder_options[:longitude]),
+            full_column_name(options[:latitude] || geocoder_options[:latitude]),
+            full_column_name(options[:longitude]|| geocoder_options[:longitude]),
             options
           )
         end
@@ -196,19 +198,11 @@ module Geocoder::Store
         end
         if distance
           clause += ", " unless clause.empty?
-          if using_postgresql?
-            clause += "'#{distance}'::character(255) AS #{distance_column}"
-          else
-            clause += "#{distance} AS #{distance_column}"
-          end
+          clause += "#{distance} AS #{distance_column}"
         end
         if bearing
           clause += ", " unless clause.empty?
-          if using_postgresql?
-            clause += "'#{bearing}'::character(255) AS #{bearing_column}"
-          else
-            clause += "#{bearing} AS #{bearing_column}"
-          end
+          clause += "#{bearing} AS #{bearing_column}"
         end
         clause
       end
@@ -230,8 +224,15 @@ module Geocoder::Store
         connection.adapter_name.match(/sqlite/i)
       end
 
-      def using_postgresql?
+      def using_postgres?
         connection.adapter_name.match(/postgres/i)
+      end
+
+      ##
+      # Use OID type when running in PosgreSQL
+      #
+      def null_value
+        using_postgres? ? 'NULL::text' : 'NULL'
       end
 
       ##

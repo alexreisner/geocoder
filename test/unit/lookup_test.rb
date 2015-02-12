@@ -23,7 +23,7 @@ class LookupTest < GeocoderTestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if l == :freegeoip || l == :maxmind_local # does not use query string
+      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2].include? l # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
@@ -56,6 +56,23 @@ class LookupTest < GeocoderTestCase
     end
   end
 
+  {
+    :google => :language,
+    :google_premier => :language,
+    :nominatim => :"accept-language",
+    :yahoo => :locale,
+    :yandex => :plng
+  }.each do |l,p|
+    define_method "test_passing_language_to_#{l}_query_overrides_configuration_value" do
+      set_api_key!(l)
+      url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
+        "test", :language => 'xxxx'
+      ))
+      assert_match(/#{p}=xxxx/, url,
+        "Param passed to #{l} lookup does not override configuration value")
+    end
+  end
+
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
@@ -70,7 +87,7 @@ class LookupTest < GeocoderTestCase
   def test_returns_empty_array_on_invalid_key
     silence_warnings do
       #Geocoder::Lookup.all_services_except_test.each do |l|
-      [:bing, :yahoo, :yandex, :maxmind, :cloudmade, :baidu, :baidu_ip].each do |l|
+      [:bing, :yahoo, :yandex, :maxmind, :baidu, :baidu_ip].each do |l|
         Geocoder.configure(:lookup => l)
         set_api_key!(l)
         assert_equal [], Geocoder.search("invalid key")
@@ -100,6 +117,12 @@ class LookupTest < GeocoderTestCase
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::Baidu.new
     assert_match "ak=MY_KEY", g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
+  end
+
+  def test_pointpin_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    g = Geocoder::Lookup::Pointpin.new
+    assert_match "/MY_KEY/", g.query_url(Geocoder::Query.new("232.65.123.94"))
   end
 
   def test_google_api_key

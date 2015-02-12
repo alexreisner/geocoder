@@ -22,6 +22,15 @@ class ResultTest < GeocoderTestCase
     end
   end
 
+  def test_yandex_result_without_admin_area_no_exception
+    assert_nothing_raised do
+      Geocoder.configure(:lookup => :yandex)
+      set_api_key!(:yandex)
+      result = Geocoder.search("no administrative area").first
+      assert_equal "", result.city
+    end
+  end
+
   def test_yandex_result_new_york
     assert_nothing_raised do
       Geocoder.configure(:lookup => :yandex)
@@ -56,7 +65,9 @@ class ResultTest < GeocoderTestCase
     m = "Lookup #{Geocoder.config.lookup} does not support %s attribute."
     assert result.coordinates.is_a?(Array),    m % "coordinates"
     assert result.latitude.is_a?(Float),       m % "latitude"
+    assert result.latitude != 0.0,             m % "latitude"
     assert result.longitude.is_a?(Float),      m % "longitude"
+    assert result.longitude != 0.0,            m % "longitude"
     assert result.city.is_a?(String),          m % "city"
     assert result.state.is_a?(String),         m % "state"
     assert result.state_code.is_a?(String),    m % "state_code"

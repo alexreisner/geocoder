@@ -1,0 +1,25 @@
+{
+    "licenses": [
+        {
+            "name": "CC-BY-SA",
+            "url": "http://creativecommons.org/licenses/by-sa/3.0/"
+        },
+        {
+            "name": "ODbL",
+            "url": "http://opendatacommons.org/licenses/odbl/summary/"
+        }
+    ],
+    "results": [ ],
+    "status": {
+        "code": 403,
+        "message": "invalid API key"
+    },
+    "thanks": "For using an OpenCage Data API",
+    "timestamp": {
+        "created_http": "Thu, 07 Aug 2014 14:26:28 GMT",
+        "created_unix": 1407421588
+    },
+    "total_results": 0,
+    "we_are_hiring": "http://lokku.com/#jobs"
+
+}

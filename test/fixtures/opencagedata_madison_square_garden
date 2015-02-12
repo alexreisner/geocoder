@@ -1,0 +1,73 @@
+{
+   "licenses" : [
+      {
+         "name" : "CC-BY-SA",
+         "url" : "http://creativecommons.org/licenses/by-sa/3.0/"
+      },
+      {
+         "name" : "ODbL",
+         "url" : "http://opendatacommons.org/licenses/odbl/summary/"
+      }
+   ],
+   "rate" : {
+      "limit" : 2500,
+      "remaining" : 2488,
+      "reset" : 1407369600
+   },
+   "results" : [
+      {
+         "annotations" : {
+            "OSM" : {
+               "url" : "http://www.openstreetmap.org/?mlat=40.75052&mlon=-73.99355#map=17/40.75052/-73.99355"
+            },
+            "timezone" : {
+               "name" : "America/New_York",
+               "now_in_dst" : 1,
+               "offset_sec" : -14400,
+               "offset_string" : -400,
+               "short_name" : "EDT"
+            }
+         },
+         "bounds" : {
+            "northeast" : {
+               "lat" : 40.751161,
+               "lng" : -73.9925922
+            },
+            "southwest" : {
+               "lat" : 40.7498531,
+               "lng" : -73.9944444
+            }
+         },
+         "components" : {
+            "country" : "United States of America",
+            "country_code" : "US",
+            "county" : "New York County",
+            "house_number" : 46,
+            "neighbourhood" : "Koreatown",
+            "postcode" : 10011,
+            "road" : "West 31st Street",
+            "city": "New York City",
+            "stadium" : "Madison Square Garden",
+            "state" : "New York",
+            "state_district" : "New York City"
+         },
+         "confidence" : 10,
+         "formatted" : "46, West 31st Street, Koreatown, New York County, 10011, New York City, New York, United States of America, Madison Square Garden",
+         "geometry" : {
+            "lat" : 40.7505247,
+            "lng" : -73.9935500942432
+         }
+      }
+   ],
+   "status" : {
+      "code" : 200,
+      "message" : "OK"
+   },
+   "thanks" : "For using an OpenCage Data API",
+   "timestamp" : {
+      "created_http" : "Wed, 06 Aug 2014 12:53:59 GMT",
+      "created_unix" : 1407329639
+   },
+   "total_results" : 1,
+   "we_are_hiring" : "http://lokku.com/#jobs"
+}

@@ -32,7 +32,7 @@ module Geocoder
     # appropriate to the Query text.
     #
     def lookup
-      if ip_address?
+      if !options[:street_address] and (options[:ip_address] or ip_address?)
         name = options[:ip_lookup] || Configuration.ip_lookup || Geocoder::Lookup.ip_services.first
       else
         name = options[:lookup] || Configuration.lookup || Geocoder::Lookup.street_services.first
@@ -96,6 +96,10 @@ module Geocoder
     #
     def reverse_geocode?
       coordinates?
+    end
+
+    def language
+      options[:language]
     end
 
     private # ----------------------------------------------------------------

@@ -24,10 +24,17 @@ module Geocoder::Lookup
 
     def base_url(query)
       url = "#{protocol}://dev.virtualearth.net/REST/v1/Locations"
-      if !query.reverse_geocode? and r = query.options[:region]
-        url << "/#{r}"
+
+      if !query.reverse_geocode?
+        if r = query.options[:region]
+          url << "/#{r}"
+        end
+        # use the more forgiving 'unstructured' query format to allow special
+        # chars, newlines, brackets, typos.
+        url + "?q=" + URI.escape(query.sanitized_text.strip) + "&"
+      else
+        url + "/#{URI.escape(query.sanitized_text.strip)}?"
       end
-      url + "/" + URI.escape(query.sanitized_text.strip) + "?"
     end
 
     def results(query)
@@ -47,6 +54,19 @@ module Geocoder::Lookup
       {
         key: configuration.api_key
       }.merge(super)
+    end
+
+    def check_response_for_errors!(response)
+      super
+      if response['x-ms-bm-ws-info'].to_i == 1
+        # Occasionally, the servers processing service requests can be overloaded, 
+        # and you may receive some responses that contain no results for queries that 
+        # you would normally receive a result. To identify this situation, 
+        # check the HTTP headers of the response. If the HTTP header X-MS-BM-WS-INFO is set to 1, 
+        # it is best to wait a few seconds and try again.
+        raise_error(Geocoder::ServiceUnavailable) ||
+          warn("Bing Geocoding API error: Service Unavailable")
+      end   
     end
   end
 end

@@ -3,8 +3,56 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.7 (2015 Jan 24)
+-------------------
+* DROP SUPPORT for Ruby 1.9.2.
+* Use UTF-8 encoding for maxmind_local results (thanks github.com/ellmo).
+* Update freegeoip response handling (thanks github.com/hosamaly).
+* Update nominatim response handling (thanks github.com/jsantos).
+* Update yandex response handling (thanks github.com/wfleming).
+* Update geocodio response handling (thanks github.com/getsidewalk).
+* Add ability to raise exception when response parsing fails (thanks github.com/spiderpug).
+* Fix double-loading of Railtie (thanks github.com/wfleming and zhouguangming).
+
+
+1.2.6 (2014 Nov 8)
+------------------
+* Add :geoip2 lookup (thanks github.com/ChristianHoj).
+* Add :okf lookup (thanks github.com/kakoni).
+* Add :postcode_anywhere_uk lookup (thanks github.com/rob-murray).
+* Properly detect IPv6 addresses (thanks github.com/sethherr and github.com/ignatiusreza).
+
+1.2.5 (2014 Sep 12)
+-------------------
+* Fix bugs in :opencagedata lookup (thanks github.com/duboff and kayakyakr).
+* Allow language to be set in model configuration (thanks github.com/viniciusnz).
+* Optimize lookup queries when using MaxMind Local (thanks github.com/gersmann).
+
+1.2.4 (2014 Aug 12)
+-------------------
+* Add ability to specify lat/lon column names with .near scope (thanks github.com/switzersc).
+* Add OpenCageData geocoder (thanks github.com/mtmail).
+* Remove CloudMade geocoder.
+
+1.2.3 (2014 Jul 11)
+-------------------
+* Add Telize IP address lookup (thanks github.com/lukeroberts1990).
+* Fix bug in Bing reverse geocoding (thanks github.com/nickelser).
+
+1.2.2 (2014 Jun 12)
+-------------------
+* Add ability to specify language per query (thanks github.com/mkristian).
+* Handle Errno::ECONNREFUSED exceptions like TimeoutError exceptions.
+* Switch to 'unstructured' query format for Bing API (thanks github.com/lukewendling).
+
+1.2.1 (2014 May 12)
+-------------------
+
+* Fix: correctly handle encoding of MaxMind API responses (thanks github.com/hydrozen, gonzoyumo).
+* Fixes to :maxmind_local database structure (thanks github.com/krakatoa).
+
 1.2.0 (2014 Apr 16)
------------
+-------------------
 
 * DROP SUPPORT for Ruby 1.8.x.
 * Add :here lookup (thanks github.com/christoph-buente).

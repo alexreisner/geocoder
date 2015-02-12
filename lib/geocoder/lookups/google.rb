@@ -19,7 +19,8 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def valid_response?(response)
-      status = parse_json(response.body)["status"]
+      json = parse_json(response.body)
+      status = json["status"] if json
       super(response) and ['OK', 'ZERO_RESULTS'].include?(status)
     end
 
@@ -44,7 +45,7 @@ module Geocoder::Lookup
       params = {
         (query.reverse_geocode? ? :latlng : :address) => query.sanitized_text,
         :sensor => "false",
-        :language => configuration.language
+        :language => (query.language || configuration.language)
       }
       unless (bounds = query.options[:bounds]).nil?
         params[:bounds] = bounds.map{ |point| "%f,%f" % point }.join('|')

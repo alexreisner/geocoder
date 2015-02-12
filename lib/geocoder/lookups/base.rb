@@ -99,7 +99,7 @@ module Geocoder
       # Object used to make HTTP requests.
       #
       def http_client
-        protocol = "http#{'s' if configuration.use_https}"
+        protocol = "http#{'s' if use_ssl?}"
         proxy_name = "#{protocol}_proxy"
         if proxy = configuration.send(proxy_name)
           proxy_url = !!(proxy =~ /^#{protocol}/) ? proxy : protocol + '://' + proxy
@@ -169,6 +169,8 @@ module Geocoder
         parse_raw_data fetch_raw_data(query)
       rescue SocketError => err
         raise_error(err) or warn "Geocoding API connection cannot be established."
+      rescue Errno::ECONNREFUSED => err
+        raise_error(err) or warn "Geocoding API connection refused."
       rescue TimeoutError => err
         raise_error(err) or warn "Geocoding API not responding fast enough " +
           "(use Geocoder.configure(:timeout => ...) to set limit)."
@@ -180,6 +182,8 @@ module Geocoder
         else
           JSON.parse(data)
         end
+      rescue => err
+        raise_error(ResponseParseError.new(data)) or warn "Geocoding API's response was not valid JSON."
       end
 
       ##
@@ -187,8 +191,6 @@ module Geocoder
       #
       def parse_raw_data(raw_data)
         parse_json(raw_data)
-      rescue
-        warn "Geocoding API's response was not valid JSON."
       end
 
       ##
@@ -196,7 +198,7 @@ module Geocoder
       # Set in configuration but not available for every service.
       #
       def protocol
-        "http" + (configuration.use_https ? "s" : "")
+        "http" + (use_ssl? ? "s" : "")
       end
 
       def valid_response?(response)
@@ -247,6 +249,12 @@ module Geocoder
         elsif response.code.to_i == 402
           raise_error(Geocoder::OverQueryLimitError) ||
             warn("Geocoding API error: 402 Payment Required")
+        elsif response.code.to_i == 429
+          raise_error(Geocoder::OverQueryLimitError) ||
+            warn("Geocoding API error: 429 Too Many Requests")
+        elsif response.code.to_i == 503
+          raise_error(Geocoder::ServiceUnavailable) ||
+            warn("Geocoding API error: 503 Service Unavailable")
         end
       end
 
@@ -257,15 +265,21 @@ module Geocoder
       def make_api_request(query)
         timeout(configuration.timeout) do
           uri = URI.parse(query_url(query))
-          args = [uri.host, uri.port]
-          args = args.push(uri.user, uri.password) unless uri.user.nil? or uri.password.nil?
-          opts = {}
-          opts[:use_ssl] = true if configuration.use_https
-
-          http_client.start(*args, opts) do |client|
-            client.get(uri.request_uri, configuration.http_headers)
+          http_client.start(uri.host, uri.port, use_ssl: use_ssl?) do |client|
+            req = Net::HTTP::Get.new(uri.request_uri, configuration.http_headers)
+            if configuration.basic_auth[:user] and configuration.basic_auth[:password]
+              req.basic_auth(
+                configuration.basic_auth[:user],
+                configuration.basic_auth[:password]
+              )
+            end
+            client.request(req)
           end
         end
+      end
+
+      def use_ssl?
+        configuration.use_https
       end
 
       def check_api_key_configuration!(query)

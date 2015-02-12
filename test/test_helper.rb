@@ -67,6 +67,9 @@ end
 require 'geocoder'
 require "geocoder/lookups/base"
 
+# and initialize Railtie manually (since Rails::Railtie doesn't exist)
+Geocoder::Railtie.insert
+
 ##
 # Mock HTTP request to geocoding service.
 #
@@ -81,11 +84,7 @@ module Geocoder
       def read_fixture(file)
         filepath = File.join("test", "fixtures", file)
         s = File.read(filepath).strip.gsub(/\n\s*/, "")
-        s.instance_eval do
-          def body; self; end
-          def code; "200"; end
-        end
-        s
+        MockHttpResponse.new(body: s, code: "200")
       end
 
       ##
@@ -110,7 +109,25 @@ module Geocoder
       def make_api_request(query)
         raise TimeoutError if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
+        raise Errno::ECONNREFUSED if query.text == "connection_refused"
+        if query.text == "invalid_json"
+          return MockHttpResponse.new(:body => 'invalid json', :code => 200)
+        end
+
         read_fixture fixture_for_query(query)
+      end
+    end
+
+    class Bing
+      private
+      def read_fixture(file)
+        if file == "bing_service_unavailable"
+          filepath = File.join("test", "fixtures", file)
+          s = File.read(filepath).strip.gsub(/\n\s*/, "")
+          MockHttpResponse.new(body: s, code: "200", headers: {'x-ms-bm-ws-info' => "1"})
+        else
+          super
+        end
       end
     end
 
@@ -118,6 +135,13 @@ module Geocoder
       private
       def fixture_prefix
         "google"
+      end
+    end
+
+    class GooglePlacesDetails
+      private
+      def fixture_prefix
+        "google_places_details"
       end
     end
 
@@ -142,10 +166,50 @@ module Geocoder
       end
     end
 
+    class Geoip2
+      private
+
+      remove_method(:results)
+
+      def results(query)
+        return [] if query.to_s == 'no results'
+        return [] if query.to_s == '127.0.0.1'
+        [{'city'=>{'names'=>{'en'=>'Mountain View'}},'country'=>{'iso_code'=>'US','names'=>
+        {'en'=>'United States'}},'location'=>{'latitude'=>37.41919999999999,
+        'longitude'=>-122.0574},'postal'=>{'code'=>'94043'},'subdivisions'=>[{
+        'iso_code'=>'CA','names'=>{'en'=>'California'}}]}]
+      end
+
+      def default_fixture_filename
+        'geoip2_74_200_247_59'
+      end
+    end
+
+    class Telize
+      private
+      def default_fixture_filename
+        "telize_74_200_247_59"
+      end
+    end
+
+    class Pointpin
+      private
+      def default_fixture_filename
+        "pointpin_80_111_555_555"
+      end
+    end
+
     class Maxmind
       private
       def default_fixture_filename
         "maxmind_74_200_247_59"
+      end
+    end
+
+    class MaxmindGeoip2
+      private
+      def default_fixture_filename
+        "maxmind_geoip2_1_2_3_4"
       end
     end
 
@@ -183,6 +247,24 @@ module Geocoder
       private
       def default_fixture_filename
         "geocodio_1101_pennsylvania_ave"
+      end
+    end
+
+    class Okf
+      private
+      def default_fixture_filename
+        "okf_kirstinmaki"
+      end
+    end
+
+    class PostcodeAnywhereUk
+      private
+      def fixture_prefix
+        'postcode_anywhere_uk_geocode_v2_00'
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_romsey"
       end
     end
   end
@@ -320,7 +402,9 @@ class GeocoderTestCase < Test::Unit::TestCase
   def setup
     super
     Geocoder::Configuration.instance.set_defaults
-    Geocoder.configure(:maxmind => {:service => :city_isp_org})
+    Geocoder.configure(
+      :maxmind => {:service => :city_isp_org},
+      :maxmind_geoip2 => {:service => :insights, :basic_auth => {:user => "user", :password => "password"}})
   end
 
   def geocoded_object_params(abbrev)
@@ -353,5 +437,10 @@ class MockHttpResponse
   def initialize(options = {})
     @code = options[:code].to_s
     @body = options[:body]
+    @headers = options[:headers] || {}
+  end
+
+  def [](key)
+    @headers[key]
   end
 end

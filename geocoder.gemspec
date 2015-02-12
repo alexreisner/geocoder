@@ -5,6 +5,7 @@ require "geocoder/version"
 
 Gem::Specification.new do |s|
   s.name        = "geocoder"
+  s.required_ruby_version = '>= 1.9.3'
   s.version     = Geocoder::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Alex Reisner"]
@@ -16,4 +17,5 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n") - %w[geocoder.gemspec Gemfile init.rb]
   s.require_paths = ["lib"]
   s.executables = ["geocode"]
+  s.license     = 'MIT'
 end

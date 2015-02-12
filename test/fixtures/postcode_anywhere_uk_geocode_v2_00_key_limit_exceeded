@@ -1,0 +1,1 @@
+[{"Error":"8","Description":"Key daily limit exceeded","Cause":"The daily limit on the key has been exceeded.","Resolution":"Alter the daily limit on the key. Check the usage details first to see if usage is normal."}]
