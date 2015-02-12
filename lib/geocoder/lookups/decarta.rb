@@ -20,7 +20,7 @@ module Geocoder::Lookup
         else
           "search"
         end
-      host = configuration[:host] || "api-eu.decarta.com"
+      host = configuration[:host] || "api.decarta.com"
       "#{protocol}://#{host}/v1/#{configuration[:api_key]}/#{method}/" + URI.escape(custom_query_url_string(query))
     end
 
