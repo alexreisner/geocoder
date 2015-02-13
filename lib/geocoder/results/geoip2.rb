@@ -13,41 +13,35 @@ module Geocoder
       end
 
       def latitude
-        return 0.0 unless @data['location']
-        @data['location']['latitude'].to_f
+        @data.fetch('location',{}).fetch('latitude',0.0)
       end
 
       def longitude
-        return 0.0 unless @data['location']
-        @data['location']['longitude'].to_f
+        @data.fetch('location',{}).fetch('longitude',0.0)
       end
 
       def city
-        return '' unless @data['city']
-        @data['city']['names']['en']
+        @data.fetch('city', {}).fetch('names', {}).fetch('en', '')
       end
 
       def state
-        return '' unless @data['subdivisions']
-        @data['subdivisions'][0]['names']['en']
+        @data.fetch('subdivisions',[]).fetch(0,{}).fetch('names',{}).fetch('en','')
       end
 
       def state_code
-        return '' unless @data['subdivisions']
-        @data['subdivisions'][0]['iso_code']
+        @data.fetch('subdivisions',[]).fetch(0,{}).fetch('iso_code','')
       end
 
       def country
-        @data['country']['names']['en']
+        @data.fetch('country', {}).fetch('names',{}).fetch('en','')
       end
 
       def country_code
-        @data['country']['iso_code']
+        @data.fetch('country',{}).fetch('iso_code','')
       end
 
       def postal_code
-        return '' unless @data['postal']
-        @data['postal']['code']
+        @data.fetch('postal',{}).fetch('code','')
       end
 
       def self.response_attributes
