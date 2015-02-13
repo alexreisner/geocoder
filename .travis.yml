@@ -1,3 +1,4 @@
+language: ruby
 rvm:
   - 1.9.3
   - 2.0.0
@@ -5,20 +6,3 @@ rvm:
   - 2.2.0
   - jruby-19mode
   - rbx-2
-gemfile:
-  - Gemfile
-env: SSL_CERT_DIR=/etc/ssl/certs
-matrix:
-  exclude:
-    - rvm: 1.9.3
-      env: SSL_CERT_DIR=/etc/ssl/certs
-    - rvm: 2.0.0
-      env: SSL_CERT_DIR=/etc/ssl/certs
-    - rvm: 2.1.2
-      env: SSL_CERT_DIR=/etc/ssl/certs
-    - rvm: 2.2.0
-      env: SSL_CERT_DIR=/etc/ssl/certs
-    - rvm: jruby-19mode
-      env: SSL_CERT_DIR=/etc/ssl/certs
-    - rvm: rbx-2
-      env: SSL_CERT_DIR=/etc/ssl/certs
