@@ -24,7 +24,7 @@ module Geocoder::Lookup
         if err["status"] == 401 and err["message"] == "invalid key"
           raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid API key.")
         else
-          warn "Yandex Geocoding API error: #{err['status']} (#{err['message']})."
+          Geocoder.log(:warn, "Yandex Geocoding API error: #{err['status']} (#{err['message']}).")
         end
         return []
       end
@@ -32,7 +32,7 @@ module Geocoder::Lookup
         meta = doc['metaDataProperty']['GeocoderResponseMetaData']
         return meta['found'].to_i > 0 ? doc['featureMember'] : []
       else
-        warn "Yandex Geocoding API error: unexpected response format."
+        Geocoder.log(:warn, "Yandex Geocoding API error: unexpected response format.")
         return []
       end
     end
