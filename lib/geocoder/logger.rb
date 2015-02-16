@@ -19,12 +19,15 @@ module Geocoder
 
     def log(level, message)
       logger = Geocoder.config[:logger]
-      return true unless logger && valid_level?(level)
+      return true unless valid_level?(level)
 
-      if logger == :default
+      if logger == :kernel
         kernel_log(level, message)
+      elsif logger.respond_to? :add
+        logger.add(SEVERITY[level], message)
       else
-        logger.log(SEVERITY[level], message)
+        raise Geocoder::ConfigurationError, "Please specify valid logger for Geocoder. " +
+        "Logger specified must be :kernel or must respond to `add(level, message)`."
       end
     end
 
