@@ -43,9 +43,9 @@ module Geocoder::Lookup
       if doc['statusCode'] == 200
         return doc['resourceSets'].first['estimatedTotal'] > 0 ? doc['resourceSets'].first['resources'] : []
       elsif doc['statusCode'] == 401 and doc["authenticationResultCode"] == "InvalidCredentials"
-        raise_error(Geocoder::InvalidApiKey) || warn("Invalid Bing API key.")
+        raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid Bing API key.")
       else
-        warn "Bing Geocoding API error: #{doc['statusCode']} (#{doc['statusDescription']})."
+        Geocoder.log(:warn, "Bing Geocoding API error: #{doc['statusCode']} (#{doc['statusDescription']}).")
       end
       return []
     end
@@ -59,14 +59,14 @@ module Geocoder::Lookup
     def check_response_for_errors!(response)
       super
       if response['x-ms-bm-ws-info'].to_i == 1
-        # Occasionally, the servers processing service requests can be overloaded, 
-        # and you may receive some responses that contain no results for queries that 
-        # you would normally receive a result. To identify this situation, 
-        # check the HTTP headers of the response. If the HTTP header X-MS-BM-WS-INFO is set to 1, 
+        # Occasionally, the servers processing service requests can be overloaded,
+        # and you may receive some responses that contain no results for queries that
+        # you would normally receive a result. To identify this situation,
+        # check the HTTP headers of the response. If the HTTP header X-MS-BM-WS-INFO is set to 1,
         # it is best to wait a few seconds and try again.
         raise_error(Geocoder::ServiceUnavailable) ||
-          warn("Bing Geocoding API error: Service Unavailable")
-      end   
+          Geocoder.log(:warn, "Bing Geocoding API error: Service Unavailable")
+      end
     end
   end
 end

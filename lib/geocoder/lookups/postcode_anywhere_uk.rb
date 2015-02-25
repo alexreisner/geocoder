@@ -33,11 +33,11 @@ module Geocoder::Lookup
     def raise_exception_for_response(response)
       case response['Error']
       when *DAILY_LIMIT_EXEEDED_ERROR_CODES
-        raise_error(Geocoder::OverQueryLimitError, response['Cause']) || warn(response['Cause'])
+        raise_error(Geocoder::OverQueryLimitError, response['Cause']) || Geocoder.log(:warn, response['Cause'])
       when INVALID_API_KEY_ERROR_CODE
-        raise_error(Geocoder::InvalidApiKey, response['Cause']) || warn(response['Cause'])
+        raise_error(Geocoder::InvalidApiKey, response['Cause']) || Geocoder.log(:warn, response['Cause'])
       else # anything else just raise general error with the api cause
-        raise_error(Geocoder::Error, response['Cause']) || warn(response['Cause'])
+        raise_error(Geocoder::Error, response['Cause']) || Geocoder.log(:warn, response['Cause'])
       end
     end
 

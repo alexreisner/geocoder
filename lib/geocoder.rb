@@ -1,4 +1,5 @@
 require "geocoder/configuration"
+require "geocoder/logger"
 require "geocoder/query"
 require "geocoder/calculations"
 require "geocoder/exceptions"

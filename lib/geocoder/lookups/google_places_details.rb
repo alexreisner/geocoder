@@ -29,11 +29,11 @@ module Geocoder
         when "OK"
           return [doc["result"]]
         when "OVER_QUERY_LIMIT"
-          raise_error(Geocoder::OverQueryLimitError) || warn("Google Places Details API error: over query limit.")
+          raise_error(Geocoder::OverQueryLimitError) || Geocoder.log(:warn, "Google Places Details API error: over query limit.")
         when "REQUEST_DENIED"
-          raise_error(Geocoder::RequestDenied) || warn("Google Places Details API error: request denied.")
+          raise_error(Geocoder::RequestDenied) || Geocoder.log(:warn, "Google Places Details API error: request denied.")
         when "INVALID_REQUEST"
-          raise_error(Geocoder::InvalidRequest) || warn("Google Places Details API error: invalid request.")
+          raise_error(Geocoder::InvalidRequest) || Geocoder.log(:warn, "Google Places Details API error: invalid request.")
         end
 
         []

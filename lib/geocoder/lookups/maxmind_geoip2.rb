@@ -9,7 +9,7 @@ module Geocoder::Lookup
     end
 
     def use_ssl?
-      # Maxmind's GeoIP2 Precision Services only supports HTTPS, 
+      # Maxmind's GeoIP2 Precision Services only supports HTTPS,
       # otherwise a `404 Not Found` HTTP response will be returned
       true
     end
@@ -30,7 +30,7 @@ module Geocoder::Lookup
         raise(
           Geocoder::ConfigurationError,
           "When using MaxMind GeoIP2 you MUST specify a service name and basic_auth: " +
-          "Geocoder.configure(:maxmind_geoip2 => {:service => ...}, " + 
+          "Geocoder.configure(:maxmind_geoip2 => {:service => ...}, " +
           ":basic_auth => {:user ..., :password => ...}), " +
           "where service is one of: #{services.inspect}"
         )
@@ -56,11 +56,11 @@ module Geocoder::Lookup
       # don't look up a loopback address
       return [] if query.loopback_ip_address?
       doc = fetch_data(query)
-      if doc 
+      if doc
         if !data_contains_error?(doc)
           return [doc]
         else
-          warn "MaxMind GeoIP2 Geocoding API error: #{doc['code']} (#{doc['error']})."
+          Geocoder.log(:warn, "MaxMind GeoIP2 Geocoding API error: #{doc['code']} (#{doc['error']}).")
         end
       end
       return []

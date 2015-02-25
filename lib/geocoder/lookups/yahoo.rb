@@ -37,7 +37,7 @@ module Geocoder::Lookup
           return []
         end
       else
-        warn "Yahoo Geocoding API error: #{doc['responsecode']} (#{doc['reason']})."
+        Geocoder.log(:warn, "Yahoo Geocoding API error: #{doc['responsecode']} (#{doc['reason']}).")
         return []
       end
     end
@@ -52,9 +52,9 @@ module Geocoder::Lookup
     def parse_raw_data(raw_data)
       if raw_data.match(/^<\?xml/)
         if raw_data.include?("Rate Limit Exceeded")
-          raise_error(Geocoder::OverQueryLimitError) || warn("Over API query limit.")
+          raise_error(Geocoder::OverQueryLimitError) || Geocoder.log(:warn, "Over API query limit.")
         elsif raw_data =~ /<yahoo:description>(Please provide valid credentials.*)<\/yahoo:description>/i
-          raise_error(Geocoder::InvalidApiKey) || warn("Invalid API key. Error response: #{$1}")
+          raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid API key. Error response: #{$1}")
         end
       else
         super(raw_data)

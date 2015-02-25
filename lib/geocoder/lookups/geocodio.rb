@@ -19,13 +19,13 @@ module Geocoder::Lookup
       
       if doc['error'] == 'Invalid API key'
         raise_error(Geocoder::InvalidApiKey) ||
-          warn("Geocodio service error: invalid API key.")
+          Geocoder.log(:warn, "Geocodio service error: invalid API key.")
       elsif doc['error'].match(/You have reached your daily maximum/)
         raise_error(Geocoder::OverQueryLimitError, doc['error']) ||
-          warn("Geocodio service error: #{doc['error']}.")
+          Geocoder.log(:warn, "Geocodio service error: #{doc['error']}.")
       else
         raise_error(Geocoder::InvalidRequest, doc['error']) ||
-          warn("Geocodio service error: #{doc['error']}.")
+          Geocoder.log(:warn, "Geocodio service error: #{doc['error']}.")
       end
       []
     end

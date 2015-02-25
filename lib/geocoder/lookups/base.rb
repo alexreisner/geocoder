@@ -168,12 +168,12 @@ module Geocoder
       def fetch_data(query)
         parse_raw_data fetch_raw_data(query)
       rescue SocketError => err
-        raise_error(err) or warn "Geocoding API connection cannot be established."
+        raise_error(err) or Geocoder.log(:warn, "Geocoding API connection cannot be established.")
       rescue Errno::ECONNREFUSED => err
-        raise_error(err) or warn "Geocoding API connection refused."
+        raise_error(err) or Geocoder.log(:warn, "Geocoding API connection refused.")
       rescue TimeoutError => err
-        raise_error(err) or warn "Geocoding API not responding fast enough " +
-          "(use Geocoder.configure(:timeout => ...) to set limit)."
+        raise_error(err) or Geocoder.log(:warn, "Geocoding API not responding fast enough " +
+          "(use Geocoder.configure(:timeout => ...) to set limit).")
       end
 
       def parse_json(data)
@@ -183,7 +183,7 @@ module Geocoder
           JSON.parse(data)
         end
       rescue => err
-        raise_error(ResponseParseError.new(data)) or warn "Geocoding API's response was not valid JSON."
+        raise_error(ResponseParseError.new(data)) or Geocoder.log(:warn, "Geocoding API's response was not valid JSON.")
       end
 
       ##
@@ -242,19 +242,19 @@ module Geocoder
       def check_response_for_errors!(response)
         if response.code.to_i == 400
           raise_error(Geocoder::InvalidRequest) ||
-            warn("Geocoding API error: 400 Bad Request")
+            Geocoder.log(:warn, "Geocoding API error: 400 Bad Request")
         elsif response.code.to_i == 401
           raise_error(Geocoder::RequestDenied) ||
-            warn("Geocoding API error: 401 Unauthorized")
+            Geocoder.log(:warn, "Geocoding API error: 401 Unauthorized")
         elsif response.code.to_i == 402
           raise_error(Geocoder::OverQueryLimitError) ||
-            warn("Geocoding API error: 402 Payment Required")
+            Geocoder.log(:warn, "Geocoding API error: 402 Payment Required")
         elsif response.code.to_i == 429
           raise_error(Geocoder::OverQueryLimitError) ||
-            warn("Geocoding API error: 429 Too Many Requests")
+            Geocoder.log(:warn, "Geocoding API error: 429 Too Many Requests")
         elsif response.code.to_i == 503
           raise_error(Geocoder::ServiceUnavailable) ||
-            warn("Geocoding API error: 503 Service Unavailable")
+            Geocoder.log(:warn, "Geocoding API error: 503 Service Unavailable")
         end
       end
 

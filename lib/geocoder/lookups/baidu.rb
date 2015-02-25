@@ -25,19 +25,19 @@ module Geocoder::Lookup
         return [doc['result']] unless doc['result'].blank?
       when 1, 3, 4
         raise_error(Geocoder::Error, "server error.") ||
-          warn("Baidu Geocoding API error: server error.")
+          Geocoder.log(:warn, "Baidu Geocoding API error: server error.")
       when 2
         raise_error(Geocoder::InvalidRequest, "invalid request.") ||
-          warn("Baidu Geocoding API error: invalid request.")
+          Geocoder.log(:warn, "Baidu Geocoding API error: invalid request.")
       when 5
         raise_error(Geocoder::InvalidApiKey, "invalid api key") ||
-          warn("Baidu Geocoding API error: invalid api key.")
+          Geocoder.log(:warn, "Baidu Geocoding API error: invalid api key.")
       when 101, 102, 200..299
         raise_error(Geocoder::RequestDenied, "request denied") ||
-          warn("Baidu Geocoding API error: request denied.")
+          Geocoder.log(:warn, "Baidu Geocoding API error: request denied.")
       when 300..399
         raise_error(Geocoder::OverQueryLimitError, "over query limit.") ||
-          warn("Baidu Geocoding API error: over query limit.")
+          Geocoder.log(:warn, "Baidu Geocoding API error: over query limit.")
       end
       return []
     end
