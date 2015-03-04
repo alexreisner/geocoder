@@ -1,71 +1,24 @@
 require 'rubygems'
 require 'test/unit'
+require 'rails'
+require 'active_record'
+require 'factory_girl'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-class MysqlConnection
-  def adapter_name
-    "mysql"
-  end
-end
-
-##
-# Simulate enough of ActiveRecord::Base that objects can be used for testing.
-#
-module ActiveRecord
-  class Base
-
-    def initialize
-      @attributes = {}
-    end
-
-    def read_attribute(attr_name)
-      @attributes[attr_name.to_sym]
-    end
-
-    def write_attribute(attr_name, value)
-      @attributes[attr_name.to_sym] = value
-    end
-
-    def update_attribute(attr_name, value)
-      write_attribute(attr_name.to_sym, value)
-    end
-
-    def self.scope(*args); end
-
-    def self.connection
-      MysqlConnection.new
-    end
-
-    def method_missing(name, *args, &block)
-      if name.to_s[-1..-1] == "="
-        write_attribute name.to_s[0...-1], *args
-      else
-        read_attribute name
-      end
-    end
-
-    class << self
-      def table_name
-        'test_table_name'
-      end
-
-      def primary_key
-        :id
-      end
-    end
-
-  end
-end
-
-# simulate Rails module so Railtie gets loaded
-module Rails
-end
-
 # Require Geocoder after ActiveRecord simulator.
 require 'geocoder'
-require "geocoder/lookups/base"
+require 'geocoder/lookups/base'
+
+# Establish a database connection
+
+configs = YAML.load_file('test/database.yml')
+ActiveRecord::Base.configurations = configs
+
+db_name = ENV['DB'] || 'sqlite'
+ActiveRecord::Base.establish_connection(db_name)
+ActiveRecord::Base.default_timezone = :utc
 
 # and initialize Railtie manually (since Rails::Railtie doesn't exist)
 Geocoder::Railtie.insert
