@@ -23,8 +23,12 @@ group :development, :test do
 end
 
 group :test do
-  gem 'pg'
+  gem 'pg', platforms: :ruby
   gem 'sqlite3'
+
+  platforms :jruby do
+    gem 'activerecord-jdbcpostgresql-adapter'
+  end
 end
 
 gemspec
