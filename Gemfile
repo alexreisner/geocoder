@@ -7,7 +7,6 @@ group :development, :test do
   gem 'geoip'
   gem 'rubyzip'
   gem 'rails'
-  gem 'sqlite3'
   gem 'test-unit' # needed for Ruby >=2.2.0
 
   gem 'byebug', platforms: :mri
@@ -21,6 +20,11 @@ group :development, :test do
     gem 'rubysl', '~> 2.0'
     gem 'rubysl-test-unit'
   end
+end
+
+group :test do
+  gem 'pg'
+  gem 'sqlite3'
 end
 
 gemspec

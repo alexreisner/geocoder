@@ -1,7 +1,7 @@
 # test/database.yml
 sqlite:
   adapter: sqlite3
-  database: ":memory:"
+  database: "test/geocoder_test.sqlite"
   timeout: 500
 mysql:
   adapter: mysql2
@@ -11,4 +11,4 @@ mysql:
 postgres:
   adapter: postgresql
   database: geocoder_test
-  username: postgres
+  username:
