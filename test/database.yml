@@ -1,7 +1,7 @@
 # test/database.yml
 sqlite:
   adapter: sqlite3
-  database: "test/geocoder_test.sqlite"
+  database: ":memory:"
   timeout: 500
 mysql:
   adapter: mysql2

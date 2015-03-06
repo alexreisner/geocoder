@@ -23,13 +23,15 @@ group :development, :test do
 end
 
 group :test do
+  gem 'sqlite3', :platform => [:ruby, :mswin, :mingw]
+
   platforms :ruby do
     gem 'pg'
-    gem 'sqlite3'
     gem 'mysql2'
   end
 
   platforms :jruby do
+    gem 'jdbc-sqlite3'
     gem 'activerecord-jdbcpostgresql-adapter'
   end
 end

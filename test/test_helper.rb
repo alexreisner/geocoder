@@ -4,17 +4,20 @@ require 'test/unit'
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-if ENV['DB']
-  require 'rails'
+require 'yaml'
+configs = YAML.load_file('test/database.yml')
+
+if configs.keys.include? ENV['DB']
   require 'active_record'
 
   # Establish a database connection
-  configs = YAML.load_file('test/database.yml')
   ActiveRecord::Base.configurations = configs
 
   db_name = ENV['DB']
   ActiveRecord::Base.establish_connection(db_name)
   ActiveRecord::Base.default_timezone = :utc
+
+  ActiveRecord::Migrator.migrate('test/db/migrate', nil)
 else
   class MysqlConnection
     def adapter_name
@@ -69,10 +72,10 @@ else
       end
     end
   end
+end
 
-  # simulate Rails module so Railtie gets loaded
-  module Rails
-  end
+# simulate Rails module so Railtie gets loaded
+module Rails
 end
 
 # Require Geocoder after ActiveRecord simulator.

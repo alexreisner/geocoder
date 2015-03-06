@@ -9,23 +9,6 @@ def config
 end
 
 namespace :db do
-  require 'active_record'
-  desc 'Migrate the database through scripts in test/db/migrate.'
-  task :migrate => :environment do
-    version = ENV['VERSION'] ? ENV['VERSION'].to_i : nil
-    ActiveRecord::Migrator.migrate('test/db/migrate', version)
-  end
-
-  task :environment do
-    require 'logger'
-    ActiveRecord::Base.logger = Logger.new(STDOUT)
-    ActiveRecord::Base.configurations = config
-    # Establish a database connection
-    db_name = ENV['DB'] || 'sqlite'
-    ActiveRecord::Base.establish_connection(db_name)
-    ActiveRecord::Base.default_timezone = :utc
-  end
-
   task :create do
     if ACCEPTED_DB_VALUES.include? ENV['DB']
       Rake::Task["db:#{ENV['DB']}:create"].invoke
@@ -38,7 +21,7 @@ namespace :db do
     end
   end
 
-  task :reset => [:drop, :create, :migrate]
+  task :reset => [:drop, :create]
 
   namespace :mysql do
     desc 'Create the MySQL test databases'
