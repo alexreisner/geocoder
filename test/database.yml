@@ -6,7 +6,7 @@ sqlite:
 mysql:
   adapter: mysql2
   database: geocoder_test
-  username:
+  username: travis
   encoding: utf8
 postgres:
   adapter: postgresql

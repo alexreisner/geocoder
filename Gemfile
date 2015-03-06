@@ -26,6 +26,7 @@ group :test do
   platforms :ruby do
     gem 'pg'
     gem 'sqlite3'
+    gem 'mysql2'
   end
 
   platforms :jruby do
