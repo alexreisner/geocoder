@@ -48,8 +48,7 @@ namespace :db do
 
     desc 'Drop the MySQL test databases'
     task :drop do
-      %x( mysqladmin --user=#{config['arunit']['username']} -f drop #{config['arunit']['database']} )
-      %x( mysqladmin --user=#{config['arunit2']['username']} -f drop #{config['arunit2']['database']} )
+      `mysqladmin --user=#{config['mysql']['username']} -f drop #{config['mysql']['database']}`
     end
   end
 
@@ -63,6 +62,11 @@ namespace :db do
     task :drop do
       `dropdb #{config['postgres']['database']}`
     end
+  end
+
+  namespace :sqlite do
+    task :drop
+    task :create
   end
 end
 
