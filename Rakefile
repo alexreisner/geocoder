@@ -5,6 +5,7 @@ ACCEPTED_DB_VALUES = %w(sqlite postgres mysql)
 DATABASE_CONFIG_FILE = 'test/database.yml'
 
 def config
+  require 'yaml'
   YAML.load(File.open(DATABASE_CONFIG_FILE))
 end
 
