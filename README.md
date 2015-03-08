@@ -1040,7 +1040,7 @@ Reporting Issues
 
 When reporting an issue, please list the version of Geocoder you are using and any relevant information about your application (Rails version, database type and version, etc). Also avoid vague language like "it doesn't work." Please describe as specifically as you can what behavior your are actually seeing (eg: an error message? a nil return value?).
 
-Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Sites like StackOverflow are a better forum for such discussions.
+Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Sites like [StackOverflow](http://www.stackoverflow.com/) are a better forum for such discussions.
 
 
 ### Known Issue
