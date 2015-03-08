@@ -1075,4 +1075,4 @@ Contributions are welcome via pull requests on Github. Please respect the follow
 * Be aware that the pull request review process is not immediate, and is generally proportional to the size of the pull request.
 
 
-Copyright (c) 2009-12 Alex Reisner, released under the MIT license
+Copyright (c) 2009-15 Alex Reisner, released under the MIT license
