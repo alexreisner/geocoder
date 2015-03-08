@@ -216,11 +216,6 @@ You are not stuck with using the `latitude` and `longitude` database column name
     geocoded_by :address, :latitude  => :lat, :longitude => :lon # ActiveRecord
     geocoded_by :address, :coordinates => :coords                # MongoDB
 
-This means you can geocode multiple addresses as well:
-
-    geocoded_by :start_address, latitude: :start_latitude, longitude: :start_longitude
-    geocoded_by :end_address, latitude: :end_latitude, longitude: :end_longitude
-
 The `address` method can return any string you'd use to search Google Maps. For example, any of the following are acceptable:
 
 * "714 Green St, Big Town, MO"
