@@ -31,6 +31,7 @@ group :test do
   end
 
   platforms :jruby do
+    gem 'jdbc-mysql'
     gem 'jdbc-sqlite3'
     gem 'activerecord-jdbcpostgresql-adapter'
   end
