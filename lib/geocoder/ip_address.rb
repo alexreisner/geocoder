@@ -1,3 +1,4 @@
+require 'resolv'
 module Geocoder
   class IpAddress < String
 
@@ -6,16 +7,7 @@ module Geocoder
     end
 
     def valid?
-      ipregex = %r{
-        \A(                                     # String Starts
-        ((::ffff:)?((\d{1,3})\.){3}\d{1,3})     # Check for IPv4
-        |                                       # .... Or
-        (\S+?(:\S+?){6}\S+)                     # Check for IPv6
-        |                                       # .... Or
-        (::1)                                   # IPv6 loopback
-        )\z                                     
-      }x
-      !!self.match(ipregex)
+      !!((self =~ Resolv::IPv4::Regex) || (self =~ Resolv::IPv6::Regex))
     end
   end
 end
