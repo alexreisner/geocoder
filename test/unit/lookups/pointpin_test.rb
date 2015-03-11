@@ -24,7 +24,7 @@ class PointpinTest < GeocoderTestCase
   end
 
   def test_invalid_address
-    results = Geocoder.search("555.555.555.555")
+    results = Geocoder.search("555.555.555.555", ip_address: true)
     assert_equal 0, results.length
   end
 end
