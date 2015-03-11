@@ -4,36 +4,38 @@ require 'test_helper'
 
 class NearTest < GeocoderTestCase
 
-  def test_near_scope_options_without_sqlite_includes_bounding_box_condition
-    result = PlaceWithCustomResultsHandling.send(:near_scope_options, 1.0, 2.0, 5)
-    table_name = PlaceWithCustomResultsHandling.table_name
-    assert_match(/#{table_name}.latitude BETWEEN 0.9276\d* AND 1.0723\d* AND #{table_name}.longitude BETWEEN 1.9276\d* AND 2.0723\d* AND /, result[:conditions][0])
-  end
+  if ENV['DB'] != 'sqlite'
+    def test_near_scope_options_without_sqlite_includes_bounding_box_condition
+      result = PlaceWithCustomResultsHandling.send(:near_scope_options, 1.0, 2.0, 5)
+      table_name = PlaceWithCustomResultsHandling.table_name
+      assert_match(/#{table_name}.latitude BETWEEN 0.9276\d* AND 1.0723\d* AND #{table_name}.longitude BETWEEN 1.9276\d* AND 2.0723\d* AND /, result[:conditions][0])
+    end
 
-  def test_near_scope_options_without_sqlite_includes_radius_condition
-    result = Place.send(:near_scope_options, 1.0, 2.0, 5)
-    assert_match(/BETWEEN \? AND \?$/, result[:conditions][0])
-  end
+    def test_near_scope_options_without_sqlite_includes_radius_condition
+      result = Place.send(:near_scope_options, 1.0, 2.0, 5)
+      assert_match(/BETWEEN \? AND \?$/, result[:conditions][0])
+    end
 
-  def test_near_scope_options_without_sqlite_includes_radius_default_min_radius
-    result = Place.send(:near_scope_options, 1.0, 2.0, 5)
+    def test_near_scope_options_without_sqlite_includes_radius_default_min_radius
+      result = Place.send(:near_scope_options, 1.0, 2.0, 5)
 
-    assert_equal(0, result[:conditions][1])
-    assert_equal(5, result[:conditions][2])
-  end
+      assert_equal(0, result[:conditions][1])
+      assert_equal(5, result[:conditions][2])
+    end
 
-  def test_near_scope_options_without_sqlite_includes_radius_custom_min_radius
-    result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 3)
+    def test_near_scope_options_without_sqlite_includes_radius_custom_min_radius
+      result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 3)
 
-    assert_equal(3, result[:conditions][1])
-    assert_equal(5, result[:conditions][2])
-  end
+      assert_equal(3, result[:conditions][1])
+      assert_equal(5, result[:conditions][2])
+    end
 
-  def test_near_scope_options_without_sqlite_includes_radius_bogus_min_radius
-    result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 'bogus')
+    def test_near_scope_options_without_sqlite_includes_radius_bogus_min_radius
+      result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 'bogus')
 
-    assert_equal(0, result[:conditions][1])
-    assert_equal(5, result[:conditions][2])
+      assert_equal(0, result[:conditions][1])
+      assert_equal(5, result[:conditions][2])
+    end
   end
 
   def test_near_scope_options_with_defaults
