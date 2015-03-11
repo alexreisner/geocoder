@@ -9,12 +9,12 @@ class PointpinTest < GeocoderTestCase
   end
 
   def test_result_on_ip_address_search
-    result = Geocoder.search("80.111.555.555").first
+    result = Geocoder.search("80.111.55.55").first
     assert result.is_a?(Geocoder::Result::Pointpin)
   end
 
   def test_result_components
-    result = Geocoder.search("80.111.555.555").first
+    result = Geocoder.search("80.111.55.55").first
     assert_equal "Dublin, Dublin City, 8, Ireland", result.address
   end
 

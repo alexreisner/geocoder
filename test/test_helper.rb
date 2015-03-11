@@ -195,7 +195,7 @@ module Geocoder
     class Pointpin
       private
       def default_fixture_filename
-        "pointpin_80_111_555_555"
+        "pointpin_80_111_55_55"
       end
     end
 
