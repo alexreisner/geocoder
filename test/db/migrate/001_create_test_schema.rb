@@ -8,8 +8,8 @@ class CreateTestSchema < ActiveRecord::Migration
       create_table table do |t|
         t.column :name, :string
         t.column :address, :string
-        t.column :latitude, :decimal
-        t.column :longitude, :decimal
+        t.column :latitude, :decimal, :precision => 16, :scale => 6
+        t.column :longitude, :decimal, :precision => 16, :scale => 6
       end
     end
 
@@ -21,8 +21,8 @@ class CreateTestSchema < ActiveRecord::Migration
       create_table table do |t|
         t.column :name, :string
         t.column :address, :string
-        t.column :latitude, :decimal
-        t.column :longitude, :decimal
+        t.column :latitude, :decimal, :precision => 16, :scale => 6
+        t.column :longitude, :decimal, :precision => 16, :scale => 6
         t.column :result_class, :string
       end
     end
@@ -30,24 +30,24 @@ class CreateTestSchema < ActiveRecord::Migration
     create_table :place_with_forward_and_reverse_geocodings do |t|
       t.column :name, :string
       t.column :location, :string
-      t.column :lat, :decimal
-      t.column :lon, :decimal
+      t.column :lat, :decimal, :precision => 16, :scale => 6
+      t.column :lon, :decimal, :precision => 16, :scale => 6
       t.column :address, :string
     end
 
     create_table :place_reverse_geocoded_with_custom_results_handlings do |t|
       t.column :name, :string
       t.column :address, :string
-      t.column :latitude, :decimal
-      t.column :longitude, :decimal
+      t.column :latitude, :decimal, :precision => 16, :scale => 6
+      t.column :longitude, :decimal, :precision => 16, :scale => 6
       t.column :country, :string
     end
 
     create_table :place_with_custom_results_handlings do |t|
       t.column :name, :string
       t.column :address, :string
-      t.column :latitude, :decimal
-      t.column :longitude, :decimal
+      t.column :latitude, :decimal, :precision => 16, :scale => 6
+      t.column :longitude, :decimal, :precision => 16, :scale => 6
       t.column :coords_string, :string
     end
   end
