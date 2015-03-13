@@ -14,23 +14,15 @@
 class ReverseGeocodeJob < ActiveJob::Base
   queue_as :high
 
-  def perform(location_id)
-    location = Location.where(id: location_id).first
-
-    if location.present?
-      reverse_geocode(location)
-    end
-  end
-
-  private
-
-  def reverse_geocode(location)
+  def perform(location)
     address = address(location)
 
     if address.present?
       location.update(address: address)
     end
   end
+
+  private
 
   def address(location)
     Geocoder.address(location.coordinates)
