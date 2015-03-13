@@ -2,7 +2,7 @@
 # asynchronously. Example usage:
 
 # if @location.save && @location.address.blank?
-#   ReverseGeocodeJob.perform_later(@location.id)
+#   ReverseGeocodeJob.perform_later(@location)
 # end
 
 # Be sure to configure the queue adapter in config/application.rb:
