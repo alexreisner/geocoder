@@ -8,7 +8,7 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 * Add :maxmind_geoip2 lookup (thanks github.com/TrangPham).
 * Add ability to force/specify query type (street or IP address) (thanks github.com/TrangPham).
 * Add :basic_auth configuration (thanks github.com/TrangPham).
-* Add `paranoid_location` method for Rails controllers (thanks github.com/edslocomb).
+* Add `safe_location` method for Rails controllers (thanks github.com/edslocomb).
 * Add :logger configuration (thanks github.com/TrangPham).
 * Improve error condition handling with Bing (thanks github.com/TrangPham).
 
