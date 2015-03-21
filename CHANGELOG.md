@@ -3,6 +3,15 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.8 (2015 Mar 21)
+-------------------
+* Add :maxmind_geoip2 lookup (thanks github.com/TrangPham).
+* Add ability to force/specify query type (street or IP address) (thanks github.com/TrangPham).
+* Add :basic_auth configuration (thanks github.com/TrangPham).
+* Add `paranoid_location` method for Rails controllers (thanks github.com/edslocomb).
+* Add :logger configuration (thanks github.com/TrangPham).
+* Improve error condition handling with Bing (thanks github.com/TrangPham).
+
 1.2.7 (2015 Jan 24)
 -------------------
 * DROP SUPPORT for Ruby 1.9.2.
@@ -13,7 +22,6 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 * Update geocodio response handling (thanks github.com/getsidewalk).
 * Add ability to raise exception when response parsing fails (thanks github.com/spiderpug).
 * Fix double-loading of Railtie (thanks github.com/wfleming and zhouguangming).
-
 
 1.2.6 (2014 Nov 8)
 ------------------
