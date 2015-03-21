@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..")
 require 'mongoid_test_helper'
 
 class MongoidTest < GeocoderTestCase
