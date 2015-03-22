@@ -494,16 +494,15 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **API key**: required
 * **Key signup**: http://developer.mapquest.com/web/products/open
 * **Quota**: ?
-* **HTTP Headers**: in order to use the licensed API you can configure the http_headers to include a referer as so:
+* **HTTP Headers**: when using the licensed API you can specify a referer like so:
     `Geocoder.configure(:http_headers => { "Referer" => "http://foo.com" })`
-  You can also allow a blank referer from the API management console via mapquest but it is potentially a security risk that someone else could use your API key from another domain.
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
 * **Documentation**: http://www.mapquestapi.com/geocoding/
 * **Terms of Service**: http://info.mapquest.com/terms-of-use/
 * **Limitations**: ?
-* **Notes**: You can specify the licensed API by setting: `Geocoder.configure(:mapquest => {:licensed => true})` (defaults to free "open" version)
+* **Notes**: You can use the open (non-licensed) API by setting: `Geocoder.configure(:mapquest => {:open => true})` (defaults to licensed version)
 
 #### Ovi/Nokia (`:ovi`)
 
