@@ -18,6 +18,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def protocol
+      "https" # required by API as of 26 March 2015
+    end
+
     def zipcode_only?(query)
       !query.text.is_a?(Array) and query.to_s.strip =~ /\A\d{5}(-\d{4})?\Z/
     end
