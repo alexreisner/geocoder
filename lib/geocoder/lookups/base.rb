@@ -99,7 +99,6 @@ module Geocoder
       # Object used to make HTTP requests.
       #
       def http_client
-        protocol = "http#{'s' if use_ssl?}"
         proxy_name = "#{protocol}_proxy"
         if proxy = configuration.send(proxy_name)
           proxy_url = !!(proxy =~ /^#{protocol}/) ? proxy : protocol + '://' + proxy
