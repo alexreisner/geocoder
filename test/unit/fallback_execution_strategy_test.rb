@@ -14,7 +14,7 @@ class FallbackExecutionStrategyTest < GeocoderTestCase
     assert_equal 1, results.size
   end
 
-  def test_strategy_uses_correct_lookup_with_fallback_on_skip
+  def test_strategy_uses_correct_lookup_with_fallback_on_match
     query = Geocoder::Query.new("foobar")
     subject = Geocoder::FallbackExecutionStrategy.new(query, lookup: [fallback_option_yandex, fallback_option_google])
 
