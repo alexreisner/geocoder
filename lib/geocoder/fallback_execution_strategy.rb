@@ -5,11 +5,11 @@ module Geocoder
       @query = query
       @fallback_chain = []
 
-      find_fallback_chain
+      set_fallback_chain
     end
 
     def search
-      results = []
+      results = nil
 
       fallback_chain.each do |current_lookup|
         if current_lookup[:skip]
@@ -35,24 +35,30 @@ module Geocoder
         # always_raise so we can re-raise
         raise exception unless exception.nil?
 
-        # TODO: We haven't skipped, failed or raised by now so should we just
-        # return results regardless? Rather than falling back again, config
-        # has not specified this.
+        # We haven't skipped, failed or raised by now so we just
+        # return results regardless. We could fall back again but not configured
+        # to do so.
         break if results
       end
 
-      results
+      results || []
     end
 
     private
 
     attr_reader :options, :query, :fallback_chain
 
-    def find_fallback_chain
+    def set_fallback_chain
       if !options[:street_address] and (options[:ip_address] or query.ip_address?)
-        @fallback_chain = find_ip_lookup_config
+        configuration = find_ip_lookup_config
       else
-        @fallback_chain = find_lookup_config
+        configuration = find_lookup_config
+      end
+
+      if configuration.is_a?(Array)
+        @fallback_chain = configuration
+      else
+        @fallback_chain << build_fallback_from_basic(configuration)
       end
     end
 
@@ -70,6 +76,10 @@ module Geocoder
 
     def fail_with_config_error(message)
       Geocoder::ConfigurationError.new(message)
+    end
+
+    def build_fallback_from_basic(lookup_config)
+      { :name => lookup_config }
     end
   end
 end

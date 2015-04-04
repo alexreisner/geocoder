@@ -6,7 +6,7 @@ module Geocoder
       self.text = text
       self.options = options
 
-      find_execution_strategy
+      build_execution_strategy
     end
 
     def execute
@@ -91,20 +91,8 @@ module Geocoder
 
     attr_reader :execution_strategy
 
-    def find_execution_strategy
-      if !options[:street_address] and (options[:ip_address] or ip_address?)
-        lookup_config = options[:ip_lookup] || Configuration.ip_lookup
-      else
-        lookup_config = options[:lookup] || Configuration.lookup
-      end
-
-      if lookup_config && lookup_config.is_a?(Array)
-        query_strategy_klass = FallbackExecutionStrategy
-      else
-        query_strategy_klass = SimpleExecutionStrategy
-      end
-
-      @execution_strategy = query_strategy_klass.new(self, options)
+    def build_execution_strategy
+      @execution_strategy = FallbackExecutionStrategy.new(self, options)
     end
 
     def params_given?
