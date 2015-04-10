@@ -182,7 +182,7 @@ module Geocoder
           JSON.parse(data)
         end
       rescue => err
-        raise_error(ResponseParseError.new(data)) or Geocoder.log(:warn, "Geocoding API's response was not valid JSON.")
+        raise_error(ResponseParseError.new(data)) or Geocoder.log(:warn, "Geocoding API's response was not valid JSON: #{data}")
       end
 
       ##
