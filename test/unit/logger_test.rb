@@ -40,6 +40,8 @@ class LoggerTest < GeocoderTestCase
 
   def test_kernel_logger_always_returns_nil
     Geocoder.configure(logger: :kernel)
-    assert_equal nil, Geocoder.log(:info, "should log")
+    silence_warnings do
+      assert_equal nil, Geocoder.log(:warn, "should log")
+    end
   end
 end
