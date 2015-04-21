@@ -12,10 +12,10 @@ class LookupTest < GeocoderTestCase
   end
 
   def test_search_returns_empty_array_when_no_results
-    silence_warnings do
-      Geocoder::Lookup.all_services_except_test.each do |l|
-        lookup = Geocoder::Lookup.get(l)
-        set_api_key!(l)
+    Geocoder::Lookup.all_services_except_test.each do |l|
+      lookup = Geocoder::Lookup.get(l)
+      set_api_key!(l)
+      silence_warnings do
         assert_equal [], lookup.send(:results, Geocoder::Query.new("no results")),
           "Lookup #{l} does not return empty array when no results."
       end
