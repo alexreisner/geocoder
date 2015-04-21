@@ -14,10 +14,20 @@ rvm:
 gemfile:
   - Gemfile
   - gemfiles/Gemfile.ruby1.9.3
+  - gemfiles/Gemfile.rails3.2
+  - gemfiles/Gemfile.rails4.1
 matrix:
   exclude:
     - rvm: 1.9.3
       gemfile: Gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.rails3.2
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.rails4.1
+    - env: DB=
+      gemfile: gemfiles/Gemfile.rails3.2
+    - env: DB=
+      gemfile: gemfiles/Gemfile.rails4.1
     - rvm: 2.0.0
       gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: 2.1.2
