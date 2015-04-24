@@ -517,7 +517,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 
 #### Here/Nokia (`:here`)
 
-* **API key**: required
+* **API key**: required (set `Geocoder.configure(:api_key => [app_id, app_code])`)
 * **Quota**: Depending on the API key
 * **Region**: world
 * **SSL support**: yes

@@ -9,7 +9,7 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      []
+      ["app_id", "app_code"]
     end
 
     def query_url(query)
