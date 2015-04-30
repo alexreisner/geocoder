@@ -33,7 +33,11 @@ class MongoidTest < GeocoderTestCase
   end
 
   def test_index_is_skipped_if_skip_option_flag
-    result = PlaceUsingMongoidWithoutIndex.index_options.keys.flatten[0] == :coordinates
+    if PlaceUsingMongoidWithoutIndex.respond_to?(:index_options)
+      result = PlaceUsingMongoidWithoutIndex.index_options.keys.flatten[0] == :coordinates
+    else
+      result = PlaceUsingMongoidWithoutIndex.index_specifications[0] == :coordinates
+    end
     assert !result
   end
 
