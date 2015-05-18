@@ -163,9 +163,9 @@ Some utility methods are also available:
     Geocoder.coordinates("25 Main St, Cooperstown, NY")
      => [42.700149, -74.922767]
 
-    # distance (in miles) between Eiffel Tower and Empire State Building
+    # distance between Eiffel Tower and Empire State Building
     Geocoder::Calculations.distance_between([47.858205,2.294359], [40.748433,-73.985655])
-     => 3619.77359999382
+     => 3619.77359999382 # in configured units (default miles)
 
     # find the geographic center (aka center of gravity) of objects or points
     Geocoder::Calculations.geographic_center([city1, city2, [40.22,-73.99], city4])
