@@ -866,7 +866,7 @@ When writing tests for an app that uses Geocoder it may be useful to avoid netwo
       ]
     )
 
-Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. You can also set a default stub:
+Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. You can also set a default stub, to be returned when no other stub is found for a given query:
 
     Geocoder.configure(:lookup => :test)
 
@@ -884,7 +884,6 @@ Now, any time Geocoder looks up "New York, NY" its results array will contain on
       ]
     )
 
-Any query that hasn't been explicitly stubbed will return that result.
 
 Command Line Interface
 ----------------------
