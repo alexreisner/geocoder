@@ -18,6 +18,11 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    # http only
+    def use_ssl?
+      false
+    end
+
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query)
       case doc['status']

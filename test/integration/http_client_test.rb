@@ -22,9 +22,21 @@ class HttpClientTest < Test::Unit::TestCase
     assert_not_nil results.first
   end
 
-  def test_ssl_opt_out
+  def test_ssl_unavaible_telize
     Geocoder.configure(ip_lookup: :telize, use_https: true)
     results = Geocoder.search "74.200.247.59"
+    assert_not_nil results.first
+  end
+
+  def test_ssl_unavaible_baidu_ip
+    Geocoder.configure(ip_lookup: :baidu_ip, use_https: true, api_key: @api_keys["baidu_ip"])
+    results = Geocoder.search "74.200.247.59"
+    assert_not_nil results.first
+  end
+
+  def test_ssl_unavaible_baidu
+    Geocoder.configure(lookup: :baidu, use_https: true, api_key: @api_keys["baidu"])
+    results = Geocoder.search "27701"
     assert_not_nil results.first
   end
 end
