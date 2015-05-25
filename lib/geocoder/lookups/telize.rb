@@ -9,15 +9,15 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      #currently doesn't support HTTPS
       "http://www.telize.com/geoip/#{query.sanitized_text}"
     end
 
-    private # ---------------------------------------------------------------
-
-    def use_ssl?
-      false
+    # currently doesn't support HTTPS
+    def supported_protocols
+      [:http]
     end
+
+    private # ---------------------------------------------------------------
 
     def results(query)
       # don't look up a loopback address, just return the stored result
