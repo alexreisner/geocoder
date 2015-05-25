@@ -16,6 +16,11 @@ module Geocoder::Lookup
       "http://api.map.baidu.com/location/ip?" + url_query_string(query)
     end
 
+    # HTTP only
+    def supported_protocols
+      [:http]
+    end
+
     private # ---------------------------------------------------------------
 
     def results(query, reverse = false)
