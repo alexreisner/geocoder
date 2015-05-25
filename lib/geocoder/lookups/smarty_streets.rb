@@ -16,11 +16,12 @@ module Geocoder::Lookup
       "#{protocol}://api.smartystreets.com/#{path}?#{url_query_string(query)}"
     end
 
-    private # ---------------------------------------------------------------
-
-    def protocol
-      "https" # required by API as of 26 March 2015
+    # required by API as of 26 March 2015
+    def supported_protocols
+      [:https]
     end
+
+    private # ---------------------------------------------------------------
 
     def zipcode_only?(query)
       !query.text.is_a?(Array) and query.to_s.strip =~ /\A\d{5}(-\d{4})?\Z/

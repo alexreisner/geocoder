@@ -86,6 +86,15 @@ module Geocoder
         @cache
       end
 
+      ##
+      # Array containing the protocols supported by the api.
+      # Should be set to [:http] if only HTTP is supported
+      # or [:https] if only HTTPS is supported.
+      #
+      def supported_protocols
+        [:http, :https]
+      end
+
       private # -------------------------------------------------------------
 
       ##
@@ -279,6 +288,9 @@ module Geocoder
       end
 
       def use_ssl?
+        return true if supported_protocols == [:https]
+        return false if supported_protocols == [:http]
+
         configuration.use_https
       end
 
