@@ -288,10 +288,13 @@ module Geocoder
       end
 
       def use_ssl?
-        return true if supported_protocols == [:https]
-        return false if supported_protocols == [:http]
-
-        configuration.use_https
+        if supported_protocols == [:https]
+          true
+        elsif supported_protocols == [:http]
+          false
+        else
+          configuration.use_https
+        end
       end
 
       def check_api_key_configuration!(query)
