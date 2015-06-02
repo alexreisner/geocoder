@@ -424,13 +424,12 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 #### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(:lookup => :bing, :api_key => key)`)
-* **Key signup**: http://www.bingmapsportal.com
+* **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
 * **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
 * **Region**: world
 * **SSL support**: no
 * **Languages**: ?
 * **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
-* **Compare Plans: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
 * **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
 * **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
 
