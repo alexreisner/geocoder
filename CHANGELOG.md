@@ -3,6 +3,13 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.9 (2015 Jun 12)
+-------------------
+* Don't cache unsuccessful responses from Bing (thanks github.com/peteb).
+* Show API response when not valid JSON.
+* Log each API request.
+* Force all SmartyStreets requests to use HTTPS.
+
 1.2.8 (2015 Mar 21)
 -------------------
 * Add :maxmind_geoip2 lookup (thanks github.com/TrangPham).
