@@ -24,7 +24,7 @@ module Geocoder
 
       if logger == :kernel
         kernel_log(level, message)
-      elsif logger.kind_of? ::Logger
+      elsif logger.respond_to? :add
         logger.add(SEVERITY[level], message)
       else
         raise Geocoder::ConfigurationError, "Please specify valid logger for Geocoder. " +
