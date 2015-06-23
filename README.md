@@ -460,7 +460,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **API key**: none
 * **Quota**: 25000 requests / day
 * **Region**: world
-* **SSL support**: no
+* **SSL support**: HTTPS only
 * **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
 * **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
 * **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
