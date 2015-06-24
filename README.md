@@ -570,6 +570,17 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Terms of Service**: http://smartystreets.com/legal/terms-of-service
 * **Limitations**: No reverse geocoding.
 
+#### Texas A&M Geoservices (:texas_am)
+
+API key: required
+Quota: 2,500 free then purchase at a sliding scale. Free partner option available.
+Region: US
+SSL support: yes
+Languages: English
+Documentation: https://geoservices.tamu.edu/Services/
+Terms of Service: https://geoservices.tamu.edu/About/Legal/TermsOfUse.aspx
+Limitations: ?
+
 ### IP Address Services
 
 #### FreeGeoIP (`:freegeoip`)
