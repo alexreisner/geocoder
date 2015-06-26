@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+HEAD (unreleased)
+-----------------
+* Force Yandex to use HTTPS (thanks github.com/donbobka).
+
 1.2.9 (2015 Jun 12)
 -------------------
 * Don't cache unsuccessful responses from Bing (thanks github.com/peteb).
