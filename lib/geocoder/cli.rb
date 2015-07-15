@@ -7,6 +7,7 @@ module Geocoder
     def self.run(args, out = STDOUT)
       show_url  = false
       show_json = false
+      configured_service = Geocoder::Configuration.lookup
 
       # remove arguments that are probably coordinates so they are not
       # processed as arguments (eg: -31.96047031,115.84274631)
@@ -40,6 +41,7 @@ module Geocoder
           "Geocoding service: #{Geocoder::Lookup.all_services_except_test * ', '}") do |service|
           Geocoder.configure(:lookup => service.to_sym)
           Geocoder.configure(:ip_lookup => service.to_sym)
+          configured_service = service.to_sym
         end
 
         opts.on("-t <seconds>", "--timeout <seconds>",
@@ -86,7 +88,8 @@ module Geocoder
 
       if show_url
         q = Geocoder::Query.new(query)
-        out << q.url + "\n"
+        lookup = Geocoder::Lookup.get(configured_service)
+        out << lookup.query_url(q) + "\n"
         exit 0
       end
 

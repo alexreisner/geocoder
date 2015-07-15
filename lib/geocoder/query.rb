@@ -5,10 +5,12 @@ module Geocoder
     def initialize(text, options = {})
       self.text = text
       self.options = options
+
+      build_execution_strategy
     end
 
     def execute
-      lookup.search(text, options)
+      execution_strategy.search
     end
 
     def to_s
@@ -25,23 +27,6 @@ module Geocoder
       else
         text
       end
-    end
-
-    ##
-    # Get a Lookup object (which communicates with the remote geocoding API)
-    # appropriate to the Query text.
-    #
-    def lookup
-      if !options[:street_address] and (options[:ip_address] or ip_address?)
-        name = options[:ip_lookup] || Configuration.ip_lookup || Geocoder::Lookup.ip_services.first
-      else
-        name = options[:lookup] || Configuration.lookup || Geocoder::Lookup.street_services.first
-      end
-      Lookup.get(name)
-    end
-
-    def url
-      lookup.query_url(self)
     end
 
     ##
@@ -103,6 +88,12 @@ module Geocoder
     end
 
     private # ----------------------------------------------------------------
+
+    attr_reader :execution_strategy
+
+    def build_execution_strategy
+      @execution_strategy = FallbackExecutionStrategy.new(self, options)
+    end
 
     def params_given?
       !!(options[:params].is_a?(Hash) and options[:params].keys.size > 0)

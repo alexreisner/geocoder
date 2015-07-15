@@ -23,7 +23,7 @@ class ConfigurationTest < GeocoderTestCase
     assert_equal :test, Geocoder.config.units
   end
 
-  def test_config_for_lookup
+  def test_config_for_simple_lookup
     Geocoder.configure(
       :timeout => 5,
       :api_key => "aaa",
@@ -33,6 +33,32 @@ class ConfigurationTest < GeocoderTestCase
     )
     assert_equal 2, Geocoder.config_for_lookup(:google).timeout
     assert_equal "aaa", Geocoder.config_for_lookup(:google).api_key
+  end
+
+  def test_config_for_fallback_lookup
+    Geocoder.configure(
+      :lookup => [
+        {
+            :name => :yandex,
+            :skip => ->(query) { true },
+            :failure => ->(results, exception) { false }
+        },
+        {
+            :name => :google,
+            :skip => nil,
+            :failure => nil
+        }
+      ]
+    )
+
+    assert_instance_of Array, Geocoder.config.lookup
+    assert_equal :yandex, Geocoder.config.lookup.first[:name]
+    assert_equal :google, Geocoder.config.lookup.last[:name]
+
+    assert_instance_of Proc, Geocoder.config.lookup.first[:skip]
+    assert_nil Geocoder.config.lookup.last[:skip]
+
+    assert Geocoder.config.lookup.first[:skip].call(nil)
   end
 
   def test_configuration_chain

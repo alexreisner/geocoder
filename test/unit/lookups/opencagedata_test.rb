@@ -24,19 +24,16 @@ class OpencagedataTest < GeocoderTestCase
     assert_match(/bounds=40.0+%2C-120.0+%2C39.0+%2C-121.0+/, url)
   end
 
-
   def test_no_results
     results = Geocoder.search("no results")
     assert_equal 0, results.length
   end
 
-
   def test_opencagedata_reverse_url
     query = Geocoder::Query.new([45.423733, -75.676333])
-    assert_match /\bq=45.423733%2C-75.676333\b/, query.url
+
+    assert_match /\bq=45.423733%2C-75.676333\b/, subject.query_url(query)
   end
-
-
 
   def test_raises_exception_when_invalid_request
     Geocoder.configure(always_raise: [Geocoder::InvalidRequest])
@@ -52,12 +49,17 @@ class OpencagedataTest < GeocoderTestCase
     end
   end
 
-
   def test_raises_exception_when_over_query_limit
     Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
     l = Geocoder::Lookup.get(:opencagedata)
     assert_raises Geocoder::OverQueryLimitError do
       l.send(:results, Geocoder::Query.new("over limit"))
     end
+  end
+
+  private
+
+  def subject
+    Geocoder::Lookup::Opencagedata.new
   end
 end

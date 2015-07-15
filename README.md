@@ -323,6 +323,20 @@ Some common configuration options are:
       # geocoding service (see below for supported options):
       :lookup => :yandex,
 
+      # or specify array to provide fallback options (see below for api)
+      :lookup => [
+        {
+            :name => :yandex,
+            :skip => ->(query) { !query.text.match(/russia/i) },
+            :failure => ->(results, exception) { exception.class == Geocoder::OverQueryLimitError }
+        },
+        {
+            :name => :google,
+            :skip => nil,
+            :failure => nil
+        }
+      ]
+
       # IP address geocoding service (see below for supported options):
       :ip_lookup => :maxmind,
 
@@ -340,6 +354,20 @@ Some common configuration options are:
       :cache_prefix => "..."
 
     )
+
+The `:lookup` fallback configuration can be used to fetch results from multiple Geocoding Services depending on query or result response. If an array is provided to the `:lookup` configuration then each lookup will be consulted in order of appearence in the array.
+
+Each fallback option is a Hash that must include the following keys;
+
+* A `:name` specifying the Lookup service to use.
+* The `:skip` callback is called before the query executes and can be used as a before predicate to interogate the query and skip if necessary. The `Query` instance is provided as the argument.
+* The `:failure` callback is called after a query has returned results or an exception, it can be used to idendify what constitutes a failed request and then fallback to the next lookup. The array of `Results` or `Exception` is provided as arguments.
+
+Both the `:skip` and `:failure` callbacks are tested for a "truthy" value, that is to say anything other than `nil` or `false` will be interpreted by Geocoder as a request to fallback to the next lookup in the chain. If the callback is `nil` then the callback is not triggered and the lookup is not considered to ever skip or fail.
+
+If testing for an exception then `Geocoder` should be configured to raise the exception being tested for, see the [Error Handling](#error-handling) section.
+
+If multiple services require API keys then these must be provided to the configuration too, see "multiple geocoding services" below.
 
 Please see lib/geocoder/configuration.rb for a complete list of configuration options. Additionally, some lookups have their own configuration options, some of which are directly supported by Geocoder. For example, to specify a value for Google's `bounds` parameter:
 

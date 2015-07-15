@@ -44,7 +44,7 @@ class MaxmindTest < GeocoderTestCase
   def test_maxmind_raises_exception_when_service_not_configured
     Geocoder.configure(maxmind: {service: nil})
     assert_raises Geocoder::ConfigurationError do
-      Geocoder::Query.new("24.24.24.24").url
+      Geocoder.search("24.24.24.24")
     end
   end
 
@@ -58,5 +58,11 @@ class MaxmindTest < GeocoderTestCase
     Geocoder.configure(maxmind: {service: :country})
     result = Geocoder.search("127.0.0.1").first
     assert_equal "", result.country_code
+  end
+
+  private
+
+  def subject
+    Geocoder::Lookup::Maxmind.new
   end
 end

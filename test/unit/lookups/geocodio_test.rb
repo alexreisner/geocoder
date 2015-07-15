@@ -29,7 +29,8 @@ class GeocodioTest < GeocoderTestCase
 
   def test_geocodio_reverse_url
     query = Geocoder::Query.new([45.423733, -75.676333])
-    assert_match /reverse/, query.url
+
+    assert_match /reverse/, subject.query_url(query)
   end
 
   def test_raises_invalid_request_exception
@@ -51,5 +52,11 @@ class GeocodioTest < GeocoderTestCase
     assert_raises Geocoder::OverQueryLimitError do
       Geocoder.search("over query limit")
     end
+  end
+
+  private
+
+  def subject
+    Geocoder::Lookup::Geocodio.new
   end
 end
