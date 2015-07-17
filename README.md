@@ -97,6 +97,7 @@ coordinates can be set in a Point type.
 ```ruby
   field :coordinates, type: Point
 ```
+_This is the simplest example, check the mongoid-geospatial's documentation for more information_
 
 ### MongoMapper
 
