@@ -92,7 +92,7 @@ module Geocoder::Store
       when 'Array'
         coords
       when 'Mongoid::Geospatial::Point'
-        coords.to_a.reverse
+        coords.to_a
       else
         []
       end
