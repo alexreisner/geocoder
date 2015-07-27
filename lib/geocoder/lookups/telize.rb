@@ -9,7 +9,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "http://www.telize.com/geoip/#{query.sanitized_text}"
+      "#{protocol}://www.telize.com/geoip/#{query.sanitized_text}"
     end
 
     # currently doesn't support HTTPS
