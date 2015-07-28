@@ -29,4 +29,7 @@ module Geocoder
   class ServiceUnavailable < Error
   end
 
+  class LookupTimeout < ::Timeout::Error
+  end
+
 end

@@ -274,6 +274,8 @@ module Geocoder
           end
           client.request(req)
         end
+      rescue Net::OpenTimeout, Net::ReadTimeout
+        raise Geocoder::LookupTimeout
       end
 
       def use_ssl?
