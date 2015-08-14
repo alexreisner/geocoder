@@ -567,13 +567,13 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 #### Geocodio (`:geocodio`)
 
 * **API key**: required
-* **Quota**: 2,500 free requests/day then purchase $.001 for each
+* **Quota**: 2,500 free requests/day then purchase $.001 for each, also has volume pricing and plans
 * **Region**: US
-* **SSL support**: no
+* **SSL support**: yes
 * **Languages**: en
 * **Documentation**: http://geocod.io/docs
 * **Terms of Service**: http://geocod.io/terms-of-use
-* **Limitations**: ?
+* **Limitations**: No restrictions on use
 
 #### SmartyStreets (`:smarty_streets`)
 
