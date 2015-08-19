@@ -381,19 +381,26 @@ The above combines global and service-specific options and could be useful if yo
 
 The following is a comparison of the supported geocoding APIs. The "Limitations" listed for each are a very brief and incomplete summary of some special limitations beyond basic data source attribution. Please read the official Terms of Service for a service before using it.
 
-#### Google (`:google`, `:google_premier`)
+#### Google (`:google`)
 
-* **API key**: required for Premier, optional for the free service (if using the free service with API key, https is required. Add `:use_https  => true` to `Geocoder.configure`)
-* **Key signup**: https://developers.google.com/maps/documentation/business/
-* **Quota**: 2,500 requests/day, 100,000 with Google Maps API Premier
+* **API key**: optional, but quota is higher if key is used (use of key requires HTTPS so be sure to set: `:use_https => true` in `Geocoder.configure`)
+* **Key signup**: https://console.developers.google.com//flows/enableapi?apiid=geocoding_backend&keyType=SERVER_SIDE
+* **Quota**: 2,500 requests/24 hrs, 5 requests/second
 * **Region**: world
-* **SSL support**: yes
-* **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+* **SSL support**: yes (required if key is used)
+* **Languages**: see https://developers.google.com/maps/faq#languagesupport
 * **Extra options**: `:bounds` - pass SW and NE coordinates as an array of two arrays to bias results towards a viewport
-* **Documentation**: http://code.google.com/apis/maps/documentation/geocoding/#JSON
+* **Documentation**: https://developers.google.com/maps/documentation/geocoding/intro
 * **Terms of Service**: http://code.google.com/apis/maps/terms.html#section_10_12
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
-* **Notes**: To use Google Premier set `Geocoder.configure(:lookup => :google_premier, :api_key => [key, client, channel])`.
+
+#### Google Maps API for Work (`:google_premier`)
+
+Similar to `:google`, with the following differences:
+
+* **API key**: required, plus client and channel (set `Geocoder.configure(:lookup => :google_premier, :api_key => [key, client, channel])`)
+* **Key signup**: https://developers.google.com/maps/documentation/business/
+* **Quota**: 100,000 requests/24 hrs, 10 requests/second
 
 #### Google Places Details (`:google_places_details`)
 
