@@ -682,6 +682,15 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
 
+#### IPInfo.io (`:ipinfo_io`)
+
+* **API key**: optional - see http://ipinfo.io/pricing
+* **Quota**: 1,000/day - more with api key
+* **Region**: world
+* **SSL support**: no (not without access key - see http://ipinfo.io/pricing)
+* **Languages**: English
+* **Documentation**: http://ipinfo.io/developers
+* **Terms of Service**: http://ipinfo.io/developers
 
 ### IP Address Local Database Services
 
