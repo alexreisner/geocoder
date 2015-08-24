@@ -37,8 +37,8 @@ module Geocoder
 
     def kernel_log(level, message)
       case level
-      when :debug, :info
-        puts message
+      # when :debug, :info
+      #  puts message
       when :warn
         warn message
       when :error
