@@ -3,9 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-HEAD (unreleased)
+1.2.10 (2015 Aug 7)
 -----------------
 * Force Yandex to use HTTPS (thanks github.com/donbobka).
+* Force :google to use HTTPS if API key set.
+* Fix out-of-the-box verbosity issues (GH #881).
+* Deprecate .near and #nearbys for MongoDB-backed models.
 
 1.2.9 (2015 Jun 12)
 -------------------
