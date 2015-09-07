@@ -252,6 +252,17 @@ module Geocoder::Store
     end
 
     ##
+    # Get nearby geocoded objects.
+    # Takes the same options hash as the near class method (scope).
+    # Returns nil if the object is not geocoded.
+    #
+    def nearbys(radius = 20, options = {})
+      return nil unless geocoded?
+      options.merge!(:exclude => self) unless send(self.class.primary_key).nil?
+      self.class.near(self, radius, options)
+    end
+
+    ##
     # Look up coordinates and assign to +latitude+ and +longitude+ attributes
     # (or other as specified in +geocoded_by+). Returns coordinates (array).
     #
