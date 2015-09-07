@@ -14,13 +14,6 @@ class MongoidTest < GeocoderTestCase
     assert p.distance_to([30, -94]).is_a?(Float)
   end
 
-  def test_custom_coordinate_field_near_scope
-    location = [40.750354, -73.993371]
-    p = PlaceUsingMongoid.near(location)
-    key = Mongoid::VERSION >= "3" ? "location" : :location
-    assert_equal p.selector[key]['$nearSphere'], location.reverse
-  end
-
   def test_model_configuration
     p = PlaceUsingMongoid.new(*geocoded_object_params(:msg))
     p.location = [0, 0]
@@ -35,12 +28,5 @@ class MongoidTest < GeocoderTestCase
   def test_index_is_skipped_if_skip_option_flag
     result = PlaceUsingMongoidWithoutIndex.index_options.keys.flatten[0] == :coordinates
     assert !result
-  end
-
-  def test_nil_radius_omits_max_distance
-    location = [40.750354, -73.993371]
-    p = PlaceUsingMongoid.near(location, nil)
-    key = Mongoid::VERSION >= "3" ? "location" : :location
-    assert_equal nil, p.selector[key]['$maxDistance']
   end
 end
