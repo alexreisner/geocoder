@@ -21,10 +21,30 @@ class LoggerTest < GeocoderTestCase
     assert_equal "should log\n", @tempfile.read
   end
 
-  def test_set_logger_does_not_log_severity_too_low
+  def test_logger_does_not_log_severity_too_low
     @logger.level = Logger::ERROR
-    assert_equal nil, Geocoder.log(:info, "should not log")
+    Geocoder.log(:info, "should not log")
     assert_equal "", @tempfile.read
+  end
+
+  def test_logger_logs_when_severity_high_enough
+    @logger.level = Logger::DEBUG
+    Geocoder.log(:warn, "important: should log!")
+    assert_match /important: should log/, @tempfile.read
+  end
+
+  def test_kernel_logger_does_not_log_severity_too_low
+    assert_nothing_raised do
+      Geocoder.configure(logger: :kernel, kernel_logger_level: ::Logger::FATAL)
+      Geocoder.log(:info, "should not log")
+    end
+  end
+
+  def test_kernel_logger_logs_when_severity_high_enough
+    assert_raises RuntimeError do
+      Geocoder.configure(logger: :kernel, kernel_logger_level: ::Logger::DEBUG)
+      Geocoder.log(:error, "important: should log!")
+    end
   end
 
   def test_raise_configruation_error_for_invalid_logger

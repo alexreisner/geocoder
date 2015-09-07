@@ -18,14 +18,11 @@ module Geocoder
     }
 
     def log(level, message)
-      return nil unless valid_level?(level)
-
-      logger = Geocoder.config[:logger]
-
-      if logger == :kernel
-        kernel_log(level, message)
-      elsif logger.respond_to? :add
-        logger.add(SEVERITY[level], message)
+      unless valid_level?(level)
+        raise StandardError, "Geocoder tried to log a message with an invalid log level."
+      end
+      if current_logger.respond_to? :add
+        current_logger.add(SEVERITY[level], message)
       else
         raise Geocoder::ConfigurationError, "Please specify valid logger for Geocoder. " +
         "Logger specified must be :kernel or must respond to `add(level, message)`."
@@ -33,23 +30,18 @@ module Geocoder
       nil
     end
 
-    private
+    private # ----------------------------------------------------------------
 
-    def kernel_log(level, message)
-      case level
-      when :debug, :info
-        puts message
-      when :warn
-        warn message
-      when :error
-        raise message
-      when :fatal
-        fail message
+    def current_logger
+      logger = Geocoder.config[:logger]
+      if logger == :kernel
+        logger = Geocoder::KernelLogger.instance
       end
+      logger
     end
 
     def valid_level?(level)
-      [:debug, :info, :warn, :error, :fatal].include? level
+      SEVERITY.keys.include?(level)
     end
   end
 end
