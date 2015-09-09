@@ -56,4 +56,14 @@ class RequestTest < GeocoderTestCase
     req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => "Albequerque NM"})
     assert req.location.is_a?(Geocoder::Result::Freegeoip)
   end
+  def test_safe_location_after_location
+    req = MockRequest.new({"HTTP_X_REAL_IP" => "74.200.247.59"}, "127.0.0.1")
+    assert_equal 'US', req.location.country_code
+    assert_equal 'RD', req.safe_location.country_code
+  end
+  def test_location_after_safe_location
+    req = MockRequest.new({'HTTP_X_REAL_IP' => '74.200.247.59'}, '127.0.0.1')
+    assert_equal 'RD', req.safe_location.country_code
+    assert_equal 'US', req.location.country_code
+  end
 end
