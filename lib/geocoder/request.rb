@@ -17,7 +17,7 @@ module Geocoder
     #   corresponding to the original client IP for any request sent
     #   through a non-whitelisted proxy.
     def safe_location
-      @location ||= Geocoder.search(ip, ip_address: true).first
+      @safe_location ||= Geocoder.search(ip, ip_address: true).first
     end
 
     # There's a whole zoo of nonstandard headers added by various
