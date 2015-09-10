@@ -3,8 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-1.2.10 (2015 Aug 7)
------------------
+1.2.11 (2015 Sep 10)
+--------------------
+* Fix load issue on Ruby 1.9.3.
+
+1.2.10 (2015 Sep 7)
+-------------------
 * Force Yandex to use HTTPS (thanks github.com/donbobka).
 * Force :google to use HTTPS if API key set.
 * Fix out-of-the-box verbosity issues (GH #881).
