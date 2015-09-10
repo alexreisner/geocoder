@@ -1,3 +1,5 @@
+require 'timeout' # required for Ruby 1.9.3
+
 module Geocoder
 
   class Error < StandardError
