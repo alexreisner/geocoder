@@ -6,13 +6,19 @@ namespace :geocode do
     batch = ENV['BATCH'] || ENV['batch']
     raise "Please specify a CLASS (model)" unless class_name
     klass = class_from_string(class_name)
-    batch = batch.to_i unless batch.nil?
 
-    klass.not_geocoded.find_each(batch_size: batch) do |obj|
-      obj.geocode; obj.save
-      sleep(sleep_timer.to_f) unless sleep_timer.nil?
+    if batch.nil?
+      klass.not_geocoded.each { |obj| geocode_obj(obj, sleep_timer) }
+    else
+      klass.not_geocoded.take(batch.to_i).each { |obj| geocode_obj(obj, sleep_timer) }
     end
+    
   end
+end
+
+def geocode_obj(obj, sleep_timer)
+  obj.geocode; obj.save
+  sleep(sleep_timer.to_f) unless sleep_timer.nil?
 end
 
 ##
