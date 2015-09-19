@@ -18,7 +18,7 @@ class LoggerTest < GeocoderTestCase
 
   def test_set_logger_logs
     assert_equal nil, Geocoder.log(:warn, "should log")
-    assert_equal "should log\n", @tempfile.read
+    assert_match /should log\n$/, @tempfile.read
   end
 
   def test_logger_does_not_log_severity_too_low
