@@ -47,7 +47,7 @@ Your model must have two attributes (database columns) for storing latitude and 
     rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
     rake db:migrate
 
-For reverse geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`).
+For geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`).
 
 Next, your model must tell Geocoder which method returns your object's geocodable address:
 
