@@ -294,7 +294,7 @@ Every `Geocoder::Result` object, `result`, provides the following data:
 
 * `result.latitude` - float
 * `result.longitude` - float
-* `result.coordinates` - array of the above two
+* `result.coordinates` - array of the above two in the form of `[lat,lon]`
 * `result.address` - string
 * `result.city` - string
 * `result.state` - string
