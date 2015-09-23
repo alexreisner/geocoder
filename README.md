@@ -464,9 +464,9 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 
 #### Yandex (`:yandex`)
 
-* **API key**: none
+* **API key**: optional, but without it lookup is territorially limited
 * **Quota**: 25000 requests / day
-* **Region**: world
+* **Region**: world with API key. Otherwise restricted to to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
 * **SSL support**: HTTPS only
 * **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
 * **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
