@@ -351,6 +351,10 @@ Please see the [source code for each lookup](https://github.com/alexreisner/geoc
     # with Nominatim:
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
 
+Or, to search within a particular region with Google:
+
+    Geocoder.search("...", :params => {:region => "..."})
+
 You can also configure multiple geocoding services at once, like this:
 
     Geocoder.configure(
