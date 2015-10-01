@@ -503,7 +503,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 #### Mapquest (`:mapquest`)
 
 * **API key**: required
-* **Key signup**: http://developer.mapquest.com/web/products/open
+* **Key signup**: https://developer.mapquest.com/plans
 * **Quota**: ?
 * **HTTP Headers**: when using the licensed API you can specify a referer like so:
     `Geocoder.configure(:http_headers => { "Referer" => "http://foo.com" })`
