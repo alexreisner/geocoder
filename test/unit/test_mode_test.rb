@@ -52,6 +52,14 @@ class TestModeTest < GeocoderTestCase
     assert_equal 'NY, NY', result.custom
   end
 
+  def test_search_with_invalid_address_stub
+    Geocoder::Lookup::Test.add_stub("invalid address/no result", [])
+
+    result = Geocoder.search("invalid address/no result")
+
+    assert_equal [], result
+  end
+
   private
   def mock_attributes
     coordinates = [40.7143528, -74.0059731]
