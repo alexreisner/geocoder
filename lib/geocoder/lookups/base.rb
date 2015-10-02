@@ -283,7 +283,7 @@ module Geocoder
           end
           client.request(req)
         end
-      rescue Net::OpenTimeout, Net::ReadTimeout
+      rescue Timeout::Error
         raise Geocoder::LookupTimeout
       end
 
