@@ -9,7 +9,9 @@ group :development, :test do
   gem 'rails'
   gem 'test-unit' # needed for Ruby >=2.2.0
 
-  gem 'byebug', platforms: :mri
+  if RUBY_VERSION >= ?2
+    gem 'byebug', platforms: :mri
+  end
 
   platforms :jruby do
     gem 'jruby-openssl'
