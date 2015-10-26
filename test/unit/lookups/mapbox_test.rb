@@ -27,7 +27,7 @@ class MapboxTest < GeocoderTestCase
   def test_raises_exception_with_invalid_api_key
     Geocoder.configure(always_raise: [Geocoder::InvalidApiKey])
     assert_raises Geocoder::InvalidApiKey do
-      Geocoder.search("invalid API key")
+      Geocoder.search("invalid api key")
     end
   end
 end
