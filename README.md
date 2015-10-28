@@ -1079,6 +1079,7 @@ Contributions are welcome via pull requests on Github. Please respect the follow
 * Remember: Geocoder needs to run outside of Rails. Don't assume things like ActiveSupport are available.
 * Be willing to accept criticism and work on improving your code; Geocoder is used by thousands of developers and care must be taken not to introduce bugs.
 * Be aware that the pull request review process is not immediate, and is generally proportional to the size of the pull request.
+* If your pull request is merged, please do not ask for an immediate release of the gem. There are many factors contributing to when releases occur (remember that they affect thousands of apps with Geocoder in their Gemfiles). If necessary, please install from the Github source until the next official release.
 
 
 Copyright (c) 2009-15 Alex Reisner, released under the MIT license
