@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.12 (2015 Oct 29)
+--------------------
+* Fix Ruby 1.9.3 incompatibility (remove non-existent timeout classes) (thanks github.com/roychri).
+
 1.2.11 (2015 Sep 10)
 --------------------
 * Fix load issue on Ruby 1.9.3.
