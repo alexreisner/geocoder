@@ -500,6 +500,18 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Terms of Service**: http://geocoder.us/terms.shtml
 * **Limitations**: ?
 
+#### Mapbox (`:mapbox`)
+
+* **API key**: required
+* **Key signup**: https://www.mapbox.com/pricing/
+* **Quota**: 1 Geocode per request
+* **Region**: US, Canada, and Europe are stable, rest of the world is closes
+* **SSL support**: no
+* **Languages**: English
+* **Documentation**: https://www.mapbox.com/developers/api/geocoding/
+* **Terms of Service**: https://www.mapbox.com/tos/
+* **Limitations**: ?  Must be displayed on a Mapbox map. Cache results for up to 30 days.
+
 #### Mapquest (`:mapquest`)
 
 * **API key**: required
