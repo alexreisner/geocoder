@@ -504,13 +504,14 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 
 * **API key**: required
 * **Key signup**: https://www.mapbox.com/pricing/
-* **Quota**: 1 Geocode per request
-* **Region**: US, Canada, and Europe are stable, rest of the world is closes
-* **SSL support**: no
+* **Quota**: depends on plan
+* **Region**: complete coverage of US and Canada, partial coverage elsewhere (see for details: https://www.mapbox.com/developers/api/geocoding/#coverage)
+* **SSL support**: yes
 * **Languages**: English
 * **Documentation**: https://www.mapbox.com/developers/api/geocoding/
 * **Terms of Service**: https://www.mapbox.com/tos/
-* **Limitations**: ?  Must be displayed on a Mapbox map. Cache results for up to 30 days.
+* **Limitations**: Must be displayed on a Mapbox map. Cache results for up to 30 days.
+* **Notes**: Currently in public beta.
 
 #### Mapquest (`:mapquest`)
 
