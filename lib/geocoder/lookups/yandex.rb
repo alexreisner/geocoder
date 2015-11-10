@@ -32,7 +32,7 @@ module Geocoder::Lookup
         end
         return []
       end
-      if doc = doc['response']['GeoObjectCollection']
+      if doc = doc['response'] && doc = doc['GeoObjectCollection']
         meta = doc['metaDataProperty']['GeocoderResponseMetaData']
         return meta['found'].to_i > 0 ? doc['featureMember'] : []
       else
