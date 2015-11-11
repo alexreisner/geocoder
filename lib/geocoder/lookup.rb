@@ -25,6 +25,7 @@ module Geocoder
         :esri,
         :google,
         :google_premier,
+        :google_places,
         :google_places_details,
         :yahoo,
         :bing,
