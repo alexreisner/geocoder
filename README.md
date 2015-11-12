@@ -140,6 +140,12 @@ See _Advanced Geocoding_ below for more information about `Geocoder::Result` obj
 Location-Aware Database Queries
 -------------------------------
 
+### For Mongo-backed models:
+
+Please use MongoDB's [geospatial query language](https://docs.mongodb.org/manual/reference/command/geoNear/). Mongoid also provides [a DSL](http://mongoid.github.io/en/mongoid/docs/querying.html#geo_near) for doing near queries.
+
+### For ActiveRecord models:
+
 To find objects by location, use the following scopes:
 
     Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
