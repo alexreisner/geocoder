@@ -27,11 +27,16 @@ module Geocoder::Lookup
 
     def url_query_string(query)
       require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
-      CGI.escape query.text.to_s
+      if query.reverse_geocode?
+        lat,lon = query.coordinates
+        "#{CGI.escape lon},#{CGI.escape lat}"
+      else
+        CGI.escape query.text.to_s
+      end
     end
 
     def dataset
-      "mapbox.places"
+      configuration[:dataset] || "mapbox.places"
     end
 
     def supported_protocols
@@ -39,8 +44,9 @@ module Geocoder::Lookup
     end
 
     def sort_relevant_feature(features)
+      # Sort by descending relevance; Favor original order for equal relevance (eg occurs for reverse geocoding)
       features.sort_by do |feature|
-        feature["relevance"]
+        [feature["relevance"],-features.index(feature)]
       end.reverse
     end
   end

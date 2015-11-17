@@ -4,11 +4,11 @@ module Geocoder::Result
   class Mapbox < Base
 
     def latitude
-      @latitude ||= @data["geometry"]["coordinates"].first.to_f
+      @latitude ||= @data["geometry"]["coordinates"].last.to_f
     end
 
     def longitude
-      @longitude ||= @data["geometry"]["coordinates"].last.to_f
+      @longitude ||= @data["geometry"]["coordinates"].first.to_f
     end
 
     def coordinates
