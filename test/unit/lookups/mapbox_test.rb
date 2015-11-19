@@ -16,7 +16,7 @@ class MapboxTest < GeocoderTestCase
 
   def test_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
-    assert_equal [-73.991566, 40.749688], result.coordinates
+    assert_equal [40.749688, -73.991566], result.coordinates
     assert_equal "Madison Square Garden", result.place_name
     assert_equal "4 Penn Plz", result.street
     assert_equal "New York", result.city

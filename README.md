@@ -509,6 +509,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 #### Mapbox (`:mapbox`)
 
 * **API key**: required
+* **Dataset**: Uses `mapbox.places` dataset by default.  Specific the `mapbox.places-permanent` dataset by setting: `Geocoder.configure(:mapbox => {:dataset => "mapbox.places-permanent"})`
 * **Key signup**: https://www.mapbox.com/pricing/
 * **Quota**: depends on plan
 * **Region**: complete coverage of US and Canada, partial coverage elsewhere (see for details: https://www.mapbox.com/developers/api/geocoding/#coverage)
@@ -516,7 +517,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Languages**: English
 * **Documentation**: https://www.mapbox.com/developers/api/geocoding/
 * **Terms of Service**: https://www.mapbox.com/tos/
-* **Limitations**: Must be displayed on a Mapbox map. Cache results for up to 30 days.
+* **Limitations**: For `mapbox.places` dataset, must be displayed on a Mapbox map; Cache results for up to 30 days. For `mapbox.places-permanent` dataset, depends on plan.
 * **Notes**: Currently in public beta.
 
 #### Mapquest (`:mapquest`)
