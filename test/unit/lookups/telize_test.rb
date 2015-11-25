@@ -26,10 +26,4 @@ class TelizeTest < GeocoderTestCase
     results = Geocoder.search("555.555.555.555", ip_address: true)
     assert_equal 0, results.length
   end
-
-  def test_uses_http_even_if_use_https_true
-    Geocoder.configure(use_https: true)
-    result = Geocoder.search("74.200.247.59").first
-    assert result.is_a?(Geocoder::Result::Telize)
-  end
 end

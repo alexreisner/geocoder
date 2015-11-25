@@ -138,6 +138,12 @@ class LookupTest < GeocoderTestCase
     assert_match "showpostal=1", g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
+  def test_telize_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    g = Geocoder::Lookup::Telize.new
+    assert_match "mashape-key=MY_KEY", g.query_url(Geocoder::Query.new("232.65.123.94"))
+  end
+
   def test_raises_configuration_error_on_missing_key
     [:bing, :baidu].each do |l|
       assert_raises Geocoder::ConfigurationError do

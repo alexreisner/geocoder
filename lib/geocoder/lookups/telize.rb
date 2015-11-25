@@ -8,13 +8,16 @@ module Geocoder::Lookup
       "Telize"
     end
 
-    def query_url(query)
-      "#{protocol}://www.telize.com/geoip/#{query.sanitized_text}"
+    def required_api_key_parts
+      ["key"]
     end
 
-    # currently doesn't support HTTPS
+    def query_url(query)
+      "#{protocol}://telize-v1.p.mashape.com/geoip/#{query.sanitized_text}?mashape-key=#{api_key}"
+    end
+
     def supported_protocols
-      [:http]
+      [:https]
     end
 
     private # ---------------------------------------------------------------
@@ -35,6 +38,10 @@ module Geocoder::Lookup
 
     def reserved_result(ip)
       {"message" => "Input string is not a valid IP address", "code" => 401}
+    end
+
+    def api_key
+      configuration.api_key
     end
   end
 end
