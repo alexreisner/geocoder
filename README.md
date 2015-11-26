@@ -106,6 +106,10 @@ If you have just added geocoding to an existing application with a lot of object
 
     rake geocode:all CLASS=YourModel
 
+If you need reverse geocoding instead, call the task with REVERSE=true:
+
+    rake geocode:all CLASS=YourModel REVERSE=true
+
 Geocoder will print warnings if you exceed the rate limit for your geocoding service. Some services — Google notably — enforce a per-second limit in addition to a per-day limit. To avoid exceeding the per-second limit, you can add a `SLEEP` option to pause between requests for a given amount of time. You can also load objects in batches to save memory, for example:
 
     rake geocode:all CLASS=YourModel SLEEP=0.25 BATCH=100
