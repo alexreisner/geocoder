@@ -28,6 +28,11 @@ module Geocoder::Store
             "OR #{table_name}.#{geocoder_options[:longitude]} IS NULL")
         }
 
+        # scope: not-reverse geocoded objects
+        scope :not_reverse_geocoded, lambda {
+          where("#{table_name}.#{geocoder_options[:fetched_address]} IS NULL")
+        }
+
         ##
         # Find all objects within a radius of the given location.
         # Location may be either a string to geocode or an array of
