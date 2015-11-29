@@ -677,14 +677,15 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 
 #### Telize (`:telize`)
 
-* **API key**: none
-* **Quota**: none
+* **API key**: required
+* **Quota**: 1,000/day for $7/mo through 100,000/day for $100/mo
 * **Region**: world
-* **SSL support**: no
+* **SSL support**: yes
 * **Languages**: English
-* **Documentation**: http://www.telize.com/
+* **Documentation**: https://market.mashape.com/fcambus/telize
 * **Terms of Service**: ?
 * **Limitations**: ?
+* **Notes**: To use Telize set `Geocoder.configure(:ip_lookup => :telize, :api_key => "your_api_key")`.
 
 #### MaxMind Legacy Web Services (`:maxmind`)
 
