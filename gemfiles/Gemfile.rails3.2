@@ -27,7 +27,7 @@ group :test do
 
   platforms :ruby do
     gem 'pg'
-    gem 'mysql2'
+    gem 'mysql2', '~> 0.3.11'
   end
 
   platforms :jruby do
