@@ -9,7 +9,7 @@ _Please note that this README is for the current `HEAD` and may document feature
 Compatibility
 -------------
 
-* Supports multiple Ruby versions: Ruby 1.9.3, 2.0.x, 2.1.x, JRuby, and Rubinius.
+* Supports multiple Ruby versions: Ruby 1.9.3, 2.x, JRuby, and Rubinius.
 * Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
 * Supports Rails 3 and 4. If you need to use it with Rails 2 please see the `rails2` branch (no longer maintained, limited feature set).
 * Works very well outside of Rails, you just need to install either the `json` (for MRI) or `json_pure` (for JRuby) gem.
@@ -47,7 +47,7 @@ Your model must have two attributes (database columns) for storing latitude and 
     rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
     rake db:migrate
 
-For reverse geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`).
+For geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`).
 
 Next, your model must tell Geocoder which method returns your object's geocodable address:
 
@@ -106,6 +106,10 @@ If you have just added geocoding to an existing application with a lot of object
 
     rake geocode:all CLASS=YourModel
 
+If you need reverse geocoding instead, call the task with REVERSE=true:
+
+    rake geocode:all CLASS=YourModel REVERSE=true
+
 Geocoder will print warnings if you exceed the rate limit for your geocoding service. Some services — Google notably — enforce a per-second limit in addition to a per-day limit. To avoid exceeding the per-second limit, you can add a `SLEEP` option to pause between requests for a given amount of time. You can also load objects in batches to save memory, for example:
 
     rake geocode:all CLASS=YourModel SLEEP=0.25 BATCH=100
@@ -139,6 +143,12 @@ See _Advanced Geocoding_ below for more information about `Geocoder::Result` obj
 
 Location-Aware Database Queries
 -------------------------------
+
+### For Mongo-backed models:
+
+Please use MongoDB's [geospatial query language](https://docs.mongodb.org/manual/reference/command/geoNear/). Mongoid also provides [a DSL](http://mongoid.github.io/en/mongoid/docs/querying.html#geo_near) for doing near queries.
+
+### For ActiveRecord models:
 
 To find objects by location, use the following scopes:
 
@@ -294,7 +304,7 @@ Every `Geocoder::Result` object, `result`, provides the following data:
 
 * `result.latitude` - float
 * `result.longitude` - float
-* `result.coordinates` - array of the above two
+* `result.coordinates` - array of the above two in the form of `[lat,lon]`
 * `result.address` - string
 * `result.city` - string
 * `result.state` - string
@@ -350,6 +360,10 @@ Please see the [source code for each lookup](https://github.com/alexreisner/geoc
 
     # with Nominatim:
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
+
+Or, to search within a particular region with Google:
+
+    Geocoder.search("...", :params => {:region => "..."})
 
 You can also configure multiple geocoding services at once, like this:
 
@@ -464,9 +478,9 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 
 #### Yandex (`:yandex`)
 
-* **API key**: none
+* **API key**: optional, but without it lookup is territorially limited
 * **Quota**: 25000 requests / day
-* **Region**: world
+* **Region**: world with API key. Otherwise restricted to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
 * **SSL support**: HTTPS only
 * **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
 * **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
@@ -496,10 +510,24 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Terms of Service**: http://geocoder.us/terms.shtml
 * **Limitations**: ?
 
+#### Mapbox (`:mapbox`)
+
+* **API key**: required
+* **Dataset**: Uses `mapbox.places` dataset by default.  Specific the `mapbox.places-permanent` dataset by setting: `Geocoder.configure(:mapbox => {:dataset => "mapbox.places-permanent"})`
+* **Key signup**: https://www.mapbox.com/pricing/
+* **Quota**: depends on plan
+* **Region**: complete coverage of US and Canada, partial coverage elsewhere (see for details: https://www.mapbox.com/developers/api/geocoding/#coverage)
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.mapbox.com/developers/api/geocoding/
+* **Terms of Service**: https://www.mapbox.com/tos/
+* **Limitations**: For `mapbox.places` dataset, must be displayed on a Mapbox map; Cache results for up to 30 days. For `mapbox.places-permanent` dataset, depends on plan.
+* **Notes**: Currently in public beta.
+
 #### Mapquest (`:mapquest`)
 
 * **API key**: required
-* **Key signup**: http://developer.mapquest.com/web/products/open
+* **Key signup**: https://developer.mapquest.com/plans
 * **Quota**: ?
 * **HTTP Headers**: when using the licensed API you can specify a referer like so:
     `Geocoder.configure(:http_headers => { "Referer" => "http://foo.com" })`
@@ -649,14 +677,15 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 
 #### Telize (`:telize`)
 
-* **API key**: none
-* **Quota**: none
+* **API key**: required
+* **Quota**: 1,000/day for $7/mo through 100,000/day for $100/mo
 * **Region**: world
-* **SSL support**: no
+* **SSL support**: yes
 * **Languages**: English
-* **Documentation**: http://www.telize.com/
+* **Documentation**: https://market.mashape.com/fcambus/telize
 * **Terms of Service**: ?
 * **Limitations**: ?
+* **Notes**: To use Telize set `Geocoder.configure(:ip_lookup => :telize, :api_key => "your_api_key")`.
 
 #### MaxMind Legacy Web Services (`:maxmind`)
 
@@ -1075,6 +1104,7 @@ Contributions are welcome via pull requests on Github. Please respect the follow
 * Remember: Geocoder needs to run outside of Rails. Don't assume things like ActiveSupport are available.
 * Be willing to accept criticism and work on improving your code; Geocoder is used by thousands of developers and care must be taken not to introduce bugs.
 * Be aware that the pull request review process is not immediate, and is generally proportional to the size of the pull request.
+* If your pull request is merged, please do not ask for an immediate release of the gem. There are many factors contributing to when releases occur (remember that they affect thousands of apps with Geocoder in their Gemfiles). If necessary, please install from the Github source until the next official release.
 
 
 Copyright (c) 2009-15 Alex Reisner, released under the MIT license

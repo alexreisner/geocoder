@@ -1,0 +1,237 @@
+{
+    "attribution": "NOTICE: \u00a9 2015 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained.",
+    "features": [
+        {
+            "center": [
+                -73.991566,
+                40.749688
+            ],
+            "context": [
+                {
+                    "id": "neighborhood.12643",
+                    "text": "Garment District"
+                },
+                {
+                    "id": "place.37501",
+                    "text": "New York"
+                },
+                {
+                    "id": "postcode.573304472",
+                    "text": "10001"
+                },
+                {
+                    "id": "region.628083222",
+                    "text": "New York"
+                },
+                {
+                    "id": "country.4150104525",
+                    "text": "United States"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -73.991566,
+                    40.749688
+                ],
+                "type": "Point"
+            },
+            "id": "poi.3734776765",
+            "place_name": "Madison Square Garden, 4 Penn Plz, New York, New York 10001, United States",
+            "properties": {
+                "address": "4 Penn Plz",
+                "category": "stadium, arena",
+                "maki": "baseball"
+            },
+            "relevance": 0.998,
+            "text": "Madison Square Garden",
+            "type": "Feature"
+        },
+        {
+            "center": [
+                -73.778678,
+                41.036928
+            ],
+            "context": [
+                {
+                    "id": "neighborhood.21227",
+                    "text": "Ferris Avenue"
+                },
+                {
+                    "id": "place.59673",
+                    "text": "White Plains"
+                },
+                {
+                    "id": "postcode.546749122",
+                    "text": "10607"
+                },
+                {
+                    "id": "region.628083222",
+                    "text": "New York"
+                },
+                {
+                    "id": "country.4150104525",
+                    "text": "United States"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -73.778678,
+                    41.036928
+                ],
+                "type": "Point"
+            },
+            "id": "poi.4036603621",
+            "place_name": "Madison Square Garden, 198 Central Ave, White Plains, New York 10607, United States",
+            "properties": {
+                "address": "198 Central Ave",
+                "category": null,
+                "maki": null
+            },
+            "relevance": 0.996,
+            "text": "Madison Square Garden",
+            "type": "Feature"
+        },
+        {
+            "center": [
+                -73.983913,
+                40.739413
+            ],
+            "context": [
+                {
+                    "id": "neighborhood.21161",
+                    "text": "Gramercy-Flatiron"
+                },
+                {
+                    "id": "place.37501",
+                    "text": "New York"
+                },
+                {
+                    "id": "postcode.34207172",
+                    "text": "10010"
+                },
+                {
+                    "id": "region.628083222",
+                    "text": "New York"
+                },
+                {
+                    "id": "country.4150104525",
+                    "text": "United States"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -73.983913,
+                    40.739413
+                ],
+                "type": "Point"
+            },
+            "id": "poi.3013644540",
+            "place_name": "United States Government Postal Service, 149 E 23rd St, New York, New York 10010, United States",
+            "properties": {
+                "address": "149 E 23rd St",
+                "category": "government agency,",
+                "maki": "town-hall"
+            },
+            "relevance": 0.748,
+            "text": "United States Government Postal Service",
+            "type": "Feature"
+        },
+        {
+            "center": [
+                -78.854005,
+                38.426163
+            ],
+            "context": [
+                {
+                    "id": "neighborhood.13118",
+                    "text": "Preston Heights"
+                },
+                {
+                    "id": "place.22836",
+                    "text": "Harrisonburg"
+                },
+                {
+                    "id": "postcode.912852583",
+                    "text": "22801"
+                },
+                {
+                    "id": "region.1248462799",
+                    "text": "Virginia"
+                },
+                {
+                    "id": "country.4150104525",
+                    "text": "United States"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -78.854005,
+                    38.426163
+                ],
+                "type": "Point"
+            },
+            "id": "poi.2867869361",
+            "place_name": "Madison Square Garden, 420 Neff Ave, Harrisonburg, Virginia 22801, United States",
+            "properties": {
+                "address": "420 Neff Ave",
+                "category": "insurance",
+                "maki": "commercial"
+            },
+            "relevance": 0.74,
+            "text": "Madison Square Garden",
+            "type": "Feature"
+        },
+        {
+            "center": [
+                -85.384994,
+                40.196998
+            ],
+            "context": [
+                {
+                    "id": "neighborhood.2355",
+                    "text": "Creston"
+                },
+                {
+                    "id": "place.36166",
+                    "text": "Muncie"
+                },
+                {
+                    "id": "postcode.4261634171",
+                    "text": "47305"
+                },
+                {
+                    "id": "region.3248846408",
+                    "text": "Indiana"
+                },
+                {
+                    "id": "country.4150104525",
+                    "text": "United States"
+                }
+            ],
+            "geometry": {
+                "coordinates": [
+                    -85.384994,
+                    40.196998
+                ],
+                "type": "Point"
+            },
+            "id": "poi.1361420161",
+            "place_name": "Madison Square Garden, 211 E Wysor St, Muncie, Indiana 47305, United States",
+            "properties": {
+                "address": "211 E Wysor St",
+                "category": "restaurant",
+                "maki": "restaurant"
+            },
+            "relevance": 0.74,
+            "text": "Madison Square Garden",
+            "type": "Feature"
+        }
+    ],
+    "query": [
+        "madison",
+        "square",
+        "garden",
+        "ny"
+    ],
+    "type": "FeatureCollection"
+}

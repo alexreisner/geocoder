@@ -190,7 +190,7 @@ module Geocoder
         else
           JSON.parse(data)
         end
-      rescue => err
+      rescue
         raise_error(ResponseParseError.new(data)) or Geocoder.log(:warn, "Geocoding API's response was not valid JSON: #{data}")
       end
 
@@ -283,7 +283,7 @@ module Geocoder
           end
           client.request(req)
         end
-      rescue Net::OpenTimeout, Net::ReadTimeout
+      rescue Timeout::Error
         raise Geocoder::LookupTimeout
       end
 

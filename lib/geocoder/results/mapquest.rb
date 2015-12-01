@@ -26,6 +26,10 @@ module Geocoder::Result
       @data['adminArea3']
     end
 
+    def county
+      @data['adminArea4']
+    end
+
     alias_method :state_code, :state
 
     #FIXME: these might not be right, unclear with MQ documentation

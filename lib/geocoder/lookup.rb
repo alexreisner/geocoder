@@ -32,6 +32,7 @@ module Geocoder
         :geocoder_us,
         :yandex,
         :nominatim,
+        :mapbox,
         :mapquest,
         :opencagedata,
         :ovi,
