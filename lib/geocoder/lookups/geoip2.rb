@@ -14,10 +14,12 @@ module Geocoder
           end
 
           if @gem_name == 'hive_geoip2'
-            @mmdb = Hive::GeoIP2.new(configuration[:file].to_s)
+            klass = Hive::GeoIP2
           else
-            @mmdb = MaxMindDB.new(configuration[:file].to_s)
+            klass = MaxMindDB
           end
+
+          @mmdb = klass.new(configuration[:file].to_s)
         end
         super
       end
