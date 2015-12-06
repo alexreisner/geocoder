@@ -125,6 +125,5 @@ module Geocoder
       end
       EOS
     end.join("\n\n"))
-
   end
 end

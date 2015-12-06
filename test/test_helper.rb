@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'rubygems'
 require 'test/unit'
 
@@ -189,7 +190,7 @@ module Geocoder
       def results(query)
         return [] if query.to_s == 'no results'
         return [] if query.to_s == '127.0.0.1'
-        [{'city'=>{'names'=>{'en'=>'Mountain View'}},'country'=>{'iso_code'=>'US','names'=>
+        [{'city'=>{'names'=>{'en'=>'Mountain View', 'ru'=>'Маунтин-Вью'}},'country'=>{'iso_code'=>'US','names'=>
         {'en'=>'United States'}},'location'=>{'latitude'=>37.41919999999999,
         'longitude'=>-122.0574},'postal'=>{'code'=>'94043'},'subdivisions'=>[{
         'iso_code'=>'CA','names'=>{'en'=>'California'}}]}]
