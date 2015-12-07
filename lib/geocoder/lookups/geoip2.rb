@@ -4,6 +4,8 @@ require 'geocoder/results/geoip2'
 module Geocoder
   module Lookup
     class Geoip2 < Base
+      attr_reader :gem_name
+
       def initialize
         unless configuration[:file].nil?
           begin
@@ -13,13 +15,7 @@ module Geocoder
             raise "Could not load Maxmind DB dependency. To use the GeoIP2 lookup you must add the #{@gem_name} gem to your Gemfile or have it installed in your system."
           end
 
-          if @gem_name == 'hive_geoip2'
-            klass = Hive::GeoIP2
-          else
-            klass = MaxMindDB
-          end
-
-          @mmdb = klass.new(configuration[:file].to_s)
+          @mmdb = db_class.new(configuration[:file].to_s)
         end
         super
       end
@@ -34,11 +30,14 @@ module Geocoder
 
       private
 
+      def db_class
+        gem_name == 'hive_geoip2' ? Hive::GeoIP2 : MaxMindDB
+      end
+
       def results(query)
         return [] unless configuration[:file]
 
-        result = @mmdb.lookup(query.to_s)
-        result.nil? ? [] : [result]
+        Array(@mmdb.lookup(query.to_s))
       end
     end
   end
