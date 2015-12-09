@@ -161,7 +161,7 @@ To find objects by location, use the following scopes:
 
 Objects are ordered by distance by default. To turn it off use the following:
 
-    Venue.near('Omaha', 20, :order => false) # Venue.near('Omaha', :order => false) will cause an error.
+    Venue.near('Omaha', 20, :order => false)
 
 With geocoded objects you can do things like this:
 
