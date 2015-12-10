@@ -1,0 +1,63 @@
+{
+ "spatialReference": {
+  "wkid": 4326,
+  "latestWkid": 4326
+ },
+ "locations": [
+  {
+   "name": "New York City, New York, United States",
+   "extent": {
+    "xmin": -74.165970999999999,
+    "ymin": 40.554268999999998,
+    "xmax": -73.845971000000006,
+    "ymax": 40.874268999999998
+   },
+   "feature": {
+    "geometry": {
+     "x": -74.005969928999662,
+     "y": 40.714269404000447
+    },
+    "attributes": {
+     "Loc_name": "Gaz.WorldGazetteer.POI1",
+     "Score": 100,
+     "Match_addr": "New York City, New York, United States",
+     "Addr_type": "POI",
+     "Type": "City",
+     "PlaceName": "New York City",
+     "Place_addr": "",
+     "Phone": "",
+     "URL": "",
+     "Rank": "2.5",
+     "AddBldg": "",
+     "AddNum": "",
+     "AddNumFrom": "",
+     "AddNumTo": "",
+     "Side": "",
+     "StPreDir": "",
+     "StPreType": "",
+     "StName": "",
+     "StType": "",
+     "StDir": "",
+     "StAddr": "",
+     "Nbrhd": "",
+     "City": "",
+     "Subregion": "New York",
+     "Region": "New York",
+     "Postal": "",
+     "PostalExt": "",
+     "Country": "USA",
+     "LangCode": "",
+     "Distance": 0,
+     "X": -74.005971000000002,
+     "Y": 40.714269000000002,
+     "DisplayX": -74.005971000000002,
+     "DisplayY": 40.714269000000002,
+     "Xmin": -74.165970999999999,
+     "Xmax": -73.845971000000006,
+     "Ymin": 40.554268999999998,
+     "Ymax": 40.874268999999998
+    }
+   }
+  }
+ ]
+}

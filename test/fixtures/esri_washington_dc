@@ -1,0 +1,63 @@
+{
+ "spatialReference": {
+  "wkid": 4326,
+  "latestWkid": 4326
+ },
+ "locations": [
+  {
+   "name": "Washington, D. C., District of Columbia, United States",
+   "extent": {
+    "xmin": -77.176366999999999,
+    "ymin": 38.755108,
+    "xmax": -76.896366999999998,
+    "ymax": 39.035108000000001
+   },
+   "feature": {
+    "geometry": {
+     "x": -77.036365517999627,
+     "y": 38.895107833000452
+    },
+    "attributes": {
+     "Loc_name": "Gaz.WorldGazetteer.POI1",
+     "Score": 100,
+     "Match_addr": "Washington, D. C., District of Columbia, United States",
+     "Addr_type": "POI",
+     "Type": "National Capital",
+     "PlaceName": "Washington",
+     "Place_addr": "",
+     "Phone": "",
+     "URL": "",
+     "Rank": "1.75",
+     "AddBldg": "",
+     "AddNum": "",
+     "AddNumFrom": "",
+     "AddNumTo": "",
+     "Side": "",
+     "StPreDir": "",
+     "StPreType": "",
+     "StName": "",
+     "StType": "",
+     "StDir": "",
+     "StAddr": "",
+     "Nbrhd": "",
+     "City": "",
+     "Subregion": "District of Columbia",
+     "Region": "District of Columbia",
+     "Postal": "",
+     "PostalExt": "",
+     "Country": "USA",
+     "LangCode": "",
+     "Distance": 0,
+     "X": -77.036366999999998,
+     "Y": 38.895108,
+     "DisplayX": -77.036366999999998,
+     "DisplayY": 38.895108,
+     "Xmin": -77.176366999999999,
+     "Xmax": -76.896366999999998,
+     "Ymin": 38.755108,
+     "Ymax": 39.035108000000001
+    }
+   }
+  }
+ ]
+}
