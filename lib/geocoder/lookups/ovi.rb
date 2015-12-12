@@ -5,7 +5,7 @@ module Geocoder::Lookup
   class Ovi < Base
 
     def name
-      "Ovi"
+      "Ovi".freeze
     end
 
     def required_api_key_parts
@@ -13,50 +13,44 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://lbs.ovi.com/search/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?" + url_query_string(query)
+      reverse = query.reverse_geocode? ? 'reverse' : ''
+      "#{protocol}://lbs.ovi.com/search/6.2/#{reverse}geocode.json?#{url_query_string(query)}"
     end
 
-    private # ---------------------------------------------------------------
+    private
 
     def results(query)
       return [] unless doc = fetch_data(query)
-      return [] unless doc['Response'] && doc['Response']['View']
-      if r=doc['Response']['View']
-        return [] if r.nil? || !r.is_a?(Array) || r.empty?
-        return r.first['Result']
-      end
-      []
+
+      view = doc.fetch('Response', {})['View']
+      view.is_a?(Array) && view.any? ? view.first['Result'] : []
     end
 
     def query_url_params(query)
       options = {
-        :gen=>1,
-        :app_id=>api_key,
-        :app_code=>api_code
+        gen: 1,
+        app_id: api_key,
+        app_code: api_code
       }
 
       if query.reverse_geocode?
-        super.merge(options).merge(
-          :prox=>query.sanitized_text,
-          :mode=>:retrieveAddresses
-        )
+        options[:prox] = query.sanitized_text
+        options[:mode] = :retrieveAddresses
       else
-        super.merge(options).merge(
-          :searchtext=>query.sanitized_text
-        )
+        options[:searchtext] = query.sanitized_text
       end
+
+      super.merge(options)
     end
 
     def api_key
-      if a=configuration.api_key
-        return a.first if a.is_a?(Array)
-      end
+      api = configuration.api_key
+      api.first if api.is_a?(Array)
     end
 
     def api_code
-      if a=configuration.api_key
-        return a.last if a.is_a?(Array)
-      end
+      api = configuration.api_key
+      api.last if api.is_a?(Array)
     end
   end
 end
