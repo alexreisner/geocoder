@@ -3,6 +3,14 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.13 (2015 Dec 15)
+--------------------
+* Update :telize IP lookup to reflect new URL (thanks github.com/jfredrickson).
+* Add reverse geocode rake task (thanks github.com/FanaHOVA).
+* Fix reversed coordinates array with Mapbox (thanks github.com/marcusat).
+* Fix missing city name in some cases with ESRI (thanks github.com/roybotnik).
+* Prevent re-opening of DB file on every read with :geoip2 (thanks github.com/oogali).
+
 1.2.12 (2015 Oct 29)
 --------------------
 * Fix Ruby 1.9.3 incompatibility (remove non-existent timeout classes) (thanks github.com/roychri).
