@@ -37,7 +37,8 @@ module Geocoder
       def results(query)
         return [] unless configuration[:file]
 
-        Array(@mmdb.lookup(query.to_s))
+        result = @mmdb.lookup(query.to_s)
+        result.nil? ? [] : [result]
       end
     end
   end
