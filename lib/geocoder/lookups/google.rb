@@ -12,6 +12,15 @@ module Geocoder::Lookup
       "http://maps.google.com/maps?q=#{coordinates.join(',')}"
     end
 
+    def supported_protocols
+      # Google requires HTTPS if an API key is used.
+      if configuration.api_key
+        [:https]
+      else
+        [:http, :https]
+      end
+    end
+
     def query_url(query)
       "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query)
     end

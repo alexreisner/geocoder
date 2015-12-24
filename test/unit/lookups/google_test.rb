@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..", "..")
 require 'test_helper'
 
 class GoogleTest < GeocoderTestCase
@@ -81,4 +80,9 @@ class GoogleTest < GeocoderTestCase
     assert url.include?(formatted), "Expected #{formatted} to be included in #{url}"
   end
 
+  def test_google_uses_https_when_api_key_is_set
+    Geocoder.configure(api_key: "deadbeef")
+    query = Geocoder::Query.new("Madison Square Garden, New York, NY")
+    assert_match /^https:/, query.url
+  end
 end

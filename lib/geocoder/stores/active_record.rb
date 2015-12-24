@@ -28,6 +28,11 @@ module Geocoder::Store
             "OR #{table_name}.#{geocoder_options[:longitude]} IS NULL")
         }
 
+        # scope: not-reverse geocoded objects
+        scope :not_reverse_geocoded, lambda {
+          where("#{table_name}.#{geocoder_options[:fetched_address]} IS NULL")
+        }
+
         ##
         # Find all objects within a radius of the given location.
         # Location may be either a string to geocode or an array of
@@ -249,6 +254,17 @@ module Geocoder::Store
         column = column.to_s
         column.include?(".") ? column : [table_name, column].join(".")
       end
+    end
+
+    ##
+    # Get nearby geocoded objects.
+    # Takes the same options hash as the near class method (scope).
+    # Returns nil if the object is not geocoded.
+    #
+    def nearbys(radius = 20, options = {})
+      return nil unless geocoded?
+      options.merge!(:exclude => self) unless send(self.class.primary_key).nil?
+      self.class.near(self, radius, options)
     end
 
     ##

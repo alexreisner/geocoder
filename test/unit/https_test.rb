@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..")
 require 'test_helper'
 
 class HttpsTest < GeocoderTestCase
@@ -11,7 +10,7 @@ class HttpsTest < GeocoderTestCase
   end
 
   def test_uses_http_by_default
-    g = Geocoder::Lookup::Google.new
+    g = Geocoder::Lookup::Esri.new
     assert_match(/^http:/, g.query_url(Geocoder::Query.new("test")))
   end
 end

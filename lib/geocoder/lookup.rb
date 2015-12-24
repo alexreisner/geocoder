@@ -32,6 +32,7 @@ module Geocoder
         :geocoder_us,
         :yandex,
         :nominatim,
+        :mapbox,
         :mapquest,
         :opencagedata,
         :ovi,
@@ -41,6 +42,7 @@ module Geocoder
         :smarty_streets,
         :okf,
         :postcode_anywhere_uk,
+        :geoportail_lu,
         :test
       ]
     end

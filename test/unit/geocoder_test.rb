@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..")
 require 'test_helper'
 
 class GeocoderTest < GeocoderTestCase
@@ -61,18 +60,18 @@ class GeocoderTest < GeocoderTestCase
   def test_geocode_with_custom_lookup_param
     v = PlaceWithCustomLookup.new(*geocoded_object_params(:msg))
     v.geocode
-    assert_equal Geocoder::Result::Nominatim, v.result_class
+    assert_equal "Geocoder::Result::Nominatim", v.result_class.to_s
   end
 
   def test_geocode_with_custom_lookup_proc_param
     v = PlaceWithCustomLookupProc.new(*geocoded_object_params(:msg))
     v.geocode
-    assert_equal Geocoder::Result::Nominatim, v.result_class
+    assert_equal "Geocoder::Result::Nominatim", v.result_class.to_s
   end
 
   def test_reverse_geocode_with_custom_lookup_param
     v = PlaceReverseGeocodedWithCustomLookup.new(*reverse_geocoded_object_params(:msg))
     v.reverse_geocode
-    assert_equal Geocoder::Result::Nominatim, v.result_class
+    assert_equal "Geocoder::Result::Nominatim", v.result_class.to_s
   end
 end

@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..", "..")
 require 'test_helper'
 
 class SmartyStreetsTest < GeocoderTestCase
@@ -12,7 +11,7 @@ class SmartyStreetsTest < GeocoderTestCase
   def test_url_contains_api_key
     Geocoder.configure(:smarty_streets => {:api_key => 'blah'})
     query = Geocoder::Query.new("Bluffton, SC")
-    assert_equal "http://api.smartystreets.com/street-address?auth-token=blah&street=Bluffton%2C+SC", query.url
+    assert_match /auth-token=blah/, query.url
   end
 
   def test_query_for_address_geocode

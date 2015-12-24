@@ -12,8 +12,8 @@ module Geocoder
         ["key"]
       end
 
-      def use_ssl?
-        true
+      def supported_protocols
+        [:https]
       end
 
       def query_url(query)

@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..", "..")
 require 'test_helper'
 
 class GooglePremierTest < GeocoderTestCase
@@ -17,6 +16,6 @@ class GooglePremierTest < GeocoderTestCase
   def test_query_url
     Geocoder.configure(google_premier: {api_key: ["deadbeef", "gme-test", "test-dev"]})
     query = Geocoder::Query.new("Madison Square Garden, New York, NY")
-    assert_equal "http://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&channel=test-dev&client=gme-test&language=en&sensor=false&signature=doJvJqX7YJzgV9rJ0DnVkTGZqTg=", query.url
+    assert_equal "https://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&channel=test-dev&client=gme-test&language=en&sensor=false&signature=doJvJqX7YJzgV9rJ0DnVkTGZqTg=", query.url
   end
 end

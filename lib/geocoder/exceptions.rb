@@ -1,3 +1,5 @@
+require 'timeout' # required for Ruby 1.9.3
+
 module Geocoder
 
   class Error < StandardError
@@ -27,6 +29,9 @@ module Geocoder
   end
 
   class ServiceUnavailable < Error
+  end
+
+  class LookupTimeout < ::Timeout::Error
   end
 
 end

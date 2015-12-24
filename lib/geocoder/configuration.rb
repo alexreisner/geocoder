@@ -57,7 +57,8 @@ module Geocoder
       :units,
       :distances,
       :basic_auth,
-      :logger
+      :logger,
+      :kernel_logger_level
     ]
 
     attr_accessor :data
@@ -100,6 +101,7 @@ module Geocoder
       @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
       @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
       @data[:logger]       = :kernel     # :kernel or Logger instance
+      @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
 
       # exceptions that should not be rescued by default
       # (if you want to implement custom error handling);
@@ -123,6 +125,5 @@ module Geocoder
       end
       EOS
     end.join("\n\n"))
-
   end
 end

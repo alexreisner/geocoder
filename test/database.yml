@@ -1,0 +1,14 @@
+# test/database.yml
+sqlite:
+  adapter: sqlite3
+  database: ":memory:"
+  timeout: 500
+mysql:
+  adapter: mysql2
+  database: geocoder_test
+  username: travis
+  encoding: utf8
+postgres:
+  adapter: postgresql
+  database: geocoder_test
+  username:

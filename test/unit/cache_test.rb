@@ -1,8 +1,18 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..")
 require 'test_helper'
 
 class CacheTest < GeocoderTestCase
+  def setup
+    @tempfile = Tempfile.new("log")
+    @logger = Logger.new(@tempfile.path)
+    Geocoder.configure(logger: @logger)
+  end
+
+  def teardown
+    Geocoder.configure(logger: :kernel)
+    @logger.close
+    @tempfile.close
+  end
 
   def test_second_occurrence_of_request_is_cache_hit
     Geocoder.configure(:cache => {})
@@ -33,5 +43,17 @@ class CacheTest < GeocoderTestCase
       Geocoder.search("over limit")
     end
     assert_equal false, lookup.instance_variable_get(:@cache_hit)
+  end
+
+  def test_bing_service_unavailable_without_raising_does_not_hit_cache
+    Geocoder.configure(cache: {}, lookup: :bing, always_raise: [])
+    set_api_key!(:bing)
+    lookup = Geocoder::Lookup.get(:bing)
+
+    Geocoder.search("service unavailable")
+    assert_false lookup.instance_variable_get(:@cache_hit)
+
+    Geocoder.search("service unavailable")
+    assert_false lookup.instance_variable_get(:@cache_hit)
   end
 end

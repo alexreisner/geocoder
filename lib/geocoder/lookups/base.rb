@@ -86,6 +86,15 @@ module Geocoder
         @cache
       end
 
+      ##
+      # Array containing the protocols supported by the api.
+      # Should be set to [:http] if only HTTP is supported
+      # or [:https] if only HTTPS is supported.
+      #
+      def supported_protocols
+        [:http, :https]
+      end
+
       private # -------------------------------------------------------------
 
       ##
@@ -99,7 +108,6 @@ module Geocoder
       # Object used to make HTTP requests.
       #
       def http_client
-        protocol = "http#{'s' if use_ssl?}"
         proxy_name = "#{protocol}_proxy"
         if proxy = configuration.send(proxy_name)
           proxy_url = !!(proxy =~ /^#{protocol}/) ? proxy : protocol + '://' + proxy
@@ -182,8 +190,8 @@ module Geocoder
         else
           JSON.parse(data)
         end
-      rescue => err
-        raise_error(ResponseParseError.new(data)) or Geocoder.log(:warn, "Geocoding API's response was not valid JSON.")
+      rescue
+        raise_error(ResponseParseError.new(data)) or Geocoder.log(:warn, "Geocoding API's response was not valid JSON: #{data}")
       end
 
       ##
@@ -263,23 +271,30 @@ module Geocoder
       # return the response object.
       #
       def make_api_request(query)
-        timeout(configuration.timeout) do
-          uri = URI.parse(query_url(query))
-          http_client.start(uri.host, uri.port, use_ssl: use_ssl?) do |client|
-            req = Net::HTTP::Get.new(uri.request_uri, configuration.http_headers)
-            if configuration.basic_auth[:user] and configuration.basic_auth[:password]
-              req.basic_auth(
-                configuration.basic_auth[:user],
-                configuration.basic_auth[:password]
-              )
-            end
-            client.request(req)
+        uri = URI.parse(query_url(query))
+        Geocoder.log(:debug, "Geocoder: HTTP request being made for #{uri.to_s}")
+        http_client.start(uri.host, uri.port, use_ssl: use_ssl?, open_timeout: configuration.timeout, read_timeout: configuration.timeout) do |client|
+          req = Net::HTTP::Get.new(uri.request_uri, configuration.http_headers)
+          if configuration.basic_auth[:user] and configuration.basic_auth[:password]
+            req.basic_auth(
+              configuration.basic_auth[:user],
+              configuration.basic_auth[:password]
+            )
           end
+          client.request(req)
         end
+      rescue Timeout::Error
+        raise Geocoder::LookupTimeout
       end
 
       def use_ssl?
-        configuration.use_https
+        if supported_protocols == [:https]
+          true
+        elsif supported_protocols == [:http]
+          false
+        else
+          configuration.use_https
+        end
       end
 
       def check_api_key_configuration!(query)

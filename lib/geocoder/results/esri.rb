@@ -9,7 +9,11 @@ module Geocoder::Result
     end
 
     def city
-      attributes['City']
+      if !reverse_geocode? && is_city?
+        attributes['PlaceName']
+      else
+        attributes['City']
+      end
     end
 
     def state_code
@@ -47,5 +51,8 @@ module Geocoder::Result
       @data['locations'].nil?
     end
 
+    def is_city?
+      ['City', 'State Capital', 'National Capital'].include?(attributes['Type'])
+    end
   end
 end

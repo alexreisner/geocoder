@@ -9,7 +9,7 @@ _Please note that this README is for the current `HEAD` and may document feature
 Compatibility
 -------------
 
-* Supports multiple Ruby versions: Ruby 1.9.3, 2.0.x, 2.1.x, JRuby, and Rubinius.
+* Supports multiple Ruby versions: Ruby 1.9.3, 2.x, JRuby, and Rubinius.
 * Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
 * Supports Rails 3 and 4. If you need to use it with Rails 2 please see the `rails2` branch (no longer maintained, limited feature set).
 * Works very well outside of Rails, you just need to install either the `json` (for MRI) or `json_pure` (for JRuby) gem.
@@ -47,7 +47,7 @@ Your model must have two attributes (database columns) for storing latitude and 
     rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
     rake db:migrate
 
-For reverse geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`).
+For geocoding your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`).
 
 Next, your model must tell Geocoder which method returns your object's geocodable address:
 
@@ -106,6 +106,10 @@ If you have just added geocoding to an existing application with a lot of object
 
     rake geocode:all CLASS=YourModel
 
+If you need reverse geocoding instead, call the task with REVERSE=true:
+
+    rake geocode:all CLASS=YourModel REVERSE=true
+
 Geocoder will print warnings if you exceed the rate limit for your geocoding service. Some services — Google notably — enforce a per-second limit in addition to a per-day limit. To avoid exceeding the per-second limit, you can add a `SLEEP` option to pause between requests for a given amount of time. You can also load objects in batches to save memory, for example:
 
     rake geocode:all CLASS=YourModel SLEEP=0.25 BATCH=100
@@ -140,6 +144,12 @@ See _Advanced Geocoding_ below for more information about `Geocoder::Result` obj
 Location-Aware Database Queries
 -------------------------------
 
+### For Mongo-backed models:
+
+Please use MongoDB's [geospatial query language](https://docs.mongodb.org/manual/reference/command/geoNear/). Mongoid also provides [a DSL](http://mongoid.github.io/en/mongoid/docs/querying.html#geo_near) for doing near queries.
+
+### For ActiveRecord models:
+
 To find objects by location, use the following scopes:
 
     Venue.near('Omaha, NE, US', 20)    # venues within 20 miles of Omaha
@@ -148,6 +158,10 @@ To find objects by location, use the following scopes:
                                        # venues within 20 kilometres of a point
     Venue.geocoded                     # venues with coordinates
     Venue.not_geocoded                 # venues without coordinates
+
+by default, objects are ordered by distance. To remove the ORDER BY clause use the following:
+
+    Venue.near('Omaha', 20, :order => false)
 
 With geocoded objects you can do things like this:
 
@@ -163,9 +177,9 @@ Some utility methods are also available:
     Geocoder.coordinates("25 Main St, Cooperstown, NY")
      => [42.700149, -74.922767]
 
-    # distance (in miles) between Eiffel Tower and Empire State Building
+    # distance between Eiffel Tower and Empire State Building
     Geocoder::Calculations.distance_between([47.858205,2.294359], [40.748433,-73.985655])
-     => 3619.77359999382
+     => 3619.77359999382 # in configured units (default miles)
 
     # find the geographic center (aka center of gravity) of objects or points
     Geocoder::Calculations.geographic_center([city1, city2, [40.22,-73.99], city4])
@@ -294,7 +308,7 @@ Every `Geocoder::Result` object, `result`, provides the following data:
 
 * `result.latitude` - float
 * `result.longitude` - float
-* `result.coordinates` - array of the above two
+* `result.coordinates` - array of the above two in the form of `[lat,lon]`
 * `result.address` - string
 * `result.city` - string
 * `result.state` - string
@@ -351,6 +365,10 @@ Please see the [source code for each lookup](https://github.com/alexreisner/geoc
     # with Nominatim:
     Geocoder.search("Paris", :params => {:countrycodes => "gb,de,fr,es,us"})
 
+Or, to search within a particular region with Google:
+
+    Geocoder.search("...", :params => {:region => "..."})
+
 You can also configure multiple geocoding services at once, like this:
 
     Geocoder.configure(
@@ -381,19 +399,26 @@ The above combines global and service-specific options and could be useful if yo
 
 The following is a comparison of the supported geocoding APIs. The "Limitations" listed for each are a very brief and incomplete summary of some special limitations beyond basic data source attribution. Please read the official Terms of Service for a service before using it.
 
-#### Google (`:google`, `:google_premier`)
+#### Google (`:google`)
 
-* **API key**: required for Premier, optional for the free service (if using the free service with API key, https is required. Add `:use_https  => true` to `Geocoder.configure`)
-* **Key signup**: https://developers.google.com/maps/documentation/business/
-* **Quota**: 2,500 requests/day, 100,000 with Google Maps API Premier
+* **API key**: optional, but quota is higher if key is used (use of key requires HTTPS so be sure to set: `:use_https => true` in `Geocoder.configure`)
+* **Key signup**: https://console.developers.google.com//flows/enableapi?apiid=geocoding_backend&keyType=SERVER_SIDE
+* **Quota**: 2,500 requests/24 hrs, 5 requests/second
 * **Region**: world
-* **SSL support**: yes
-* **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+* **SSL support**: yes (required if key is used)
+* **Languages**: see https://developers.google.com/maps/faq#languagesupport
 * **Extra options**: `:bounds` - pass SW and NE coordinates as an array of two arrays to bias results towards a viewport
-* **Documentation**: http://code.google.com/apis/maps/documentation/geocoding/#JSON
+* **Documentation**: https://developers.google.com/maps/documentation/geocoding/intro
 * **Terms of Service**: http://code.google.com/apis/maps/terms.html#section_10_12
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
-* **Notes**: To use Google Premier set `Geocoder.configure(:lookup => :google_premier, :api_key => [key, client, channel])`.
+
+#### Google Maps API for Work (`:google_premier`)
+
+Similar to `:google`, with the following differences:
+
+* **API key**: required, plus client and channel (set `Geocoder.configure(:lookup => :google_premier, :api_key => [key, client, channel])`)
+* **Key signup**: https://developers.google.com/maps/documentation/business/
+* **Quota**: 100,000 requests/24 hrs, 10 requests/second
 
 #### Google Places Details (`:google_places_details`)
 
@@ -424,8 +449,8 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 #### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(:lookup => :bing, :api_key => key)`)
-* **Key signup**: http://www.bingmapsportal.com
-* **Quota**: 50,000 requests/24 hrs
+* **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
+* **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
 * **Region**: world
 * **SSL support**: no
 * **Languages**: ?
@@ -442,7 +467,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Languages**: ?
 * **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
 * **Terms of Service**: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
-* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(:http_headers => { "User-Agent" => "your contact info" })`). Data licensed under CC-BY-SA (you must provide attribution).
+* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(:http_headers => { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
 #### OpenCageData (`:opencagedata`)
 
@@ -453,14 +478,14 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **SSL support**: yes
 * **Languages**: worldwide
 * **Documentation**: http://geocoder.opencagedata.com/api.html
-* **Limitations**: Data licensed under CC-BY-SA or (you must provide attribution).
+* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
 #### Yandex (`:yandex`)
 
-* **API key**: none
+* **API key**: optional, but without it lookup is territorially limited
 * **Quota**: 25000 requests / day
-* **Region**: world
-* **SSL support**: no
+* **Region**: world with API key. Otherwise restricted to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
+* **SSL support**: HTTPS only
 * **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
 * **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
 * **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
@@ -489,21 +514,34 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Terms of Service**: http://geocoder.us/terms.shtml
 * **Limitations**: ?
 
+#### Mapbox (`:mapbox`)
+
+* **API key**: required
+* **Dataset**: Uses `mapbox.places` dataset by default.  Specific the `mapbox.places-permanent` dataset by setting: `Geocoder.configure(:mapbox => {:dataset => "mapbox.places-permanent"})`
+* **Key signup**: https://www.mapbox.com/pricing/
+* **Quota**: depends on plan
+* **Region**: complete coverage of US and Canada, partial coverage elsewhere (see for details: https://www.mapbox.com/developers/api/geocoding/#coverage)
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.mapbox.com/developers/api/geocoding/
+* **Terms of Service**: https://www.mapbox.com/tos/
+* **Limitations**: For `mapbox.places` dataset, must be displayed on a Mapbox map; Cache results for up to 30 days. For `mapbox.places-permanent` dataset, depends on plan.
+* **Notes**: Currently in public beta.
+
 #### Mapquest (`:mapquest`)
 
 * **API key**: required
-* **Key signup**: http://developer.mapquest.com/web/products/open
+* **Key signup**: https://developer.mapquest.com/plans
 * **Quota**: ?
-* **HTTP Headers**: in order to use the licensed API you can configure the http_headers to include a referer as so:
+* **HTTP Headers**: when using the licensed API you can specify a referer like so:
     `Geocoder.configure(:http_headers => { "Referer" => "http://foo.com" })`
-  You can also allow a blank referer from the API management console via mapquest but it is potentially a security risk that someone else could use your API key from another domain.
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
 * **Documentation**: http://www.mapquestapi.com/geocoding/
 * **Terms of Service**: http://info.mapquest.com/terms-of-use/
 * **Limitations**: ?
-* **Notes**: You can specify the licensed API by setting: `Geocoder.configure(:mapquest => {:licensed => true})` (defaults to free "open" version)
+* **Notes**: You can use the open (non-licensed) API by setting: `Geocoder.configure(:mapquest => {:open => true})` (defaults to licensed version)
 
 #### Ovi/Nokia (`:ovi`)
 
@@ -518,7 +556,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 
 #### Here/Nokia (`:here`)
 
-* **API key**: required
+* **API key**: required (set `Geocoder.configure(:api_key => [app_id, app_code])`)
 * **Quota**: Depending on the API key
 * **Region**: world
 * **SSL support**: yes
@@ -568,20 +606,20 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 #### Geocodio (`:geocodio`)
 
 * **API key**: required
-* **Quota**: 2,500 free requests/day then purchase $.001 for each
+* **Quota**: 2,500 free requests/day then purchase $.001 for each, also has volume pricing and plans
 * **Region**: US
-* **SSL support**: no
+* **SSL support**: yes
 * **Languages**: en
 * **Documentation**: http://geocod.io/docs
 * **Terms of Service**: http://geocod.io/terms-of-use
-* **Limitations**: ?
+* **Limitations**: No restrictions on use
 
 #### SmartyStreets (`:smarty_streets`)
 
 * **API key**: requires auth_id and auth_token (set `Geocoder.configure(:api_key => [id, token])`)
 * **Quota**: 10,000 free, 250/month then purchase at sliding scale.
 * **Region**: US
-* **SSL support**: yes
+* **SSL support**: yes (required)
 * **Languages**: en
 * **Documentation**: http://smartystreets.com/kb/liveaddress-api/rest-endpoint
 * **Terms of Service**: http://smartystreets.com/legal/terms-of-service
@@ -599,6 +637,16 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Terms of Service**: http://www.itella.fi/liitteet/palvelutjatuotteet/yhteystietopalvelut/Postinumeropalvelut-Palvelukuvausjakayttoehdot.pdf
 * **Limitations**: ?
 
+#### Geoportail.lu (`:geoportail_lu`)
+
+* **API key**: none
+* **Quota**: none
+* **Region**: LU
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: http://wiki.geoportail.lu/doku.php?id=en:api
+* **Terms of Service**: http://wiki.geoportail.lu/doku.php?id=en:mcg_1
+* **Limitations**: ?
 
 #### PostcodeAnywhere Uk (`:postcode_anywhere_uk`)
 
@@ -643,14 +691,15 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 
 #### Telize (`:telize`)
 
-* **API key**: none
-* **Quota**: none
+* **API key**: required
+* **Quota**: 1,000/day for $7/mo through 100,000/day for $100/mo
 * **Region**: world
-* **SSL support**: no
+* **SSL support**: yes
 * **Languages**: English
-* **Documentation**: http://www.telize.com/
+* **Documentation**: https://market.mashape.com/fcambus/telize
 * **Terms of Service**: ?
 * **Limitations**: ?
+* **Notes**: To use Telize set `Geocoder.configure(:ip_lookup => :telize, :api_key => "your_api_key")`.
 
 #### MaxMind Legacy Web Services (`:maxmind`)
 
@@ -867,7 +916,7 @@ When writing tests for an app that uses Geocoder it may be useful to avoid netwo
       ]
     )
 
-Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. You can also set a default stub:
+Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. You can also set a default stub, to be returned when no other stub is found for a given query:
 
     Geocoder.configure(:lookup => :test)
 
@@ -885,7 +934,6 @@ Now, any time Geocoder looks up "New York, NY" its results array will contain on
       ]
     )
 
-Any query that hasn't been explicitly stubbed will return that result.
 
 Command Line Interface
 ----------------------
@@ -1070,6 +1118,7 @@ Contributions are welcome via pull requests on Github. Please respect the follow
 * Remember: Geocoder needs to run outside of Rails. Don't assume things like ActiveSupport are available.
 * Be willing to accept criticism and work on improving your code; Geocoder is used by thousands of developers and care must be taken not to introduce bugs.
 * Be aware that the pull request review process is not immediate, and is generally proportional to the size of the pull request.
+* If your pull request is merged, please do not ask for an immediate release of the gem. There are many factors contributing to when releases occur (remember that they affect thousands of apps with Geocoder in their Gemfiles). If necessary, please install from the Github source until the next official release.
 
 
 Copyright (c) 2009-15 Alex Reisner, released under the MIT license

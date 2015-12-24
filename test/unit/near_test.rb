@@ -1,20 +1,26 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..")
 require 'test_helper'
 
 class NearTest < GeocoderTestCase
 
   def test_near_scope_options_without_sqlite_includes_bounding_box_condition
+    omit("Not applicable to SQLite") if ENV['DB'] == 'sqlite'
+
     result = PlaceWithCustomResultsHandling.send(:near_scope_options, 1.0, 2.0, 5)
-    assert_match(/test_table_name.latitude BETWEEN 0.9276\d* AND 1.0723\d* AND test_table_name.longitude BETWEEN 1.9276\d* AND 2.0723\d* AND /, result[:conditions][0])
+    table_name = PlaceWithCustomResultsHandling.table_name
+    assert_match(/#{table_name}.latitude BETWEEN 0.9276\d* AND 1.0723\d* AND #{table_name}.longitude BETWEEN 1.9276\d* AND 2.0723\d* AND /, result[:conditions][0])
   end
 
   def test_near_scope_options_without_sqlite_includes_radius_condition
+    omit("Not applicable to SQLite") if ENV['DB'] == 'sqlite'
+
     result = Place.send(:near_scope_options, 1.0, 2.0, 5)
     assert_match(/BETWEEN \? AND \?$/, result[:conditions][0])
   end
 
   def test_near_scope_options_without_sqlite_includes_radius_default_min_radius
+    omit("Not applicable to SQLite") if ENV['DB'] == 'sqlite'
+
     result = Place.send(:near_scope_options, 1.0, 2.0, 5)
 
     assert_equal(0, result[:conditions][1])
@@ -22,6 +28,8 @@ class NearTest < GeocoderTestCase
   end
 
   def test_near_scope_options_without_sqlite_includes_radius_custom_min_radius
+    omit("Not applicable to SQLite") if ENV['DB'] == 'sqlite'
+
     result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 3)
 
     assert_equal(3, result[:conditions][1])
@@ -29,6 +37,8 @@ class NearTest < GeocoderTestCase
   end
 
   def test_near_scope_options_without_sqlite_includes_radius_bogus_min_radius
+    omit("Not applicable to SQLite") if ENV['DB'] == 'sqlite'
+    
     result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 'bogus')
 
     assert_equal(0, result[:conditions][1])

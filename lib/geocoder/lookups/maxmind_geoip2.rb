@@ -8,10 +8,10 @@ module Geocoder::Lookup
       "MaxMind GeoIP2"
     end
 
-    def use_ssl?
-      # Maxmind's GeoIP2 Precision Services only supports HTTPS,
-      # otherwise a `404 Not Found` HTTP response will be returned
-      true
+    # Maxmind's GeoIP2 Precision Services only supports HTTPS,
+    # otherwise a `404 Not Found` HTTP response will be returned
+    def supported_protocols
+      [:https]
     end
 
     def query_url(query)

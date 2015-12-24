@@ -1,61 +1,77 @@
+# encoding: utf-8
 require 'rubygems'
 require 'test/unit'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-class MysqlConnection
-  def adapter_name
-    "mysql"
+require 'yaml'
+configs = YAML.load_file('test/database.yml')
+
+if configs.keys.include? ENV['DB']
+  require 'active_record'
+
+  # Establish a database connection
+  ActiveRecord::Base.configurations = configs
+
+  db_name = ENV['DB']
+  ActiveRecord::Base.establish_connection(db_name)
+  ActiveRecord::Base.default_timezone = :utc
+
+  ActiveRecord::Migrator.migrate('test/db/migrate', nil)
+else
+  class MysqlConnection
+    def adapter_name
+      "mysql"
+    end
   end
-end
 
-##
-# Simulate enough of ActiveRecord::Base that objects can be used for testing.
-#
-module ActiveRecord
-  class Base
+  ##
+  # Simulate enough of ActiveRecord::Base that objects can be used for testing.
+  #
+  module ActiveRecord
+    class Base
 
-    def initialize
-      @attributes = {}
-    end
-
-    def read_attribute(attr_name)
-      @attributes[attr_name.to_sym]
-    end
-
-    def write_attribute(attr_name, value)
-      @attributes[attr_name.to_sym] = value
-    end
-
-    def update_attribute(attr_name, value)
-      write_attribute(attr_name.to_sym, value)
-    end
-
-    def self.scope(*args); end
-
-    def self.connection
-      MysqlConnection.new
-    end
-
-    def method_missing(name, *args, &block)
-      if name.to_s[-1..-1] == "="
-        write_attribute name.to_s[0...-1], *args
-      else
-        read_attribute name
-      end
-    end
-
-    class << self
-      def table_name
-        'test_table_name'
+      def initialize
+        @attributes = {}
       end
 
-      def primary_key
-        :id
+      def read_attribute(attr_name)
+        @attributes[attr_name.to_sym]
+      end
+
+      def write_attribute(attr_name, value)
+        @attributes[attr_name.to_sym] = value
+      end
+
+      def update_attribute(attr_name, value)
+        write_attribute(attr_name.to_sym, value)
+      end
+
+      def self.scope(*args); end
+
+      def self.connection
+        MysqlConnection.new
+      end
+
+      def method_missing(name, *args, &block)
+        if name.to_s[-1..-1] == "="
+          write_attribute name.to_s[0...-1], *args
+        else
+          read_attribute name
+        end
+      end
+
+      class << self
+        def table_name
+          'test_table_name'
+        end
+
+        def primary_key
+          :id
+        end
       end
     end
-
   end
 end
 
@@ -65,7 +81,7 @@ end
 
 # Require Geocoder after ActiveRecord simulator.
 require 'geocoder'
-require "geocoder/lookups/base"
+require 'geocoder/lookups/base'
 
 # and initialize Railtie manually (since Rails::Railtie doesn't exist)
 Geocoder::Railtie.insert
@@ -174,7 +190,7 @@ module Geocoder
       def results(query)
         return [] if query.to_s == 'no results'
         return [] if query.to_s == '127.0.0.1'
-        [{'city'=>{'names'=>{'en'=>'Mountain View'}},'country'=>{'iso_code'=>'US','names'=>
+        [{'city'=>{'names'=>{'en'=>'Mountain View', 'ru'=>'Маунтин-Вью'}},'country'=>{'iso_code'=>'US','names'=>
         {'en'=>'United States'}},'location'=>{'latitude'=>37.41919999999999,
         'longitude'=>-122.0574},'postal'=>{'code'=>'94043'},'subdivisions'=>[{
         'iso_code'=>'CA','names'=>{'en'=>'California'}}]}]
@@ -265,6 +281,18 @@ module Geocoder
 
       def default_fixture_filename
         "#{fixture_prefix}_romsey"
+      end
+    end
+
+    require 'geocoder/lookups/geoportail_lu'
+    class GeoportailLu
+      private
+      def fixture_prefix
+        "geoportail_lu"
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_boulevard_royal"
       end
     end
   end

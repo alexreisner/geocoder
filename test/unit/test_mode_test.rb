@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..")
 require 'test_helper'
 
 class TestModeTest < GeocoderTestCase
@@ -51,6 +50,14 @@ class TestModeTest < GeocoderTestCase
     result = Geocoder.search("New York, NY").first
 
     assert_equal 'NY, NY', result.custom
+  end
+
+  def test_search_with_invalid_address_stub
+    Geocoder::Lookup::Test.add_stub("invalid address/no result", [])
+
+    result = Geocoder.search("invalid address/no result")
+
+    assert_equal [], result
   end
 
   private

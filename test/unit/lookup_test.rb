@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..")
 require 'test_helper'
 
 class LookupTest < GeocoderTestCase
@@ -16,14 +15,16 @@ class LookupTest < GeocoderTestCase
     Geocoder::Lookup.all_services_except_test.each do |l|
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
-      assert_equal [], lookup.send(:results, Geocoder::Query.new("no results")),
-        "Lookup #{l} does not return empty array when no results."
+      silence_warnings do
+        assert_equal [], lookup.send(:results, Geocoder::Query.new("no results")),
+          "Lookup #{l} does not return empty array when no results."
+      end
     end
   end
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2].include? l # does not use query string
+      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox].include? l # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
@@ -135,6 +136,12 @@ class LookupTest < GeocoderTestCase
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::GeocoderCa.new
     assert_match "showpostal=1", g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
+  end
+
+  def test_telize_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    g = Geocoder::Lookup::Telize.new
+    assert_match "mashape-key=MY_KEY", g.query_url(Geocoder::Query.new("232.65.123.94"))
   end
 
   def test_raises_configuration_error_on_missing_key

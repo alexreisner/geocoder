@@ -1,5 +1,4 @@
 # encoding: utf-8
-$: << File.join(File.dirname(__FILE__), "..", "..")
 require 'test_helper'
 
 class GooglePlacesDetailsTest < GeocoderTestCase
@@ -91,7 +90,9 @@ class GooglePlacesDetailsTest < GeocoderTestCase
   end
 
   def test_google_places_details_result_with_invalid_place_id_empty
-    assert_equal Geocoder.search("invalid request"), []
+    silence_warnings do
+      assert_equal Geocoder.search("invalid request"), []
+    end
   end
 
   def test_raises_exception_on_google_places_details_invalid_request
