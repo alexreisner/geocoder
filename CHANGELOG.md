@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.2.14 (2015 Dec 27)
+--------------------
+* Fix bug in :geoip2 lookup (thanks github.com/mromulus).
+
 1.2.13 (2015 Dec 15)
 --------------------
 * Update :telize IP lookup to reflect new URL (thanks github.com/jfredrickson).
