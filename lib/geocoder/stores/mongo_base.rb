@@ -13,6 +13,7 @@ module Geocoder::Store
         }
 
         scope :near, lambda{ |location, *args|
+          warn "DEPRECATION WARNING: The .near method will be removed for MongoDB-backed models in Geocoder 1.3.0. Please use MongoDB's built-in query language instead."
           coords  = Geocoder::Calculations.extract_coordinates(location)
 
           # no results if no lat/lon given
@@ -53,6 +54,18 @@ module Geocoder::Store
     def to_coordinates
       coords = send(self.class.geocoder_options[:coordinates])
       coords.is_a?(Array) ? coords.reverse : []
+    end
+
+    ##
+    # Get nearby geocoded objects.
+    # Takes the same options hash as the near class method (scope).
+    # Returns nil if the object is not geocoded.
+    #
+    def nearbys(radius = 20, options = {})
+      warn "DEPRECATION WARNING: The #nearbys method will be removed for MongoDB-backed models in Geocoder 1.3.0. Please use MongoDB's built-in query language instead."
+      return nil unless geocoded?
+      options.merge!(:exclude => self) unless send(self.class.primary_key).nil?
+      self.class.near(self, radius, options)
     end
 
     ##

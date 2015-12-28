@@ -3,3 +3,5 @@ rdoc/*
 *.gem
 .bundle
 Gemfile.lock
+api_keys.yml
+test/geocoder_test.sqlite

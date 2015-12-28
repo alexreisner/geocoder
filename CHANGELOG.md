@@ -3,14 +3,115 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-1.2.0 (TBD)
------------
+1.2.14 (2015 Dec 27)
+--------------------
+* Fix bug in :geoip2 lookup (thanks github.com/mromulus).
+
+1.2.13 (2015 Dec 15)
+--------------------
+* Update :telize IP lookup to reflect new URL (thanks github.com/jfredrickson).
+* Add reverse geocode rake task (thanks github.com/FanaHOVA).
+* Fix reversed coordinates array with Mapbox (thanks github.com/marcusat).
+* Fix missing city name in some cases with ESRI (thanks github.com/roybotnik).
+* Prevent re-opening of DB file on every read with :geoip2 (thanks github.com/oogali).
+
+1.2.12 (2015 Oct 29)
+--------------------
+* Fix Ruby 1.9.3 incompatibility (remove non-existent timeout classes) (thanks github.com/roychri).
+
+1.2.11 (2015 Sep 10)
+--------------------
+* Fix load issue on Ruby 1.9.3.
+
+1.2.10 (2015 Sep 7)
+-------------------
+* Force Yandex to use HTTPS (thanks github.com/donbobka).
+* Force :google to use HTTPS if API key set.
+* Fix out-of-the-box verbosity issues (GH #881).
+* Improve timeout mechanism and add exception Geocoder::LookupTimeout (thanks github.com/ankane).
+* Deprecate .near and #nearbys for MongoDB-backed models.
+
+1.2.9 (2015 Jun 12)
+-------------------
+* Don't cache unsuccessful responses from Bing (thanks github.com/peteb).
+* Show API response when not valid JSON.
+* Log each API request.
+* Force all SmartyStreets requests to use HTTPS.
+
+1.2.8 (2015 Mar 21)
+-------------------
+* Add :maxmind_geoip2 lookup (thanks github.com/TrangPham).
+* Add ability to force/specify query type (street or IP address) (thanks github.com/TrangPham).
+* Add :basic_auth configuration (thanks github.com/TrangPham).
+* Add `safe_location` method for Rails controllers (thanks github.com/edslocomb).
+* Add :logger configuration (thanks github.com/TrangPham).
+* Improve error condition handling with Bing (thanks github.com/TrangPham).
+
+1.2.7 (2015 Jan 24)
+-------------------
+* DROP SUPPORT for Ruby 1.9.2.
+* Use UTF-8 encoding for maxmind_local results (thanks github.com/ellmo).
+* Update freegeoip response handling (thanks github.com/hosamaly).
+* Update nominatim response handling (thanks github.com/jsantos).
+* Update yandex response handling (thanks github.com/wfleming).
+* Update geocodio response handling (thanks github.com/getsidewalk).
+* Add ability to raise exception when response parsing fails (thanks github.com/spiderpug).
+* Fix double-loading of Railtie (thanks github.com/wfleming and zhouguangming).
+
+1.2.6 (2014 Nov 8)
+------------------
+* Add :geoip2 lookup (thanks github.com/ChristianHoj).
+* Add :okf lookup (thanks github.com/kakoni).
+* Add :postcode_anywhere_uk lookup (thanks github.com/rob-murray).
+* Properly detect IPv6 addresses (thanks github.com/sethherr and github.com/ignatiusreza).
+
+1.2.5 (2014 Sep 12)
+-------------------
+* Fix bugs in :opencagedata lookup (thanks github.com/duboff and kayakyakr).
+* Allow language to be set in model configuration (thanks github.com/viniciusnz).
+* Optimize lookup queries when using MaxMind Local (thanks github.com/gersmann).
+
+1.2.4 (2014 Aug 12)
+-------------------
+* Add ability to specify lat/lon column names with .near scope (thanks github.com/switzersc).
+* Add OpenCageData geocoder (thanks github.com/mtmail).
+* Remove CloudMade geocoder.
+
+1.2.3 (2014 Jul 11)
+-------------------
+* Add Telize IP address lookup (thanks github.com/lukeroberts1990).
+* Fix bug in Bing reverse geocoding (thanks github.com/nickelser).
+
+1.2.2 (2014 Jun 12)
+-------------------
+* Add ability to specify language per query (thanks github.com/mkristian).
+* Handle Errno::ECONNREFUSED exceptions like TimeoutError exceptions.
+* Switch to 'unstructured' query format for Bing API (thanks github.com/lukewendling).
+
+1.2.1 (2014 May 12)
+-------------------
+
+* Fix: correctly handle encoding of MaxMind API responses (thanks github.com/hydrozen, gonzoyumo).
+* Fixes to :maxmind_local database structure (thanks github.com/krakatoa).
+
+1.2.0 (2014 Apr 16)
+-------------------
 
 * DROP SUPPORT for Ruby 1.8.x.
-* Add :lookup option to `Geocoder.search` and `geocoded_by` (thanks github.com/Bonias).
+* Add :here lookup (thanks github.com/christoph-buente).
+* Add :cloudmade lookup (thanks github.com/spoptchev).
+* Add :smarty_streets lookup (thanks github.com/drinks).
+* Add :maxmind_local IP lookup (thanks github.com/fernandomm).
 * Add :baidu_ip lookup (thanks github.com/yonggu).
+* Add :geocodio lookup (thanks github.com/dblock).
+* Add :lookup option to `Geocoder.search` and `geocoded_by` (thanks github.com/Bonias).
+* Add support for :maxmind_local on JRuby via jgeoip gem (thanks github.com/gxbe).
+* Add support for using :maxmind_local with an SQL database, including Rake tasks for downloading CSV data and populating a local DB.
+* Add support for character encodings based on Content-type header (thanks github.com/timaro).
 * Add :min_radius option to `near` scope (thanks github.com/phallstrom).
 * Fix: Yandex city attribute caused exception with certain responses (thanks github.com/dblock).
+* Change name of MapQuest config option from :licensed to :open and revert default behavior to be MapQuest data (not OpenStreetMaps).
+* Reduce number of Ruby warnings (thanks github.com/exviva).
 
 1.1.9 (2013 Dec 11)
 -------------------

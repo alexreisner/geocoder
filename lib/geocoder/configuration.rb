@@ -14,14 +14,8 @@ module Geocoder
   #   )
   #
   def self.configure(options = nil, &block)
-    if block_given?
-      warn "WARNING: Passing a block to Geocoder.configure is DEPRECATED. Please pass a hash instead (eg: Geocoder.configure(:units => ..., :api_key => ...))."
-      block.call(Configuration.instance)
-    elsif !options.nil?
+    if !options.nil?
       Configuration.instance.configure(options)
-    else
-      warn "WARNING: Use of Geocoder.configure to read or write single config options is DEPRECATED. To write to the config please pass a hash (eg: Geocoder.configure(:units => ...)). To read config options please use the Geocoder.config object (eg: Geocoder.config.units)."
-      Configuration.instance
     end
   end
 
@@ -61,7 +55,10 @@ module Geocoder
       :cache_prefix,
       :always_raise,
       :units,
-      :distances
+      :distances,
+      :basic_auth,
+      :logger,
+      :kernel_logger_level
     ]
 
     attr_accessor :data
@@ -102,6 +99,9 @@ module Geocoder
       @data[:api_key]      = nil         # API key for geocoding service
       @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
       @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
+      @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
+      @data[:logger]       = :kernel     # :kernel or Logger instance
+      @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
 
       # exceptions that should not be rescued by default
       # (if you want to implement custom error handling);
@@ -125,6 +125,5 @@ module Geocoder
       end
       EOS
     end.join("\n\n"))
-
   end
 end

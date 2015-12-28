@@ -49,7 +49,8 @@ module Geocoder
 
     private # ----------------------------------------------------------------
 
-    attr_reader :prefix, :store
+    def prefix; @prefix; end
+    def store; @store; end
 
     ##
     # Cache key for a given URL.
@@ -63,7 +64,7 @@ module Geocoder
     # that have non-nil values.
     #
     def keys
-      store.keys.select{ |k| k.match /^#{prefix}/ and interpret(store[k]) }
+      store.keys.select{ |k| k.match(/^#{prefix}/) and interpret(store[k]) }
     end
 
     ##

@@ -1,4 +1,3 @@
-require 'geocoder'
 require 'geocoder/models/active_record'
 
 module Geocoder
@@ -12,6 +11,7 @@ module Geocoder
       end
       rake_tasks do
         load "tasks/geocoder.rake"
+        load "tasks/maxmind.rake"
       end
     end
   end

@@ -21,7 +21,7 @@ module Geocoder::Lookup
       return [] unless doc = fetch_data(query)
 
       if (!query.reverse_geocode?)
-        return [] if doc['locations'].empty?
+        return [] if !doc['locations'] || doc['locations'].empty?
       end
 
       if (doc['error'].nil?)

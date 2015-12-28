@@ -12,9 +12,10 @@ module Geocoder::Result
     end
 
     def city
-      if state.empty? and address_details.has_key? 'Locality'
+      if state.empty? and address_details and address_details.has_key? 'Locality'
         address_details['Locality']['LocalityName']
-      elsif sub_state.empty? and address_details['AdministrativeArea'].has_key? 'Locality'
+      elsif sub_state.empty? and address_details and address_details.has_key? 'AdministrativeArea' and
+          address_details['AdministrativeArea'].has_key? 'Locality'
         address_details['AdministrativeArea']['Locality']['LocalityName']
       elsif not sub_state_city.empty?
         sub_state_city
@@ -32,7 +33,7 @@ module Geocoder::Result
     end
 
     def state
-      if address_details['AdministrativeArea']
+      if address_details and address_details['AdministrativeArea']
         address_details['AdministrativeArea']['AdministrativeAreaName']
       else
         ""
@@ -40,7 +41,7 @@ module Geocoder::Result
     end
 
     def sub_state
-      if !state.empty? and address_details['AdministrativeArea']['SubAdministrativeArea']
+      if !state.empty? and address_details and address_details['AdministrativeArea']['SubAdministrativeArea']
         address_details['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName']
       else
         ""
@@ -59,6 +60,10 @@ module Geocoder::Result
       address_details['Locality']['Premise']['PremiseName']
     end
 
+    def kind
+      @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['kind']
+    end
+
     def precision
       @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['precision']
     end
@@ -70,8 +75,8 @@ module Geocoder::Result
     end
 
     def sub_state_city
-      if !sub_state.empty? and address_details['AdministrativeArea']['SubAdministrativeArea'].has_key? 'Locality'
-        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['LocalityName']
+      if !sub_state.empty? and address_details and address_details['AdministrativeArea']['SubAdministrativeArea'].has_key? 'Locality'
+        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['LocalityName'] || ""
       else
         ""
       end

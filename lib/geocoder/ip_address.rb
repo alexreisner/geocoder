@@ -1,12 +1,13 @@
+require 'resolv'
 module Geocoder
   class IpAddress < String
 
     def loopback?
-      valid? and (self == "0.0.0.0" or self.match(/\A127\./))
+      valid? and (self == "0.0.0.0" or self.match(/\A127\./) or self == "::1")
     end
 
     def valid?
-      !!self.match(/\A(::ffff:)?(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\z/)
+      !!((self =~ Resolv::IPv4::Regex) || (self =~ Resolv::IPv6::Regex))
     end
   end
 end

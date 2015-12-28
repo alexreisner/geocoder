@@ -21,7 +21,7 @@ module Geocoder::Lookup
       elsif doc['error']['code'] == "005"
         # "Postal Code is not in the proper Format" => no results, just shut up
       else
-        warn "Geocoder.ca service error: #{doc['error']['code']} (#{doc['error']['description']})."
+        Geocoder.log(:warn, "Geocoder.ca service error: #{doc['error']['code']} (#{doc['error']['description']}).")
       end
       return []
     end
@@ -51,4 +51,3 @@ module Geocoder::Lookup
     end
   end
 end
-

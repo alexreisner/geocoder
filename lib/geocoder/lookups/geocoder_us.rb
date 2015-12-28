@@ -8,11 +8,15 @@ module Geocoder::Lookup
       "Geocoder.us"
     end
 
+      def supported_protocols
+        [:http]
+      end
+
     def query_url(query)
       if configuration.api_key
-        "http://#{configuration.api_key}@geocoder.us/member/service/csv/geocode?" + url_query_string(query)
+        "#{protocol}://#{configuration.api_key}@geocoder.us/member/service/csv/geocode?" + url_query_string(query)
       else
-        "http://geocoder.us/service/csv/geocode?" + url_query_string(query)
+        "#{protocol}://geocoder.us/service/csv/geocode?" + url_query_string(query)
       end
     end
 

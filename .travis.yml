@@ -1,31 +1,41 @@
+language: ruby
+sudo: false
+env:
+  - DB=
+  - DB=sqlite
+  - DB=postgres
+  - DB=mysql
 rvm:
-  - 1.9.2
   - 1.9.3
   - 2.0.0
-  - 2.1.0
+  - 2.1.2
+  - 2.2.0
   - jruby-19mode
-  - rbx
+  - rbx-2
 gemfile:
   - Gemfile
-  - gemfiles/Gemfile.mongoid-2.4.x
-env: SSL_CERT_DIR=/etc/ssl/certs
+  - gemfiles/Gemfile.ruby1.9.3
+  - gemfiles/Gemfile.rails3.2
+  - gemfiles/Gemfile.rails4.1
 matrix:
   exclude:
-    - rvm: 1.9.2
-      gemfile: Gemfile
-      env: SSL_CERT_DIR=/etc/ssl/certs
     - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.mongoid-2.4.x
-      env: SSL_CERT_DIR=/etc/ssl/certs
+      gemfile: Gemfile
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.rails3.2
+    - rvm: 1.9.3
+      gemfile: gemfiles/Gemfile.rails4.1
+    - env: DB=
+      gemfile: gemfiles/Gemfile.rails3.2
+    - env: DB=
+      gemfile: gemfiles/Gemfile.rails4.1
     - rvm: 2.0.0
-      gemfile: gemfiles/Gemfile.mongoid-2.4.x
-      env: SSL_CERT_DIR=/etc/ssl/certs
-    - rvm: 2.1.0
-      gemfile: gemfiles/Gemfile.mongoid-2.4.x
-      env: SSL_CERT_DIR=/etc/ssl/certs
+      gemfile: gemfiles/Gemfile.ruby1.9.3
+    - rvm: 2.1.2
+      gemfile: gemfiles/Gemfile.ruby1.9.3
+    - rvm: 2.2.0
+      gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: jruby-19mode
-      gemfile: gemfiles/Gemfile.mongoid-2.4.x
-      env: SSL_CERT_DIR=/etc/ssl/certs
-    - rvm: rbx
-      gemfile: gemfiles/Gemfile.mongoid-2.4.x
-      env: SSL_CERT_DIR=/etc/ssl/certs
+      gemfile: gemfiles/Gemfile.ruby1.9.3
+    - rvm: rbx-2
+      gemfile: gemfiles/Gemfile.ruby1.9.3

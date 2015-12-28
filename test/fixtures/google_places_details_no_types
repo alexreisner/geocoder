@@ -1,0 +1,66 @@
+{
+   "html_attributions" : [],
+   "result" : {
+      "address_components" : [
+         {
+            "long_name" : "6",
+            "short_name" : "6",
+            "types" : [ "street_number" ]
+         },
+         {
+            "long_name" : "Graniczna",
+            "short_name" : "Graniczna",
+            "types" : [ "route" ]
+         },
+         {
+            "long_name" : "Gdynia",
+            "short_name" : "Gdynia",
+            "types" : [ "locality", "political" ]
+         },
+         {
+            "long_name" : "Gdynia",
+            "short_name" : "Gdynia",
+            "types" : [ "administrative_area_level_3", "political" ]
+         },
+         {
+            "long_name" : "Gdynia",
+            "short_name" : "Gdynia",
+            "types" : [ "administrative_area_level_2", "political" ]
+         },
+         {
+            "long_name" : "Pomeranian Voivodeship",
+            "short_name" : "Pomeranian Voivodeship",
+            "types" : [ "administrative_area_level_1", "political" ]
+         },
+         {
+            "long_name" : "Poland",
+            "short_name" : "PL",
+            "types" : [ "country", "political" ]
+         },
+         {
+            "long_name" : "81-626",
+            "short_name" : "81-626",
+            "types" : [ "postal_code" ]
+         }
+      ],
+      "adr_address" : "\u003cspan class=\"street-address\"\u003eGraniczna 6\u003c/span\u003e, \u003cspan class=\"postal-code\"\u003e81-626\u003c/span\u003e \u003cspan class=\"locality\"\u003eGdynia\u003c/span\u003e, \u003cspan class=\"country-name\"\u003ePoland\u003c/span\u003e",
+      "formatted_address" : "Graniczna 6, Gdynia, Poland",
+      "formatted_phone_number" : "795 085 050",
+      "geometry" : {
+         "location" : {
+            "lat" : 54.493608,
+            "lng" : 18.508983
+         }
+      },
+      "id" : "aed47c412bce35bb385c86edef64f8f7860b1cf8",
+      "international_phone_number" : "+48 795 085 050",
+      "name" : "Taxi Gdynia",
+      "place_id" : "ChIJgT2H0tig_UYRD9iM2NSOo4Y",
+      "reference" : "CnRlAAAA6bzgakKCXzwjtLBSMLvj0fvv3OSwGp2WsA54VwQELEupFzqtFuUmxMyMSNYt745EukJR0Ui6Ih9WX3AdL--HXjQprE8xHSb_6qQh2eauKWFIoHzIvbMrkjDIcUPxPDMdJc2XkwpOr_EUimZplCy-gBIQb_UHtRVaswAMjdHHtDqzURoU3tGbILe-zhN3oISBAvc3AyoyznE",
+      "scope" : "GOOGLE",
+      "url" : "https://plus.google.com/100174651414421384172/about?hl=en-US",
+      "utc_offset" : 120,
+      "vicinity" : "Graniczna 6, Gdynia"
+   },
+   "status" : "OK"
+}

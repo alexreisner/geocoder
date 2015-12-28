@@ -5,7 +5,10 @@ module Geocoder
     class Test < Base
 
       def self.add_result_attribute(attr)
-        return if respond_to?(attr.to_sym)
+        begin
+          remove_method(attr) if method_defined?(attr)
+        rescue NameError # method defined on superclass
+        end
 
         define_method(attr) do
           @data[attr.to_s] || @data[attr.to_sym]
@@ -19,7 +22,7 @@ module Geocoder
       end
 
       def initialize(data)
-        data.keys.each do |attr|
+        data.each_key do |attr|
           Test.add_result_attribute(attr)
         end
 

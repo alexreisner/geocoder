@@ -1,3 +1,5 @@
+require 'timeout' # required for Ruby 1.9.3
+
 module Geocoder
 
   class Error < StandardError
@@ -9,6 +11,14 @@ module Geocoder
   class OverQueryLimitError < Error
   end
 
+  class ResponseParseError < Error
+    attr_reader :response
+
+    def initialize(response)
+      @response = response
+    end
+  end
+
   class RequestDenied < Error
   end
 
@@ -16,6 +26,12 @@ module Geocoder
   end
 
   class InvalidApiKey < Error
+  end
+
+  class ServiceUnavailable < Error
+  end
+
+  class LookupTimeout < ::Timeout::Error
   end
 
 end

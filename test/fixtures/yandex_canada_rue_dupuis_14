@@ -1,0 +1,446 @@
+{
+    "response":{
+        "Attribution":"",
+            "GeoObjectCollection":{
+                "metaDataProperty":{
+                    "GeocoderResponseMetaData":{
+                        "request":"canada rue dupuis 14",
+                        "found":"52",
+                        "results":"10"
+                    }
+                },
+                "featureMember":[
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"house",
+                                "text":"Canada, Quebec, Beauharnois-Salaberry, Beauharnois, Rue Dupuis, 14",
+                                "precision":"exact",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Beauharnois-Salaberry, Beauharnois, Rue Dupuis, 14",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Beauharnois-Salaberry",
+                                                "Locality":{
+                                                    "LocalityName":"Beauharnois",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Dupuis",
+                                                        "Premise":{
+                                                            "PremiseNumber":"14"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"Beauharnois, Beauharnois-Salaberry, Quebec, Canada",
+                        "name":"Rue Dupuis, 14",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-73.880377 45.306461",
+                                "upperCorner":"-73.876281 45.309351"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-73.878329 45.307906"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"house",
+                                "text":"Canada, Quebec, Roussillon, St-Philippe, Rue Dupuis, 14",
+                                "precision":"exact",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Roussillon, St-Philippe, Rue Dupuis, 14",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Roussillon",
+                                                "Locality":{
+                                                    "LocalityName":"St-Philippe",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Dupuis",
+                                                        "Premise":{
+                                                            "PremiseNumber":"14"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"St-Philippe, Roussillon, Quebec, Canada",
+                        "name":"Rue Dupuis, 14",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-73.491263 45.371702",
+                                "upperCorner":"-73.487167 45.374589"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-73.489215 45.373146"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"house",
+                                "text":"Canada, Quebec, Témiscamingue, Notre-Dame-du-Nord, Rue Dupuis, 14",
+                                "precision":"exact",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Témiscamingue, Notre-Dame-du-Nord, Rue Dupuis, 14",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Témiscamingue",
+                                                "Locality":{
+                                                    "LocalityName":"Notre-Dame-du-Nord",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Dupuis",
+                                                        "Premise":{
+                                                            "PremiseNumber":"14"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"Notre-Dame-du-Nord, Témiscamingue, Quebec, Canada",
+                        "name":"Rue Dupuis, 14",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-79.484724 47.596109",
+                                "upperCorner":"-79.480628 47.598879"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-79.482676 47.597494"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"house",
+                                "text":"Canada, Quebec, Montcalm, St-Jacques, Rue Dupuis, 14",
+                                "precision":"exact",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Montcalm, St-Jacques, Rue Dupuis, 14",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Montcalm",
+                                                "Locality":{
+                                                    "LocalityName":"St-Jacques",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Dupuis",
+                                                        "Premise":{
+                                                            "PremiseNumber":"14"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"St-Jacques, Montcalm, Quebec, Canada",
+                        "name":"Rue Dupuis, 14",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-73.573136 45.945209",
+                                "upperCorner":"-73.569039 45.948066"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-73.571088 45.946637"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"street",
+                                "text":"Canada, Quebec, Le Haut-Richelieu, St-Jean-sur-Richelieu, St-Luc, Rue Dupuis",
+                                "precision":"street",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Le Haut-Richelieu, St-Jean-sur-Richelieu, St-Luc, Rue Dupuis",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Le Haut-Richelieu",
+                                                "Locality":{
+                                                    "LocalityName":"St-Luc",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Dupuis"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"St-Luc, St-Jean-sur-Richelieu, Le Haut-Richelieu, Quebec, Canada",
+                        "name":"Rue Dupuis",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-73.253767 45.371677",
+                                "upperCorner":"-73.249814 45.383244"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-73.250829 45.377875"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"house",
+                                "text":"Canada, Quebec, Thérèse-de-Blainville, Blainville, Rue Corinne-Dupuis, 14",
+                                "precision":"exact",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Thérèse-de-Blainville, Blainville, Rue Corinne-Dupuis, 14",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Thérèse-de-Blainville",
+                                                "Locality":{
+                                                    "LocalityName":"Blainville",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Corinne-Dupuis",
+                                                        "Premise":{
+                                                            "PremiseNumber":"14"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"Blainville, Thérèse-de-Blainville, Quebec, Canada",
+                        "name":"Rue Corinne-Dupuis, 14",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-73.907956 45.692721",
+                                "upperCorner":"-73.903859 45.695592"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-73.905908 45.694157"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"house",
+                                "text":"Canada, Quebec, Gatineau, Hull, Rue Hormidas-Dupuis, 14",
+                                "precision":"exact",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Gatineau, Hull, Rue Hormidas-Dupuis, 14",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Gatineau",
+                                                "Locality":{
+                                                    "DependentLocality":{
+                                                        "DependentLocalityName":"Hull",
+                                                        "Thoroughfare":{
+                                                            "ThoroughfareName":"Rue Hormidas-Dupuis",
+                                                            "Premise":{
+                                                                "PremiseNumber":"14"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"Hull, Gatineau, Quebec, Canada",
+                        "name":"Rue Hormidas-Dupuis, 14",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-75.745594 45.421953",
+                                "upperCorner":"-75.741498 45.424838"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-75.743546 45.423396"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"street",
+                                "text":"Canada, Quebec, Roussillon, Châteauguay, Rue Dupuis",
+                                "precision":"street",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Roussillon, Châteauguay, Rue Dupuis",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Roussillon",
+                                                "Locality":{
+                                                    "LocalityName":"Châteauguay",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Dupuis"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"Châteauguay, Roussillon, Quebec, Canada",
+                        "name":"Rue Dupuis",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-73.708691 45.344539",
+                                "upperCorner":"-73.703499 45.345287"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-73.706086 45.344983"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"street",
+                                "text":"Canada, Quebec, Longueuil, Rue Dupuis",
+                                "precision":"street",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, Longueuil, Rue Dupuis",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"Longueuil",
+                                                "Locality":{
+                                                    "LocalityName":"Longueuil",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Dupuis"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"Longueuil, Quebec, Canada",
+                        "name":"Rue Dupuis",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-73.463631 45.515456",
+                                "upperCorner":"-73.459193 45.516568"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-73.461385 45.516094"
+                        }
+                    }
+                },
+                {
+                    "GeoObject":{
+                        "metaDataProperty":{
+                            "GeocoderMetaData":{
+                                "kind":"street",
+                                "text":"Canada, Quebec, La Vallée-de-l'Or, Val-d'Or, Rue Dupuis",
+                                "precision":"street",
+                                "AddressDetails":{
+                                    "Country":{
+                                        "AddressLine":"Quebec, La Vallée-de-l'Or, Val-d'Or, Rue Dupuis",
+                                        "CountryNameCode":"CA",
+                                        "CountryName":"Canada",
+                                        "AdministrativeArea":{
+                                            "AdministrativeAreaName":"Quebec",
+                                            "SubAdministrativeArea":{
+                                                "SubAdministrativeAreaName":"La Vallée-de-l'Or",
+                                                "Locality":{
+                                                    "LocalityName":"Val-d'Or",
+                                                    "Thoroughfare":{
+                                                        "ThoroughfareName":"Rue Dupuis"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "description":"Val-d'Or, La Vallée-de-l'Or, Quebec, Canada",
+                        "name":"Rue Dupuis",
+                        "boundedBy":{
+                            "Envelope":{
+                                "lowerCorner":"-77.810408 48.093635",
+                                "upperCorner":"-77.807839 48.097637"
+                            }
+                        },
+                        "Point":{
+                            "pos":"-77.810390 48.095663"
+                        }
+                    }
+                }
+                ]
+            }
+    }
+}

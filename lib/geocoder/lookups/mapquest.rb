@@ -14,9 +14,8 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      domain = configuration[:licensed] ? "www" : "open"
-      version = configuration[:version] || 1
-      url = "#{protocol}://#{domain}.mapquestapi.com/geocoding/v#{version}/#{search_type(query)}?"
+      domain = configuration[:open] ? "open" : "www"
+      url = "#{protocol}://#{domain}.mapquestapi.com/geocoding/v1/#{search_type(query)}?"
       url + url_query_string(query)
     end
 
@@ -45,14 +44,15 @@ module Geocoder::Lookup
       case doc['info']['statuscode']
       when 400 # Error with input
         raise_error(Geocoder::InvalidRequest, messages) ||
-          warn("Mapquest Geocoding API error: #{messages}")
+          Geocoder.log(:warn, "Mapquest Geocoding API error: #{messages}")
       when 403 # Key related error
         raise_error(Geocoder::InvalidApiKey, messages) ||
-          warn("Mapquest Geocoding API error: #{messages}")
+          Geocoder.log(:warn, "Mapquest Geocoding API error: #{messages}")
       when 500 # Unknown error
         raise_error(Geocoder::Error, messages) ||
-          warn("Mapquest Geocoding API error: #{messages}")
+          Geocoder.log(:warn, "Mapquest Geocoding API error: #{messages}")
       end
+      []
     end
 
   end

@@ -1,61 +1,77 @@
+# encoding: utf-8
 require 'rubygems'
 require 'test/unit'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
-class MysqlConnection
-  def adapter_name
-    "mysql"
+require 'yaml'
+configs = YAML.load_file('test/database.yml')
+
+if configs.keys.include? ENV['DB']
+  require 'active_record'
+
+  # Establish a database connection
+  ActiveRecord::Base.configurations = configs
+
+  db_name = ENV['DB']
+  ActiveRecord::Base.establish_connection(db_name)
+  ActiveRecord::Base.default_timezone = :utc
+
+  ActiveRecord::Migrator.migrate('test/db/migrate', nil)
+else
+  class MysqlConnection
+    def adapter_name
+      "mysql"
+    end
   end
-end
 
-##
-# Simulate enough of ActiveRecord::Base that objects can be used for testing.
-#
-module ActiveRecord
-  class Base
+  ##
+  # Simulate enough of ActiveRecord::Base that objects can be used for testing.
+  #
+  module ActiveRecord
+    class Base
 
-    def initialize
-      @attributes = {}
-    end
-
-    def read_attribute(attr_name)
-      @attributes[attr_name.to_sym]
-    end
-
-    def write_attribute(attr_name, value)
-      @attributes[attr_name.to_sym] = value
-    end
-
-    def update_attribute(attr_name, value)
-      write_attribute(attr_name.to_sym, value)
-    end
-
-    def self.scope(*args); end
-
-    def self.connection
-      MysqlConnection.new
-    end
-
-    def method_missing(name, *args, &block)
-      if name.to_s[-1..-1] == "="
-        write_attribute name.to_s[0...-1], *args
-      else
-        read_attribute name
-      end
-    end
-
-    class << self
-      def table_name
-        'test_table_name'
+      def initialize
+        @attributes = {}
       end
 
-      def primary_key
-        :id
+      def read_attribute(attr_name)
+        @attributes[attr_name.to_sym]
+      end
+
+      def write_attribute(attr_name, value)
+        @attributes[attr_name.to_sym] = value
+      end
+
+      def update_attribute(attr_name, value)
+        write_attribute(attr_name.to_sym, value)
+      end
+
+      def self.scope(*args); end
+
+      def self.connection
+        MysqlConnection.new
+      end
+
+      def method_missing(name, *args, &block)
+        if name.to_s[-1..-1] == "="
+          write_attribute name.to_s[0...-1], *args
+        else
+          read_attribute name
+        end
+      end
+
+      class << self
+        def table_name
+          'test_table_name'
+        end
+
+        def primary_key
+          :id
+        end
       end
     end
-
   end
 end
 
@@ -65,7 +81,10 @@ end
 
 # Require Geocoder after ActiveRecord simulator.
 require 'geocoder'
-require "geocoder/lookups/base"
+require 'geocoder/lookups/base'
+
+# and initialize Railtie manually (since Rails::Railtie doesn't exist)
+Geocoder::Railtie.insert
 
 ##
 # Mock HTTP request to geocoding service.
@@ -81,11 +100,7 @@ module Geocoder
       def read_fixture(file)
         filepath = File.join("test", "fixtures", file)
         s = File.read(filepath).strip.gsub(/\n\s*/, "")
-        s.instance_eval do
-          def body; self; end
-          def code; "200"; end
-        end
-        s
+        MockHttpResponse.new(body: s, code: "200")
       end
 
       ##
@@ -105,10 +120,30 @@ module Geocoder
         fixture_exists?(filename) ? filename : default_fixture_filename
       end
 
+      remove_method(:make_api_request)
+
       def make_api_request(query)
         raise TimeoutError if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
+        raise Errno::ECONNREFUSED if query.text == "connection_refused"
+        if query.text == "invalid_json"
+          return MockHttpResponse.new(:body => 'invalid json', :code => 200)
+        end
+
         read_fixture fixture_for_query(query)
+      end
+    end
+
+    class Bing
+      private
+      def read_fixture(file)
+        if file == "bing_service_unavailable"
+          filepath = File.join("test", "fixtures", file)
+          s = File.read(filepath).strip.gsub(/\n\s*/, "")
+          MockHttpResponse.new(body: s, code: "200", headers: {'x-ms-bm-ws-info' => "1"})
+        else
+          super
+        end
       end
     end
 
@@ -116,6 +151,13 @@ module Geocoder
       private
       def fixture_prefix
         "google"
+      end
+    end
+
+    class GooglePlacesDetails
+      private
+      def fixture_prefix
+        "google_places_details"
       end
     end
 
@@ -140,10 +182,66 @@ module Geocoder
       end
     end
 
+    class Geoip2
+      private
+
+      remove_method(:results)
+
+      def results(query)
+        return [] if query.to_s == 'no results'
+        return [] if query.to_s == '127.0.0.1'
+        [{'city'=>{'names'=>{'en'=>'Mountain View', 'ru'=>'Маунтин-Вью'}},'country'=>{'iso_code'=>'US','names'=>
+        {'en'=>'United States'}},'location'=>{'latitude'=>37.41919999999999,
+        'longitude'=>-122.0574},'postal'=>{'code'=>'94043'},'subdivisions'=>[{
+        'iso_code'=>'CA','names'=>{'en'=>'California'}}]}]
+      end
+
+      def default_fixture_filename
+        'geoip2_74_200_247_59'
+      end
+    end
+
+    class Telize
+      private
+      def default_fixture_filename
+        "telize_74_200_247_59"
+      end
+    end
+
+    class Pointpin
+      private
+      def default_fixture_filename
+        "pointpin_80_111_55_55"
+      end
+    end
+
     class Maxmind
       private
       def default_fixture_filename
         "maxmind_74_200_247_59"
+      end
+    end
+
+    class MaxmindGeoip2
+      private
+      def default_fixture_filename
+        "maxmind_geoip2_1_2_3_4"
+      end
+    end
+
+    class MaxmindLocal
+      private
+
+      remove_method(:results)
+
+      def results query
+        return [] if query.to_s == "no results"
+
+        if query.to_s == '127.0.0.1'
+          []
+        else
+          [{:request=>"8.8.8.8", :ip=>"8.8.8.8", :country_code2=>"US", :country_code3=>"USA", :country_name=>"United States", :continent_code=>"NA", :region_name=>"CA", :city_name=>"Mountain View", :postal_code=>"94043", :latitude=>37.41919999999999, :longitude=>-122.0574, :dma_code=>807, :area_code=>650, :timezone=>"America/Los_Angeles"}]
+        end
       end
     end
 
@@ -158,6 +256,31 @@ module Geocoder
       private
       def default_fixture_filename
         "baidu_ip_202_198_16_3"
+      end
+    end
+
+    class Geocodio
+      private
+      def default_fixture_filename
+        "geocodio_1101_pennsylvania_ave"
+      end
+    end
+
+    class Okf
+      private
+      def default_fixture_filename
+        "okf_kirstinmaki"
+      end
+    end
+
+    class PostcodeAnywhereUk
+      private
+      def fixture_prefix
+        'postcode_anywhere_uk_geocode_v2_00'
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_romsey"
       end
     end
   end
@@ -290,15 +413,14 @@ class PlaceReverseGeocodedWithCustomLookup < ActiveRecord::Base
 end
 
 
-class Test::Unit::TestCase
+class GeocoderTestCase < Test::Unit::TestCase
 
   def setup
-    Geocoder.configure(:maxmind => {:service => :city_isp_org})
-  end
-
-  def teardown
-    Geocoder.send(:remove_const, :Configuration)
-    load "geocoder/configuration.rb"
+    super
+    Geocoder::Configuration.instance.set_defaults
+    Geocoder.configure(
+      :maxmind => {:service => :city_isp_org},
+      :maxmind_geoip2 => {:service => :insights, :basic_auth => {:user => "user", :password => "password"}})
   end
 
   def geocoded_object_params(abbrev)
@@ -323,5 +445,18 @@ class Test::Unit::TestCase
       key = nil
     end
     Geocoder.configure(:api_key => key)
+  end
+end
+
+class MockHttpResponse
+  attr_reader :code, :body
+  def initialize(options = {})
+    @code = options[:code].to_s
+    @body = options[:body]
+    @headers = options[:headers] || {}
+  end
+
+  def [](key)
+    @headers[key]
   end
 end

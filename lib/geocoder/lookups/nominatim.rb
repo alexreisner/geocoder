@@ -25,11 +25,19 @@ module Geocoder::Lookup
       doc.is_a?(Array) ? doc : [doc]
     end
 
+    def parse_raw_data(raw_data)
+      if raw_data.include?("Bandwidth limit exceeded")
+        raise_error(Geocoder::OverQueryLimitError) || Geocoder.log(:warn, "Over API query limit.")
+      else
+        super(raw_data)
+      end
+    end
+
     def query_url_params(query)
       params = {
         :format => "json",
         :addressdetails => "1",
-        :"accept-language" => configuration.language
+        :"accept-language" => (query.language || configuration.language)
       }.merge(super)
       if query.reverse_geocode?
         lat,lon = query.coordinates

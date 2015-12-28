@@ -64,14 +64,16 @@ module Geocoder::Lookup
         if !data_contains_error?(doc)
           return [doc]
         elsif doc.last == "INVALID_LICENSE_KEY"
-          raise_error(Geocoder::InvalidApiKey) || warn("Invalid MaxMind API key.")
+          raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid MaxMind API key.")
         end
       end
       return []
     end
 
     def parse_raw_data(raw_data)
-      CSV.parse_line raw_data
+      # Maxmind just returns text/plain as csv format but according to documentation,
+      # we get ISO-8859-1 encoded string. We need to convert it.
+      CSV.parse_line raw_data.force_encoding("ISO-8859-1").encode("UTF-8")
     end
 
     def reserved_result
