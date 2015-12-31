@@ -34,4 +34,10 @@ class ModelTest < GeocoderTestCase
     assert_equal :km,        PlaceReverseGeocoded.geocoder_options[:units]
     assert_equal :spherical, PlaceReverseGeocoded.geocoder_options[:method]
   end
+
+  def test_additional_params
+    params = {:category => 'City'}
+    Place.geocoded_by :address, :params => params
+    assert_equal params, Place.geocoder_options[:params]
+  end
 end

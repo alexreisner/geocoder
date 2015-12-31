@@ -19,7 +19,8 @@ module Geocoder
           :method        => options[:method],
           :skip_index    => options[:skip_index] || false,
           :lookup        => options[:lookup],
-          :language      => options[:language]
+          :language      => options[:language],
+          :params        => options[:params]
         )
       end
 
@@ -36,7 +37,8 @@ module Geocoder
           :method          => options[:method],
           :skip_index      => options[:skip_index] || false,
           :lookup          => options[:lookup],
-          :language        => options[:language]
+          :language        => options[:language],
+          :params          => options[:params]
         )
       end
 
