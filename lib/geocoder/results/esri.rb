@@ -4,13 +4,13 @@ module Geocoder::Result
   class Esri < Base
 
     def address
-      address = reverse_geocode? ? 'Address' : 'Match_addr'
-      attributes[address]
+      address_key = reverse_geocode? ? 'Address' : 'Match_addr'
+      attributes[address_key]
     end
 
     def city
       if !reverse_geocode? && is_city?
-        attributes['PlaceName']
+        place_name
       else
         attributes['City']
       end
@@ -23,14 +23,23 @@ module Geocoder::Result
     alias_method :state, :state_code
 
     def country
-      country = reverse_geocode? ? "CountryCode" : "Country"
-      attributes[country]
+      country_key = reverse_geocode? ? "CountryCode" : "Country"
+      attributes[country_key]
     end
 
     alias_method :country_code, :country
 
     def postal_code
       attributes['Postal']
+    end
+
+    def place_name
+      place_name_key = reverse_geocode? ? "Address" : "PlaceName"
+      attributes[place_name_key]
+    end
+
+    def place_type
+      reverse_geocode? ? "Address" : attributes['Type']
     end
 
     def coordinates
@@ -52,7 +61,7 @@ module Geocoder::Result
     end
 
     def is_city?
-      ['City', 'State Capital', 'National Capital'].include?(attributes['Type'])
+      ['City', 'State Capital', 'National Capital'].include?(place_type)
     end
   end
 end
