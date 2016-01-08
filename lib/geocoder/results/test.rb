@@ -16,8 +16,8 @@ module Geocoder
       end
 
       %w[latitude longitude neighborhood city state state_code sub_state
-      sub_state_code province province_code postal_code country
-      country_code address street_address street_number route geometry].each do |attr|
+      sub_state_code province province_code postal_code country country_code
+      address street_address street_number route geometry types].each do |attr|
         add_result_attribute(attr)
       end
 
