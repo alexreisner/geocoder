@@ -120,5 +120,13 @@ module Geocoder::Result
     def precision
       geometry['location_type'] if geometry
     end
+    
+    def partial_match
+      @data['partial_match']
+    end
+    
+    def place_id
+      @data['place_id']
+    end  
   end
 end
