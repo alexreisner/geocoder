@@ -42,6 +42,7 @@ module Geocoder
         :smarty_streets,
         :okf,
         :postcode_anywhere_uk,
+        :decarta,
         :test
       ]
     end
