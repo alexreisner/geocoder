@@ -134,6 +134,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/bing'
     class Bing
       private
       def read_fixture(file)
@@ -147,6 +148,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/google_premier'
     class GooglePremier
       private
       def fixture_prefix
@@ -154,6 +156,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/google_places_details'
     class GooglePlacesDetails
       private
       def fixture_prefix
@@ -161,6 +164,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/dstk'
     class Dstk
       private
       def fixture_prefix
@@ -168,6 +172,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/yandex'
     class Yandex
       private
       def default_fixture_filename
@@ -175,6 +180,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/freegeoip'
     class Freegeoip
       private
       def default_fixture_filename
@@ -182,6 +188,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/geoip2'
     class Geoip2
       private
 
@@ -201,6 +208,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/telize'
     class Telize
       private
       def default_fixture_filename
@@ -208,6 +216,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/pointpin'
     class Pointpin
       private
       def default_fixture_filename
@@ -215,6 +224,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/maxmind'
     class Maxmind
       private
       def default_fixture_filename
@@ -222,6 +232,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/maxmind_geoip2'
     class MaxmindGeoip2
       private
       def default_fixture_filename
@@ -229,6 +240,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/maxmind_local'
     class MaxmindLocal
       private
 
@@ -245,6 +257,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/baidu'
     class Baidu
       private
       def default_fixture_filename
@@ -252,6 +265,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/baidu_ip'
     class BaiduIp
       private
       def default_fixture_filename
@@ -259,6 +273,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/geocodio'
     class Geocodio
       private
       def default_fixture_filename
@@ -266,6 +281,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/okf'
     class Okf
       private
       def default_fixture_filename
@@ -273,6 +289,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/postcode_anywhere_uk'
     class PostcodeAnywhereUk
       private
       def fixture_prefix
