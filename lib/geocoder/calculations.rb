@@ -263,7 +263,7 @@ module Geocoder
     end
 
     ##
-    # Given a start point, heading (in degrees), and distance provides
+    # Given a start point, heading (in degrees), and distance, provides
     # an endpoint.
     # The starting point is given in the same way that points are given to all
     # Geocoder methods that accept points as arguments. It can be:
