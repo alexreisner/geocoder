@@ -1102,7 +1102,9 @@ If anyone has a more elegant solution to this problem I am very interested in se
 Contributing
 ------------
 
-Contributions are welcome via pull requests on Github. Please respect the following guidelines:
+Contributions are welcome via Github pull requests. If you are new to the project and looking for a way to get involved, try picking up an issue with a "beginner-task" label. Hints about what needs to be done are usually provided.
+
+For all contributions, please respect the following guidelines:
 
 * Each pull request should implement ONE feature or bugfix. If you want to add or fix more than one thing, submit more than one pull request.
 * Do not commit changes to files that are irrelevant to your feature or bugfix (eg: `.gitignore`).
