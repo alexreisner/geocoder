@@ -1,0 +1,22 @@
+{
+"count": 1,
+"request": "no results",
+"results": [
+{
+"geom": null,
+"ratio": 0,
+"name": ",  ",
+"address": null,
+"country": null,
+"AddressDetails": {
+"street": null,
+"locality": null,
+"zip": null,
+"postnumber": null
+},
+"matching street": null,
+"accuracy": 1
+}
+],
+"success": false
+}

@@ -300,6 +300,18 @@ module Geocoder
         "#{fixture_prefix}_romsey"
       end
     end
+
+    require 'geocoder/lookups/geoportail_lu'
+    class GeoportailLu
+      private
+      def fixture_prefix
+        "geoportail_lu"
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_boulevard_royal"
+      end
+    end
   end
 end
 

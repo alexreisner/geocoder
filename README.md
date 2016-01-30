@@ -637,6 +637,16 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Terms of Service**: http://www.itella.fi/liitteet/palvelutjatuotteet/yhteystietopalvelut/Postinumeropalvelut-Palvelukuvausjakayttoehdot.pdf
 * **Limitations**: ?
 
+#### Geoportail.lu (`:geoportail_lu`)
+
+* **API key**: none
+* **Quota**: none
+* **Region**: LU
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: http://wiki.geoportail.lu/doku.php?id=en:api
+* **Terms of Service**: http://wiki.geoportail.lu/doku.php?id=en:mcg_1
+* **Limitations**: ?
 
 #### PostcodeAnywhere Uk (`:postcode_anywhere_uk`)
 
