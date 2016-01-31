@@ -3,6 +3,13 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.3.0 (2016 Jan 31)
+-------------------
+* Lazy load lookups to reduce memory footprint (thanks github.com/TrangPham).
+* Add :geoportail_lu lookup (Luxembourg only) (thanks github.com/mdebo).
+* Maxmind local query performance improvement (thanks github.com/vojtad).
+* Remove deprecated Mongo near query methods (please use Mongo-native methods instead).
+
 1.2.14 (2015 Dec 27)
 --------------------
 * Fix bug in :geoip2 lookup (thanks github.com/mromulus).
