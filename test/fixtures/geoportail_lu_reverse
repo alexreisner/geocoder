@@ -1,0 +1,36 @@
+{
+"count": 1,
+"results": [
+{
+"distance": 55.8617929519411,
+"geom": {
+"type": "Point",
+"coordinates": [
+76866.57071788973,
+75026.12585000045
+]
+},
+"name": "39,Boulevard Prince Henri 1724 Luxembourg",
+"easting": 76866.57071788973,
+"address": "39 Boulevard Prince Henri,1724 Luxembourg",
+"geomlonlat": {
+"type": "Point",
+"coordinates": [
+6.12476867352074,
+49.6098566608772
+]
+},
+"AddressDetails": {
+"zip": "1724",
+"locality": "Luxembourg",
+"id_caclr_street": "40",
+"street": "Boulevard Prince Henri",
+"postnumber": "39",
+"id_caclr_building": "2459"
+},
+"matching street": "Boulevard Prince Henri",
+"northing": 75026.12585000045
+}
+],
+"success": true
+}

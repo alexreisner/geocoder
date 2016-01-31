@@ -1,0 +1,38 @@
+{
+"count": 1,
+"request": "2 boulevard Royal luxembourg",
+"results": [
+{
+"ratio": 1,
+"name": "2,Boulevard Royal 2449 Luxembourg",
+"easting": 77201.38771169016,
+"address": "2 Boulevard Royal,2449 Luxembourg",
+"geomlonlat": {
+"type": "Point",
+"coordinates": [
+6.12939750216249,
+49.6146720749933
+]
+},
+"geom": {
+"type": "Point",
+"coordinates": [
+77201.38771169016,
+75561.5290000001
+]
+},
+"northing": 75561.5290000001,
+"AddressDetails": {
+"zip": "2449",
+"locality": "Luxembourg",
+"id_caclr_street": "55",
+"street": "Boulevard Royal",
+"postnumber": "2",
+"id_caclr_building": "3186"
+},
+"matching street": "Boulevard Royal",
+"accuracy": 8
+}
+],
+"success": true
+}
