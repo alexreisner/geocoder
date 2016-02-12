@@ -42,10 +42,10 @@ class GoogleTest < GeocoderTestCase
       result.precision
   end
 
-  def test_google_bounding_box
+  def test_google_viewport
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal [[40.7473324, -73.9965316], [40.7536276, -73.9902364]],
-      result.bounding_box
+      result.viewport
   end
 
   def test_google_query_url_contains_bounds

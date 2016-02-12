@@ -9,10 +9,10 @@ class HereTest < GeocoderTestCase
     set_api_key!(:here)
   end
 
-  def test_here_bounding_box
+  def test_here_viewport
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal [[40.7493451, -73.9948616], [40.7515934, -73.9918938]],
-      result.bounding_box
+      result.viewport
   end
 
 end
