@@ -128,5 +128,12 @@ module Geocoder::Result
     def place_id
       @data['place_id']
     end  
+
+    def bounding_box
+      viewport = geometry['viewport'] || fail
+      southwest = %w(lat lng).map { |c| viewport['southwest'][c] }
+      northeast = %w(lat lng).map { |c| viewport['northeast'][c] }
+      [southwest, northeast]
+    end
   end
 end
