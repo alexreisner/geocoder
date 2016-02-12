@@ -53,6 +53,19 @@ module Geocoder::Result
       address_data['Country']
     end
 
+    def bounding_box
+      map_view = data['Location']['MapView'] || fail
+      southwest = [
+        map_view['BottomRight']['Latitude'],
+        map_view['TopLeft']['Longitude']
+      ]
+      northeast = [
+        map_view['TopLeft']['Latitude'],
+        map_view['BottomRight']['Longitude']
+      ]
+      [southwest, northeast]
+    end
+
     private # ----------------------------------------------------------------
 
     def address_data
