@@ -55,15 +55,11 @@ module Geocoder::Result
 
     def viewport
       map_view = data['Location']['MapView'] || fail
-      southwest = [
-        map_view['BottomRight']['Latitude'],
-        map_view['TopLeft']['Longitude']
-      ]
-      northeast = [
-        map_view['TopLeft']['Latitude'],
-        map_view['BottomRight']['Longitude']
-      ]
-      [southwest, northeast]
+      south = map_view['BottomRight']['Latitude']
+      west = map_view['TopLeft']['Longitude']
+      north = map_view['TopLeft']['Latitude']
+      east = map_view['BottomRight']['Longitude']
+      [south, west, north, east]
     end
 
     private # ----------------------------------------------------------------

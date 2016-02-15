@@ -131,9 +131,9 @@ module Geocoder::Result
 
     def viewport
       viewport = geometry['viewport'] || fail
-      southwest = %w(lat lng).map { |c| viewport['southwest'][c] }
-      northeast = %w(lat lng).map { |c| viewport['northeast'][c] }
-      [southwest, northeast]
+      south, west = %w(lat lng).map { |c| viewport['southwest'][c] }
+      north, east = %w(lat lng).map { |c| viewport['northeast'][c] }
+      [south, west, north, east]
     end
   end
 end

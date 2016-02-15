@@ -44,7 +44,7 @@ class GoogleTest < GeocoderTestCase
 
   def test_google_viewport
     result = Geocoder.search("Madison Square Garden, New York, NY").first
-    assert_equal [[40.7473324, -73.9965316], [40.7536276, -73.9902364]],
+    assert_equal [40.7473324, -73.9965316, 40.7536276, -73.9902364],
       result.viewport
   end
 
