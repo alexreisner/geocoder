@@ -21,6 +21,16 @@ class BingTest < GeocoderTestCase
     assert_equal "New York", result.city
   end
 
+  def test_result_viewport
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal [
+      40.744944289326668,
+      -74.002353921532631,
+      40.755675807595253,
+      -73.983625397086143
+    ], result.viewport
+  end
+
   def test_no_results
     results = Geocoder.search("no results")
     assert_equal 0, results.length
