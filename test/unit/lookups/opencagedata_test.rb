@@ -15,6 +15,12 @@ class OpencagedataTest < GeocoderTestCase
 
   end
 
+  def test_opencagedata_viewport
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal [40.7498531, -73.9944444, 40.751161, -73.9925922],
+      result.viewport
+  end
+
   def test_opencagedata_query_url_contains_bounds
     lookup = Geocoder::Lookup::Opencagedata.new
     url = lookup.query_url(Geocoder::Query.new(
