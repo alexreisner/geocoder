@@ -68,6 +68,13 @@ module Geocoder::Result
       @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['precision']
     end
 
+    def viewport
+      envelope = @data['GeoObject']['boundedBy']['Envelope'] || fail
+      east, north = envelope['upperCorner'].split(' ').map(&:to_f)
+      west, south = envelope['lowerCorner'].split(' ').map(&:to_f)
+      [south, west, north, east]
+    end
+
     private # ----------------------------------------------------------------
 
     def address_details
