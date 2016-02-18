@@ -434,19 +434,6 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Terms of Service**: https://developers.google.com/places/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
 
-#### Yahoo BOSS (`:yahoo`)
-**Warning - [this API will be discontinued on March 31.](https://developer.yahoo.com/boss/placefinder/)**
-
-* **API key**: requires OAuth consumer key and secret (set `Geocoder.configure(:api_key => [key, secret])`)
-* **Key signup**: http://developer.yahoo.com/boss/geo/
-* **Quota**: unlimited, but subject to usage fees
-* **Region**: world
-* **SSL support**: no
-* **Languages**: en, fr, de, it, es, pt, nl, zh, ja, ko
-* **Documentation**: http://developer.yahoo.com/boss/geo/docs/index.html
-* **Terms of Service**: http://info.yahoo.com/legal/us/yahoo/boss/tou/?pir=ucJPcJ1ibUn.h.d.lVmlcbcEkoHjwJ_PvxG9SLK9VIbIQAw1XFrnDqY-
-* **Limitations**: No mass downloads, no commercial map production based on the data, no storage of data except for caching.
-
 #### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(:lookup => :bing, :api_key => key)`)

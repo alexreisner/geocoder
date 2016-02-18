@@ -17,10 +17,6 @@ module Geocoder
     if !options.nil?
       Configuration.instance.configure(options)
     end
-
-    if config.lookup == :yahoo
-      Geocoder.log(:warn, "Yahoo BOSS Placefinder API will be discontinued March 31, 2016.")
-    end
   end
 
   ##
