@@ -53,6 +53,7 @@ module Geocoder
       :api_key,
       :cache,
       :cache_prefix,
+      :cache_md5_name,
       :always_raise,
       :units,
       :distances,
@@ -99,6 +100,7 @@ module Geocoder
       @data[:api_key]      = nil         # API key for geocoding service
       @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
       @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
+      @data[:cache_md5_name] = false     # use MD5 cache name for url? (prevents file name too long error)
       @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
       @data[:logger]       = :kernel     # :kernel or Logger instance
       @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
