@@ -84,4 +84,10 @@ class EsriTest < GeocoderTestCase
     assert_equal(48.858129997357558, result.coordinates[0])
     assert_equal(2.2956200048981574, result.coordinates[1])
   end
+
+  def test_results_viewport
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal [40.744050000000001, -74.000241000000003, 40.756050000000002, -73.988241000000002],
+      result.viewport
+  end
 end

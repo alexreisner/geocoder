@@ -46,6 +46,14 @@ module Geocoder::Result
       [geometry["y"], geometry["x"]]
     end
 
+    def viewport
+      north = attributes['Ymax']
+      south = attributes['Ymin']
+      east = attributes['Xmax']
+      west = attributes['Xmin']
+      [south, west, north, east]
+    end
+
     private
 
     def attributes
