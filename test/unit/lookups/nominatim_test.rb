@@ -14,6 +14,12 @@ class NominatimTest < GeocoderTestCase
     assert_equal "Madison Square Garden, West 31st Street, Long Island City, New York City, New York, 10001, United States of America", result.address
   end
 
+  def test_result_viewport
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal [40.749828338623, -73.9943389892578, 40.7511596679688, -73.9926528930664],
+      result.viewport
+  end
+
   def test_host_configuration
     Geocoder.configure(nominatim: {host: "local.com"})
     query = Geocoder::Query.new("Bluffton, SC")
