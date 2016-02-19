@@ -435,6 +435,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
 
 #### Yahoo BOSS (`:yahoo`)
+**Warning - [this API will be discontinued on March 31.](https://developer.yahoo.com/boss/placefinder/)**
 
 * **API key**: requires OAuth consumer key and secret (set `Geocoder.configure(:api_key => [key, secret])`)
 * **Key signup**: http://developer.yahoo.com/boss/geo/
