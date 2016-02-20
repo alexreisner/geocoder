@@ -28,6 +28,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def results(query)
+      Geocoder.log(:warn, "Yahoo BOSS Placefinder API will be discontinued March 31, 2016.")
       return [] unless doc = fetch_data(query)
       doc = doc['bossresponse']
       if doc['responsecode'].to_i == 200
