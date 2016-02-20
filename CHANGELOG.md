@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.3.1 (2016 Feb 20)
+-------------------
+* Warn about upcoming discontinuation of :yahoo lookup (thanks github.com/galiat).
+* Add #viewport method to results that return viewport data (thanks github.com/lime).
+
 1.3.0 (2016 Jan 31)
 -------------------
 * Lazy load lookups to reduce memory footprint (thanks github.com/TrangPham).
