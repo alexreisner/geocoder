@@ -35,6 +35,10 @@ module Geocoder::Result
       @data['address']
     end
 
+    def viewport
+      @data['bbox']
+    end
+
     def self.response_attributes
       %w[bbox name confidence entityType]
     end

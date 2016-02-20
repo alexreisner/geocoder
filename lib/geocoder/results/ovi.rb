@@ -53,6 +53,15 @@ module Geocoder::Result
       address_data['Country']
     end
 
+    def viewport
+      map_view = data['Location']['MapView'] || fail
+      south = map_view['BottomRight']['Latitude']
+      west = map_view['TopLeft']['Longitude']
+      north = map_view['TopLeft']['Latitude']
+      east = map_view['BottomRight']['Longitude']
+      [south, west, north, east]
+    end
+
     private # ----------------------------------------------------------------
 
     def address_data

@@ -35,6 +35,11 @@ module Geocoder::Result
       @data['hash']
     end
 
+    def viewport
+      boundingbox = @data['boundingbox'] || fail
+      %w(south west north east).map{ |i| boundingbox[i].to_f }
+    end
+
     def self.response_attributes
       %w[quality offsetlat offsetlon radius boundingbox name
         line1 line2 line3 line4 cross house street xstreet unittype unit

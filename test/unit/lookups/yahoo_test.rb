@@ -24,6 +24,12 @@ class YahooTest < GeocoderTestCase
     assert_equal "Madison Square Garden, New York, NY 10001, United States", result.address
   end
 
+  def test_result_viewport
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal [40.749931, -73.994591, 40.750832, -73.993393],
+      result.viewport
+  end
+
   def test_raises_exception_when_over_query_limit
     Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
     l = Geocoder::Lookup.get(:yahoo)
