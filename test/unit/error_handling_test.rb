@@ -41,12 +41,12 @@ class ErrorHandlingTest < GeocoderTestCase
   end
 
   def test_always_raise_timeout_error
-    Geocoder.configure(:always_raise => [TimeoutError])
+    Geocoder.configure(:always_raise => [Timeout::Error])
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if l == :maxmind_local || l == :geoip2 # local, does not use cache
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
-      assert_raises TimeoutError do
+      assert_raises Timeout::Error do
         lookup.send(:results, Geocoder::Query.new("timeout"))
       end
     end
