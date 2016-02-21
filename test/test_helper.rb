@@ -123,7 +123,7 @@ module Geocoder
       remove_method(:make_api_request)
 
       def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
+        raise Timeout::Error if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
         raise Errno::ECONNREFUSED if query.text == "connection_refused"
         if query.text == "invalid_json"
