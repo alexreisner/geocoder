@@ -9,7 +9,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{url_query_string(query)}.json?access_token=#{configuration.api_key}"
+      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{url_query_string(query)}.json?access_token=#{configuration.api_key}&#{mapbox_params_query}"
     end
 
     private # ---------------------------------------------------------------
@@ -48,6 +48,14 @@ module Geocoder::Lookup
       features.sort_by do |feature|
         [feature["relevance"],-features.index(feature)]
       end.reverse
+    end
+
+    def mapbox_params
+      configuration[:mapbox_params] || {}
+    end
+
+    def mapbox_params_query
+      hash_to_query(mapbox_params)
     end
   end
 end
