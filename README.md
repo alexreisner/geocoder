@@ -726,6 +726,18 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
 
+#### MaxMind GeoIP2 Precision Web Services (`:maxmind_geoip2`)
+
+* **API key**: required
+* **Quota**: Request Packs can be purchased
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: http://dev.maxmind.com/geoip/geoip2/web-services/
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: You must specify which MaxMind service you are using in your configuration, and also basic authentication. For example: `Geocoder.configure(:maxmind_geoip2 => {:service => :country, :basic_auth => {:user => '', :password => ''}})`.
+
 
 ### IP Address Local Database Services
 
