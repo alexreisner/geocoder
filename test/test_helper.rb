@@ -312,6 +312,14 @@ module Geocoder
         "#{fixture_prefix}_boulevard_royal"
       end
     end
+
+    require 'geocoder/lookups/latlon'
+    class Latlon
+      private
+      def default_fixture_filename
+        "latlon_6000_universal_blvd"
+      end
+    end
   end
 end
 

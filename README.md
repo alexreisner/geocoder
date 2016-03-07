@@ -663,6 +663,17 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: To use PostcodeAnywhere you must include an API key: `Geocoder.configure(:lookup => :postcode_anywhere_uk, :api_key => 'your_api_key')`.
 
+#### LatLon.io (`:latlon`)
+
+* **API key**: required
+* **Quota**: Depends on the user's plan (free and paid plans available)
+* **Region**: US
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: https://latlon.io/documentation
+* **Terms of Service**: ?
+* **Limitations**: No restrictions on use
+
 
 ### IP Address Services
 
