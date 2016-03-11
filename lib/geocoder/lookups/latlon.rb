@@ -13,7 +13,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://latlon.io/api/v1/#{if query.reverse_geocode? then 'reverse_' end}geocode?#{url_query_string(query)}"
+      "#{protocol}://latlon.io/api/v1/#{'reverse_' if query.reverse_geocode?}geocode?#{url_query_string(query)}"
     end
 
     private # ---------------------------------------------------------------
