@@ -1,0 +1,6 @@
+{
+   "error": {
+      "type": "authentication_error",
+      "message": "Failed to authenticate your request."
+   }
+}

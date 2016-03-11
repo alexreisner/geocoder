@@ -1,0 +1,16 @@
+{
+   "lat": 28.4750507575094,
+   "lon": -81.4630386931719,
+   "address": {
+      "address": "6000 Universal Blvd, Orlando, FL 32819",
+      "prefix": null,
+      "number": "6000",
+      "street_name": "Universal",
+      "street_type": "Blvd",
+      "suffix": null,
+      "unit": null,
+      "city": "Orlando",
+      "state": "FL",
+      "zip": "32819"
+   }
+}
