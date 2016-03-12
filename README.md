@@ -749,6 +749,15 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration, and also basic authentication. For example: `Geocoder.configure(:maxmind_geoip2 => {:service => :country, :basic_auth => {:user => '', :password => ''}})`.
 
+#### IPInfo.io (`:ipinfo_io`)
+
+* **API key**: optional - see http://ipinfo.io/pricing
+* **Quota**: 1,000/day - more with api key
+* **Region**: world
+* **SSL support**: no (not without access key - see http://ipinfo.io/pricing)
+* **Languages**: English
+* **Documentation**: http://ipinfo.io/developers
+* **Terms of Service**: http://ipinfo.io/developers
 
 ### IP Address Local Database Services
 
