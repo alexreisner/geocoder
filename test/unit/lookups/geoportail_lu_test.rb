@@ -52,7 +52,7 @@ class GeoportailLuTest < GeocoderTestCase
   end
 
   def test_no_results
-    results = Geocoder.search('no results')
+    results = Geocoder.search('')
     assert_equal 0, results.length
   end
 
