@@ -60,13 +60,11 @@ Rake::TestTask.new(:test) do |test|
   Rake::Task['db:reset'].invoke if ACCEPTED_DB_VALUES.include? ENV['DB']
   test.libs << 'lib' << 'test'
   test.pattern = 'test/unit/**/*_test.rb'
-  test.verbose = true
 end
 
 Rake::TestTask.new(:integration) do |test|
   test.libs << 'lib' << 'test'
   test.pattern = 'test/integration/*_test.rb'
-  test.verbose = true
 end
 
 task :default => [:test]
