@@ -578,6 +578,17 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Limitations**: ?
 * **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(:esri => {:outSR => 102100})`.
 
+#### Mapzen/Pelias (`:pelias`)
+
+* **API key**: required
+* **Quota**: 6/sec, up to 30k per day (paid plans via Mapzen)
+* **Region**: World
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: https://mapzen.com/documentation/search/search/ https://github.com/pelias/pelias
+* **Terms of Service**: http://mapzen.com/terms
+* **Limitations**: See terms
+
 #### Data Science Toolkit (`:dstk`)
 
 Data Science Toolkit provides an API whose reponse format is like Google's but which can be set up as a privately hosted service.

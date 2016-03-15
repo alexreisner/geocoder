@@ -320,6 +320,13 @@ module Geocoder
         "latlon_6000_universal_blvd"
       end
     end
+
+    require 'geocoder/lookups/mapzen'
+    class Mapzen
+      def fixture_prefix
+        'pelias'
+      end
+    end
   end
 end
 
