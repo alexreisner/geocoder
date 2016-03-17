@@ -578,6 +578,31 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Limitations**: ?
 * **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(:esri => {:outSR => 102100})`.
 
+#### Mapzen (`:mapzen`)
+
+* **About**: Mapzen is the primary author of pelias and offers Pelias-as-a-service in free and paid versions https://mapzen.com/pelias.
+* **API key**: required
+* **Quota**: 6/sec, up to 30k per day, paid plan info at https://mapzen.com/documentation/search/api-keys-rate-limits/#rate-limits
+* **Region**: World
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: https://mapzen.com/documentation/search/search/
+* **Terms of Service**: http://mapzen.com/terms
+* **Limitations**: See terms
+
+#### Pelias (`:pelias`)
+
+* **About**: Pelias is a modular open-source geocoder using ElasticSearch for fast geocoding https://github.com/pelias/pelias.
+* **API key**: required
+* **Quota**: None, self-hosted service.
+* **Region**: World
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: https://mapzen.com/documentation/search/search/
+* **Terms of Service**: http://mapzen.com/terms
+* **Limitations**: See terms
+* **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(:lookup => :pelias, :api_key => 'your_api_key', :pelias => {:endpoint => 'self.hosted/pelias'})`.  Defaults to `localhost`.
+
 #### Data Science Toolkit (`:dstk`)
 
 Data Science Toolkit provides an API whose reponse format is like Google's but which can be set up as a privately hosted service.
