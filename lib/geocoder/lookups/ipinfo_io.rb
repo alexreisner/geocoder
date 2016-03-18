@@ -9,12 +9,20 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://ipinfo.io/#{query.sanitized_text}/geo"
+      if configuration.api_key
+        "#{protocol}://ipinfo.io/#{query.sanitized_text}/geo?" + url_query_string(query)
+      else
+        "#{protocol}://ipinfo.io/#{query.sanitized_text}/geo"
+      end
     end
 
-    # currently doesn't support HTTPS
+    # HTTPS available only for paid plans
     def supported_protocols
-      [:http]
+      if configuration.api_key
+        [:http, :https]
+      else
+        [:http]
+      end
     end
 
     private # ---------------------------------------------------------------
@@ -35,6 +43,12 @@ module Geocoder::Lookup
 
     def reserved_result(ip)
       {"message" => "Input string is not a valid IP address", "code" => 401}
+    end
+
+    def query_url_params(query)
+      {
+        token: configuration.api_key
+      }.merge(super)
     end
 
   end
