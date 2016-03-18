@@ -1,0 +1,38 @@
+{
+  "bbox": [
+    -85.693709,
+    39.942189,
+    -73.9897,
+    40.75066
+  ],
+  "features": [],
+  "type": "FeatureCollection",
+  "geocoding": {
+    "timestamp": 1457996697682,
+    "engine": {
+      "version": "1.0",
+      "author": "Mapzen",
+      "name": "Pelias"
+    },
+    "query": {
+      "querySize": 20,
+      "private": false,
+      "size": 0,
+      "parsed_text": {
+        "admin_parts": "New York, NY 10001, United States\"",
+        "regions": [
+          "Garden",
+          "New York",
+          "10001",
+          "United States\""
+        ],
+        "state": "NY",
+        "street": "\"Madison Square",
+        "name": "\"Madison Square Garden"
+      },
+      "text": "\"Madison Square Garden, New York, NY 10001, United States\""
+    },
+    "attribution": "https:\/\/search.mapzen.com\/v1\/attribution",
+    "version": "0.1"
+  }
+}

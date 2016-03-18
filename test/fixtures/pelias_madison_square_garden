@@ -1,0 +1,326 @@
+{
+  "bbox": [
+    -85.693709,
+    39.942189,
+    -73.9897,
+    40.75066
+  ],
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          -73.99347,
+          40.75066
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "Madison Square Garden Center, Manhattan, NY",
+        "confidence": 0.896,
+        "neighbourhood": "Garment District",
+        "locality": "New York",
+        "localadmin": "Manhattan",
+        "county": "New York County",
+        "region_a": "NY",
+        "region": "New York",
+        "country": "United States",
+        "country_a": "USA",
+        "name": "Madison Square Garden Center",
+        "source": "gn",
+        "layer": "venue",
+        "gid": "gn:venue:5125640",
+        "id": "5125640"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.993392,
+          40.750497
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "Madison Square Garden, Manhattan, NY",
+        "confidence": 0.896,
+        "neighbourhood": "Garment District",
+        "locality": "New York",
+        "localadmin": "Manhattan",
+        "county": "New York County",
+        "region_a": "NY",
+        "region": "New York",
+        "country": "United States",
+        "country_a": "USA",
+        "street": "Pennsylvania Plaza",
+        "housenumber": "46",
+        "name": "Madison Square Garden",
+        "source": "osm",
+        "layer": "venue",
+        "gid": "osm:venue:138141251",
+        "id": "138141251"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.9897,
+          40.7478
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "Hampton Inn Madison Square Garden, Manhattan, NY",
+        "confidence": 0.885,
+        "neighbourhood": "Koreatown",
+        "locality": "New York",
+        "localadmin": "Manhattan",
+        "county": "New York County",
+        "region_a": "NY",
+        "region": "New York",
+        "country": "United States",
+        "country_a": "USA",
+        "name": "Hampton Inn Madison Square Garden",
+        "source": "gn",
+        "layer": "venue",
+        "gid": "gn:venue:6466291",
+        "id": "6466291"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.99541,
+          40.74882
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "Holiday Inn Express NYC Madison Square Garden, Manhattan, NY",
+        "confidence": 0.673,
+        "neighbourhood": "Garment District",
+        "locality": "New York",
+        "localadmin": "Manhattan",
+        "county": "New York County",
+        "region_a": "NY",
+        "region": "New York",
+        "country": "United States",
+        "country_a": "USA",
+        "name": "Holiday Inn Express NYC Madison Square Garden",
+        "source": "gn",
+        "layer": "venue",
+        "gid": "gn:venue:7645793",
+        "id": "7645793"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -73.99,
+          40.748
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "Hampton Inn Madison Square Garden Area Hotel, Manhattan, NY",
+        "confidence": 0.673,
+        "neighbourhood": "Garment District",
+        "locality": "New York",
+        "localadmin": "Manhattan",
+        "county": "New York County",
+        "region_a": "NY",
+        "region": "New York",
+        "country": "United States",
+        "country_a": "USA",
+        "name": "Hampton Inn Madison Square Garden Area Hotel",
+        "source": "gn",
+        "layer": "venue",
+        "gid": "gn:venue:6499758",
+        "id": "6499758"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -75.181686,
+          39.942425
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "2315 Madison Square, Philadelphia, PA",
+        "confidence": 0.5,
+        "neighbourhood": "Schuylkill",
+        "locality": "Philadelphia",
+        "localadmin": "Philadelphia",
+        "county": "Philadelphia County",
+        "region_a": "PA",
+        "region": "Pennsylvania",
+        "country": "United States",
+        "country_a": "USA",
+        "postalcode": "19146",
+        "street": "Madison Square",
+        "housenumber": "2315",
+        "name": "2315 Madison Square",
+        "source": "oa",
+        "layer": "address",
+        "gid": "oa:address:0eef7b448f064f90869b1b4610fb2ccd",
+        "id": "0eef7b448f064f90869b1b4610fb2ccd"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -75.183109,
+          39.942643
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "2419 Madison Square, Philadelphia, PA",
+        "confidence": 0.5,
+        "neighbourhood": "Devil's Pocket",
+        "locality": "Philadelphia",
+        "localadmin": "Philadelphia",
+        "county": "Philadelphia County",
+        "region_a": "PA",
+        "region": "Pennsylvania",
+        "country": "United States",
+        "country_a": "USA",
+        "postalcode": "19146",
+        "street": "Madison Square",
+        "housenumber": "2419",
+        "name": "2419 Madison Square",
+        "source": "oa",
+        "layer": "address",
+        "gid": "oa:address:e7c287fb14f0459f8a1b4d938f57feb9",
+        "id": "e7c287fb14f0459f8a1b4d938f57feb9"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -75.181266,
+          39.942212
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "2304 Madison Square, Philadelphia, PA",
+        "confidence": 0.5,
+        "neighbourhood": "Schuylkill",
+        "locality": "Philadelphia",
+        "localadmin": "Philadelphia",
+        "county": "Philadelphia County",
+        "region_a": "PA",
+        "region": "Pennsylvania",
+        "country": "United States",
+        "country_a": "USA",
+        "postalcode": "19146",
+        "street": "Madison Square",
+        "housenumber": "2304",
+        "name": "2304 Madison Square",
+        "source": "oa",
+        "layer": "address",
+        "gid": "oa:address:fd605b0d1b3a422f9a9b8df9f136a80b",
+        "id": "fd605b0d1b3a422f9a9b8df9f136a80b"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -85.693709,
+          40.131756
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "2200 Madison Square, Anderson, IN",
+        "confidence": 0.5,
+        "neighbourhood": "North Anderson",
+        "locality": "Anderson",
+        "localadmin": "Anderson",
+        "county": "Madison County",
+        "region_a": "IN",
+        "region": "Indiana",
+        "country": "United States",
+        "country_a": "USA",
+        "postalcode": "46011",
+        "street": "Madison Square",
+        "housenumber": "2200",
+        "name": "2200 Madison Square",
+        "source": "oa",
+        "layer": "address",
+        "gid": "oa:address:acd7f29cc4bc44f69c719cf5cdad39e8",
+        "id": "acd7f29cc4bc44f69c719cf5cdad39e8"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          -75.181085,
+          39.942189
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "label": "2300 Madison Square, Philadelphia, PA",
+        "confidence": 0.5,
+        "neighbourhood": "Schuylkill",
+        "locality": "Philadelphia",
+        "localadmin": "Philadelphia",
+        "county": "Philadelphia County",
+        "region_a": "PA",
+        "region": "Pennsylvania",
+        "country": "United States",
+        "country_a": "USA",
+        "postalcode": "19146",
+        "street": "Madison Square",
+        "housenumber": "2300",
+        "name": "2300 Madison Square",
+        "source": "oa",
+        "layer": "address",
+        "gid": "oa:address:c1d20ac81ac54f35af822359dc70171e",
+        "id": "c1d20ac81ac54f35af822359dc70171e"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection",
+  "geocoding": {
+    "timestamp": 1457996697682,
+    "engine": {
+      "version": "1.0",
+      "author": "Mapzen",
+      "name": "Pelias"
+    },
+    "query": {
+      "querySize": 20,
+      "private": false,
+      "size": 10,
+      "parsed_text": {
+        "admin_parts": "New York, NY 10001, United States\"",
+        "regions": [
+          "Garden",
+          "New York",
+          "10001",
+          "United States\""
+        ],
+        "state": "NY",
+        "street": "\"Madison Square",
+        "name": "\"Madison Square Garden"
+      },
+      "text": "\"Madison Square Garden, New York, NY 10001, United States\""
+    },
+    "attribution": "https:\/\/search.mapzen.com\/v1\/attribution",
+    "version": "0.1"
+  }
+}
