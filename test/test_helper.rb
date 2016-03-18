@@ -327,6 +327,15 @@ module Geocoder
         'pelias'
       end
     end
+
+    require 'geocoder/lookups/ipinfo_io'
+    class IpinfoIo
+      private
+      def default_fixture_filename
+        "ipinfo_io_8_8_8_8"
+      end
+    end
+
   end
 end
 
