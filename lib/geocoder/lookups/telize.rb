@@ -14,7 +14,7 @@ module Geocoder::Lookup
 
     def query_url(query)
       if configuration[:host]
-        "#{protocol}://#{configuration[:host]}/#{query.sanitized_text}"
+        "#{protocol}://#{configuration[:host]}/geoip/#{query.sanitized_text}"
       else
         "#{protocol}://telize-v1.p.mashape.com/geoip/#{query.sanitized_text}?mashape-key=#{api_key}"
       end
