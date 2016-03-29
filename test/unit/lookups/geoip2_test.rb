@@ -4,10 +4,12 @@ require 'test_helper'
 class Geoip2Test < GeocoderTestCase
   def setup
     Geocoder.configure(ip_lookup: :geoip2, file: 'test_file')
+    I18n.available_locales = [:en, :ru]
   end
 
   def teardown
     Geocoder::Configuration.language = :en
+    I18n.locale = :en
   end
 
   def test_result_attributes
@@ -29,10 +31,10 @@ class Geoip2Test < GeocoderTestCase
     assert_equal [], results
   end
 
-  def test_localization
+  def test_i18n_localization
     result = Geocoder.search('8.8.8.8').first
 
-    Geocoder::Configuration.language = :ru
+    I18n.locale = :ru
     assert_equal 'Маунтин-Вью', result.city
   end
 end

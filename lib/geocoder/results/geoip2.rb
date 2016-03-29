@@ -61,7 +61,7 @@ module Geocoder
       end
 
       def locale
-        @locale ||= Geocoder.config[:language].to_s
+        defined?(I18n) ? I18n.locale.to_s : Geocoder.config[:language].to_s
       end
     end
   end
