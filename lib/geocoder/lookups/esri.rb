@@ -41,7 +41,28 @@ module Geocoder::Lookup
       else
         params[:text] = query.sanitized_text
       end
+      params[:token] = token if configuration.api_key
+      params[:forStorage] = configuration.for_storage if configuration.for_storage
       params.merge(super)
+    end
+
+    def token
+      unless token_is_valid
+        getToken = Net::HTTP.post_form URI('https://www.arcgis.com/sharing/rest/oauth2/token'),
+          f: 'json',
+          client_id: configuration.api_key[0],
+          client_secret: configuration.api_key[1],
+          grant_type: 'client_credentials',
+          expiration: 1440 # valid for one day,
+
+          @token = JSON.parse(getToken.body)['access_token']
+          @token_expires = Time.now + 1.day
+      end
+      return @token
+    end
+
+    def token_is_valid
+      @token && @token_expires > Time.now
     end
 
   end
