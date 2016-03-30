@@ -1,5 +1,6 @@
 require 'geocoder/lookups/base'
 require "geocoder/results/esri"
+require 'geocoder/esri_token'
 
 module Geocoder::Lookup
   class Esri < Base
@@ -13,6 +14,24 @@ module Geocoder::Lookup
 
       "#{protocol}://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/#{search_keyword}?" +
         url_query_string(query)
+    end
+
+    def generate_token(expires=1440)
+      # creates a new token that will expire in 1 day by default
+      getToken = Net::HTTP.post_form URI('https://www.arcgis.com/sharing/rest/oauth2/token'),
+        f: 'json',
+        client_id: configuration.api_key[0],
+        client_secret: configuration.api_key[1],
+        grant_type: 'client_credentials',
+        expiration: expires # (minutes) max: 20160, default: 1 day
+
+      if JSON.parse(getToken.body)['error']
+        raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Couldn't generate ESRI token: invalid API key.")
+      else
+        token_value = JSON.parse(getToken.body)['access_token']
+        expires_at = Time.now + expires.minutes
+        Geocoder::EsriToken.new(token_value, expires_at)
+      end
     end
 
     private # ---------------------------------------------------------------
@@ -41,28 +60,19 @@ module Geocoder::Lookup
       else
         params[:text] = query.sanitized_text
       end
-      params[:token] = token if configuration.api_key
+      params[:token] = token
       params[:forStorage] = configuration.for_storage if configuration.for_storage
       params.merge(super)
     end
 
     def token
-      unless token_is_valid
-        getToken = Net::HTTP.post_form URI('https://www.arcgis.com/sharing/rest/oauth2/token'),
-          f: 'json',
-          client_id: configuration.api_key[0],
-          client_secret: configuration.api_key[1],
-          grant_type: 'client_credentials',
-          expiration: 1440 # valid for one day,
-
-          @token = JSON.parse(getToken.body)['access_token']
-          @token_expires = Time.now + 1.day
+      if configuration.token && configuration.token.valid? # if we have a token, use it
+        configuration.token.to_s
+      elsif configuration.api_key # generate a new token if we have credentials
+        token_instance = generate_token
+        Geocoder.configure(:esri => {:token => token_instance})
+        token_instance.to_s
       end
-      return @token
-    end
-
-    def token_is_valid
-      @token && @token_expires > Time.now
     end
 
   end
