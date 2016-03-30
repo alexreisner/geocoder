@@ -1,4 +1,4 @@
-module Geocoder::Token
+module Geocoder
   class EsriToken
     attr_accessor :value, :expires_at
 
