@@ -11,7 +11,7 @@ class OpencagedataTest < GeocoderTestCase
   def test_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "West 31st Street", result.street
-    assert_match /46, West 31st Street, Koreatown, New York County, 10011, New York City, New York, United States of America/, result.address
+    assert_match(/46, West 31st Street, Koreatown, New York County, 10011, New York City, New York, United States of America/, result.address)
 
   end
 
@@ -39,7 +39,7 @@ class OpencagedataTest < GeocoderTestCase
 
   def test_opencagedata_reverse_url
     query = Geocoder::Query.new([45.423733, -75.676333])
-    assert_match /\bq=45.423733%2C-75.676333\b/, query.url
+    assert_match(/\bq=45.423733%2C-75.676333\b/, query.url)
   end
 
 

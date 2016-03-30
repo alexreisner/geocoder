@@ -29,7 +29,7 @@ class GeocodioTest < GeocoderTestCase
 
   def test_geocodio_reverse_url
     query = Geocoder::Query.new([45.423733, -75.676333])
-    assert_match /reverse/, query.url
+    assert_match(/reverse/, query.url)
   end
 
   def test_raises_invalid_request_exception
