@@ -61,6 +61,7 @@ module Geocoder
       :units,
       :distances,
       :basic_auth,
+      :for_storage,
       :logger,
       :kernel_logger_level
     ]
@@ -104,6 +105,7 @@ module Geocoder
       @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
       @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
       @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
+      @data[:for_storage]  = nil         # will the result be stored for non-caching purposes (boolean)
       @data[:logger]       = :kernel     # :kernel or Logger instance
       @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
 
