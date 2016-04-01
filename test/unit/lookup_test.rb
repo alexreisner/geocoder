@@ -29,8 +29,7 @@ class LookupTest < GeocoderTestCase
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
-      # should be "+"s for all lookups
-      assert_match(/one_in_the_hand=two(%20|\+)in(%20|\+)the(%20|\+)bush/, url,
+      assert_match(/one_in_the_hand=two\+in\+the\+bush/, url,
         "Lookup #{l} does not appear to support arbitrary params in URL")
     end
   end
