@@ -15,8 +15,8 @@ class MaxmindLocalTest < GeocoderTestCase
     assert_equal 'United States', result.country
     assert_equal 'US', result.country_code
     assert_equal '94043', result.postal_code
-    assert_equal 37.41919999999999, result.latitude
-    assert_equal -122.0574, result.longitude
+    assert_equal(37.41919999999999, result.latitude)
+    assert_equal(-122.0574, result.longitude)
     assert_equal [37.41919999999999, -122.0574], result.coordinates
   end
 
