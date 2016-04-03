@@ -336,6 +336,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipapi_com'
+    class IpapiCom
+      private
+      def default_fixture_filename
+        "ipapi_com_74_200_247_59"
+      end
+    end
+
   end
 end
 
