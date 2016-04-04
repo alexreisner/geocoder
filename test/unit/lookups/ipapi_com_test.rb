@@ -38,7 +38,7 @@ class IpapiComTest < GeocoderTestCase
     assert_equal false, result.proxy
     assert_equal "74.200.247.59", result.query
     assert_equal "success", result.status
-    assert_equal "", result.message
+    assert_equal nil, result.message
   end
 
   def test_api_key
