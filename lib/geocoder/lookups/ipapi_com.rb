@@ -55,15 +55,7 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       params = {}
-      if configuration.has_key?(:fields)
-        fields = configuration[:fields]
-                  .split(',')
-                  .select {|f| Geocoder::Result::IpapiCom.fields.include? f}
-                  .join(',')
-
-        params.merge!(fields: fields) if !fields.empty?
-      end
-
+      params.merge!(fields: configuration[:fields]) if configuration.has_key?(:fields)
       params.merge!(key: configuration.api_key) if configuration.api_key
       params.merge(super)
     end

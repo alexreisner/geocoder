@@ -39,10 +39,6 @@ module Geocoder::Result
       @data['regionName']
     end
 
-    def self.fields
-      %w[country countryCode region regionName city zip lat lon timezone isp org as reverse mobile proxy query status message]
-    end
-
     def self.response_attributes
       %w[country region city zip timezone isp org as reverse query status message mobile proxy lat lon]
     end
