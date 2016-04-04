@@ -50,7 +50,7 @@ class IpapiComTest < GeocoderTestCase
   def test_url_with_api_key_and_fields
     Geocoder.configure(:api_key => "MY_KEY", :ipapi_com => {:fields => "lat,lon,xyz"})
     g = Geocoder::Lookup::IpapiCom.new
-    assert_equal "http://ip-api.com/json/74.200.247.59?fields=lat%2Clon%2Cxyz&key=MY_KEY", g.query_url(Geocoder::Query.new("74.200.247.59"))
+    assert_equal "http://pro.ip-api.com/json/74.200.247.59?fields=lat%2Clon%2Cxyz&key=MY_KEY", g.query_url(Geocoder::Query.new("74.200.247.59"))
   end
 
   def test_url_with_fields
@@ -68,6 +68,12 @@ class IpapiComTest < GeocoderTestCase
     g = Geocoder::Lookup::IpapiCom.new
     q = Geocoder::Query.new("74.200.247.59", :params => {:fields => 'lat,zip'})
     assert_equal "http://ip-api.com/json/74.200.247.59?fields=lat%2Czip", g.query_url(q)
+  end
+
+  def test_use_https_with_api_key
+    Geocoder.configure(:api_key => "MY_KEY", :use_https => true)
+    g = Geocoder::Lookup::IpapiCom.new
+    assert_equal "https://pro.ip-api.com/json/74.200.247.59?key=MY_KEY", g.query_url(Geocoder::Query.new("74.200.247.59"))
   end
 
 end

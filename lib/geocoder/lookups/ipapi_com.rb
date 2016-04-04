@@ -9,7 +9,8 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      url_ = "#{protocol}://ip-api.com/json/#{query.sanitized_text}"
+      domain = configuration.api_key ? "pro.ip-api.com" : "ip-api.com"
+      url_ = "#{protocol}://#{domain}/json/#{query.sanitized_text}"
 
       if (params = url_query_string(query)) && !params.empty?
         url_ + "?" + params
