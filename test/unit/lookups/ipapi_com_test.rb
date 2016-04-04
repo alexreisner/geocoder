@@ -64,4 +64,10 @@ class IpapiComTest < GeocoderTestCase
     assert_equal "http://ip-api.com/json/74.200.247.59", g.query_url(Geocoder::Query.new("74.200.247.59"))
   end
 
+  def test_search_with_params
+    g = Geocoder::Lookup::IpapiCom.new
+    q = Geocoder::Query.new("74.200.247.59", :params => {:fields => 'lat,zip'})
+    assert_equal "http://ip-api.com/json/74.200.247.59?fields=lat%2Czip", g.query_url(q)
+  end
+
 end
