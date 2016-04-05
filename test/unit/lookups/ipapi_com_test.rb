@@ -76,4 +76,11 @@ class IpapiComTest < GeocoderTestCase
     assert_equal "https://pro.ip-api.com/json/74.200.247.59?key=MY_KEY", g.query_url(Geocoder::Query.new("74.200.247.59"))
   end
 
+  def test_invalid_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    result = Geocoder.search("74.200.247.60").first
+    assert_equal "fail", result.status
+    assert_equal "invalid key", result.message
+  end
+
 end
