@@ -3,6 +3,17 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.3.3 (2016 Apr 4)
+------------------
+* Fix incorrect gem version number.
+
+1.3.2 (2016 Apr 1)
+------------------
+* Remove :yahoo lookup (service was discontinued Mar 31) (thanks github.com/galiat).
+* Add support for LatLon.io service (thanks github.com/evanmarks).
+* Add support for IpInfo.io service (thanks github.com/rehan, akostyuk).
+* Add support for Pelias/Mapzen service (thanks github.com/RealScout).
+
 1.3.1 (2016 Feb 20)
 -------------------
 * Warn about upcoming discontinuation of :yahoo lookup (thanks github.com/galiat).
