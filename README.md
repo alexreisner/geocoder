@@ -771,6 +771,16 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: http://ipinfo.io/developers
 * **Terms of Service**: http://ipinfo.io/developers
 
+#### IP-API.com (`:ipapi_com`)
+
+* **API key**: optional - see http://ip-api.com/docs/#usage_limits
+* **Quota**: 150/minute - unlimited with api key
+* **Region**: world
+* **SSL support**: no (not without access key - see https://signup.ip-api.com/)
+* **Languages**: English
+* **Documentation**: http://ip-api.com/docs/
+* **Terms of Service**: https://signup.ip-api.com/terms
+
 ### IP Address Local Database Services
 
 #### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL

@@ -64,7 +64,8 @@ module Geocoder
         :telize,
         :pointpin,
         :maxmind_geoip2,
-        :ipinfo_io
+        :ipinfo_io,
+        :ipapi_com
       ]
     end
 

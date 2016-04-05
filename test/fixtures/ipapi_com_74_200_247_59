@@ -1,0 +1,19 @@
+{
+  "as": "AS22576 DataPipe, Inc.",
+  "city": "Jersey City",
+  "country": "United States",
+  "countryCode": "US",
+  "isp": "DataPipe",
+  "lat": 40.7209,
+  "lon": -74.0468,
+  "mobile": false,
+  "org": "DataPipe",
+  "proxy": false,
+  "query": "74.200.247.59",
+  "region": "NJ",
+  "regionName": "New Jersey",
+  "reverse": "",
+  "status": "success",
+  "timezone": "America/New_York",
+  "zip": "07302"
+}
