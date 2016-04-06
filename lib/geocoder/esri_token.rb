@@ -11,8 +11,28 @@ module Geocoder
         @value
     end
 
-    def valid?
+    def active?
       @expires_at > Time.now
+    end
+
+    def self.generate_token(client_id, client_secret, expires=1440)
+      # creates a new token that will expire in 1 day by default
+      getToken = Net::HTTP.post_form URI('https://www.arcgis.com/sharing/rest/oauth2/token'),
+        f: 'json',
+        client_id: client_id,
+        client_secret: client_secret,
+        grant_type: 'client_credentials',
+        expiration: expires # (minutes) max: 20160, default: 1 day
+
+      response = JSON.parse(getToken.body)
+
+      if response['error']
+        Geocoder.log(:warn, response['error'])
+      else
+        token_value = response['access_token']
+        expires_at = Time.now + expires.minutes
+        new(token_value, expires_at)
+      end
     end
   end
 end
