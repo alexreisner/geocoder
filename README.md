@@ -434,19 +434,6 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Terms of Service**: https://developers.google.com/places/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
 
-#### Yahoo BOSS (`:yahoo`)
-**Warning - [this API will be discontinued on March 31.](https://developer.yahoo.com/boss/placefinder/)**
-
-* **API key**: requires OAuth consumer key and secret (set `Geocoder.configure(:api_key => [key, secret])`)
-* **Key signup**: http://developer.yahoo.com/boss/geo/
-* **Quota**: unlimited, but subject to usage fees
-* **Region**: world
-* **SSL support**: no
-* **Languages**: en, fr, de, it, es, pt, nl, zh, ja, ko
-* **Documentation**: http://developer.yahoo.com/boss/geo/docs/index.html
-* **Terms of Service**: http://info.yahoo.com/legal/us/yahoo/boss/tou/?pir=ucJPcJ1ibUn.h.d.lVmlcbcEkoHjwJ_PvxG9SLK9VIbIQAw1XFrnDqY-
-* **Limitations**: No mass downloads, no commercial map production based on the data, no storage of data except for caching.
-
 #### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(:lookup => :bing, :api_key => key)`)
@@ -783,6 +770,16 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Languages**: English
 * **Documentation**: http://ipinfo.io/developers
 * **Terms of Service**: http://ipinfo.io/developers
+
+#### IP-API.com (`:ipapi_com`)
+
+* **API key**: optional - see http://ip-api.com/docs/#usage_limits
+* **Quota**: 150/minute - unlimited with api key
+* **Region**: world
+* **SSL support**: no (not without access key - see https://signup.ip-api.com/)
+* **Languages**: English
+* **Documentation**: http://ip-api.com/docs/
+* **Terms of Service**: https://signup.ip-api.com/terms
 
 ### IP Address Local Database Services
 
@@ -1127,6 +1124,16 @@ A lot of debugging time can be saved by understanding how Geocoder works with Ac
 
 * using the `pluck` method (selects only a single column)
 * specifying another model through `includes` (selects columns from other tables)
+
+### Geocoding is Slow
+
+With most lookups, addresses are translated into coordinates via an API that must be accessed through the Internet. These requests are subject to the same bandwidth constraints as every other HTTP request, and will vary in speed depending on network conditions. Furthermore, many of the services supported by Geocoder are free and thus very popular. Often they cannot keep up with demand and their response times become quite bad.
+
+If your application requires quick geocoding responses you will probably need to pay for a non-free service, or--if you're doing IP address geocoding--use a lookup that doesn't require an external (network-accessed) service.
+
+For IP address lookups in Rails applications, it is generally NOT a good idea to run `request.location` during a synchronous page load without understanding the speed/behavior of your configured lookup. If the lookup becomes slow, so will your website.
+
+For the most part, the speed of geocoding requests has little to do with the Geocoder gem. Please take the time to learn about your configured lookup (links to documentation are provided above) before posting performance-related issues.
 
 ### Unexpected Responses from Geocoding Services
 

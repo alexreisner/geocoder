@@ -1,10 +1,13 @@
 language: ruby
 sudo: false
 env:
-  - DB=
-  - DB=sqlite
-  - DB=postgres
-  - DB=mysql
+  global: 
+    - JRUBY_OPTS=--2.0
+  matrix:
+    - DB=
+    - DB=sqlite
+    - DB=postgres
+    - DB=mysql
 rvm:
   - 1.9.3
   - 2.0.0

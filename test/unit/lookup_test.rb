@@ -24,13 +24,12 @@ class LookupTest < GeocoderTestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipinfo_io].include? l # does not use query string
+      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipinfo_io, :ipapi_com].include? l # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
       ))
-      # should be "+"s for all lookups except Yahoo
-      assert_match(/one_in_the_hand=two(%20|\+)in(%20|\+)the(%20|\+)bush/, url,
+      assert_match(/one_in_the_hand=two\+in\+the\+bush/, url,
         "Lookup #{l} does not appear to support arbitrary params in URL")
     end
   end
@@ -44,7 +43,6 @@ class LookupTest < GeocoderTestCase
     :mapquest => :key,
     :maxmind => :l,
     :nominatim => :"accept-language",
-    :yahoo => :locale,
     :yandex => :plng
   }.each do |l,p|
     define_method "test_passing_param_to_#{l}_query_overrides_configuration_value" do
@@ -61,7 +59,6 @@ class LookupTest < GeocoderTestCase
     :google => :language,
     :google_premier => :language,
     :nominatim => :"accept-language",
-    :yahoo => :locale,
     :yandex => :plng
   }.each do |l,p|
     define_method "test_passing_language_to_#{l}_query_overrides_configuration_value" do
@@ -77,7 +74,7 @@ class LookupTest < GeocoderTestCase
   def test_raises_exception_on_invalid_key
     Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     #Geocoder::Lookup.all_services_except_test.each do |l|
-    [:bing, :yahoo, :yandex, :maxmind, :baidu, :baidu_ip].each do |l|
+    [:bing, :yandex, :maxmind, :baidu, :baidu_ip].each do |l|
       lookup = Geocoder::Lookup.get(l)
       assert_raises Geocoder::InvalidApiKey do
         lookup.send(:results, Geocoder::Query.new("invalid key"))
@@ -88,7 +85,7 @@ class LookupTest < GeocoderTestCase
   def test_returns_empty_array_on_invalid_key
     silence_warnings do
       #Geocoder::Lookup.all_services_except_test.each do |l|
-      [:bing, :yahoo, :yandex, :maxmind, :baidu, :baidu_ip].each do |l|
+      [:bing, :yandex, :maxmind, :baidu, :baidu_ip].each do |l|
         Geocoder.configure(:lookup => l)
         set_api_key!(l)
         assert_equal [], Geocoder.search("invalid key")

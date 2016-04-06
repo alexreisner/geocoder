@@ -18,7 +18,7 @@ class LoggerTest < GeocoderTestCase
 
   def test_set_logger_logs
     assert_equal nil, Geocoder.log(:warn, "should log")
-    assert_match /should log\n$/, @tempfile.read
+    assert_match(/should log\n$/, @tempfile.read)
   end
 
   def test_logger_does_not_log_severity_too_low
@@ -30,7 +30,7 @@ class LoggerTest < GeocoderTestCase
   def test_logger_logs_when_severity_high_enough
     @logger.level = Logger::DEBUG
     Geocoder.log(:warn, "important: should log!")
-    assert_match /important: should log/, @tempfile.read
+    assert_match(/important: should log/, @tempfile.read)
   end
 
   def test_kernel_logger_does_not_log_severity_too_low

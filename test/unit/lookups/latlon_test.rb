@@ -29,7 +29,7 @@ class LatlonTest < GeocoderTestCase
 
   def test_latlon_reverse_url
     query = Geocoder::Query.new([45.423733, -75.676333])
-    assert_match /reverse_geocode/, query.url
+    assert_match(/reverse_geocode/, query.url)
   end
 
   def test_raises_api_key_exception

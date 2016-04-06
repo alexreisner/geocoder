@@ -28,7 +28,6 @@ module Geocoder
         :google,
         :google_premier,
         :google_places_details,
-        :yahoo,
         :bing,
         :geocoder_ca,
         :geocoder_us,
@@ -65,7 +64,8 @@ module Geocoder
         :telize,
         :pointpin,
         :maxmind_geoip2,
-        :ipinfo_io
+        :ipinfo_io,
+        :ipapi_com
       ]
     end
 
