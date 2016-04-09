@@ -16,7 +16,7 @@ module Geocoder::Result
     end
 
     def coordinates
-        [@data['loc'].split(',')[0].to_f, @data['loc'].split(',')[1].to_f]
+        [latitude, longitude]
     end
 
     def city
@@ -44,7 +44,7 @@ module Geocoder::Result
     end
 
     def self.response_attributes
-      %w['ip', 'city', 'region', 'country', 'latitude', 'longitude', 'postal_code']
+      %w['ip', 'region', 'postal']
     end
 
     response_attributes.each do |a|
