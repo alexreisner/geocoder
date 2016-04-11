@@ -41,7 +41,14 @@ module Geocoder::Lookup
     def results(query)
       return [reserved_result(query.text)] if query.loopback_ip_address?
 
-      (doc = fetch_data(query)) ? [doc] : []
+      return [] unless doc = fetch_data(query)
+
+      if doc["message"] == "invalid key"
+        raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid API key.")
+        return []
+      else
+        return [doc]
+      end
     end
 
     def reserved_result(query)
@@ -64,8 +71,7 @@ module Geocoder::Lookup
 
     def invalid_key_result
       {
-        "message"      => "invalid key",
-        "status"       => "fail"
+        "message"      => "invalid key"
       }
     end
 

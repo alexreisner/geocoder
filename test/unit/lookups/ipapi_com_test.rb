@@ -41,6 +41,16 @@ class IpapiComTest < GeocoderTestCase
     assert_equal nil, result.message
   end
 
+  def test_localhost
+    result = Geocoder.search("::1").first
+    assert_equal nil, result.lat
+    assert_equal nil, result.lon
+    assert_equal [nil, nil], result.coordinates
+    assert_equal nil, result.reverse
+    assert_equal "::1", result.query
+    assert_equal "fail", result.status
+  end
+
   def test_api_key
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::IpapiCom.new
@@ -79,8 +89,7 @@ class IpapiComTest < GeocoderTestCase
   def test_invalid_api_key
     Geocoder.configure(:api_key => "MY_KEY")
     result = Geocoder.search("74.200.247.60").first
-    assert_equal "fail", result.status
-    assert_equal "invalid key", result.message
+    assert_equal nil, result
   end
 
 end
