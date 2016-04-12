@@ -22,7 +22,6 @@ class EsriTest < GeocoderTestCase
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     res = lookup.query_url(query)
-    Geocoder.configure(esri: {token: nil, for_storage: nil})
     assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&forStorage=true&outFields=%2A&text=Bluffton%2C+SC&token=xxxxx",
       res
   end
@@ -101,5 +100,9 @@ class EsriTest < GeocoderTestCase
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal [40.744050000000001, -74.000241000000003, 40.756050000000002, -73.988241000000002],
       result.viewport
+  end
+
+  def teardown
+    Geocoder.configure(esri: {token: nil, for_storage: nil})
   end
 end
