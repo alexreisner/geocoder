@@ -33,7 +33,7 @@ module Geocoder::Result
     end
 
     def self.response_attributes
-      %w[metrocode ip]
+      %w[metro_code ip]
     end
 
     response_attributes.each do |a|
