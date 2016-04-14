@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.3.4 (2016 Apr 14)
+-------------------
+* Update :freegeoip host (old one is down).
+* Add ip-api.com IP address lookup (thanks github.com/piotrgorecki).
+
 1.3.3 (2016 Apr 4)
 ------------------
 * Fix incorrect gem version number.
