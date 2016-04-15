@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'test_helper'
+require 'geocoder/esri_token'
 
 class EsriTest < GeocoderTestCase
 
@@ -12,6 +13,16 @@ class EsriTest < GeocoderTestCase
     lookup = Geocoder::Lookup.get(:esri)
     res = lookup.query_url(query)
     assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&outFields=%2A&text=Bluffton%2C+SC",
+      res
+  end
+
+  def test_query_for_geocode_with_token_for_storage
+    token = Geocoder::EsriToken.new('xxxxx', Time.now + 1.day)
+    Geocoder.configure(esri: {token: token, for_storage: true})
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+    res = lookup.query_url(query)
+    assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&forStorage=true&outFields=%2A&text=Bluffton%2C+SC&token=xxxxx",
       res
   end
 
@@ -89,5 +100,9 @@ class EsriTest < GeocoderTestCase
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal [40.744050000000001, -74.000241000000003, 40.756050000000002, -73.988241000000002],
       result.viewport
+  end
+
+  def teardown
+    Geocoder.configure(esri: {token: nil, for_storage: nil})
   end
 end
