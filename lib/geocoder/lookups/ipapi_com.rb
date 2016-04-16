@@ -9,7 +9,8 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      url_ = "#{protocol}://ip-api.com/json/#{query.sanitized_text}"
+      domain = configuration.api_key ? "pro.ip-api.com" : "ip-api.com"
+      url_ = "#{protocol}://#{domain}/json/#{query.sanitized_text}"
 
       if (params = url_query_string(query)) && !params.empty?
         url_ + "?" + params
@@ -29,17 +30,32 @@ module Geocoder::Lookup
 
     private
 
+    def parse_raw_data(raw_data)
+      if raw_data == "invalid key\n" || raw_data == "invalid key"
+        invalid_key_result
+      else
+        super(raw_data)
+      end
+    end
+
     def results(query)
       return [reserved_result(query.text)] if query.loopback_ip_address?
 
-      (doc = fetch_data(query)) ? [doc] : []
+      return [] unless doc = fetch_data(query)
+
+      if doc["message"] == "invalid key"
+        raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid API key.")
+        return []
+      else
+        return [doc]
+      end
     end
 
     def reserved_result(query)
       {
         "message"      => "reserved range",
         "query"        => query,
-        "status"       => fail,
+        "status"       => "fail",
         "ip"           => query,
         "city"         => "",
         "region_code"  => "",
@@ -50,6 +66,12 @@ module Geocoder::Lookup
         "longitude"    => "0",
         "country_name" => "Reserved",
         "country_code" => "RD"
+      }
+    end
+
+    def invalid_key_result
+      {
+        "message"      => "invalid key"
       }
     end
 
