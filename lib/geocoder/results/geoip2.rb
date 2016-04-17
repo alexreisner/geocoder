@@ -9,15 +9,9 @@ module Geocoder
       end
 
       def coordinates
-        [latitude, longitude]
-      end
-
-      def latitude
-        data.fetch('location', {}).fetch('latitude', 0.0)
-      end
-
-      def longitude
-        data.fetch('location', {}).fetch('longitude', 0.0)
+        %w[latitude longitude].map do |l|
+          data.fetch('location', {}).fetch(l, 0.0)
+        end
       end
 
       def city

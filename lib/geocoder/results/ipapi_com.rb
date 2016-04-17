@@ -3,14 +3,6 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class IpapiCom < Base
 
-    def latitude
-      lat
-    end
-
-    def longitude
-      lon
-    end
-
     def coordinates
       [lat, lon]
     end

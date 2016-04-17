@@ -3,16 +3,8 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class Mapbox < Base
 
-    def latitude
-      @latitude ||= @data["geometry"]["coordinates"].last.to_f
-    end
-
-    def longitude
-      @longitude ||= @data["geometry"]["coordinates"].first.to_f
-    end
-
     def coordinates
-      [latitude, longitude]
+      @data["geometry"]["coordinates"].reverse.map(&:to_f)
     end
 
     def place_name

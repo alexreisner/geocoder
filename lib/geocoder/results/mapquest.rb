@@ -2,16 +2,9 @@ require 'geocoder/results/base'
 
 module Geocoder::Result
   class Mapquest < Base
-    def latitude
-      @data["latLng"]["lat"]
-    end
-
-    def longitude
-      @data["latLng"]["lng"]
-    end
 
     def coordinates
-      [latitude, longitude]
+      %w[lat lng].map{ |l| @data["latLng"][l] }
     end
 
     def city

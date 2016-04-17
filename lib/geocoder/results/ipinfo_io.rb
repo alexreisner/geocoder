@@ -7,16 +7,8 @@ module Geocoder::Result
       "#{city} #{postal_code}, #{country}".sub(/^[ ,]*/, "")
     end
 
-    def latitude
-      @data['loc'].split(',')[0].to_f
-    end
-
-    def longitude
-      @data['loc'].split(',')[1].to_f
-    end
-
     def coordinates
-        [latitude, longitude]
+      @data['loc'].split(",").map(&:to_f)
     end
 
     def city
