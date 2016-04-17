@@ -31,7 +31,7 @@ module Geocoder::Lookup
     private
 
     def parse_raw_data(raw_data)
-      if raw_data == "invalid key\n" || raw_data == "invalid key"
+      if raw_data.chomp == "invalid key"
         invalid_key_result
       else
         super(raw_data)
