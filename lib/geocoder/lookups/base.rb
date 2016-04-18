@@ -285,6 +285,8 @@ module Geocoder
         end
       rescue Timeout::Error
         raise Geocoder::LookupTimeout
+      rescue Errno::EHOSTUNREACH, Errno::ETIMEDOUT, Errno::ENETUNREACH
+        raise Geocoder::NetworkError
       end
 
       def use_ssl?
