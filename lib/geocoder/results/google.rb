@@ -12,7 +12,7 @@ module Geocoder::Result
     end
 
     def neighborhood
-      if neighborhood = address_components_of_type(:neighborhood).first
+      if neighborhood = address_components_of_type(:sublocality).first
         neighborhood['long_name']
       end
     end
@@ -120,14 +120,14 @@ module Geocoder::Result
     def precision
       geometry['location_type'] if geometry
     end
-    
+
     def partial_match
       @data['partial_match']
     end
-    
+
     def place_id
       @data['place_id']
-    end  
+    end
 
     def viewport
       viewport = geometry['viewport'] || fail
