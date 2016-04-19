@@ -1,5 +1,6 @@
 require 'geocoder/results/base'
 
+
 module Geocoder::Result
   class Google < Base
 
@@ -71,9 +72,9 @@ module Geocoder::Result
       end
     end
 
-    def route
+    def route key = :long_name
       if route = address_components_of_type(:route).first
-        route['long_name']
+        route[key.to_s]
       end
     end
 
