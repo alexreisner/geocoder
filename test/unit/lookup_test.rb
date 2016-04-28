@@ -160,4 +160,19 @@ class LookupTest < GeocoderTestCase
     assert_equal :google, Geocoder::Lookup::Google.new.handle
     assert_equal :geocoder_ca, Geocoder::Lookup::GeocoderCa.new.handle
   end
+
+  def test_http_request
+    Geocoder.configure(use_https: true)
+
+    require 'webmock/test_unit'
+    WebMock.enable!
+    stub_all = WebMock.stub_request(:any, /.*/).to_return(status: 200)
+
+    g = Geocoder::Lookup::Google.new
+    g.send(:make_api_http_request, Geocoder::Query.new('test location'))
+    assert_requested(stub_all)
+
+    WebMock.reset!
+    WebMock.disable!
+  end
 end
