@@ -86,6 +86,26 @@ class GoogleTest < GeocoderTestCase
     assert url.include?(formatted), "Expected #{formatted} to be included in #{url}"
   end
 
+  def test_google_query_url_contains_result_type_when_given_as_string
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "Some Intersection",
+      :result_type => "country"
+    ))
+    formatted = "result_type=" + CGI.escape("country")
+    assert url.include?(formatted), "Expected #{formatted} to be included in #{url}"
+  end
+
+  def test_google_query_url_contains_result_type_when_given_as_array
+    lookup = Geocoder::Lookup::Google.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "Some Intersection",
+      :result_type => ["country", "postal_code"]
+    ))
+    formatted = "result_type=" + CGI.escape("country|postal_code")
+    assert url.include?(formatted), "Expected #{formatted} to be included in #{url}"
+  end
+
   def test_google_uses_https_when_api_key_is_set
     Geocoder.configure(api_key: "deadbeef")
     query = Geocoder::Query.new("Madison Square Garden, New York, NY")
