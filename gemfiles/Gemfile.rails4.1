@@ -24,6 +24,7 @@ end
 
 group :test do
   gem 'sqlite3', :platform => [:ruby, :mswin, :mingw]
+  gem 'webmock'
 
   platforms :ruby do
     gem 'pg'
