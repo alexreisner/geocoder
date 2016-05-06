@@ -30,7 +30,11 @@ module Geocoder::Lookup
     def configure_ssl!(client)
       client.instance_eval {
         @ssl_context = OpenSSL::SSL::SSLContext.new
-        @ssl_context.set_params({:options=> OpenSSL::SSL::OP_NO_SSLv2 | OpenSSL::SSL::OP_NO_SSLv3 | OpenSSL::SSL::OP_NO_COMPRESSION})
+        options = OpenSSL::SSL::OP_NO_SSLv2 | OpenSSL::SSL::OP_NO_SSLv3
+        if OpenSSL::SSL.const_defined?('OP_NO_COMPRESSION')
+          options |= OpenSSL::SSL::OP_NO_COMPRESSION
+        end
+        @ssl_context.set_params({options: options})
       }
     end
 
