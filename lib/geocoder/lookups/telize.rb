@@ -9,15 +9,22 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      ["key"]
+      configuration[:host] ? [] : ["key"]
     end
 
     def query_url(query)
-      "#{protocol}://telize-v1.p.mashape.com/geoip/#{query.sanitized_text}?mashape-key=#{api_key}"
+      if configuration[:host]
+        "#{protocol}://#{configuration[:host]}/geoip/#{query.sanitized_text}"
+      else
+        "#{protocol}://telize-v1.p.mashape.com/geoip/#{query.sanitized_text}?mashape-key=#{api_key}"
+      end
     end
 
     def supported_protocols
-      [:https]
+      [].tap do |array|
+        array << :https
+        array << :http if configuration[:host]
+      end
     end
 
     private # ---------------------------------------------------------------
@@ -43,5 +50,6 @@ module Geocoder::Lookup
     def api_key
       configuration.api_key
     end
+    
   end
 end
