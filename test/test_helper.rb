@@ -120,7 +120,9 @@ module Geocoder
         fixture_exists?(filename) ? filename : default_fixture_filename
       end
 
-      alias_method :make_api_http_request, :make_api_request
+      # This alias allows us to use this method in further tests
+      # to actually test http requests
+      alias_method :actual_make_api_request, :make_api_request
       remove_method(:make_api_request)
 
       def make_api_request(query)

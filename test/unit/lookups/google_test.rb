@@ -111,4 +111,19 @@ class GoogleTest < GeocoderTestCase
     query = Geocoder::Query.new("Madison Square Garden, New York, NY")
     assert_match(/^https:/, query.url)
   end
+
+  def test_actual_make_api_request_with_https
+    Geocoder.configure(use_https: true, lookup: :google)
+
+    require 'webmock/test_unit'
+    WebMock.enable!
+    stub_all = WebMock.stub_request(:any, /.*/).to_return(status: 200)
+
+    g = Geocoder::Lookup::Google.new
+    g.send(:actual_make_api_request, Geocoder::Query.new('test location'))
+    assert_requested(stub_all)
+
+    WebMock.reset!
+    WebMock.disable!
+  end
 end
