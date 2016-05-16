@@ -868,6 +868,8 @@ By default the prefix is `geocoder:`
 
 If you need to expire cached content:
 
+_Warning: If you are using redis for caching, this method of caching uses .keys to select URLs to expire, with regex processing in ruby to filter geocoder URLs/keys to delete. This in a large production environment can cause Redis to lock, and will most likely cause memory issues._
+
     Geocoder::Lookup.get(Geocoder.config[:lookup]).cache.expire(:all)  # expire cached results for current Lookup
     Geocoder::Lookup.get(:google).cache.expire("http://...")           # expire cached result for a specific URL
     Geocoder::Lookup.get(:google).cache.expire(:all)                   # expire cached results for Google Lookup
