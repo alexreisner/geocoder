@@ -30,7 +30,7 @@ module Geocoder
         Geocoder.log(:warn, response['error'])
       else
         token_value = response['access_token']
-        expires_at = Time.now + expires.minutes
+        expires_at = Time.now + (expires * 60)
         new(token_value, expires_at)
       end
     end
