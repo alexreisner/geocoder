@@ -949,6 +949,19 @@ You can use Geocoder outside of Rails by calling the `Geocoder.search` method:
 This returns an array of `Geocoder::Result` objects with all data provided by the geocoding service.
 
 
+Batch Geocoding Outside of Rails
+--------------------------------
+
+For providers which have a batch geocoding API, you can use the `Geocoder.batch` method to pass in multiple addresses and get back a list of corresponding geocoded results. This will make a single API request to the provider, which will result in a significantly faster response when geocoding a large number of items.
+
+    results = Geocoder.batch([
+      {input: "309 SW 6th, Portland, OR", id: 2042},
+      {input: "220 NW 8th Ave, Portland, OR", id: 3029}
+    ])
+
+This returns an array of `Geocoder::Result` objects. If you provide an `id` for each input, the result object will have a matching id. Otherwise, the id will be automatically assigned.
+
+
 Testing Apps that Use Geocoder
 ------------------------------
 

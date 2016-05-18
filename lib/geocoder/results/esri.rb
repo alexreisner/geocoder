@@ -3,9 +3,12 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class Esri < Base
 
+    def id
+      @data['attributes']['ResultID']
+    end
+
     def address
-      address_key = reverse_geocode? ? 'Address' : 'Match_addr'
-      attributes[address_key]
+      attributes['Match_addr'] || attributes['Address']
     end
 
     def city
@@ -23,8 +26,7 @@ module Geocoder::Result
     alias_method :state, :state_code
 
     def country
-      country_key = reverse_geocode? ? "CountryCode" : "Country"
-      attributes[country_key]
+      attributes['Country'] || attributes['CountryCode']
     end
 
     alias_method :country_code, :country
@@ -39,7 +41,7 @@ module Geocoder::Result
     end
 
     def place_type
-      reverse_geocode? ? "Address" : attributes['Type']
+      attributes['Type'] || 'Address'
     end
 
     def coordinates
@@ -57,15 +59,33 @@ module Geocoder::Result
     private
 
     def attributes
-      reverse_geocode? ? @data['address'] : @data['locations'].first['feature']['attributes']
+      if @data['locations'] 
+        # standard geocode results
+        @data['locations'].first['feature']['attributes']
+      elsif @data['attributes']
+        # a result from batch geocoding
+        @data['attributes']
+      else
+        # reverse geocoding result
+        @data['address']
+      end
     end
 
     def geometry
-      reverse_geocode? ? @data["location"] : @data['locations'].first['feature']["geometry"]
+      if @data['locations']
+        # standard geocode results
+        @data['locations'].first['feature']["geometry"]
+      elsif @data['location']
+        # a result from batch geocoding or reverse geocoding
+        @data['location']
+      else
+        # no result returned from batch geocoding
+        {}
+      end
     end
 
     def reverse_geocode?
-      @data['locations'].nil?
+      @data['locations'].nil? and @data['attributes'].nil?
     end
 
     def is_city?

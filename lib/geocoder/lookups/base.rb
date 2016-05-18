@@ -51,6 +51,14 @@ module Geocoder
         }
       end
 
+      # Takes an array of search strings and returns an array of <tt>Geocoder::Result</tt>
+      def batch(items, options = {})
+        items = Geocoder::Batch.new(items, options) unless items.is_a?(Geocoder::Batch)
+        results(items).map{ |r|
+          result = result_class.new(r)
+        }
+      end
+
       ##
       # Return the URL for a map of the given coordinates.
       #

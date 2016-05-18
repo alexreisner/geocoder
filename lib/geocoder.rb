@@ -2,6 +2,7 @@ require "geocoder/configuration"
 require "geocoder/logger"
 require "geocoder/kernel_logger"
 require "geocoder/query"
+require "geocoder/batch"
 require "geocoder/calculations"
 require "geocoder/exceptions"
 require "geocoder/cache"
@@ -20,6 +21,11 @@ module Geocoder
   def self.search(query, options = {})
     query = Geocoder::Query.new(query, options) unless query.is_a?(Geocoder::Query)
     query.blank? ? [] : query.execute
+  end
+
+  def self.batch(batch, options = {})
+    batch = Geocoder::Batch.new(batch, options) unless batch.is_a?(Geocoder::Batch)
+    batch.blank? ? [] : batch.execute
   end
 
   ##
