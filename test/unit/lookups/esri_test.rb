@@ -6,6 +6,8 @@ class EsriTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :esri)
+    require 'webmock/test_unit'
+    WebMock.enable!
   end
 
   def test_query_for_geocode
@@ -19,6 +21,22 @@ class EsriTest < GeocoderTestCase
   def test_query_for_geocode_with_token_for_storage
     token = Geocoder::EsriToken.new('xxxxx', Time.now + 1.day)
     Geocoder.configure(esri: {token: token, for_storage: true})
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+    res = lookup.query_url(query)
+    assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&forStorage=true&outFields=%2A&text=Bluffton%2C+SC&token=xxxxx",
+      res
+  end
+
+  def test_query_for_geocode_with_client_credentials_for_storage
+    token_data = {
+      access_token: "xxxxx",
+      expires_in: 7200
+    }
+    stub_request(:post, "https://www.arcgis.com/sharing/rest/oauth2/token").
+      to_return(:body => token_data.to_json)
+
+    Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     res = lookup.query_url(query)
@@ -104,5 +122,7 @@ class EsriTest < GeocoderTestCase
 
   def teardown
     Geocoder.configure(esri: {token: nil, for_storage: nil})
+    WebMock.reset!
+    WebMock.disable!
   end
 end
