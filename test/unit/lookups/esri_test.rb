@@ -33,8 +33,9 @@ class EsriTest < GeocoderTestCase
       access_token: "xxxxx",
       expires_in: 7200
     }
-    stub_request(:post, "https://www.arcgis.com/sharing/rest/oauth2/token").
-      to_return(:body => token_data.to_json)
+    stub_request(:post, "https://www.arcgis.com/sharing/rest/oauth2/token").to_return(:body => token_data.to_json)
+    # in ruby 1.9.3, WebMock generates this URL instead of a URL with the https protocol
+    stub_request(:post, "http://www.arcgis.com:443/sharing/rest/oauth2/token").to_return(:body => token_data.to_json)
 
     Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
     query = Geocoder::Query.new("Bluffton, SC")
