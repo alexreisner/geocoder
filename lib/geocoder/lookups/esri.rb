@@ -53,12 +53,7 @@ module Geocoder::Lookup
       elsif configuration.api_key # generate a new token if we have credentials
         token_instance = Geocoder::EsriToken.generate_token(*configuration.api_key)
 
-        esri_config = {:token => token_instance}
-        if configuration[:for_storage]
-          esri_config[:for_storage] = configuration[:for_storage]
-        end
-        # replaces the entire :esri config section with the new object
-        Geocoder.configure(:esri => esri_config)
+        Geocoder.configure(:esri => Geocoder.config[:esri].merge({:token => token_instance}))
 
         token_instance.to_s
       end
