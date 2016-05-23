@@ -78,6 +78,6 @@ module Geocoder
   end
 end
 
-if defined?(Rack) and defined?(Rack::Request)
-  Rack::Request.send :include, Geocoder::Request
+if defined?(ActionDispatch::Request)
+  ActionDispatch::Request.include Geocoder::Request
 end
