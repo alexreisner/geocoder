@@ -16,8 +16,13 @@ module Geocoder::Lookup
         search_keyword = query.reverse_geocode? ? "reverseGeocode" : "find"
       end
 
-      "#{protocol}://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/#{search_keyword}?" +
-        url_query_string(query)
+      base_url = "#{protocol}://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/#{search_keyword}"
+
+      if configuration.use_post
+        base_url
+      else
+        "#{base_url}?#{url_query_string(query)}"
+      end
     end
 
     private # ---------------------------------------------------------------
@@ -68,8 +73,9 @@ module Geocoder::Lookup
         else
           params[:text] = query.sanitized_text
         end
-        params[:forStorage] = configuration[:for_storage] if configuration[:for_storage]
       end
+
+      params[:forStorage] = configuration[:for_storage] if configuration[:for_storage]
 
       params[:token] = token
       params.merge(super)
