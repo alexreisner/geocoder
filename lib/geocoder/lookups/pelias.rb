@@ -23,11 +23,19 @@ module Geocoder::Lookup
     private
 
     def query_url_params(query)
-      {
+      params = {
         api_key: configuration.api_key,
-        text: query.text,
         size: 1
-      }.merge(super(query))
+      }.merge(super)
+
+      if query.reverse_geocode?
+        lat,lon = query.coordinates
+        params[:'point.lat'] = lat
+        params[:'point.lon'] = lon
+      else
+        params[:text] = query.text
+      end
+      params
     end
 
     def results(query)

@@ -21,4 +21,10 @@ class PeliasTest < GeocoderTestCase
     query = Geocoder::Query.new('Madison Square Garden, New York, NY')
     assert_match 'size=1', query.url
   end
+
+  def test_query_for_reverse_geocode
+    lookup = Geocoder::Lookup::Mapzen.new
+    url = lookup.query_url(Geocoder::Query.new([45.423733, -75.676333]))
+    assert_match(/point.lat=45.423733&point.lon=-75.676333&size=1/, url)
+  end
 end
