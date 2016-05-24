@@ -10,10 +10,19 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      search_keyword = query.reverse_geocode? ? "reverseGeocode" : "find"
+      if query.is_a?(Geocoder::Batch)
+        search_keyword = "geocodeAddresses"
+      else
+        search_keyword = query.reverse_geocode? ? "reverseGeocode" : "find"
+      end
 
-      "#{protocol}://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/#{search_keyword}?" +
-        url_query_string(query)
+      base_url = "#{protocol}://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/#{search_keyword}"
+
+      if configuration.use_post
+        base_url
+      else
+        "#{base_url}?#{url_query_string(query)}"
+      end
     end
 
     private # ---------------------------------------------------------------
@@ -23,6 +32,15 @@ module Geocoder::Lookup
 
       if (!query.reverse_geocode?)
         return [] if !doc['locations'] || doc['locations'].empty?
+      end
+
+      if query.is_a?(Geocoder::Batch)
+        jj doc
+        if doc['error'].nil? && doc['locations'] && !doc['locations'].empty?
+          return doc['locations']
+        else
+          return []
+        end
       end
 
       if (doc['error'].nil?)
@@ -35,15 +53,31 @@ module Geocoder::Lookup
     def query_url_params(query)
       params = {
         :f => "pjson",
-        :outFields => "*"
       }
-      if query.reverse_geocode?
-        params[:location] = query.coordinates.reverse.join(',')
+
+      if query.is_a?(Geocoder::Batch)
+        params[:addresses] = {
+          records: query.items.map.with_index{|item,i| 
+            {
+              attributes: {
+                OBJECTID: (item[:id] || i), # Generate an ID if none is given in the input
+                SingleLine: item[:input]
+              }
+            }
+          }
+        }.to_json
       else
-        params[:text] = query.sanitized_text
+        params[:outFields] = "*"
+        if query.reverse_geocode?
+          params[:location] = query.coordinates.reverse.join(',')
+        else
+          params[:text] = query.sanitized_text
+        end
       end
-      params[:token] = token
+
       params[:forStorage] = configuration[:for_storage] if configuration[:for_storage]
+
+      params[:token] = token
       params.merge(super)
     end
 

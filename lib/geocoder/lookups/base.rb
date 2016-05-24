@@ -51,6 +51,14 @@ module Geocoder
         }
       end
 
+      # Takes an array of search strings and returns an array of <tt>Geocoder::Result</tt>
+      def batch(items, options = {})
+        items = Geocoder::Batch.new(items, options) unless items.is_a?(Geocoder::Batch)
+        results(items).map{ |r|
+          result = result_class.new(r)
+        }
+      end
+
       ##
       # Return the URL for a map of the given coordinates.
       #
@@ -275,7 +283,7 @@ module Geocoder
         Geocoder.log(:debug, "Geocoder: HTTP request being made for #{uri.to_s}")
         http_client.start(uri.host, uri.port, use_ssl: use_ssl?, open_timeout: configuration.timeout, read_timeout: configuration.timeout) do |client|
           configure_ssl!(client) if use_ssl?
-          req = Net::HTTP::Get.new(uri.request_uri, configuration.http_headers)
+          req = create_http_request uri.request_uri, query
           if configuration.basic_auth[:user] and configuration.basic_auth[:password]
             req.basic_auth(
               configuration.basic_auth[:user],
@@ -286,6 +294,16 @@ module Geocoder
         end
       rescue Timeout::Error
         raise Geocoder::LookupTimeout
+      end
+
+      def create_http_request(request_uri, query)
+        if configuration.use_post
+          req = Net::HTTP::Post.new(request_uri, configuration.http_headers)
+          req.body = url_query_string(query)
+        else
+          req = Net::HTTP::Get.new(request_uri, configuration.http_headers)
+        end
+        req
       end
 
       def use_ssl?

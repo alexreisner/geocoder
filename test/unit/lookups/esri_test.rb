@@ -17,7 +17,7 @@ class EsriTest < GeocoderTestCase
   end
 
   def test_query_for_geocode_with_token_for_storage
-    token = Geocoder::EsriToken.new('xxxxx', Time.now + 1.day)
+    token = Geocoder::EsriToken.new('xxxxx', Time.now + 86400)
     Geocoder.configure(esri: {token: token, for_storage: true})
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)

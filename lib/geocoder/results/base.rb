@@ -17,6 +17,11 @@ module Geocoder
         @cache_hit = nil
       end
 
+      # batch geocoding results will have this id set to the id that was given in the input
+      def id
+        fail
+      end
+
       ##
       # A string in the given format.
       #
