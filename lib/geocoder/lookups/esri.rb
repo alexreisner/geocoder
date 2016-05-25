@@ -48,7 +48,7 @@ module Geocoder::Lookup
     end
 
     def token
-      fetch_and_save_token! if !valid_token_configured? and configuration.api_key
+      create_and_save_token! if !valid_token_configured? and configuration.api_key
       configuration[:token].to_s unless configuration[:token].nil?
     end
 
@@ -56,9 +56,16 @@ module Geocoder::Lookup
       !configuration[:token].nil? and configuration[:token].active?
     end
 
-    def fetch_and_save_token!
-      token_instance = Geocoder::EsriToken.generate_token(*configuration.api_key)
-      Geocoder.configure(:esri => Geocoder.config[:esri].merge({:token => token_instance}))
+    def create_and_save_token!
+      save_token!(create_token)
+    end
+
+    def create_token
+      Geocoder::EsriToken.generate_token(*configuration.api_key)
+    end
+
+    def save_token!(token_instance)
+      Geocoder.merge_into_lookup_config(:esri, token: token_instance)
     end
   end
 end
