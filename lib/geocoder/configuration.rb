@@ -56,6 +56,7 @@ module Geocoder
       :language,
       :http_headers,
       :use_https,
+      :use_post,
       :http_proxy,
       :https_proxy,
       :api_key,
@@ -102,6 +103,7 @@ module Geocoder
       @data[:language]     = :en         # ISO-639 language code
       @data[:http_headers] = {}          # HTTP headers for lookup
       @data[:use_https]    = false       # use HTTPS for lookup requests? (if supported)
+      @data[:use_post]     = false       # send POST request instead of GET
       @data[:http_proxy]   = nil         # HTTP proxy server (user:pass@host:port)
       @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
       @data[:api_key]      = nil         # API key for geocoding service
