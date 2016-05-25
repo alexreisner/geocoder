@@ -26,6 +26,27 @@ class EsriTest < GeocoderTestCase
     assert_match /token=xxxxx/, url
   end
 
+  def test_query_for_geocode_with_client_credentials_and_for_storage
+    Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
+
+    Geocoder::EsriToken.instance_eval do
+      def generate_token(client_id, client_secret, expires=1440)
+        if client_id == "id" and client_secret == "secret"
+          "xxxxx"
+        else
+          nil
+        end
+      end
+    end
+
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+
+    assert_match /forStorage=true/, url
+    assert_match /token=xxxxx/, url
+  end
+
   def test_query_for_reverse_geocode
     query = Geocoder::Query.new([45.423733, -75.676333])
     lookup = Geocoder::Lookup.get(:esri)
