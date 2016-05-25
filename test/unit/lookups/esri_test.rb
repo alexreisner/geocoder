@@ -2,6 +2,22 @@
 require 'test_helper'
 require 'geocoder/esri_token'
 
+class Geocoder::EsriToken
+  class << self
+
+    alias_method :old_generate_token, :generate_token; 
+
+    # Stub the generate_token method when called with a specific client_id and client_secret
+    def generate_token(client_id, client_secret, expires=1440)
+      if client_id == "id" and client_secret == "secret"
+        "xxxxx"
+      else
+        self.old_generate_token client_id, client_secret, expires
+      end
+    end
+  end
+end
+
 class EsriTest < GeocoderTestCase
 
   def setup
@@ -17,11 +33,21 @@ class EsriTest < GeocoderTestCase
   end
 
   def test_query_for_geocode_with_token_for_storage
-    token = Geocoder::EsriToken.new('xxxxx', Time.now + 1.day)
+    token = Geocoder::EsriToken.new('xxxxx', Time.now + 86400)
     Geocoder.configure(esri: {token: token, for_storage: true})
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     res = lookup.query_url(query)
+    assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&forStorage=true&outFields=%2A&text=Bluffton%2C+SC&token=xxxxx",
+      res
+  end
+
+  def test_query_for_geocode_with_client_credentials_for_storage
+    Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+    res = lookup.query_url(query)
+
     assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&forStorage=true&outFields=%2A&text=Bluffton%2C+SC&token=xxxxx",
       res
   end
@@ -32,6 +58,28 @@ class EsriTest < GeocoderTestCase
     res = lookup.query_url(query)
     assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&location=-75.676333%2C45.423733&outFields=%2A",
       res
+  end
+
+  def test_token_generation
+    require 'webmock/test_unit'
+    WebMock.enable!
+
+    token_data = {
+      access_token: "xxxxx",
+      expires_in: 7200
+    }
+
+    stub_request(:post, "https://www.arcgis.com/sharing/rest/oauth2/token").to_return(:body => token_data.to_json)
+    # in ruby 1.9.3, WebMock generates this URL instead of a URL with the https protocol
+    stub_request(:post, "http://www.arcgis.com:443/sharing/rest/oauth2/token").to_return(:body => token_data.to_json)
+
+    Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
+    lookup = Geocoder::Lookup.get(:esri)
+
+    assert_equal token_data[:access_token], lookup.send(:token)
+
+    WebMock.reset!
+    WebMock.disable!
   end
 
   def test_results_component
