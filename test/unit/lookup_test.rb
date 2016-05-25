@@ -160,4 +160,26 @@ class LookupTest < GeocoderTestCase
     assert_equal :google, Geocoder::Lookup::Google.new.handle
     assert_equal :geocoder_ca, Geocoder::Lookup::GeocoderCa.new.handle
   end
+
+  def test_get_request
+    token = Geocoder::EsriToken.new('xxxxx', Time.now + 86400)
+    Geocoder.configure(:token => token)
+    lookup = Geocoder::Lookup::Esri.new
+
+    query = Geocoder::Query.new('test location')
+    uri = URI.parse(lookup.query_url(query))
+    request = lookup.send(:create_http_request, uri.request_uri, query)
+    assert_equal "GET", request.method
+  end
+
+  def test_post_request
+    token = Geocoder::EsriToken.new('xxxxx', Time.now + 86400)
+    Geocoder.configure(:token => token, :use_post => true)
+    lookup = Geocoder::Lookup::Esri.new
+
+    query = Geocoder::Query.new('test location')
+    uri = URI.parse(lookup.query_url(query))
+    request = lookup.send(:create_http_request, uri.request_uri, query)
+    assert_equal "POST", request.method
+  end  
 end
