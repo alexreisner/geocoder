@@ -48,14 +48,17 @@ module Geocoder::Lookup
     end
 
     def token
-      if configuration[:token] && configuration[:token].active? # if we have a token, use it
-        configuration[:token].to_s
-      elsif configuration.api_key # generate a new token if we have credentials
-        token_instance = Geocoder::EsriToken.generate_token(*configuration.api_key)
-        Geocoder.configure(:esri => Geocoder.config[:esri].merge({:token => token_instance}))
-        token_instance.to_s
-      end
+      fetch_and_save_token! if !valid_token_configured? and configuration.api_key
+      configuration[:token].to_s unless configuration[:token].nil?
     end
 
+    def valid_token_configured?
+      !configuration[:token].nil? and configuration[:token].active?
+    end
+
+    def fetch_and_save_token!
+      token_instance = Geocoder::EsriToken.generate_token(*configuration.api_key)
+      Geocoder.configure(:esri => {:token => token_instance})
+    end
   end
 end
