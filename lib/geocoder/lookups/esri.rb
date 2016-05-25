@@ -65,7 +65,7 @@ module Geocoder::Lookup
     end
 
     def save_token!(token_instance)
-      Geocoder.configure(:esri => Geocoder.config[:esri].merge({:token => token_instance}))
+      Geocoder.merge_into_lookup_config(:esri, token: token_instance)
     end
   end
 end

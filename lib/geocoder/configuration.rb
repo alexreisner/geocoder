@@ -38,6 +38,14 @@ module Geocoder
     data
   end
 
+  ##
+  # Merge the given hash into a lookup's existing configuration.
+  #
+  def self.merge_into_lookup_config(lookup_name, options)
+    base = Geocoder.config[lookup_name]
+    Geocoder.configure(lookup_name => base.merge(options))
+  end
+
   class Configuration
     include Singleton
 
