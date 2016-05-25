@@ -58,7 +58,7 @@ module Geocoder::Lookup
 
     def fetch_and_save_token!
       token_instance = Geocoder::EsriToken.generate_token(*configuration.api_key)
-      Geocoder.configure(:esri => {:token => token_instance})
+      Geocoder.configure(:esri => Geocoder.config[:esri].merge({:token => token_instance}))
     end
   end
 end
