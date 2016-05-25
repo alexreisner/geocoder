@@ -16,14 +16,14 @@ class EsriTest < GeocoderTestCase
       res
   end
 
-  def test_query_for_geocode_with_token_for_storage
+  def test_query_for_geocode_with_token_and_for_storage
     token = Geocoder::EsriToken.new('xxxxx', Time.now + 1.day)
     Geocoder.configure(esri: {token: token, for_storage: true})
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
-    res = lookup.query_url(query)
-    assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&forStorage=true&outFields=%2A&text=Bluffton%2C+SC&token=xxxxx",
-      res
+    url = lookup.query_url(query)
+    assert_match /forStorage=true/, url
+    assert_match /token=xxxxx/, url
   end
 
   def test_query_for_reverse_geocode
