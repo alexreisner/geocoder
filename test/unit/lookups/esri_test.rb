@@ -26,7 +26,7 @@ class EsriTest < GeocoderTestCase
     assert_match /token=xxxxx/, url
   end
 
-  def test_query_for_geocode_with_client_credentials_and_for_storage
+  def test_token_generation_doesnt_overwrite_existing_config
     Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
 
     query = Geocoder::Query.new("Bluffton, SC")
