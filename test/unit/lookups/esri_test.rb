@@ -16,6 +16,14 @@ class EsriTest < GeocoderTestCase
       res
   end
 
+  def test_query_for_geocode_with_source_country
+    Geocoder.configure(esri: {source_country: 'USA'})
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_match /sourceCountry=USA/, url
+  end
+
   def test_query_for_geocode_with_token_and_for_storage
     token = Geocoder::EsriToken.new('xxxxx', Time.now + 1.day)
     Geocoder.configure(esri: {token: token, for_storage: true})
