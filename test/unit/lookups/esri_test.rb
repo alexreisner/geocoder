@@ -34,6 +34,25 @@ class EsriTest < GeocoderTestCase
     assert_match /token=xxxxx/, url
   end
 
+  def test_token_generation_doesnt_overwrite_existing_config
+    Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
+
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+
+    lookup.instance_eval do
+      # redefine `create_token` to return a manually-created token
+      def create_token
+        "xxxxx"
+      end
+    end
+
+    url = lookup.query_url(query)
+
+    assert_match /forStorage=true/, url
+    assert_match /token=xxxxx/, url
+  end
+
   def test_query_for_reverse_geocode
     query = Geocoder::Query.new([45.423733, -75.676333])
     lookup = Geocoder::Lookup.get(:esri)
