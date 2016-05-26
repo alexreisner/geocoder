@@ -10,13 +10,15 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      search_keyword = query.reverse_geocode? ? "reverseGeocode" : "find"
-
-      "#{protocol}://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/#{search_keyword}?" +
-        url_query_string(query)
+      base_query_url(query) + url_query_string(query)
     end
 
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      action = query.reverse_geocode? ? "reverseGeocode" : "find"
+      "#{protocol}://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/#{action}?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)
@@ -29,6 +31,17 @@ module Geocoder::Lookup
         return [ doc ]
       else
         return []
+      end
+    end
+
+    def cache_key(query)
+      base_query_url(query) + hash_to_query(cache_key_params(query))
+    end
+
+    def cache_key_params(query)
+      # omit api_key and token because they may vary among requests
+      query_url_params(query).reject do |key,value|
+        [:api_key, :token].include?(key)
       end
     end
 

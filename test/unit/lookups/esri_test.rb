@@ -110,6 +110,17 @@ class EsriTest < GeocoderTestCase
       result.viewport
   end
 
+  def test_cache_key_doesnt_include_api_key_or_token
+    token = Geocoder::EsriToken.new('xxxxx', Time.now + 60)
+    Geocoder.configure(esri: {token: token, api_key: "xxxxx", for_storage: true})
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+    key = lookup.send(:cache_key, query)
+    assert_match /forStorage/, key
+    assert_no_match /token/, key
+    assert_no_match /api_key/, key
+  end
+
   def teardown
     Geocoder.configure(esri: {token: nil, for_storage: nil})
   end
