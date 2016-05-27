@@ -3,10 +3,19 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.3.5 (2016 May 27)
+-------------------
+* Fix Rails 5 ActionDispatch include issue (thanks github.com/alepore).
+* Fix bug that caused :esri lookup to ignore certain configured parameters (thanks github.com/aaronpk).
+* Add reverse geocoding support to :pelias/:mapzen (thanks github.com/shinyaK14).
+* Add support for custom host with :telize (thanks github.com/jwaldrip).
+* Change the way :esri lookup generates cache keys for improved performance (thanks github.com/aaronpk).
+* Improve HTTPS connections with :google (thanks github.com/jlhonora).
+
 1.3.4 (2016 Apr 14)
 -------------------
 * Update :freegeoip host (old one is down).
-* Add ip-api.com IP address lookup (thanks github.com/piotrgorecki).
+* Add IP lookup :ipapi_com (thanks github.com/piotrgorecki).
 
 1.3.3 (2016 Apr 4)
 ------------------
