@@ -80,4 +80,6 @@ end
 
 if defined?(ActionDispatch::Request)
   ActionDispatch::Request.include Geocoder::Request
+elsif defined?(Rack::Request)
+  Rack::Request.include Geocoder::Request
 end
