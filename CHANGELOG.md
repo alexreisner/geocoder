@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.3.6 (2016 May 31)
+-------------------
+* Fix Sinatra support broken in 1.3.5.
+
 1.3.5 (2016 May 27)
 -------------------
 * Fix Rails 5 ActionDispatch include issue (thanks github.com/alepore).
