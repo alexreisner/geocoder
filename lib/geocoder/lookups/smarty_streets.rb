@@ -12,8 +12,11 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      path = zipcode_only?(query) ? "zipcode" : "street-address"
-      "#{protocol}://api.smartystreets.com/#{path}?#{url_query_string(query)}"
+      if zipcode_only?(query)
+        "#{protocol}://us-zipcode.api.smartystreets.com/lookup?#{url_query_string(query)}"
+      else
+        "#{protocol}://api.smartystreets.com/street-address?#{url_query_string(query)}"
+      end
     end
 
     # required by API as of 26 March 2015

@@ -21,12 +21,12 @@ class SmartyStreetsTest < GeocoderTestCase
 
   def test_query_for_zipcode_geocode
     query = Geocoder::Query.new("22204")
-    assert_match(/api\.smartystreets\.com\/zipcode\?/, query.url)
+    assert_match(/us-zipcode\.api\.smartystreets\.com\/lookup\?/, query.url)
   end
 
   def test_query_for_zipfour_geocode
     query = Geocoder::Query.new("22204-1603")
-    assert_match(/api\.smartystreets\.com\/zipcode\?/, query.url)
+    assert_match(/us-zipcode\.api\.smartystreets\.com\/lookup\?/, query.url)
   end
 
   def test_smarty_streets_result_components
