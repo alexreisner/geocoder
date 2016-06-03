@@ -161,6 +161,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/db_ip_com'
+    class DbIpCom
+      private
+      def default_fixture_filename
+        "db_ip_com_23_255_240_0"
+      end
+    end
+
     require 'geocoder/lookups/google_premier'
     class GooglePremier
       private
