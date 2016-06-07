@@ -75,4 +75,16 @@ class ErrorHandlingTest < GeocoderTestCase
       end
     end
   end
+
+  def test_always_raise_host_unreachable_error
+    Geocoder.configure(:always_raise => [Errno::EHOSTUNREACH])
+    Geocoder::Lookup.all_services_except_test.each do |l|
+      next if l == :maxmind_local || l == :geoip2 # local, does not use cache
+      lookup = Geocoder::Lookup.get(l)
+      set_api_key!(l)
+      assert_raises Errno::EHOSTUNREACH do
+        lookup.send(:results, Geocoder::Query.new("host_unreachable"))
+      end
+    end
+  end
 end

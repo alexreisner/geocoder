@@ -34,4 +34,7 @@ module Geocoder
   class LookupTimeout < ::Timeout::Error
   end
 
+  class NetworkError < Error
+  end
+
 end
