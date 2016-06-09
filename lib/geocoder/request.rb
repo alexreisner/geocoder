@@ -81,5 +81,5 @@ end
 if defined?(ActionDispatch::Request)
   ActionDispatch::Request.__send__(:include, Geocoder::Request)
 elsif defined?(Rack::Request)
-  Rack::Request.include Geocoder::Request
+  Rack::Request.__send__(:include, Geocoder::Request)
 end
