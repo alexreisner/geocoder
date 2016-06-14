@@ -66,7 +66,8 @@ module Geocoder
         :amazon_location_service,
         :geoapify,
         :photon,
-        :twogis
+        :twogis,
+        :get_address_uk
       ]
     end
 
