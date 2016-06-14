@@ -129,6 +129,7 @@ module Geocoder
         raise Timeout::Error if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
         raise Errno::ECONNREFUSED if query.text == "connection_refused"
+        raise Errno::EHOSTUNREACH if query.text == "host_unreachable"
         if query.text == "invalid_json"
           return MockHttpResponse.new(:body => 'invalid json', :code => 200)
         end
