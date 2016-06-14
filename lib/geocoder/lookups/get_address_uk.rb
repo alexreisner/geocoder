@@ -9,12 +9,8 @@ module Geocoder::Lookup
       'GetAddressUk'
     end
 
-    def required_api_key_parts
-      %w(key)
-    end
-
     def query_url(query)
-      "#{protocol}://api.getaddress.io/v2/uk/#{query.sanitized_text}?api-key=#{configuration.api_key}"
+      "#{protocol}://api.getaddress.io/v2/uk/#{query.to_s.split.join}?api-key=#{configuration.api_key}"
     end
 
     private
@@ -52,10 +48,6 @@ module Geocoder::Lookup
           raise_error(Geocoder::Error, response['Message']) ||
             Geocoder.log(:warn, response['Message'])
       end
-    end
-
-    def query_url_params(query)
-      query.sanitized_text.merge(super)
     end
   end
 end
