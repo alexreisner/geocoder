@@ -854,7 +854,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 
 #### DB-IP.com (`:db_ip_com`)
 
-* **API key**: required
+* **API key**: required, plus Boolean is_paid (set `Geocoder.configure(:lookup => :db_ip_com, :api_key => [key, is_paid])`)
 * **Quota**: 2,500/day (with free API Key, 50,000/day and up for paid API keys)
 * **Region**: world
 * **SSL support**: yes (with paid API keys - see https://db-ip.com/api/)
