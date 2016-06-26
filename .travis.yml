@@ -6,6 +6,7 @@ env:
   matrix:
     - DB=
     - DB=sqlite
+    - DB=sqlite USE_SQLITE_EXT=1
     - DB=postgres
     - DB=mysql
 rvm:
