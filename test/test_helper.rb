@@ -15,6 +15,11 @@ if configs.keys.include? ENV['DB']
   ActiveRecord::Base.configurations = configs
 
   db_name = ENV['DB']
+  if db_name == 'sqlite' && ENV['USE_SQLITE_EXT'] == '1' then
+    gem 'sqlite_ext'
+    require 'sqlite_ext'
+    SqliteExt.register_ruby_math
+  end
   ActiveRecord::Base.establish_connection(db_name)
   ActiveRecord::Base.default_timezone = :utc
 
