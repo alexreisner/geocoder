@@ -4,7 +4,7 @@ module Geocoder
 
     ##
     # Distance calculation for use with a database that supports POWER(),
-    # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(), and
+    # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(), 
     # ATAN2().
     #
     # Based on the excellent tutorial at:
@@ -58,6 +58,9 @@ module Geocoder
     # Fairly accurate bearing calculation. Takes a latitude, longitude,
     # and an options hash which must include a :bearing value
     # (:linear or :spherical).
+    #
+    # For use with a database that supports MOD() and trigonometric functions
+    # SIN(), COS(), ASIN(), ATAN2().
     #
     # Based on:
     # http://www.beginningspatial.com/calculating_bearing_one_point_another
