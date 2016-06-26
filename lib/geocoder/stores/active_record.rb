@@ -236,7 +236,7 @@ module Geocoder::Store
       def using_sqlite_with_extensions?
         connection.adapter_name.match(/sqlite/i) &&
           defined?(::SqliteExt) &&
-          %W(POWER SQRT PI SIN COS ASIN ATAN2).all?{ |fn_name|
+          %W(MOD POWER SQRT PI SIN COS ASIN ATAN2).all?{ |fn_name|
             connection.raw_connection.function_created?(fn_name)
           }
       end
