@@ -4,8 +4,8 @@ module Geocoder
 
     ##
     # Distance calculation for use with a database that supports POWER(),
-    # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(),
-    # ATAN2(), DEGREES(), and RADIANS().
+    # SQRT(), PI(), and trigonometric functions SIN(), COS(), ASIN(), and
+    # ATAN2().
     #
     # Based on the excellent tutorial at:
     # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
