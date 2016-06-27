@@ -21,7 +21,7 @@ class EsriTest < GeocoderTestCase
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     url = lookup.query_url(query)
-    assert_match /sourceCountry=USA/, url
+    assert_match %r{sourceCountry=USA}, url
   end
 
   def test_query_for_geocode_with_token_and_for_storage
@@ -30,8 +30,8 @@ class EsriTest < GeocoderTestCase
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     url = lookup.query_url(query)
-    assert_match /forStorage=true/, url
-    assert_match /token=xxxxx/, url
+    assert_match %r{forStorage=true}, url
+    assert_match %r{token=xxxxx}, url
   end
 
   def test_token_generation_doesnt_overwrite_existing_config
@@ -49,8 +49,8 @@ class EsriTest < GeocoderTestCase
 
     url = lookup.query_url(query)
 
-    assert_match /forStorage=true/, url
-    assert_match /token=xxxxx/, url
+    assert_match %r{forStorage=true}, url
+    assert_match %r{token=xxxxx}, url
   end
 
   def test_query_for_reverse_geocode
@@ -135,9 +135,9 @@ class EsriTest < GeocoderTestCase
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     key = lookup.send(:cache_key, query)
-    assert_match /forStorage/, key
-    assert_no_match /token/, key
-    assert_no_match /api_key/, key
+    assert_match %r{forStorage}, key
+    assert_no_match %r{token}, key
+    assert_no_match %r{api_key}, key
   end
 
   def teardown
