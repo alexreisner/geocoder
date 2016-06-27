@@ -57,6 +57,12 @@ module Geocoder::Lookup
       when "INVALID_REQUEST"
         raise_error(Geocoder::InvalidRequest) ||
           Geocoder.log(:warn, "Google Geocoding API error: invalid request.")
+      when "ZERO_RESULTS"
+        raise_error(Geocoder::ZeroResults) ||
+          Geocoder.log(:warn, "Google Geocoding API error: zero results.")
+      when "UNKNOWN_ERROR"
+        raise_error(Geocoder::UnknownError) ||
+          Geocoder.log(:warn, "Google Geocoding API error: unknown error.")
       end
       return []
     end
