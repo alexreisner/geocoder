@@ -3,23 +3,23 @@ require 'test_helper'
 
 class NearTest < GeocoderTestCase
 
-  def test_near_scope_options_without_raw_sqlite_includes_bounding_box_condition
-    omit("Not applicable to unextended SQLite") if using_raw_sqlite?
+  def test_near_scope_options_includes_bounding_box_condition
+    omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
 
     result = PlaceWithCustomResultsHandling.send(:near_scope_options, 1.0, 2.0, 5)
     table_name = PlaceWithCustomResultsHandling.table_name
     assert_match(/#{table_name}.latitude BETWEEN 0.9276\d* AND 1.0723\d* AND #{table_name}.longitude BETWEEN 1.9276\d* AND 2.0723\d* AND /, result[:conditions][0])
   end
 
-  def test_near_scope_options_without_raw_sqlite_includes_radius_condition
-    omit("Not applicable to unextended SQLite") if using_raw_sqlite?
+  def test_near_scope_options_includes_radius_condition
+    omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
 
     result = Place.send(:near_scope_options, 1.0, 2.0, 5)
     assert_match(/BETWEEN \? AND \?$/, result[:conditions][0])
   end
 
-  def test_near_scope_options_without_raw_sqlite_includes_radius_default_min_radius
-    omit("Not applicable to unextended SQLite") if using_raw_sqlite?
+  def test_near_scope_options_includes_radius_default_min_radius
+    omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
 
     result = Place.send(:near_scope_options, 1.0, 2.0, 5)
 
@@ -27,8 +27,8 @@ class NearTest < GeocoderTestCase
     assert_equal(5, result[:conditions][2])
   end
 
-  def test_near_scope_options_without_raw_sqlite_includes_radius_custom_min_radius
-    omit("Not applicable to unextended SQLite") if using_raw_sqlite?
+  def test_near_scope_options_includes_radius_custom_min_radius
+    omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
 
     result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 3)
 
@@ -36,8 +36,8 @@ class NearTest < GeocoderTestCase
     assert_equal(5, result[:conditions][2])
   end
 
-  def test_near_scope_options_without_raw_sqlite_includes_radius_bogus_min_radius
-    omit("Not applicable to unextended SQLite") if using_raw_sqlite?
+  def test_near_scope_options_includes_radius_bogus_min_radius
+    omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
     
     result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 'bogus')
 
@@ -95,7 +95,7 @@ class NearTest < GeocoderTestCase
     assert_no_match(/, *,/, string, "two consecutive commas")
   end
 
-  def using_raw_sqlite?
+  def using_unextended_sqlite?
     ENV['DB'] == 'sqlite' && ENV['USE_SQLITE_EXT'] != '1'
   end
 end
