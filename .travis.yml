@@ -46,3 +46,5 @@ matrix:
       gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: 2.3.0
       gemfile: gemfiles/Gemfile.ruby1.9.3
+    - env: DB=sqlite USE_SQLITE_EXT=1
+      rvm: jruby-19mode

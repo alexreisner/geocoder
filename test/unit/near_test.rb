@@ -96,6 +96,6 @@ class NearTest < GeocoderTestCase
   end
 
   def using_raw_sqlite?
-    ENV['DB'] == 'sqlite' and ENV['USE_SQLITE_EXT'] != '1'
+    ENV['DB'] == 'sqlite' && ENV['USE_SQLITE_EXT'] != '1'
   end
 end
