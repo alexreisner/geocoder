@@ -23,6 +23,7 @@ module Geocoder
     #
     def street_services
       @street_services ||= [
+        :locationiq,
         :dstk,
         :esri,
         :google,
