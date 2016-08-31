@@ -16,5 +16,17 @@ module Geocoder::Lookup
       host = configuration[:host] || "locationiq.org/v1"
       "#{protocol}://#{host}/#{method}?key=#{configuration.api_key}&" + url_query_string(query)
     end
+
+    private
+
+    def results(query)
+      return [] unless doc = fetch_data(query)
+
+      if !doc.is_a?(Array) && doc['error'] =~ /Invalid\skey/
+        raise_error(Geocoder::InvalidApiKey, doc['error'])
+      end
+
+      doc.is_a?(Array) ? doc : [doc]
+    end
   end
 end
