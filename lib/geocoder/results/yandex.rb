@@ -7,6 +7,13 @@ module Geocoder::Result
       @data['GeoObject']['Point']['pos'].split(' ').reverse.map(&:to_f)
     end
 
+    def bounds
+      envelope = @data['GeoObject']['boundedBy']['Envelope']
+      envelope['lowerCorner'] = envelope['lowerCorner'].split(' ').reverse
+      envelope['upperCorner'] = envelope['upperCorner'].split(' ').reverse
+      envelope
+    end
+
     def address(format = :full)
       @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['text']
     end
