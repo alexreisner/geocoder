@@ -29,11 +29,18 @@ module Geocoder::Result
     alias_method :postal_code, :zip
 
     def country
-      "United States" # Geocodio only supports the US
+      # Geocodio supports US and Canada, however they don't return the full
+      # country name.
+
+      if country_code == "CA"
+        "Canada"
+      else
+        "United States"
+      end
     end
 
     def country_code
-      "US" # Geocodio only supports the US
+      address_components['country'] || "US"
     end
 
     def city
