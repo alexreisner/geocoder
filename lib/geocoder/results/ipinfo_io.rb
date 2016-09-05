@@ -8,7 +8,7 @@ module Geocoder::Result
     end
 
     def coordinates
-      @data['loc'].split(",").map(&:to_f)
+      @data['loc'].to_s.split(",").map(&:to_f)
     end
 
     def city
@@ -36,7 +36,7 @@ module Geocoder::Result
     end
 
     def self.response_attributes
-      %w['ip', 'region', 'postal']
+      %w(ip region postal)
     end
 
     response_attributes.each do |a|
