@@ -42,7 +42,14 @@ module Geocoder::Lookup
     end
 
     def reserved_result(ip)
-      {"message" => "Input string is not a valid IP address", "code" => 401}
+      {
+        "ip"           => ip,
+        "city"         => "",
+        "region"       => "",
+        "country"      => "",
+        "loc"          => "0,0",
+        "postal"       => ""
+      }
     end
 
     def query_url_params(query)
