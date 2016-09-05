@@ -40,7 +40,7 @@ module Geocoder::Result
     end
 
     def country_code
-      address_components['country'] || "US"
+      address_components['country']
     end
 
     def city

@@ -21,7 +21,7 @@ class GeocodioTest < GeocoderTestCase
     assert_equal "US", result.country_code
     assert_equal "United States", result.country
     assert_equal "1101 Pennsylvania Ave NW, Washington, DC 20004", result.formatted_address
-    assert_equal({ "lat" => 38.895019, "lng" => -77.028095 }, result.location)
+    assert_equal({ "lat" => 38.895156, "lng" => -77.027405 }, result.location)
   end
 
   def test_reverse_canada_result
