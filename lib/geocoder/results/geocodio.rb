@@ -24,7 +24,8 @@ module Geocoder::Result
     alias_method :state_code, :state
 
     def zip
-      address_components["zip"]
+      # Postal code is not returned for Canada geocode results
+      address_components["zip"] || ""
     end
     alias_method :postal_code, :zip
 
