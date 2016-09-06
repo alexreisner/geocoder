@@ -176,6 +176,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/locationiq'
+    class Locationiq
+      private
+      def fixture_prefix
+        "locationiq"
+      end
+    end
+
     require 'geocoder/lookups/yandex'
     class Yandex
       private
