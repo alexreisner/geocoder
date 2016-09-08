@@ -6,7 +6,7 @@ module Geocoder
       # Is this object geocoded? (Does it have latitude and longitude?)
       #
       def geocoded?
-        to_coordinates.compact.size > 0
+        to_coordinates.compact.size == 2
       end
 
       ##

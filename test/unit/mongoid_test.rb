@@ -8,6 +8,12 @@ class MongoidTest < GeocoderTestCase
     assert p.geocoded?
   end
 
+  def test_geocoded_check_single_coord
+    p = PlaceUsingMongoid.new(*geocoded_object_params(:msg))
+    p.location = [40.750354, nil]
+    assert !p.geocoded?
+  end
+
   def test_distance_to_returns_float
     p = PlaceUsingMongoid.new(*geocoded_object_params(:msg))
     p.location = [40.750354, -73.993371]
