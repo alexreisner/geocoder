@@ -3,6 +3,13 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.0 (2016 Sep  8)
+-------------------
+* Only consider an object geocoded if both lat and lon are present (previously was sufficient to have only one of the two) (thanks github.com/mltsy).
+* Add support in :geocodio lookup for Canadian addresses (thanks github.com/bolandrm).
+* Add support for SQLite extensions, if present (thanks github.com/stevecj).
+* Always include Geocoder in Rack::Request, if defined (thanks github.com/wjordan).
+
 1.3.7 (2016 Jun  9)
 -------------------
 * Fix Ruby 1.9, 2.0 incompatibility (thanks github.com/ebouchut).
