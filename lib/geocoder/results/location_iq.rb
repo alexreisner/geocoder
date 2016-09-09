@@ -1,6 +1,6 @@
 require 'geocoder/results/nominatim'
 
 module Geocoder::Result
-  class Locationiq < Nominatim
+  class LocationIq < Nominatim
   end
 end

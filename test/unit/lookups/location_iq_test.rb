@@ -5,12 +5,12 @@ require 'test_helper'
 class LocationIq < NominatimTest
 
   def setup
-    Geocoder.configure(lookup: :locationiq)
-    set_api_key!(:locationiq)
+    Geocoder.configure(lookup: :location_iq)
+    set_api_key!(:location_iq)
   end
 
   def test_url_contains_api_key
-    Geocoder.configure(locationiq: {api_key: "abc123"})
+    Geocoder.configure(location_iq: {api_key: "abc123"})
     query = Geocoder::Query.new("Leadville, CO")
     assert_equal "http://locationiq.org/v1/search.php?key=abc123&accept-language=en&addressdetails=1&format=json&q=Leadville%2C+CO", query.url
   end

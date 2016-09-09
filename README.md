@@ -457,7 +457,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Terms of Service**: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
 * **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(:http_headers => { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
-#### LocationIQ (`:locationiq`)
+#### LocationIQ (`:location_iq`)
 
 * **API key**: required
 * **Quota**: 6 request/second (30k req/day), then ability to purchase more

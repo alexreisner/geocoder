@@ -176,11 +176,11 @@ module Geocoder
       end
     end
 
-    require 'geocoder/lookups/locationiq'
-    class Locationiq
+    require 'geocoder/lookups/location_iq'
+    class LocationIq
       private
       def fixture_prefix
-        "locationiq"
+        "location_iq"
       end
     end
 

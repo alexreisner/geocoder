@@ -1,10 +1,10 @@
 require 'geocoder/lookups/nominatim'
-require "geocoder/results/locationiq"
+require "geocoder/results/location_iq"
 
 module Geocoder::Lookup
-  class Locationiq < Nominatim
+  class LocationIq < Nominatim
     def name
-      "Locationiq"
+      "LocationIq"
     end
 
     def required_api_key_parts
