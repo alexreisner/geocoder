@@ -999,8 +999,10 @@ Now, any time Geocoder looks up "New York, NY" its results array will contain on
       ]
     )
 
-Note:
-  Keys must be strings not symbols when calling `add_stub` or `set_default_stub`. For example `'latitude' =>` not `:latitude =>`.
+Notes:
+
+- Keys must be strings not symbols when calling `add_stub` or `set_default_stub`. For example `'latitude' =>` not `:latitude =>`.
+- To clear stubs (e.g. prior to another spec), use `Geocoder::Lookup::Test.reset`. This will clear all stubs _including the default stub_.
 
 
 Command Line Interface
