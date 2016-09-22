@@ -612,7 +612,7 @@ Data Science Toolkit provides an API whose reponse format is like Google's but w
 * **Documentation**: http://www.datasciencetoolkit.org/developerdocs
 * **Terms of Service**: http://www.datasciencetoolkit.org/developerdocs#googlestylegeocoder
 * **Limitations**: No reverse geocoding.
-* **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(:lookup => :dstk, :host => "localhost:4567")`.
+* **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(:lookup => :dstk, :dstk => {:host => "localhost:4567"})`.
 
 #### Baidu (`:baidu`)
 
