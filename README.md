@@ -602,7 +602,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 
 #### Data Science Toolkit (`:dstk`)
 
-Data Science Toolkit provides an API whose reponse format is like Google's but which can be set up as a privately hosted service.
+Data Science Toolkit provides an API whose response format is like Google's but which can be set up as a privately hosted service.
 
 * **API key**: none
 * **Quota**: None quota if you are self-hosting the service.
@@ -935,11 +935,11 @@ For example:
 
     end
 
-For certain geolocation services such as Google geolocation API this may cause issues during subsequent updates to database records if the longtitude and latitude coordinates cannot be associated known location address (on a large body of water for example). On subsequent callbacks the following call:
+For certain geolocation services such as Google geolocation API this may cause issues during subsequent updates to database records if the longitude and latitude coordinates cannot be associated known location address (on a large body of water for example). On subsequent callbacks the following call:
 
      after_validation :geocode
 
-will alter the longtitude and latitude attributes based on the location field, which would be the closest known location to the original coordinates. In this case it is better to add conditions to each call, as not to override coordinates that do not have known location addresses associated with them.
+will alter the longitude and latitude attributes based on the location field, which would be the closest known location to the original coordinates. In this case it is better to add conditions to each call, as not to override coordinates that do not have known location addresses associated with them.
 
 For example:
 
@@ -1020,7 +1020,7 @@ When you install the Geocoder gem it adds a `geocode` command to your shell. You
     Country:          United States
     Google map:       http://maps.google.com/maps?q=29.952211,-90.080563
 
-There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON reponse, and more. Please run `geocode -h` for details.
+There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON response, and more. Please run `geocode -h` for details.
 
 Numeric Data Types and Precision
 --------------------------------
@@ -1163,7 +1163,7 @@ You can also fetch the response in the console:
 Reporting Issues
 ----------------
 
-When reporting an issue, please list the version of Geocoder you are using and any relevant information about your application (Rails version, database type and version, etc). Also avoid vague language like "it doesn't work." Please describe as specifically as you can what behavior your are actually seeing (eg: an error message? a nil return value?).
+When reporting an issue, please list the version of Geocoder you are using and any relevant information about your application (Rails version, database type and version, etc). Also avoid vague language like "it doesn't work." Please describe as specifically as you can what behavior you are actually seeing (eg: an error message? a nil return value?).
 
 Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Sites like [StackOverflow](http://www.stackoverflow.com/) are a better forum for such discussions.
 
