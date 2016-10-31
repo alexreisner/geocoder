@@ -21,7 +21,7 @@ module Geocoder
     end
 
     def insert(package, dir = "tmp")
-      data_files(package).each do |filepath,table|
+      data_files(package, dir).each do |filepath,table|
         print "Resetting table #{table}..."
         ActiveRecord::Base.connection.execute("DELETE FROM #{table}")
         puts "done"

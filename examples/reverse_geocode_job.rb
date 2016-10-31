@@ -35,6 +35,6 @@ class ReverseGeocodeJob < ActiveJob::Base
   end
 
   def retryable?(exception)
-    exception.is_a?(TimeoutError) || exception.is_a?(SocketError)
+    exception.is_a?(Timeout::Error) || exception.is_a?(SocketError)
   end
 end

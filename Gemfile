@@ -23,11 +23,16 @@ group :development, :test do
 end
 
 group :test do
-  gem 'sqlite3', :platform => [:ruby, :mswin, :mingw]
+  platforms :ruby, :mswin, :mingw do
+    gem 'sqlite3'
+    gem 'sqlite_ext', '~> 1.5.0'
+  end
+
+  gem 'webmock'
 
   platforms :ruby do
     gem 'pg'
-    gem 'mysql2'
+    gem 'mysql2', '~> 0.3.11'
   end
 
   platforms :jruby do

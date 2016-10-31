@@ -1,3 +1,5 @@
+require "geocoder/lookups/test"
+
 module Geocoder
   module Lookup
     extend self
@@ -21,6 +23,7 @@ module Geocoder
     #
     def street_services
       @street_services ||= [
+        :location_iq,
         :dstk,
         :esri,
         :google,
@@ -33,16 +36,21 @@ module Geocoder
         :geocoder_us,
         :yandex,
         :nominatim,
+        :mapbox,
         :mapquest,
+        :mapzen,
         :opencagedata,
         :ovi,
+        :pelias,
         :here,
         :baidu,
         :geocodio,
         :smarty_streets,
         :okf,
         :postcode_anywhere_uk,
-        :test
+        :geoportail_lu,
+        :test,
+        :latlon
       ]
     end
 
@@ -58,7 +66,9 @@ module Geocoder
         :maxmind_local,
         :telize,
         :pointpin,
-        :maxmind_geoip2
+        :maxmind_geoip2,
+        :ipinfo_io,
+        :ipapi_com
       ]
     end
 
@@ -83,6 +93,8 @@ module Geocoder
     #
     def spawn(name)
       if all_services.include?(name)
+        name = name.to_s
+        require "geocoder/lookups/#{name}"
         Geocoder::Lookup.const_get(classify_name(name)).new
       else
         valids = all_services.map(&:inspect).join(", ")
@@ -98,8 +110,4 @@ module Geocoder
       filename.to_s.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
     end
   end
-end
-
-Geocoder::Lookup.all_services.each do |name|
-  require "geocoder/lookups/#{name}"
 end

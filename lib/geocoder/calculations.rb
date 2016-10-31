@@ -237,10 +237,13 @@ module Geocoder
     #
     # * <tt>:units</tt> - <tt>:mi</tt> or <tt>:km</tt>
     #   Use Geocoder.configure(:units => ...) to configure default units.
+    # * <tt>:seed</tt> - The seed for the random number generator
     def random_point_near(center, radius, options = {})
 
       # set default options
       options[:units] ||= Geocoder.config.units
+
+      random = Random.new(options[:seed] || Random.new_seed)
 
       # convert to coordinate arrays
       center = extract_coordinates(center)
@@ -249,18 +252,18 @@ module Geocoder
       max_degree_delta =  360.0 * (radius / earth_circumference)
 
       # random bearing in radians
-      theta = 2 * Math::PI * rand
+      theta = 2 * Math::PI * random.rand
 
       # random radius, use the square root to ensure a uniform
       # distribution of points over the circle
-      r = Math.sqrt(rand) * max_degree_delta
+      r = Math.sqrt(random.rand) * max_degree_delta
 
       delta_lat, delta_long = [r * Math.cos(theta), r * Math.sin(theta)]
       [center[0] + delta_lat, center[1] + delta_long]
     end
 
     ##
-    # Given a start point, distance, and heading (in degrees), provides
+    # Given a start point, heading (in degrees), and distance, provides
     # an endpoint.
     # The starting point is given in the same way that points are given to all
     # Geocoder methods that accept points as arguments. It can be:

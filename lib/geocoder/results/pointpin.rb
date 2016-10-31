@@ -23,10 +23,6 @@ module Geocoder::Result
       @data['country_name']
     end
 
-    def country_code
-      @data['country_code']
-    end
-
     def postal_code
       @data['postcode']
     end

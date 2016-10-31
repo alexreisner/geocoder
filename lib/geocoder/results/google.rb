@@ -120,5 +120,20 @@ module Geocoder::Result
     def precision
       geometry['location_type'] if geometry
     end
+    
+    def partial_match
+      @data['partial_match']
+    end
+    
+    def place_id
+      @data['place_id']
+    end  
+
+    def viewport
+      viewport = geometry['viewport'] || fail
+      south, west = %w(lat lng).map { |c| viewport['southwest'][c] }
+      north, east = %w(lat lng).map { |c| viewport['northeast'][c] }
+      [south, west, north, east]
+    end
   end
 end

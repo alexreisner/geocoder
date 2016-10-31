@@ -51,4 +51,23 @@ class ConfigurationTest < GeocoderTestCase
     # method option > per-model configuration
     assert_equal 111, v.distance_to([0,1], :km).round
   end
+
+  def test_merge_into_lookup_config
+    base = {
+      timeout: 5,
+      api_key: "xxx"
+    }
+    new = {
+      timeout: 10,
+      units: :km,
+    }
+    merged = {
+      timeout: 10, # overwritten
+      units: :km, # added
+      api_key: "xxx" # preserved
+    }
+    Geocoder.configure(google: base)
+    Geocoder.merge_into_lookup_config(:google, new)
+    assert_equal merged, Geocoder.config[:google]
+  end
 end

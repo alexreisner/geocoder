@@ -66,6 +66,14 @@ module Geocoder::Result
     def coordinates
       [@data['geometry']['lat'].to_f, @data['geometry']['lng'].to_f]
     end
+
+    def viewport
+      bounds = @data['bounds'] || fail
+      south, west = %w(lat lng).map { |i| bounds['southwest'][i] }
+      north, east = %w(lat lng).map { |i| bounds['northeast'][i] }
+      [south, west, north, east]
+    end
+
     def self.response_attributes
       %w[boundingbox license 
         formatted stadium]

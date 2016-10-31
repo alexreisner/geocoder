@@ -8,14 +8,16 @@ group :development, :test do
   gem 'rubyzip'
   gem 'rails'
   gem 'sqlite3'
+  gem 'sqlite_ext', '~> 1.5.0'
   gem 'pg'
-  gem 'mysql2'
+  gem 'mysql2', '~> 0.3.11'
 
   # i18n gem >=0.7.0 does not work with Ruby 1.9.2
   gem 'i18n', '0.6.1'
   gem 'test-unit' # install newer version with omit() method
 
   gem 'debugger'
+  gem 'webmock'
 
   platforms :jruby do
     gem 'jruby-openssl'

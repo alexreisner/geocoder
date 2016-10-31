@@ -27,6 +27,17 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def configure_ssl!(client)
+      client.instance_eval {
+        @ssl_context = OpenSSL::SSL::SSLContext.new
+        options = OpenSSL::SSL::OP_NO_SSLv2 | OpenSSL::SSL::OP_NO_SSLv3
+        if OpenSSL::SSL.const_defined?('OP_NO_COMPRESSION')
+          options |= OpenSSL::SSL::OP_NO_COMPRESSION
+        end
+        @ssl_context.set_params({options: options})
+      }
+    end
+
     def valid_response?(response)
       json = parse_json(response.body)
       status = json["status"] if json
@@ -64,6 +75,9 @@ module Geocoder::Lookup
       end
       unless (components = query.options[:components]).nil?
         params[:components] = components.is_a?(Array) ? components.join("|") : components
+      end
+      unless (result_type = query.options[:result_type]).nil?
+        params[:result_type] = result_type.is_a?(Array) ? result_type.join("|") : result_type
       end
       params
     end

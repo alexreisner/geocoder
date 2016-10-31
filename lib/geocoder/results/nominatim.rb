@@ -78,6 +78,11 @@ module Geocoder::Result
       @data['type']
     end
 
+    def viewport
+      south, north, west, east = @data['boundingbox'].map(&:to_f)
+      [south, west, north, east]
+    end
+
     def self.response_attributes
       %w[place_id osm_type osm_id boundingbox license
          polygonpoints display_name class type stadium]

@@ -38,6 +38,14 @@ module Geocoder
     data
   end
 
+  ##
+  # Merge the given hash into a lookup's existing configuration.
+  #
+  def self.merge_into_lookup_config(lookup_name, options)
+    base = Geocoder.config[lookup_name]
+    Geocoder.configure(lookup_name => base.merge(options))
+  end
+
   class Configuration
     include Singleton
 
@@ -105,7 +113,7 @@ module Geocoder
 
       # exceptions that should not be rescued by default
       # (if you want to implement custom error handling);
-      # supports SocketError and TimeoutError
+      # supports SocketError and Timeout::Error
       @data[:always_raise] = []
 
       # calculation options
@@ -125,6 +133,5 @@ module Geocoder
       end
       EOS
     end.join("\n\n"))
-
   end
 end

@@ -12,6 +12,30 @@ class ResultTest < GeocoderTestCase
     end
   end
 
+  def test_result_has_coords_in_reasonable_range_for_madison_square_garden
+    Geocoder::Lookup.street_services.each do |l|
+      next unless File.exist?(File.join("test", "fixtures", "#{l.to_s}_madison_square_garden"))
+      Geocoder.configure(:lookup => l)
+      set_api_key!(l)
+      result = Geocoder.search("Madison Square Garden, New York, NY  10001, United States").first
+      assert (result.latitude > 40 and result.latitude < 41), "Lookup #{l} latitude out of range"
+      assert (result.longitude > -74 and result.longitude < -73), "Lookup #{l} longitude out of range"
+    end
+  end
+
+  def test_result_accepts_reverse_coords_in_reasonable_range_for_madison_square_garden
+    Geocoder::Lookup.street_services.each do |l|
+      next unless File.exist?(File.join("test", "fixtures", "#{l.to_s}_madison_square_garden"))
+      next if [:bing, :esri, :geocoder_ca, :geocoder_us, :geoportail_lu].include? l # Reverse fixture does not match forward
+      Geocoder.configure(:lookup => l)
+      set_api_key!(l)
+      result = Geocoder.search([40.750354, -73.993371]).first
+      assert (["New York", "New York City"].include? result.city), "Reverse lookup #{l} City does not match"
+      assert (result.latitude > 40 and result.latitude < 41), "Reverse lookup #{l} latitude out of range"
+      assert (result.longitude > -74 and result.longitude < -73), "Reverse lookup #{l} longitude out of range"
+    end
+  end
+
   def test_yandex_result_without_city_does_not_raise_exception
     assert_nothing_raised do
       Geocoder.configure(:lookup => :yandex)

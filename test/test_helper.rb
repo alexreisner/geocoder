@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'rubygems'
 require 'test/unit'
 
@@ -14,6 +15,11 @@ if configs.keys.include? ENV['DB']
   ActiveRecord::Base.configurations = configs
 
   db_name = ENV['DB']
+  if db_name == 'sqlite' && ENV['USE_SQLITE_EXT'] == '1' then
+    gem 'sqlite_ext'
+    require 'sqlite_ext'
+    SqliteExt.register_ruby_math
+  end
   ActiveRecord::Base.establish_connection(db_name)
   ActiveRecord::Base.default_timezone = :utc
 
@@ -119,12 +125,16 @@ module Geocoder
         fixture_exists?(filename) ? filename : default_fixture_filename
       end
 
+      # This alias allows us to use this method in further tests
+      # to actually test http requests
+      alias_method :actual_make_api_request, :make_api_request
       remove_method(:make_api_request)
 
       def make_api_request(query)
-        raise TimeoutError if query.text == "timeout"
+        raise Timeout::Error if query.text == "timeout"
         raise SocketError if query.text == "socket_error"
         raise Errno::ECONNREFUSED if query.text == "connection_refused"
+        raise Errno::EHOSTUNREACH if query.text == "host_unreachable"
         if query.text == "invalid_json"
           return MockHttpResponse.new(:body => 'invalid json', :code => 200)
         end
@@ -133,6 +143,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/bing'
     class Bing
       private
       def read_fixture(file)
@@ -146,6 +157,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/google_premier'
     class GooglePremier
       private
       def fixture_prefix
@@ -153,6 +165,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/google_places_details'
     class GooglePlacesDetails
       private
       def fixture_prefix
@@ -160,6 +173,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/dstk'
     class Dstk
       private
       def fixture_prefix
@@ -167,6 +181,15 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/location_iq'
+    class LocationIq
+      private
+      def fixture_prefix
+        "location_iq"
+      end
+    end
+
+    require 'geocoder/lookups/yandex'
     class Yandex
       private
       def default_fixture_filename
@@ -174,6 +197,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/freegeoip'
     class Freegeoip
       private
       def default_fixture_filename
@@ -181,6 +205,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/geoip2'
     class Geoip2
       private
 
@@ -189,7 +214,7 @@ module Geocoder
       def results(query)
         return [] if query.to_s == 'no results'
         return [] if query.to_s == '127.0.0.1'
-        [{'city'=>{'names'=>{'en'=>'Mountain View'}},'country'=>{'iso_code'=>'US','names'=>
+        [{'city'=>{'names'=>{'en'=>'Mountain View', 'ru'=>'Маунтин-Вью'}},'country'=>{'iso_code'=>'US','names'=>
         {'en'=>'United States'}},'location'=>{'latitude'=>37.41919999999999,
         'longitude'=>-122.0574},'postal'=>{'code'=>'94043'},'subdivisions'=>[{
         'iso_code'=>'CA','names'=>{'en'=>'California'}}]}]
@@ -200,6 +225,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/telize'
     class Telize
       private
       def default_fixture_filename
@@ -207,6 +233,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/pointpin'
     class Pointpin
       private
       def default_fixture_filename
@@ -214,6 +241,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/maxmind'
     class Maxmind
       private
       def default_fixture_filename
@@ -221,6 +249,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/maxmind_geoip2'
     class MaxmindGeoip2
       private
       def default_fixture_filename
@@ -228,6 +257,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/maxmind_local'
     class MaxmindLocal
       private
 
@@ -244,6 +274,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/baidu'
     class Baidu
       private
       def default_fixture_filename
@@ -251,6 +282,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/baidu_ip'
     class BaiduIp
       private
       def default_fixture_filename
@@ -258,6 +290,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/geocodio'
     class Geocodio
       private
       def default_fixture_filename
@@ -265,6 +298,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/okf'
     class Okf
       private
       def default_fixture_filename
@@ -272,6 +306,7 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/postcode_anywhere_uk'
     class PostcodeAnywhereUk
       private
       def fixture_prefix
@@ -282,6 +317,50 @@ module Geocoder
         "#{fixture_prefix}_romsey"
       end
     end
+
+    require 'geocoder/lookups/geoportail_lu'
+    class GeoportailLu
+      private
+      def fixture_prefix
+        "geoportail_lu"
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_boulevard_royal"
+      end
+    end
+
+    require 'geocoder/lookups/latlon'
+    class Latlon
+      private
+      def default_fixture_filename
+        "latlon_6000_universal_blvd"
+      end
+    end
+
+    require 'geocoder/lookups/mapzen'
+    class Mapzen
+      def fixture_prefix
+        'pelias'
+      end
+    end
+
+    require 'geocoder/lookups/ipinfo_io'
+    class IpinfoIo
+      private
+      def default_fixture_filename
+        "ipinfo_io_8_8_8_8"
+      end
+    end
+
+    require 'geocoder/lookups/ipapi_com'
+    class IpapiCom
+      private
+      def default_fixture_filename
+        "ipapi_com_74_200_247_59"
+      end
+    end
+
   end
 end
 

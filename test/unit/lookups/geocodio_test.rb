@@ -18,8 +18,22 @@ class GeocodioTest < GeocoderTestCase
     assert_equal "20004", result.zip
     assert_equal "NW", result.postdirectional
     assert_equal "Washington", result.city
+    assert_equal "US", result.country_code
+    assert_equal "United States", result.country
     assert_equal "1101 Pennsylvania Ave NW, Washington, DC 20004", result.formatted_address
-    assert_equal({ "lat" => 38.895019, "lng" => -77.028095 }, result.location)
+    assert_equal({ "lat" => 38.895156, "lng" => -77.027405 }, result.location)
+  end
+
+  def test_reverse_canada_result
+    result = Geocoder.search([43.652961, -79.382624]).first
+    assert_equal 1.0, result.accuracy
+    assert_equal "483", result.number
+    assert_equal "Bay", result.street
+    assert_equal "St", result.suffix
+    assert_equal "ON", result.state
+    assert_equal "Toronto", result.city
+    assert_equal "CA", result.country_code
+    assert_equal "Canada", result.country
   end
 
   def test_no_results
@@ -29,7 +43,7 @@ class GeocodioTest < GeocoderTestCase
 
   def test_geocodio_reverse_url
     query = Geocoder::Query.new([45.423733, -75.676333])
-    assert_match /reverse/, query.url
+    assert_match(/reverse/, query.url)
   end
 
   def test_raises_invalid_request_exception

@@ -7,6 +7,10 @@ module Geocoder::Lookup
     def name
       "FreeGeoIP"
     end
+    
+    def supported_protocols
+      [:http]
+    end
 
     def query_url(query)
       "#{protocol}://#{host}/json/#{query.sanitized_text}"
@@ -41,7 +45,7 @@ module Geocoder::Lookup
     end
 
     def host
-      configuration[:host] || "freegeoip.net"
+      configuration[:host] || "freegeoip.io"
     end
   end
 end

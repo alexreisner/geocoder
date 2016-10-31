@@ -1,0 +1,63 @@
+{
+ "spatialReference": {
+  "wkid": 4326,
+  "latestWkid": 4326
+ },
+ "locations": [
+  {
+   "name": "Austin, Texas, United States",
+   "extent": {
+    "xmin": -97.935057,
+    "ymin": 30.075146,
+    "xmax": -97.551057,
+    "ymax": 30.459146
+   },
+   "feature": {
+    "geometry": {
+     "x": -97.743055550999657,
+     "y": 30.267145960000448
+    },
+    "attributes": {
+     "Loc_name": "Gaz.WorldGazetteer.POI1",
+     "Score": 100,
+     "Match_addr": "Austin, Texas, United States",
+     "Addr_type": "POI",
+     "Type": "State Capital",
+     "PlaceName": "Austin",
+     "Place_addr": "",
+     "Phone": "",
+     "URL": "",
+     "Rank": "3",
+     "AddBldg": "",
+     "AddNum": "",
+     "AddNumFrom": "",
+     "AddNumTo": "",
+     "Side": "",
+     "StPreDir": "",
+     "StPreType": "",
+     "StName": "",
+     "StType": "",
+     "StDir": "",
+     "StAddr": "",
+     "Nbrhd": "",
+     "City": "",
+     "Subregion": "Travis",
+     "Region": "Texas",
+     "Postal": "",
+     "PostalExt": "",
+     "Country": "USA",
+     "LangCode": "",
+     "Distance": 0,
+     "X": -97.743056999999993,
+     "Y": 30.267146,
+     "DisplayX": -97.743056999999993,
+     "DisplayY": 30.267146,
+     "Xmin": -97.935057,
+     "Xmax": -97.551057,
+     "Ymin": 30.075146,
+     "Ymax": 30.459146
+    }
+   }
+  }
+ ]
+}
