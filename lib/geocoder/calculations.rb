@@ -38,7 +38,7 @@ module Geocoder
     # Returns true if all given arguments are valid latitude/longitude values.
     #
     def coordinates_present?(*args)
-      args.map { |a| (a.is_a? Numeric and !a.to_f.nan?) ? true : false }.all?
+      args.all? { |a| a.is_a? Numeric and !a.to_f.nan? }
     end
 
     ##
