@@ -38,12 +38,7 @@ module Geocoder
     # Returns true if all given arguments are valid latitude/longitude values.
     #
     def coordinates_present?(*args)
-      args.each do |a|
-        # note that Float::NAN != Float::NAN
-        # still, this could probably be improved:
-        return false if (!a.is_a?(Numeric) or a.to_s == "NaN")
-      end
-      true
+      args.all? { |a| a.is_a? Numeric and !a.to_f.nan? }
     end
 
     ##
@@ -407,13 +402,8 @@ module Geocoder
     def extract_coordinates(point)
       case point
       when Array
-        if point.size == 2
-          lat, lon = point
-          if !lat.nil? && lat.respond_to?(:to_f) and
-            !lon.nil? && lon.respond_to?(:to_f)
-          then
-            return [ lat.to_f, lon.to_f ]
-          end
+        if point.size == 2 and coordinates_present?(*point)
+          return point.map {|coords| coords.to_f}
         end
       when String
         point = Geocoder.coordinates(point) and return point
