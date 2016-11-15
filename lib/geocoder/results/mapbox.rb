@@ -46,7 +46,7 @@ module Geocoder::Result
     private
 
     def context
-      @data['context']
+      Array(data['context'])
     end
   end
 end
