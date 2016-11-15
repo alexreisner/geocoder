@@ -16,27 +16,27 @@ module Geocoder::Result
     end
 
     def city
-      context.map { |c| c['text'] if c['id'] =~ /place/ }.compact.first
+      context_part('place')
     end
 
     def state
-      context.map { |c| c['text'] if c['id'] =~ /region/ }.compact.first
+      context_part('region')
     end
 
     alias_method :state_code, :state
 
     def postal_code
-      context.map { |c| c['text'] if c['id'] =~ /postcode/ }.compact.first
+      context_part('postcode')
     end
 
     def country
-      context.map { |c| c['text'] if c['id'] =~ /country/ }.compact.first
+      context_part('country')
     end
 
     alias_method :country_code, :country
 
     def neighborhood
-      context.map { |c| c['text'] if c['id'] =~ /neighborhood/ }.compact.first
+      context_part('neighborhood')
     end
 
     def address
@@ -44,6 +44,10 @@ module Geocoder::Result
     end
 
     private
+
+    def context_part(name)
+      context.map { |c| c['text'] if c['id'] =~ Regexp.new(name) }.compact.first
+    end
 
     def context
       Array(data['context'])
