@@ -4,15 +4,15 @@ module Geocoder::Result
   class Mapbox < Base
 
     def coordinates
-      @data["geometry"]["coordinates"].reverse.map(&:to_f)
+      data["geometry"]["coordinates"].reverse.map(&:to_f)
     end
 
     def place_name
-      @data['text']
+      data['text']
     end
 
     def street
-      @data['properties']['address']
+      data['properties']['address']
     end
 
     def city
