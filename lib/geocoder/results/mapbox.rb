@@ -4,7 +4,7 @@ module Geocoder::Result
   class Mapbox < Base
 
     def coordinates
-      data["geometry"]["coordinates"].reverse.map(&:to_f)
+      data['geometry']['coordinates'].reverse.map(&:to_f)
     end
 
     def place_name
@@ -40,7 +40,7 @@ module Geocoder::Result
     end
 
     def address
-      [place_name, street, city, state, postal_code, country].compact.join(", ")
+      [place_name, street, city, state, postal_code, country].compact.join(', ')
     end
 
     private
