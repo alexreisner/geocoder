@@ -5,7 +5,7 @@ module Geocoder::Lookup
   class BanDataGouvFr < Base
 
     def name
-      "Base Adresse Nationale Française"
+      "Base Adresse Nationale Francaise"
     end
 
     def map_link_url(coordinates)
