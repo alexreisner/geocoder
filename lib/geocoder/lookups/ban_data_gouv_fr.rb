@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'geocoder/lookups/base'
 require 'geocoder/results/ban_data_gouv_fr'
 
@@ -5,7 +7,7 @@ module Geocoder::Lookup
   class BanDataGouvFr < Base
 
     def name
-      "Base Adresse Nationale Francaise"
+      "Base Adresse Nationale Française"
     end
 
     def map_link_url(coordinates)
