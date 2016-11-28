@@ -361,6 +361,19 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ban_data_gouv_fr'
+    class BanDataGouvFr
+      private
+      def fixture_prefix
+        "ban_data_gouv_fr"
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_rue_yves_toudic"
+      end
+    end
+
+
   end
 end
 

@@ -1,0 +1,33 @@
+{
+  "limit": 5,
+  "attribution": "BAN",
+  "version": "draft",
+  "licence": "ODbL 1.0",
+  "query": "13 rue yves toudic 75010 Paris",
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.363473,
+          48.870131
+        ]
+      },
+      "properties": {
+        "citycode": "75110",
+        "postcode": "75010",
+        "name": "13 Rue Yves Toudic",
+        "housenumber": "13",
+        "city": "Paris",
+        "context": "75, Île-de-France",
+        "score": 0.9437454545454544,
+        "label": "13 Rue Yves Toudic 75010 Paris",
+        "id": "ADRNIVX_0000000270748760",
+        "type": "housenumber",
+        "street": "Rue Yves Toudic"
+      },
+      "type": "Feature"
+    }
+  ]
+}
