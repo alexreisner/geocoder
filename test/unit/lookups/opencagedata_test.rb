@@ -30,6 +30,24 @@ class OpencagedataTest < GeocoderTestCase
     assert_match(/bounds=40.0+%2C-120.0+%2C39.0+%2C-121.0+/, url)
   end
 
+  def test_opencagedata_query_url_contains_optional_params
+    lookup = Geocoder::Lookup::Opencagedata.new
+    url = lookup.query_url(Geocoder::Query.new(
+      "Some street",
+      :countrycode => 'fr',
+      :min_confidence => 5,
+      :no_dedupe => 1,
+      :no_annotations => 1,
+      :no_record => 1,
+      :limit => 2
+    ))
+    assert_match(/countrycode=fr/, url)
+    assert_match(/min_confidence=5/, url)
+    assert_match(/no_dedupe=1/, url)
+    assert_match(/no_annotations=1/, url)
+    assert_match(/no_record=1/, url)
+    assert_match(/limit=2/, url)
+  end
 
   def test_no_results
     results = Geocoder.search("no results")
