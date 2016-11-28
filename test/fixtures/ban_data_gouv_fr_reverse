@@ -1,0 +1,33 @@
+{
+  "limit": 1,
+  "attribution": "BAN",
+  "version": "draft",
+  "licence": "ODbL 1.0",
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.364375,
+          48.770639
+        ]
+      },
+      "properties": {
+        "street": "Rue du Lieutenant Alain le Coz",
+        "label": "4 Rue du Lieutenant Alain le Coz 94550 Chevilly-Larue",
+        "distance": 23,
+        "context": "94, Val-de-Marne, Île-de-France",
+        "id": "94021_1133_49638b",
+        "citycode": "94021",
+        "name": "4 Rue du Lieutenant Alain le Coz",
+        "city": "Chevilly-Larue",
+        "postcode": "94550",
+        "housenumber": "4",
+        "score": 0.9999997696809948,
+        "type": "housenumber"
+      },
+      "type": "Feature"
+    }
+  ]
+}
