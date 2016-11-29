@@ -104,11 +104,6 @@ class BanDataGouvFrTest < GeocoderTestCase
     assert_equal(2.364375, result.coordinates[1])
   end
 
-  def test_no_search_results
-    result = Geocoder.search('no search results')
-    assert_equal 0, result.length
-  end
-
   def test_no_reverse_results
     result = Geocoder.search('no reverse results')
     assert_equal 0, result.length
