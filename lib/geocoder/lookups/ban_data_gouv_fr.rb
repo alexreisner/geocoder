@@ -26,13 +26,14 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      if any_result?(query)
-        return [] << fetch_data(query)
+      res = []
+      if fetch_data(query)
+        res << fetch_data(query) if any_result?(query)
+        return res
       else
         raise_error(Geocoder::Error) ||
             warn("BAN Geocoding API error")
       end
-      return []
     end
 
     #### PARAMS ####
