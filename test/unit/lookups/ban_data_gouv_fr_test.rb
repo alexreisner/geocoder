@@ -22,8 +22,7 @@ class BanDataGouvFrTest < GeocoderTestCase
   end
 
   def test_results_component
-    lookup = Geocoder::Lookup.get(:ban_data_gouv_fr)
-    result = lookup.search('13 rue yves toudic, 75010 Paris').first
+    result = Geocoder.search('13 rue yves toudic, 75010 Paris').first
     assert_equal 'ADRNIVX_0000000270748760', result.location_id
     assert_equal 'housenumber', result.result_type
     assert_equal 'Paris', result.city_name
@@ -48,7 +47,6 @@ class BanDataGouvFrTest < GeocoderTestCase
   end
 
   def test_paris_special_business_logic
-    Geocoder.configure(lookup: :ban_data_gouv_fr)
     result = Geocoder.search('Paris').first
     assert_equal 'city', result.result_type
     assert_equal '75000', result.postal_code
@@ -67,7 +65,6 @@ class BanDataGouvFrTest < GeocoderTestCase
   end
 
   def test_city_result_methods
-    Geocoder.configure(lookup: :ban_data_gouv_fr)
     result = Geocoder.search('Montpellier').first
     assert_equal 'city', result.result_type
     assert_equal '34080', result.postal_code
@@ -84,7 +81,6 @@ class BanDataGouvFrTest < GeocoderTestCase
   end
 
   def test_results_component_when_reverse_geocoding
-    Geocoder.configure(lookup: :ban_data_gouv_fr)
     result = Geocoder.search([48.770431, 2.364463]).first
     assert_equal '94021_1133_49638b', result.location_id
     assert_equal 'housenumber', result.result_type
@@ -109,13 +105,11 @@ class BanDataGouvFrTest < GeocoderTestCase
   end
 
   def test_no_search_results
-    Geocoder.configure(lookup: :ban_data_gouv_fr)
     result = Geocoder.search('no search results')
     assert_equal 0, result.length
   end
 
   def test_no_reverse_results
-    Geocoder.configure(lookup: :ban_data_gouv_fr)
     result = Geocoder.search('no reverse results')
     assert_equal 0, result.length
   end
