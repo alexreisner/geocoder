@@ -37,7 +37,6 @@ module Geocoder::Result
     def coordinates
       coords = geometry["coordinates"]
       return [coords[1].to_f, coords[0].to_f]
-      #['lat', 'lng'].map{ |i| geometry['location'][i] }
     end
 
     #### PROPERTIES ####
