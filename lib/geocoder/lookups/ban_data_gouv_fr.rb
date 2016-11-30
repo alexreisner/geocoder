@@ -21,8 +21,8 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
-    def any_result?(query)
-      fetch_data(query)['features'].any?
+    def any_result?(doc)
+      doc['features'].any?
     end
 
     def results(query)
