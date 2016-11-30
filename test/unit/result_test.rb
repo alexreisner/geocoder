@@ -87,7 +87,6 @@ class ResultTest < GeocoderTestCase
       Geocoder.configure(:lookup => :mapbox)
       set_api_key!(:mapbox)
       result = Geocoder.search("Shanghai, China")[0]
-      puts result.inspect
       assert_equal nil, result.city
     end
   end
