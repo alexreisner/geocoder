@@ -234,7 +234,8 @@ module Geocoder::Result
     alias_method :address, :international_address
     alias_method :street, :street_name
     alias_method :city, :city_name
-    alias_method :state, :department_name
+    alias_method :state, :region_name
+    alias_method :state_code, :state
 
     #### CITIES' METHODS ####
 
