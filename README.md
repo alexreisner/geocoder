@@ -696,6 +696,16 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Terms of Service**: ?
 * **Limitations**: No restrictions on use
 
+#### Base Adresse Nationale FR (`:ban_data_gouv_fr`)
+
+* **API key**: none
+* **Quota**: none
+* **Region**: FR
+* **SSL support**: yes
+* **Languages**: en / fr
+* **Documentation**: https://adresse.data.gouv.fr/api/ (in french)
+* **Terms of Service**: https://adresse.data.gouv.fr/faq/ (in french)
+* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://openstreetmap.fr/ban)
 
 ### IP Address Services
 

@@ -1,0 +1,117 @@
+{
+  "limit": 5,
+  "attribution": "BAN",
+  "version": "draft",
+  "licence": "ODbL 1.0",
+  "query": "Paris",
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2.3469,
+          48.8589
+        ]
+      },
+      "properties": {
+        "adm_weight": "6",
+        "citycode": "75056",
+        "name": "Paris",
+        "city": "Paris",
+        "postcode": "75000",
+        "context": "75, Île-de-France",
+        "score": 1,
+        "label": "Paris",
+        "id": "75056",
+        "type": "city",
+        "population": "2244"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.564293,
+          45.766413
+        ]
+      },
+      "properties": {
+        "citycode": "63125",
+        "postcode": "63120",
+        "name": "Paris",
+        "city": "Courpière",
+        "context": "63, Puy-de-Dôme, Auvergne",
+        "score": 0.8255363636363636,
+        "label": "Paris 63120 Courpière",
+        "id": "63125_B221_03549b",
+        "type": "locality"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1.550208,
+          44.673592
+        ]
+      },
+      "properties": {
+        "citycode": "46138",
+        "postcode": "46240",
+        "name": "PARIS (Vaillac)",
+        "city": "Cœur de Causse",
+        "context": "46, Lot, Midi-Pyrénées",
+        "score": 0.824090909090909,
+        "label": "PARIS (Vaillac) 46240 Cœur de Causse",
+        "id": "46138_XXXX_6ee4ec",
+        "type": "street"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.526884,
+          43.762253
+        ]
+      },
+      "properties": {
+        "citycode": "40282",
+        "postcode": "40500",
+        "name": "Paris",
+        "city": "Saint-Sever",
+        "context": "40, Landes, Aquitaine",
+        "score": 0.8236181818181818,
+        "label": "Paris 40500 Saint-Sever",
+        "id": "40282_B237_2364e3",
+        "type": "locality"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.157613,
+          47.336685
+        ]
+      },
+      "properties": {
+        "citycode": "37031",
+        "postcode": "37140",
+        "name": "Paris Buton",
+        "city": "Bourgueil",
+        "context": "37, Indre-et-Loire, Centre Val-de-Loire",
+        "score": 0.8235454545454545,
+        "label": "Paris Buton 37140 Bourgueil",
+        "id": "37031_B165_0a5e7a",
+        "type": "locality"
+      },
+      "type": "Feature"
+    }
+  ]
+}

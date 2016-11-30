@@ -47,6 +47,7 @@ module Geocoder
         :okf,
         :postcode_anywhere_uk,
         :geoportail_lu,
+        :ban_data_gouv_fr,
         :test,
         :latlon
       ]

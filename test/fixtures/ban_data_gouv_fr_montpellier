@@ -1,0 +1,125 @@
+{
+  "limit": 5,
+  "attribution": "BAN",
+  "version": "draft",
+  "licence": "ODbL 1.0",
+  "query": "Montpellier",
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.875521,
+          43.611024
+        ]
+      },
+      "properties": {
+        "citycode": "34172",
+        "adm_weight": "5",
+        "name": "Montpellier",
+        "city": "Montpellier",
+        "postcode": "34080",
+        "context": "34, Hérault, Languedoc-Roussillon",
+        "score": 0.9785090909090908,
+        "label": "Montpellier",
+        "id": "34172_34080",
+        "type": "city",
+        "population": "255.1"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.875521,
+          43.611024
+        ]
+      },
+      "properties": {
+        "citycode": "34172",
+        "adm_weight": "5",
+        "name": "Montpellier",
+        "city": "Montpellier",
+        "postcode": "34000",
+        "context": "34, Hérault, Languedoc-Roussillon",
+        "score": 0.9785090909090908,
+        "label": "Montpellier",
+        "id": "34172",
+        "type": "city",
+        "population": "255.1"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.875521,
+          43.611024
+        ]
+      },
+      "properties": {
+        "citycode": "34172",
+        "adm_weight": "5",
+        "name": "Montpellier",
+        "city": "Montpellier",
+        "postcode": "34090",
+        "context": "34, Hérault, Languedoc-Roussillon",
+        "score": 0.9785090909090908,
+        "label": "Montpellier",
+        "id": "34172_34090",
+        "type": "city",
+        "population": "255.1"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3.875521,
+          43.611024
+        ]
+      },
+      "properties": {
+        "citycode": "34172",
+        "adm_weight": "5",
+        "name": "Montpellier",
+        "city": "Montpellier",
+        "postcode": "34070",
+        "context": "34, Hérault, Languedoc-Roussillon",
+        "score": 0.9785090909090908,
+        "label": "Montpellier",
+        "id": "34172_34070",
+        "type": "city",
+        "population": "255.1"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -0.744328,
+          45.634502
+        ]
+      },
+      "properties": {
+        "citycode": "17244",
+        "adm_weight": "1",
+        "name": "Montpellier-de-Médillan",
+        "city": "Montpellier-de-Médillan",
+        "postcode": "17260",
+        "context": "17, Charente-Maritime, Poitou-Charentes",
+        "score": 0.825,
+        "label": "Montpellier-de-Médillan",
+        "id": "17244",
+        "type": "village",
+        "population": "0.6"
+      },
+      "type": "Feature"
+    }
+  ]
+}
