@@ -11,12 +11,6 @@ module Geocoder
     COMPASS_POINTS = %w[N NE E SE S SW W NW]
 
     ##
-    # Radius of the Earth, in kilometers.
-    # Value taken from: http://en.wikipedia.org/wiki/Earth_radius
-    #
-    EARTH_RADIUS = 6371.0
-
-    ##
     # Conversion factor: multiply by kilometers to get miles.
     #
     KM_IN_MI = 0.621371192
@@ -30,6 +24,16 @@ module Geocoder
     # Conversion factor: multiply by radians to get degrees.
     #
     DEGREES_PER_RADIAN = 57.2957795
+
+    ##
+    # Radius of the Earth, in kilometers.
+    # Value taken from: http://en.wikipedia.org/wiki/Earth_radius
+    #
+    EARTH_RADII = {km: 6371.0}
+    EARTH_RADII[:mi] = EARTH_RADII[:km] * KM_IN_MI
+    EARTH_RADII[:nm] = EARTH_RADII[:km] * KM_IN_NM
+
+    EARTH_RADIUS = EARTH_RADII[:km] # TODO: deprecate this constant (use `EARTH_RADII[:km]`)
 
     # Not a number constant
     NAN = defined?(::Float::NAN) ? ::Float::NAN : 0 / 0.0
@@ -45,7 +49,6 @@ module Geocoder
     # Distance spanned by one degree of latitude in the given units.
     #
     def latitude_degree_distance(units = nil)
-      units ||= Geocoder.config.units
       2 * Math::PI * earth_radius(units) / 360
     end
 
@@ -54,7 +57,6 @@ module Geocoder
     # This ranges from around 69 miles at the equator to zero at the poles.
     #
     def longitude_degree_distance(latitude, units = nil)
-      units ||= Geocoder.config.units
       latitude_degree_distance(units) * Math.cos(to_radians(latitude))
     end
 
@@ -75,10 +77,6 @@ module Geocoder
     #   Use Geocoder.configure(:units => ...) to configure default units.
     #
     def distance_between(point1, point2, options = {})
-
-      # set default options
-      options[:units] ||= Geocoder.config.units
-
       # convert to coordinate arrays
       point1 = extract_coordinates(point1)
       point2 = extract_coordinates(point2)
@@ -207,12 +205,11 @@ module Geocoder
     def bounding_box(point, radius, options = {})
       lat,lon = extract_coordinates(point)
       radius  = radius.to_f
-      units   = options[:units] || Geocoder.config.units
       [
-        lat - (radius / latitude_degree_distance(units)),
-        lon - (radius / longitude_degree_distance(lat, units)),
-        lat + (radius / latitude_degree_distance(units)),
-        lon + (radius / longitude_degree_distance(lat, units))
+        lat - (radius / latitude_degree_distance(options[:units])),
+        lon - (radius / longitude_degree_distance(lat, options[:units])),
+        lat + (radius / latitude_degree_distance(options[:units])),
+        lon + (radius / longitude_degree_distance(lat, options[:units]))
       ]
     end
 
@@ -234,10 +231,6 @@ module Geocoder
     #   Use Geocoder.configure(:units => ...) to configure default units.
     # * <tt>:seed</tt> - The seed for the random number generator
     def random_point_near(center, radius, options = {})
-
-      # set default options
-      options[:units] ||= Geocoder.config.units
-
       random = Random.new(options[:seed] || Random.new_seed)
 
       # convert to coordinate arrays
@@ -269,7 +262,6 @@ module Geocoder
     #   which returns a [lat,lon] array
     #
     def endpoint(start, heading, distance, options = {})
-      options[:units] ||= Geocoder.config.units
       radius = earth_radius(options[:units])
 
       start = extract_coordinates(start)
@@ -320,12 +312,10 @@ module Geocoder
     end
 
     def distance_to_radians(distance, units = nil)
-      units ||= Geocoder.config.units
       distance.to_f / earth_radius(units)
     end
 
     def radians_to_distance(radians, units = nil)
-      units ||= Geocoder.config.units
       radians * earth_radius(units)
     end
 
@@ -355,12 +345,7 @@ module Geocoder
     # Use Geocoder.configure(:units => ...) to configure default units.
     #
     def earth_radius(units = nil)
-      units ||= Geocoder.config.units
-      case units
-        when :km; EARTH_RADIUS
-        when :mi; to_miles(EARTH_RADIUS)
-        when :nm; to_nautical_miles(EARTH_RADIUS)
-      end
+      EARTH_RADII[units || Geocoder.config.units]
     end
 
     ##
@@ -418,4 +403,3 @@ module Geocoder
     end
   end
 end
-
