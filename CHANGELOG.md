@@ -3,6 +3,13 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.1 (2016 Dec  2)
+-------------------
+* Add :location_iq lookup (thanks github.com/aleemuddin13 and glsignal).
+* Add :ban_data_gouv_fr lookup (thanks github.com/JulianNacci).
+* Fix :mapbox results when server returns no context (thanks github.com/jcmuller).
+* Deprecate methods in Geocoder::Calculations: to_kilometers, to_miles, to_nautical_miles, mi_in_km, km_in_mi, km_in_nm, nm_in_km.
+
 1.4.0 (2016 Sep  8)
 -------------------
 * Only consider an object geocoded if both lat and lon are present (previously was sufficient to have only one of the two) (thanks github.com/mltsy).
