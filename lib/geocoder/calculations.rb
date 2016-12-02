@@ -323,6 +323,7 @@ module Geocoder
     # Convert miles to kilometers.
     #
     def to_kilometers(mi)
+      Geocoder.log(:warn, "DEPRECATION WARNING: Geocoder::Calculations.to_kilometers is deprecated and will be removed in Geocoder 1.5.0. Please multiply by MI_IN_KM instead.")
       mi * mi_in_km
     end
 
@@ -330,14 +331,16 @@ module Geocoder
     # Convert kilometers to miles.
     #
     def to_miles(km)
-      km * km_in_mi
+      Geocoder.log(:warn, "DEPRECATION WARNING: Geocoder::Calculations.to_miles is deprecated and will be removed in Geocoder 1.5.0. Please multiply by KM_IN_MI instead.")
+      km * KM_IN_MI
     end
 
     ##
     # Convert kilometers to nautical miles.
     #
     def to_nautical_miles(km)
-      km * km_in_nm
+      Geocoder.log(:warn, "DEPRECATION WARNING: Geocoder::Calculations.to_nautical_miles is deprecated and will be removed in Geocoder 1.5.0. Please multiply by KM_IN_NM instead.")
+      km * KM_IN_NM
     end
 
     ##
@@ -352,6 +355,7 @@ module Geocoder
     # Conversion factor: km to mi.
     #
     def km_in_mi
+      Geocoder.log(:warn, "DEPRECATION WARNING: Geocoder::Calculations.km_in_mi is deprecated and will be removed in Geocoder 1.5.0. Please use the constant KM_IN_MI instead.")
       KM_IN_MI
     end
 
@@ -359,15 +363,15 @@ module Geocoder
     # Conversion factor: km to nm.
     #
     def km_in_nm
+      Geocoder.log(:warn, "DEPRECATION WARNING: Geocoder::Calculations.km_in_nm is deprecated and will be removed in Geocoder 1.5.0. Please use the constant KM_IN_NM instead.")
       KM_IN_NM
     end
-
-
 
     ##
     # Conversion factor: mi to km.
     #
     def mi_in_km
+      Geocoder.log(:warn, "DEPRECATION WARNING: Geocoder::Calculations.mi_in_km is deprecated and will be removed in Geocoder 1.5.0. Please use 1.0 / KM_IN_MI instead.")
       1.0 / KM_IN_MI
     end
 
@@ -375,6 +379,7 @@ module Geocoder
     # Conversion factor: nm to km.
     #
     def nm_in_km
+      Geocoder.log(:warn, "DEPRECATION WARNING: Geocoder::Calculations.nm_in_km is deprecated and will be removed in Geocoder 1.5.0. Please use 1.0 / KM_IN_NM instead.")
       1.0 / KM_IN_NM
     end
 
