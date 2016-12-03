@@ -9,9 +9,9 @@ class MapboxTest < GeocoderTestCase
   end
 
   def test_url_contains_api_key
-    Geocoder.configure(mapbox: {api_key: "abc123"})
+    Geocoder.configure(mapbox: {api_key: "abc123", mapbox_params: {proximity: '0,0'}})
     query = Geocoder::Query.new("Leadville, CO")
-    assert_equal "https://api.mapbox.com/geocoding/v5/mapbox.places/Leadville%2C+CO.json?access_token=abc123", query.url
+    assert_equal "https://api.mapbox.com/geocoding/v5/mapbox.places/Leadville%2C+CO.json?access_token=abc123&proximity=0%2C0", query.url
   end
 
   def test_result_components
