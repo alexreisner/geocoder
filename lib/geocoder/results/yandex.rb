@@ -25,11 +25,19 @@ module Geocoder::Result
     end
 
     def country
-      address_details['CountryName']
+      if address_details
+        address_details['CountryName']
+      else
+        ""
+      end
     end
 
     def country_code
-      address_details['CountryNameCode']
+      if address_details
+        address_details['CountryNameCode']
+      else
+        ""
+      end
     end
 
     def state
