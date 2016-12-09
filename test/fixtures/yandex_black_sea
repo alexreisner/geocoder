@@ -1,0 +1,74 @@
+{
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "32,43",
+          "found": "2",
+          "results": "10",
+          "Point": {
+            "pos": "32.000000 43.000000"
+          }
+        }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "hydro",
+                "text": "Black Sea",
+                "precision": "other",
+                "AddressDetails": {
+                  "Locality": {
+                    "Premise": {
+                      "PremiseName": "Black Sea"
+                    }
+                  }
+                }
+              }
+            },
+            "name": "Black Sea",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "27.442409 40.908662",
+                "upperCorner": "41.777787 46.627275"
+              }
+            },
+            "Point": {
+              "pos": "34.188281 43.229215"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "hydro",
+                "text": "Black Sea",
+                "precision": "other",
+                "AddressDetails": {
+                  "Locality": {
+                    "Premise": {
+                      "PremiseName": "Black Sea"
+                    }
+                  }
+                }
+              }
+            },
+            "name": "Black Sea",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "27.628351 40.908893",
+                "upperCorner": "41.777796 46.627999"
+              }
+            },
+            "Point": {
+              "pos": "33.383633 44.235582"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -14,4 +14,9 @@ class YandexTest < GeocoderTestCase
       result.viewport
   end
 
+  def test_yandex_empty_results
+    result = Geocoder.search('black sea').first
+    assert_equal "", result.country_code
+    assert_equal "", result.country
+  end
 end
