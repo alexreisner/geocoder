@@ -15,7 +15,7 @@ module Geocoder::Lookup
       if zipcode_only?(query)
         "#{protocol}://us-zipcode.api.smartystreets.com/lookup?#{url_query_string(query)}"
       else
-        "#{protocol}://api.smartystreets.com/street-address?#{url_query_string(query)}"
+        "#{protocol}://us-street.api.smartystreets.com/street-address?#{url_query_string(query)}"
       end
     end
 
