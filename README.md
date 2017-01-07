@@ -402,7 +402,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 #### Google (`:google`)
 
 * **API key**: optional, but quota is higher if key is used (use of key requires HTTPS so be sure to set: `:use_https => true` in `Geocoder.configure`)
-* **Key signup**: https://console.developers.google.com//flows/enableapi?apiid=geocoding_backend&keyType=SERVER_SIDE
+* **Key signup**: https://console.developers.google.com/flows/enableapi?apiid=geocoding_backend&keyType=SERVER_SIDE
 * **Quota**: 2,500 requests/24 hrs, 5 requests/second
 * **Region**: world
 * **SSL support**: yes (required if key is used)
