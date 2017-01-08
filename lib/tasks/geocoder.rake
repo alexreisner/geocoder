@@ -11,14 +11,20 @@ namespace :geocode do
     reverse = false unless reverse.to_s.downcase == 'true'
 
     if reverse
-      klass.not_reverse_geocoded.find_each(batch_size: batch) do |obj|
-        obj.reverse_geocode; obj.save
-        sleep(sleep_timer.to_f) unless sleep_timer.nil?
+      size = klass.not_reverse_geocoded.count
+      (0..size).step(batch) do |offset|
+        klass.not_reverse_geocoded.skip(offset).limit(batch).each do |obj|
+          obj.reverse_geocode; obj.save
+          sleep(sleep_timer.to_f) unless sleep_timer.nil?
+        end
       end
     else
-      klass.not_geocoded.find_each(batch_size: batch) do |obj|
-        obj.geocode; obj.save
-        sleep(sleep_timer.to_f) unless sleep_timer.nil?
+      size = klass.not_geocoded.count
+      (0..size).step(batch) do |offset|
+        klass.not_geocoded.skip(offset).limit(batch).each do |obj|
+          obj.geocode; obj.save
+          sleep(sleep_timer.to_f) unless sleep_timer.nil?
+        end
       end
     end
   end
