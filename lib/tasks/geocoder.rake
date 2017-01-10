@@ -9,32 +9,31 @@ namespace :geocode do
     klass = class_from_string(class_name)
     batch = (batch.to_i unless batch.nil?) || 1000
     reverse = false unless reverse.to_s.downcase == 'true'
+    orm = defined?(Geocoder::Model::Mongoid) ? 'mongoid' : 'active_record'
 
-    if reverse
-      if defined? (Geocoder::Model::Mongoid)
-        klass.not_reverse_geocoded.each do |obj|
-          obj.reverse_geocode; obj.save
-          sleep(sleep_timer.to_f) unless sleep_timer.nil?
-        end
-      else
-        klass.not_reverse_geocoded.find_each(batch_size: batch) do |obj|
-          obj.reverse_geocode; obj.save
-          sleep(sleep_timer.to_f) unless sleep_timer.nil?
-        end
+    if reverse && orm == 'mongoid'
+      klass.not_reverse_geocoded.each do |obj|
+        geocode_record(obj, reverse: true)
+      end
+    elsif reverse && orm == 'active_record'
+      klass.not_reverse_geocoded.find_each(batch_size: batch) do |obj|
+        geocode_record(obj, reverse: true)
+      end
+    elsif orm == 'mongoid'
+      klass.not_geocoded.each do |obj|
+        geocode_record(obj)
       end
     else
-      if defined? (Geocoder::Model::Mongoid)
-        klass.not_geocoded.each do |obj|
-          obj.geocode; obj.save
-          sleep(sleep_timer.to_f) unless sleep_timer.nil?
-        end
-      else
-        klass.not_geocoded.find_each(batch_size: batch) do |obj|
-          obj.geocode; obj.save
-          sleep(sleep_timer.to_f) unless sleep_timer.nil?
-        end
+      klass.not_geocoded.find_each(batch_size: batch) do |obj|
+        geocode_record(obj)
       end
     end
+  end
+  
+  def geocode_record(obj, reverse: false)
+    reverse ? obj.reverse_geocode : obj.geocode
+    obj.save
+    sleep(sleep_timer.to_f) unless sleep_timer.nil?
   end
 end
 
