@@ -11,14 +11,28 @@ namespace :geocode do
     reverse = false unless reverse.to_s.downcase == 'true'
 
     if reverse
-      klass.not_reverse_geocoded.find_each(batch_size: batch) do |obj|
-        obj.reverse_geocode; obj.save
-        sleep(sleep_timer.to_f) unless sleep_timer.nil?
+      if defined? (Geocoder::Model::Mongoid)
+        klass.not_reverse_geocoded.each do |obj|
+          obj.reverse_geocode; obj.save
+          sleep(sleep_timer.to_f) unless sleep_timer.nil?
+        end
+      else
+        klass.not_reverse_geocoded.find_each(batch_size: batch) do |obj|
+          obj.reverse_geocode; obj.save
+          sleep(sleep_timer.to_f) unless sleep_timer.nil?
+        end
       end
     else
-      klass.not_geocoded.find_each(batch_size: batch) do |obj|
-        obj.geocode; obj.save
-        sleep(sleep_timer.to_f) unless sleep_timer.nil?
+      if defined? (Geocoder::Model::Mongoid)
+        klass.not_geocoded.each do |obj|
+          obj.geocode; obj.save
+          sleep(sleep_timer.to_f) unless sleep_timer.nil?
+        end
+      else
+        klass.not_geocoded.find_each(batch_size: batch) do |obj|
+          obj.geocode; obj.save
+          sleep(sleep_timer.to_f) unless sleep_timer.nil?
+        end
       end
     end
   end
