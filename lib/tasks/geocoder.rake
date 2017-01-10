@@ -2,7 +2,7 @@ namespace :geocode do
   desc "Geocode all objects without coordinates."
   task :all => :environment do
     class_name = ENV['CLASS'] || ENV['class']
-    sleep_timer = ENV['SLEEP'] || ENV['sleep']
+    @sleep_timer = ENV['SLEEP'] || ENV['sleep']
     batch = ENV['BATCH'] || ENV['batch']
     reverse = ENV['REVERSE'] || ENV['reverse']
     raise "Please specify a CLASS (model)" unless class_name
@@ -33,7 +33,7 @@ namespace :geocode do
   def geocode_record(obj, reverse: false)
     reverse ? obj.reverse_geocode : obj.geocode
     obj.save
-    sleep(sleep_timer.to_f) unless sleep_timer.nil?
+    sleep(@sleep_timer.to_f) unless @sleep_timer.nil?
   end
 end
 
