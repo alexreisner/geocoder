@@ -4,7 +4,7 @@ module Geocoder::Result
   class Nominatim < Base
 
     def poi
-      %w[building university school hospital mall hotel restaurant stadium bus_stop tram_stop].each do |key|
+      %w[building university school hospital mall hotel restaurant supermarket stadium bus_stop tram_stop].each do |key|
         return @data['address'][key] if @data['address'].key?(key)
       end
       return nil
