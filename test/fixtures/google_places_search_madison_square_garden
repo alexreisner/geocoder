@@ -1,0 +1,42 @@
+{
+   "html_attributions" : [],
+   "results" : [
+      {
+         "formatted_address" : "4 Pennsylvania Plaza, New York, NY 10001, United States",
+         "geometry" : {
+            "location" : {
+               "lat" : 40.75050450000001,
+               "lng" : -73.9934387
+            },
+            "viewport" : {
+               "northeast" : {
+                  "lat" : 40.7523981,
+                  "lng" : -73.98975269999997
+               },
+               "southwest" : {
+                  "lat" : 40.7485721,
+                  "lng" : -73.9963951
+               }
+            }
+         },
+         "icon" : "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+         "id" : "55e3174d410b31da010030a7dfc0c9819027445a",
+         "name" : "Madison Square Garden",
+         "photos" : [
+            {
+               "height" : 3904,
+               "html_attributions" : [
+                  "\u003ca href=\"https://maps.google.com/maps/contrib/117796018192827964147/photos\"\u003eAntonio Vera\u003c/a\u003e"
+               ],
+               "photo_reference" : "CoQBdwAAAJSRc-oTDFp3lkRwkyDN85h49Inw9YRC8U2sPUDeV0FSKzQNMxKfswp27o4Eh8gt1U6ZLPYES3RCP-2zJPswcVMtQOE9NxxM9Yg7SJllFYcC1GR_yjCJw6OGTP3_OCaL-gFI1_r54-04veyCc-UNtzjF836se6yQlSGd643zBy3_EhCYKtc3tY024iyO-6xPZUzzGhRcgC0A-itlFq-U2qmYbPde4gJU7Q",
+               "width" : 3152
+            }
+         ],
+         "place_id" : "ChIJhRwB-yFawokR5Phil-QQ3zM",
+         "rating" : 4.5,
+         "reference" : "CmRRAAAAqb-Y-BFyZh54ipS97aLZCfQYVVI_l87_7HQxJAXMx3rI29XzscexUUiwt7kLbr4YeDaggMQ78coK-V_yGztNvhsGbq2OsrdR-BmVpecrNGbiE9fNDPsPGvdxKcB3SPbAEhDTgnyzjLY1p7IPh2M4L9KnGhS7ZZMAtvVKPnjoCnaWP9IzdzRC4w",
+         "types" : [ "stadium", "point_of_interest", "establishment" ]
+      }
+   ],
+   "status" : "OK"
+}
