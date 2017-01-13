@@ -17,8 +17,6 @@ module Geocoder
       end
 
       def query_url(query)
-        # "#{protocol}://maps.googleapis.com/maps/api/place/details/json?#{url_query_string(query)}"
-
         "#{protocol}://maps.googleapis.com/maps/api/place/textsearch/json?#{url_query_string(query)}"
       end
 
