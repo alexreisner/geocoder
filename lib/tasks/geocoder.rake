@@ -14,29 +14,19 @@ namespace :geocode do
     scope = reverse ? klass.not_reverse_geocoded : klass.not_geocoded
     if orm == 'mongoid'
       scope.each do |obj|
-        geocode_record(obj)
+        geocode_record.call(obj)
       end
     elsif orm == 'active_record'
       scope.find_each(batch_size: batch) do |obj|
-        geocode_record(obj)
+        geocode_record.call(obj)
       end
     end
 
-    geocode_record = -> (obj) {
+    geocode_record = ->(obj) {
       reverse ? obj.reverse_geocode : obj.geocode
       obj.save
       sleep(sleep_timer.to_f) unless sleep_timer.nil?
     }
-  end
-end
-
-module GeocodeTask
-  extend self
-
-  def geocode_record(obj, reverse=false, sleep_timer)
-    reverse ? obj.reverse_geocode : obj.geocode
-    obj.save
-    sleep(sleep_timer.to_f) unless sleep_timer.nil?
   end
 end
 ##
