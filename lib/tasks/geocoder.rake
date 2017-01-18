@@ -11,6 +11,12 @@ namespace :geocode do
     orm = (klass < Geocoder::Model::Mongoid) ? 'mongoid' : 'active_record'
     reverse = false unless reverse.to_s.downcase == 'true'
 
+    geocode_record = lambda { |obj|
+      reverse ? obj.reverse_geocode : obj.geocode
+      obj.save
+      sleep(sleep_timer.to_f) unless sleep_timer.nil?
+    }
+
     scope = reverse ? klass.not_reverse_geocoded : klass.not_geocoded
     if orm == 'mongoid'
       scope.each do |obj|
@@ -22,11 +28,6 @@ namespace :geocode do
       end
     end
 
-    geocode_record = ->(obj) {
-      reverse ? obj.reverse_geocode : obj.geocode
-      obj.save
-      sleep(sleep_timer.to_f) unless sleep_timer.nil?
-    }
   end
 end
 ##
