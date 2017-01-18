@@ -1,4 +1,4 @@
-require './lib/geocoder/models/mongoid'
+require "geocoder/models/mongoid" 
 
 namespace :geocode do
   desc "Geocode all objects without coordinates."
