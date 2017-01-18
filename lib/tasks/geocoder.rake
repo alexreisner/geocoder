@@ -9,15 +9,16 @@ namespace :geocode do
     klass = class_from_string(class_name)
     batch = (batch.to_i unless batch.nil?) || 1000
     orm = (klass < Geocoder::Model::Mongoid) ? 'mongoid' : 'active_record'
+    reverse = false unless reverse.to_s.downcase == 'true'
 
-    scope = GeocodeTask.reverse? ? klass.not_reverse.geocoded : klass.reverse.geocoded
+    scope = reverse ? klass.not_reverse.geocoded : klass.reverse.geocoded
     if orm == 'mongoid'
       scope.each do |obj|
-        GeocodeTask.geocode_record(obj, GeocodeTask.reverse?)
+        GeocodeTask.geocode_record(obj, reverse)
       end
     elsif orm == 'active_record'
       scope.find_each(batch_size: batch) do |obj|
-        GeocodeTask.geocode_record(obj, GeocodeTask.reverse?)
+        GeocodeTask.geocode_record(obj, reverse)
       end
     end
   end
@@ -30,10 +31,6 @@ module GeocodeTask
     reverse ? obj.reverse_geocode : obj.geocode
     obj.save
     sleep(sleep_timer.to_f) unless sleep_timer.nil?
-  end
-
-  def reverse?
-    reverse.to_s.downcase == 'true'
   end
 end
 ##
