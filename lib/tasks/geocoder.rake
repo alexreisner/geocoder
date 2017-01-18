@@ -10,14 +10,14 @@ namespace :geocode do
     batch = (batch.to_i unless batch.nil?) || 1000
     orm = (klass < Geocoder::Model::Mongoid) ? 'mongoid' : 'active_record'
 
-    scope = reverse? ? klass.not_reverse.geocoded : klass.reverse.geocoded
+    scope = GeocodeTask.reverse? ? klass.not_reverse.geocoded : klass.reverse.geocoded
     if orm == 'mongoid'
       scope.each do |obj|
-        GeocodeTask.geocode_record(obj, reverse?)
+        GeocodeTask.geocode_record(obj, GeocodeTask.reverse?)
       end
     elsif orm == 'active_record'
       scope.find_each(batch_size: batch) do |obj|
-        GeocodeTask.geocode_record(obj, reverse?)
+        GeocodeTask.geocode_record(obj, GeocodeTask.reverse?)
       end
     end
   end
