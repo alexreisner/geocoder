@@ -13,27 +13,29 @@ namespace :geocode do
     scope = reverse? ? klass.not_reverse.geocoded : klass.reverse.geocoded
     if orm == 'mongoid'
       scope.each do |obj|
-        geocode_record(obj, reverse?)
+        GeocodeTask.geocode_record(obj, reverse?)
       end
     elsif orm == 'active_record'
       scope.find_each(batch_size: batch) do |obj|
-        geocode_record(obj, reverse?)
+        GeocodeTask.geocode_record(obj, reverse?)
       end
     end
-
-    def geocode_record(obj, reverse=false)
-      reverse ? obj.reverse_geocode : obj.geocode
-      obj.save
-      sleep(sleep_timer.to_f) unless sleep_timer.nil?
-    end
-
-    def reverse?
-      reverse.to_s.downcase == 'true'
-    end
   end
-  
 end
 
+module GeocodeTask
+  extend self
+
+  def geocode_record(obj, reverse=false)
+    reverse ? obj.reverse_geocode : obj.geocode
+    obj.save
+    sleep(sleep_timer.to_f) unless sleep_timer.nil?
+  end
+
+  def reverse?
+    reverse.to_s.downcase == 'true'
+  end
+end
 ##
 # Get a class object from the string given in the shell environment.
 # Similar to ActiveSupport's +constantize+ method.
