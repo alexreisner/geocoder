@@ -11,7 +11,7 @@ namespace :geocode do
     orm = (klass < Geocoder::Model::Mongoid) ? 'mongoid' : 'active_record'
     reverse = false unless reverse.to_s.downcase == 'true'
 
-    scope = reverse ? klass.not_reverse.geocoded : klass.reverse.geocoded
+    scope = reverse ? klass.not_reverse_geocoded : klass.not_geocoded
     if orm == 'mongoid'
       scope.each do |obj|
         GeocodeTask.geocode_record(obj, reverse)
