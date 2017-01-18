@@ -1,3 +1,5 @@
+require './lib/geocoder/models/mongoid'
+
 namespace :geocode do
   desc "Geocode all objects without coordinates."
   task :all => :environment do
