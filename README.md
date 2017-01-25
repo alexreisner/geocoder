@@ -434,6 +434,10 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Terms of Service**: https://developers.google.com/places/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
 
+#### Google Places Search (`:google_places_search`)
+The [Google Places Search API](https://developers.google.com/places/web-service/search) is the geocoding service of Google Places API.
+It only returns limited address data, but it also returns place id. You can use Google Place Details if you need more detailed information using obtained place id. See points details on Google Places Details in previous section. You should use this service instead of regular Google Geocoding API if your queries are ambiguos or incomplete addresses. For more comparison between this and regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
+
 #### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(:lookup => :bing, :api_key => key)`)
