@@ -436,7 +436,7 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 
 #### Google Places Search (`:google_places_search`)
 The [Google Places Search API](https://developers.google.com/places/web-service/search) is the geocoding service of Google Places API.
-It only returns limited address data, but it also returns place id. You can use Google Place Details if you need more detailed information using obtained place id. See points details on Google Places Details in previous section. You should use this service instead of regular Google Geocoding API if your queries are ambiguos or incomplete addresses. For more comparison between this and regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
+It only returns limited location data, however it also returns corresponding `place_id` for a given location. You can use Google Place Details if you need more detailed information using obtained place id. See points details on Google Places Details in previous section. You should use this service instead of regular Google Geocoding API if your queries are ambiguos or incomplete addresses. For more comparison between this and regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
 
 #### Bing (`:bing`)
 
