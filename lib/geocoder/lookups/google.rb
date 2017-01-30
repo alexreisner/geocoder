@@ -88,8 +88,6 @@ module Geocoder::Lookup
       ).merge(super)
     end
 
-    private
-
     def class_name
       self.class.name.split('::').last
     end
