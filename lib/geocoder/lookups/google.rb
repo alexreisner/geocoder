@@ -50,13 +50,13 @@ module Geocoder::Lookup
         return doc['results']
       when "OVER_QUERY_LIMIT"
         raise_error(Geocoder::OverQueryLimitError) ||
-          Geocoder.log(:warn, "#{class_name} API error: over query limit.")
+          Geocoder.log(:warn, "#{name} API error: over query limit.")
       when "REQUEST_DENIED"
         raise_error(Geocoder::RequestDenied) ||
-          Geocoder.log(:warn, "#{class_name} API error: request denied.")
+          Geocoder.log(:warn, "#{name} API error: request denied.")
       when "INVALID_REQUEST"
         raise_error(Geocoder::InvalidRequest) ||
-          Geocoder.log(:warn, "#{class_name} API error: invalid request.")
+          Geocoder.log(:warn, "#{name} API error: invalid request.")
       end
       return []
     end
@@ -86,10 +86,6 @@ module Geocoder::Lookup
       query_url_google_params(query).merge(
         :key => configuration.api_key
       ).merge(super)
-    end
-
-    def class_name
-      self.class.name.split('::').last
     end
   end
 end
