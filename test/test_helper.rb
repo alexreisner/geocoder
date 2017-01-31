@@ -20,7 +20,7 @@ if configs.keys.include? ENV['DB']
     require 'sqlite_ext'
     SqliteExt.register_ruby_math
   end
-  ActiveRecord::Base.establish_connection(db_name)
+  ActiveRecord::Base.establish_connection(db_name.to_sym)
   ActiveRecord::Base.default_timezone = :utc
 
   ActiveRecord::Migrator.migrate('test/db/migrate', nil)
