@@ -15,7 +15,6 @@ rvm:
   - 2.1.2
   - 2.2.0
   - jruby-19mode
-  - rbx-2
   - 2.3.0
 gemfile:
   - Gemfile
@@ -41,8 +40,6 @@ matrix:
     - rvm: 2.2.0
       gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: jruby-19mode
-      gemfile: gemfiles/Gemfile.ruby1.9.3
-    - rvm: rbx-2
       gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: 2.3.0
       gemfile: gemfiles/Gemfile.ruby1.9.3
