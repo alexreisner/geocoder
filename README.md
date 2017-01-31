@@ -9,7 +9,7 @@ _Please note that this README is for the current `HEAD` and may document feature
 Compatibility
 -------------
 
-* Supports multiple Ruby versions: Ruby 1.9.3, 2.x, JRuby, and Rubinius.
+* Supports multiple Ruby versions: Ruby 1.9.3, 2.x, and JRuby.
 * Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
 * Supports Rails 3, 4, and 5. If you need to use it with Rails 2 please see the `rails2` branch (no longer maintained, limited feature set).
 * Works very well outside of Rails, you just need to install either the `json` (for MRI) or `json_pure` (for JRuby) gem.
