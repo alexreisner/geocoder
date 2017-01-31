@@ -422,7 +422,7 @@ Similar to `:google`, with the following differences:
 
 #### Google Places Details (`:google_places_details`)
 
-The [Google Places Details API](https://developers.google.com/places/documentation/details) is not, strictly speaking, a geocoding service. It accepts a Google `place_id` and returns address information, ratings and reviews. A `place_id` can be obtained from the Google Places Autocomplete API and should be passed to Geocoder as the first search argument: `Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", :lookup => :google_places_details)`.
+The [Google Places Details API](https://developers.google.com/places/documentation/details) is not, strictly speaking, a geocoding service. It accepts a Google `place_id` and returns address information, ratings and reviews. A `place_id` can be obtained from the Google Places Search lookup or Google Places Autocomplete API and should be passed to Geocoder as the first search argument: `Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", :lookup => :google_places_details)`.
 
 * **API key**: required
 * **Key signup**: https://code.google.com/apis/console/
@@ -433,6 +433,11 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Documentation**: https://developers.google.com/places/documentation/details
 * **Terms of Service**: https://developers.google.com/places/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
+
+#### Google Places Search (`:google_places_search`)
+The [Google Places Search API](https://developers.google.com/places/web-service/search) is the geocoding service of Google Places API.
+It only returns limited location data, however it also returns corresponding `place_id` for a given location. You can use Google Place Details if you need more detailed information using obtained `place_id`. You should use this service instead of regular Google Geocoding API if your queries are ambiguos or incomplete addresses. For more comparison between this and regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
+* See points in the previous Google Places Details section.
 
 #### Bing (`:bing`)
 
