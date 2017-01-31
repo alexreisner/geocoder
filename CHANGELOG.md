@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.2 (2017 Jan 31)
+-------------------
+* Fix bug that caused Model.near to return an incorrect query in some cases.
+
 1.4.1 (2016 Dec  2)
 -------------------
 * Add :location_iq lookup (thanks github.com/aleemuddin13 and glsignal).
