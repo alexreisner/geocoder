@@ -68,6 +68,14 @@ module Geocoder::Result
       address_details['Locality']['Premise']['PremiseName']
     end
 
+    def street
+      thoroughfare_data && thoroughfare_data['ThoroughfareName']
+    end
+
+    def street_number
+      thoroughfare_data && thoroughfare_data['Premise'] && thoroughfare_data['Premise']['PremiseNumber']
+    end
+
     def kind
       @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['kind']
     end
@@ -84,6 +92,32 @@ module Geocoder::Result
     end
 
     private # ----------------------------------------------------------------
+
+    def thoroughfare_data
+      locality_data && locality_data['Thoroughfare']
+    end
+
+    def locality_data
+      dependent_locality && subadmin_locality && admin_locality
+    end
+
+    def admin_locality
+      address_details && address_details['AdministrativeArea'] &&
+        address_details['AdministrativeArea']['Locality']
+    end
+
+    def subadmin_locality
+      address_details && address_details['AdministrativeArea'] &&
+        address_details['AdministrativeArea']['SubAdministrativeArea'] &&
+        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']
+    end
+
+    def dependent_locality
+      address_details && address_details['AdministrativeArea'] &&
+        address_details['AdministrativeArea']['SubAdministrativeArea'] &&
+        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality'] &&
+        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['DependentLocality']
+    end
 
     def address_details
       @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['AddressDetails']['Country']
