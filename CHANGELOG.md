@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.3 (2017 Feb  7)
+-------------------
+* Add :google_places_search lookup (thanks github.com/waruboy).
+
 1.4.2 (2017 Jan 31)
 -------------------
 * Fix bug that caused Model.near to return an incorrect query in some cases.
