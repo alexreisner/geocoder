@@ -1,3 +1,5 @@
+require 'ipaddr'
+
 module Geocoder
   module Request
 
@@ -83,13 +85,16 @@ module Geocoder
     end
 
     def geocoder_reject_non_ipv4_addresses(ip_addresses)
-      reg = Regexp.new("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
-      matched = []
+      ips = []
       for ip in ip_addresses
-        match = reg.match(ip)
-        matched << match.to_s if match
+        begin
+          valid_ip = IPAddr.new(ip)
+        rescue
+          valid_ip = false
+        end
+        ips << valid_ip.to_s if valid_ip
       end
-      return matched.any? ? matched : ip_addresses
+      return ips.any? ? ips : ip_addresses
     end
   end
 end
