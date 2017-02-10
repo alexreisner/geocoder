@@ -66,4 +66,16 @@ class RequestTest < GeocoderTestCase
     assert_equal 'RD', req.safe_location.country_code
     assert_equal 'US', req.location.country_code
   end
+  def test_geocoder_remove_port_from_addresses
+    expected_ips = ['127.0.0.1', '127.0.0.2', '127.0.0.3']
+    ips = ['127.0.0.1:3000', '127.0.0.2:8080', '127.0.0.3:9292']
+    req = MockRequest.new()
+    assert_equal expected_ips, req.send(:geocoder_remove_port_from_addresses, ips)
+  end
+  def test_geocoder_reject_non_ipv4_addresses
+    expected_ips = ['127.0.0.1']
+    ips = ['127.0.0', '127.0.0.1', '127.0.0.2.0']
+    req = MockRequest.new()
+    assert_equal expected_ips, req.send(:geocoder_reject_non_ipv4_addresses, ips)
+  end
 end

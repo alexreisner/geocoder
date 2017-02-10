@@ -54,6 +54,8 @@ module Geocoder
       GEOCODER_CANDIDATE_HEADERS.each do |header|
         if @env.has_key? header
           addrs = geocoder_split_ip_addresses(@env[header])
+          addrs = geocoder_remove_port_from_addresses(addrs)
+          addrs = geocoder_reject_non_ipv4_addresses(addrs)
           addrs = geocoder_reject_trusted_ip_addresses(addrs)
           return addrs.first if addrs.any?
         end
@@ -74,6 +76,20 @@ module Geocoder
     #   of our own proxy/load balancer)
     def geocoder_reject_trusted_ip_addresses(ip_addresses)
       ip_addresses.reject { |ip| trusted_proxy?(ip) }
+    end
+
+    def geocoder_remove_port_from_addresses(ip_addresses)
+      ip_addresses.map { |ip| ip.split(':').first }
+    end
+
+    def geocoder_reject_non_ipv4_addresses(ip_addresses)
+      reg = Regexp.new("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
+      matched = []
+      for ip in ip_addresses
+        match = reg.match(ip)
+        matched << match.to_s if match
+      end
+      return matched.any? ? matched : ip_addresses
     end
   end
 end
