@@ -47,6 +47,11 @@ class SmartyStreetsTest < GeocoderTestCase
     assert result.zipcode_endpoint?
   end
 
+  def test_smarty_streets_when_longitude_latitude_does_not_exist
+    result = Geocoder.search("96628").first
+    assert_equal nil, result.coordinates
+  end
+
   def test_no_results
     results = Geocoder.search("no results")
     assert_equal 0, results.length
