@@ -3,8 +3,14 @@ require 'geocoder/lookups/base'
 module Geocoder::Result
   class SmartyStreets < Base
     def coordinates
-      %w(latitude longitude).map do |i|
+      result = %w(latitude longitude).map do |i|
         zipcode_endpoint? ? zipcodes.first[i] : metadata[i]
+      end
+
+      if result.compact.empty?
+        nil
+      else
+        result
       end
     end
 
