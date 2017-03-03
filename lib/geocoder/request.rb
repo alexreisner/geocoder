@@ -1,3 +1,5 @@
+require 'ipaddr'
+
 module Geocoder
   module Request
 
@@ -54,6 +56,8 @@ module Geocoder
       GEOCODER_CANDIDATE_HEADERS.each do |header|
         if @env.has_key? header
           addrs = geocoder_split_ip_addresses(@env[header])
+          addrs = geocoder_remove_port_from_addresses(addrs)
+          addrs = geocoder_reject_non_ipv4_addresses(addrs)
           addrs = geocoder_reject_trusted_ip_addresses(addrs)
           return addrs.first if addrs.any?
         end
@@ -74,6 +78,23 @@ module Geocoder
     #   of our own proxy/load balancer)
     def geocoder_reject_trusted_ip_addresses(ip_addresses)
       ip_addresses.reject { |ip| trusted_proxy?(ip) }
+    end
+
+    def geocoder_remove_port_from_addresses(ip_addresses)
+      ip_addresses.map { |ip| ip.split(':').first }
+    end
+
+    def geocoder_reject_non_ipv4_addresses(ip_addresses)
+      ips = []
+      for ip in ip_addresses
+        begin
+          valid_ip = IPAddr.new(ip)
+        rescue
+          valid_ip = false
+        end
+        ips << valid_ip.to_s if valid_ip
+      end
+      return ips.any? ? ips : ip_addresses
     end
   end
 end
