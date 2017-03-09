@@ -35,4 +35,22 @@ class Geoip2Test < GeocoderTestCase
     Geocoder::Configuration.language = :ru
     assert_equal 'Маунтин-Вью', result.city
   end
+
+  def test_dynamic_localization
+    result = Geocoder.search('8.8.8.8').first
+
+    result.language = :ru
+
+    assert_equal 'Маунтин-Вью', result.city
+  end
+
+  def test_dynamic_localization_fallback
+    result = Geocoder.search('8.8.8.8').first
+
+    result.language = :unsupported_language
+
+    assert_equal 'Mountain View', result.city
+    assert_equal 'California', result.state
+    assert_equal 'United States', result.country
+  end
 end
