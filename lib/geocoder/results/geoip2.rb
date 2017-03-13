@@ -15,11 +15,15 @@ module Geocoder
       end
 
       def city
-        data.fetch('city', {}).fetch('names', {}).fetch(locale, '')
+        fetch_name(
+          data.fetch('city', {}).fetch('names', {})
+        )
       end
 
       def state
-        data.fetch('subdivisions', []).fetch(0, {}).fetch('names', {}).fetch(locale, '')
+        fetch_name(
+          data.fetch('subdivisions', []).fetch(0, {}).fetch('names', {})
+        )
       end
 
       def state_code
@@ -27,7 +31,9 @@ module Geocoder
       end
 
       def country
-        data.fetch('country', {}).fetch('names', {}).fetch(locale, '')
+        fetch_name(
+          data.fetch('country', {}).fetch('names', {})
+        )
       end
 
       def country_code
@@ -48,14 +54,26 @@ module Geocoder
         end
       end
 
+      def language=(l)
+        @language = l.to_s
+      end
+
+      def language
+        @language ||= default_language
+      end
+
       private
 
       def data
         @data.to_hash
       end
 
-      def locale
-        @locale ||= Geocoder.config[:language].to_s
+      def default_language
+        @default_language = Geocoder.config[:language].to_s
+      end
+
+      def fetch_name(names)
+        names[language] || names[default_language] || ''
       end
     end
   end
