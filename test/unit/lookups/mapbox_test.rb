@@ -14,6 +14,12 @@ class MapboxTest < GeocoderTestCase
     assert_equal "https://api.mapbox.com/geocoding/v5/mapbox.places/Leadville%2C+CO.json?access_token=abc123", query.url
   end
 
+  def test_url_contains_params
+    Geocoder.configure(mapbox: {api_key: "abc123"})
+    query = Geocoder::Query.new("Leadville, CO", {params: {country: 'CN'}})
+    assert_equal "https://api.mapbox.com/geocoding/v5/mapbox.places/Leadville%2C+CO.json?access_token=abc123&country=CN", query.url
+  end
+
   def test_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal [40.749688, -73.991566], result.coordinates
