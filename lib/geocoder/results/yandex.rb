@@ -67,6 +67,31 @@ module Geocoder::Result
     def premise_name
       address_details['Locality']['Premise']['PremiseName']
     end
+    
+    # Yandex may return a 'Dependent Locality'
+    # i.e. City of Westminster is a dependent locality of London
+    def sub_city
+      if (sub_city_hash = find_in_yandex_result('DependentLocality', address_details))
+        sub_city_hash['DependentLocalityName']
+      else
+        ''
+      end
+    end
+    
+    def street
+      # Street name is called ThoroughfareName
+      # May be in Locality => Thoroughfare
+      # Or Locality => DependentLocality => Thoroughfare
+      if (street_hash = find_in_yandex_result('Thoroughfare', address_details))
+        street_hash['ThoroughfareName']
+      else
+        ''
+      end
+    end
+    
+    def house
+      find_in_yandex_result('PremiseNumber', address_details) || ''
+    end
 
     def street
       thoroughfare_data && thoroughfare_data['ThoroughfareName']
@@ -129,6 +154,19 @@ module Geocoder::Result
       else
         ""
       end
+    end
+    
+    def find_in_yandex_result(key, hash)
+      if hash.has_key? key 
+        return hash[key]
+      else
+        hash.keys.each do |hash_key|
+          if hash[hash_key].is_a? Hash
+            return find_in_yandex_result key, hash[hash_key]
+          end
+        end
+      end
+      return nil
     end
   end
 end
