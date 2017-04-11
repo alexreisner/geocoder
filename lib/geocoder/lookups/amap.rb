@@ -23,7 +23,7 @@ module Geocoder::Lookup
       return [] unless doc = fetch_data(query)
       case doc['status']
       when "1"
-        return [doc['regeocode']] unless doc['regeocode'].blank?
+        return [doc['geocodes']] unless doc['geocodes'].blank?
       else
         raise_error(Geocoder::Error, "server error.") ||
           warn("#{self.name} Geocoding API error: server error[#{doc['info']}]")
