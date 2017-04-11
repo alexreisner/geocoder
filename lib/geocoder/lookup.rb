@@ -50,7 +50,8 @@ module Geocoder
         :geoportail_lu,
         :ban_data_gouv_fr,
         :test,
-        :latlon
+        :latlon,
+        :amap
       ]
     end
 
