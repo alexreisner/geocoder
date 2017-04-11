@@ -26,7 +26,7 @@ module Geocoder::Lookup
         return [doc['regeocode']] unless doc['regeocode'].blank?
       else
         raise_error(Geocoder::Error, "server error.") ||
-          warn("#{self.name} Geocoding API error: server error.")
+          warn("#{self.name} Geocoding API error: server error[#{doc['info']}]")
       end
       return []
     end
