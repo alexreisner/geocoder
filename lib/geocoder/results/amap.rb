@@ -4,11 +4,11 @@ module Geocoder::Result
   class Amap < Base
 
     def coordinates
-      @data["roadinters"]['location'].split(",")
+      @data.first['location'].split(",").reverse
     end
 
     def address
-      @data['formatted_address']
+      @data.first['formatted_address']
     end
 
     def state
