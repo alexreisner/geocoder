@@ -24,9 +24,9 @@ module Geocoder::Lookup
       case doc['status']
       when "1"
         if query.reverse_geocode?
-          return [doc['regeocodes']] unless doc['regeocodes'].blank?
+          return [doc['regeocodes'].first] unless doc['regeocodes'].blank?
         else
-          return [doc['geocodes']] unless doc['geocodes'].blank?
+          return [doc['geocodes'].first] unless doc['geocodes'].blank?
         end
       else
         raise_error(Geocoder::Error, "server error.") ||

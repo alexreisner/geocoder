@@ -4,11 +4,11 @@ module Geocoder::Result
   class Amap < Base
 
     def coordinates
-      @data.first['location'].split(",").reverse
+      @data['location'].split(",").reverse
     end
 
     def address
-      @data.first['formatted_address']
+      @data['formatted_address']
     end
 
     def state
@@ -16,29 +16,34 @@ module Geocoder::Result
     end
 
     def province
-      address_components['province']
+      reverse_geocode? ? address_components['province'] : @data['province']
     end
 
     def city
-      address_components['city'] == [] ? province : address_components["city"]
+      temp_city = reverse_geocode? ? address_components['city'] : @data['city']
+      temp_city.blank? ? province : temp_city
     end
 
     def district
-      address_components['district']
+      reverse_geocode? ? address_components['district'] : @data['district']
     end
 
     def street
-      if address_components["neighborhood"]["name"] != []
-        return address_components["neighborhood"]["name"]
-      elsif address_components["streetNumber"]["street"] != []
-        return address_components["streetNumber"]["street"]
+      if reverse_geocode?
+        if address_components["neighborhood"]["name"] != []
+          return address_components["neighborhood"]["name"]
+        elsif address_components["streetNumber"]["street"] != []
+          return address_components["streetNumber"]["street"]
+        else
+          return address_components["township"]
+        end
       else
-        return address_components["township"]
+        @data['street']
       end
     end
 
     def street_number
-      address_components['streetNumber']["number"]
+      reverse_geocode? ? address_components['streetNumber']["number"] : @data['number']
     end
 
     def formatted_address
@@ -63,6 +68,10 @@ module Geocoder::Result
 
     def country_code
       "CN"
+    end
+
+    def reverse_geocode?
+      @data['addressComponent'].nil?
     end
 
     ##
