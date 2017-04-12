@@ -5,7 +5,7 @@ module Geocoder::Result
 
     def coordinates
       location = @data['location'] || @data['roadinters'].try(:[], 'location')
-      location.to_s.split(",").split(",").reverse
+      location.to_s.split(",").reverse
     end
 
     def address
