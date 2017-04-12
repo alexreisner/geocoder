@@ -21,16 +21,16 @@ module Geocoder::Lookup
 
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query)
-      case doc['status']
-      when "1"
-        if query.reverse_geocode?
-          return [doc['regeocodes'].first] unless doc['regeocodes'].blank?
-        else
-          return [doc['geocodes'].first] unless doc['geocodes'].blank?
-        end
+      case [doc['status'], doc['info']]
+      when ['1', 'OK']
+        return doc['regeocodes'] unless doc['regeocodes'].blank?
+        return doc['geocodes'] unless doc['geocodes'].blank?
+      when ['0', 'INVALID_USER_KEY']
+        raise_error(Geocoder::InvalidApiKey, "invalid api key") ||
+          warn("#{self.name} Geocoding API error: invalid api key.")
       else
         raise_error(Geocoder::Error, "server error.") ||
-          warn("#{self.name} Geocoding API error: server error[#{doc['info']}]")
+          warn("#{self.name} Geocoding API error: server error - [#{doc['info']}]")
       end
       return []
     end

@@ -4,7 +4,8 @@ module Geocoder::Result
   class Amap < Base
 
     def coordinates
-      @data['location'].split(",").reverse
+      location = @data['location'] || @data['roadinters'].try(:[], 'location')
+      location.to_s.split(",").split(",").reverse
     end
 
     def address
