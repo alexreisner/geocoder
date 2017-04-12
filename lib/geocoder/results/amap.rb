@@ -8,7 +8,7 @@ module Geocoder::Result
     end
 
     def address
-      @data['formatted_address']
+      formatted_address
     end
 
     def state
@@ -16,34 +16,29 @@ module Geocoder::Result
     end
 
     def province
-      reverse_geocode? ? address_components['province'] : @data['province']
+      address_components['province']
     end
 
     def city
-      temp_city = reverse_geocode? ? address_components['city'] : @data['city']
-      temp_city.blank? ? province : temp_city
+      address_components['city'] == [] ? province : address_components["city"]
     end
 
     def district
-      reverse_geocode? ? address_components['district'] : @data['district']
+      address_components['district']
     end
 
     def street
-      if reverse_geocode?
-        if address_components["neighborhood"]["name"] != []
-          return address_components["neighborhood"]["name"]
-        elsif address_components["streetNumber"]["street"] != []
-          return address_components["streetNumber"]["street"]
-        else
-          return address_components["township"]
-        end
+      if address_components["neighborhood"]["name"] != []
+        return address_components["neighborhood"]["name"]
+      elsif address_components['township'] != []
+        return address_components["township"]
       else
-        @data['street']
+        return @data['street'] || address_components['streetNumber'].try(:[], 'street')
       end
     end
 
     def street_number
-      reverse_geocode? ? address_components['streetNumber']["number"] : @data['number']
+      @data['number'] || address_components['streetNumber'].try(:[], 'number')
     end
 
     def formatted_address
@@ -51,7 +46,7 @@ module Geocoder::Result
     end
 
     def address_components
-      @data['addressComponent']
+      @data['addressComponent'] || @data
     end
 
     def state_code
@@ -68,10 +63,6 @@ module Geocoder::Result
 
     def country_code
       "CN"
-    end
-
-    def reverse_geocode?
-      @data['addressComponent'].nil?
     end
 
     ##
