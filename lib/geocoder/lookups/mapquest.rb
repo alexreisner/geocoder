@@ -10,7 +10,7 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      ["key"]
+      []
     end
 
     def query_url(query)
@@ -22,7 +22,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def search_type(query)
-      query.reverse_geocode? ? "reverse" : "address"
+      query.reverse_geocode ? "reverse" : "address"
     end
 
     def query_url_params(query)
