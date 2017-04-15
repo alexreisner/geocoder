@@ -319,7 +319,7 @@ module Geocoder
       def hash_to_query(hash)
         require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
         hash.collect{ |p|
-          p[1].nil? ? nil : p.map{ |i| CGI.escape i.to_s } * '='
+          p[1].nil? ? nil : p.map{ |i| CGI.escape i.to_s.to_str } * '='
         }.compact.sort * '&'
       end
     end
