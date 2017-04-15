@@ -374,7 +374,7 @@ module Geocoder
     end
 
     require 'geocoder/lookups/amap'
-    class Baidu
+    class Amap
       private
       def default_fixture_filename
         "amap_shanghai_pearl_tower"

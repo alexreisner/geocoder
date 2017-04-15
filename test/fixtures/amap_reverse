@@ -1,0 +1,38 @@
+{
+  "status": "1",
+  "info": "OK",
+  "infocode": "10000",
+  "regeocode": {
+    "formatted_address": "Canada Ontario University Private ",
+    "addressComponent": {
+      "country": "Canada",
+      "province": "Ontario",
+      "city": [],
+      "citycode": [],
+      "district": [],
+      "adcode": [],
+      "township": "University Private",
+      "towncode": [],
+      "neighborhood": {
+        "name": [],
+        "type": []
+      },
+      "building": {
+        "name": [],
+        "type": []
+      },
+      "streetNumber": {
+        "street": "University Private",
+        "number": [],
+        "location": "-75.680763,45.426723",
+        "direction": [],
+        "distance": []
+      },
+      "businessAreas": []
+    },
+    "pois": [],
+    "roads": [],
+    "roadinters": [],
+    "aois": []
+  }
+}

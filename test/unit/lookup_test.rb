@@ -150,7 +150,7 @@ class LookupTest < GeocoderTestCase
   def test_amap_api_key
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::Amap.new
-    assert_match "ak=MY_KEY", g.query_url(Geocoder::Query.new("202.198.16.3"))
+    assert_match "key=MY_KEY", g.query_url(Geocoder::Query.new("202.198.16.3"))
   end
 
   def test_raises_configuration_error_on_missing_key
