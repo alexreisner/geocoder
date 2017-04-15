@@ -44,11 +44,14 @@ module Geocoder
       #
       def search(query, options = {})
         query = Geocoder::Query.new(query, options) unless query.is_a?(Geocoder::Query)
-        results(query).map{ |r|
-          result = result_class.new(r)
-          result.cache_hit = @cache_hit if cache
-          result
-        }
+        r = results(query)
+        if r 
+          r.map{ |r|
+            result = result_class.new(r)
+            result.cache_hit = @cache_hit if cache
+            result
+          }
+        end
       end
 
       ##
