@@ -569,6 +569,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Documentation**: http://developer.here.com/rest-apis/documentation/geocoder
 * **Terms of Service**: http://developer.here.com/faqs#l&t
 * **Limitations**: ?
+* **Notes**: To use Here set `Geocoder.configure(lookup: :here, api_key: [ here_app_id, here_app_code ])`.
 
 #### ESRI (`:esri`)
 
