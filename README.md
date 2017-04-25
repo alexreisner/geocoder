@@ -176,11 +176,11 @@ Some utility methods are also available:
     # look up coordinates of some location (like searching Google Maps)
     Geocoder.coordinates("25 Main St, Cooperstown, NY")
      => [42.700149, -74.922767]
-
+    
     # distance between Eiffel Tower and Empire State Building
     Geocoder::Calculations.distance_between([47.858205,2.294359], [40.748433,-73.985655])
      => 3619.77359999382 # in configured units (default miles)
-
+    
     # find the geographic center (aka center of gravity) of objects or points
     Geocoder::Calculations.geographic_center([city1, city2, [40.22,-73.99], city4])
      => [35.14968, -90.048929]
@@ -333,26 +333,26 @@ Some common configuration options are:
 
     # config/initializers/geocoder.rb
     Geocoder.configure(
-
+    
       # geocoding service (see below for supported options):
       :lookup => :yandex,
-
+    
       # IP address geocoding service (see below for supported options):
       :ip_lookup => :maxmind,
-
+    
       # to use an API key:
       :api_key => "...",
-
+    
       # geocoding service request timeout, in seconds (default 3):
       :timeout => 5,
-
+    
       # set default units to kilometers:
       :units => :km,
-
+    
       # caching (see below for details):
       :cache => Redis.new,
       :cache_prefix => "..."
-
+    
     )
 
 Please see `lib/geocoder/configuration.rb` for a complete list of configuration options. Additionally, some lookups have their own configuration options, some of which are directly supported by Geocoder. For example, to specify a value for Google's `bounds` parameter:
@@ -375,21 +375,21 @@ You can also configure multiple geocoding services at once, like this:
 
       :timeout => 2,
       :cache => Redis.new,
-
+    
       :yandex => {
         :api_key => "...",
         :timeout => 5
       },
-
+    
       :baidu => {
         :api_key => "..."
       },
-
+    
       :maxmind => {
         :api_key => "...",
         :service => :omni
       }
-
+    
     )
 
 The above combines global and service-specific options and could be useful if you specify different geocoding services for different models or under different conditions. Lookup-specific settings override global settings. In the above example, the timeout for all lookups would be 2 seconds, except for Yandex which would be 5.
@@ -713,6 +713,18 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Terms of Service**: https://adresse.data.gouv.fr/faq/ (in french)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://openstreetmap.fr/ban)
 
+#### AMap (`:amap`)
+
+- **API key**: required
+- **Quota**: 2000/day and 2000/minute for personal developer, 4000000/day and 60000/minute for enterprise developer, for geocoding requests
+- **Region**: China
+- **SSL support**: yes
+- **Languages**: Chinese (Simplified)
+- **Documentation**: http://lbs.amap.com/api/webservice/guide/api/georegeo
+- **Terms of Service**: http://lbs.amap.com/home/terms/
+- **Limitations**: Only good for non-commercial use. For commercial usage please check http://lbs.amap.com/home/terms/
+- **Notes**: To use AMap set `Geocoder.configure(:lookup => :amap, :api_key => "your_api_key")`.
+
 ### IP Address Services
 
 #### FreeGeoIP (`:freegeoip`)
@@ -835,7 +847,7 @@ You can generate ActiveRecord migrations and download and import data via provid
 
     # generate migration to create tables
     rails generate geocoder:maxmind:geolite_city
-
+    
     # download, unpack, and import data
     rake geocoder:maxmind:geolite:load PACKAGE=city
 
@@ -923,7 +935,7 @@ For example:
 
       # build an address from street, city, and state attributes
       geocoded_by :address_from_components
-
+    
       # store the fetched address in the full_address attribute
       reverse_geocoded_by :latitude, :longitude, :address => :full_address
     end
@@ -935,7 +947,7 @@ However, there can be only one set of latitude/longitude attributes, and whichev
       geocoded_by :address,
         :latitude  => :fetched_latitude,  # this will be overridden by the below
         :longitude => :fetched_longitude  # same here
-
+    
       reverse_geocoded_by :latitude, :longitude
     end
 
@@ -963,7 +975,7 @@ For example:
 
       after_validation :reverse_geocode, :if => :has_coordinates
       after_validation :geocode, :if => :has_location, :unless => :has_coordinates
-
+    
     end
 
 Use Outside of Rails
@@ -1193,7 +1205,7 @@ Instead of using `includes` to reduce the number of database queries, try using 
     # Pass a :select option to the near scope to get the columns you want.
     # Instead of City.near(...).includes(:venues), try:
     City.near("Omaha, NE", 20, :select => "cities.*, venues.*").joins(:venues)
-
+    
     # This preload call will normally trigger two queries regardless of the
     # number of results; one query on hotels, and one query on administrators.
     # Instead of Hotel.near(...).includes(:administrator), try:
