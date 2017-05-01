@@ -40,7 +40,11 @@ module Geocoder
     #
     def expire(url)
       if url == :all
-        urls.each{ |u| expire(u) }
+        if store.respond_to?(:keys)
+          urls.each{ |u| expire(u) }
+        else
+          raise(NoMethodError, "The Geocoder cache store must implement `#keys` for `expire(:all)` to work")
+        end
       else
         expire_single_url(url)
       end

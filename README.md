@@ -896,6 +896,7 @@ This example uses Redis, but the cache store can be any object that supports the
 * `store#[](key)` or `#get` or `#read` - retrieves a value
 * `store#[]=(key, value)` or `#set` or `#write` - stores a value
 * `store#del(url)` - deletes a value
+* `store#keys` - (Optional) Returns array of keys. Used if you wish to expire the entire cache (see below).
 
 Even a plain Ruby hash will work, though it's not a great choice (cleared out when app is restarted, not shared between app instances, etc).
 
