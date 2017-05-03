@@ -17,6 +17,14 @@ module Geocoder::Result
       fail unless d = @data['Location']['DisplayPosition']
       [d['Latitude'].to_f, d['Longitude'].to_f]
     end
+    
+    def route
+      address_data['Street']
+    end
+    
+    def street_number
+      address_data['HouseNumber']
+    end  
 
     def state
       address_data['County']
