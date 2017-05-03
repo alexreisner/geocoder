@@ -994,7 +994,9 @@ Testing Apps that Use Geocoder
 
 When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure and use the `:test` lookup. For example:
 
-    Geocoder.configure(:lookup => :test)
+    Geocoder.configure do |config| 
+      config.lookup = :test
+    end
 
     Geocoder::Lookup::Test.add_stub(
       "New York, NY", [
