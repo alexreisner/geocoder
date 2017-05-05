@@ -236,12 +236,12 @@ The `address` method can return any string you'd use to search Google Maps. For 
 * "Eiffel Tower, Paris, FR"
 * "Paris, TX, US"
 
-If your model has `street`, `city`, `state`, and `country` attributes you might do something like this:
+If your model has `street`, `city`, `state`, `zipcode` and `country` attributes you might do something like this:
 
     geocoded_by :address
 
     def address
-      [street, city, state, country].compact.join(', ')
+      [street, city, state, zipcode, country].compact.join(', ')
     end
 
 For reverse geocoding, you can also specify an alternate name attribute where the address will be stored. For example:
