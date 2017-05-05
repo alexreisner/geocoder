@@ -49,6 +49,7 @@
             "city": "New York City",
             "stadium" : "Madison Square Garden",
             "state" : "New York",
+            "state_code" : "NY",
             "state_district" : "New York City"
          },
          "confidence" : 10,

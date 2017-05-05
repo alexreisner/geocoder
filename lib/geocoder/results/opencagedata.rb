@@ -36,12 +36,13 @@ module Geocoder::Result
       @data['components']['village']
     end
 
-
     def state
       @data['components']['state']
     end
 
-    alias_method :state_code, :state
+    def state_code
+      @data['components']['state_code']
+    end
 
     def postal_code
       @data['components']['postcode'].to_s
