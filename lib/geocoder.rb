@@ -11,6 +11,7 @@ require "geocoder/ip_address"
 require "geocoder/models/active_record" if defined?(::ActiveRecord)
 require "geocoder/models/mongoid" if defined?(::Mongoid)
 require "geocoder/models/mongo_mapper" if defined?(::MongoMapper)
+require "geocoder/models/data_mapper" if defined?(::DataMapper)
 
 module Geocoder
 
