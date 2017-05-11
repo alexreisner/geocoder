@@ -114,6 +114,10 @@ Geocoder will print warnings if you exceed the rate limit for your geocoding ser
 
     rake geocode:all CLASS=YourModel SLEEP=0.25 BATCH=100
 
+To avoid per-day limit issues (for example if you are trying to geocode thousands of objects and don't want to reach the limit), you can add a `LIMIT` option. Warning: This will ignore the `BATCH` value if provided.
+
+    rake geocode:all CLASS=YourModel LIMIT=1000
+
 ### Avoiding Unnecessary API Requests
 
 Geocoding only needs to be performed under certain conditions. To avoid unnecessary work (and quota usage) you will probably want to geocode an object only when:
