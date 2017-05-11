@@ -20,6 +20,12 @@ Note on Rails 4.1 and Greater
 
 Due to [a change in ActiveRecord's `count` method](https://github.com/rails/rails/pull/10710) you will need to use `count(:all)` to explicitly count all columns ("*") when using a `near` scope. Using `near` and calling `count` with no argument will cause exceptions in many cases.
 
+If the Rake tasks geocoder provides do not show up with `rake -T`, add the following to the Rails `Gemfile` file:
+
+``` ruby
+spec = Gem::Specification.find_by_name 'geocoder'
+load "#{spec.gem_dir}/lib/tasks/maxmind.rake"
+```
 
 Installation
 ------------
@@ -842,6 +848,10 @@ This lookup provides methods for geocoding IP addresses without making a call to
 **To use a CSV file** you must import it into an SQL database. The GeoLite *City* and *Country* packages are supported. Configure like so:
 
     Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {package: :city})
+
+Generate a migration for your Rails app with the geocoder gem generator:
+
+    rails generate geocoder:maxmind:geolite_city
 
 You can generate ActiveRecord migrations and download and import data via provided rake tasks:
 
