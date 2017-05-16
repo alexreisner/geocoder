@@ -9,7 +9,12 @@ module Geocoder::Lookup
     end
     
     def supported_protocols
-      [:http]
+      if configuration[:host]
+        [:http, :https]
+      else
+        # use https for default host
+        [:https]
+      end
     end
 
     def query_url(query)
