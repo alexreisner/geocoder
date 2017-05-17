@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.4 (2017 May 17)
+-------------------
+* Use HTTPS by default for :freegeoip (thanks github.com/mehanoid).
+* Add support for :amap lookup (thanks github.com/pzgz).
+
 1.4.3 (2017 Feb  7)
 -------------------
 * Add :google_places_search lookup (thanks github.com/waruboy).
