@@ -7,9 +7,9 @@ module Geocoder::Lookup
     def name
       "FreeGeoIP"
     end
-    
+
     def supported_protocols
-      [:http]
+      [:https]
     end
 
     def query_url(query)
