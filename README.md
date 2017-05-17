@@ -444,7 +444,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 
 * **API key**: required (set `Geocoder.configure(:lookup => :bing, :api_key => key)`)
 * **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
-* **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
+* **Quota**: 500,000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
 * **Region**: world
 * **SSL support**: no
 * **Languages**: ?
