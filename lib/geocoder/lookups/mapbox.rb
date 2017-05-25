@@ -9,7 +9,8 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{url_query_string(query)}.json?access_token=#{configuration.api_key}"
+      path = "#{mapbox_search_term(query)}.json?#{url_query_string(query)}"
+      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{path}"
     end
 
     private # ---------------------------------------------------------------
@@ -25,7 +26,11 @@ module Geocoder::Lookup
       end
     end
 
-    def url_query_string(query)
+    def query_url_params(query)
+      {access_token: configuration.api_key}.merge(super(query))
+    end
+
+    def mapbox_search_term(query)
       require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
       if query.reverse_geocode?
         lat,lon = query.coordinates
