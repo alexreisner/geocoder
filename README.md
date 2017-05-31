@@ -600,13 +600,13 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 
 #### Pelias (`:pelias`)
 
-* **API key**: required
+* **API key**: configurable (self-hosted service)
 * **Quota**: none (self-hosted service)
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: en
-* **Documentation**: https://mapzen.com/documentation/search/search/
-* **Terms of Service**: http://mapzen.com/terms
+* **Documentation**: https://github.com/pelias/pelias
+* **Terms of Service**: https://github.com/pelias/pelias/blob/master/data_licenses.md
 * **Limitations**: See terms
 * **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(:lookup => :pelias, :api_key => 'your_api_key', :pelias => {:endpoint => 'self.hosted/pelias'})`. Defaults to `localhost`.
 
