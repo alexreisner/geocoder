@@ -2,6 +2,22 @@
 require 'test_helper'
 require 'geocoder/esri_token'
 
+class Geocoder::EsriToken
+  class << self
+
+    alias_method :old_generate_token, :generate_token; 
+
+    # Stub the generate_token method when called with a specific client_id and client_secret
+    def generate_token(client_id, client_secret, expires=1440)
+      if client_id == "id" and client_secret == "secret"
+        "xxxxx"
+      else
+        self.old_generate_token client_id, client_secret, expires
+      end
+    end
+  end
+end
+
 class EsriTest < GeocoderTestCase
 
   def setup
@@ -51,6 +67,16 @@ class EsriTest < GeocoderTestCase
 
     assert_match %r{forStorage=true}, url
     assert_match %r{token=xxxxx}, url
+  end
+
+  def test_query_for_geocode_with_client_credentials_for_storage
+    Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+
+    assert_match /forStorage=true/, url
+    assert_match /token=xxxxx/, url
   end
 
   def test_query_for_reverse_geocode
