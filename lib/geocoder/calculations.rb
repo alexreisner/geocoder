@@ -406,7 +406,8 @@ module Geocoder
           end
         end
       when String
-        point = Geocoder.coordinates(point) and return point
+        point = Geocoder.coordinates(point)
+        return point ? point : [ NAN, NAN ]
       else
         if point.respond_to?(:to_coordinates)
           if Array === array = point.to_coordinates
