@@ -741,7 +741,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: http://github.com/fiorix/freegeoip/blob/master/README.md
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
+* **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "...", use_https: false})`.
 
 #### Pointpin (`:pointpin`)
 
