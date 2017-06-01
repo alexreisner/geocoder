@@ -218,7 +218,11 @@ module Geocoder
       # The result might or might not be cached.
       #
       def fetch_raw_data(query)
-        key = cache_key(query)
+        if configuration.cache_md5_name
+          key = Digest::MD5.hexdigest(cache_key(query))
+        else
+          key = cache_key(query)
+        end
         if cache and body = cache[key]
           @cache_hit = true
         else

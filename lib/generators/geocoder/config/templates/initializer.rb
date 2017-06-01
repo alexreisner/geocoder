@@ -10,6 +10,7 @@ Geocoder.configure(
   # api_key: nil,               # API key for geocoding service
   # cache: nil,                 # cache object (must respond to #[], #[]=, and #del)
   # cache_prefix: 'geocoder:',  # prefix (string) to use for all cache keys
+  # cache_md5_name: false,      # use MD5 cache name for url? (prevents file name too long error)
 
   # Exceptions that should not be rescued by default
   # (if you want to implement custom error handling);
