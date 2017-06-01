@@ -304,7 +304,7 @@ module Geocoder
 
       def check_api_key_configuration!(query)
         key_parts = query.lookup.required_api_key_parts
-        if key_parts.size > Array(configuration.api_key).size
+        if key_parts.any? { |key_part| key_part.blank? } || key_parts.size > Array(configuration.api_key).size
           parts_string = key_parts.size == 1 ? key_parts.first : key_parts
           raise Geocoder::ConfigurationError,
             "The #{query.lookup.name} API requires a key to be configured: " +
