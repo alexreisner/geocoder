@@ -113,4 +113,3 @@ module Geocoder
     end
   end
 end
-
