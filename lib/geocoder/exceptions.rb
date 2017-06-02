@@ -25,6 +25,9 @@ module Geocoder
   class InvalidRequest < Error
   end
 
+  class InvalidLocation < Error
+  end
+
   class InvalidApiKey < Error
   end
 

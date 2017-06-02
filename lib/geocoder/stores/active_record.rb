@@ -55,6 +55,20 @@ module Geocoder::Store
         }
 
         ##
+        # Strict version of scope :near
+        #
+        scope :near!, lambda{ |location, *args|
+          point = Geocoder::Calculations.extract_coordinates(location)
+          raise Geocoder::InvalidLocation, "The provided location didn't return as valid" \
+            and return if [[Geocoder::Calculations::NAN,Geocoder::Calculations::NAN], nil].
+            include? point
+
+          options = near_scope_options(*Array(point), *args)
+          select(options[:select]).where(options[:conditions]).
+            order(options[:order])
+        }
+
+        ##
         # Find all objects within the area of a given bounding box.
         # Bounds must be an array of locations specifying the southwest
         # corner followed by the northeast corner of the box
