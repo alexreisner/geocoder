@@ -25,6 +25,13 @@ Major changes to Geocoder for each release. Please see the Git log for complete 
 
 1.4.0 (2016 Sep  8)
 -------------------
+
+Breaking Changes
+
+* None
+
+Fixed
+
 * Only consider an object geocoded if both lat and lon are present (previously was sufficient to have only one of the two) (thanks github.com/mltsy).
 * Add support in :geocodio lookup for Canadian addresses (thanks github.com/bolandrm).
 * Add support for SQLite extensions, if present (thanks github.com/stevecj).
