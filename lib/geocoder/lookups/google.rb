@@ -22,7 +22,7 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query)
+      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query).encode("utf-8")
     end
 
     private # ---------------------------------------------------------------
