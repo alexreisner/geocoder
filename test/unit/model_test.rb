@@ -34,4 +34,10 @@ class ModelTest < GeocoderTestCase
     assert_equal :km,        PlaceReverseGeocoded.geocoder_options[:units]
     assert_equal :spherical, PlaceReverseGeocoded.geocoder_options[:method]
   end
+
+  def test_params
+    params = {incude: "cios2"}
+    PlaceReverseGeocoded.reverse_geocoded_by :latitude, :longitude, params: params
+    assert_equal params,     PlaceReverseGeocoded.geocoder_options[:params]
+  end
 end
