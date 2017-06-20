@@ -286,7 +286,7 @@ module Geocoder
         end
       rescue Timeout::Error
         raise Geocoder::LookupTimeout
-      rescue Errno::EHOSTUNREACH, Errno::ETIMEDOUT, Errno::ENETUNREACH
+      rescue Errno::EHOSTUNREACH, Errno::ETIMEDOUT, Errno::ENETUNREACH, Errno::ECONNRESET
         raise Geocoder::NetworkError
       end
 
