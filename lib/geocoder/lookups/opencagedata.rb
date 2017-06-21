@@ -47,7 +47,7 @@ module Geocoder::Lookup
         :language => (query.language || configuration.language)
       }.merge(super)
 
-      [:countrycode, :min_confidence, :no_dedupe, :no_annotations, :no_record, :limit].each do |option|
+      [:abbrv, :countrycode, :min_confidence, :no_dedupe, :no_annotations, :no_record, :limit].each do |option|
         unless (option_value = query.options[option]).nil?
           params[option] = option_value
         end
