@@ -467,6 +467,18 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
 * **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(:http_headers => { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
+#### PickPoint (`:pickpoint`)
+
+* **API key**: required
+* **Key signup**: [https://pickpoint.io](https://pickpoint.io)
+* **Quota**: 2500 requests / day for free non-commercial usage, commercial plans are [available](https://pickpoint.io/#pricing). No rate limit.
+* **Region**: world
+* **SSL support**: required
+* **Languages**: worldwide
+* **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
+* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
+
+
 #### LocationIQ (`:location_iq`)
 
 * **API key**: required
