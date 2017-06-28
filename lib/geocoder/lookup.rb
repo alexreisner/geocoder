@@ -41,6 +41,7 @@ module Geocoder
         :opencagedata,
         :ovi,
         :pelias,
+        :pickpoint,
         :here,
         :baidu,
         :geocodio,
