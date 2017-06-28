@@ -64,6 +64,18 @@ module Geocoder::Result
       @data['address']['suburb']
     end
 
+    def city_district
+      @data['address']['city_district']
+    end
+
+    def state_district
+      @data['address']['state_district']
+    end
+
+    def neighbourhood
+      @data['address']['neighbourhood']
+    end
+
     def coordinates
       [@data['lat'].to_f, @data['lon'].to_f]
     end
