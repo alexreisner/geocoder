@@ -372,6 +372,17 @@ Please see the [source code for each lookup](https://github.com/alexreisner/geoc
 Or, to search within a particular region with Google:
 
     Geocoder.search("...", :params => {:region => "..."})
+    
+Or, to use parameters in your model:
+
+    class Venue
+
+      # build an address from street, city, and state attributes
+      geocoded_by :address_from_components, :params => {:region => "..."}
+
+      # store the fetched address in the full_address attribute
+      reverse_geocoded_by :latitude, :longitude, :address => :full_address, :params => {:region => "..."}
+    end 
 
 You can also configure multiple geocoding services at once, like this:
 
