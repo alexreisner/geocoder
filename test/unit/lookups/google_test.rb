@@ -48,6 +48,12 @@ class GoogleTest < GeocoderTestCase
       result.viewport
   end
 
+  def test_google_bounds
+    result = Geocoder.search("new york").first
+    assert_equal [40.4773991, -74.2590899, 40.9175771, -73.7002721],
+      result.bounds
+  end
+
   def test_google_query_url_contains_bounds
     lookup = Geocoder::Lookup::Google.new
     url = lookup.query_url(Geocoder::Query.new(
