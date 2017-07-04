@@ -130,7 +130,8 @@ module Geocoder::Result
     end
 
     def viewport
-      bounding_box_from geometry['viewport']
+      viewport = geometry['viewport'] || fail
+      bounding_box_from viewport
     end
 
     def bounds
@@ -140,7 +141,7 @@ module Geocoder::Result
     private
 
     def bounding_box_from(box)
-      fail unless box
+      return nil unless box
       south, west = %w(lat lng).map { |c| box['southwest'][c] }
       north, east = %w(lat lng).map { |c| box['northeast'][c] }
       [south, west, north, east]
