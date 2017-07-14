@@ -359,7 +359,7 @@ Some common configuration options are:
 
     )
 
-Please see `lib/geocoder/configuration.rb` for a complete list of configuration options. Additionally, some lookups have their own configuration options, some of which are directly supported by Geocoder. For example, to specify a value for Google's `bounds` parameter:
+Please see [`lib/geocoder/configuration.rb`](https://github.com/alexreisner/geocoder/blob/master/lib/geocoder/configuration.rb) for a complete list of configuration options. Additionally, some lookups have their own configuration options, some of which are directly supported by Geocoder. For example, to specify a value for Google's `bounds` parameter:
 
     # with Google:
     Geocoder.search("Paris", :bounds => [[32.1,-95.9], [33.9,-94.3]])
