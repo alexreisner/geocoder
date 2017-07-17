@@ -363,6 +363,12 @@ Please see [`lib/geocoder/configuration.rb`](https://github.com/alexreisner/geoc
 
     # with Google:
     Geocoder.search("Paris", :bounds => [[32.1,-95.9], [33.9,-94.3]])
+    
+Or for searching via Google's `place_id` parameter:
+
+    # with Google:
+    Geocoder.search("ChIJD7fiBh9u5kcRYJSMaMOCCwQ", :place_id => true)
+
 
 Please see the [source code for each lookup](https://github.com/alexreisner/geocoder/tree/master/lib/geocoder/lookups) to learn about directly supported parameters. Parameters which are not directly supported can be specified using the `:params` option, by which you can pass arbitrary parameters to any geocoding service. For example, to use Nominatim's `countrycodes` parameter:
 
