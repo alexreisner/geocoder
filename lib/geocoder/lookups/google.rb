@@ -66,7 +66,7 @@ module Geocoder::Lookup
         :sensor => "false",
         :language => (query.language || configuration.language)
       }
-      if query.options[:place_id]
+      if query.options[:google_place_id]
         params[:place_id] = query.sanitized_text
       else
         params[(query.reverse_geocode? ? :latlng : :address)] = query.sanitized_text
