@@ -63,10 +63,14 @@ module Geocoder::Lookup
 
     def query_url_google_params(query)
       params = {
-        (query.reverse_geocode? ? :latlng : :address) => query.sanitized_text,
         :sensor => "false",
         :language => (query.language || configuration.language)
       }
+      if query.options[:google_place_id]
+        params[:place_id] = query.sanitized_text
+      else
+        params[(query.reverse_geocode? ? :latlng : :address)] = query.sanitized_text
+      end
       unless (bounds = query.options[:bounds]).nil?
         params[:bounds] = bounds.map{ |point| "%f,%f" % point }.join('|')
       end

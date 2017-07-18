@@ -363,6 +363,12 @@ Please see [`lib/geocoder/configuration.rb`](https://github.com/alexreisner/geoc
 
     # with Google:
     Geocoder.search("Paris", :bounds => [[32.1,-95.9], [33.9,-94.3]])
+    
+Or for searching via Google's `place_id` parameter:
+
+    # with Google:
+    Geocoder.search("ChIJD7fiBh9u5kcRYJSMaMOCCwQ", :google_place_id => true)
+
 
 Please see the [source code for each lookup](https://github.com/alexreisner/geocoder/tree/master/lib/geocoder/lookups) to learn about directly supported parameters. Parameters which are not directly supported can be specified using the `:params` option, by which you can pass arbitrary parameters to any geocoding service. For example, to use Nominatim's `countrycodes` parameter:
 
@@ -422,7 +428,9 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Region**: world
 * **SSL support**: yes (required if key is used)
 * **Languages**: see https://developers.google.com/maps/faq#languagesupport
-* **Extra options**: `:bounds` - pass SW and NE coordinates as an array of two arrays to bias results towards a viewport
+* **Extra options**:
+    `:bounds` - pass SW and NE coordinates as an array of two arrays to bias results towards a viewport
+    `:google_place_id` - pass 'true' to get information on a specific place via it's ID
 * **Documentation**: https://developers.google.com/maps/documentation/geocoding/intro
 * **Terms of Service**: http://code.google.com/apis/maps/terms.html#section_10_12
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
