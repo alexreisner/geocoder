@@ -384,7 +384,10 @@ Or, to use parameters in your model:
       reverse_geocoded_by :latitude, :longitude, :address => :full_address, :params => {:region => "..."}
     end 
 
-You can also configure multiple geocoding services at once, like this:
+
+### Configure Multiple Services
+
+You can configure multiple geocoding services at once, like this:
 
     Geocoder.configure(
 
