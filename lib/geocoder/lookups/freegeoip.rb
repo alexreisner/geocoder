@@ -50,7 +50,7 @@ module Geocoder::Lookup
     end
 
     def host
-      configuration[:host] || "freegeoip.io"
+      configuration[:host] || "freegeoip.net"
     end
   end
 end
