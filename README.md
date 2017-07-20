@@ -759,7 +759,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 #### FreeGeoIP (`:freegeoip`)
 
 * **API key**: none
-* **Quota**: 10000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
+* **Quota**: 15,000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
