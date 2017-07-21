@@ -4,6 +4,7 @@
 
 ### Actual behavior
 
+(be sure to include any relevant errors and backtraces)
 
 
 ### Steps to reproduce
@@ -14,4 +15,4 @@
 
 Geocoder version: 
 Rails version: 
-
+Database (if applicable): 
