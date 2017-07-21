@@ -1,10 +1,11 @@
+BEFORE POSTING AN ISSUE, PLEASE MAKE SURE THE PROBLEM IS NOT ADDRESSED IN THE README!
+
 ### Expected behavior
 
 
 
 ### Actual behavior
 
-(be sure to include any relevant errors and backtraces)
 
 
 ### Steps to reproduce
@@ -13,6 +14,6 @@
 
 ### Environment info
 
-Geocoder version: 
-Rails version: 
-Database (if applicable): 
+* Geocoder version: 
+* Rails version: 
+* Database (if applicable): 
