@@ -60,7 +60,10 @@ class OpencagedataTest < GeocoderTestCase
     assert_match(/\bq=45.423733%2C-75.676333\b/, query.url)
   end
 
-
+  def test_opencagedata_time_zone
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal "America/New_York", result.time_zone
+  end
 
   def test_raises_exception_when_invalid_request
     Geocoder.configure(always_raise: [Geocoder::InvalidRequest])

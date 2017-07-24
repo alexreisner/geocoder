@@ -75,6 +75,15 @@ module Geocoder::Result
       [south, west, north, east]
     end
 
+    def time_zone
+      # The OpenCage API documentation states that `annotations` is available
+      # "when possible" https://geocoder.opencagedata.com/api#annotations
+      @data
+        .fetch('annotations', {})
+        .fetch('timezone', {})
+        .fetch('name', nil)
+    end
+
     def self.response_attributes
       %w[boundingbox license 
         formatted stadium]
