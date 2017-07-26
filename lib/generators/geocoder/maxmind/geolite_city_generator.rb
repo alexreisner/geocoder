@@ -1,10 +1,12 @@
 require 'rails/generators/migration'
+require 'generators/geocoder/migration_version'
 
 module Geocoder
   module Generators
     module Maxmind
       class GeoliteCityGenerator < Rails::Generators::Base
         include Rails::Generators::Migration
+        include Generators::MigrationVersion
 
         source_root File.expand_path('../templates', __FILE__)
 
