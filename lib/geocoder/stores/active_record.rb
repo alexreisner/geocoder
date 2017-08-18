@@ -131,7 +131,11 @@ module Geocoder::Store
         distance_column = options.fetch(:distance_column) { 'distance' }
         bearing_column = options.fetch(:bearing_column)  { 'bearing' }
 
-        b = Geocoder::Calculations.bounding_box([latitude, longitude], radius, options)
+        # If radius is a DB column name, bounding box should include
+        # all rows within the maximum radius appearing in that column.
+        # Note: performance is dependent on variability of radii.
+        bb_radius = radius.is_a?(Symbol) ? maximum(radius) : radius
+        b = Geocoder::Calculations.bounding_box([latitude, longitude], bb_radius, options)
         args = b + [
           full_column_name(latitude_attribute),
           full_column_name(longitude_attribute)
@@ -142,7 +146,16 @@ module Geocoder::Store
           conditions = bounding_box_conditions
         else
           min_radius = options.fetch(:min_radius, 0).to_f
-          conditions = [bounding_box_conditions + " AND (#{distance}) BETWEEN ? AND ?", min_radius, radius]
+          # if radius is a DB column name,
+          # find rows between min_radius and value in column
+          if radius.is_a?(Symbol)
+            c = "BETWEEN ? AND #{radius}"
+            a = [min_radius]
+          else
+            c = "BETWEEN ? AND ?"
+            a = [min_radius, radius]
+          end
+          conditions = [bounding_box_conditions + " AND (#{distance}) " + c] + a
         end
         {
           :select => select_clause(options[:select],

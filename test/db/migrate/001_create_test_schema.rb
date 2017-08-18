@@ -15,6 +15,7 @@ class CreateTestSchema < superclass
         t.column :address, :string
         t.column :latitude, :decimal, :precision => 16, :scale => 6
         t.column :longitude, :decimal, :precision => 16, :scale => 6
+        t.column :radius_column, :decimal, :precision => 16, :scale => 6
       end
     end
 

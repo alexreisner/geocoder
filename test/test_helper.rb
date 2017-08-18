@@ -75,6 +75,10 @@ else
         def primary_key
           :id
         end
+
+        def maximum(_field)
+          1.0
+        end
       end
     end
   end

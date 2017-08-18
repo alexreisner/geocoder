@@ -18,6 +18,13 @@ class NearTest < GeocoderTestCase
     assert_match(/BETWEEN \? AND \?$/, result[:conditions][0])
   end
 
+  def test_near_scope_options_includes_radius_column_max_radius
+    omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
+
+    result = Place.send(:near_scope_options, 1.0, 2.0, :radius_column)
+    assert_match(/BETWEEN \? AND radius_column$/, result[:conditions][0])
+  end
+
   def test_near_scope_options_includes_radius_default_min_radius
     omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
 
