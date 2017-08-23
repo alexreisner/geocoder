@@ -1,7 +1,7 @@
 language: ruby
 sudo: false
 env:
-  global: 
+  global:
     - JRUBY_OPTS=--2.0
   matrix:
     - DB=
@@ -9,6 +9,10 @@ env:
     - DB=sqlite USE_SQLITE_EXT=1
     - DB=postgres
     - DB=mysql
+    - DB=sqlite ORM=sequel
+    - DB=sqlite USE_SQLITE_EXT=1 ORM=sequel
+    - DB=postgres ORM=sequel
+    - DB=mysql ORM=sequel
 rvm:
   - 1.9.3
   - 2.0.0

@@ -7,23 +7,39 @@ $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 
 require 'yaml'
 configs = YAML.load_file('test/database.yml')
+ENV['ORM'] ||= 'active_record'
 
 if configs.keys.include? ENV['DB']
-  require 'active_record'
-
-  # Establish a database connection
-  ActiveRecord::Base.configurations = configs
-
   db_name = ENV['DB']
+
   if db_name == 'sqlite' && ENV['USE_SQLITE_EXT'] == '1' then
     gem 'sqlite_ext'
     require 'sqlite_ext'
     SqliteExt.register_ruby_math
   end
-  ActiveRecord::Base.establish_connection(db_name.to_sym)
-  ActiveRecord::Base.default_timezone = :utc
 
-  ActiveRecord::Migrator.migrate('test/db/migrate', nil)
+  if ENV['ORM'] == 'active_record'
+    require 'active_record'
+
+    # Establish a database connection
+    ActiveRecord::Base.configurations = configs
+    ActiveRecord::Base.establish_connection(db_name.to_sym)
+    ActiveRecord::Base.default_timezone = :utc
+
+    ActiveRecord::Migrator.migrate('test/db/migrate', nil)
+  elsif ENV['ORM'] == 'sequel'
+    require 'sequel'
+    require 'geocoder/models/sequel'
+    require 'geocoder/stores/sequel'
+    if db_name == 'sqlite'
+      configs[ENV['DB']]['adapter'] = 'sqlite' # not sqlite3
+    end
+
+    DB = Sequel.connect(configs[ENV['DB']])
+
+    Sequel.extension(:migration)
+    Sequel::Migrator.run(DB, "test/db/migrate/sequel")
+  end
 else
   class MysqlConnection
     def adapter_name
@@ -399,132 +415,256 @@ end
 ##
 # Geocoded model.
 #
-class Place < ActiveRecord::Base
-  geocoded_by :address
+if ENV['ORM'] == 'active_record'
+  class Place < ActiveRecord::Base
+    geocoded_by :address
 
-  def initialize(name, address)
-    super()
-    write_attribute :name, name
-    write_attribute :address, address
+    def initialize(name, address)
+      super()
+      write_attribute :name, name
+      write_attribute :address, address
+    end
   end
-end
 
-##
-# Geocoded model.
-# - Has user-defined primary key (not just 'id')
-#
-class PlaceWithCustomPrimaryKey < Place
+  ##
+  # Geocoded model.
+  # - Has user-defined primary key (not just 'id')
+  #
+  class PlaceWithCustomPrimaryKey < Place
+    class << self
+      def primary_key
+        :custom_primary_key_id
+      end
+    end
+  end
 
-  class << self
+  class PlaceReverseGeocoded < ActiveRecord::Base
+    reverse_geocoded_by :latitude, :longitude
+
+    def initialize(name, latitude, longitude)
+      super()
+      write_attribute :name, name
+      write_attribute :latitude, latitude
+      write_attribute :longitude, longitude
+    end
+  end
+
+  class PlaceWithCustomResultsHandling < ActiveRecord::Base
+    geocoded_by :address do |obj,results|
+      if result = results.first
+        obj.coords_string = "#{result.latitude},#{result.longitude}"
+      else
+        obj.coords_string = "NOT FOUND"
+      end
+    end
+
+    def initialize(name, address)
+      super()
+      write_attribute :name, name
+      write_attribute :address, address
+    end
+  end
+
+  class PlaceReverseGeocodedWithCustomResultsHandling < ActiveRecord::Base
+    reverse_geocoded_by :latitude, :longitude do |obj,results|
+      if result = results.first
+        obj.country = result.country_code
+      end
+    end
+
+    def initialize(name, latitude, longitude)
+      super()
+      write_attribute :name, name
+      write_attribute :latitude, latitude
+      write_attribute :longitude, longitude
+    end
+  end
+
+  class PlaceWithForwardAndReverseGeocoding < ActiveRecord::Base
+    geocoded_by :address, :latitude => :lat, :longitude => :lon
+    reverse_geocoded_by :lat, :lon, :address => :location
+
+    def initialize(name)
+      super()
+      write_attribute :name, name
+    end
+  end
+
+  class PlaceWithCustomLookup < ActiveRecord::Base
+    geocoded_by :address, :lookup => :nominatim do |obj,results|
+      if result = results.first
+        obj.result_class = result.class
+      end
+    end
+
+    def initialize(name, address)
+      super()
+      write_attribute :name, name
+      write_attribute :address, address
+    end
+  end
+
+  class PlaceWithCustomLookupProc < ActiveRecord::Base
+    geocoded_by :address, :lookup => lambda{|obj| obj.custom_lookup } do |obj,results|
+      if result = results.first
+        obj.result_class = result.class
+      end
+    end
+
+    def custom_lookup
+      :nominatim
+    end
+
+    def initialize(name, address)
+      super()
+      write_attribute :name, name
+      write_attribute :address, address
+    end
+  end
+
+  class PlaceReverseGeocodedWithCustomLookup < ActiveRecord::Base
+    reverse_geocoded_by :latitude, :longitude, :lookup => :nominatim do |obj,results|
+      if result = results.first
+        obj.result_class = result.class
+      end
+    end
+
+    def initialize(name, latitude, longitude)
+      super()
+      write_attribute :name, name
+      write_attribute :latitude, latitude
+      write_attribute :longitude, longitude
+    end
+  end
+else
+
+  ##
+  # Geocoded model.
+  #
+
+  Sequel::Model.strict_param_setting = false # ignore attempts to access restricted setter methods
+
+  class Place < Sequel::Model(:places)
+    plugin :geocoder
+
+    geocoded_by :address
+
+    def initialize(name, address)
+      super(name: name, address: address)
+    end
+
+  end
+
+  ##
+  # Geocoded model.
+  # - Has user-defined primary key (not just 'id')
+  #
+  class PlaceWithCustomPrimaryKey < Place
     def primary_key
       :custom_primary_key_id
     end
   end
 
-end
 
-class PlaceReverseGeocoded < ActiveRecord::Base
-  reverse_geocoded_by :latitude, :longitude
+  class PlaceReverseGeocoded < Sequel::Model(:places)
+    plugin :geocoder
 
-  def initialize(name, latitude, longitude)
-    super()
-    write_attribute :name, name
-    write_attribute :latitude, latitude
-    write_attribute :longitude, longitude
-  end
-end
+    reverse_geocoded_by :latitude, :longitude
 
-class PlaceWithCustomResultsHandling < ActiveRecord::Base
-  geocoded_by :address do |obj,results|
-    if result = results.first
-      obj.coords_string = "#{result.latitude},#{result.longitude}"
-    else
-      obj.coords_string = "NOT FOUND"
+    def initialize(name, latitude, longitude)
+      super(name: name, latitude: latitude, longitude: longitude)
     end
   end
 
-  def initialize(name, address)
-    super()
-    write_attribute :name, name
-    write_attribute :address, address
-  end
-end
+  class PlaceWithCustomResultsHandling < Sequel::Model
+    plugin :geocoder
 
-class PlaceReverseGeocodedWithCustomResultsHandling < ActiveRecord::Base
-  reverse_geocoded_by :latitude, :longitude do |obj,results|
-    if result = results.first
-      obj.country = result.country_code
+    geocoded_by :address do |obj,results|
+      if result = results.first
+        obj.coords_string = "#{result.latitude},#{result.longitude}"
+      else
+        obj.coords_string = "NOT FOUND"
+      end
+    end
+
+    def initialize(name, address)
+      super(name: name, address: address)
     end
   end
 
-  def initialize(name, latitude, longitude)
-    super()
-    write_attribute :name, name
-    write_attribute :latitude, latitude
-    write_attribute :longitude, longitude
-  end
-end
+  class PlaceReverseGeocodedWithCustomResultsHandling < Sequel::Model
+    plugin :geocoder
 
-class PlaceWithForwardAndReverseGeocoding < ActiveRecord::Base
-  geocoded_by :address, :latitude => :lat, :longitude => :lon
-  reverse_geocoded_by :lat, :lon, :address => :location
+    reverse_geocoded_by :latitude, :longitude do |obj,results|
+      if result = results.first
+        obj.country = result.country_code
+      end
+    end
 
-  def initialize(name)
-    super()
-    write_attribute :name, name
-  end
-end
-
-class PlaceWithCustomLookup < ActiveRecord::Base
-  geocoded_by :address, :lookup => :nominatim do |obj,results|
-    if result = results.first
-      obj.result_class = result.class
+    def initialize(name, latitude, longitude)
+      super(name: name, latitude: latitude, longitude: longitude)
     end
   end
 
-  def initialize(name, address)
-    super()
-    write_attribute :name, name
-    write_attribute :address, address
-  end
-end
+  class PlaceWithForwardAndReverseGeocoding < Sequel::Model
+    plugin :geocoder
 
-class PlaceWithCustomLookupProc < ActiveRecord::Base
-  geocoded_by :address, :lookup => lambda{|obj| obj.custom_lookup } do |obj,results|
-    if result = results.first
-      obj.result_class = result.class
+    geocoded_by :address, :latitude => :lat, :longitude => :lon
+    reverse_geocoded_by :lat, :lon, :address => :location
+
+    def initialize(name)
+      super(name: name)
     end
   end
 
-  def custom_lookup
-    :nominatim
-  end
+  class PlaceWithCustomLookup < Sequel::Model(:places_with_result_class)
+    plugin :geocoder
 
-  def initialize(name, address)
-    super()
-    write_attribute :name, name
-    write_attribute :address, address
-  end
-end
+    geocoded_by :address, :lookup => :nominatim do |obj,results|
+      if result = results.first
+        obj.result_class = result.class
+      end
+    end
 
-class PlaceReverseGeocodedWithCustomLookup < ActiveRecord::Base
-  reverse_geocoded_by :latitude, :longitude, :lookup => :nominatim do |obj,results|
-    if result = results.first
-      obj.result_class = result.class
+    def initialize(name, address)
+      super(name: name, address: address)
     end
   end
 
-  def initialize(name, latitude, longitude)
-    super()
-    write_attribute :name, name
-    write_attribute :latitude, latitude
-    write_attribute :longitude, longitude
+  class PlaceWithCustomLookupProc < Sequel::Model(:places_with_result_class)
+    plugin :geocoder
+
+    geocoded_by :address, :lookup => lambda{|obj| obj.custom_lookup } do |obj,results|
+      if result = results.first
+        obj.result_class = result.class
+      end
+    end
+
+    def custom_lookup
+      :nominatim
+    end
+
+    def initialize(name, address)
+      super(name: name, address: address)
+    end
+  end
+
+  class PlaceReverseGeocodedWithCustomLookup < Sequel::Model(:places_with_result_class)
+    plugin :geocoder
+
+    reverse_geocoded_by :latitude, :longitude, :lookup => :nominatim do |obj,results|
+      if result = results.first
+        obj.result_class = result.class
+      end
+    end
+
+    def initialize(name, latitude, longitude)
+      super(name: name, latitude: latitude, longitude: longitude)
+    end
   end
 end
-
 
 class GeocoderTestCase < Test::Unit::TestCase
-
   def setup
     super
     Geocoder::Configuration.instance.set_defaults
