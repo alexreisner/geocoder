@@ -38,13 +38,16 @@ module Geocoder::Store
         latitude, longitude = Geocoder::Calculations.extract_coordinates(location)
         if Geocoder::Calculations.coordinates_present?(latitude, longitude)
           options = near_scope_options(latitude, longitude, *args)
-          select(options[:select]).where(options[:conditions]).
-            order(options[:order])
+          result = options[:select]
+          options[:conditions].each do |condition|
+            result = result.where(condition)
+          end
+          result.order(options[:order])
         else
           # If no lat/lon given we don't want any results, but we still
           # need distance and bearing columns so you can add, for example:
           # .order("distance")
-          select(select_clause(nil, null_value, null_value)).where(false_condition)
+          select_clause(nil, null_value, null_value).where(::Sequel.lit(false_condition))
         end
       end
 
@@ -57,13 +60,13 @@ module Geocoder::Store
       def within_bounding_box(bounds)
         sw_lat, sw_lng, ne_lat, ne_lng = bounds.flatten if bounds
         if sw_lat && sw_lng && ne_lat && ne_lng
-          where(Geocoder::Sql.within_bounding_box(
+          where(::Sequel.lit(Geocoder::Sql.within_bounding_box(
             sw_lat, sw_lng, ne_lat, ne_lng,
             full_column_name(geocoder_options[:latitude]),
             full_column_name(geocoder_options[:longitude])
-          ))
+          )))
         else
-          select(select_clause(nil, null_value, null_value)).where(false_condition)
+          select_clause(nil, null_value, null_value).where(::Sequel.lit(false_condition))
         end
       end
 
@@ -131,22 +134,18 @@ module Geocoder::Store
           full_column_name(latitude_attribute),
           full_column_name(longitude_attribute)
         ]
-        bounding_box_conditions = Geocoder::Sql.within_bounding_box(*args)
+        conditions = [::Sequel.lit(Geocoder::Sql.within_bounding_box(*args))]
 
-        if using_unextended_sqlite?
-          conditions = bounding_box_conditions
-        else
+        unless using_unextended_sqlite?
           min_radius = options.fetch(:min_radius, 0).to_f
           # if radius is a DB column name,
           # find rows between min_radius and value in column
           if radius.is_a?(Symbol)
-            c = "BETWEEN ? AND #{radius}"
-            a = [min_radius]
+            conditions << ::Sequel.lit("#{distance} BETWEEN ? AND #{radius}", min_radius)
           else
-            c = "BETWEEN ? AND ?"
-            a = [min_radius, radius]
+            conditions << ::Sequel.lit("#{distance} BETWEEN ? AND ?", min_radius, radius)
           end
-          conditions = [bounding_box_conditions + " AND (#{distance}) " + c] + a
+          conditions
         end
         {
           :select => select_clause(options[:select],
@@ -155,7 +154,7 @@ module Geocoder::Store
                                    distance_column,
                                    bearing_column),
           :conditions => add_exclude_condition(conditions, options[:exclude]),
-          :order => options.include?(:order) ? options[:order] : "#{distance_column} ASC"
+          :order => options.include?(:order) ? ::Sequel.lit(options[:order]) : ::Sequel.asc(distance_column.to_sym)
         }
       end
 
@@ -201,20 +200,19 @@ module Geocoder::Store
       #
       def select_clause(columns, distance = nil, bearing = nil, distance_column = 'distance', bearing_column = 'bearing')
         if columns == :id_only
-          return full_column_name(model.primary_key)
-        elsif columns == :geo_only
-          clause = ""
-        else
-          clause = (columns || full_column_name("*"))
+          return select(full_column_name(model.primary_key))
         end
+
+        clause = (columns && columns != :geo_only) ? select(columns) : self
+
         if distance
-          clause += ", " unless clause.empty?
-          clause += "#{distance} AS #{distance_column}"
+          clause = clause.select_append(::Sequel.lit(distance).as(distance_column))
         end
+
         if bearing
-          clause += ", " unless clause.empty?
-          clause += "#{bearing} AS #{bearing_column}"
+          clause = clause.select_append(::Sequel.lit(bearing).as(bearing_column))
         end
+
         clause
       end
 
@@ -222,13 +220,10 @@ module Geocoder::Store
       # Adds a condition to exclude a given object by ID.
       # Expects conditions as an array or string. Returns array.
       #
-      def add_exclude_condition(conditions, exclude)
-        conditions = [conditions] if conditions.is_a?(String)
-        if exclude
-          conditions[0] << " AND #{full_column_name(model.primary_key)} != ?"
-          conditions << exclude.id
-        end
-        conditions
+      def add_exclude_condition(conditions, exclude_object)
+        return conditions unless exclude_object
+
+        conditions << ::Sequel.negate(full_column_name(model.primary_key) => exclude_object.id)
       end
 
       def using_unextended_sqlite?
