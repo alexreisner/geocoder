@@ -32,9 +32,9 @@ module Geocoder::Lookup
         when "Key not active - Please write to contact@unwiredlabs.com"
           raise_error(Geocoder::RequestDenied, doc['error'])
         when "Rate Limited"
-          raise_error(Geocoder::OverQueryLimitError, doc['error')
+          raise_error(Geocoder::OverQueryLimitError, doc['error'])
         when "Unknown error - Please try again after some time"
-          raise_error(Geocoder::InvalidRequest, doc['error')
+          raise_error(Geocoder::InvalidRequest, doc['error'])
         end
       end
 
