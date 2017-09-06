@@ -510,7 +510,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 
 * **API key**: required
 * **Key signup**: http://geocoder.opencagedata.com
-* **Quota**: 2500 requests / day, then ability to purchase more (free during beta)
+* **Quota**: 2500 requests / day, then ability to purchase more
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: worldwide
