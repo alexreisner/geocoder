@@ -498,7 +498,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 #### LocationIQ (`:location_iq`)
 
 * **API key**: required
-* **Quota**: 6 request/second (30k req/day), then ability to purchase more
+* **Quota**: 6 request/second (30k req/day), then [ability to purchase more](http://locationiq.org/#pricing)
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: ?
@@ -510,7 +510,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 
 * **API key**: required
 * **Key signup**: http://geocoder.opencagedata.com
-* **Quota**: 2500 requests / day, then ability to purchase more
+* **Quota**: 2500 requests / day, then [ability to purchase more](https://geocoder.opencagedata.com/pricing)
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: worldwide
