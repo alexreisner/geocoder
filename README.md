@@ -1032,8 +1032,7 @@ When writing tests for an app that uses Geocoder it may be useful to avoid netwo
     Geocoder::Lookup::Test.add_stub(
       "New York, NY", [
         {
-          'latitude'     => 40.7143528,
-          'longitude'    => -74.0059731,
+          'coordinates'  => [40.7143528, -74.0059731]
           'address'      => 'New York, NY, USA',
           'state'        => 'New York',
           'state_code'   => 'NY',
@@ -1043,15 +1042,14 @@ When writing tests for an app that uses Geocoder it may be useful to avoid netwo
       ]
     )
 
-Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. You can also set a default stub, to be returned when no other stub is found for a given query:
+Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. Note each lookup requires an exact match to the text you provide as the first argument. The above example would, therefore, not match a request for "New York, NY, USA" and a second stub would need to be created to match that particular request. You can also set a default stub, to be returned when no other stub is found for a given query:
 
     Geocoder.configure(:lookup => :test)
 
     Geocoder::Lookup::Test.set_default_stub(
       [
         {
-          'latitude'     => 40.7143528,
-          'longitude'    => -74.0059731,
+          'coordinates'  => [40.7143528, -74.0059731]
           'address'      => 'New York, NY, USA',
           'state'        => 'New York',
           'state_code'   => 'NY',
