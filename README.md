@@ -1032,7 +1032,7 @@ When writing tests for an app that uses Geocoder it may be useful to avoid netwo
     Geocoder::Lookup::Test.add_stub(
       "New York, NY", [
         {
-          'coordinates'  => [40.7143528, -74.0059731]
+          'coordinates'  => [40.7143528, -74.0059731],
           'address'      => 'New York, NY, USA',
           'state'        => 'New York',
           'state_code'   => 'NY',
@@ -1049,7 +1049,7 @@ Now, any time Geocoder looks up "New York, NY" its results array will contain on
     Geocoder::Lookup::Test.set_default_stub(
       [
         {
-          'coordinates'  => [40.7143528, -74.0059731]
+          'coordinates'  => [40.7143528, -74.0059731],
           'address'      => 'New York, NY, USA',
           'state'        => 'New York',
           'state_code'   => 'NY',
