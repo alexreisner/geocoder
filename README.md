@@ -841,6 +841,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Languages**: English
 * **Documentation**: http://ipinfo.io/developers
 * **Terms of Service**: http://ipinfo.io/developers
+* **NOTES** To use IPInfo.io set `Geocoder.configure(:lookup => :ipinfo_io, :api_key => "your_ipinfo_token")`.
 
 #### IP-API.com (`:ipapi_com`)
 
