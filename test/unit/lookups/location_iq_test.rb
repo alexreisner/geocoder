@@ -32,7 +32,7 @@ class LocationIq < NominatimTest
   def test_raises_exception_with_rate_limited
     Geocoder.configure(always_raise: [Geocoder::OverQueryLimitError])
     assert_raises Geocoder::OverQueryLimitError do
-      Geocoder.search("rate limited")
+      Geocoder.search("over limit")
     end
   end
 
