@@ -7,10 +7,6 @@ module Geocoder::Lookup
       "LocationIq"
     end
 
-    def use_ssl?
-      ["use_ssl"]
-    end
-
     def required_api_key_parts
       ["api_key"]
     end
