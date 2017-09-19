@@ -7,8 +7,8 @@ module Geocoder::Lookup
       "Pickpoint"
     end
 
-    def use_ssl?
-      true
+    def supported_protocols
+      [:https]
     end
 
     def required_api_key_parts
