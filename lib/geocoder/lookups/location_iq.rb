@@ -8,7 +8,7 @@ module Geocoder::Lookup
     end
 
     def use_ssl?
-      true
+      ["use_ssl"]
     end
 
     def required_api_key_parts
