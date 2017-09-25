@@ -852,6 +852,16 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: http://ip-api.com/docs/
 * **Terms of Service**: https://signup.ip-api.com/terms
 
+#### DB-IP.com (`:db_ip_com`)
+
+* **API key**: required, plus Boolean is_paid (set `Geocoder.configure(:lookup => :db_ip_com, :api_key => [key, is_paid])`)
+* **Quota**: 2,500/day (with free API Key, 50,000/day and up for paid API keys)
+* **Region**: world
+* **SSL support**: yes (with paid API keys - see https://db-ip.com/api/)
+* **Languages**: English (English with free API key, multiple languages with paid API keys)
+* **Documentation**: https://db-ip.com/api/doc.php
+* **Terms of Service**: https://db-ip.com/tos.php
+
 ### IP Address Local Database Services
 
 #### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL

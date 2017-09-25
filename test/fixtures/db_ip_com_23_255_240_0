@@ -1,0 +1,27 @@
+{
+  "ipAddress": "23.255.240.0",
+  "continentCode": "NA",
+  "continentName": "North America",
+  "countryCode": "US",
+  "countryName": "United States",
+  "currencyCode": "USD",
+  "phonePrefix": "1",
+  "languages": [
+    "en-US",
+    "es-US",
+    "haw",
+    "fr"
+  ],
+  "stateProv": "California",
+  "district": "Santa Clara County",
+  "city": "Mountain View",
+  "geonameId": 5375480,
+  "zipCode": "94043",
+  "latitude": 37.3861,
+  "longitude": -122.084,
+  "gmtOffset": -7,
+  "timeZone": "America\/Los_Angeles",
+  "isp": "Google Fiber Inc.",
+  "linkType": "fttx",
+  "organization": "Google Fiber Inc."
+}
