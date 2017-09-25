@@ -4,12 +4,12 @@ require 'test_helper'
 class DbIpComTest < GeocoderTestCase
 
   def configure_for_free_api_access
-    Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: {api_key: ["MY_API_KEY", false]})
+    Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: {api_key: "MY_API_KEY"})
     set_api_key!(:db_ip_com)
   end
 
   def configure_for_paid_api_access
-    Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: {api_key: ["MY_API_KEY", true]})
+    Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: {api_key: "MY_API_KEY", use_https: true })
     set_api_key!(:db_ip_com)
   end
 

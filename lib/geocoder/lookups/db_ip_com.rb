@@ -9,15 +9,11 @@ module Geocoder::Lookup
     end
 
     def supported_protocols
-      if configuration.api_key[1]
-        [:https]
-      else
-        [:http]
-      end
+      [:https, :http]
     end
 
     def required_api_key_parts
-      ['api_key', 'is_paid']
+      ['api_key']
     end
 
     def query_url(query)
@@ -25,7 +21,7 @@ module Geocoder::Lookup
         "?#{url_query_string(query)}"
       end
 
-      "#{protocol}://api.db-ip.com/v2/#{configuration.api_key[0]}/#{query.sanitized_text}#{query_params}"
+      "#{protocol}://api.db-ip.com/v2/#{configuration.api_key}/#{query.sanitized_text}#{query_params}"
     end
 
     private

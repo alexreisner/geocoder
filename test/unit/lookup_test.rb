@@ -118,7 +118,7 @@ class LookupTest < GeocoderTestCase
   end
 
   def test_db_ip_com_api_key
-    Geocoder.configure(:api_key => ["MY_KEY", true])
+    Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::DbIpCom.new
     assert_match "\/MY_KEY\/", g.query_url(Geocoder::Query.new("232.65.123.94"))
   end
