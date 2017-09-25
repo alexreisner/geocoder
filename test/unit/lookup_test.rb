@@ -117,6 +117,12 @@ class LookupTest < GeocoderTestCase
     assert_match "ak=MY_KEY", g.query_url(Geocoder::Query.new("Madison Square Garden, New York, NY  10001, United States"))
   end
 
+  def test_db_ip_com_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    g = Geocoder::Lookup::DbIpCom.new
+    assert_match "\/MY_KEY\/", g.query_url(Geocoder::Query.new("232.65.123.94"))
+  end
+
   def test_pointpin_api_key
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::Pointpin.new

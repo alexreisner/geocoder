@@ -372,7 +372,7 @@ Please see the [source code for each lookup](https://github.com/alexreisner/geoc
 Or, to search within a particular region with Google:
 
     Geocoder.search("...", :params => {:region => "..."})
-    
+
 Or, to use parameters in your model:
 
     class Venue
@@ -382,7 +382,7 @@ Or, to use parameters in your model:
 
       # store the fetched address in the full_address attribute
       reverse_geocoded_by :latitude, :longitude, :address => :full_address, :params => {:region => "..."}
-    end 
+    end
 
 
 ### Configure Multiple Services
@@ -851,6 +851,16 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Languages**: English
 * **Documentation**: http://ip-api.com/docs/
 * **Terms of Service**: https://signup.ip-api.com/terms
+
+#### DB-IP.com (`:db_ip_com`)
+
+* **API key**: required
+* **Quota**: 2,500/day (with free API Key, 50,000/day and up for paid API keys)
+* **Region**: world
+* **SSL support**: yes (with paid API keys - see https://db-ip.com/api/)
+* **Languages**: English (English with free API key, multiple languages with paid API keys)
+* **Documentation**: https://db-ip.com/api/doc.php
+* **Terms of Service**: https://db-ip.com/tos.php
 
 ### IP Address Local Database Services
 
