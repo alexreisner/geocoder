@@ -4,12 +4,12 @@ require 'test_helper'
 class DbIpComTest < GeocoderTestCase
 
   def configure_for_free_api_access
-    Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: {api_key: "MY_API_KEY"})
+    Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: { api_key: 'MY_API_KEY' })
     set_api_key!(:db_ip_com)
   end
 
   def configure_for_paid_api_access
-    Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: {api_key: "MY_API_KEY", use_https: true })
+    Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: { api_key: 'MY_API_KEY', use_https: true })
     set_api_key!(:db_ip_com)
   end
 
@@ -31,7 +31,7 @@ class DbIpComTest < GeocoderTestCase
 
   def test_result_components
     configure_for_free_api_access
-    result = Geocoder.search("23.255.240.0").first
+    result = Geocoder.search('23.255.240.0').first
 
     assert_equal [37.3861, -122.084], result.coordinates
     assert_equal 'Mountain View, California 94043, United States', result.address
@@ -44,7 +44,7 @@ class DbIpComTest < GeocoderTestCase
     assert_equal 'North America', result.continent_name
     assert_equal 'NA', result.continent_code
     assert_equal 'America/Los_Angeles', result.time_zone
-    assert_equal -7, result.gmt_offset
+    assert_equal(-7, result.gmt_offset)
     assert_equal 'USD', result.currency_code
   end
 
