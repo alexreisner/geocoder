@@ -21,4 +21,25 @@ class LocationIq < NominatimTest
       Geocoder.search("invalid api key")
     end
   end
+
+  def test_raises_exception_with_request_denied
+    Geocoder.configure(always_raise: [Geocoder::RequestDenied])
+    assert_raises Geocoder::RequestDenied do
+      Geocoder.search("request denied")
+    end
+  end
+
+  def test_raises_exception_with_rate_limited
+    Geocoder.configure(always_raise: [Geocoder::OverQueryLimitError])
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder.search("over limit")
+    end
+  end
+
+  def test_raises_exception_with_invalid_request
+    Geocoder.configure(always_raise: [Geocoder::InvalidRequest])
+    assert_raises Geocoder::InvalidRequest do
+      Geocoder.search("invalid request")
+    end
+  end
 end
