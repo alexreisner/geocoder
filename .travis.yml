@@ -10,7 +10,6 @@ env:
     - DB=postgres
     - DB=mysql
 rvm:
-  - 2.1.2
   - 2.2.2
   - 2.3.0
   - jruby-19mode
