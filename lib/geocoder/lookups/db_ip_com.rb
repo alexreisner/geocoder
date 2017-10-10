@@ -27,18 +27,22 @@ module Geocoder::Lookup
     private
 
     def results(query)
-      return [] unless doc = fetch_data(query)
+      return [] unless (doc = fetch_data(query))
 
-      if doc['error']
-        if doc['error'] == 'invalid API key'
-          raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, 'Invalid DB-IP API key.')
-        else
-          Geocoder.log(:warn, "DB-IP Geocoding API error: #{doc['error']}.")
-        end
+      case doc['error']
+      when 'maximum number of queries per day exceeded'
+        raise_error Geocoder::OverQueryLimitError ||
+                    Geocoder.log(:warn, 'DB-API query limit exceeded.')
 
-        return []
+      when 'invalid API key'
+        raise_error Geocoder::InvalidApiKey ||
+                    Geocoder.log(:warn, 'Invalid DB-IP API key.')
+      when nil
+        [doc]
+
       else
-        return [ doc ]
+        raise_error Geocoder::Error ||
+                    Geocoder.log(:warn, "Request failed: #{doc['error']}")
       end
     end
   end
