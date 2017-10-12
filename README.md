@@ -26,15 +26,21 @@ Installation
 
 Install Geocoder like any other Ruby gem:
 
-    gem install geocoder
+```console
+gem install geocoder
+```
 
 Or, if you're using Rails/Bundler, add this to your Gemfile:
 
-    gem 'geocoder'
+```ruby
+gem 'geocoder'
+```
 
 and run at the command prompt:
 
-    bundle install
+```console
+bundle install
+```
 
 
 Object Geocoding
@@ -44,48 +50,64 @@ Object Geocoding
 
 Your model must have two attributes (database columns) for storing latitude and longitude coordinates. By default they should be called `latitude` and `longitude` but this can be changed (see "Model Configuration" below):
 
-    rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
-    rake db:migrate
+```console
+rails generate migration AddLatitudeAndLongitudeToModel latitude:float longitude:float
+rake db:migrate
+```
 
 For geocoding, your model must provide a method that returns an address. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`).
 
 Next, your model must tell Geocoder which method returns your object's geocodable address:
 
-    geocoded_by :full_street_address   # can also be an IP address
-    after_validation :geocode          # auto-fetch coordinates
+```ruby
+geocoded_by :full_street_address   # can also be an IP address
+after_validation :geocode          # auto-fetch coordinates
+```
 
 For reverse geocoding, tell Geocoder which attributes store latitude and longitude:
 
-    reverse_geocoded_by :latitude, :longitude
-    after_validation :reverse_geocode  # auto-fetch address
+```ruby
+reverse_geocoded_by :latitude, :longitude
+after_validation :reverse_geocode  # auto-fetch address
+```
 
 ### Mongoid
 
 First, your model must have an array field for storing coordinates:
 
-    field :coordinates, :type => Array
+```ruby
+field :coordinates, :type => Array
+```
 
 You may also want an address field, like this:
 
-    field :address
+```ruby
+field :address
+```
 
 but if you store address components (city, state, country, etc) in separate fields you can instead define a method called `address` that combines them into a single string which will be used to query the geocoding service.
 
 Once your fields are defined, include the `Geocoder::Model::Mongoid` module and then call `geocoded_by`:
 
-    include Geocoder::Model::Mongoid
-    geocoded_by :address               # can also be an IP address
-    after_validation :geocode          # auto-fetch coordinates
+```ruby
+include Geocoder::Model::Mongoid
+geocoded_by :address               # can also be an IP address
+after_validation :geocode          # auto-fetch coordinates
+```
 
 Reverse geocoding is similar:
 
-    include Geocoder::Model::Mongoid
-    reverse_geocoded_by :coordinates
-    after_validation :reverse_geocode  # auto-fetch address
+```ruby
+include Geocoder::Model::Mongoid
+reverse_geocoded_by :coordinates
+after_validation :reverse_geocode  # auto-fetch address
+```
 
 Once you've set up your model you'll need to create the necessary spatial indices in your database:
 
-    rake db:mongoid:create_indexes
+```console
+rake db:mongoid:create_indexes
+```
 
 Be sure to read _Latitude/Longitude Order_ in the _Notes on MongoDB_ section below on how to properly retrieve latitude/longitude coordinates from your objects.
 
@@ -97,26 +119,36 @@ MongoMapper is very similar to Mongoid, just be sure to include `Geocoder::Model
 
 By default, the methods `geocoded_by` and `reverse_geocoded_by` create a geospatial index. You can avoid index creation with the `:skip_index option`, for example:
 
-    include Geocoder::Model::Mongoid
-    geocoded_by :address, :skip_index => true
+```ruby
+include Geocoder::Model::Mongoid
+geocoded_by :address, :skip_index => true
+```
 
 ### Bulk Geocoding
 
 If you have just added geocoding to an existing application with a lot of objects, you can use this Rake task to geocode them all:
 
-    rake geocode:all CLASS=YourModel
+```console
+rake geocode:all CLASS=YourModel
+```
 
 If you need reverse geocoding instead, call the task with REVERSE=true:
 
-    rake geocode:all CLASS=YourModel REVERSE=true
+```console
+rake geocode:all CLASS=YourModel REVERSE=true
+```
 
 Geocoder will print warnings if you exceed the rate limit for your geocoding service. Some services — Google notably — enforce a per-second limit in addition to a per-day limit. To avoid exceeding the per-second limit, you can add a `SLEEP` option to pause between requests for a given amount of time. You can also load objects in batches to save memory, for example:
 
-    rake geocode:all CLASS=YourModel SLEEP=0.25 BATCH=100
+```console
+rake geocode:all CLASS=YourModel SLEEP=0.25 BATCH=100
+```
 
 To avoid per-day limit issues (for example if you are trying to geocode thousands of objects and don't want to reach the limit), you can add a `LIMIT` option. Warning: This will ignore the `BATCH` value if provided.
 
-    rake geocode:all CLASS=YourModel LIMIT=1000
+```console
+rake geocode:all CLASS=YourModel LIMIT=1000
+```
 
 ### Avoiding Unnecessary API Requests
 
@@ -127,8 +159,9 @@ Geocoding only needs to be performed under certain conditions. To avoid unnecess
 
 The exact code will vary depending on the method you use for your geocodable string, but it would be something like this:
 
-    after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
-
+```ruby
+after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
+```
 
 Request Geocoding by IP Address
 -------------------------------
