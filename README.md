@@ -862,6 +862,16 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: https://db-ip.com/api/doc.php
 * **Terms of Service**: https://db-ip.com/tos.php
 
+#### IP Sidekick (`:ip_sidekick`)
+
+* **API key**: optional - see https://ipsidekick.com/pricing/
+* **Quota**: 1,440/day - more with api key
+* **Region**: world
+* **SSL support**: HTTPS-only
+* **Languages**: English
+* **Documentation**: https://ipsidekick.com/developers/
+* **Terms of Service**: https://ipsidekick.com/developers/
+
 ### IP Address Local Database Services
 
 #### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
