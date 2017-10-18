@@ -539,18 +539,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://geocoder.ca/?terms=1
 * **Limitations**: "Under no circumstances can our data be re-distributed or re-sold by anyone to other parties without our written permission."
 
-#### Geocoder.us (`:geocoder_us`)
-
-* **API key**: HTTP Basic Auth
-* **Sign up**: http://geocoder.us/user/signup
-* **Quota**: You can purchase 20,000 credits at a time for $50
-* **Region**: US
-* **SSL support**: no
-* **Languages**: English
-* **Documentation**: http://geocoder.us/help/
-* **Terms of Service**: http://geocoder.us/terms.shtml
-* **Limitations**: ?
-
 #### Mapbox (`:mapbox`)
 
 * **API key**: required
@@ -643,7 +631,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 Data Science Toolkit provides an API whose response format is like Google's but which can be set up as a privately hosted service.
 
 * **API key**: none
-* **Quota**: None quota if you are self-hosting the service.
+* **Quota**: No quota if you are self-hosting the service.
 * **Region**: world
 * **SSL support**: ?
 * **Languages**: en
@@ -667,7 +655,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 #### Geocodio (`:geocodio`)
 
 * **API key**: required
-* **Quota**: 2,500 free requests/day then purchase $.001 for each, also has volume pricing and plans
+* **Quota**: 2,500 free requests/day then purchase $0.0005 for each, also has volume pricing and plans. Pricing page: https://geocod.io/pricing/
 * **Region**: US
 * **SSL support**: yes
 * **Languages**: en
@@ -678,7 +666,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 #### SmartyStreets (`:smarty_streets`)
 
 * **API key**: requires auth_id and auth_token (set `Geocoder.configure(:api_key => [id, token])`)
-* **Quota**: 10,000 free, 250/month then purchase at sliding scale.
+* **Quota**: 250/month then purchase at sliding scale. Pricing page: https://smartystreets.com/pricing
 * **Region**: US
 * **SSL support**: yes (required)
 * **Languages**: en
