@@ -655,7 +655,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 #### Geocodio (`:geocodio`)
 
 * **API key**: required
-* **Quota**: 2,500 free requests/day then purchase $0.0005 for each, also has volume pricing and plans. Pricing page: https://geocod.io/pricing/
+* **Quota**: 2,500 free requests/day then purchase $0.0005 for each, also has volume pricing and plans.
 * **Region**: US
 * **SSL support**: yes
 * **Languages**: en
@@ -666,7 +666,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 #### SmartyStreets (`:smarty_streets`)
 
 * **API key**: requires auth_id and auth_token (set `Geocoder.configure(:api_key => [id, token])`)
-* **Quota**: 250/month then purchase at sliding scale. Pricing page: https://smartystreets.com/pricing
+* **Quota**: 250/month then purchase at sliding scale.
 * **Region**: US
 * **SSL support**: yes (required)
 * **Languages**: en
