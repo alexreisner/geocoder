@@ -560,6 +560,14 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Region**: complete coverage of US and Canada, partial coverage elsewhere (see for details: https://www.mapbox.com/developers/api/geocoding/#coverage)
 * **SSL support**: yes
 * **Languages**: English
+* **Extra options**:
+    * Passed as Hash of params: `Geocoder::Query.new("Leadville, CO", params: { country: 'CN' })`
+    * Common options include (see Mapbox docs for more):
+        * `:country` - restrict results to a specific country, e.g., `us` or `ca`
+        * `:types` - restrict results to categories such as `address`,
+        `neighborhood`, `postcode`
+        * `:proximity` - bias results toward a `lng,lat`, e.g.,
+          `params: { proximity: "-84.0,42.5" }`
 * **Documentation**: https://www.mapbox.com/developers/api/geocoding/
 * **Terms of Service**: https://www.mapbox.com/tos/
 * **Limitations**: For `mapbox.places` dataset, must be displayed on a Mapbox map; Cache results for up to 30 days. For `mapbox.places-permanent` dataset, depends on plan.
