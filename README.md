@@ -425,7 +425,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Region**: world
 * **SSL support**: yes (required if key is used)
 * **Languages**: see https://developers.google.com/maps/faq#languagesupport
-* **Extra options**:
+* **Extra params**:
   * `:bounds` - pass SW and NE coordinates as an array of two arrays to bias results towards a viewport
   * `:google_place_id` - pass `true` if search query is a Google Place ID
 * **Documentation**: https://developers.google.com/maps/documentation/geocoding/intro
@@ -548,6 +548,12 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Region**: complete coverage of US and Canada, partial coverage elsewhere (see for details: https://www.mapbox.com/developers/api/geocoding/#coverage)
 * **SSL support**: yes
 * **Languages**: English
+* **Extra params** (see Mapbox docs for more):
+    * `:country` - restrict results to a specific country, e.g., `us` or `ca`
+    * `:types` - restrict results to categories such as `address`,
+    `neighborhood`, `postcode`
+    * `:proximity` - bias results toward a `lng,lat`, e.g.,
+        `params: { proximity: "-84.0,42.5" }`
 * **Documentation**: https://www.mapbox.com/developers/api/geocoding/
 * **Terms of Service**: https://www.mapbox.com/tos/
 * **Limitations**: For `mapbox.places` dataset, must be displayed on a Mapbox map; Cache results for up to 30 days. For `mapbox.places-permanent` dataset, depends on plan.
