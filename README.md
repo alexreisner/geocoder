@@ -611,7 +611,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 #### Mapzen (`:mapzen`)
 
 * **API key**: required
-* **Quota**: free limits and paid plan info at https://mapzen.com/pricing/
+* **Quota**: 25,000 free requests/month and [ability to purchase more](https://mapzen.com/pricing/)
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
