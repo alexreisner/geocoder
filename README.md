@@ -611,13 +611,13 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 #### Mapzen (`:mapzen`)
 
 * **API key**: required
-* **Quota**: 6/sec, up to 30k per day, paid plan info at https://mapzen.com/documentation/search/api-keys-rate-limits/#rate-limits
+* **Quota**: 25,000 free requests/month and [ability to purchase more](https://mapzen.com/pricing/)
 * **Region**: world
 * **SSL support**: yes
-* **Languages**: en
+* **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
 * **Documentation**: https://mapzen.com/documentation/search/search/
 * **Terms of Service**: http://mapzen.com/terms
-* **Limitations**: ?
+* **Limitations**: [You must provide attribution](https://mapzen.com/rights/)
 * **Notes**: Mapzen is the primary author of Pelias and offers Pelias-as-a-service in free and paid versions https://mapzen.com/pelias.
 
 #### Pelias (`:pelias`)
@@ -626,9 +626,9 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Quota**: none (self-hosted service)
 * **Region**: world
 * **SSL support**: yes
-* **Languages**: en
-* **Documentation**: https://github.com/pelias/pelias
-* **Terms of Service**: https://github.com/pelias/pelias/blob/master/data_licenses.md
+* **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
+* **Documentation**: http://pelias.io/
+* **Terms of Service**: http://pelias.io/data_licenses.html
 * **Limitations**: See terms
 * **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(:lookup => :pelias, :api_key => 'your_api_key', :pelias => {:endpoint => 'self.hosted/pelias'})`. Defaults to `localhost`.
 
