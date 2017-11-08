@@ -61,7 +61,6 @@ class DbIpComTest < GeocoderTestCase
   end
 
   def test_raises_over_limit_exception
-    configure_for_free_api_access
     Geocoder.configure always_raise: :all
     assert_raises Geocoder::OverQueryLimitError do
       Geocoder::Lookup::DbIpCom.new.send(:results, Geocoder::Query.new('quota exceeded'))
@@ -69,11 +68,9 @@ class DbIpComTest < GeocoderTestCase
   end
 
   def test_raises_unknown_error
-    configure_for_free_api_access
     Geocoder.configure always_raise: :all
     assert_raises Geocoder::Error do
       Geocoder::Lookup::DbIpCom.new.send(:results, Geocoder::Query.new('unknown error'))
     end
   end
-
 end
