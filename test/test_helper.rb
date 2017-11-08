@@ -167,10 +167,6 @@ module Geocoder
       def fixture_prefix
         "db_ip_com"
       end
-
-      def default_fixture_filename
-        "db_ip_com_23_255_240_0"
-      end
     end
 
     require 'geocoder/lookups/google_premier'
