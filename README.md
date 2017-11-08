@@ -425,7 +425,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Region**: world
 * **SSL support**: yes (required if key is used)
 * **Languages**: see https://developers.google.com/maps/faq#languagesupport
-* **Extra options**:
+* **Extra params**:
   * `:bounds` - pass SW and NE coordinates as an array of two arrays to bias results towards a viewport
   * `:google_place_id` - pass `true` if search query is a Google Place ID
 * **Documentation**: https://developers.google.com/maps/documentation/geocoding/intro
@@ -539,18 +539,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://geocoder.ca/?terms=1
 * **Limitations**: "Under no circumstances can our data be re-distributed or re-sold by anyone to other parties without our written permission."
 
-#### Geocoder.us (`:geocoder_us`)
-
-* **API key**: HTTP Basic Auth
-* **Sign up**: http://geocoder.us/user/signup
-* **Quota**: You can purchase 20,000 credits at a time for $50
-* **Region**: US
-* **SSL support**: no
-* **Languages**: English
-* **Documentation**: http://geocoder.us/help/
-* **Terms of Service**: http://geocoder.us/terms.shtml
-* **Limitations**: ?
-
 #### Mapbox (`:mapbox`)
 
 * **API key**: required
@@ -560,6 +548,12 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Region**: complete coverage of US and Canada, partial coverage elsewhere (see for details: https://www.mapbox.com/developers/api/geocoding/#coverage)
 * **SSL support**: yes
 * **Languages**: English
+* **Extra params** (see Mapbox docs for more):
+    * `:country` - restrict results to a specific country, e.g., `us` or `ca`
+    * `:types` - restrict results to categories such as `address`,
+    `neighborhood`, `postcode`
+    * `:proximity` - bias results toward a `lng,lat`, e.g.,
+        `params: { proximity: "-84.0,42.5" }`
 * **Documentation**: https://www.mapbox.com/developers/api/geocoding/
 * **Terms of Service**: https://www.mapbox.com/tos/
 * **Limitations**: For `mapbox.places` dataset, must be displayed on a Mapbox map; Cache results for up to 30 days. For `mapbox.places-permanent` dataset, depends on plan.
@@ -617,13 +611,13 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 #### Mapzen (`:mapzen`)
 
 * **API key**: required
-* **Quota**: 6/sec, up to 30k per day, paid plan info at https://mapzen.com/documentation/search/api-keys-rate-limits/#rate-limits
+* **Quota**: 25,000 free requests/month and [ability to purchase more](https://mapzen.com/pricing/)
 * **Region**: world
 * **SSL support**: yes
-* **Languages**: en
+* **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
 * **Documentation**: https://mapzen.com/documentation/search/search/
 * **Terms of Service**: http://mapzen.com/terms
-* **Limitations**: ?
+* **Limitations**: [You must provide attribution](https://mapzen.com/rights/)
 * **Notes**: Mapzen is the primary author of Pelias and offers Pelias-as-a-service in free and paid versions https://mapzen.com/pelias.
 
 #### Pelias (`:pelias`)
@@ -632,9 +626,9 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Quota**: none (self-hosted service)
 * **Region**: world
 * **SSL support**: yes
-* **Languages**: en
-* **Documentation**: https://github.com/pelias/pelias
-* **Terms of Service**: https://github.com/pelias/pelias/blob/master/data_licenses.md
+* **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
+* **Documentation**: http://pelias.io/
+* **Terms of Service**: http://pelias.io/data_licenses.html
 * **Limitations**: See terms
 * **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(:lookup => :pelias, :api_key => 'your_api_key', :pelias => {:endpoint => 'self.hosted/pelias'})`. Defaults to `localhost`.
 
@@ -643,7 +637,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 Data Science Toolkit provides an API whose response format is like Google's but which can be set up as a privately hosted service.
 
 * **API key**: none
-* **Quota**: None quota if you are self-hosting the service.
+* **Quota**: No quota if you are self-hosting the service.
 * **Region**: world
 * **SSL support**: ?
 * **Languages**: en
@@ -667,7 +661,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 #### Geocodio (`:geocodio`)
 
 * **API key**: required
-* **Quota**: 2,500 free requests/day then purchase $.001 for each, also has volume pricing and plans
+* **Quota**: 2,500 free requests/day then purchase $0.0005 for each, also has volume pricing and plans.
 * **Region**: US
 * **SSL support**: yes
 * **Languages**: en
@@ -678,7 +672,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 #### SmartyStreets (`:smarty_streets`)
 
 * **API key**: requires auth_id and auth_token (set `Geocoder.configure(:api_key => [id, token])`)
-* **Quota**: 10,000 free, 250/month then purchase at sliding scale.
+* **Quota**: 250/month then purchase at sliding scale.
 * **Region**: US
 * **SSL support**: yes (required)
 * **Languages**: en
@@ -1238,7 +1232,9 @@ When reporting an issue, please list the version of Geocoder you are using and a
 Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Sites like [StackOverflow](http://www.stackoverflow.com/) are a better forum for such discussions.
 
 
-### Known Issue
+### Known Issues
+
+#### Using `near` with `includes`
 
 You cannot use the `near` scope with another scope that provides an `includes` option because the `SELECT` clause generated by `near` will overwrite it (or vice versa).
 
@@ -1254,6 +1250,10 @@ Instead of using `includes` to reduce the number of database queries, try using 
     Hotel.near("London, UK", 50).joins(:administrator).preload(:administrator)
 
 If anyone has a more elegant solution to this problem I am very interested in seeing it.
+
+#### Using `near` with objects close to the 180th meridian
+
+The `near` method will not look across the 180th meridian to find objects close to a given point. In practice this is rarely an issue outside of New Zealand and certain surrounding islands. This problem does not exist with the zero-meridian. The problem is due to a shortcoming of the Haversine formula which Geocoder uses to calculate distances.
 
 
 Contributing

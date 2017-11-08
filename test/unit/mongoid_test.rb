@@ -39,4 +39,23 @@ class MongoidTest < GeocoderTestCase
     end
     assert !result
   end
+
+  def test_geocoded_with_custom_handling
+    p = PlaceUsingMongoidWithCustomResultsHandling.new(*geocoded_object_params(:msg))
+    p.location = [40.750354, -73.993371]
+    p.geocode
+    assert p.coords_string == "40.750354,-73.993371"
+  end
+
+  def test_reverse_geocoded
+    p = PlaceUsingMongoidReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
+    p.reverse_geocode
+    assert p.address == "4 Penn Plaza, New York, NY 10001, USA"
+  end
+
+  def test_reverse_geocoded_with_custom_handling
+    p = PlaceUsingMongoidReverseGeocodedWithCustomResultsHandling.new(*reverse_geocoded_object_params(:msg))
+    p.reverse_geocode
+    assert p.country == "US"
+  end
 end
