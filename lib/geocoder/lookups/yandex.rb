@@ -47,12 +47,16 @@ module Geocoder::Lookup
       else
         q = query.sanitized_text
       end
-      {
+      params = {
         :geocode => q,
         :format => "json",
         :plng => "#{query.language || configuration.language}", # supports ru, uk, be
         :key => configuration.api_key
-      }.merge(super)
+      }
+      unless (bounds = query.options[:bounds]).nil?
+        params[:bbox] = bounds.map{ |point| "%f,%f" % point }.join('~')
+      end
+      params.merge(super)
     end
   end
 end
