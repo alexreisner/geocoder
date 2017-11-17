@@ -1,8 +1,6 @@
-# encoding: utf-8
 require 'test_helper'
 
 class DbIpComTest < GeocoderTestCase
-
   def configure_for_free_api_access
     Geocoder.configure(ip_lookup: :db_ip_com, db_ip_com: { api_key: 'MY_API_KEY' })
     set_api_key!(:db_ip_com)
@@ -51,14 +49,28 @@ class DbIpComTest < GeocoderTestCase
   def test_free_host_config
     configure_for_free_api_access
     lookup = Geocoder::Lookup::DbIpCom.new
-    query = Geocoder::Query.new("23.255.240.0")
+    query = Geocoder::Query.new('23.255.240.0')
     assert_match 'http://api.db-ip.com/v2/MY_API_KEY/23.255.240.0', lookup.query_url(query)
   end
 
   def test_paid_host_config
     configure_for_paid_api_access
     lookup = Geocoder::Lookup::DbIpCom.new
-    query = Geocoder::Query.new("23.255.240.0")
+    query = Geocoder::Query.new('23.255.240.0')
     assert_match 'https://api.db-ip.com/v2/MY_API_KEY/23.255.240.0', lookup.query_url(query)
+  end
+
+  def test_raises_over_limit_exception
+    Geocoder.configure always_raise: :all
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder::Lookup::DbIpCom.new.send(:results, Geocoder::Query.new('quota exceeded'))
+    end
+  end
+
+  def test_raises_unknown_error
+    Geocoder.configure always_raise: :all
+    assert_raises Geocoder::Error do
+      Geocoder::Lookup::DbIpCom.new.send(:results, Geocoder::Query.new('unknown error'))
+    end
   end
 end
