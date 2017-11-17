@@ -21,7 +21,7 @@ class YandexTest < GeocoderTestCase
   end
 
   def test_yandex_query_url_contains_bbox
-    lookup = Geocoder::Lookup::Google.new
+    lookup = Geocoder::Lookup::Yandex.new
     url = lookup.query_url(Geocoder::Query.new(
       "Some Intersection",
       :bounds => [[40.0, -120.0], [39.0, -121.0]]
