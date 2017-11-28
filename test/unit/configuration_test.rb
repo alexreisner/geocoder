@@ -70,4 +70,30 @@ class ConfigurationTest < GeocoderTestCase
     Geocoder.merge_into_lookup_config(:google, new)
     assert_equal merged, Geocoder.config[:google]
   end
+
+  def test_enable_cache_compression
+    # Lookups are static so we need to remove the cache before this test
+    Geocoder::Lookup.get(:google).instance_variable_set(:@cache, nil)
+
+    store = {}
+    Geocoder.configure(:cache => store, :cache_compress => true, :lookup => :google)
+    value = "a" * 1024
+
+    Geocoder::Lookup.get(:google).cache["key"] = value
+
+    assert_equal "geocoder/compressed;#{Zlib::Deflate.deflate(value)}", store["geocoder:key"]
+  end
+
+  def test_disable_cache_compression
+    # Lookups are static so we need to remove the cache before this test
+    Geocoder::Lookup.get(:google).instance_variable_set(:@cache, nil)
+
+    store = {}
+    Geocoder.configure(:cache => store, :cache_compress => false, :lookup => :google)
+    value = "a" * 1024
+
+    Geocoder::Lookup.get(:google).cache["key"] = value
+
+    assert_equal value, store["geocoder:key"]
+  end
 end

@@ -56,4 +56,76 @@ class CacheTest < GeocoderTestCase
     Geocoder.search("service unavailable")
     assert_false lookup.instance_variable_get(:@cache_hit)
   end
+
+  def test_compress_cache_values_larger_than_1_kilobyte
+    store = {}
+    cache = Geocoder::Cache.new(store, "", compress: true)
+    value = "a" * 1024
+
+    cache["key"] = value
+
+    assert_equal store["key"], "geocoder/compressed;#{Zlib::Deflate.deflate(value)}"
+    assert_equal cache["key"], value
+  end
+
+  def test_dont_compress_cache_values_smaller_than_1_kilobyte
+    store = {}
+    cache = Geocoder::Cache.new(store, "", compress: true)
+    value = "a" * 1023
+
+    cache["key"] = value
+
+    assert_equal store["key"], value
+    assert_equal cache["key"], value
+  end
+
+  def test_read_compressed_cache_values_after_disabling_compression
+    store = {}
+    old_cache = Geocoder::Cache.new(store, "", compress: true)
+    value = "a" * 1024
+    old_cache["key"] = value
+
+    new_cache = Geocoder::Cache.new(store, "", compress: false)
+
+    # The old store value is compressed...
+    assert_equal store["key"], "geocoder/compressed;#{Zlib::Deflate.deflate(value)}"
+
+    # ...but the value can still be read properly
+    assert_equal new_cache["key"], value
+  end
+
+  def test_explictly_disabling_compression_doesnt_compress
+    store = {}
+    cache = Geocoder::Cache.new(store, "", compress: false)
+    value = "a" * 1024
+
+    cache["key"] = value
+
+    assert_equal store["key"], value
+  end
+
+  def test_read_uncompressed_cache_values_after_enabling_compression
+    store = {}
+    old_cache = Geocoder::Cache.new(store, "", compress: false)
+    value = "a" * 1024
+    old_cache["key"] = value
+
+    new_cache = Geocoder::Cache.new(store, "", compress: true)
+
+    # The old store value is not compressed...
+    assert_equal store["key"], value
+
+    # ...but the value can still be read properly
+    assert_equal new_cache["key"], value
+  end
+
+  def test_nil_values_arent_compressed
+    store = {}
+    cache = Geocoder::Cache.new(store, "", compress: true)
+
+    cache["key"] = nil
+
+    assert_equal store["key"], nil
+    assert_equal cache["key"], nil
+  end
 end

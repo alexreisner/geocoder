@@ -943,6 +943,12 @@ You can also set a custom prefix to be used for cache keys:
 
 By default the prefix is `geocoder:`
 
+In some situations it helps a lot to **compress the cache values**. Geocoder will do that for values larger than 1 Kilobyte, provided that you enable cache compression inside your configuration:
+
+```ruby
+Geocoder.configure(:cache_compress => true)
+```
+
 If you need to expire cached content:
 
     Geocoder::Lookup.get(Geocoder.config[:lookup]).cache.expire(:all)  # expire cached results for current Lookup
