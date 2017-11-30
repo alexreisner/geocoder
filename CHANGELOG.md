@@ -3,6 +3,15 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.5 (2017 Nov 29)
+-------------------
+* Add support for :pickpoint lookup (thanks github.com/cylon-v).
+* Add support for :db_ip_com lookup (thanks github.com/cv).
+* Change FreeGeoIP host to freegeoip.net.
+* Allow search radius to be a symbol representing a column in DB (thanks github.com/leonelgalan).
+* Add support for new parameters and improved error handling for several lookups.
+* Fix bug in SQL when searching for objects across 180th meridian.
+
 1.4.4 (2017 May 17)
 -------------------
 * Use HTTPS by default for :freegeoip (thanks github.com/mehanoid).
