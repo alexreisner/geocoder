@@ -72,6 +72,12 @@ class RequestTest < GeocoderTestCase
     req = MockRequest.new()
     assert_equal expected_ips, req.send(:geocoder_remove_port_from_addresses, ips)
   end
+  def test_geocoder_remove_port_from_ipv6_addresses_with_port
+    expected_ips = ['2600:1008:b16e:26da:ecb3:22f7:6be4:2137', '2600:1901:0:2df5::', '2001:db8:1f70::999:de8:7648:6e8', '10.128.0.2']
+    ips = ['2600:1008:b16e:26da:ecb3:22f7:6be4:2137', '2600:1901:0:2df5::', '[2001:db8:1f70::999:de8:7648:6e8]:100', '10.128.0.2']
+    req = MockRequest.new()
+    assert_equal expected_ips, req.send(:geocoder_remove_port_from_addresses, ips)
+  end
   def test_geocoder_remove_port_from_addresses_without_port
     expected_ips = ['127.0.0.1', '127.0.0.2', '127.0.0.3']
     ips = ['127.0.0.1', '127.0.0.2', '127.0.0.3']
