@@ -373,6 +373,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipdata_co'
+    class IpdataCo
+      private
+      def default_fixture_filename
+        "ipdata_co_74_200_247_59"
+      end
+    end
+
     require 'geocoder/lookups/ban_data_gouv_fr'
     class BanDataGouvFr
       private

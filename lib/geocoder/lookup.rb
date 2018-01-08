@@ -71,6 +71,7 @@ module Geocoder
         :maxmind_geoip2,
         :ipinfo_io,
         :ipapi_com,
+        :ipdata_co,
         :db_ip_com
       ]
     end
