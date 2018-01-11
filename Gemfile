@@ -31,14 +31,14 @@ group :test do
   gem 'webmock'
 
   platforms :ruby do
-    gem 'pg'
+    gem 'pg', '~> 0.11'
     gem 'mysql2', '~> 0.3.11'
   end
 
   platforms :jruby do
     gem 'jdbc-mysql'
     gem 'jdbc-sqlite3'
-    gem 'activerecord-jdbcpostgresql-adapter'
+    gem 'activerecord-jdbcpostgresql-adapter', '~> 1.3.0'
   end
 end
 
