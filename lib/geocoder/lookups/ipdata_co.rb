@@ -43,5 +43,14 @@ module Geocoder::Lookup
     def host
       "api.ipdata.co"
     end
+
+    def check_response_for_errors!(response)
+      if response.code.to_i == 403
+        raise_error(Geocoder::RequestDenied) ||
+          Geocoder.log(:warn, "Geocoding API error: 403 API key does not exist")
+      else
+        super(response)
+      end
+    end
   end
 end
