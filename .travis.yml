@@ -22,6 +22,8 @@ gemfile:
   - gemfiles/Gemfile.rails3.2
   - gemfiles/Gemfile.rails4.1
   - gemfiles/Gemfile.rails5.0
+before_install:
+  - which bundle >/dev/null 2>&1 || gem install bundler
 matrix:
   exclude:
     - rvm: 1.9.3

@@ -31,7 +31,7 @@ group :test do
   gem 'webmock'
 
   platforms :ruby do
-    gem 'pg'
+    gem 'pg', '~> 0.18'
     gem 'mysql2', '~> 0.3.11'
   end
 

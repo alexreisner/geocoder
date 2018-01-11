@@ -32,7 +32,7 @@ namespace :db do
 
     desc 'Drop the MySQL test databases'
     task :drop do
-      `mysqladmin --user=#{config['mysql']['username']} -f drop #{config['mysql']['database']}`
+      `mysql --user=#{config['mysql']['username']} -e "DROP DATABASE IF EXISTS #{config['mysql']['database']}"`
     end
   end
 
@@ -44,7 +44,7 @@ namespace :db do
 
     desc 'Drop the PostgreSQL test databases'
     task :drop do
-      `dropdb #{config['postgres']['database']}`
+      `dropdb --if-exists #{config['postgres']['database']}`
     end
   end
 
