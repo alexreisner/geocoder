@@ -1067,6 +1067,7 @@ Notes:
 
 - Keys must be strings not symbols when calling `add_stub` or `set_default_stub`. For example `'latitude' =>` not `:latitude =>`.
 - To clear stubs (e.g. prior to another spec), use `Geocoder::Lookup::Test.reset`. This will clear all stubs _including the default stub_.
+- The stubbed result objects returned by the Test lookup do not support all the methods real result objects do. If you need to test interaction with real results it may be better to use an external stubbing tool and something like WebMock or VCR to prevent network calls.
 
 
 Command Line Interface
