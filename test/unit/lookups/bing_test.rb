@@ -82,4 +82,18 @@ class BingTest < GeocoderTestCase
       l.send(:results, Geocoder::Query.new("service unavailable"))
     end
   end
+
+  def test_raises_exception_when_bing_returns_forbidden_request
+    Geocoder.configure(:always_raise => [Geocoder::RequestDenied])
+    assert_raises Geocoder::RequestDenied do
+      Geocoder.search("forbidden request")
+    end
+  end
+
+  def test_raises_exception_when_bing_returns_internal_server_error
+    Geocoder.configure(:always_raise => [Geocoder::ServiceUnavailable])
+    assert_raises Geocoder::ServiceUnavailable do
+      Geocoder.search("internal server error")
+    end
+  end
 end
