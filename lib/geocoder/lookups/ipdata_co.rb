@@ -19,7 +19,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def results(query)
-      Geocoder.configure(:http_headers => { "api-key" => configuration.api_key }) if configuration.api_key
+      Geocoder.configure(:ipdata_co => {:http_headers => { "api-key" => configuration.api_key }}) if configuration.api_key
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query.text)] if query.loopback_ip_address?
       # note: Ipdata.co returns plain text on bad request
