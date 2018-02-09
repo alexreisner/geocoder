@@ -1,0 +1,40 @@
+{
+  "count": 20,
+  "nextIndex": 20,
+  "startIndex": 0,
+  "totalResults": 8000,
+  "results": [
+    {
+      "wikipedia": "en:New York City",
+      "rank": 628616.9375,
+      "county": "",
+      "street": "",
+      "wikidata": "Q60",
+      "country_code": "us",
+      "osm_id": "175905",
+      "housenumbers": "",
+      "id": 64,
+      "city": "New York City",
+      "display_name": "New York City, New York, United States of America",
+      "lon": -73.878418,
+      "state": "New York",
+      "boundingbox": [
+        -74.259087,
+        40.477398,
+        -73.70018,
+        40.91618
+      ],
+      "type": "city",
+      "importance": 0.782928,
+      "lat": 40.693073,
+      "class": "place",
+      "name": "New York City",
+      "country": "United States of America",
+      "name_suffix": "New York, US",
+      "osm_type": "relation",
+      "place_rank": 16,
+      "alternative_names": "New York,Nova York,Nueva York,NYC"
+    }
+
+  ]
+}
