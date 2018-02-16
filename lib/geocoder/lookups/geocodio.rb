@@ -10,7 +10,7 @@ module Geocoder::Lookup
 
     def query_url(query)
       path = query.reverse_geocode? ? "reverse" : "geocode"
-      "#{protocol}://api.geocod.io/v1/#{path}?#{url_query_string(query)}"
+      "#{protocol}://api.geocod.io/v1.2/#{path}?#{url_query_string(query)}"
     end
 
     def results(query)
