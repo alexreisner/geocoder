@@ -662,11 +662,11 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 
 * **API key**: required
 * **Quota**: 2,500 free requests/day then purchase $0.0005 for each, also has volume pricing and plans.
-* **Region**: US
+* **Region**: USA & Canada
 * **SSL support**: yes
 * **Languages**: en
-* **Documentation**: http://geocod.io/docs
-* **Terms of Service**: http://geocod.io/terms-of-use
+* **Documentation**: https://geocod.io/docs/
+* **Terms of Service**: https://geocod.io/terms-of-use/
 * **Limitations**: No restrictions on use
 
 #### SmartyStreets (`:smarty_streets`)
