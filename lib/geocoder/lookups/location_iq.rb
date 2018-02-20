@@ -16,6 +16,10 @@ module Geocoder::Lookup
       "#{protocol}://locationiq.org/v1/#{method}.php?key=#{configuration.api_key}&" + url_query_string(query)
     end
 
+    def supported_protocols
+      [:http, :https]
+    end
+
     private
 
     def results(query)
