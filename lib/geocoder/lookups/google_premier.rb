@@ -11,7 +11,7 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      ["private key", "client", "channel"]
+      ["private key"]
     end
 
     def query_url(query)
