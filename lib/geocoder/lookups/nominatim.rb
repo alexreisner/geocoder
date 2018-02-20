@@ -9,13 +9,17 @@ module Geocoder::Lookup
     end
 
     def map_link_url(coordinates)
-      "http://www.openstreetmap.org/?lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=15&layers=M"
+      "https://www.openstreetmap.org/?lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=15&layers=M"
     end
 
     def query_url(query)
       method = query.reverse_geocode? ? "reverse" : "search"
       host = configuration[:host] || "nominatim.openstreetmap.org"
       "#{protocol}://#{host}/#{method}?" + url_query_string(query)
+    end
+
+    def supported_protocols
+      [:https]
     end
 
     private # ---------------------------------------------------------------
