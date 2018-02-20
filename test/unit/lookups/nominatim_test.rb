@@ -37,7 +37,7 @@ class NominatimTest < GeocoderTestCase
   def test_host_configuration
     Geocoder.configure(nominatim: {host: "local.com"})
     query = Geocoder::Query.new("Bluffton, SC")
-    assert_match %r(http://local\.com), query.url
+    assert_match %r(https://local\.com), query.url
   end
 
   def test_raises_exception_when_over_query_limit
