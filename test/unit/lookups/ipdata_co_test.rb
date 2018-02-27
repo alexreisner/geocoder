@@ -32,4 +32,23 @@ class IpdataCoTest < GeocoderTestCase
         lookup.send(:check_response_for_errors!, response)
     end
   end
+
+  def test_api_key
+    Geocoder.configure(:api_key => 'XXXX')
+
+    # HACK: run the code once to add the api key to the HTTP request headers
+    Geocoder.search('8.8.8.8')
+    # It's really hard to 'un-monkey-patch' the base lookup class here
+
+    require 'webmock/test_unit'
+    WebMock.enable!
+    stubbed_request = WebMock.stub_request(:get, "https://api.ipdata.co/8.8.8.8").with(headers: {'api-key' => 'XXXX'}).to_return(status: 200)
+
+    g = Geocoder::Lookup::IpdataCo.new
+    g.send(:actual_make_api_request, Geocoder::Query.new('8.8.8.8'))
+    assert_requested(stubbed_request)
+
+    WebMock.reset!
+    WebMock.disable!
+  end
 end
