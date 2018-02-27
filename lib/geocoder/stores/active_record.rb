@@ -87,8 +87,6 @@ module Geocoder::Store
         end
       end
 
-      private # ----------------------------------------------------------------
-
       ##
       # Get options hash suitable for passing to ActiveRecord.find to get
       # records within a radius (in kilometers) of the given point.
@@ -167,6 +165,8 @@ module Geocoder::Store
           :order => options.include?(:order) ? options[:order] : "#{distance_column} ASC"
         }
       end
+
+      private # ----------------------------------------------------------------
 
       ##
       # SQL for calculating distance based on the current database's
