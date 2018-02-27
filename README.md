@@ -856,6 +856,18 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: https://db-ip.com/api/doc.php
 * **Terms of Service**: https://db-ip.com/tos.php
 
+#### Ipdata.co (`:ipdata_co`)
+
+* **API key**: optional, see: https://ipdata.co/pricing.html
+* **Quota**: 1500/day (up to 600k with paid API keys)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipdata.co/docs.html
+* **Terms of Service**: https://ipdata.co/terms.html
+* **Limitations**: ?
+
+
 ### IP Address Local Database Services
 
 #### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL

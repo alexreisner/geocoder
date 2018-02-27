@@ -1,0 +1,24 @@
+{
+    "ip": "74.200.247.59",
+    "city": "Jersey City",
+    "region": "New Jersey",
+    "region_code": "NJ",
+    "country_name": "United States",
+    "country_code": "US",
+    "continent_name": "North America",
+    "continent_code": "NA",
+    "latitude": 40.7209,
+    "longitude": -74.0468,
+    "asn": "AS22576",
+    "organisation": "DataPipe, Inc.",
+    "postal": "07302",
+    "currency": "USD",
+    "currency_symbol": "$",
+    "calling_code": "1",
+    "flag": "https://ipdata.co/flags/us.png",
+    "time_zone": "America/New_York",
+    "is_eu": false,
+    "suspicious_factors": {
+        "is_tor": false
+    }
+}
