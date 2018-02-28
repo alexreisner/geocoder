@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.6 (2018 Feb 28)
+-------------------
+* Add support for :ipdata_co lookup (thanks github.com/roschaefer).
+* Update for Rails 5.2 compatibility (thanks github.com/stevenharman).
+
 1.4.5 (2017 Nov 29)
 -------------------
 * Add support for :pickpoint lookup (thanks github.com/cylon-v).
