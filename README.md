@@ -157,9 +157,9 @@ Please use MongoDB's [geospatial query language](https://docs.mongodb.org/manual
 To find objects by location, use the following scopes:
 
     Venue.near('Omaha, NE, US')        # venues within 20 (default) miles of Omaha
-    Venue.near([40.71, -100.23], 50)   # venues within 40 miles of a point
+    Venue.near([40.71, -100.23], 50)   # venues within 50 miles of a point
     Venue.near([40.71, -100.23], 50, :units => :km)
-                                       # venues within 40 kilometres of a point
+                                       # venues within 50 kilometres of a point
     Venue.geocoded                     # venues with coordinates
     Venue.not_geocoded                 # venues without coordinates
 
