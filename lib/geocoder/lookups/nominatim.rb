@@ -14,15 +14,23 @@ module Geocoder::Lookup
 
     def query_url(query)
       method = query.reverse_geocode? ? "reverse" : "search"
-      host = configuration[:host] || "nominatim.openstreetmap.org"
-      "#{protocol}://#{host}/#{method}?" + url_query_string(query)
-    end
-
-    def supported_protocols
-      [:https]
+      "#{protocol}://#{configured_host}/#{method}?" + url_query_string(query)
     end
 
     private # ---------------------------------------------------------------
+
+    def configured_host
+      configuration[:host] || "nominatim.openstreetmap.org"
+    end
+
+    def use_ssl?
+      # nominatim.openstreetmap.org redirects HTTP requests to HTTPS
+      if configured_host == "nominatim.openstreetmap.org"
+        true
+      else
+        super
+      end
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)

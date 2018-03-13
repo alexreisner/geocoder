@@ -13,14 +13,14 @@ module Geocoder::Lookup
     
     def query_url(query)
       method = query.reverse_geocode? ? "reverse" : "search"
-      "#{protocol}://locationiq.org/v1/#{method}.php?key=#{configuration.api_key}&" + url_query_string(query)
-    end
-
-    def supported_protocols
-      [:http, :https]
+      "#{protocol}://#{configured_host}/v1/#{method}.php?key=#{configuration.api_key}&" + url_query_string(query)
     end
 
     private
+
+    def configured_host
+      configuration[:host] || "locationiq.org"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)
