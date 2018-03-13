@@ -1,0 +1,64 @@
+{
+  "status": "OK",
+  "results": [ {
+    "address_components": [
+      {
+        "long_name": "New York",
+        "short_name": "New York",
+        "types": [
+          "locality",
+          "political"
+        ]
+      },
+      {
+        "long_name": "New York",
+        "short_name": "NY",
+        "types": [
+          "administrative_area_level_1",
+          "political"
+        ]
+      },
+      {
+        "long_name": "United States",
+        "short_name": "US",
+        "types": [
+          "country",
+          "political"
+        ]
+      }
+    ],
+    "formatted_address": "New York, NY, USA",
+    "geometry": {
+      "bounds": {
+        "northeast": {
+          "lat": 40.9175771,
+          "lng": -73.7002721
+        },
+        "southwest": {
+          "lat": 40.4773991,
+          "lng": -74.2590899
+        }
+      },
+      "location": {
+        "lat": 40.7127837,
+        "lng": -74.0059413
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "northeast": {
+          "lat": 40.9152555,
+          "lng": -73.7002721
+        },
+        "southwest": {
+          "lat": 40.4960439,
+          "lng": -74.2557349
+        }
+      }
+    },
+    "place_id": "ChIJOwg_06VPwokRYv534QaPC8g",
+    "types": [
+      "locality",
+      "political"
+    ]
+  } ]
+}
