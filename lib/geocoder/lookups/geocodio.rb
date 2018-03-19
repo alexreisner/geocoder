@@ -10,7 +10,7 @@ module Geocoder::Lookup
 
     def query_url(query)
       path = query.reverse_geocode? ? "reverse" : "geocode"
-      "#{protocol}://api.geocod.io/v1.2/#{path}?#{url_query_string(query)}"
+      "#{protocol}://api.geocod.io/v1.3/#{path}?#{url_query_string(query)}"
     end
 
     def results(query)
@@ -35,7 +35,8 @@ module Geocoder::Lookup
     def query_url_params(query)
       {
         :api_key => configuration.api_key,
-        :q => query.sanitized_text
+        :q => query.sanitized_text,
+        :fields => "timezone"
       }.merge(super)
     end
   end
