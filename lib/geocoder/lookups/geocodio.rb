@@ -35,8 +35,7 @@ module Geocoder::Lookup
     def query_url_params(query)
       {
         :api_key => configuration.api_key,
-        :q => query.sanitized_text,
-        :fields => "timezone"
+        :q => query.sanitized_text
       }.merge(super)
     end
   end
