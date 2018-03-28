@@ -8,11 +8,11 @@ class AutoexpireCacheRedis
   end
 
   def [](url)
-    @store.[](url)
+    @store.get(url)
   end
 
   def []=(url, value)
-    @store.[]=(url, value)
+    @store.set(url, value)
     @store.expire(url, @ttl)
   end
 
