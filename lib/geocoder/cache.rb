@@ -1,16 +1,22 @@
+require "zlib"
+
 module Geocoder
   class Cache
 
-    def initialize(store, prefix)
+    COMPRESS_THRESHOLD = 1024 # bytes
+    COMPRESS_MARKER = "geocoder/compressed;"
+
+    def initialize(store, prefix, options = {})
       @store = store
       @prefix = prefix
+      @compress = options.fetch(:compress, false)
     end
 
     ##
     # Read from the Cache.
     #
     def [](url)
-      interpret case
+      value = interpret case
         when store.respond_to?(:[])
           store[key_for(url)]
         when store.respond_to?(:get)
@@ -18,12 +24,22 @@ module Geocoder
         when store.respond_to?(:read)
           store.read key_for(url)
       end
+
+      if compressed?(value)
+        uncompress(value)
+      else
+        value
+      end
     end
 
     ##
     # Write to the Cache.
     #
     def []=(url, value)
+      if should_compress?(value)
+        value = compress(value)
+      end
+
       case
         when store.respond_to?(:[]=)
           store[key_for(url)] = value
@@ -89,6 +105,27 @@ module Geocoder
     def expire_single_url(url)
       key = key_for(url)
       store.respond_to?(:del) ? store.del(key) : store.delete(key)
+    end
+
+    def compression_enabled?
+      @compress == true
+    end
+
+    def should_compress?(value)
+      compression_enabled? && value && value.bytesize >= COMPRESS_THRESHOLD
+    end
+
+    def compressed?(value)
+      value && value.start_with?(COMPRESS_MARKER)
+    end
+
+    def compress(value)
+      COMPRESS_MARKER + Zlib::Deflate.deflate(value)
+    end
+
+    def uncompress(value)
+      value = value[COMPRESS_MARKER.size..-1]
+      Zlib::Inflate.inflate(value)
     end
   end
 end
