@@ -8,7 +8,7 @@ module Geocoder
       ##
       # Set attribute names and include the Geocoder module.
       #
-      def geocoded_by(address_attr, options, &block)
+      def geocoded_by(address_attr, options = {}, &block)
         geocoder_init(
           :geocode       => true,
           :user_address  => address_attr,
@@ -22,7 +22,7 @@ module Geocoder
       ##
       # Set attribute names and include the Geocoder module.
       #
-      def reverse_geocoded_by(latitude_attr, longitude_attr, options, &block)
+      def reverse_geocoded_by(latitude_attr, longitude_attr, options = {}, &block)
         geocoder_init(
           :reverse_geocode => true,
           :fetched_address => :address,
