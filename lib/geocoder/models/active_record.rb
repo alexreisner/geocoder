@@ -12,10 +12,14 @@ module Geocoder
         geocoder_init(
           :geocode       => true,
           :user_address  => address_attr,
-          :latitude      => :latitude,
-          :longitude     => :longitude,
+          :latitude      => options[:latitude]  || :latitude,
+          :longitude     => options[:longitude] || :longitude,
           :geocode_block => block,
-          :options       => options
+          :units         => options[:units],
+          :method        => options[:method],
+          :lookup        => options[:lookup],
+          :language      => options[:language],
+          :params        => options[:params]
         )
       end
 
@@ -25,11 +29,15 @@ module Geocoder
       def reverse_geocoded_by(latitude_attr, longitude_attr, options = {}, &block)
         geocoder_init(
           :reverse_geocode => true,
-          :fetched_address => :address,
+          :fetched_address => options[:address] || :address,
           :latitude        => latitude_attr,
           :longitude       => longitude_attr,
           :reverse_block   => block,
-          :options         => options
+          :units           => options[:units],
+          :method          => options[:method],
+          :lookup          => options[:lookup],
+          :language        => options[:language],
+          :params          => options[:params]
         )
       end
 

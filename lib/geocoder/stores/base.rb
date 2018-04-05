@@ -89,10 +89,10 @@ module Geocoder
         else
           return
         end
-        inner_options = send(options[:options])
+
         query_options = [:lookup, :ip_lookup, :language, :params].inject({}) do |hash, key|
-          if inner_options.has_key?(key)
-            val = inner_options[key]
+          if options.has_key?(key)
+            val = key == :params ? send(options[key]) : options[key]
             hash[key] = val.respond_to?(:call) ? val.call(self) : val
           end
           hash
