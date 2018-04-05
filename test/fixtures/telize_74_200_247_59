@@ -1,1 +1,17 @@
-{"timezone":"America\/Chicago","isp":"Layered Technologies, Inc.","region_code":"TX","country":"United States","dma_code":"0","area_code":"0","region":"Texas","ip":"74.200.247.59","asn":"AS22576","continent_code":"NA","city":"Plano","postal_code":"75093","longitude":-96.8134,"latitude":33.0347,"country_code":"US","country_code3":"USA"}
+{
+  "longitude": -74.0468,
+  "city": "Jersey City",
+  "timezone": "America/New_York",
+  "latitude": 40.7209,
+  "asn": 22576,
+  "region": "New Jersey",
+  "offset": -14400,
+  "organization": "DataPipe, Inc.",
+  "country_code": "US",
+  "ip": "74.200.247.59",
+  "country_code3": "USA",
+  "postal_code": "07302",
+  "continent_code": "NA",
+  "country": "United States",
+  "region_code": "NJ"
+}
