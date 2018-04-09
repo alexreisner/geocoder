@@ -327,7 +327,7 @@ If you're familiar with the results returned by the geocoding service you're usi
 Geocoding Service ("Lookup") Configuration
 ------------------------------------------
 
-Geocoder supports a variety of street and IP address geocoding services. The default lookups are `:google` for street addresses and `:freegeoip` for IP addresses. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services).
+Geocoder supports a variety of street and IP address geocoding services. The default lookups are `:google` for street addresses and `:ipinfo_io` for IP addresses. Please see the listing and comparison below for details on specific geocoding services (not all settings are supported by all services).
 
 To create a Rails initializer with an example configuration:
 

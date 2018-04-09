@@ -10,6 +10,11 @@ class RequestTest < GeocoderTestCase
       super(super_env)
     end
   end
+
+  def setup
+    Geocoder.configure(ip_lookup: :freegeoip)
+  end
+
   def test_http_x_real_ip
     req = MockRequest.new({"HTTP_X_REAL_IP" => "74.200.247.59"})
     assert req.location.is_a?(Geocoder::Result::Freegeoip)
