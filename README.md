@@ -477,7 +477,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **API key**: none
 * **Quota**: 1 request/second
 * **Region**: world
-* **SSL support**: no
+* **SSL support**: yes
 * **Languages**: ?
 * **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
 * **Terms of Service**: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
