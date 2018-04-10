@@ -18,14 +18,23 @@ module Geocoder::Result
       @data['quality']
     end
 
-    def postcode
+    def postal_code
       @data['postcode']
+    end
+    alias address postal_code
+
+    def city
+      @data['admin_ward']
     end
 
     def county
       @data['admin_county']
     end
     alias state county
+
+    def state_code
+      @data['codes']['admin_county']
+    end
 
     def country
       'United Kingdom'
