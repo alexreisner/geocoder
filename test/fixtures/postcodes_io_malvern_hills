@@ -1,0 +1,36 @@
+{
+    "status": 200,
+    "result": {
+        "postcode": "WR2 6NJ",
+        "quality": 1,
+        "eastings": 381676,
+        "northings": 259425,
+        "country": "England",
+        "nhs_ha": "West Midlands",
+        "longitude": -2.26972239639173,
+        "latitude": 52.2327158260535,
+        "european_electoral_region": "West Midlands",
+        "primary_care_trust": "Worcestershire",
+        "region": "West Midlands",
+        "lsoa": "Malvern Hills 002B",
+        "msoa": "Malvern Hills 002",
+        "incode": "6NJ",
+        "outcode": "WR2",
+        "parliamentary_constituency": "West Worcestershire",
+        "admin_district": "Malvern Hills",
+        "parish": "Hallow",
+        "admin_county": "Worcestershire",
+        "admin_ward": "Hallow",
+        "ccg": "NHS South Worcestershire",
+        "nuts": "Worcestershire",
+        "codes": {
+            "admin_district": "E07000235",
+            "admin_county": "E10000034",
+            "admin_ward": "E05007851",
+            "parish": "E04010305",
+            "parliamentary_constituency": "E14001035",
+            "ccg": "E38000166",
+            "nuts": "UKG12"
+        }
+    }
+}
