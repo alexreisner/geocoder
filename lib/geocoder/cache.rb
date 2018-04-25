@@ -68,7 +68,7 @@ module Geocoder
     # that have non-nil values.
     #
     def keys
-      store.keys.select{ |k| k.match(/^#{prefix}/) and interpret(store[k]) }
+      store.keys.select{ |k| k.match(/^#{prefix}/) and self[k] }
     end
 
     ##
