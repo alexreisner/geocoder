@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": 102,
+    "type": "inactive_user",
+    "info": "The current user account is not active. User will be prompted to get in touch with Customer Support."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": 302,
+    "type": "too_many_ips",
+    "info": "Too many IPs have been specified for the Bulk Lookup Endpoint. (max. 50)"
+  }
+}

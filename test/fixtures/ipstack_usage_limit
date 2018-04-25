@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": 104,
+    "type": "usage_limit_reached",
+    "info": "The maximum allowed amount of monthly API requests has been reached."
+  }
+}

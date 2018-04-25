@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": 103,
+    "type": "invalid_api_function",
+    "info": "The requested API endpoint does not exist."
+  }
+}
