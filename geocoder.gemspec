@@ -19,6 +19,17 @@ Gem::Specification.new do |s|
   s.executables = ["geocode"]
   s.license     = 'MIT'
 
+  s.post_install_message = %q{
+
+IMPORTANT: As of July 1st, 2018 the :freegeoip lookup api (formerly the default) will be
+discontinued.  Regardless of what version of geocoder you are using, if you have specified :freegeoip
+in your configuration, you must upgrade.
+
+Please follow the instructions here to upgrade:
+https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation-Upgrade-Instructions
+
+}
+
   s.metadata = {
     'source_code_uri' => 'https://github.com/alexreisner/geocoder',
     'changelog_uri'   => 'https://github.com/alexreisner/geocoder/blob/master/CHANGELOG.md'
