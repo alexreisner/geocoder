@@ -753,7 +753,29 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 
 ### IP Address Services
 
-#### FreeGeoIP (`:freegeoip`)
+#### Ipstack (`:ipstack`)
+
+* **API key**: required - see https://ipstack.com/product
+* **Quota**: 10,000 requests per month (with free API Key, 50,000/day and up for paid plans)
+* **Region**: world
+* **SSL support**: yes ( only with paid plan )
+* **Languages**: English, German, Spanish, French, Japanese, Portugues (Brazil), Russian, Chinese
+* **Documentation**: https://ipstack.com/documentation
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: To use Ipstack set `Geocoder.configure(:ip_lookup => :ipstack, :api_key => "your_ipstack_api_key")`. Support for the ipstack JSONP, batch lookup, and requester lookup features has not been implemented yet.  DSL options are as follows:
+* ```ruby
+    # Search Options Examples
+
+    Geocoder.search('0.0.0.0', {
+        hostname: true, # enable hostname in response
+        security: true,
+        fields: ['fields','go','here'],
+        language: 'en',
+    })
+    ```
+
+#### FreeGeoIP (`:freegeoip`) - DEPRECATED ( see [ upgrade instructions](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation-Upgrade-Instructions) )
 
 * **API key**: none
 * **Quota**: 15,000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
