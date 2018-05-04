@@ -153,7 +153,7 @@ class IpstackTest < GeocoderTestCase
   def test_api_request_adds_security_when_specified
     lookup = Geocoder::Lookup.get(:ipstack)
 
-    query_url = lookup.query_url(Geocoder::Query.new("74.200.247.59", security: true))
+    query_url = lookup.query_url(Geocoder::Query.new("74.200.247.59", params: { security: '1' }))
 
     assert_match(/&security=1/, query_url)
   end
@@ -161,7 +161,7 @@ class IpstackTest < GeocoderTestCase
   def test_api_request_adds_hostname_when_specified
     lookup = Geocoder::Lookup.get(:ipstack)
 
-    query_url = lookup.query_url(Geocoder::Query.new("74.200.247.59", hostname: true))
+    query_url = lookup.query_url(Geocoder::Query.new("74.200.247.59", params: { hostname: '1' }))
 
     assert_match(/&hostname=1/, query_url)
   end
@@ -169,7 +169,7 @@ class IpstackTest < GeocoderTestCase
   def test_api_request_adds_language_when_specified
     lookup = Geocoder::Lookup.get(:ipstack)
 
-    query_url = lookup.query_url(Geocoder::Query.new("74.200.247.59", language: 'es'))
+    query_url = lookup.query_url(Geocoder::Query.new("74.200.247.59", params: { language: 'es' }))
 
     assert_match(/&language=es/, query_url)
   end
@@ -177,9 +177,9 @@ class IpstackTest < GeocoderTestCase
   def test_api_request_adds_fields_when_specified
     lookup = Geocoder::Lookup.get(:ipstack)
 
-    query_url = lookup.query_url(Geocoder::Query.new("74.200.247.59", fields: ['foo','bar']))
+    query_url = lookup.query_url(Geocoder::Query.new("74.200.247.59", params: { fields: 'foo,bar' }))
 
-    assert_match(/&fields=foo,bar/, query_url)
+    assert_match(/&fields=foo%2Cbar/, query_url)
   end
 
   def test_logs_warning_when_errors_are_set_not_to_raise

@@ -763,15 +763,17 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: https://ipstack.com/documentation
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: To use Ipstack set `Geocoder.configure(:ip_lookup => :ipstack, :api_key => "your_ipstack_api_key")`. Support for the ipstack JSONP, batch lookup, and requester lookup features has not been implemented yet.  DSL options are as follows:
+* **Notes**: To use Ipstack set `Geocoder.configure(:ip_lookup => :ipstack, :api_key => "your_ipstack_api_key")`. Support for the ipstack JSONP, batch lookup, and requester lookup features has not been implemented yet.  This lookup does support the params shown below:
 * ```ruby
     # Search Options Examples
 
-    Geocoder.search('0.0.0.0', {
-        hostname: true, # enable hostname in response
-        security: true,
-        fields: ['fields','go','here'],
-        language: 'en',
+    Geocoder.search('0.0.0.0', { 
+        params: {
+            hostname: '1', 
+            security: '1', 
+            fields: 'country_code,location.capital,...', # see ipstack documentation
+            language: 'en'
+        }
     })
     ```
 

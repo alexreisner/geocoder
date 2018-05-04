@@ -22,12 +22,9 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      fields = (query.options[:fields] || []).join(',')
+      extra_params = url_query_string(query)
       url = "#{protocol}://#{host}/#{query.sanitized_text}?access_key=#{api_key}"
-      url << "&security=1" if query.options[:security]
-      url << "&hostname=1" if query.options[:hostname]
-      url << "&fields=#{fields}" unless fields.empty?
-      url << "&language=#{query.options[:language]}" if query.options[:language]
+      url << "&#{extra_params}" unless extra_params.empty?
       url
     end
 
