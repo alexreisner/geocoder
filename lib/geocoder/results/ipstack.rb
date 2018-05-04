@@ -8,6 +8,22 @@ module Geocoder::Result
       "#{city}#{s} #{zip}, #{country_name}".sub(/^[ ,]*/, "")
     end
 
+    def state
+      @data['region_name']
+    end
+
+    def state_code
+      @data['region_code']
+    end
+
+    def country
+      @data['country_name']
+    end
+
+    def postal_code
+      @data['zip'] || @data['zipcode'] || @data['zip_code']
+    end
+
     def self.response_attributes
       [
         ['ip', ''],
@@ -36,38 +52,9 @@ module Geocoder::Result
       end
     end
 
-    # These methods provide backwards compatibility for (now deprecated)
-    # freegeoip results.  Please update to use the api methods above
-
-    def state
-      log_using_deprecated_method('region_name', 'state')
-      @data['region_name']
-    end
-
-    def state_code
-      log_using_deprecated_method('region_code', 'state_code')
-      @data['region_code']
-    end
-
-    def country
-      log_using_deprecated_method('country_name', 'country')
-      @data['country_name']
-    end
-
-    def postal_code
-      log_using_deprecated_method('zip', 'postal_code')
-      @data['zip'] || @data['zipcode'] || @data['zip_code']
-    end
-
     def metro_code
       Geocoder.log(:warn, "Ipstack does not implement `metro_code` in api results.  Please discontinue use.")
       0 # no longer implemented by ipstack
-    end
-
-    private
-
-    def log_using_deprecated_method(new_method, old_method)
-      Geocoder.log(:warn, "Ipstack does not implement `#{old_method}`. Please use `#{new_method}` instead.")
     end
   end
 end

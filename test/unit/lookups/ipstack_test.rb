@@ -73,42 +73,13 @@ class IpstackTest < GeocoderTestCase
     assert result.security.is_a?(Hash)
   end
 
-  def test_legacy_freegeoip_result_api_fields
-    Geocoder.configure(logger: SpyLogger.new)
+  def test_required_base_fields
     result = Geocoder.search("134.201.250.155").first
     assert_equal "California",      result.state
     assert_equal "CA",              result.state_code
     assert_equal "United States",   result.country
     assert_equal "90013",           result.postal_code
-    assert_equal 0,                 result.metro_code
-  end
-
-  def test_logs_use_of_freegeoip_state_field
-    result = Geocoder.search("134.201.250.155").first
-    result.state
-
-    assert @logger.logged?("Ipstack does not implement `state`. Please use `region_name` instead.")
-  end
-
-  def test_logs_use_of_freegeoip_state_code_field
-    result = Geocoder.search("134.201.250.155").first
-    result.state_code
-
-    assert @logger.logged?("Ipstack does not implement `state_code`. Please use `region_code` instead.")
-  end
-
-  def test_logs_use_of_freegeoip_country_field
-    result = Geocoder.search("134.201.250.155").first
-    result.country
-
-    assert @logger.logged?("Ipstack does not implement `country`. Please use `country_name` instead.")
-  end
-
-  def test_logs_use_of_freegeoip_postal_code_field
-    result = Geocoder.search("134.201.250.155").first
-    result.postal_code
-
-    assert @logger.logged?("Ipstack does not implement `postal_code`. Please use `zip` instead.")
+    assert_equal [34.0453, -118.2413], result.coordinates
   end
 
   def test_logs_deprecation_of_metro_code_field
