@@ -21,12 +21,12 @@ Gem::Specification.new do |s|
 
   s.post_install_message = %q{
 
-IMPORTANT: As of July 1st, 2018 the :freegeoip lookup api (formerly the default) will be
-discontinued.  Regardless of what version of geocoder you are using, if you have specified :freegeoip
-in your configuration, you must upgrade.
+IMPORTANT: Geocoder has recently switched its default ip lookup.  If you have specified :freegeoip
+in your configuration, you must choose a different ip lookup by July 1, 2018, which is when
+the Freegeoip API will be discontinued.
 
-Please follow the instructions here to upgrade:
-https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation-Upgrade-Instructions
+For more information visit:
+https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation
 
 }
 

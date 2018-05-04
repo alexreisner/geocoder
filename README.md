@@ -777,7 +777,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
     })
     ```
 
-#### FreeGeoIP (`:freegeoip`) - DEPRECATED ( see [ upgrade instructions](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation-Upgrade-Instructions) )
+#### FreeGeoIP (`:freegeoip`) - DEPRECATED ( [ more information](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation) )
 
 * **API key**: none
 * **Quota**: 15,000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
