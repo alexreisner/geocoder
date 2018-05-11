@@ -21,7 +21,7 @@ module Geocoder::Store
     #
     def to_coordinates
       coords = send(self.class.geocoder_options[:coordinates])
-      coords.is_a?(Array) ? coords.reverse : []
+      coordinates_adapter(coords)
     end
 
     ##
@@ -32,7 +32,7 @@ module Geocoder::Store
       do_lookup(false) do |o,rs|
         if r = rs.first
           unless r.coordinates.nil?
-            o.__send__ "#{self.class.geocoder_options[:coordinates]}=", r.coordinates.reverse
+            o.__send__ "#{self.class.geocoder_options[:coordinates]}=", coordinates_adapter(r.coordinates)
           end
           r.coordinates
         end
@@ -53,6 +53,18 @@ module Geocoder::Store
         end
       end
     end
+
+    private
+
+    def coordinates_adapter(coords)
+      case coords.class.name
+      when 'Array'
+        coords
+      when 'Mongoid::Geospatial::Point'
+        coords.to_a
+      else
+        []
+      end
+    end
   end
 end
-

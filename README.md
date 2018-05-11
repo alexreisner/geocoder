@@ -89,6 +89,16 @@ Once you've set up your model you'll need to create the necessary spatial indice
 
 Be sure to read _Latitude/Longitude Order_ in the _Notes on MongoDB_ section below on how to properly retrieve latitude/longitude coordinates from your objects.
 
+####Geospacial
+
+Support for [mongoid-geospatial](https://github.com/nofxx/mongoid-geospatial)
+coordinates can be set in a Point type.
+
+```ruby
+  field :coordinates, type: Point
+```
+_This is the simplest example, check the mongoid-geospatial's documentation for more information_
+
 ### MongoMapper
 
 MongoMapper is very similar to Mongoid, just be sure to include `Geocoder::Model::MongoMapper`.
