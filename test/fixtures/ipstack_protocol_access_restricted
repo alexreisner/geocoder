@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": 105,
+    "type": "https_access_restricted",
+    "info": "The user's current subscription plan does not support HTTPS Encryption."
+  }
+}

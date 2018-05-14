@@ -217,6 +217,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipstack'
+    class Ipstack
+      private
+      def default_fixture_filename
+        "ipstack_134_201_250_155"
+      end
+    end
+
     require 'geocoder/lookups/geoip2'
     class Geoip2
       private

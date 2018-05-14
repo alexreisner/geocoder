@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": 301,
+    "type": "invalid_fields",
+    "info": "One or more invalid fields were specified using the fields parameter."
+  }
+}

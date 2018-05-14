@@ -72,7 +72,8 @@ module Geocoder
         :ipinfo_io,
         :ipapi_com,
         :ipdata_co,
-        :db_ip_com
+        :db_ip_com,
+        :ipstack,
       ]
     end
 
