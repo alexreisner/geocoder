@@ -3,6 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.8 (2018 May 21)
+-------------------
+* Change default IP address lookup from :freegeoip to :ipinfo_io.
+* Add support for :ipstack lookup (thanks github.com/Heath101).
+* Fix incompatibility with redis-rb gem v4.0.
+
 1.4.7 (2018 Mar 13)
 -------------------
 * Allow HTTP protocol for Nominatim.
