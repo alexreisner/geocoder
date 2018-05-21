@@ -21,12 +21,7 @@ Gem::Specification.new do |s|
 
   s.post_install_message = %q{
 
-IMPORTANT: Geocoder has recently switched its default ip lookup.  If you have specified :freegeoip
-in your configuration, you must choose a different ip lookup by July 1, 2018, which is when
-the Freegeoip API will be discontinued.
-
-For more information visit:
-https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation
+NOTE: Geocoder's default IP address lookup has changed from FreeGeoIP.net to IPInfo.io. If you explicitly specify :freegeoip in your configuration you must choose a different IP lookup before FreeGeoIP is discontinued on July 1, 2018. If you do not explicitly specify :freegeoip you do not need to change anything.
 
 }
 
