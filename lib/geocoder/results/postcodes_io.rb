@@ -2,16 +2,9 @@ require 'geocoder/results/base'
 
 module Geocoder::Result
   class PostcodesIo < Base
+
     def coordinates
-      [latitude, longitude]
-    end
-
-    def latitude
-      @data['latitude'].to_f
-    end
-
-    def longitude
-      @data['longitude'].to_f
+      [@data['latitude'].to_f, @data['longitude'].to_f]
     end
 
     def quality
