@@ -48,6 +48,7 @@ module Geocoder
         :smarty_streets,
         :okf,
         :postcode_anywhere_uk,
+        :postcodes_io,
         :geoportail_lu,
         :ban_data_gouv_fr,
         :test,

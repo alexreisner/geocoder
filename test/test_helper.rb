@@ -338,6 +338,18 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/postcodes_io'
+    class PostcodesIo
+      private
+      def fixture_prefix
+        'postcodes_io'
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_malvern_hills"
+      end
+    end
+
     require 'geocoder/lookups/geoportail_lu'
     class GeoportailLu
       private
