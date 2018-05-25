@@ -703,7 +703,18 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Terms of Service**: http://wiki.geoportail.lu/doku.php?id=en:mcg_1
 * **Limitations**: ?
 
-#### PostcodeAnywhere Uk (`:postcode_anywhere_uk`)
+#### Postcodes.io (`:postcodes_io`)
+
+* **API key**: none
+* **Quota**: ?
+* **Region**: UK
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: http://postcodes.io/docs
+* **Terms of Service**: ?
+* **Limitations**: UK postcodes only
+
+#### PostcodeAnywhere UK (`:postcode_anywhere_uk`)
 
 This uses the PostcodeAnywhere UK Geocode service, this will geocode any string from UK postcode, placename, point of interest or location.
 
@@ -712,7 +723,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Region**: UK
 * **SSL support**: yes
 * **Languages**: English
-* **Documentation**: [http://www.postcodeanywhere.co.uk/Support/WebService/Geocoding/UK/Geocode/2/](http://www.postcodeanywhere.co.uk/Support/WebService/Geocoding/UK/Geocode/2/)
+* **Documentation**: http://www.postcodeanywhere.co.uk/Support/WebService/Geocoding/UK/Geocode/2/
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: To use PostcodeAnywhere you must include an API key: `Geocoder.configure(:lookup => :postcode_anywhere_uk, :api_key => 'your_api_key')`.
