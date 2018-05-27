@@ -26,6 +26,10 @@ class YandexTest < GeocoderTestCase
       "Some Intersection",
       :bounds => [[40.0, -120.0], [39.0, -121.0]]
     ))
-    assert_match(/bbox=40.0+%2C-120.0+%7E39.0+%2C-121.0+/, url)
+    if RUBY_VERSION < '2.5.0'
+      assert_match(/bbox=40.0+%2C-120.0+%7E39.0+%2C-121.0+/, url)
+    else
+      assert_match(/bbox=40.0+%2C-120.0+~39.0+%2C-121.0+/, url)
+    end
   end
 end
