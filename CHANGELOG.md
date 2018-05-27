@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.4.9 (2018 May 27)
+-------------------
+* Fix regression in :geoip2 lookup.
+* Add support for Postcodes.io lookup (thanks github.com/sledge909).
+
 1.4.8 (2018 May 21)
 -------------------
 * Change default IP address lookup from :freegeoip to :ipinfo_io.
