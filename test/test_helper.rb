@@ -429,6 +429,15 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/sensis'
+    class Sensis
+      private
+
+      def default_fixture_filename
+        "sensis_powlett_street"
+      end
+    end
+
   end
 end
 

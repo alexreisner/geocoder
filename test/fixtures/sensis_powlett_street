@@ -1,0 +1,58 @@
+{
+    "keywords": "",
+    "results": [
+        {
+            "id": "property-94581456",
+            "centrePoint": {
+                "lon": 144.985673,
+                "lat": -37.815951
+            },
+            "streetPoint": {
+                "lon": 144.985355,
+                "lat": -37.815899
+            },
+            "geometry": {
+                "centre": {
+                    "lon": 144.985673,
+                    "lat": -37.815951
+                },
+                "street": {
+                    "lon": 144.985355,
+                    "lat": -37.815899
+                }
+            },
+            "approximated": false,
+            "granularity": "PROPERTY",
+            "address": {
+                "number": "12",
+                "street": {
+                    "name": "POWLETT",
+                    "type": "ST",
+                    "display": "POWLETT ST"
+                },
+                "property": "12 POWLETT ST",
+                "suburb": "EAST MELBOURNE",
+                "suburbVanities": [
+                    "E MELBOURNE",
+                    "EST MELBOURNE",
+                    "JOLIMONT",
+                    "MELBOURNE E",
+                    "MELBOURNE EAST",
+                    "MELBOURNE EST"
+                ],
+                "postcode": "3002",
+                "regions": [
+                    "GREATER MELBOURNE",
+                    "MELBOURNE - INNER CITY SUBURBS",
+                    "MELBOURNE COUNCIL"
+                ],
+                "state": "VIC",
+                "display": "12 POWLETT ST, EAST MELBOURNE, VIC 3002"
+            }
+        }
+    ],
+    "pagination": {
+        "start": 0,
+        "total": 1
+    }
+}

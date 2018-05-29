@@ -750,6 +750,14 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Terms of Service**: https://adresse.data.gouv.fr/faq/ (in french)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://openstreetmap.fr/ban)
 
+#### Sensis (`:sensis`)
+* **API key**: required
+* **Quota**: Dependant on service plan?
+* **Region**: Australia
+* **Languages**: English
+* **Documentation**: http://api.ems.sensis.com.au/v2/docs/api/63376458.html
+* **Notes**: To use sensis set `Geocoder.configure(:lookup => :sensis, :type => "structured|unstructured")`.
+
 #### AMap (`:amap`)
 
 - **API key**: required
