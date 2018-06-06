@@ -3,9 +3,8 @@ $: << File.join(File.dirname(__FILE__), "..", "..")
 require 'test_helper'
 
 class YandexTest < GeocoderTestCase
-
   def setup
-    Geocoder.configure(lookup: :yandex)
+    Geocoder.configure(lookup: :yandex, language: :ru)
   end
 
   def test_yandex_viewport
@@ -31,5 +30,18 @@ class YandexTest < GeocoderTestCase
     else
       assert_match(/bbox=40.0+%2C-120.0+~39.0+%2C-121.0+/, url)
     end
+  end
+
+  def test_yandex_maximum_precision_on_russian_address
+    result = Geocoder.search('putilkovo novotushinskaya 5').first
+
+    assert_equal "exact", result.precision
+    assert_equal "Россия", result.country
+    assert_equal "Московская область", result.state
+    assert_equal "городской округ Красногорск" , result.sub_state
+    assert_equal "деревня Путилково", result.city
+    assert_equal "Новотушинская улица", result.street
+    assert_equal "5", result.street_number
+    assert_equal "143441", result.postal_code
   end
 end

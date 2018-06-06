@@ -1,0 +1,97 @@
+{
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "putilkovo novotushinskaya 5",
+          "found": "1",
+          "results": "10"
+        }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "house",
+                "text": "Россия, Московская область, городской округ Красногорск, деревня Путилково, Новотушинская улица, 5",
+                "precision": "exact",
+                "Address": {
+                  "country_code": "RU",
+                  "postal_code": "143441",
+                  "formatted": "Московская область, городской округ Красногорск, деревня Путилково, Новотушинская улица, 5",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Россия"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Центральный федеральный округ"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Московская область"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "городской округ Красногорск"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "деревня Путилково"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "Новотушинская улица"
+                    },
+                    {
+                      "kind": "house",
+                      "name": "5"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Московская область, городской округ Красногорск, деревня Путилково, Новотушинская улица, 5",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Россия",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Московская область",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "городской округ Красногорск",
+                        "Locality": {
+                          "LocalityName": "деревня Путилково",
+                          "Thoroughfare": {
+                            "ThoroughfareName": "Новотушинская улица",
+                            "Premise": {
+                              "PremiseNumber": "5",
+                              "PostalCode": {
+                                "PostalCodeNumber": "143441"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "деревня Путилково, городской округ Красногорск, Московская область, Россия",
+            "name": "Новотушинская улица, 5",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.399416 55.86995",
+                "upperCorner": "37.407627 55.874567"
+              }
+            },
+            "Point": {
+              "pos": "37.403522 55.872258"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
