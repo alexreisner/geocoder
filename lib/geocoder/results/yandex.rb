@@ -61,15 +61,27 @@ module Geocoder::Result
     end
 
     def street
-      thoroughfare_data && thoroughfare_data['ThoroughfareName']
+      if thoroughfare_data
+        thoroughfare_data['ThoroughfareName']
+      else
+        ""
+      end
     end
 
     def street_number
-      premise && premise['PremiseNumber']
+      if premise
+        premise['PremiseNumber']
+      else
+        ""
+      end
     end
 
     def postal_code
-      premise && premise['PostalCode'] && premise['PostalCode']['PostalCodeNumber']
+      if premise && premise['PostalCode']
+        premise['PostalCode']['PostalCodeNumber']
+      else
+        ""
+      end
     end
 
     def kind
