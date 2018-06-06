@@ -60,20 +60,16 @@ module Geocoder::Result
       ""
     end
 
-    def postal_code
-      ""
-    end
-
-    def premise_name
-      address_details['Locality']['Premise']['PremiseName']
-    end
-
     def street
       thoroughfare_data && thoroughfare_data['ThoroughfareName']
     end
 
     def street_number
-      thoroughfare_data && thoroughfare_data['Premise'] && thoroughfare_data['Premise']['PremiseNumber']
+      premise && premise['PremiseNumber']
+    end
+
+    def postal_code
+      premise && premise['PostalCode'] && premise['PostalCode']['PostalCodeNumber']
     end
 
     def kind
@@ -92,6 +88,10 @@ module Geocoder::Result
     end
 
     private # ----------------------------------------------------------------
+
+    def premise
+      thoroughfare_data && thoroughfare_data['Premise']
+    end
 
     def thoroughfare_data
       locality_data && locality_data['Thoroughfare']
