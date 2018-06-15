@@ -36,34 +36,35 @@ Table of Contents
 
 Basic Features:
 
-1. [Geocoding Objects](#geocoding-objects)
-2. [Geocoding HTTP Requests](#geocoding-http-requests)
-3. [Geographic Database Queries](#geographic-database-queries)
-4. [Model Configuration](#model-configuration)
-5. [Geocoding Service ("Lookup") Configuration](#geocoding-service-lookup-configuration)
+* [Geocoding Objects](#geocoding-objects)
+* [Geocoding HTTP Requests](#geocoding-http-requests)
+* [Geographic Database Queries](#geographic-database-queries)
+* [Model Configuration](#model-configuration)
+* [Geocoding Service ("Lookup") Configuration](#geocoding-service-lookup-configuration)
 
 API Guide:
 
-6. [Street Address Lookups](#api-guide-street-address-lookups)
-7. [IP Address Lookups](#api-guide-ip-address-lookups)
+* [Street Address Lookups](#api-guide-street-address-lookups)
+* [IP Address Lookups](#api-guide-ip-address-lookups)
+* [Local IP Address Lookups](#api-guide-local-ip-address-lookups)
 
 Advanced Features:
 
-8. [Performance and Optimization](#performance-and-optimization)
-9. [Advanced Geocoding](#advanced-geocoding)
-10. [Advanced Database Queries](#advanced-database-queries)
-11. [Testing](#testing)
-12. [Error Handling](#error-handing)
-13. [Use Outside of Rails](#use-outside-of-rails)
-14. [Command Line Interface](#command-line-interface)
+* [Performance and Optimization](#performance-and-optimization)
+* [Advanced Geocoding](#advanced-geocoding)
+* [Advanced Database Queries](#advanced-database-queries)
+* [Testing](#testing)
+* [Error Handling](#error-handing)
+* [Use Outside of Rails](#use-outside-of-rails)
+* [Command Line Interface](#command-line-interface)
 
 The Rest:
 
-15. [Technical Discussions](#technical-discussions)
-16. [Troubleshooting](#troubleshooting)
-17. [Known Issues](#known-issues)
-18. [Reporting Issues](#reporting-issues)
-19. [Contributing](#contributing)
+* [Technical Discussions](#technical-discussions)
+* [Troubleshooting](#troubleshooting)
+* [Known Issues](#known-issues)
+* [Reporting Issues](#reporting-issues)
+* [Contributing](#contributing)
 
 
 Geocoding Objects
@@ -793,7 +794,8 @@ API Guide: IP Address Lookups
 * **Limitations**: ?
 
 
-### IP Address Local Database Services
+API Guide: Local IP Address Lookups
+-----------------------------------
 
 ### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
 
