@@ -10,7 +10,6 @@ env:
     - DB=postgres
     - DB=mysql
 rvm:
-  - 1.9.3
   - 2.0.0
   - 2.1.10
   - 2.2.10
@@ -20,7 +19,6 @@ rvm:
   - jruby-19mode
 gemfile:
   - Gemfile
-  - gemfiles/Gemfile.ruby1.9.3
   - gemfiles/Gemfile.rails3.2
   - gemfiles/Gemfile.rails4.1
   - gemfiles/Gemfile.rails5.0
@@ -29,14 +27,6 @@ before_install:
   - gem update --system
 matrix:
   exclude:
-    - rvm: 1.9.3
-      gemfile: Gemfile
-    - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.rails3.2
-    - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.rails4.1
-    - rvm: 1.9.3
-      gemfile: gemfiles/Gemfile.rails5.0
     - env: DB=
       gemfile: gemfiles/Gemfile.rails3.2
     - env: DB=
@@ -46,8 +36,6 @@ matrix:
     - rvm: 2.0.0
       gemfile: Gemfile
     - rvm: 2.0.0
-      gemfile: gemfiles/Gemfile.ruby1.9.3
-    - rvm: 2.0.0
       gemfile: gemfiles/Gemfile.rails5.0
     - rvm: 2.1.10
       gemfile: Gemfile
@@ -55,20 +43,10 @@ matrix:
       gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: 2.1.10
       gemfile: gemfiles/Gemfile.rails5.0
-    - rvm: 2.2.10
-      gemfile: gemfiles/Gemfile.ruby1.9.3
-    - rvm: jruby-19mode
-      gemfile: gemfiles/Gemfile.ruby1.9.3
-    - rvm: 2.3.7
-      gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: 2.4.4
       gemfile: gemfiles/Gemfile.rails4.1
     - rvm: 2.5.1
       gemfile: gemfiles/Gemfile.rails4.1
-    - rvm: 2.4.4
-      gemfile: gemfiles/Gemfile.ruby1.9.3
-    - rvm: 2.5.1
-      gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: 2.4.4
       gemfile: gemfiles/Gemfile.rails3.2
     - rvm: 2.5.1

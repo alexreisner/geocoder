@@ -1,4 +1,4 @@
-require 'timeout' # required for Ruby 1.9.3
+require 'timeout'
 
 module Geocoder
 
