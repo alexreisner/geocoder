@@ -92,7 +92,11 @@ module Geocoder
 
         query_options = [:lookup, :ip_lookup, :language, :params].inject({}) do |hash, key|
           if options.has_key?(key)
-            val = options[key]
+            val = if (options[key].is_a? Symbol) && (self.class.method_defined? options[key])
+                    send(options[key])
+                  else
+                    options[key]
+                  end
             hash[key] = val.respond_to?(:call) ? val.call(self) : val
           end
           hash
