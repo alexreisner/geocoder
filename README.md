@@ -142,10 +142,6 @@ See _Advanced Geocoding_ below for more information about `Geocoder::Result` obj
 Geographic Database Queries
 ---------------------------
 
-### For Mongo-backed models:
-
-Please use MongoDB's [geospatial query language](https://docs.mongodb.org/manual/reference/command/geoNear/). Mongoid also provides [a DSL](http://mongoid.github.io/en/mongoid/docs/querying.html#geo_near) for doing near queries.
-
 ### For ActiveRecord models:
 
 To find objects by location, use the following scopes:
@@ -184,6 +180,10 @@ Some utility methods are also available:
      => [35.14968, -90.048929]
 
 Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
+
+### For Mongo-backed models:
+
+Please use MongoDB's [geospatial query language](https://docs.mongodb.org/manual/reference/command/geoNear/). Mongoid also provides [a DSL](http://mongoid.github.io/en/mongoid/docs/querying.html#geo_near) for doing near queries.
 
 
 Distance and Bearing
@@ -1050,16 +1050,6 @@ For example:
     end
 
 
-Use Outside of Rails
---------------------
-
-You can use Geocoder outside of Rails by calling the `Geocoder.search` method:
-
-    results = Geocoder.search("McCarren Park, Brooklyn, NY")
-
-This returns an array of `Geocoder::Result` objects with all data provided by the geocoding service.
-
-
 Testing Apps that Use Geocoder
 ------------------------------
 
@@ -1104,6 +1094,44 @@ Notes:
 - The stubbed result objects returned by the Test lookup do not support all the methods real result objects do. If you need to test interaction with real results it may be better to use an external stubbing tool and something like WebMock or VCR to prevent network calls.
 
 
+Error Handling
+--------------
+
+By default Geocoder will rescue any exceptions raised by calls to a geocoding service and return an empty array. You can override this on a per-exception basis, and also have Geocoder raise its own exceptions for certain events (eg: API quota exceeded) by using the `:always_raise` option:
+
+    Geocoder.configure(:always_raise => [SocketError, Timeout::Error])
+
+You can also do this to raise all exceptions:
+
+    Geocoder.configure(:always_raise => :all)
+
+The raise-able exceptions are:
+
+    SocketError
+    Timeout::Error
+    Geocoder::OverQueryLimitError
+    Geocoder::RequestDenied
+    Geocoder::InvalidRequest
+    Geocoder::InvalidApiKey
+    Geocoder::ServiceUnavailable
+
+Note that only a few of the above exceptions are raised by any given lookup, so there's no guarantee if you configure Geocoder to raise `ServiceUnavailable` that it will actually be raised under those conditions (because most APIs don't return 503 when they should; you may get a `Timeout::Error` instead). Please see the source code for your particular lookup for details.
+
+
+Use Outside of Rails
+--------------------
+
+You can use Geocoder outside of Rails by calling the `Geocoder.search` method:
+
+    results = Geocoder.search("McCarren Park, Brooklyn, NY")
+
+This returns an array of `Geocoder::Result` objects with all data provided by the geocoding service.
+
+To use Geocoder with ActiveRecord and a framework other than Rails (like Sinatra or Padrino), you will need to add this in your model before calling Geocoder methods:
+
+    extend Geocoder::Model::ActiveRecord
+
+
 Command Line Interface
 ----------------------
 
@@ -1122,12 +1150,12 @@ When you install the Geocoder gem it adds a `geocode` command to your shell. You
 There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON response, and more. Please run `geocode -h` for details.
 
 
-Numeric Data Types and Precision
---------------------------------
+Notes on ActiveRecord
+---------------------
 
-Geocoder works with any numeric data type (e.g. float, double, decimal) on which trig (and other mathematical) functions can be performed.
+In MySQL and Postgres, queries use a bounding box to limit the number of points over which a more precise distance calculation needs to be done. To take advantage of this optimisation, you need to add a composite index on latitude and longitude. In your Rails migration:
 
-A summary of the relationship between geographic precision and the number of decimal places in latitude and longitude degree values is available on [Wikipedia](http://en.wikipedia.org/wiki/Decimal_degrees#Accuracy). As an example: at the equator, latitude/longitude values with 4 decimal places give about 11 metres precision, whereas 5 decimal places gives roughly 1 metre precision.
+    add_index :table, [:latitude, :longitude]
 
 
 Notes on MongoDB
@@ -1152,31 +1180,12 @@ Calling `obj.coordinates` directly returns the internal representation of the co
 For consistency with the rest of Geocoder, always use the `to_coordinates` method instead.
 
 
-Notes on Non-Rails Frameworks
------------------------------
+Technical Discussions
+---------------------
 
-If you are using Geocoder with ActiveRecord and a framework other than Rails (like Sinatra or Padrino), you will need to add this in your model before calling Geocoder methods:
-
-    extend Geocoder::Model::ActiveRecord
-
-
-Optimisation of Distance Queries
---------------------------------
-
-In MySQL and Postgres, the finding of objects near a given point is sped up by using a bounding box to limit the number of points over which a full distance calculation needs to be done.
-
-To take advantage of this optimisation, you need to add a composite index on latitude and longitude. In your Rails migration:
-
-    add_index :table, [:latitude, :longitude]
-
-
-Distance Queries in SQLite
---------------------------
+### Distance Queries in SQLite
 
 SQLite's lack of trigonometric functions requires an alternate implementation of the `near` scope. When using SQLite, Geocoder will automatically use a less accurate algorithm for finding objects near a given point. Results of this algorithm should not be trusted too much as it will return objects that are outside the given radius, along with inaccurate distance and bearing calculations.
-
-
-### Discussion
 
 There are few options for finding objects near a given point in SQLite without installing extensions:
 
@@ -1188,29 +1197,11 @@ There are few options for finding objects near a given point in SQLite without i
 
 Because Geocoder needs to provide this functionality as a scope, we must go with option #1, but feel free to implement #2 or #3 if you need more accuracy.
 
+### Numeric Data Types and Precision
 
-Error Handling
---------------
+Geocoder works with any numeric data type (e.g. float, double, decimal) on which trig (and other mathematical) functions can be performed.
 
-By default Geocoder will rescue any exceptions raised by calls to a geocoding service and return an empty array. You can override this on a per-exception basis, and also have Geocoder raise its own exceptions for certain events (eg: API quota exceeded) by using the `:always_raise` option:
-
-    Geocoder.configure(:always_raise => [SocketError, Timeout::Error])
-
-You can also do this to raise all exceptions:
-
-    Geocoder.configure(:always_raise => :all)
-
-The raise-able exceptions are:
-
-    SocketError
-    Timeout::Error
-    Geocoder::OverQueryLimitError
-    Geocoder::RequestDenied
-    Geocoder::InvalidRequest
-    Geocoder::InvalidApiKey
-    Geocoder::ServiceUnavailable
-
-Note that only a few of the above exceptions are raised by any given lookup, so there's no guarantee if you configure Geocoder to raise `ServiceUnavailable` that it will actually be raised under those conditions (because most APIs don't return 503 when they should; you may get a `Timeout::Error` instead). Please see the source code for your particular lookup for details.
+A summary of the relationship between geographic precision and the number of decimal places in latitude and longitude degree values is available on [Wikipedia](http://en.wikipedia.org/wiki/Decimal_degrees#Accuracy). As an example: at the equator, latitude/longitude values with 4 decimal places give about 11 metres precision, whereas 5 decimal places gives roughly 1 metre precision.
 
 
 Troubleshooting
@@ -1255,14 +1246,6 @@ You can also fetch the response in the console:
     Geocoder::Lookup.get(:google).send(:fetch_raw_data, Geocoder::Query.new("..."))
 
 
-Reporting Issues
-----------------
-
-When reporting an issue, please list the version of Geocoder you are using and any relevant information about your application (Rails version, database type and version, etc). Also avoid vague language like "it doesn't work." Please describe as specifically as you can what behavior you are actually seeing (eg: an error message? a nil return value?).
-
-Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Sites like [StackOverflow](http://www.stackoverflow.com/) are a better forum for such discussions.
-
-
 Known Issues
 ------------
 
@@ -1290,6 +1273,14 @@ If anyone has a more elegant solution to this problem I am very interested in se
 ### Using `near` with objects close to the 180th meridian
 
 The `near` method will not look across the 180th meridian to find objects close to a given point. In practice this is rarely an issue outside of New Zealand and certain surrounding islands. This problem does not exist with the zero-meridian. The problem is due to a shortcoming of the Haversine formula which Geocoder uses to calculate distances.
+
+
+Reporting Issues
+----------------
+
+When reporting an issue, please list the version of Geocoder you are using and any relevant information about your application (Rails version, database type and version, etc). Please describe as specifically as you can what behavior you are seeing (eg: an error message? a nil return value?).
+
+Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Sites like [StackOverflow](http://www.stackoverflow.com/) are a better forum for such discussions.
 
 
 Contributing
