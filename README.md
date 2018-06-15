@@ -36,6 +36,7 @@ and run at the command prompt:
 
     bundle install
 
+**You must [configure your geocoding service](#geocoding-service-lookup-configuration) before using**
 
 Object Geocoding
 ----------------
