@@ -44,9 +44,13 @@ matrix:
     - env: DB=
       gemfile: gemfiles/Gemfile.rails5.0
     - rvm: 2.0.0
+      gemfile: Gemfile
+    - rvm: 2.0.0
       gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: 2.0.0
       gemfile: gemfiles/Gemfile.rails5.0
+    - rvm: 2.1.2
+      gemfile: Gemfile
     - rvm: 2.1.2
       gemfile: gemfiles/Gemfile.ruby1.9.3
     - rvm: 2.1.2
