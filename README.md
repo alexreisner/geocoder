@@ -15,12 +15,6 @@ Compatibility
 * Works very well outside of Rails, you just need to install either the `json` (for MRI) or `json_pure` (for JRuby) gem.
 
 
-Note on Rails 4.1 and Greater
------------------------------
-
-Due to [a change in ActiveRecord's `count` method](https://github.com/rails/rails/pull/10710) you will need to use `count(:all)` to explicitly count all columns ("*") when using a `near` scope. Using `near` and calling `count` with no argument will cause exceptions in many cases.
-
-
 Installation
 ------------
 
@@ -1269,6 +1263,10 @@ Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Site
 
 
 ### Known Issues
+
+#### Using `count` with Rails 4.1+
+
+Due to [a change in ActiveRecord's `count` method](https://github.com/rails/rails/pull/10710) you will need to use `count(:all)` to explicitly count all columns ("*") when using a `near` scope. Using `near` and calling `count` with no argument will cause exceptions in many cases.
 
 #### Using `near` with `includes`
 
