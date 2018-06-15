@@ -44,4 +44,9 @@ class MapboxTest < GeocoderTestCase
       Geocoder.search("invalid api key")
     end
   end
+
+  def test_truncates_query_at_semicolon
+    result = Geocoder.search("Madison Square Garden, New York, NY;123 Another St").first
+    assert_equal [40.749688, -73.991566], result.coordinates
+  end
 end

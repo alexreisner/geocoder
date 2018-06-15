@@ -36,7 +36,9 @@ module Geocoder::Lookup
         lat,lon = query.coordinates
         "#{CGI.escape lon},#{CGI.escape lat}"
       else
-        CGI.escape query.text.to_s
+        # truncate at first semicolon so Mapbox doesn't go into batch mode
+        # (see Github issue #1299)
+        CGI.escape query.text.to_s.split(';').first.to_s
       end
     end
 
