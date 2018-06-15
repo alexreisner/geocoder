@@ -31,8 +31,8 @@ and run at the command prompt:
     bundle install
 
 
-Object Geocoding
-----------------
+Geocoding Objects
+-----------------
 
 ### ActiveRecord
 
@@ -124,8 +124,8 @@ The exact code will vary depending on the method you use for your geocodable str
     after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
 
 
-Request Geocoding by IP Address
--------------------------------
+Geocoding HTTP Requests
+-----------------------
 
 Geocoder adds `location` and `safe_location` methods to the standard `Rack::Request` object so you can easily look up the location of any HTTP request by IP address. For example, in a Rails controller or a Sinatra app:
 
@@ -139,8 +139,8 @@ Note that these methods will usually return `nil` in your test and development e
 See _Advanced Geocoding_ below for more information about `Geocoder::Result` objects.
 
 
-Location-Aware Database Queries
--------------------------------
+Geographic Database Queries
+---------------------------
 
 ### For Mongo-backed models:
 
@@ -266,8 +266,8 @@ You can also specify a proc if you want to choose a lookup based on a specific p
     end
 
 
-Advanced Querying
------------------
+Advanced Database Queries
+-------------------------
 
 When querying for objects (if you're using ActiveRecord) you can also look within a square rather than a radius (circle) by using the `within_bounding_box` scope:
 
@@ -379,7 +379,7 @@ Or, to use parameters in your model:
     end
 
 
-### Configure Multiple Services
+### Configuring Multiple Services
 
 You can configure multiple geocoding services at once, like this:
 
@@ -407,11 +407,12 @@ You can configure multiple geocoding services at once, like this:
 The above combines global and service-specific options and could be useful if you specify different geocoding services for different models or under different conditions. Lookup-specific settings override global settings. In the above example, the timeout for all lookups would be 2 seconds, except for Yandex which would be 5.
 
 
-### Street Address Services
+API Guide: Street Address Lookups
+---------------------------------
 
 The following is a comparison of the supported geocoding APIs. The "Limitations" listed for each are a very brief and incomplete summary of some special limitations beyond basic data source attribution. Please read the official Terms of Service for a service before using it.
 
-#### Google (`:google`)
+### Google (`:google`)
 
 * **API key**: optional, but quota is higher if key is used (use of key requires HTTPS so be sure to set: `:use_https => true` in `Geocoder.configure`)
 * **Key signup**: https://console.developers.google.com/flows/enableapi?apiid=geocoding_backend&keyType=SERVER_SIDE
@@ -426,7 +427,7 @@ The following is a comparison of the supported geocoding APIs. The "Limitations"
 * **Terms of Service**: http://code.google.com/apis/maps/terms.html#section_10_12
 * **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
 
-#### Google Maps API for Work (`:google_premier`)
+### Google Maps API for Work (`:google_premier`)
 
 Similar to `:google`, with the following differences:
 
@@ -434,7 +435,7 @@ Similar to `:google`, with the following differences:
 * **Key signup**: https://developers.google.com/maps/documentation/business/
 * **Quota**: 100,000 requests/24 hrs, 10 requests/second
 
-#### Google Places Details (`:google_places_details`)
+### Google Places Details (`:google_places_details`)
 
 The [Google Places Details API](https://developers.google.com/places/documentation/details) is not, strictly speaking, a geocoding service. It accepts a Google `place_id` and returns address information, ratings and reviews. A `place_id` can be obtained from the Google Places Search lookup (`:google_places_search`) and should be passed to Geocoder as the first search argument: `Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", lookup: :google_places_details)`.
 
@@ -448,13 +449,13 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Terms of Service**: https://developers.google.com/places/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
 
-#### Google Places Search (`:google_places_search`)
+### Google Places Search (`:google_places_search`)
 
 The [Google Places Search API](https://developers.google.com/places/web-service/search) is the geocoding service of Google Places API. It returns very limited location data, but it also returns a `place_id` which can be used with Google Place Details to get more detailed information. For a comparison between this and the regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
 
 * Same specifications as Google Places Details (see above).
 
-#### Bing (`:bing`)
+### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(:lookup => :bing, :api_key => key)`)
 * **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
@@ -466,7 +467,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
 * **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
 
-#### Nominatim (`:nominatim`)
+### Nominatim (`:nominatim`)
 
 * **API key**: none
 * **Quota**: 1 request/second
@@ -477,7 +478,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
 * **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(:http_headers => { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
-#### PickPoint (`:pickpoint`)
+### PickPoint (`:pickpoint`)
 
 * **API key**: required
 * **Key signup**: [https://pickpoint.io](https://pickpoint.io)
@@ -489,7 +490,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
 
-#### LocationIQ (`:location_iq`)
+### LocationIQ (`:location_iq`)
 
 * **API key**: required
 * **Quota**: 60 requests/minute (2 req/sec, 10k req/day), then [ability to purchase more](http://locationiq.org/#pricing)
@@ -500,7 +501,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: https://unwiredlabs.com/tos
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
 
-#### OpenCageData (`:opencagedata`)
+### OpenCageData (`:opencagedata`)
 
 * **API key**: required
 * **Key signup**: http://geocoder.opencagedata.com
@@ -511,7 +512,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Documentation**: http://geocoder.opencagedata.com/api.html
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
-#### Yandex (`:yandex`)
+### Yandex (`:yandex`)
 
 * **API key**: optional, but without it lookup is territorially limited
 * **Quota**: 25000 requests / day
@@ -522,7 +523,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
 * **Limitations**: ?
 
-#### Geocoder.ca (`:geocoder_ca`)
+### Geocoder.ca (`:geocoder_ca`)
 
 * **API key**: none
 * **Quota**: ?
@@ -533,7 +534,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://geocoder.ca/?terms=1
 * **Limitations**: "Under no circumstances can our data be re-distributed or re-sold by anyone to other parties without our written permission."
 
-#### Mapbox (`:mapbox`)
+### Mapbox (`:mapbox`)
 
 * **API key**: required
 * **Dataset**: Uses `mapbox.places` dataset by default.  Specify the `mapbox.places-permanent` dataset by setting: `Geocoder.configure(:mapbox => {:dataset => "mapbox.places-permanent"})`
@@ -553,7 +554,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: For `mapbox.places` dataset, must be displayed on a Mapbox map; Cache results for up to 30 days. For `mapbox.places-permanent` dataset, depends on plan.
 * **Notes**: Currently in public beta.
 
-#### Mapquest (`:mapquest`)
+### Mapquest (`:mapquest`)
 
 * **API key**: required
 * **Key signup**: https://developer.mapquest.com/plans
@@ -568,7 +569,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: ?
 * **Notes**: You can use the open (non-licensed) API by setting: `Geocoder.configure(:mapquest => {:open => true})` (defaults to licensed version)
 
-#### Ovi/Nokia (`:ovi`)
+### Ovi/Nokia (`:ovi`)
 
 * **API key**: not required, but performance restricted without it
 * **Quota**: ?
@@ -579,7 +580,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://www.developer.nokia.com/Develop/Maps/TC.html
 * **Limitations**: ?
 
-#### Here/Nokia (`:here`)
+### Here/Nokia (`:here`)
 
 * **API key**: required (set `Geocoder.configure(:api_key => [app_id, app_code])`)
 * **Quota**: Depending on the API key
@@ -590,7 +591,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Terms of Service**: http://developer.here.com/faqs#l&t
 * **Limitations**: ?
 
-#### ESRI (`:esri`)
+### ESRI (`:esri`)
 
 * **API key**: optional (set `Geocoder.configure(:esri => {:api_key => ["client_id", "client_secret"]})`)
 * **Quota**: Required for some scenarios (see Terms of Service)
@@ -602,7 +603,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: Requires API key if results will be stored. Using API key will also remove rate limit.
 * **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(:esri => {:outSR => 102100})`. If you will store results, set the flag and provide API key: `Geocoder.configure(:esri => {:api_key => ["client_id", "client_secret"], :for_storage => true})`. If you want to, you can also supply an ESRI token directly: `Geocoder.configure(:esri => {:token => Geocoder::EsriToken.new('TOKEN', Time.now + 1.day})`
 
-#### Mapzen (`:mapzen`)
+### Mapzen (`:mapzen`)
 
 * **API key**: required
 * **Quota**: 25,000 free requests/month and [ability to purchase more](https://mapzen.com/pricing/)
@@ -614,7 +615,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: [You must provide attribution](https://mapzen.com/rights/)
 * **Notes**: Mapzen is the primary author of Pelias and offers Pelias-as-a-service in free and paid versions https://mapzen.com/pelias.
 
-#### Pelias (`:pelias`)
+### Pelias (`:pelias`)
 
 * **API key**: configurable (self-hosted service)
 * **Quota**: none (self-hosted service)
@@ -626,7 +627,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: See terms
 * **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(:lookup => :pelias, :api_key => 'your_api_key', :pelias => {:endpoint => 'self.hosted/pelias'})`. Defaults to `localhost`.
 
-#### Data Science Toolkit (`:dstk`)
+### Data Science Toolkit (`:dstk`)
 
 Data Science Toolkit provides an API whose response format is like Google's but which can be set up as a privately hosted service.
 
@@ -640,7 +641,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Limitations**: No reverse geocoding.
 * **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(:lookup => :dstk, :dstk => {:host => "localhost:4567"})`.
 
-#### Baidu (`:baidu`)
+### Baidu (`:baidu`)
 
 * **API key**: required
 * **Quota**: No quota limits for geocoding
@@ -652,7 +653,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu, :api_key => "your_api_key")`.
 
-#### Geocodio (`:geocodio`)
+### Geocodio (`:geocodio`)
 
 * **API key**: required
 * **Quota**: 2,500 free requests/day then purchase $0.0005 for each, also has volume pricing and plans.
@@ -663,7 +664,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Terms of Service**: https://geocod.io/terms-of-use/
 * **Limitations**: No restrictions on use
 
-#### SmartyStreets (`:smarty_streets`)
+### SmartyStreets (`:smarty_streets`)
 
 * **API key**: requires auth_id and auth_token (set `Geocoder.configure(:api_key => [id, token])`)
 * **Quota**: 250/month then purchase at sliding scale.
@@ -675,7 +676,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Limitations**: No reverse geocoding.
 
 
-#### OKF Geocoder (`:okf`)
+### OKF Geocoder (`:okf`)
 
 * **API key**: none
 * **Quota**: none
@@ -686,7 +687,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Terms of Service**: http://www.itella.fi/liitteet/palvelutjatuotteet/yhteystietopalvelut/Postinumeropalvelut-Palvelukuvausjakayttoehdot.pdf
 * **Limitations**: ?
 
-#### Geoportail.lu (`:geoportail_lu`)
+### Geoportail.lu (`:geoportail_lu`)
 
 * **API key**: none
 * **Quota**: none
@@ -697,7 +698,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Terms of Service**: http://wiki.geoportail.lu/doku.php?id=en:mcg_1
 * **Limitations**: ?
 
-#### Postcodes.io (`:postcodes_io`)
+### Postcodes.io (`:postcodes_io`)
 
 * **API key**: none
 * **Quota**: ?
@@ -708,7 +709,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Terms of Service**: ?
 * **Limitations**: UK postcodes only
 
-#### PostcodeAnywhere UK (`:postcode_anywhere_uk`)
+### PostcodeAnywhere UK (`:postcode_anywhere_uk`)
 
 This uses the PostcodeAnywhere UK Geocode service, this will geocode any string from UK postcode, placename, point of interest or location.
 
@@ -722,7 +723,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: To use PostcodeAnywhere you must include an API key: `Geocoder.configure(:lookup => :postcode_anywhere_uk, :api_key => 'your_api_key')`.
 
-#### LatLon.io (`:latlon`)
+### LatLon.io (`:latlon`)
 
 * **API key**: required
 * **Quota**: Depends on the user's plan (free and paid plans available)
@@ -733,7 +734,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Terms of Service**: ?
 * **Limitations**: No restrictions on use
 
-#### Base Adresse Nationale FR (`:ban_data_gouv_fr`)
+### Base Adresse Nationale FR (`:ban_data_gouv_fr`)
 
 * **API key**: none
 * **Quota**: none
@@ -744,7 +745,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Terms of Service**: https://adresse.data.gouv.fr/faq/ (in french)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://openstreetmap.fr/ban)
 
-#### AMap (`:amap`)
+### AMap (`:amap`)
 
 - **API key**: required
 - **Quota**: 2000/day and 2000/minute for personal developer, 4000000/day and 60000/minute for enterprise developer, for geocoding requests
@@ -756,9 +757,11 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 - **Limitations**: Only good for non-commercial use. For commercial usage please check http://lbs.amap.com/home/terms/
 - **Notes**: To use AMap set `Geocoder.configure(:lookup => :amap, :api_key => "your_api_key")`.
 
-### IP Address Services
 
-#### IPInfo.io (`:ipinfo_io`)
+API Guide: IP Address Lookups
+-----------------------------
+
+### IPInfo.io (`:ipinfo_io`)
 
 * **API key**: optional - see http://ipinfo.io/pricing
 * **Quota**: 1,000/day - more with api key
@@ -768,7 +771,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: http://ipinfo.io/developers
 * **Terms of Service**: http://ipinfo.io/developers
 
-#### FreeGeoIP (`:freegeoip`) - [DISCONTINUED](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation)
+### FreeGeoIP (`:freegeoip`) - [DISCONTINUED](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation)
 
 * **API key**: none
 * **Quota**: 15,000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
@@ -780,7 +783,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
 
-#### Pointpin (`:pointpin`)
+### Pointpin (`:pointpin`)
 
 * **API key**: required
 * **Quota**: 50,000/mo for €9 through 1m/mo for €49
@@ -792,7 +795,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: To use Pointpin set `Geocoder.configure(:ip_lookup => :pointpin, :api_key => "your_pointpin_api_key")`.
 
-#### Telize (`:telize`)
+### Telize (`:telize`)
 
 * **API key**: required
 * **Quota**: 1,000/day for $7/mo through 100,000/day for $100/mo
@@ -805,7 +808,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Notes**: To use Telize set `Geocoder.configure(:ip_lookup => :telize, :api_key => "your_api_key")`. Or configure your self-hosted telize with the `host` option: `Geocoder.configure(:ip_lookup => :telize, :telize => {:host => "localhost"})`.
 
 
-#### MaxMind Legacy Web Services (`:maxmind`)
+### MaxMind Legacy Web Services (`:maxmind`)
 
 * **API key**: required
 * **Quota**: Request Packs can be purchased
@@ -817,7 +820,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(:maxmind => {:service => :omni})`.
 
-#### Baidu IP (`:baidu_ip`)
+### Baidu IP (`:baidu_ip`)
 
 * **API key**: required
 * **Quota**: No quota limits for geocoding
@@ -829,7 +832,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(:lookup => :baidu_ip, :api_key => "your_api_key")`.
 
-#### MaxMind GeoIP2 Precision Web Services (`:maxmind_geoip2`)
+### MaxMind GeoIP2 Precision Web Services (`:maxmind_geoip2`)
 
 * **API key**: required
 * **Quota**: Request Packs can be purchased
@@ -841,7 +844,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration, and also basic authentication. For example: `Geocoder.configure(:maxmind_geoip2 => {:service => :country, :basic_auth => {:user => '', :password => ''}})`.
 
-#### Ipstack (`:ipstack`)
+### Ipstack (`:ipstack`)
 
 * **API key**: required (see https://ipstack.com/product)
 * **Quota**: 10,000 requests per month (with free API Key, 50,000/day and up for paid plans)
@@ -853,7 +856,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Limitations**: ?
 * **Notes**: To use Ipstack set `Geocoder.configure(:ip_lookup => :ipstack, :api_key => "your_ipstack_api_key")`. Supports the optional params: `:hostname`, `:security`, `:fields`, `:language` (see API documentation for details).
 
-#### IP-API.com (`:ipapi_com`)
+### IP-API.com (`:ipapi_com`)
 
 * **API key**: optional - see http://ip-api.com/docs/#usage_limits
 * **Quota**: 150/minute - unlimited with api key
@@ -863,7 +866,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: http://ip-api.com/docs/
 * **Terms of Service**: https://signup.ip-api.com/terms
 
-#### DB-IP.com (`:db_ip_com`)
+### DB-IP.com (`:db_ip_com`)
 
 * **API key**: required
 * **Quota**: 2,500/day (with free API Key, 50,000/day and up for paid API keys)
@@ -873,7 +876,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 * **Documentation**: https://db-ip.com/api/doc.php
 * **Terms of Service**: https://db-ip.com/tos.php
 
-#### Ipdata.co (`:ipdata_co`)
+### Ipdata.co (`:ipdata_co`)
 
 * **API key**: optional, see: https://ipdata.co/pricing.html
 * **Quota**: 1500/day (up to 600k with paid API keys)
@@ -887,7 +890,7 @@ This uses the PostcodeAnywhere UK Geocode service, this will geocode any string 
 
 ### IP Address Local Database Services
 
-#### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
+### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
 
 This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
 
@@ -919,7 +922,7 @@ You can generate ActiveRecord migrations and download and import data via provid
 
 You can replace `city` with `country` in any of the above tasks, generators, and configurations.
 
-#### GeoLite2 (`:geoip2`)
+### GeoLite2 (`:geoip2`)
 
 This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
 
@@ -949,6 +952,7 @@ You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* g
         file: File.join('folder', 'GeoLite2-City.mmdb')
       }
     )
+
 
 Caching
 -------
@@ -1045,6 +1049,7 @@ For example:
 
     end
 
+
 Use Outside of Rails
 --------------------
 
@@ -1116,12 +1121,14 @@ When you install the Geocoder gem it adds a `geocode` command to your shell. You
 
 There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON response, and more. Please run `geocode -h` for details.
 
+
 Numeric Data Types and Precision
 --------------------------------
 
 Geocoder works with any numeric data type (e.g. float, double, decimal) on which trig (and other mathematical) functions can be performed.
 
 A summary of the relationship between geographic precision and the number of decimal places in latitude and longitude degree values is available on [Wikipedia](http://en.wikipedia.org/wiki/Decimal_degrees#Accuracy). As an example: at the equator, latitude/longitude values with 4 decimal places give about 11 metres precision, whereas 5 decimal places gives roughly 1 metre precision.
+
 
 Notes on MongoDB
 ----------------
@@ -1144,12 +1151,14 @@ Calling `obj.coordinates` directly returns the internal representation of the co
 
 For consistency with the rest of Geocoder, always use the `to_coordinates` method instead.
 
+
 Notes on Non-Rails Frameworks
 -----------------------------
 
 If you are using Geocoder with ActiveRecord and a framework other than Rails (like Sinatra or Padrino), you will need to add this in your model before calling Geocoder methods:
 
     extend Geocoder::Model::ActiveRecord
+
 
 Optimisation of Distance Queries
 --------------------------------
@@ -1262,13 +1271,14 @@ When reporting an issue, please list the version of Geocoder you are using and a
 Please DO NOT use GitHub issues to ask questions about how to use Geocoder. Sites like [StackOverflow](http://www.stackoverflow.com/) are a better forum for such discussions.
 
 
-### Known Issues
+Known Issues
+------------
 
-#### Using `count` with Rails 4.1+
+### Using `count` with Rails 4.1+
 
 Due to [a change in ActiveRecord's `count` method](https://github.com/rails/rails/pull/10710) you will need to use `count(:all)` to explicitly count all columns ("*") when using a `near` scope. Using `near` and calling `count` with no argument will cause exceptions in many cases.
 
-#### Using `near` with `includes`
+### Using `near` with `includes`
 
 You cannot use the `near` scope with another scope that provides an `includes` option because the `SELECT` clause generated by `near` will overwrite it (or vice versa).
 
@@ -1285,7 +1295,7 @@ Instead of using `includes` to reduce the number of database queries, try using 
 
 If anyone has a more elegant solution to this problem I am very interested in seeing it.
 
-#### Using `near` with objects close to the 180th meridian
+### Using `near` with objects close to the 180th meridian
 
 The `near` method will not look across the 180th meridian to find objects close to a given point. In practice this is rarely an issue outside of New Zealand and certain surrounding islands. This problem does not exist with the zero-meridian. The problem is due to a shortcoming of the Haversine formula which Geocoder uses to calculate distances.
 
