@@ -312,8 +312,6 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 
 ### PostcodeAnywhere UK (`:postcode_anywhere_uk`)
 
-This uses the PostcodeAnywhere UK Geocode service, this will geocode any string from UK postcode, placename, point of interest or location.
-
 * **API key**: required
 * **Quota**: Dependant on service plan?
 * **Region**: UK

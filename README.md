@@ -85,7 +85,7 @@ You can also look up the location of an IP addresses:
     results.first.country
     => "United States"
 
-The success and accuracy of geocoding depends entirely on the API being used to do these lookups. Most queries work fairly well with the default configuration, but every application has different needs and every API has its particular strengths and weaknesses. If you need better coverage for your application you'll want to get familiar with the large number of supported APIs, listed in the [API Guide](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md).
+**The success and accuracy of geocoding depends entirely on the API being used to do these lookups.** Most queries work fairly well with the default configuration, but every application has different needs and every API has its particular strengths and weaknesses. If you need better coverage for your application you'll want to get familiar with the large number of supported APIs, listed in the [API Guide](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md).
 
 
 Geocoding Objects
@@ -121,10 +121,6 @@ Before you can call `geocoded_by` you'll need to include the necessary module us
     include Geocoder::Model::Mongoid
     include Geocoder::Model::MongoMapper
 
-You'll also need to create spatial indices:
-
-    rake db:mongoid:create_indexes
-
 ### Latitude/Longitude Order in MongoDB
 
 Everywhere coordinates are passed to methods as two-element arrays, Geocoder expects them to be in the order: `[lat, lon]`. However, as per [the GeoJSON spec](http://geojson.org/geojson-spec.html#positions), MongoDB requires that coordinates be stored longitude-first (`[lon, lat]`), so internally they are stored "backwards." Geocoder's methods attempt to hide this, so calling `obj.to_coordinates` (a method added to the object by Geocoder via `geocoded_by`) returns coordinates in the conventional order:
@@ -135,7 +131,7 @@ whereas calling the object's coordinates attribute directly (`obj.coordinates` b
 
     obj.coordinates     # => [-122.3951096, 37.7941013] # [lon, lat]
 
-So, you know, be careful.
+So, be careful.
 
 ### Use Outside of Rails
 
@@ -502,9 +498,11 @@ To avoid per-day limit issues (for example if you are trying to geocode thousand
 Testing
 -------
 
-When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure and use the `:test` lookup. For example:
+When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure the `:test` lookup:
 
     Geocoder.configure(lookup: :test)
+
+Add stubs to define the results that will be returned:
 
     Geocoder::Lookup::Test.add_stub(
       "New York, NY", [
@@ -519,9 +517,7 @@ When writing tests for an app that uses Geocoder it may be useful to avoid netwo
       ]
     )
 
-Now, any time Geocoder looks up "New York, NY" its results array will contain one result with the above attributes. Note each lookup requires an exact match to the text you provide as the first argument. The above example would, therefore, not match a request for "New York, NY, USA" and a second stub would need to be created to match that particular request. You can also set a default stub, to be returned when no other stub is found for a given query:
-
-    Geocoder.configure(lookup: :test)
+With the above stub defined, any query for "New York, NY" will return the results array that follows. You can also set a default stub, to be returned when no other stub matches a given query:
 
     Geocoder::Lookup::Test.set_default_stub(
       [
