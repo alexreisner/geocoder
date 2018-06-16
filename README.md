@@ -3,8 +3,6 @@ Geocoder
 
 Geocoder is a complete geocoding solution for Ruby. With Rails, it adds geocoding (by street or IP address), reverse geocoding (finding street address based on given coordinates), and distance queries. It's as simple as calling `geocode` on your objects, and then using a scope like `Venue.near("Billings, MT")`.
 
-_Please note that this README is for the current `HEAD` and may document features not present in the latest gem release. For this reason, you may want to instead view the README for your [particular version](https://github.com/alexreisner/geocoder/releases)._
-
 
 Compatibility
 -------------
@@ -36,6 +34,7 @@ Table of Contents
 
 Basic Features:
 
+* [Basic Search](#basic-search)
 * [Geocoding Objects](#geocoding-objects)
 * [Geospatial Database Queries](#geospatial-database-queries)
 * [Geocoding HTTP Requests](#geocoding-http-requests)
@@ -67,10 +66,36 @@ The Rest:
 * [Contributing](#contributing)
 
 
+Basic Search
+------------
+
+In its simplest form, Geocoder takes an address and searches for its latitude/longitude coordinates:
+
+    results = Geocoder.search("Paris")
+    results.first.coordinates
+    => [48.856614, 2.3522219]  # latitude and longitude
+
+The reverse is possible too. Given coordinates, it finds an address:
+
+    results = Geocoder.search([48.856614, 2.3522219])
+    results.first.address
+    => "Hôtel de Ville, 75004 Paris, France"
+
+You can also look up the location of an IP addresses:
+
+    results = Geocoder.search("172.56.21.89")
+    results.first.coordinates
+    => [30.267153, -97.7430608]
+    results.first.country
+    => "United States"
+
+The success and accuracy of geocoding depends entirely on the API being used to do these lookups. Most queries work fairly well with the default configuration, but every application has different needs and every API has its particular strengths and weaknesses. If you need better coverage for your application you'll want to get familiar with the large number of supported APIs, listed below in the [API Guide](#api-guide-street-address-lookups).
+
+
 Geocoding Objects
 -----------------
 
-To geocode your objects:
+To automatically geocode your objects:
 
 1. Your model must provide a method that returns an address to geocode. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`). For example, if your model has `street`, `city`, `state`, and `country` attributes you might do something like this:
 
