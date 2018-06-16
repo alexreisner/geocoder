@@ -8,6 +8,7 @@ require "geocoder/cache"
 require "geocoder/request"
 require "geocoder/lookup"
 require "geocoder/ip_address"
+require "geocoder/models/sequel" if defined?(::Sequel)
 require "geocoder/models/active_record" if defined?(::ActiveRecord)
 require "geocoder/models/mongoid" if defined?(::Mongoid)
 require "geocoder/models/mongo_mapper" if defined?(::MongoMapper)
@@ -45,4 +46,9 @@ end
 # load Railtie if Rails exists
 if defined?(Rails)
   require "geocoder/railtie"
+end
+
+if defined?(Sequel)
+  require 'geocoder/stores/sequel'
+  Sequel::Plugins::Geocoder = Geocoder::Store::Sequel
 end

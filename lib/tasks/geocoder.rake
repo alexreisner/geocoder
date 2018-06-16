@@ -11,7 +11,7 @@ namespace :geocode do
     raise "Please specify a CLASS (model)" unless class_name
     klass = class_from_string(class_name)
     batch = (batch.to_i unless batch.nil?) || 1000
-    orm = (klass < Geocoder::Model::Mongoid) ? 'mongoid' : 'active_record'
+    orm = orm_klass(klass)
     reverse = false unless reverse.to_s.downcase == 'true'
 
     geocode_record = lambda { |obj|
@@ -22,11 +22,15 @@ namespace :geocode do
 
     scope = reverse ? klass.not_reverse_geocoded : klass.not_geocoded
     scope = scope.limit(limit) if limit
-    if orm == 'mongoid'
+    case orm
+    when 'mongoid', 'sequel'
+      # we could make use of the sequel pagination extension to replicate active records
+      # in batches methods
+
       scope.each do |obj|
         geocode_record.call(obj)
       end
-    elsif orm == 'active_record'
+    when 'active_record'
       if limit
         scope.each do |obj|
           geocode_record.call(obj)
@@ -37,8 +41,14 @@ namespace :geocode do
         end
       end
     end
-
   end
+end
+
+def orm_klass(klass)
+  return 'mongoid' if klass < Geocoder::Model::Mongoid
+  return 'sequel' if klass < Geocoder::Model::Sequel
+
+  'active_record'
 end
 ##
 # Get a class object from the string given in the shell environment.
