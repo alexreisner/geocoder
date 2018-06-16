@@ -96,15 +96,15 @@ Geocoding Objects
 
 To automatically geocode your objects:
 
-1. Your model must provide a method that returns an address to geocode. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`). For example, if your model has `street`, `city`, `state`, and `country` attributes you might do something like this:
+**1.** Your model must provide a method that returns an address to geocode. This can be a single attribute, but it can also be a method that returns a string assembled from different attributes (eg: `city`, `state`, and `country`). For example, if your model has `street`, `city`, `state`, and `country` attributes you might do something like this:
 
     def address
       [street, city, state, country].compact.join(', ')
     end
 
-2. Your model must have a way to store latitude/longitude coordinates. With ActiveRecord, add two attributes/columns (of type float or decimal) called `latitude` and `longitude`. For MongoDB, use a single field (of type Array) called `coordinates` (`field :coordinates, type: Array`). (See [Advanced Model Configuration](#advanced-model-configuration) for using different attribute names.)
+**2.** Your model must have a way to store latitude/longitude coordinates. With ActiveRecord, add two attributes/columns (of type float or decimal) called `latitude` and `longitude`. For MongoDB, use a single field (of type Array) called `coordinates` (i.e., `field :coordinates, type: Array`). (See [Advanced Model Configuration](#advanced-model-configuration) for using different attribute names.)
 
-3. In your model, tell geocoder where to find the object's address:
+**3.** In your model, tell geocoder where to find the object's address:
 
     geocoded_by :address
 
