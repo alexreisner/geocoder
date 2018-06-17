@@ -43,7 +43,6 @@ class BingTest < GeocoderTestCase
       :region => "uk"
     ))
     assert_match(%r!Locations/uk/\?q=manchester!, url)
-    assert_no_match(/query/, url)
   end
 
   def test_query_url_without_region
@@ -52,27 +51,24 @@ class BingTest < GeocoderTestCase
       "manchester"
     ))
     assert_match(%r!Locations/\?q=manchester!, url)
-    assert_no_match(/query/, url)
   end
 
-  def test_query_url_contains_address_with_spaces
+  def test_query_url_escapes_spaces_in_address
     lookup = Geocoder::Lookup::Bing.new
     url = lookup.query_url(Geocoder::Query.new(
       "manchester, lancashire",
       :region => "uk"
     ))
-    assert_match(%r!Locations/uk/\?q=manchester,%20lancashire!, url)
-    assert_no_match(/query/, url)
+    assert_match(%r!Locations/uk/\?q=manchester%2C\+lancashire!, url)
   end
 
-  def test_query_url_contains_address_with_trailing_and_leading_spaces
+  def test_query_url_strips_trailing_and_leading_spaces
     lookup = Geocoder::Lookup::Bing.new
     url = lookup.query_url(Geocoder::Query.new(
       " manchester, lancashire ",
       :region => "uk"
     ))
-    assert_match(%r!Locations/uk/\?q=manchester,%20lancashire!, url)
-    assert_no_match(/query/, url)
+    assert_match(%r!Locations/uk/\?q=manchester%2C\+lancashire!, url)
   end
 
   def test_raises_exception_when_service_unavailable

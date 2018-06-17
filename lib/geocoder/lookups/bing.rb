@@ -23,7 +23,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_url(query)
-      text = URI.escape(query.sanitized_text.strip)
+      text = CGI.escape(query.sanitized_text.strip)
       url = "#{protocol}://dev.virtualearth.net/REST/v1/Locations/"
       if query.reverse_geocode?
         url + "#{text}?"
