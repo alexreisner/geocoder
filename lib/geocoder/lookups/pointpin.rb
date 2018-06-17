@@ -46,6 +46,7 @@ module Geocoder::Lookup
       parsed_data.keys.include?('error')
     end
 
+    # TODO: replace this hash with what's actually returned by Pointpin
     def reserved_result(ip)
       {
         "ip"           => ip,
