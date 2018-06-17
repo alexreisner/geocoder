@@ -45,21 +45,21 @@ module Geocoder::Lookup
 
     def reserved_result(ip)
       {
-        "ip": ip,
-        "latitude": 0,
-        "longitude": 0,
-        "city": "",
-        "timezone": "",
-        "asn": 0,
-        "region": "",
-        "offset": 0,
-        "organization": "",
-        "country_code": "",
-        "country_code3": "",
-        "postal_code": "",
-        "continent_code": "",
-        "country": "",
-        "region_code": ""
+        "ip" => ip,
+        "latitude" => 0,
+        "longitude" => 0,
+        "city" => "",
+        "timezone" => "",
+        "asn" => 0,
+        "region" => "",
+        "offset" => 0,
+        "organization" => "",
+        "country_code" => "",
+        "country_code3" => "",
+        "postal_code" => "",
+        "continent_code" => "",
+        "country" => "",
+        "region_code" => ""
       }
     end
 
