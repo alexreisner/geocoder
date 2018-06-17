@@ -4,7 +4,6 @@ require 'uri'
 
 unless defined?(ActiveSupport::JSON)
   begin
-    require 'rubygems' # for Ruby 1.8
     require 'json'
   rescue LoadError
     raise LoadError, "Please install the 'json' or 'json_pure' gem to parse geocoder results."
