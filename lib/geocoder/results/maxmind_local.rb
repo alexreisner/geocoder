@@ -3,11 +3,6 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class MaxmindLocal < Base
 
-    def address(format = :full)
-      s = state.to_s == "" ? "" : ", #{state}"
-      "#{city}#{s} #{postal_code}, #{country}".sub(/^[ ,]*/, "")
-    end
-
     def coordinates
       [@data[:latitude], @data[:longitude]]
     end

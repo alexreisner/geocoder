@@ -7,11 +7,6 @@ module Geocoder::Result
       ['latitude', 'longitude'].map{ |coordinate_name| @data[coordinate_name] }
     end
 
-    def address(format = :full)
-      s = state_code.to_s == "" ? "" : ", #{state_code}"
-      "#{city}#{s} #{zip_code}, #{country_name}".sub(/^[ ,]*/, "")
-    end
-
     def city
       @data['city']
     end

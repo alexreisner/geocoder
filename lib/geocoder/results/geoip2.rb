@@ -3,10 +3,6 @@ require 'geocoder/results/base'
 module Geocoder
   module Result
     class Geoip2 < Base
-      def address(format = :full)
-        s = state.to_s == '' ? '' : ", #{state_code}"
-        "#{city}#{s} #{postal_code}, #{country}".sub(/^[ ,]*/, '')
-      end
 
       def coordinates
         %w[latitude longitude].map do |l|
