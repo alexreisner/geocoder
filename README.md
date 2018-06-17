@@ -1,7 +1,14 @@
-Geocoder
-========
+Geocoder: a Ruby gem
+====================
 
-Geocoder is a complete geocoding solution for Ruby. With Rails, it adds geocoding (by street or IP address), reverse geocoding (finding street address based on given coordinates), and distance queries. It's as simple as calling `geocode` on your objects, and then using a scope like `Venue.near("Billings, MT")`.
+Geocoder is a complete geocoding solution for Ruby, featuring:
+
+* Forward and reverse geocoding, and IP address geocoding.
+* Connects to more than 40 APIs worldwide.
+* Performance-enhancing feaures like caching.
+* Advanced configuration allows different parameters and APIs to be used in different conditions.
+* Integrates with ActiveRecord and Mongoid.
+* Basic geospatial queries: search within radius (or rectangle, or ring).
 
 
 Compatibility
@@ -11,22 +18,6 @@ Compatibility
 * Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
 * Supports Rails 3, 4, and 5. If you need to use it with Rails 2 please see the `rails2` branch (no longer maintained, limited feature set).
 * Works very well outside of Rails, you just need to install either the `json` (for MRI) or `json_pure` (for JRuby) gem.
-
-
-Installation
-------------
-
-Install Geocoder like any other Ruby gem:
-
-    gem install geocoder
-
-Or, if you're using Rails/Bundler, add this to your Gemfile:
-
-    gem 'geocoder'
-
-and run at the command prompt:
-
-    bundle install
 
 
 Table of Contents
@@ -61,6 +52,7 @@ The Rest:
 See Also:
 
 * [Guide to Geocoding APIs](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md) (formerly part of this README)
+
 
 Basic Search
 ------------
@@ -113,6 +105,14 @@ Reverse geocoding (given lat/lon coordinates, find an address) is similar:
 
     reverse_geocoded_by :latitude, :longitude
     after_validation :reverse_geocode
+
+With any geocoded objects, you can do the following:
+
+    obj.distance_to([43.9,-98.6])  # distance from obj to point
+    obj.bearing_to([43.9,-98.6])   # bearing from obj to point
+    obj.bearing_from(obj2)         # bearing from obj2 to obj
+
+The `bearing_from/to` methods take a single argument which can be: a `[lat,lon]` array, a geocoded object, or a geocodable address (string). The `distance_from/to` methods also take a units argument (`:mi`, `:km`, or `:nm` for nautical miles). See [Distance and Bearing](#distance-and-bearing) below for more info.
 
 ### One More Thing for MongoDB!
 
@@ -427,29 +427,34 @@ The same goes for latitude/longitude. However, for purposes of querying the data
 Advanced Database Queries
 -------------------------
 
-When querying for objects you can also look within a square rather than a radius (circle) by using the `within_bounding_box` scope:
+*The following apply to ActiveRecord only. For MongoDB, please use the built-in geospatial features.*
 
-    distance = 20
-    center_point = [40.71, 100.23]
-    box = Geocoder::Calculations.bounding_box(center_point, distance)
-    Venue.within_bounding_box(box)
+The default `near` search looks for objects within a circle. To search within a doughnut or ring use the `:min_radius` option:
 
-Note, however, that returned results will not include `distance` and `bearing` attributes. You can also specify a minimum radius (if you're using ActiveRecord and not Sqlite) to constrain the lower bound (ie. think of a donut, or ring) by using the `:min_radius` option:
+    Venue.near("Austin, TX", 200, min_radius: 40)
 
-    box = Geocoder::Calculations.bounding_box(center_point, distance, min_radius: 10.5)
+To search within a rectangle (note that results will *not* include `distance` and `bearing` attributes):
 
-With ActiveRecord, you can specify alternate latitude and longitude column names for a geocoded model (useful if you store multiple sets of coordinates for each object):
+    sw_corner = [40.71, 100.23]
+    ne_corner = [36.12, 88.65]
+    Venue.within_bounding_box(sw_corner, ne_corner)
+
+To search for objects near a certain point where each object has a different distance requirement (which is defined in the database), you can pass a column name for the radius:
+
+    Venue.near([40.71, 99.23], :effective_radius)
+
+If you store multiple sets of coordinates for each object, you can specify latitude and longitude columns to use for a search:
 
     Venue.near("Paris", 50, latitude: :secondary_latitude, longitude: :secondary_longitude)
 
 ### Distance and Bearing
 
-When you run a location-aware query the returned objects have two attributes added to them (only w/ ActiveRecord):
+When you run a geospatial query, the returned objects have two attributes added:
 
 * `obj.distance` - number of miles from the search point to this object
 * `obj.bearing` - direction from the search point to this object
 
-Results are automatically sorted by distance from the search point, closest to farthest. Bearing is given as a number of clockwise degrees from due north, for example:
+Results are automatically sorted by distance from the search point, closest to farthest. Bearing is given as a number of degrees clockwise from due north, for example:
 
 * `0` - due north
 * `180` - due south
@@ -458,21 +463,13 @@ Results are automatically sorted by distance from the search point, closest to f
 * `230.1` - southwest
 * `359.9` - almost due north
 
-You can convert these numbers to compass point names by using the utility method provided:
+You can convert these to compass point names via provided utility method:
 
     Geocoder::Calculations.compass_point(355) # => "N"
     Geocoder::Calculations.compass_point(45)  # => "NE"
     Geocoder::Calculations.compass_point(208) # => "SW"
 
-_Note: when using SQLite `distance` and `bearing` values are provided for interface consistency only. They are not very accurate._
-
-To calculate accurate distance and bearing with SQLite or MongoDB:
-
-    obj.distance_to([43.9,-98.6])  # distance from obj to point
-    obj.bearing_to([43.9,-98.6])   # bearing from obj to point
-    obj.bearing_from(obj2)         # bearing from obj2 to obj
-
-The `bearing_from/to` methods take a single argument which can be: a `[lat,lon]` array, a geocoded object, or a geocodable address (string). The `distance_from/to` methods also take a units argument (`:mi`, `:km`, or `:nm` for nautical miles).
+_Note: when running queries on SQLite, `distance` and `bearing` are provided for consistency only. They are not very accurate._
 
 
 Batch Geocoding
@@ -486,11 +483,11 @@ If you need reverse geocoding instead, call the task with REVERSE=true:
 
     rake geocode:all CLASS=YourModel REVERSE=true
 
-Geocoder will print warnings if you exceed the rate limit for your geocoding service. Some services — Google notably — enforce a per-second limit in addition to a per-day limit. To avoid exceeding the per-second limit, you can add a `SLEEP` option to pause between requests for a given amount of time. You can also load objects in batches to save memory, for example:
+In either case, it won't try to geocode objects that are already geocoded. The task will print warnings if you exceed the rate limit for your geocoding service. Some services enforce a per-second limit in addition to a per-day limit. To avoid exceeding the per-second limit, you can add a `SLEEP` option to pause between requests for a given amount of time. You can also load objects in batches to save memory, for example:
 
     rake geocode:all CLASS=YourModel SLEEP=0.25 BATCH=100
 
-To avoid per-day limit issues (for example if you are trying to geocode thousands of objects and don't want to reach the limit), you can add a `LIMIT` option. Warning: This will ignore the `BATCH` value if provided.
+To avoid exceeding per-day limits you can add a `LIMIT` option. However, this will ignore the `BATCH` value, if provided.
 
     rake geocode:all CLASS=YourModel LIMIT=1000
 
