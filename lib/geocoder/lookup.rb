@@ -39,7 +39,6 @@ module Geocoder
         :mapquest,
         :mapzen,
         :opencagedata,
-        :ovi,
         :pelias,
         :pickpoint,
         :here,

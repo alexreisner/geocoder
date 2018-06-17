@@ -170,17 +170,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: ?
 * **Notes**: You can use the open (non-licensed) API by setting: `Geocoder.configure(mapquest: {open: true})` (defaults to licensed version)
 
-### Ovi/Nokia (`:ovi`)
-
-* **API key**: not required, but performance restricted without it
-* **Quota**: ?
-* **Region**: world
-* **SSL support**: no
-* **Languages**: English
-* **Documentation**: http://api.maps.ovi.com/devguide/overview.html
-* **Terms of Service**: http://www.developer.nokia.com/Develop/Maps/TC.html
-* **Limitations**: ?
-
 ### Here/Nokia (`:here`)
 
 * **API key**: required (set `Geocoder.configure(api_key: [app_id, app_code])`)
