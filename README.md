@@ -1,7 +1,15 @@
-Geocoder: a Ruby gem
-====================
+Geocoder
+========
 
-Geocoder is a complete geocoding solution for Ruby, featuring:
+**A complete geocoding solution for Ruby.**
+
+[![Gem Version](https://badge.fury.io/rb/geocoder.svg)](http://badge.fury.io/rb/geocoder)
+[![Code Climate](https://codeclimate.com/github/alexreisner/geocoder/badges/gpa.svg)](https://codeclimate.com/github/alexreisner/geocoder)
+[![Build Status](https://travis-ci.org/alexreisner/geocoder.svg?branch=master)](https://travis-ci.org/alexreisner/geocoder)
+[![GitHub Issues](https://img.shields.io/github/issues/alexreisner/geocoder.svg)](https://github.com/alexreisner/geocoder/issues)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+Key features:
 
 * Forward and reverse geocoding, and IP address geocoding.
 * Connects to more than 40 APIs worldwide.
@@ -10,9 +18,7 @@ Geocoder is a complete geocoding solution for Ruby, featuring:
 * Integrates with ActiveRecord and Mongoid.
 * Basic geospatial queries: search within radius (or rectangle, or ring).
 
-
-Compatibility
--------------
+Compatibility:
 
 * Supports multiple Ruby versions: Ruby 1.9.3, 2.x, and JRuby.
 * Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
