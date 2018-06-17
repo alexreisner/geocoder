@@ -189,7 +189,7 @@ Note that these methods will usually return `nil` in test and development enviro
 Geocoding Service ("Lookup") Configuration
 ------------------------------------------
 
-Geocoder supports a variety of street and IP address geocoding services. The default lookups are `:google` for street addresses and `:ipinfo_io` for IP addresses. Please see the [API Guide](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md) for details on specific geocoding services (not all settings are supported by all services).
+Geocoder supports a variety of street and IP address geocoding services. The default lookups are `:nominatim` for street addresses and `:ipinfo_io` for IP addresses. Please see the [API Guide](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md) for details on specific geocoding services (not all settings are supported by all services).
 
 To create a Rails initializer with sample configuration:
 
@@ -200,7 +200,7 @@ Some common options are:
     # config/initializers/geocoder.rb
     Geocoder.configure(
 
-      # street address geocoding service (default :google)
+      # street address geocoding service (default :nominatim)
       lookup: :yandex,
 
       # IP address geocoding service (default :ipinfo_io)
@@ -311,8 +311,8 @@ By default the prefix is `geocoder:`
 If you need to expire cached content:
 
     Geocoder::Lookup.get(Geocoder.config[:lookup]).cache.expire(:all)  # expire cached results for current Lookup
-    Geocoder::Lookup.get(:google).cache.expire("http://...")           # expire cached result for a specific URL
-    Geocoder::Lookup.get(:google).cache.expire(:all)                   # expire cached results for Google Lookup
+    Geocoder::Lookup.get(:nominatim).cache.expire("http://...")        # expire cached result for a specific URL
+    Geocoder::Lookup.get(:nominatim).cache.expire(:all)                # expire cached results for Google Lookup
     # expire all cached results for all Lookups.
     # Be aware that this methods spawns a new Lookup object for each Service
     Geocoder::Lookup.all_services.each{|service| Geocoder::Lookup.get(service).cache.expire(:all)}
@@ -351,7 +351,7 @@ Supported parameters: `:lookup`, `:ip_lookup`, `:language`, and `:params`. You c
       elsif country_code == "CN"
         :baidu
       else
-        :google
+        :nominatim
       end
     end
 
@@ -578,7 +578,7 @@ When you install the Geocoder gem it adds a `geocode` command to your shell. You
     State/province:   Louisiana
     Postal code:      70112
     Country:          United States
-    Google map:       http://maps.google.com/maps?q=29.952211,-90.080563
+    Map:              http://maps.google.com/maps?q=29.952211,-90.080563
 
 There are also a number of options for setting the geocoding API, key, and language, viewing the raw JSON response, and more. Please run `geocode -h` for details.
 
@@ -640,13 +640,13 @@ For the most part, the speed of geocoding requests has little to do with the Geo
 
 Take a look at the server's raw response. You can do this by getting the request URL in an app console:
 
-    Geocoder::Lookup.get(:google).query_url(Geocoder::Query.new("..."))
+    Geocoder::Lookup.get(:nominatim).query_url(Geocoder::Query.new("..."))
 
-Replace `:google` with the lookup you are using and replace `...` with the address you are trying to geocode. Then visit the returned URL in your web browser. Often the API will return an error message that helps you resolve the problem. If, after reading the raw response, you believe there is a problem with Geocoder, please post an issue and include both the URL and raw response body.
+Replace `:nominatim` with the lookup you are using and replace `...` with the address you are trying to geocode. Then visit the returned URL in your web browser. Often the API will return an error message that helps you resolve the problem. If, after reading the raw response, you believe there is a problem with Geocoder, please post an issue and include both the URL and raw response body.
 
 You can also fetch the response in the console:
 
-    Geocoder::Lookup.get(:google).send(:fetch_raw_data, Geocoder::Query.new("..."))
+    Geocoder::Lookup.get(:nominatim).send(:fetch_raw_data, Geocoder::Query.new("..."))
 
 
 Known Issues

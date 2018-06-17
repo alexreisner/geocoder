@@ -3,6 +3,10 @@ require 'test_helper'
 
 class GoogleTest < GeocoderTestCase
 
+  def setup
+    Geocoder.configure(lookup: :google)
+  end
+
   def test_google_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Manhattan",
