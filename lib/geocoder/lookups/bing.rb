@@ -23,17 +23,17 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_url(query)
+      text = URI.escape(query.sanitized_text.strip)
       url = "#{protocol}://dev.virtualearth.net/REST/v1/Locations/"
-
-      if !query.reverse_geocode?
+      if query.reverse_geocode?
+        url + "#{text}?"
+      else
         if r = query.options[:region]
           url << "#{r}/"
         end
         # use the more forgiving 'unstructured' query format to allow special
         # chars, newlines, brackets, typos.
-        url + "?q=" + URI.escape(query.sanitized_text.strip) + "&"
-      else
-        url + "#{URI.escape(query.sanitized_text.strip)}?"
+        url + "?q=#{text}&"
       end
     end
 
