@@ -30,25 +30,18 @@ module Geocoder::Lookup
     def results(query)
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query.text)] if query.loopback_ip_address?
-      if (doc = fetch_data(query)).nil? or doc['code'] == 401 or empty_result?(doc)
+
+      if !(doc = fetch_data(query)).is_a?(Hash) or doc['error']
         []
       else
         [doc]
       end
     end
 
-    def empty_result?(doc)
-      !doc.is_a?(Hash) or doc.keys == ["ip"]
-    end
-
     def reserved_result(ip)
       {
-        "ip"           => ip,
-        "city"         => "",
-        "region"       => "",
-        "country"      => "",
-        "loc"          => "0,0",
-        "postal"       => ""
+        "ip" => ip,
+        "bogon" => true
       }
     end
 

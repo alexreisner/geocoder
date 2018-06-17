@@ -16,10 +16,10 @@ class IpinfoIoTest < GeocoderTestCase
   end
 
   def test_ipinfo_io_lookup_loopback_address
-    Geocoder.configure(:ip_lookup => :ipinfo_io, :use_https => true)
+    Geocoder.configure(:ip_lookup => :ipinfo_io)
     result = Geocoder.search("127.0.0.1").first
-    assert_equal 0.0, result.longitude
-    assert_equal 0.0, result.latitude
+    assert_nil result.latitude
+    assert_nil result.longitude
     assert_equal "127.0.0.1", result.ip
   end
 
