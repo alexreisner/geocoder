@@ -318,14 +318,6 @@ module Geocoder
       end
     end
 
-    require 'geocoder/lookups/okf'
-    class Okf
-      private
-      def default_fixture_filename
-        "okf_kirstinmaki"
-      end
-    end
-
     require 'geocoder/lookups/postcode_anywhere_uk'
     class PostcodeAnywhereUk
       private

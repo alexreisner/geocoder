@@ -45,7 +45,6 @@ module Geocoder
         :baidu,
         :geocodio,
         :smarty_streets,
-        :okf,
         :postcode_anywhere_uk,
         :postcodes_io,
         :geoportail_lu,

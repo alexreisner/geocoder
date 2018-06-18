@@ -19,7 +19,7 @@ class ErrorHandlingTest < GeocoderTestCase
 
   def test_always_raise_response_parse_error
     Geocoder.configure(:always_raise => [Geocoder::ResponseParseError])
-    [:freegeoip, :google, :ipdata_co, :okf].each do |l|
+    [:freegeoip, :google, :ipdata_co].each do |l|
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
       assert_raises Geocoder::ResponseParseError do
@@ -29,7 +29,7 @@ class ErrorHandlingTest < GeocoderTestCase
   end
 
   def test_never_raise_response_parse_error
-    [:freegeoip, :google, :ipdata_co, :okf].each do |l|
+    [:freegeoip, :google, :ipdata_co].each do |l|
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
       silence_warnings do
