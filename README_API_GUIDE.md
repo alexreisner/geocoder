@@ -117,7 +117,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 
 * **API key**: optional, but without it lookup is territorially limited
 * **Quota**: 25000 requests / day
-* **Region**: world with API key. Otherwise restricted to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
+* **Region**: world with API key, else restricted to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
 * **SSL support**: HTTPS only
 * **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
 * **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
@@ -247,7 +247,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 
 * **API key**: required
 * **Quota**: 2,500 free requests/day then purchase $0.0005 for each, also has volume pricing and plans.
-* **Region**: USA & Canada
+* **Region**: US & Canada
 * **SSL support**: yes
 * **Languages**: en
 * **Documentation**: https://geocod.io/docs/
@@ -281,7 +281,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 
 * **API key**: none
 * **Quota**: none
-* **Region**: LU
+* **Region**: Luxembourg
 * **SSL support**: yes
 * **Languages**: en
 * **Documentation**: http://wiki.geoportail.lu/doku.php?id=en:api
@@ -326,7 +326,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 
 * **API key**: none
 * **Quota**: none
-* **Region**: FR
+* **Region**: France
 * **SSL support**: yes
 * **Languages**: en / fr
 * **Documentation**: https://adresse.data.gouv.fr/api/ (in french)
