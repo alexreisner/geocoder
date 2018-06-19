@@ -105,12 +105,12 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 ### OpenCageData (`:opencagedata`)
 
 * **API key**: required
-* **Key signup**: http://geocoder.opencagedata.com
-* **Quota**: 2500 requests / day, then [ability to purchase more](https://geocoder.opencagedata.com/pricing)
+* **Key signup**: https://opencagedata.com
+* **Quota**: 2500 requests / day, then [ability to purchase more](https://opencagedata.com/pricing)
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: worldwide
-* **Documentation**: http://geocoder.opencagedata.com/api.html
+* **Documentation**: https://opencagedata.com/api
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
 ### Yandex (`:yandex`)
