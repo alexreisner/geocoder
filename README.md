@@ -42,6 +42,7 @@ Advanced Features:
 * [Performance and Optimization](#performance-and-optimization)
 * [Advanced Model Configuration](#advanced-model-configuration)
 * [Advanced Database Queries](#advanced-database-queries)
+* [Geospatial Calculations](#geospatial-calculations)
 * [Batch Geocoding](#batch-geocoding)
 * [Testing](#testing)
 * [Error Handling](#error-handing)
@@ -159,10 +160,6 @@ To find objects by location, use the following scopes:
     Venue.geocoded                                # venues with coordinates
     Venue.not_geocoded                            # venues without coordinates
 
-by default, objects are ordered by distance. To remove the ORDER BY clause use the following:
-
-    Venue.near('Omaha', 20, order: false)
-
 With geocoded objects you can do things like this:
 
     if obj.geocoded?
@@ -170,22 +167,6 @@ With geocoded objects you can do things like this:
       obj.distance_from([40.714,-100.234])  # distance from arbitrary point to object
       obj.bearing_to("Paris, France")       # direction from object to arbitrary point
     end
-
-Some utility methods are also available:
-
-    # look up coordinates of some location
-    Geocoder.coordinates("25 Main St, Cooperstown, NY")
-     => [42.700149, -74.922767]
-
-    # distance between Eiffel Tower and Empire State Building
-    Geocoder::Calculations.distance_between([47.858205,2.294359], [40.748433,-73.985655])
-     => 3619.77359999382 # in configured units (default miles)
-
-    # find the geographic center (aka center of gravity) of objects or points
-    Geocoder::Calculations.geographic_center([city1, city2, [40.22,-73.99], city4])
-     => [35.14968, -90.048929]
-
-Please see the code for more methods and detailed information about arguments (eg, working with kilometers).
 
 ### For MongoDB-backed models:
 
@@ -469,13 +450,31 @@ Results are automatically sorted by distance from the search point, closest to f
 * `230.1` - southwest
 * `359.9` - almost due north
 
-You can convert these to compass point names via provided utility method:
+You can convert these to compass point names via provided method:
 
     Geocoder::Calculations.compass_point(355) # => "N"
     Geocoder::Calculations.compass_point(45)  # => "NE"
     Geocoder::Calculations.compass_point(208) # => "SW"
 
 _Note: when running queries on SQLite, `distance` and `bearing` are provided for consistency only. They are not very accurate._
+
+For more advanced geospatial querying, please see the [rgeo gem](https://github.com/rgeo/rgeo).
+
+
+Geospatial Calculations
+-----------------------
+
+The `Geocoder::Calculations` module contains some useful methods:
+
+    # find the distance between two arbitrary points
+    Geocoder::Calculations.distance_between([47.858205,2.294359], [40.748433,-73.985655])
+     => 3619.77359999382 # in configured units (default miles)
+
+    # find the geographic center (aka center of gravity) of objects or points
+    Geocoder::Calculations.geographic_center([city1, city2, [40.22,-73.99], city4])
+     => [35.14968, -90.048929]
+
+See [the code](https://github.com/alexreisner/geocoder/blob/master/lib/geocoder/calculations.rb) for more!
 
 
 Batch Geocoding
