@@ -52,11 +52,11 @@ module Geocoder::Lookup
         raise_error(Geocoder::OverQueryLimitError) ||
           Geocoder.log(:warn, "#{name} API error: over query limit.")
       when "REQUEST_DENIED"
-        raise_error(Geocoder::RequestDenied) ||
-          Geocoder.log(:warn, "#{name} API error: request denied.")
+        raise_error(Geocoder::RequestDenied, doc['error_message']) ||
+          Geocoder.log(:warn, "#{name} API error: request denied, google returned '#{doc['error_message']}'.")
       when "INVALID_REQUEST"
-        raise_error(Geocoder::InvalidRequest) ||
-          Geocoder.log(:warn, "#{name} API error: invalid request.")
+        raise_error(Geocoder::InvalidRequest, doc['error_message']) ||
+          Geocoder.log(:warn, "#{name} API error: invalid request, google returned '#{doc['error_message']}'.")
       end
       return []
     end
