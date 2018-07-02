@@ -2,58 +2,80 @@ require 'geocoder/results/base'
 
 module Geocoder::Result
   class Yandex < Base
+    ADDRESS_DETAILS = %w[
+      GeoObject metaDataProperty GeocoderMetaData
+      AddressDetails
+    ].freeze
+
+    COUNTRY_LEVEL = %w[
+      GeoObject metaDataProperty GeocoderMetaData
+      AddressDetails Country
+    ].freeze
+
+    ADMIN_LEVEL = %w[
+      GeoObject metaDataProperty GeocoderMetaData
+      AddressDetails Country
+      AdministrativeArea
+    ].freeze
+
+    SUBADMIN_LEVEL = %w[
+      GeoObject metaDataProperty GeocoderMetaData
+      AddressDetails Country
+      AdministrativeArea
+      SubAdministrativeArea
+    ].freeze
+
+    DEPENDENT_LOCALITY_1 = %w[
+      GeoObject metaDataProperty GeocoderMetaData
+      AddressDetails Country
+      AdministrativeArea Locality
+      DependentLocality
+    ].freeze
+
+    DEPENDENT_LOCALITY_2 = %w[
+      GeoObject metaDataProperty GeocoderMetaData
+      AddressDetails Country
+      AdministrativeArea
+      SubAdministrativeArea Locality
+      DependentLocality
+    ].freeze
 
     def coordinates
       @data['GeoObject']['Point']['pos'].split(' ').reverse.map(&:to_f)
     end
 
-    def address(format = :full)
+    def address(_format = :full)
       @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['text']
     end
 
     def city
-      if state.empty? and address_details and address_details.has_key? 'Locality'
-        address_details['Locality']['LocalityName']
-      elsif sub_state.empty? and address_details and address_details.has_key? 'AdministrativeArea' and
-          address_details['AdministrativeArea'].has_key? 'Locality'
-        address_details['AdministrativeArea']['Locality']['LocalityName']
-      elsif not sub_state_city.empty?
-        sub_state_city
-      else
-        ""
-      end
+      result =
+        if state.empty?
+          dig_data(@data, *COUNTRY_LEVEL, 'Locality', 'LocalityName')
+        elsif sub_state.empty?
+          dig_data(@data, *ADMIN_LEVEL, 'Locality', 'LocalityName')
+        else
+          dig_data(@data, *SUBADMIN_LEVEL, 'Locality', 'LocalityName')
+        end
+
+      result || ""
     end
 
     def country
-      if address_details
-        address_details['CountryName']
-      else
-        ""
-      end
+      dig_data(@data, *COUNTRY_LEVEL, 'CountryName') || ""
     end
 
     def country_code
-      if address_details
-        address_details['CountryNameCode']
-      else
-        ""
-      end
+      dig_data(@data, *COUNTRY_LEVEL, 'CountryNameCode') || ""
     end
 
     def state
-      if address_details and address_details['AdministrativeArea']
-        address_details['AdministrativeArea']['AdministrativeAreaName']
-      else
-        ""
-      end
+      dig_data(@data, *ADMIN_LEVEL, 'AdministrativeAreaName') || ""
     end
 
     def sub_state
-      if !state.empty? and address_details and address_details['AdministrativeArea']['SubAdministrativeArea']
-        address_details['AdministrativeArea']['SubAdministrativeArea']['SubAdministrativeAreaName']
-      else
-        ""
-      end
+      return "" if state.empty?
+      dig_data(@data, *SUBADMIN_LEVEL, 'SubAdministrativeAreaName') || ""
     end
 
     def state_code
@@ -61,27 +83,20 @@ module Geocoder::Result
     end
 
     def street
-      if thoroughfare_data
-        thoroughfare_data['ThoroughfareName']
-      else
-        ""
-      end
+      thoroughfare_data.is_a?(Hash) ? thoroughfare_data['ThoroughfareName'] : ""
     end
 
     def street_number
-      if premise
-        premise['PremiseNumber']
-      else
-        ""
-      end
+      premise.is_a?(Hash) ? premise.fetch('PremiseNumber', "") : ""
+    end
+
+    def premise_name
+      premise.is_a?(Hash) ? premise.fetch('PremiseName', "") : ""
     end
 
     def postal_code
-      if premise && premise['PostalCode']
-        premise['PostalCode']['PostalCodeNumber']
-      else
-        ""
-      end
+      return "" unless premise.is_a?(Hash)
+      dig_data(premise, 'PostalCode', 'PostalCodeNumber') || ""
     end
 
     def kind
@@ -101,46 +116,49 @@ module Geocoder::Result
 
     private # ----------------------------------------------------------------
 
-    def premise
-      thoroughfare_data && thoroughfare_data['Premise']
+    def top_level_locality
+      dig_data(@data, *ADDRESS_DETAILS, 'Locality')
     end
 
-    def thoroughfare_data
-      locality_data && locality_data['Thoroughfare']
-    end
-
-    def locality_data
-      dependent_locality || subadmin_locality || admin_locality
+    def country_level_locality
+      dig_data(@data, *COUNTRY_LEVEL, 'Locality')
     end
 
     def admin_locality
-      address_details && address_details['AdministrativeArea'] &&
-        address_details['AdministrativeArea']['Locality']
+      dig_data(@data, *ADMIN_LEVEL, 'Locality')
     end
 
     def subadmin_locality
-      address_details && address_details['AdministrativeArea'] &&
-        address_details['AdministrativeArea']['SubAdministrativeArea'] &&
-        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']
+      dig_data(@data, *SUBADMIN_LEVEL, 'Locality')
     end
 
     def dependent_locality
-      address_details && address_details['AdministrativeArea'] &&
-        address_details['AdministrativeArea']['SubAdministrativeArea'] &&
-        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality'] &&
-        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['DependentLocality']
+      dig_data(@data, *DEPENDENT_LOCALITY_1) ||
+        dig_data(@data, *DEPENDENT_LOCALITY_2)
     end
 
-    def address_details
-      @data['GeoObject']['metaDataProperty']['GeocoderMetaData']['AddressDetails']['Country']
+    def locality_data
+      dependent_locality || subadmin_locality || admin_locality ||
+        country_level_locality || top_level_locality
     end
 
-    def sub_state_city
-      if !sub_state.empty? and address_details and address_details['AdministrativeArea']['SubAdministrativeArea'].has_key? 'Locality'
-        address_details['AdministrativeArea']['SubAdministrativeArea']['Locality']['LocalityName'] || ""
-      else
-        ""
+    def thoroughfare_data
+      locality_data['Thoroughfare'] if locality_data.is_a?(Hash)
+    end
+
+    def premise
+      if thoroughfare_data.is_a?(Hash)
+        thoroughfare_data['Premise']
+      elsif locality_data.is_a?(Hash)
+        locality_data['Premise']
       end
+    end
+
+    def dig_data(source, *keys)
+      key = keys.shift
+      result = source.fetch(key, nil)
+      return result unless result.is_a?(Hash)
+      keys.any? ? dig_data(result, *keys) : result
     end
   end
 end
