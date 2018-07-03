@@ -424,7 +424,7 @@ To search within a rectangle (note that results will *not* include `distance` an
 
     sw_corner = [40.71, 100.23]
     ne_corner = [36.12, 88.65]
-    Venue.within_bounding_box(sw_corner, ne_corner)
+    Venue.within_bounding_box([sw_corner, ne_corner])
 
 To search for objects near a certain point where each object has a different distance requirement (which is defined in the database), you can pass a column name for the radius:
 
