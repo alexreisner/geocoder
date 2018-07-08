@@ -524,7 +524,8 @@ With the above stub defined, any query for "New York, NY" will return the result
     Geocoder::Lookup::Test.set_default_stub(
       [
         {
-          'coordinates'  => [40.7143528, -74.0059731],
+          'latitude'     => 40.7143528, 
+          'longitude'    => -74.0059731,
           'address'      => 'New York, NY, USA',
           'state'        => 'New York',
           'state_code'   => 'NY',
