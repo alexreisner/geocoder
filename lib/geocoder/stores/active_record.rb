@@ -166,8 +166,6 @@ module Geocoder::Store
         }
       end
 
-      private # ----------------------------------------------------------------
-
       ##
       # SQL for calculating distance based on the current database's
       # capabilities (trig functions?).
