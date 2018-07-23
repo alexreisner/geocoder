@@ -183,7 +183,7 @@ Geocoder adds `location` and `safe_location` methods to the standard `Rack::Requ
 
 **The `location` method is vulnerable to trivial IP address spoofing via HTTP headers.**  If that's a problem for your application, use `safe_location` instead, but be aware that `safe_location` will *not* try to trace a request's originating IP through proxy headers; you will instead get the location of the last proxy the request passed through, if any (excepting any proxies you have explicitly whitelisted in your Rack config).
 
-Note that these methods will usually return `nil` in test and development environments because things like "localhost" and "0.0.0.0" are not geocodable IP addresses.
+Note that these methods will usually return `nil` in test and development environments because things like "localhost" and "0.0.0.0" are not geocodable IP addresses. Also note that in some cases `request.location` can be `nil`, so be sure to check for its presence before attempting to call methods on it.
 
 
 Geocoding Service ("Lookup") Configuration
