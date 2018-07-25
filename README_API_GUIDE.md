@@ -15,9 +15,9 @@ Street Address Lookups
 
 ### Google (`:google`)
 
-* **API key**: optional, but quota is higher if key is used (use of key requires HTTPS so be sure to set: `use_https: true` in `Geocoder.configure`)
-* **Key signup**: https://console.developers.google.com/flows/enableapi?apiid=geocoding_backend&keyType=SERVER_SIDE
-* **Quota**: 2,500 requests/24 hrs, 5 requests/second
+* **API key**: required
+* **Key signup**: https://developers.google.com/maps/documentation/geocoding/usage-and-billing
+* **Quota**: pay-as-you-go pricing; 50 requests/second
 * **Region**: world
 * **SSL support**: yes (required if key is used)
 * **Languages**: see https://developers.google.com/maps/faq#languagesupport
@@ -33,7 +33,7 @@ Street Address Lookups
 Similar to `:google`, with the following differences:
 
 * **API key**: required, plus client and channel (set `Geocoder.configure(lookup: :google_premier, api_key: [key, client, channel])`)
-* **Key signup**: https://developers.google.com/maps/documentation/business/
+* **Key signup**: https://developers.google.com/maps/premium/
 * **Quota**: 100,000 requests/24 hrs, 10 requests/second
 
 ### Google Places Details (`:google_places_details`)
