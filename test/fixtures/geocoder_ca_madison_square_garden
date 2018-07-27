@@ -1,1 +1,1 @@
-test({"longt":"-73.992006","latt":"40.749101"});
+test({   "standard" : {      "staddress" : "Madison Square Garden",      "stnumber" : "1",      "prov" : "NY",      "city" : "New York",      "confidence" : "0.9"   },   "longt" : "-73.994240",   "latt" : "40.750050"});

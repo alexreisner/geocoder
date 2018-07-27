@@ -128,10 +128,10 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 
 * **API key**: none
 * **Quota**: ?
-* **Region**: US and Canada
+* **Region**: US, Canada, Mexico
 * **SSL support**: no
 * **Languages**: English
-* **Documentation**: ?
+* **Documentation**: https://geocoder.ca/?premium_api=1
 * **Terms of Service**: http://geocoder.ca/?terms=1
 * **Limitations**: "Under no circumstances can our data be re-distributed or re-sold by anyone to other parties without our written permission."
 
