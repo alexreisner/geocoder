@@ -217,6 +217,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ip2location_api'
+    class Ip2locationApi
+      private
+      def default_fixture_filename
+        "ip2location_api_8_8_8_8"
+      end
+    end
+
     require 'geocoder/lookups/ipstack'
     class Ipstack
       private
