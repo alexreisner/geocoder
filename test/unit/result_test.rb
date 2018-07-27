@@ -3,7 +3,16 @@ require 'test_helper'
 
 class ResultTest < GeocoderTestCase
 
-  def test_result_has_required_attributes
+  def test_forward_geocoding_result_has_required_attributes
+    Geocoder::Lookup.all_services_except_test.each do |l|
+      Geocoder.configure(:lookup => l)
+      set_api_key!(l)
+      result = Geocoder.search("Madison Square Garden").first
+      assert_result_has_required_attributes(result)
+    end
+  end
+
+  def test_reverse_geocoding_result_has_required_attributes
     Geocoder::Lookup.all_services_except_test.each do |l|
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
