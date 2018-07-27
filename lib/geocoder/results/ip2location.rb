@@ -1,7 +1,7 @@
 require 'geocoder/results/base'
 
 module Geocoder::Result
-  class Ip2locationApi < Base
+  class Ip2location < Base
 
     def address(format = :full)
       "#{city_name} #{zip_code}, #{country_name}".sub(/^[ ,]*/, '')

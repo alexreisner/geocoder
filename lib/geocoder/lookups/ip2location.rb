@@ -1,8 +1,8 @@
 require 'geocoder/lookups/base'
-require 'geocoder/results/ip2location_api'
+require 'geocoder/results/ip2location'
 
 module Geocoder::Lookup
-  class Ip2locationApi < Base
+  class Ip2location < Base
 
     def name
       "IP2LocationApi"
