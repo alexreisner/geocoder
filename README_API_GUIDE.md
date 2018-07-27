@@ -463,6 +463,17 @@ IP Address Lookups
 * **Terms of Service**: https://ipdata.co/terms.html
 * **Limitations**: ?
 
+### IP2Location Web Service (`:ip2location_api`)
+
+* **API key**: optional, see: https://www.ip2location.com/web-service
+* **Quota**: 20 query/day (up to 100k credits with paid API key)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.ip2location.com/web-service
+* **Terms of Service**: https://www.ip2location.com/web-service
+* **Notes**: To use IP2Location Web Service with API Key set `Geocoder.configure(:ip_lookup => :ip2location_api, :api_key => "IP2LOCATION_WEB_SERVICE_API_KEY")`. Supports the optional param :package with `Geocoder.configure(:ip2location_api => {:package => "WSX"})` (see API documentation for package offered in details).
+
 
 Local IP Address Lookups
 ------------------------
