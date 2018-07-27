@@ -10,26 +10,24 @@ module Geocoder::Lookup
 
     def query_url(query)
       api_key = configuration.api_key ? configuration.api_key : "demo"
-      url_ = "#{protocol}://api.ip2location.com/?ip=#{query.sanitized_text}&key=#{api_key}&format=json"
+      url = "#{protocol}://api.ip2location.com/?ip=#{query.sanitized_text}&key=#{api_key}&format=json"
 
-      if (params = url_query_string(query)) && !params.empty?
-        url_ + "&" + params
-      else
-        url_
+      if (params = url_query_string(query)) and !params.empty?
+        url << "&" + params
       end
+
+      url
     end
 
     def supported_protocols
       [:http, :https]
     end
 
-    private
+    private # ----------------------------------------------------------------
 
     def results(query)
       return [reserved_result(query.text)] if query.loopback_ip_address?
-
       return [] unless doc = fetch_data(query)
-
       if doc["response"] == "INVALID ACCOUNT"
         raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "INVALID ACCOUNT")
         return []
@@ -64,9 +62,11 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      params = {}
-      params.merge!(package: configuration[:package]) if configuration.has_key?(:package)
-      params.merge(super)
+      params = super
+      if configuration.has_key?(:package)
+        params.merge!(package: configuration[:package])
+      end
+      params
     end
 
   end

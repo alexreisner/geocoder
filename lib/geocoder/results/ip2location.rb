@@ -7,85 +7,16 @@ module Geocoder::Result
       "#{city_name} #{zip_code}, #{country_name}".sub(/^[ ,]*/, '')
     end
 
-    def country_code
-      @data['country_code']
+    def self.response_attributes
+      %w[country_code country_name region_name city_name latitude longitude
+        zip_code time_zone isp domain net_speed idd_code area_code usage_type
+        weather_station_code weather_station_name mcc mnc mobile_brand elevation]
     end
 
-    def country_name
-      @data['country_name']
+    response_attributes.each do |attr|
+      define_method attr do
+        @data[attr] || ""
+      end
     end
-
-    def region_name
-      @data['region_name']
-    end
-
-    def city_name
-      @data['city_name']
-    end
-
-    def latitude
-      @data['latitude']
-    end
-
-    def longitude
-      @data['longitude']
-    end
-
-    def zip_code
-      @data['zip_code']
-    end
-
-    def time_zone
-      @data['time_zone']
-    end
-
-    def isp
-      @data['isp']
-    end
-
-    def domain
-      @data['domain']
-    end
-
-    def net_speed
-      @data['net_speed']
-    end
-
-    def idd_code
-      @data['idd_code']
-    end
-
-    def area_code
-      @data['area_code']
-    end
-
-    def weather_station_code
-      @data['weather_station_code']
-    end
-
-    def weather_station_name
-      @data['weather_station_name']
-    end
-
-    def mcc
-      @data['mcc']
-    end
-
-    def mnc
-      @data['mnc']
-    end
-
-    def mobile_brand
-      @data['mobile_brand']
-    end
-
-    def elevation
-      @data['elevation']
-    end
-
-    def usage_type
-      @data['usage_type']
-    end
-
   end
 end
