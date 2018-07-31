@@ -21,6 +21,16 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def cache_key(query)
+      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(cache_key_params(query))
+    end
+
+    def cache_key_params(query)
+      query_url_google_params(query).merge(super).reject do |k,v|
+        [:key, :client, :channel].include?(k)
+      end
+    end
+
     def query_url_params(query)
       query_url_google_params(query).merge(super).merge(
         :key => nil, # don't use param inherited from Google lookup

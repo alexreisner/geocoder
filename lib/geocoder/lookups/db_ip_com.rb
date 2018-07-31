@@ -16,15 +16,18 @@ module Geocoder::Lookup
       ['api_key']
     end
 
-    def query_url(query)
-      query_params = if query.options[:params]
-        "?#{url_query_string(query)}"
-      end
+    private # ----------------------------------------------------------------
 
-      "#{protocol}://api.db-ip.com/v2/#{configuration.api_key}/#{query.sanitized_text}#{query_params}"
+    def base_query_url(query)
+      "#{protocol}://api.db-ip.com/v2/#{configuration.api_key}/#{query.sanitized_text}?"
     end
 
-    private
+    ##
+    # Same as query_url but without the api key.
+    #
+    def cache_key(query)
+      "#{protocol}://api.db-ip.com/v2/#{query.sanitized_text}?" + hash_to_query(cache_key_params(query))
+    end
 
     def results(query)
       return [] unless (doc = fetch_data(query))

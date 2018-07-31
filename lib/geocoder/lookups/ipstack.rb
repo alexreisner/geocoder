@@ -21,14 +21,17 @@ module Geocoder::Lookup
       "Ipstack"
     end
 
-    def query_url(query)
-      extra_params = url_query_string(query)
-      url = "#{protocol}://#{host}/#{query.sanitized_text}?access_key=#{api_key}"
-      url << "&#{extra_params}" unless extra_params.empty?
-      url
+    private # ----------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://#{host}/#{query.sanitized_text}?"
     end
 
-    private
+    def query_url_params(query)
+      {
+        access_key: configuration.api_key
+      }.merge(super)
+    end
 
     def results(query)
       # don't look up a loopback address, just return the stored result
@@ -55,10 +58,6 @@ module Geocoder::Lookup
 
     def host
       configuration[:host] || "api.ipstack.com"
-    end
-
-    def api_key
-      configuration.api_key
     end
   end
 end

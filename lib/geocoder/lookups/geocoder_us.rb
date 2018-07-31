@@ -8,19 +8,27 @@ module Geocoder::Lookup
       "Geocoder.us"
     end
 
-      def supported_protocols
-        [:http]
-      end
-
-    def query_url(query)
-      if configuration.api_key
-        "#{protocol}://#{configuration.api_key}@geocoder.us/member/service/csv/geocode?" + url_query_string(query)
-      else
-        "#{protocol}://geocoder.us/service/csv/geocode?" + url_query_string(query)
-      end
+    def supported_protocols
+      [:http]
     end
 
-    private
+    private # ----------------------------------------------------------------
+
+    def base_query_url(query)
+      base_query_url_with_optional_key(configuration.api_key)
+    end
+
+    def cache_key(query)
+      base_query_url_with_optional_key(nil) + url_query_string(query)
+    end
+
+    def base_query_url_with_optional_key(key = nil)
+      base = "#{protocol}://"
+      if configuration.api_key
+        base << "#{configuration.api_key}@"
+      end
+      base + "geocoder.us/member/service/csv/geocode?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)

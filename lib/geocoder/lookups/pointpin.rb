@@ -16,7 +16,11 @@ module Geocoder::Lookup
       "#{protocol}://geo.pointp.in/#{configuration.api_key}/json/#{query.sanitized_text}"
     end
 
-  private
+    private # ----------------------------------------------------------------
+
+    def cache_key(query)
+      "#{protocol}://geo.pointp.in/json/#{query.sanitized_text}"
+    end
 
     def results(query)
       # don't look up a loopback address, just return the stored result

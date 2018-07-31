@@ -8,11 +8,11 @@ module Geocoder::Lookup
       "Baidu IP"
     end
 
-    def query_url(query)
-      "#{protocol}://api.map.baidu.com/location/ip?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://api.map.baidu.com/location/ip?"
+    end
 
     def content_key
       'content'

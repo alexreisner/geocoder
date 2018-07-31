@@ -13,13 +13,12 @@ module Geocoder::Lookup
       ["key"]
     end
 
-    def query_url(query)
-      domain = configuration[:open] ? "open" : "www"
-      url = "#{protocol}://#{domain}.mapquestapi.com/geocoding/v1/#{search_type(query)}?"
-      url + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      domain = configuration[:open] ? "open" : "www"
+      "#{protocol}://#{domain}.mapquestapi.com/geocoding/v1/#{search_type(query)}?"
+    end
 
     def search_type(query)
       query.reverse_geocode? ? "reverse" : "address"

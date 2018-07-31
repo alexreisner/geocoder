@@ -12,9 +12,11 @@ module Geocoder::Lookup
       "Data Science Toolkit"
     end
 
-    def query_url(query)
+    private # ----------------------------------------------------------------
+
+    def base_query_url(query)
       host = configuration[:host] || "www.datasciencetoolkit.org"
-      "#{protocol}://#{host}/maps/api/geocode/json?" + url_query_string(query)
+      "#{protocol}://#{host}/maps/api/geocode/json?"
     end
   end
 end

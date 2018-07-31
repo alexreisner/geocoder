@@ -8,11 +8,6 @@ module Geocoder::Lookup
       "Geocodio"
     end
 
-    def query_url(query)
-      path = query.reverse_geocode? ? "reverse" : "geocode"
-      "#{protocol}://api.geocod.io/v1.3/#{path}?#{url_query_string(query)}"
-    end
-
     def results(query)
       return [] unless doc = fetch_data(query)
       return doc["results"] if doc['error'].nil?
@@ -31,6 +26,11 @@ module Geocoder::Lookup
     end
 
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      path = query.reverse_geocode? ? "reverse" : "geocode"
+      "#{protocol}://api.geocod.io/v1.3/#{path}?"
+    end
 
     def query_url_params(query)
       {

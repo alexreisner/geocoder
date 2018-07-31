@@ -15,12 +15,18 @@ module Geocoder::Lookup
       ["api_key"]
     end
 
-    def query_url(query)
+    private # ----------------------------------------------------------------
+
+    def base_query_url(query)
       method = query.reverse_geocode? ? "reverse" : "forward"
-      "#{protocol}://api.pickpoint.io/v1/#{method}?key=#{configuration.api_key}&" + url_query_string(query)
+      "#{protocol}://api.pickpoint.io/v1/#{method}?"
     end
 
-    private
+    def query_url_params(query)
+      params = {
+        key: configuration.api_key
+      }.merge(super)
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)

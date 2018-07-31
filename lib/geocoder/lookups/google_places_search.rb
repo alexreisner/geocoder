@@ -16,11 +16,11 @@ module Geocoder
         [:https]
       end
 
-      def query_url(query)
-        "#{protocol}://maps.googleapis.com/maps/api/place/textsearch/json?#{url_query_string(query)}"
-      end
-
       private
+
+      def base_query_url(query)
+        "#{protocol}://maps.googleapis.com/maps/api/place/textsearch/json?"
+      end
 
       def query_url_google_params(query)
         {

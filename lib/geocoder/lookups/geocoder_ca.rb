@@ -8,11 +8,11 @@ module Geocoder::Lookup
       "Geocoder.ca"
     end
 
-    def query_url(query)
-      "#{protocol}://geocoder.ca/?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://geocoder.ca/?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)

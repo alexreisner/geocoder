@@ -12,11 +12,11 @@ module Geocoder::Lookup
       ["app_id", "app_code"]
     end
 
-    def query_url(query)
-      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.api.here.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.api.here.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)

@@ -12,7 +12,7 @@ class LocationIq < NominatimTest
   def test_url_contains_api_key
     Geocoder.configure(location_iq: {api_key: "abc123"})
     query = Geocoder::Query.new("Leadville, CO")
-    assert_equal "http://locationiq.org/v1/search.php?key=abc123&accept-language=en&addressdetails=1&format=json&q=Leadville%2C+CO", query.url
+    assert_match /key=abc123/, query.url
   end
 
   def test_raises_exception_with_invalid_api_key

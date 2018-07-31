@@ -23,6 +23,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def cache_key(query)
+      query_url(query)
+    end
+
     def parse_raw_data(raw_data)
       raw_data.match(/^<html><title>404/) ? nil : super(raw_data)
     end

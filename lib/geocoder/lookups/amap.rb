@@ -12,12 +12,16 @@ module Geocoder::Lookup
       ["key"]
     end
 
-    def query_url(query)
-      path = query.reverse_geocode? ? 'regeo' : 'geo'
-      "http://restapi.amap.com/v3/geocode/#{path}?" + url_query_string(query)
+    def supported_protocols
+      [:http]
     end
 
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      path = query.reverse_geocode? ? 'regeo' : 'geo'
+      "http://restapi.amap.com/v3/geocode/#{path}?"
+    end
 
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query)

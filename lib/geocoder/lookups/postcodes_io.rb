@@ -8,15 +8,18 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      str = query.sanitized_text.gsub(/\s/, '')
-      format('%s://%s/%s', protocol, 'api.postcodes.io/postcodes', str)
+      "#{protocol}://api.postcodes.io/postcodes/#{query.sanitized_text.gsub(/\s/, '')}"
     end
 
     def supported_protocols
       [:https]
     end
 
-    private
+    private # ----------------------------------------------------------------
+
+    def cache_key(query)
+      query_url(query)
+    end
 
     def results(query)
       response = fetch_data(query)

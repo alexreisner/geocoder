@@ -18,6 +18,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def cache_key(query)
+      query_url(query)
+    end
+
     def results(query)
       Geocoder.configure(:ipdata_co => {:http_headers => { "api-key" => configuration.api_key }}) if configuration.api_key
       # don't look up a loopback address, just return the stored result

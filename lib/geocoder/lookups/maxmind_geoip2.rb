@@ -20,6 +20,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def cache_key(query)
+      query_url(query)
+    end
+
     ##
     # Return the name of the configured service, or raise an exception.
     #

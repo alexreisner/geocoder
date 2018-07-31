@@ -29,6 +29,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def cache_key(query)
+      query_url(query)[/(.*)\?.*/, 1]
+    end
+
     def results(query)
       # don't look up a loopback address, just return the stored result
       return [reserved_result(query.text)] if query.loopback_ip_address?

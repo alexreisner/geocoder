@@ -62,4 +62,14 @@ class TelizeTest < GeocoderTestCase
     results = Geocoder.search("555.555.555.555", ip_address: true)
     assert_equal 0, results.length
   end
+
+  def test_cache_key_strips_off_query_string
+    Geocoder.configure(telize: {api_key: "xxxxx"})
+    lookup = Geocoder::Lookup.get(:telize)
+    query = Geocoder::Query.new("10.10.10.10")
+    qurl = lookup.send(:query_url, query)
+    key = lookup.send(:cache_key, query)
+    assert qurl.include?("mashape-key")
+    assert !key.include?("mashape-key")
+  end
 end

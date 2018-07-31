@@ -71,8 +71,12 @@ module Geocoder
       ##
       # URL to use for querying the geocoding engine.
       #
+      # Subclasses should not modify this method. Instead they should define
+      # base_query_url and url_query_string. If absolutely necessary to
+      # subclss this method, they must also subclass #cache_key.
+      #
       def query_url(query)
-        fail
+        base_query_url(query) + url_query_string(query)
       end
 
       ##
@@ -95,6 +99,14 @@ module Geocoder
       end
 
       private # -------------------------------------------------------------
+
+      ##
+      # String which, when concatenated with url_query_string(query)
+      # produces the full query URL. Should include the "?" a the end.
+      #
+      def base_query_url(query)
+        fail
+      end
 
       ##
       # An object with configuration data for this particular lookup.
@@ -146,7 +158,14 @@ module Geocoder
       # something else (like the URL before OAuth encoding).
       #
       def cache_key(query)
-        query_url(query)
+        base_query_url(query) + hash_to_query(cache_key_params(query))
+      end
+
+      def cache_key_params(query)
+        # omit api_key and token because they may vary among requests
+        query_url_params(query).reject do |key,value|
+          key.to_s.match /(key|token)/
+        end
       end
 
       ##

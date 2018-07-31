@@ -9,11 +9,11 @@ module Geocoder::Lookup
       "MaxMind"
     end
 
-    def query_url(query)
-      "#{protocol}://geoip.maxmind.com/#{service_code}?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://geoip.maxmind.com/#{service_code}?"
+    end
 
     ##
     # Return the name of the configured service, or raise an exception.

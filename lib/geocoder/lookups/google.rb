@@ -21,11 +21,11 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query)
-      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?"
+    end
 
     def configure_ssl!(client)
       client.instance_eval {

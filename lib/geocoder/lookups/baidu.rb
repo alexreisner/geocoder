@@ -12,16 +12,16 @@ module Geocoder::Lookup
       ["key"]
     end
 
-    def query_url(query)
-      "#{protocol}://api.map.baidu.com/geocoder/v2/?" + url_query_string(query)
-    end
-
     # HTTP only
     def supported_protocols
       [:http]
     end
 
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://api.map.baidu.com/geocoder/v2/?"
+    end
 
     def content_key
       'result'

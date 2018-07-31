@@ -10,13 +10,19 @@ module Geocoder::Lookup
     def required_api_key_parts
       ["api_key"]
     end
-    
-    def query_url(query)
+
+    private # ----------------------------------------------------------------
+
+    def base_query_url(query)
       method = query.reverse_geocode? ? "reverse" : "search"
-      "#{protocol}://#{configured_host}/v1/#{method}.php?key=#{configuration.api_key}&" + url_query_string(query)
+      "#{protocol}://#{configured_host}/v1/#{method}.php?"
     end
 
-    private
+    def query_url_params(query)
+      {
+        key: configuration.api_key
+      }.merge(super)
+    end
 
     def configured_host
       configuration[:host] || "locationiq.org"

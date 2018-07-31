@@ -11,20 +11,20 @@ module Geocoder::Lookup
       %w(auti-id auth-token)
     end
 
-    def query_url(query)
-      if zipcode_only?(query)
-        "#{protocol}://us-zipcode.api.smartystreets.com/lookup?#{url_query_string(query)}"
-      else
-        "#{protocol}://us-street.api.smartystreets.com/street-address?#{url_query_string(query)}"
-      end
-    end
-
     # required by API as of 26 March 2015
     def supported_protocols
       [:https]
     end
 
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      if zipcode_only?(query)
+        "#{protocol}://us-zipcode.api.smartystreets.com/lookup?"
+      else
+        "#{protocol}://us-street.api.smartystreets.com/street-address?"
+      end
+    end
 
     def zipcode_only?(query)
       !query.text.is_a?(Array) and query.to_s.strip =~ /\A\d{5}(-\d{4})?\Z/

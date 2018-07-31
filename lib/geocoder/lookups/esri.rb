@@ -4,13 +4,9 @@ require 'geocoder/esri_token'
 
 module Geocoder::Lookup
   class Esri < Base
-    
+
     def name
       "Esri"
-    end
-
-    def query_url(query)
-      base_query_url(query) + url_query_string(query)
     end
 
     private # ---------------------------------------------------------------
@@ -31,17 +27,6 @@ module Geocoder::Lookup
         return [ doc ]
       else
         return []
-      end
-    end
-
-    def cache_key(query)
-      base_query_url(query) + hash_to_query(cache_key_params(query))
-    end
-
-    def cache_key_params(query)
-      # omit api_key and token because they may vary among requests
-      query_url_params(query).reject do |key,value|
-        [:api_key, :token].include?(key)
       end
     end
 

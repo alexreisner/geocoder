@@ -8,22 +8,23 @@ module Geocoder::Lookup
       "IP2LocationApi"
     end
 
-    def query_url(query)
-      api_key = configuration.api_key ? configuration.api_key : "demo"
-      url = "#{protocol}://api.ip2location.com/?ip=#{query.sanitized_text}&key=#{api_key}&format=json"
-
-      if (params = url_query_string(query)) and !params.empty?
-        url << "&" + params
-      end
-
-      url
-    end
-
     def supported_protocols
       [:http, :https]
     end
 
     private # ----------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://api.ip2location.com/?"
+    end
+
+    def query_url_params(query)
+      {
+        key: configuration.api_key ? configuration.api_key : "demo",
+        format: "json",
+        ip: query.sanitized_text
+      }.merge(super)
+    end
 
     def results(query)
       return [reserved_result(query.text)] if query.loopback_ip_address?

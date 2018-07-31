@@ -12,15 +12,15 @@ module Geocoder::Lookup
       "http://maps.yandex.ru/?ll=#{coordinates.reverse.join(',')}"
     end
 
-    def query_url(query)
-      "#{protocol}://geocode-maps.yandex.ru/1.x/?" + url_query_string(query)
-    end
-    
     def supported_protocols
       [:https]
     end
 
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://geocode-maps.yandex.ru/1.x/?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)

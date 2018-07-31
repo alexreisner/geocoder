@@ -8,12 +8,11 @@ module Geocoder::Lookup
       "Mapbox"
     end
 
-    def query_url(query)
-      path = "#{mapbox_search_term(query)}.json?#{url_query_string(query)}"
-      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{path}"
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{mapbox_search_term(query)}.json?"
+    end
 
     def results(query)
       return [] unless data = fetch_data(query)

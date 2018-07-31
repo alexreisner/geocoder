@@ -9,14 +9,14 @@ module Geocoder
         "Geoportail.lu"
       end
 
-      def query_url(query)
-        url_base_path(query) + url_query_string(query)
-      end
+      private # ---------------------------------------------------------------
 
-      private
-
-      def url_base_path(query)
-        query.reverse_geocode? ? reverse_geocode_url_base_path : search_url_base_path
+      def base_query_url(query)
+        if query.reverse_geocode?
+          reverse_geocode_url_base_path
+        else
+          search_url_base_path
+        end
       end
 
       def search_url_base_path

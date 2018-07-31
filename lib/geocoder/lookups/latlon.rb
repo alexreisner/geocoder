@@ -12,11 +12,11 @@ module Geocoder::Lookup
       ["api_key"]
     end
 
-    def query_url(query)
-      "#{protocol}://latlon.io/api/v1/#{'reverse_' if query.reverse_geocode?}geocode?#{url_query_string(query)}"
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://latlon.io/api/v1/#{'reverse_' if query.reverse_geocode?}geocode?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)

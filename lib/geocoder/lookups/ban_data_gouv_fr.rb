@@ -14,12 +14,12 @@ module Geocoder::Lookup
       "https://www.openstreetmap.org/#map=19/#{coordinates.join('/')}"
     end
 
-    def query_url(query)
-      method = query.reverse_geocode? ? "reverse" : "search"
-      "#{protocol}://api-adresse.data.gouv.fr/#{method}/?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      method = query.reverse_geocode? ? "reverse" : "search"
+      "#{protocol}://api-adresse.data.gouv.fr/#{method}/?"
+    end
 
     def any_result?(doc)
       doc['features'].any?
