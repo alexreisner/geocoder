@@ -3,6 +3,15 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.5.0 (2018 Jul 31)
+-------------------
+* Drop support for Ruby <2.0.
+* Change default street address lookup from :google to :nominatim.
+* Cache keys no longer include API credentials. This means many entries in existing cache implementations will be invalidated.
+* Test lookup fixtures should now return `coordinates` and NOT `latitude`/`longitude` attributes (see #1258). This may break some people's tests.
+* Add support for :ip2location lookup (thanks github.com/ip2location).
+* Remove :ovi and :okf lookups.
+
 1.4.9 (2018 May 27)
 -------------------
 * Fix regression in :geoip2 lookup.
