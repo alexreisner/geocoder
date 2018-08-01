@@ -225,6 +225,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipinfodb'
+    class Ipinfodb
+      private
+      def default_fixture_filename
+        "ipinfodb_8_8_8_8"
+      end
+    end
+
     require 'geocoder/lookups/ipstack'
     class Ipstack
       private

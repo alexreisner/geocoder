@@ -474,6 +474,16 @@ IP Address Lookups
 * **Terms of Service**: https://www.ip2location.com/web-service
 * **Notes**: With the non-free version, specify your desired package: `Geocoder.configure(ip2location: {package: "WSX"})` (see API documentation for package details).
 
+### IPInfoDB (`:ipinfodb`)
+
+* **API key**: required
+* **Quota**: 2 queries per second
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.ipinfodb.com/api
+* **Terms of Service**: https://www.ipinfodb.com/api
+
 
 Local IP Address Lookups
 ------------------------
