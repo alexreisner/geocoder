@@ -32,11 +32,7 @@ module Geocoder::Lookup
         return s
       else
         raise(
-          Geocoder::ConfigurationError,
-          "When using MaxMind GeoIP2 you MUST specify a service name and basic_auth: " +
-          "Geocoder.configure(:maxmind_geoip2 => {:service => ...}, " +
-          ":basic_auth => {:user ..., :password => ...}), " +
-          "where service is one of: #{services.inspect}"
+          Geocoder::ConfigurationError, "When using MaxMind GeoIP2 you must specify a service and credentials: Geocoder.configure(maxmind_geoip2: {service: ..., basic_auth: {user: ..., password: ...}}), where service is one of: #{services.inspect}"
         )
       end
     end
