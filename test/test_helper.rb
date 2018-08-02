@@ -225,6 +225,23 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ip2location_lite'
+    class Ip2locationLite
+      private
+
+      remove_method(:results)
+
+      def results query
+        return [] if query.to_s == "no results"
+
+        if query.to_s == '127.0.0.1'
+          [{:ip_from=>2130706432, :country_short=>"-", :country_long=>"-", :region=>"-", :city=>"-", :latitude=>0.0, :longitude=>0.0, :zipcode=>"-", :timezone=>"-", :isp=>"Loopback", :domain=>"-", :netspeed=>"-", :iddcode=>"-", :areacode=>"-", :weatherstationcode=>"-", :weatherstationname=>"-", :mcc=>"-", :mnc=>"-", :mobilebrand=>"-", :elevation=>"0", :usagetype=>"RSV", :ip_to=>2147483648}]
+        else if query.to_s == '8.8.8.8'
+          [{:ip_from=>134744064, :country_short=>"US", :country_long=>"United States", :region=>"California", :city=>"Mountain View", :latitude=>37.40599060058594, :longitude=>-122.0785140991211, :zipcode=>"94043", :timezone=>"-07:00", :isp=>"Google LLC", :domain=>"google.com", :netspeed=>"T1", :iddcode=>"1", :areacode=>"650", :weatherstationcode=>"USCA0746", :weatherstationname=>"Mountain View", :mcc=>"-", :mnc=>"-", :mobilebrand=>"-", :elevation=>"31", :usagetype=>"DCH", :ip_to=>134744320}]
+        end
+      end
+    end
+
     require 'geocoder/lookups/ipstack'
     class Ipstack
       private

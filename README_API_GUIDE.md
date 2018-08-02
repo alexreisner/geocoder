@@ -541,5 +541,27 @@ You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* g
       }
     )
 
+### IP2Location Lite (`:ip2location_lite`)
+
+This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability).
+
+* **API key**: none (requires a IP2Location or FREE IP2Location LITE binary database which can be downloaded from [IP2Location LITE](https://lite.ip2location.com/))
+* **Quota**: none
+* **Region**: world
+* **SSL support**: N/A
+* **Languages**: English
+* **Documentation**: https://lite.ip2location.com/
+* **Terms of Service**: https://lite.ip2location.com/
+* **Notes**: **You must download a binary database (BIN) file from IP2Location LITE and set the `:file` configuration option.** Set the path to the database file in your configuration:
+
+    Geocoder.configure(
+      ip_lookup: :ip2location_lite,
+      ip2location_lite: {
+        file: File.join('folder', 'IP2LOCATION-LITE-DB11.BIN')
+      }
+    )
+
+You must add the *[ip2location_ruby](https://rubygems.org/gems/ip2location_ruby)* gem (pure Ruby implementation) to your Gemfile or have it installed in your system.
+
 
 Copyright (c) 2009-18 Alex Reisner, released under the MIT license.

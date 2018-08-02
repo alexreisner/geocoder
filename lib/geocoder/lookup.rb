@@ -73,7 +73,8 @@ module Geocoder
         :ipdata_co,
         :db_ip_com,
         :ipstack,
-        :ip2location
+        :ip2location,
+        :ip2location_lite
       ]
     end
 
