@@ -34,6 +34,34 @@ class EsriTest < GeocoderTestCase
     assert_match %r{token=xxxxx}, url
   end
 
+  def test_query_for_geocode_with_config_for_storage_false
+    Geocoder.configure(esri: {for_storage: false})
+
+    query = Geocoder::Query.new("Bluffton, SC", for_storage: true)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_match %r{forStorage=true}, url
+
+    query = Geocoder::Query.new("Bluffton, SC", for_storage: false)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_no_match %r{forStorage}, url
+  end
+
+  def test_query_for_geocode_with_config_for_storage_true
+    Geocoder.configure(esri: {for_storage: true})
+
+    query = Geocoder::Query.new("Bluffton, SC", for_storage: true)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_match %r{forStorage=true}, url
+
+    query = Geocoder::Query.new("Bluffton, SC", for_storage: false)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_no_match %r{forStorage}, url
+  end
+
   def test_token_generation_doesnt_overwrite_existing_config
     Geocoder.configure(esri: {api_key: ['id','secret'], for_storage: true})
 
