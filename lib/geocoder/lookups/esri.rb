@@ -41,9 +41,19 @@ module Geocoder::Lookup
         params[:text] = query.sanitized_text
       end
       params[:token] = token
-      params[:forStorage] = configuration[:for_storage] if configuration[:for_storage]
+      if for_storage_value = for_storage(query)
+        params[:forStorage] = for_storage_value
+      end
       params[:sourceCountry] = configuration[:source_country] if configuration[:source_country]
       params.merge(super)
+    end
+
+    def for_storage(query)
+      if query.options.has_key?(:for_storage)
+        query.options[:for_storage]
+      else
+        configuration[:for_storage]
+      end
     end
 
     def token
