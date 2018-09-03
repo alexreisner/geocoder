@@ -164,7 +164,7 @@ module Geocoder
       def cache_key_params(query)
         # omit api_key and token because they may vary among requests
         query_url_params(query).reject do |key,value|
-          key.to_s.match /(key|token)/
+          key.to_s.match(/(key|token)/)
         end
       end
 
