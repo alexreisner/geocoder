@@ -13,7 +13,7 @@ Key features:
 
 * Forward and reverse geocoding, and IP address geocoding.
 * Connects to more than 40 APIs worldwide.
-* Performance-enhancing feaures like caching.
+* Performance-enhancing features like caching.
 * Advanced configuration allows different parameters and APIs to be used in different conditions.
 * Integrates with ActiveRecord and Mongoid.
 * Basic geospatial queries: search within radius (or rectangle, or ring).
