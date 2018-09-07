@@ -42,7 +42,7 @@ class IpdataCoTest < GeocoderTestCase
 
     require 'webmock/test_unit'
     WebMock.enable!
-    stubbed_request = WebMock.stub_request(:get, "https://api.ipdata.co/8.8.8.8").with(headers: {'api-key' => 'XXXX'}).to_return(status: 200)
+    stubbed_request = WebMock.stub_request(:get, "https://api.ipdata.co/8.8.8.8?api-key=XXXX").to_return(status: 200)
 
     g = Geocoder::Lookup::IpdataCo.new
     g.send(:actual_make_api_request, Geocoder::Query.new('8.8.8.8'))
