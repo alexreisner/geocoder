@@ -4,7 +4,7 @@ module Geocoder
   if defined? Rails::Railtie
     require 'rails'
     class Railtie < Rails::Railtie
-      initializer 'geocoder.insert_into_active_record' do
+      initializer 'geocoder.insert_into_active_record', before: :load_config_initializers do
         ActiveSupport.on_load :active_record do
           Geocoder::Railtie.insert
         end
