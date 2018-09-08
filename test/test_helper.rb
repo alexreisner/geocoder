@@ -318,6 +318,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/tencent'
+    class Tencent
+      private
+      def default_fixture_filename
+        "tencent_shanghai_pearl_tower"
+      end
+    end
+
     require 'geocoder/lookups/geocodio'
     class Geocodio
       private

@@ -43,6 +43,7 @@ module Geocoder
         :pickpoint,
         :here,
         :baidu,
+        :tencent,
         :geocodio,
         :smarty_streets,
         :postcode_anywhere_uk,
