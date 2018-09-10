@@ -10,6 +10,10 @@ module Geocoder
       def types
         @data["types"] || []
       end
+
+      def photos
+        @data["photos"]
+      end
     end
   end
 end

@@ -43,8 +43,7 @@ module Geocoder
         {
           placeid: query.text,
           language: query.language || configuration.language,
-          # basic fields are [address_component, adr_address, alt_id, formatted_address, geometry, icon, id, name, permanently_closed, photo, place_id, scope, type, url, utc_offset, vicinity]
-          fields: ["name", "geometry.location", "place_id", "formatted_address"]
+          fields: "address_component,adr_address,alt_id,formatted_address,geometry,icon,id,name,permanently_closed,photo,place_id,scope,type,url,utc_offset,vicinity"
         }
       end
     end
