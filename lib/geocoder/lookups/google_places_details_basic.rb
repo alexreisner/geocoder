@@ -5,7 +5,7 @@ module Geocoder
   module Lookup
     class GooglePlacesDetailsBasic < Google
       def name
-        "Google Places Details"
+        "Google Places Details Basic"
       end
 
       def required_api_key_parts
