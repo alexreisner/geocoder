@@ -7,7 +7,7 @@ module Geocoder::Lookup
     def name
       "FreeGeoIP"
     end
-    
+
     def supported_protocols
       if configuration[:host]
         [:http, :https]
@@ -32,8 +32,8 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      # don't look up a loopback address, just return the stored result
-      return [reserved_result(query.text)] if query.loopback_ip_address?
+      # don't look up a loopback or private address, just return the stored result
+      return [reserved_result(query.text)] if query.internal_ip_address?
       # note: Freegeoip.net returns plain text "Not Found" on bad request
       (doc = fetch_data(query)) ? [doc] : []
     end

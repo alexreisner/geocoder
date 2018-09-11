@@ -53,8 +53,9 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      # don't look up a loopback address
-      return [] if query.loopback_ip_address?
+      # don't look up a loopback or private address, just return the stored result
+      return [] if query.internal_ip_address?
+
       doc = fetch_data(query)
       if doc
         if !data_contains_error?(doc)

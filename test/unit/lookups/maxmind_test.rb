@@ -59,4 +59,16 @@ class MaxmindTest < GeocoderTestCase
     result = Geocoder.search("127.0.0.1").first
     assert_equal "", result.country_code
   end
+
+  def test_maxmind_works_when_private_address_on_omni
+    Geocoder.configure(maxmind: {service: :omni})
+    result = Geocoder.search("172.19.0.1").first
+    assert_equal "", result.country_code
+  end
+
+  def test_maxmind_works_when_private_address_on_country
+    Geocoder.configure(maxmind: {service: :country})
+    result = Geocoder.search("172.19.0.1").first
+    assert_equal "", result.country_code
+  end
 end

@@ -116,6 +116,13 @@ class IpstackTest < GeocoderTestCase
     assert_equal({},          result.connection)
   end
 
+  def test_localhost_private
+    result = Geocoder.search("172.19.0.1").first
+    assert_equal "172.19.0.1", result.ip
+    assert_equal "RD",         result.country_code
+    assert_equal "Reserved",   result.country_name
+  end
+
   def test_api_request_adds_access_key
     lookup = Geocoder::Lookup.get(:ipstack)
     assert_match 'http://api.ipstack.com/74.200.247.59?access_key=123', lookup.query_url(Geocoder::Query.new("74.200.247.59"))
