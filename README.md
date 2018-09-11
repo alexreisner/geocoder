@@ -45,7 +45,7 @@ Advanced Features:
 * [Geospatial Calculations](#geospatial-calculations)
 * [Batch Geocoding](#batch-geocoding)
 * [Testing](#testing)
-* [Error Handling](#error-handing)
+* [Error Handling](#error-handling)
 * [Command Line Interface](#command-line-interface)
 
 The Rest:
