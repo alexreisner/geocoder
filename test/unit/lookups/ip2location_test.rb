@@ -17,6 +17,11 @@ class Ip2locationTest < GeocoderTestCase
     assert_equal "INVALID IP ADDRESS", result.country_code
   end
 
+  def test_ip2location_lookup_private_address
+    result = Geocoder.search("172.19.0.1").first
+    assert_equal "INVALID IP ADDRESS", result.country_code
+  end
+
   def test_ip2location_extra_data
     Geocoder.configure(:ip2location => {:package => "WS3"})
     result = Geocoder.search("8.8.8.8").first

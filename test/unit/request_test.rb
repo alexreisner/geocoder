@@ -53,6 +53,10 @@ class RequestTest < GeocoderTestCase
     req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => "127.0.0.1"}, "74.200.247.59")
     assert_equal "US", req.location.country_code
   end
+  def test_with_private_x_forwarded_for
+    req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => "172.19.0.1"}, "74.200.247.59")
+    assert_equal "US", req.location.country_code
+  end
   def test_http_x_forwarded_for_with_misconfigured_proxies
     req = MockRequest.new({"HTTP_X_FORWARDED_FOR" => ","}, "74.200.247.59")
     assert req.location.is_a?(Geocoder::Result::Freegeoip)

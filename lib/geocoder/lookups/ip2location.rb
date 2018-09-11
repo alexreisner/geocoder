@@ -27,7 +27,8 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      return [reserved_result(query.text)] if query.loopback_ip_address?
+      # don't look up a loopback or private address, just return the stored result
+      return [reserved_result(query.text)] if query.internal_ip_address?
       return [] unless doc = fetch_data(query)
       if doc["response"] == "INVALID ACCOUNT"
         raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "INVALID ACCOUNT")

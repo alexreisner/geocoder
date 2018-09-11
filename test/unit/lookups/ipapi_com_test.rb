@@ -41,13 +41,23 @@ class IpapiComTest < GeocoderTestCase
     assert_equal nil, result.message
   end
 
-  def test_localhost
+  def test_loopback
     result = Geocoder.search("::1").first
     assert_equal nil, result.lat
     assert_equal nil, result.lon
     assert_equal [nil, nil], result.coordinates
     assert_equal nil, result.reverse
     assert_equal "::1", result.query
+    assert_equal "fail", result.status
+  end
+
+  def test_private
+    result = Geocoder.search("172.19.0.1").first
+    assert_equal nil, result.lat
+    assert_equal nil, result.lon
+    assert_equal [nil, nil], result.coordinates
+    assert_equal nil, result.reverse
+    assert_equal "172.19.0.1", result.query
     assert_equal "fail", result.status
   end
 

@@ -12,6 +12,20 @@ class IpdataCoTest < GeocoderTestCase
     assert result.is_a?(Geocoder::Result::IpdataCo)
   end
 
+  def test_result_on_loopback_ip_address_search
+    result = Geocoder.search("127.0.0.1").first
+    assert_equal "127.0.0.1", result.ip
+    assert_equal 'RD',        result.country_code
+    assert_equal "Reserved",  result.country
+  end
+
+  def test_result_on_private_ip_address_search
+    result = Geocoder.search("172.19.0.1").first
+    assert_equal "172.19.0.1", result.ip
+    assert_equal 'RD',         result.country_code
+    assert_equal "Reserved",   result.country
+  end
+
   def test_invalid_json
     Geocoder.configure(:always_raise => [Geocoder::ResponseParseError])
     assert_raise Geocoder::ResponseParseError do
