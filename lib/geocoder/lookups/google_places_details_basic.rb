@@ -4,6 +4,8 @@ require "geocoder/results/google_places_details_basic"
 module Geocoder
   module Lookup
     class GooglePlacesDetailsBasic < Google
+      BASIC_FIELDS = "address_component,adr_address,alt_id,formatted_address,geometry,icon,id,name,permanently_closed,photo,place_id,scope,type,url,utc_offset,vicinity".freeze
+
       def name
         "Google Places Details Basic"
       end
@@ -43,7 +45,7 @@ module Geocoder
         {
           placeid: query.text,
           language: query.language || configuration.language,
-          fields: "address_component,adr_address,alt_id,formatted_address,geometry,icon,id,name,permanently_closed,photo,place_id,scope,type,url,utc_offset,vicinity"
+          fields: BASIC_FIELDS
         }
       end
     end
