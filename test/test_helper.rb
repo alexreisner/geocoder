@@ -185,6 +185,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/google_places_details_basic'
+    class GooglePlacesDetailsBasic
+      private
+      def fixture_prefix
+        "google_places_details"
+      end
+    end
+
     require 'geocoder/lookups/dstk'
     class Dstk
       private
