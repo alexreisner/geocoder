@@ -6,38 +6,38 @@ module Geocoder
 
       def coordinates
         %w[latitude longitude].map do |l|
-          data.fetch('location', {}).fetch(l, 0.0)
+          data_hash.fetch('location', {}).fetch(l, 0.0)
         end
       end
 
       def city
         fetch_name(
-          data.fetch('city', {}).fetch('names', {})
+          data_hash.fetch('city', {}).fetch('names', {})
         )
       end
 
       def state
         fetch_name(
-          data.fetch('subdivisions', []).fetch(0, {}).fetch('names', {})
+          data_hash.fetch('subdivisions', []).fetch(0, {}).fetch('names', {})
         )
       end
 
       def state_code
-        data.fetch('subdivisions', []).fetch(0, {}).fetch('iso_code', '')
+        data_hash.fetch('subdivisions', []).fetch(0, {}).fetch('iso_code', '')
       end
 
       def country
         fetch_name(
-          data.fetch('country', {}).fetch('names', {})
+          data_hash.fetch('country', {}).fetch('names', {})
         )
       end
 
       def country_code
-        data.fetch('country', {}).fetch('iso_code', '')
+        data_hash.fetch('country', {}).fetch('iso_code', '')
       end
 
       def postal_code
-        data.fetch('postal', {}).fetch('code', '')
+        data_hash.fetch('postal', {}).fetch('code', '')
       end
 
       def self.response_attributes
@@ -59,7 +59,11 @@ module Geocoder
       end
 
       def data
-        @data.to_hash
+        data_hash
+      end
+
+      def data_hash
+        @data_hash ||= @data.to_hash
       end
 
       private
