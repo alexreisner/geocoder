@@ -14,36 +14,36 @@
             "metaDataProperty": {
               "GeocoderMetaData": {
                 "kind": "house",
-                "text": "Россия, Московская область, городской округ Красногорск, деревня Путилково, Новотушинская улица, 5",
+                "text": "Russia, Moscow Region, gorodskoy okrug Krasnogorsk, derevnya Putilkovo, Novotushinskaya ulitsa, 5",
                 "precision": "exact",
                 "Address": {
                   "country_code": "RU",
                   "postal_code": "143441",
-                  "formatted": "Московская область, городской округ Красногорск, деревня Путилково, Новотушинская улица, 5",
+                  "formatted": "Moscow Region, gorodskoy okrug Krasnogorsk, derevnya Putilkovo, Novotushinskaya ulitsa, 5",
                   "Components": [
                     {
                       "kind": "country",
-                      "name": "Россия"
+                      "name": "Russia"
                     },
                     {
                       "kind": "province",
-                      "name": "Центральный федеральный округ"
+                      "name": "Tsentralny federalny okrug"
                     },
                     {
                       "kind": "province",
-                      "name": "Московская область"
+                      "name": "Moscow Region"
                     },
                     {
                       "kind": "area",
-                      "name": "городской округ Красногорск"
+                      "name": "gorodskoy okrug Krasnogorsk"
                     },
                     {
                       "kind": "locality",
-                      "name": "деревня Путилково"
+                      "name": "derevnya Putilkovo"
                     },
                     {
                       "kind": "street",
-                      "name": "Новотушинская улица"
+                      "name": "Novotushinskaya ulitsa"
                     },
                     {
                       "kind": "house",
@@ -53,17 +53,17 @@
                 },
                 "AddressDetails": {
                   "Country": {
-                    "AddressLine": "Московская область, городской округ Красногорск, деревня Путилково, Новотушинская улица, 5",
+                    "AddressLine": "Moscow Region, gorodskoy okrug Krasnogorsk, derevnya Putilkovo, Novotushinskaya ulitsa, 5",
                     "CountryNameCode": "RU",
-                    "CountryName": "Россия",
+                    "CountryName": "Russia",
                     "AdministrativeArea": {
-                      "AdministrativeAreaName": "Московская область",
+                      "AdministrativeAreaName": "Moscow Region",
                       "SubAdministrativeArea": {
-                        "SubAdministrativeAreaName": "городской округ Красногорск",
+                        "SubAdministrativeAreaName": "gorodskoy okrug Krasnogorsk",
                         "Locality": {
-                          "LocalityName": "деревня Путилково",
+                          "LocalityName": "derevnya Putilkovo",
                           "Thoroughfare": {
-                            "ThoroughfareName": "Новотушинская улица",
+                            "ThoroughfareName": "Novotushinskaya ulitsa",
                             "Premise": {
                               "PremiseNumber": "5",
                               "PostalCode": {
@@ -78,8 +78,8 @@
                 }
               }
             },
-            "description": "деревня Путилково, городской округ Красногорск, Московская область, Россия",
-            "name": "Новотушинская улица, 5",
+            "description": "derevnya Putilkovo, gorodskoy okrug Krasnogorsk, Moscow Region, Russia",
+            "name": "Novotushinskaya ulitsa, 5",
             "boundedBy": {
               "Envelope": {
                 "lowerCorner": "37.399416 55.86995",

@@ -1,48 +1,548 @@
 {
-    "response": {
-        "GeoObjectCollection": {
-            "metaDataProperty": {
-                "GeocoderResponseMetaData": {
-                    "request": "Кремль, Moscow, Russia",
-                    "found": "1",
-                    "results": "10"
-                }
-            },
-            "featureMember": [
-                {
-                    "GeoObject": {
-                        "metaDataProperty": {
-                            "GeocoderMetaData": {
-                                "kind": "vegetation",
-                                "text": "Россия, Москва, Московский Кремль",
-                                "precision": "other",
-                                "AddressDetails": {
-                                    "Country": {
-                                        "CountryNameCode": "RU",
-                                        "CountryName": "Россия",
-                                        "Locality": {
-                                            "LocalityName": "Москва",
-                                            "Premise": {
-                                                "PremiseName": "Московский Кремль"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "name": "Московский Кремль",
-                        "boundedBy": {
-                            "Envelope": {
-                                "lowerCorner": "37.584182 55.733361",
-                                "upperCorner": "37.650064 55.770517"
-                            }
-                        },
-                        "Point": {
-                            "pos": "37.617123 55.751943"
-                        }
-                    }
-                }
-            ]
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "Kremlin, Moscow, Russia",
+          "found": "8",
+          "results": "10"
         }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "district",
+                "text": "Russia, Moscow, Moscow Kremlin",
+                "precision": "other",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Moscow, Moscow Kremlin",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Tsentralny federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "district",
+                      "name": "Moscow Kremlin"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Moscow, Moscow Kremlin",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Moscow",
+                      "Locality": {
+                        "LocalityName": "Moscow",
+                        "DependentLocality": {
+                          "DependentLocalityName": "Moscow Kremlin"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Moscow, Russia",
+            "name": "Moscow Kremlin",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.612587 55.748189",
+                "upperCorner": "37.623187 55.755044"
+              }
+            },
+            "Point": {
+              "pos": "37.617734 55.751999"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "other",
+                "text": "Russia, Moscow, Kremlin Wall Necropolis",
+                "precision": "other",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Moscow, Kremlin Wall Necropolis",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Tsentralny federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "other",
+                      "name": "Kremlin Wall Necropolis"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Moscow, Kremlin Wall Necropolis",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Moscow",
+                      "Locality": {
+                        "LocalityName": "Moscow",
+                        "Premise": {
+                          "PremiseName": "Kremlin Wall Necropolis"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Moscow, Russia",
+            "name": "Kremlin Wall Necropolis",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.617824 55.752708",
+                "upperCorner": "37.621264 55.754487"
+              }
+            },
+            "Point": {
+              "pos": "37.619576 55.753559"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "vegetation",
+                "text": "Russia, Moscow, Small Kremlin Public Garden",
+                "precision": "other",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Moscow, Small Kremlin Public Garden",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Tsentralny federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "vegetation",
+                      "name": "Small Kremlin Public Garden"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Moscow, Small Kremlin Public Garden",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Moscow",
+                      "Locality": {
+                        "LocalityName": "Moscow",
+                        "Premise": {
+                          "PremiseName": "Small Kremlin Public Garden"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Moscow, Russia",
+            "name": "Small Kremlin Public Garden",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.616467 55.751452",
+                "upperCorner": "37.617788 55.752004"
+              }
+            },
+            "Point": {
+              "pos": "37.61706 55.751731"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "vegetation",
+                "text": "Russia, Moscow, Grand Kremlin Public Garden",
+                "precision": "other",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Moscow, Grand Kremlin Public Garden",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Tsentralny federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "vegetation",
+                      "name": "Grand Kremlin Public Garden"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Moscow, Grand Kremlin Public Garden",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Moscow",
+                      "Locality": {
+                        "LocalityName": "Moscow",
+                        "Premise": {
+                          "PremiseName": "Grand Kremlin Public Garden"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Moscow, Russia",
+            "name": "Grand Kremlin Public Garden",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.618336 55.749922",
+                "upperCorner": "37.621956 55.75246"
+              }
+            },
+            "Point": {
+              "pos": "37.620447 55.751031"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "street",
+                "text": "Russia, Moscow, Kremlyovsky Drive",
+                "precision": "street",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Moscow, Kremlyovsky Drive",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Tsentralny federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "Kremlyovsky Drive"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Moscow, Kremlyovsky Drive",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Moscow",
+                      "Locality": {
+                        "LocalityName": "Moscow",
+                        "Thoroughfare": {
+                          "ThoroughfareName": "Kremlyovsky Drive"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Moscow, Russia",
+            "name": "Kremlyovsky Drive",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.616566 55.754649",
+                "upperCorner": "37.61812 55.755469"
+              }
+            },
+            "Point": {
+              "pos": "37.61733 55.755044"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "street",
+                "text": "Russia, Republic of Tatarstan, City of Kazan, Kremlevskaya Street",
+                "precision": "street",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Republic of Tatarstan, City of Kazan, Kremlevskaya Street",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Privolzhskiy federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Republic of Tatarstan"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Kazan City District"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "City of Kazan"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "Kremlevskaya Street"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Republic of Tatarstan, City of Kazan, Kremlevskaya Street",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Republic of Tatarstan",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Kazan City District",
+                        "Locality": {
+                          "LocalityName": "City of Kazan",
+                          "Thoroughfare": {
+                            "ThoroughfareName": "Kremlevskaya Street"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "City of Kazan, Republic of Tatarstan, Russia",
+            "name": "Kremlevskaya Street",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "49.108372 55.790651",
+                "upperCorner": "49.123105 55.796653"
+              }
+            },
+            "Point": {
+              "pos": "49.11573 55.793637"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "street",
+                "text": "Russia, Republic of Tatarstan, City of Kazan, Kremlevskiy Bridge",
+                "precision": "street",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Republic of Tatarstan, City of Kazan, Kremlevskiy Bridge",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Privolzhskiy federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Republic of Tatarstan"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Kazan City District"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "City of Kazan"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "Kremlevskiy Bridge"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Republic of Tatarstan, City of Kazan, Kremlevskiy Bridge",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Republic of Tatarstan",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Kazan City District",
+                        "Locality": {
+                          "LocalityName": "City of Kazan",
+                          "Thoroughfare": {
+                            "ThoroughfareName": "Kremlevskiy Bridge"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "City of Kazan, Republic of Tatarstan, Russia",
+            "name": "Kremlevskiy Bridge",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "49.101374 55.79973",
+                "upperCorner": "49.102291 55.802664"
+              }
+            },
+            "Point": {
+              "pos": "49.101913 55.801217"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "street",
+                "text": "Russia, Republic of Tatarstan, City of Kazan, Kremlevskaya Embankment",
+                "precision": "street",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Republic of Tatarstan, City of Kazan, Kremlevskaya Embankment",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Privolzhskiy federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Republic of Tatarstan"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Kazan City District"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "City of Kazan"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "Kremlevskaya Embankment"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Republic of Tatarstan, City of Kazan, Kremlevskaya Embankment",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Republic of Tatarstan",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Kazan City District",
+                        "Locality": {
+                          "LocalityName": "City of Kazan",
+                          "Thoroughfare": {
+                            "ThoroughfareName": "Kremlevskaya Embankment"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "City of Kazan, Republic of Tatarstan, Russia",
+            "name": "Kremlevskaya Embankment",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "49.091358 55.795454",
+                "upperCorner": "49.102021 55.800858"
+              }
+            },
+            "Point": {
+              "pos": "49.096676 55.798191"
+            }
+          }
+        }
+      ]
     }
+  }
 }
