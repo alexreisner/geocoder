@@ -2,21 +2,92 @@ require 'geocoder/results/base'
 
 module Geocoder::Result
   class Yandex < Base
+    # Yandex result has difficult tree structure,
+    # and presence of some nodes depends on exact search case.
+
+    # Also Yandex lacks documentation about it.
+    # See https://tech.yandex.com/maps/doc/geocoder/desc/concepts/response_structure-docpage/
+
+    # Ultimatly, we need to find Locality and/or Thoroughfare data.
+
+    # It may resides on the top (ADDRESS_DETAILS) level.
+    # example: 'Baltic Sea'
+    # "AddressDetails": {
+    #   "Locality": {
+    #     "Premise": {
+    #       "PremiseName": "Baltic Sea"
+    #     }
+    #   }
+    # }
+
     ADDRESS_DETAILS = %w[
       GeoObject metaDataProperty GeocoderMetaData
       AddressDetails
     ].freeze
+
+    # On COUNTRY_LEVEL.
+    # example: 'Potomak'
+    # "AddressDetails": {
+    #   "Country": {
+    #     "AddressLine": "reka Potomak",
+    #     "CountryNameCode": "US",
+    #     "CountryName": "United States of America",
+    #     "Locality": {
+    #       "Premise": {
+    #         "PremiseName": "reka Potomak"
+    #       }
+    #     }
+    #   }
+    # }
 
     COUNTRY_LEVEL = %w[
       GeoObject metaDataProperty GeocoderMetaData
       AddressDetails Country
     ].freeze
 
+    # On ADMIN_LEVEL (usually state or city)
+    # example: 'Moscow, Tverskaya'
+    # "AddressDetails": {
+    #   "Country": {
+    #     "AddressLine": "Moscow, Tverskaya Street",
+    #     "CountryNameCode": "RU",
+    #     "CountryName": "Russia",
+    #     "AdministrativeArea": {
+    #       "AdministrativeAreaName": "Moscow",
+    #       "Locality": {
+    #         "LocalityName": "Moscow",
+    #         "Thoroughfare": {
+    #           "ThoroughfareName": "Tverskaya Street"
+    #         }
+    #       }
+    #     }
+    #   }
+    # }
+
     ADMIN_LEVEL = %w[
       GeoObject metaDataProperty GeocoderMetaData
       AddressDetails Country
       AdministrativeArea
     ].freeze
+
+    # On SUBADMIN_LEVEL (may refer to urban district)
+    # example: ''
+    # "AddressDetails": {
+    #   "Country": {
+    #     "AddressLine": "Moscow Region, Krasnogorsk",
+    #     "CountryNameCode": "RU",
+    #     "CountryName": "Russia",
+    #     "AdministrativeArea": {
+    #       "AdministrativeAreaName": "Moscow Region",
+    #       "SubAdministrativeArea": {
+    #         "SubAdministrativeAreaName": "gorodskoy okrug Krasnogorsk",
+    #         "Locality": {
+    #           "LocalityName": "Krasnogorsk"
+    #         }
+    #       }
+    #     }
+    #   }
+    # }
 
     SUBADMIN_LEVEL = %w[
       GeoObject metaDataProperty GeocoderMetaData
@@ -25,12 +96,63 @@ module Geocoder::Result
       SubAdministrativeArea
     ].freeze
 
+    # On DEPENDENT_LOCALITY_1 (may refer to district of city)
+    # example: 'Paris, Etienne Marcel'
+    # "AddressDetails": {
+    #   "Country": {
+    #     "AddressLine": "Île-de-France, Paris, 1er Arrondissement, Rue Étienne Marcel",
+    #     "CountryNameCode": "FR",
+    #     "CountryName": "France",
+    #     "AdministrativeArea": {
+    #       "AdministrativeAreaName": "Île-de-France",
+    #       "Locality": {
+    #         "LocalityName": "Paris",
+    #         "DependentLocality": {
+    #           "DependentLocalityName": "1er Arrondissement",
+    #           "Thoroughfare": {
+    #             "ThoroughfareName": "Rue Étienne Marcel"
+    #           }
+    #         }
+    #       }
+    #     }
+    #   }
+    # }
+
     DEPENDENT_LOCALITY_1 = %w[
       GeoObject metaDataProperty GeocoderMetaData
       AddressDetails Country
       AdministrativeArea Locality
       DependentLocality
     ].freeze
+
+    # On DEPENDENT_LOCALITY_2 (for special cases like turkish "mahalle")
+    # https://en.wikipedia.org/wiki/Mahalle
+    # example: 'Istanbul Mabeyinci Yokuşu 17'
+
+    # "AddressDetails": {
+    #   "Country": {
+    #     "AddressLine": "İstanbul, Fatih, Saraç İshak Mah., Mabeyinci Yokuşu, 17",
+    #     "CountryNameCode": "TR",
+    #     "CountryName": "Turkey",
+    #     "AdministrativeArea": {
+    #       "AdministrativeAreaName": "İstanbul",
+    #       "SubAdministrativeArea": {
+    #         "SubAdministrativeAreaName": "Fatih",
+    #         "Locality": {
+    #           "DependentLocality": {
+    #             "DependentLocalityName": "Saraç İshak Mah.",
+    #             "Thoroughfare": {
+    #               "ThoroughfareName": "Mabeyinci Yokuşu",
+    #               "Premise": {
+    #                 "PremiseNumber": "17"
+    #               }
+    #             }
+    #           }
+    #         }
+    #       }
+    #     }
+    #   }
+    # }
 
     DEPENDENT_LOCALITY_2 = %w[
       GeoObject metaDataProperty GeocoderMetaData
