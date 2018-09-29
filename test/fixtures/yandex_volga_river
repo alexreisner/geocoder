@@ -1,0 +1,63 @@
+{
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "volga river",
+          "found": "1",
+          "results": "10"
+        }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "hydro",
+                "text": "Russia, Volga River",
+                "precision": "other",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Volga River",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "hydro",
+                      "name": "Volga River"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Volga River",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "Locality": {
+                      "Premise": {
+                        "PremiseName": "Volga River"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Russia",
+            "name": "Volga River",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "32.468241 45.697053",
+                "upperCorner": "50.181608 58.194645"
+              }
+            },
+            "Point": {
+              "pos": "45.139984 49.550996"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

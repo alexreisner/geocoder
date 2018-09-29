@@ -1,0 +1,571 @@
+{
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "ontario",
+          "found": "57",
+          "results": "10"
+        }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "province",
+                "text": "Canada, Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "CA",
+                  "formatted": "Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Canada"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Ontario",
+                    "CountryNameCode": "CA",
+                    "CountryName": "Canada",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Ontario"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Canada",
+            "name": "Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-95.153382 41.704494",
+                "upperCorner": "-74.321387 56.88699"
+              }
+            },
+            "Point": {
+              "pos": "-87.170557 49.294248"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "locality",
+                "text": "United States of America, California, San Bernardino County, Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "US",
+                  "formatted": "California, San Bernardino County, Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "United States of America"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "California"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "San Bernardino County"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "California, San Bernardino County, Ontario",
+                    "CountryNameCode": "US",
+                    "CountryName": "United States of America",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "California",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "San Bernardino County",
+                        "Locality": {
+                          "LocalityName": "Ontario"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "San Bernardino County, California, United States of America",
+            "name": "Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-117.681844 33.975275",
+                "upperCorner": "-117.524028 34.093373"
+              }
+            },
+            "Point": {
+              "pos": "-117.627586 34.054599"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "hydro",
+                "text": "Lake Ontario",
+                "precision": "other",
+                "Address": {
+                  "formatted": "Lake Ontario",
+                  "Components": [
+                    {
+                      "kind": "hydro",
+                      "name": "Lake Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Locality": {
+                    "Premise": {
+                      "PremiseName": "Lake Ontario"
+                    }
+                  }
+                }
+              }
+            },
+            "name": "Lake Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-79.801686 43.1625",
+                "upperCorner": "-76.008585 44.244197"
+              }
+            },
+            "Point": {
+              "pos": "-77.804812 43.6384"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "locality",
+                "text": "United States of America, State of Oregon, Malheur County, Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "US",
+                  "formatted": "State of Oregon, Malheur County, Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "United States of America"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "State of Oregon"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Malheur County"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "State of Oregon, Malheur County, Ontario",
+                    "CountryNameCode": "US",
+                    "CountryName": "United States of America",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "State of Oregon",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Malheur County",
+                        "Locality": {
+                          "LocalityName": "Ontario"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Malheur County, State of Oregon, United States of America",
+            "name": "Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-116.970487 44.014537",
+                "upperCorner": "-116.943744 44.038966"
+              }
+            },
+            "Point": {
+              "pos": "-116.962968 44.026639"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "district",
+                "text": "Canada, City of Montreal, Centre-Ville, Terrasse Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "CA",
+                  "formatted": "City of Montreal, Centre-Ville, Terrasse Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Canada"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "City of Montreal"
+                    },
+                    {
+                      "kind": "district",
+                      "name": "Centre-Ville"
+                    },
+                    {
+                      "kind": "district",
+                      "name": "Terrasse Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "City of Montreal, Centre-Ville, Terrasse Ontario",
+                    "CountryNameCode": "CA",
+                    "CountryName": "Canada",
+                    "Locality": {
+                      "LocalityName": "City of Montreal",
+                      "DependentLocality": {
+                        "DependentLocalityName": "Centre-Ville",
+                        "DependentLocality": {
+                          "DependentLocalityName": "Terrasse Ontario"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Centre-Ville, City of Montreal, Canada",
+            "name": "Terrasse Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-73.583251 45.507018",
+                "upperCorner": "-73.550318 45.53017"
+              }
+            },
+            "Point": {
+              "pos": "-73.566785 45.518595"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "area",
+                "text": "United States of America, New York, Ontario County",
+                "precision": "other",
+                "Address": {
+                  "country_code": "US",
+                  "formatted": "New York, Ontario County",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "United States of America"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "New York"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Ontario County"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "New York, Ontario County",
+                    "CountryNameCode": "US",
+                    "CountryName": "United States of America",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "New York",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Ontario County"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "New York, United States of America",
+            "name": "Ontario County",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-77.612581 42.576595",
+                "upperCorner": "-76.964087 43.040597"
+              }
+            },
+            "Point": {
+              "pos": "-77.281965 42.807695"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "locality",
+                "text": "United States of America, Kansas, Nemaha County, Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "US",
+                  "formatted": "Kansas, Nemaha County, Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "United States of America"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Kansas"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Nemaha County"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Kansas, Nemaha County, Ontario",
+                    "CountryNameCode": "US",
+                    "CountryName": "United States of America",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Kansas",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Nemaha County",
+                        "Locality": {
+                          "LocalityName": "Ontario"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Nemaha County, Kansas, United States of America",
+            "name": "Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-95.94849 39.515074",
+                "upperCorner": "-95.816689 39.617085"
+              }
+            },
+            "Point": {
+              "pos": "-95.882589 39.566098"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "locality",
+                "text": "United States of America, Oklahoma, Ottawa County, Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "US",
+                  "formatted": "Oklahoma, Ottawa County, Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "United States of America"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Oklahoma"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Ottawa County"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Oklahoma, Ottawa County, Ontario",
+                    "CountryNameCode": "US",
+                    "CountryName": "United States of America",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Oklahoma",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Ottawa County",
+                        "Locality": {
+                          "LocalityName": "Ontario"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Ottawa County, Oklahoma, United States of America",
+            "name": "Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-94.823987 36.934211",
+                "upperCorner": "-94.692187 37.039943"
+              }
+            },
+            "Point": {
+              "pos": "-94.758087 36.987095"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "locality",
+                "text": "United States of America, State of Iowa, Story County, Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "US",
+                  "formatted": "State of Iowa, Story County, Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "United States of America"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "State of Iowa"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Story County"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "State of Iowa, Story County, Ontario",
+                    "CountryNameCode": "US",
+                    "CountryName": "United States of America",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "State of Iowa",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Story County",
+                        "Locality": {
+                          "LocalityName": "Ontario"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Story County, State of Iowa, United States of America",
+            "name": "Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-93.747384 41.985247",
+                "upperCorner": "-93.615583 42.083505"
+              }
+            },
+            "Point": {
+              "pos": "-93.681483 42.034395"
+            }
+          }
+        },
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "locality",
+                "text": "United States of America, Wisconsin, Vernon County, Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "US",
+                  "formatted": "Wisconsin, Vernon County, Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "United States of America"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Wisconsin"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "Vernon County"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Wisconsin, Vernon County, Ontario",
+                    "CountryNameCode": "US",
+                    "CountryName": "United States of America",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Wisconsin",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "Vernon County",
+                        "Locality": {
+                          "LocalityName": "Ontario"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Vernon County, Wisconsin, United States of America",
+            "name": "Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-90.657089 43.678184",
+                "upperCorner": "-90.525288 43.773766"
+              }
+            },
+            "Point": {
+              "pos": "-90.591189 43.725994"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
