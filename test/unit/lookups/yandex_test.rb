@@ -113,7 +113,7 @@ class YandexTest < GeocoderTestCase
   end
 
   def test_yandex_hydro_object
-    result = Geocoder.search('Volga river').first
+    result = Geocoder.search('volga river').first
 
     assert_equal [49.550996, 45.139984], result.coordinates
     assert_equal [45.697053, 32.468241, 58.194645, 50.181608], result.viewport
@@ -134,7 +134,7 @@ class YandexTest < GeocoderTestCase
   end
 
   def test_yandex_province_object
-    result = Geocoder.search('Ontario').first
+    result = Geocoder.search('ontario').first
 
     assert_equal [49.294248, -87.170557], result.coordinates
     assert_equal [41.704494, -95.153382, 56.88699, -74.321387], result.viewport
