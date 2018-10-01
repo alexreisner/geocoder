@@ -454,8 +454,8 @@ IP Address Lookups
 
 ### Ipdata.co (`:ipdata_co`)
 
-* **API key**: optional, see: https://ipdata.co/pricing.html
-* **Quota**: 1500/day (up to 600k with paid API keys)
+* **API key**: required, see: https://ipdata.co/pricing.html
+* **Quota**: 1500/day for free, up to 600k with paid API keys
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: English
