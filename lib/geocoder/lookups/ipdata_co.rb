@@ -12,10 +12,6 @@ module Geocoder::Lookup
       [:https]
     end
 
-    def required_api_key_parts
-      ["api_key"]
-    end
-
     def query_url(query)
       # Ipdata.co requires that the API key be sent as a query parameter.
       # It no longer supports API keys sent as headers.
