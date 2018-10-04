@@ -76,7 +76,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **SSL support**: yes
 * **Languages**: ?
 * **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
-* **Terms of Service**: http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy
+* **Terms of Service**: https://operations.osmfoundation.org/policies/nominatim/
 * **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(http_headers: { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
 ### PickPoint (`:pickpoint`)
