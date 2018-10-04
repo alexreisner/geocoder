@@ -500,9 +500,9 @@ To avoid exceeding per-day limits you can add a `LIMIT` option. However, this wi
 Testing
 -------
 
-When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure the `:test` lookup:
+When writing tests for an app that uses Geocoder it may be useful to avoid network calls and have Geocoder return consistent, configurable results. To do this, configure the `:test` lookup and `:ip_lookup`
 
-    Geocoder.configure(lookup: :test)
+    Geocoder.configure(lookup: :test, ip_lookup: :test)
 
 Add stubs to define the results that will be returned:
 
