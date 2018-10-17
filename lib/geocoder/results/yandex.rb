@@ -278,9 +278,15 @@ module Geocoder::Result
 
     def dig_data(source, *keys)
       key = keys.shift
-      result = source.fetch(key, nil)
-      return result unless result.is_a?(Hash)
-      keys.any? ? dig_data(result, *keys) : result
+      result = source[key]
+
+      if keys.empty?
+        return result
+      elsif !result.is_a?(Hash)
+        return nil
+      end
+
+      dig_data(result, *keys)
     end
   end
 end
