@@ -32,6 +32,24 @@ class YandexTest < GeocoderTestCase
     end
   end
 
+  def test_yandex_dig_data_method
+    result = Geocoder::Result::Yandex.new({})
+    hash = {
+      'root_node' => {
+        'node_1' => [1, 2, 3],
+        'node_2' => {
+          'data' => 'foo'
+        }
+      }
+    }
+
+    assert_equal [1, 2, 3], result.send(:dig_data, hash, 'root_node', 'node_1')
+    assert_equal "foo", result.send(:dig_data, hash, 'root_node', 'node_2', 'data')
+    assert_equal nil, result.send(:dig_data, hash, 'root_node', 'node_3')
+    assert_equal nil, result.send(:dig_data, hash, 'root_node', 'node_2', 'another_data')
+    assert_equal nil, result.send(:dig_data, hash, 'root_node', 'node_2', 'data', 'x')
+  end
+
   def test_yandex_maximum_precision_on_russian_address
     result = Geocoder.search('putilkovo novotushinskaya 5').first
 
