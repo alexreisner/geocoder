@@ -330,7 +330,7 @@ IP Address Lookups
 * **API key**: optional - see http://ipinfo.io/pricing
 * **Quota**: 1,000/day - more with api key
 * **Region**: world
-* **SSL support**: no (not without access key - see http://ipinfo.io/pricing)
+* **SSL support**: yes
 * **Languages**: English
 * **Documentation**: http://ipinfo.io/developers
 * **Terms of Service**: http://ipinfo.io/developers

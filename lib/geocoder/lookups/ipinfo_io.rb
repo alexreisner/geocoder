@@ -8,15 +8,6 @@ module Geocoder::Lookup
       "Ipinfo.io"
     end
 
-    # HTTPS available only for paid plans
-    def supported_protocols
-      if configuration.api_key
-        [:http, :https]
-      else
-        [:http]
-      end
-    end
-
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
