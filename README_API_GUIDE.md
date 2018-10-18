@@ -339,10 +339,10 @@ IP Address Lookups
 
 ### IPInfo.io (`:ipinfo_io`)
 
-* **API key**: optional - see http://ipinfo.io/pricing
-* **Quota**: 1,000/day - more with api key
+* **API key**: optional (set `Geocoder.configure(ip_lookup: :ipinfo_io, api_key: key)`)
+* **Quota**: 1,000/day - more with api key, see http://ipinfo.io/pricing
 * **Region**: world
-* **SSL support**: no (not without access key - see http://ipinfo.io/pricing)
+* **SSL support**: no (not without api key)
 * **Languages**: English
 * **Documentation**: http://ipinfo.io/developers
 * **Terms of Service**: http://ipinfo.io/developers
