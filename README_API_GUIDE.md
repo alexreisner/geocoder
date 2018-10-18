@@ -193,18 +193,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: Requires API key if results will be stored. Using API key will also remove rate limit.
 * **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(esri: {outSR: 102100})`. If you will store results, set the flag and provide API key: `Geocoder.configure(esri: {api_key: ["client_id", "client_secret"], for_storage: true})`. If you want to, you can also supply an ESRI token directly: `Geocoder.configure(esri: {token: Geocoder::EsriToken.new('TOKEN', Time.now + 1.day})`
 
-### Mapzen (`:mapzen`)
-
-* **API key**: required
-* **Quota**: 25,000 free requests/month and [ability to purchase more](https://mapzen.com/pricing/)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
-* **Documentation**: https://mapzen.com/documentation/search/search/
-* **Terms of Service**: http://mapzen.com/terms
-* **Limitations**: [You must provide attribution](https://mapzen.com/rights/)
-* **Notes**: Mapzen is the primary author of Pelias and offers Pelias-as-a-service in free and paid versions https://mapzen.com/pelias.
-
 ### Pelias (`:pelias`)
 
 * **API key**: configurable (self-hosted service)

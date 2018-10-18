@@ -370,13 +370,6 @@ module Geocoder
       end
     end
 
-    require 'geocoder/lookups/mapzen'
-    class Mapzen
-      def fixture_prefix
-        'pelias'
-      end
-    end
-
     require 'geocoder/lookups/ipinfo_io'
     class IpinfoIo
       private
