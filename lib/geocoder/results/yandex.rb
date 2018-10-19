@@ -71,7 +71,7 @@ module Geocoder::Result
     ].freeze
 
     # On SUBADMIN_LEVEL (may refer to urban district)
-    # example: ''
+    # example: 'Moscow Region, Krasnogorsk'
     # "AddressDetails": {
     #   "Country": {
     #     "AddressLine": "Moscow Region, Krasnogorsk",
