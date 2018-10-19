@@ -18,6 +18,10 @@ module Geocoder::Result
       properties['country_a']
     end
 
+    def place_name
+      properties['name']
+    end
+
     def postal_code
       properties['postalcode'].to_s
     end
@@ -35,7 +39,10 @@ module Geocoder::Result
     end
 
     def self.response_attributes
-      %w[county confidence country gid id layer localadmin locality neighborhood]
+      %w[
+        county confidence country gid id layer localadmin locality
+        neighborhood street source
+      ]
     end
 
     response_attributes.each do |a|
@@ -55,4 +62,3 @@ module Geocoder::Result
     end
   end
 end
-
