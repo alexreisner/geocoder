@@ -35,6 +35,9 @@ module Geocoder::Lookup
       else
         params[:text] = query.text
       end
+
+      apply_configurable_filters(params)
+
       params
     end
 
@@ -59,6 +62,14 @@ module Geocoder::Lookup
       end
 
       doc['features'] || []
+    end
+
+    def apply_configurable_filters(params)
+      if configuration[:limit_to_country]
+        params[:'boundary.country'] = configuration[:limit_to_country]
+      end
+      params[:layers] = configuration[:layers] if configuration[:layers]
+      params[:sources] = configuration[:sources] if configuration[:sources]
     end
   end
 end

@@ -205,6 +205,21 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: See terms
 * **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(lookup: :pelias, api_key: 'your_api_key', pelias: {endpoint: 'self.hosted/pelias'})`. Defaults to `localhost`.
 
+  Optional Query filters available on the Pelias API can also be applied here, such as `sources`, `layers` and `boundary.country`:
+
+      Geocoder.configure(
+        lookup: :pelias,
+        api_key: 'your_api_key',
+        pelias: {
+          endpoint: 'self.hosted/pelias',
+          sources: 'osm, oa', # One or multiple sources
+          layers: 'venue', # One or multiple layer types
+          limit_to_country: 'SG'
+        }
+      )
+
+  [More info on Pelias API](https://github.com/pelias/documentation#core-features-and-api-documentation)
+
 ### Data Science Toolkit (`:dstk`)
 
 Data Science Toolkit provides an API whose response format is like Google's but which can be set up as a privately hosted service.

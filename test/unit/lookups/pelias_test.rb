@@ -3,7 +3,11 @@ require 'test_helper'
 
 class PeliasTest < GeocoderTestCase
   def setup
-    Geocoder.configure(lookup: :pelias, api_key: 'abc123', pelias: {}) # Empty pelias hash only for test (pollution control)
+    Geocoder.configure(
+      lookup: :pelias,
+      api_key: 'abc123',
+      pelias: {}
+    ) # Empty pelias hash only for test (pollution control)
   end
 
   def test_configure_default_endpoint
@@ -12,7 +16,13 @@ class PeliasTest < GeocoderTestCase
   end
 
   def test_configure_custom_endpoint
-    Geocoder.configure(lookup: :pelias, api_key: 'abc123', pelias: {endpoint: 'self.hosted.pelias/proxy'})
+    Geocoder.configure(
+      lookup: :pelias,
+      api_key: 'abc123',
+      pelias: {
+        endpoint: 'self.hosted.pelias/proxy'
+      }
+    )
     query = Geocoder::Query.new('Madison Square Garden, New York, NY')
     assert_true query.url.start_with?('http://self.hosted.pelias/proxy/v1/search'), query.url
   end
@@ -26,5 +36,23 @@ class PeliasTest < GeocoderTestCase
     lookup = Geocoder::Lookup::Pelias.new
     url = lookup.query_url(Geocoder::Query.new([45.423733, -75.676333]))
     assert_match(/point.lat=45.423733&point.lon=-75.676333&size=1/, url)
+  end
+
+  def test_query_for_custom_filters
+    Geocoder.configure(
+      lookup: :pelias,
+      api_key: 'abc123',
+      pelias: {
+        endpoint: 'self.hosted.pelias/proxy',
+        layers: 'venue',
+        sources: 'osm',
+        limit_to_country: 'USA'
+      }
+    )
+    query = Geocoder::Query.new('Madison Square Garden, New York, NY')
+
+    assert_match 'sources=osm', query.url
+    assert_match 'layers=venue', query.url
+    assert_match 'boundary.country=USA', query.url
   end
 end
