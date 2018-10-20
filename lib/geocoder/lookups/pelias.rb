@@ -24,12 +24,11 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       params = {
-        api_key: configuration.api_key,
-        size: 1
+        api_key: configuration.api_key
       }.merge(super)
 
       if query.reverse_geocode?
-        lat,lon = query.coordinates
+        lat, lon = query.coordinates
         params[:'point.lat'] = lat
         params[:'point.lon'] = lon
       else
