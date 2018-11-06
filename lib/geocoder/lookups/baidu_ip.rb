@@ -1,4 +1,4 @@
-require 'geocoder/lookups/base'
+require 'geocoder/lookups/baidu'
 require 'geocoder/results/baidu_ip'
 
 module Geocoder::Lookup
