@@ -224,15 +224,15 @@ Some common options are:
 Please see [`lib/geocoder/configuration.rb`](https://github.com/alexreisner/geocoder/blob/master/lib/geocoder/configuration.rb) for a complete list of configuration options. Additionally, some lookups have their own special configuration options which are directly supported by Geocoder. For example, to specify a value for Google's `bounds` parameter:
 
     # with Google:
-    Geocoder.search("Paris", bounds: [[32.1,-95.9], [33.9,-94.3]])
+    Geocoder.search("Middletown", bounds: [[40.6,-77.9], [39.9,-75.9]])
 
 Please see the [source code for each lookup](https://github.com/alexreisner/geocoder/tree/master/lib/geocoder/lookups) to learn about directly supported parameters. Parameters which are not directly supported can be specified using the `:params` option, which appends options to the query string of the geocoding request. For example:
 
     # Nominatim's `countrycodes` parameter:
-    Geocoder.search("Paris", params: {countrycodes: "gb,de,fr,es,us"})
+    Geocoder.search("Rome", params: {countrycodes: "us,ca"})
 
     # Google's `region` parameter:
-    Geocoder.search("Paris", params: {region: "..."})
+    Geocoder.search("Rome", params: {region: "..."})
 
 ### Configuring Multiple Services
 
