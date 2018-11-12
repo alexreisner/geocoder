@@ -53,7 +53,8 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       {
-        key: configuration.api_key
+        key: configuration.api_key,
+        language: (query.language || configuration.language)
       }.merge(super)
     end
 
