@@ -30,19 +30,20 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       options = {
-        :gen=>4,
-        :app_id=>api_key,
-        :app_code=>api_code
+        gen: 4,
+        app_id: api_key,
+        app_code: api_code,
+        language: (query.language || configuration.language)
       }
 
       if query.reverse_geocode?
         super.merge(options).merge(
-          :prox=>query.sanitized_text,
-          :mode=>:retrieveAddresses
+          prox: query.sanitized_text,
+          mode: :retrieveAddresses
         )
       else
         super.merge(options).merge(
-          :searchtext=>query.sanitized_text
+          searchtext: query.sanitized_text
         )
       end
     end

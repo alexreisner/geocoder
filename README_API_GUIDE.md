@@ -63,7 +63,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
 * **Region**: world
 * **SSL support**: no
-* **Languages**: ?
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
 * **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
 * **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
 * **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."

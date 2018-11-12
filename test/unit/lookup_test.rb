@@ -56,8 +56,10 @@ class LookupTest < GeocoderTestCase
   end
 
   {
+    :bing => :language,
     :google => :language,
     :google_premier => :language,
+    :here => :language,
     :nominatim => :"accept-language",
     :yandex => :plng
   }.each do |l,p|
