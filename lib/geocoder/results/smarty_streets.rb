@@ -17,7 +17,7 @@ module Geocoder::Result
     def address
       parts =
         if international_endpoint?
-          (1..4).map { |i| @data["address#{i}"] }
+          (1..12).map { |i| @data["address#{i}"] }
         else
           [
             delivery_line_1,
@@ -64,7 +64,7 @@ module Geocoder::Result
 
     def street
       international_endpoint? ?
-        @data['address1'] :
+        components['thoroughfare_name'] :
         components['street_name']
     end
 

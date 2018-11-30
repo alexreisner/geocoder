@@ -1,0 +1,33 @@
+[
+  {
+    "address1": "13 Rue Yves Toudic",
+    "address2": "10E Arrondissement",
+    "address3": "75010 Paris",
+    "components": {
+      "super_administrative_area": "Ile-De-France",
+      "administrative_area": "Paris",
+      "country_iso_3": "FRA",
+      "locality": "Paris",
+      "dependent_locality": "10E Arrondissement",
+      "postal_code": "75010",
+      "postal_code_short": "75010",
+      "premise": "13",
+      "premise_number": "13",
+      "thoroughfare": "Rue Yves Toudic",
+      "thoroughfare_name": "Yves Toudic",
+      "thoroughfare_type": "Rue"
+    },
+    "metadata": {
+      "latitude": 48.870131,
+      "longitude": 2.363473,
+      "geocode_precision": "Premise",
+      "max_geocode_precision": "DeliveryPoint",
+      "address_format": "premise thoroughfare|dependent_locality|postal_code locality"
+    },
+    "analysis": {
+      "verification_status": "Verified",
+      "address_precision": "Premise",
+      "max_address_precision": "DeliveryPoint"
+    }
+  }
+]
