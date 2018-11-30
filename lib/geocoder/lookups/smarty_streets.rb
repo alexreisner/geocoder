@@ -19,7 +19,9 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      if zipcode_only?(query)
+      if international?(query)
+        "#{protocol}://international-street.api.smartystreets.com/verify?"
+      elsif zipcode_only?(query)
         "#{protocol}://us-zipcode.api.smartystreets.com/lookup?"
       else
         "#{protocol}://us-street.api.smartystreets.com/street-address?"
@@ -30,9 +32,17 @@ module Geocoder::Lookup
       !query.text.is_a?(Array) and query.to_s.strip =~ /\A\d{5}(-\d{4})?\Z/
     end
 
+    def international?(query)
+      !query.options[:country].nil?
+    end
+
     def query_url_params(query)
       params = {}
-      if zipcode_only?(query)
+      if international?(query)
+        params[:freeform] = query.sanitized_text
+        params[:country] = query.options[:country]
+        params[:geocode] = true
+      elsif zipcode_only?(query)
         params[:zipcode] = query.sanitized_text
       else
         params[:street] = query.sanitized_text
