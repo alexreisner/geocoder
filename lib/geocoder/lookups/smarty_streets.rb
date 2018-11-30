@@ -8,7 +8,7 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      %w(auti-id auth-token)
+      %w(auth-id auth-token)
     end
 
     # required by API as of 26 March 2015
