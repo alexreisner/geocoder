@@ -155,7 +155,7 @@ module Geocoder
     #
     def compass_point(bearing, points = COMPASS_POINTS)
       seg_size = 360 / points.size
-      points[((bearing + (seg_size / 2)) % 360) / seg_size]
+      points[(((bearing + (seg_size / 2)) % 360) / seg_size) % points.size]
     end
 
     ##
