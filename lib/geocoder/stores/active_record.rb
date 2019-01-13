@@ -18,19 +18,19 @@ module Geocoder::Store
 
         # scope: geocoded objects
         scope :geocoded, lambda {
-          where("#{table_name}.#{geocoder_options[:latitude]} IS NOT NULL " +
-            "AND #{table_name}.#{geocoder_options[:longitude]} IS NOT NULL")
+          where("\"#{table_name}\".\"#{geocoder_options[:latitude]}\" IS NOT NULL " +
+            "AND \"#{table_name}\".\"#{geocoder_options[:longitude]}\" IS NOT NULL")
         }
 
         # scope: not-geocoded objects
         scope :not_geocoded, lambda {
-          where("#{table_name}.#{geocoder_options[:latitude]} IS NULL " +
-            "OR #{table_name}.#{geocoder_options[:longitude]} IS NULL")
+          where("\"#{table_name}\".\"#{geocoder_options[:latitude]}\" IS NULL " +
+            "OR \"#{table_name}\".\"#{geocoder_options[:longitude]}\" IS NULL")
         }
 
         # scope: not-reverse geocoded objects
         scope :not_reverse_geocoded, lambda {
-          where("#{table_name}.#{geocoder_options[:fetched_address]} IS NULL")
+          where("\"#{table_name}\".\"#{geocoder_options[:fetched_address]}\" IS NULL")
         }
 
         ##
