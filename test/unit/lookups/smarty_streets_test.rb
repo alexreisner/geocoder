@@ -29,6 +29,11 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_match(/us-zipcode\.api\.smartystreets\.com\/lookup\?/, query.url)
   end
 
+  def test_query_for_international_geocode
+    query = Geocoder::Query.new("13 rue yves toudic 75010", country: "France")
+    assert_match(/international-street\.api\.smartystreets\.com\/verify\?/, query.url)
+  end
+
   def test_smarty_streets_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Penn", result.street
@@ -36,6 +41,7 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_equal "1703", result.zip4
     assert_equal "New York", result.city
     assert_equal "36061", result.fips
+    assert_equal "US", result.country_code
     assert !result.zipcode_endpoint?
   end
 
@@ -44,7 +50,17 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_equal "Brooklyn", result.city
     assert_equal "New York", result.state
     assert_equal "NY", result.state_code
+    assert_equal "US", result.country_code
     assert result.zipcode_endpoint?
+  end
+
+  def test_smarty_streets_result_components_with_international_query
+    result = Geocoder.search("13 rue yves toudic 75010", country: "France").first
+    assert_equal 'Yves Toudic', result.street
+    assert_equal 'Paris', result.city
+    assert_equal '75010', result.postal_code
+    assert_equal 'FRA', result.country_code
+    assert result.international_endpoint?
   end
 
   def test_smarty_streets_when_longitude_latitude_does_not_exist

@@ -15,51 +15,77 @@ module Geocoder::Result
     end
 
     def address
-      [
-        delivery_line_1,
-        delivery_line_2,
-        last_line
-      ].select{ |i| i.to_s != "" }.join(" ")
+      parts =
+        if international_endpoint?
+          (1..12).map { |i| @data["address#{i}"] }
+        else
+          [
+            delivery_line_1,
+            delivery_line_2,
+            last_line
+          ]
+        end
+      parts.select{ |i| i.to_s != "" }.join(" ")
     end
 
     def state
-      zipcode_endpoint? ?
-        city_states.first['state'] :
+      if international_endpoint?
+        components['administrative_area']
+      elsif zipcode_endpoint?
+        city_states.first['state']
+      else
         components['state_abbreviation']
+      end
     end
 
     def state_code
-      zipcode_endpoint? ?
-        city_states.first['state_abbreviation'] :
+      if international_endpoint?
+        components['administrative_area']
+      elsif zipcode_endpoint?
+        city_states.first['state_abbreviation']
+      else
         components['state_abbreviation']
+      end
     end
 
     def country
-      # SmartyStreets returns results for USA only
-      "United States"
+      international_endpoint? ?
+        components['country_iso_3'] :
+        "United States"
     end
 
     def country_code
-      # SmartyStreets returns results for USA only
-      "US"
+      international_endpoint? ?
+        components['country_iso_3'] :
+        "US"
     end
 
     ## Extra methods not in base.rb ------------------------
 
     def street
-      components['street_name']
+      international_endpoint? ?
+        components['thoroughfare_name'] :
+        components['street_name']
     end
 
     def city
-      zipcode_endpoint? ?
-        city_states.first['city'] :
+      if international_endpoint?
+        components['locality']
+      elsif zipcode_endpoint?
+        city_states.first['city']
+      else
         components['city_name']
+      end
     end
 
     def zipcode
-      zipcode_endpoint? ?
-        zipcodes.first['zipcode'] :
+      if international_endpoint?
+        components['postal_code']
+      elsif zipcode_endpoint?
+        zipcodes.first['zipcode']
+      else
         components['zipcode']
+      end
     end
     alias_method :postal_code, :zipcode
 
@@ -76,6 +102,10 @@ module Geocoder::Result
 
     def zipcode_endpoint?
       zipcodes.any?
+    end
+
+    def international_endpoint?
+      !@data['address1'].nil?
     end
 
     [
