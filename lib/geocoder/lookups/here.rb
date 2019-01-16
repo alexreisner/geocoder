@@ -44,7 +44,7 @@ module Geocoder::Lookup
         options[:country] = country
       end
 
-      unless (mapview = query.options[:mapview]).nil?
+      unless (mapview = query.options[:bounds]).nil?
         options[:mapview] = mapview.map{ |point| "%f,%f" % point }.join(';')
       end
       options

@@ -178,7 +178,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **SSL support**: yes
 * **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
 * **Extra params**:
-  * `:mapview` - pass NW and SE coordinates as an array of two arrays to bias results towards a viewport
+  * `:bounds` - pass NW and SE coordinates as an array of two arrays to bias results towards a viewport
   * `:country` - pass the country or list of countries using the country code (3 bytes, ISO 3166-1-alpha-3) or the country name, to filter the results
 * **Documentation**: http://developer.here.com/rest-apis/documentation/geocoder
 * **Terms of Service**: http://developer.here.com/faqs#l&t

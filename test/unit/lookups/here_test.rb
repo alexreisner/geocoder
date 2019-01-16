@@ -30,7 +30,7 @@ class HereTest < GeocoderTestCase
     url = lookup.query_url(
       Geocoder::Query.new(
         'Some Intersection',
-        mapview: [[40.0, -120.0], [39.0, -121.0]]
+        bounds: [[40.0, -120.0], [39.0, -121.0]]
       )
     )
     assert_match(/mapview=40.0+%2C-120.0+%3B39.0+%2C-121.0+/, url)
