@@ -31,6 +31,9 @@ module Geocoder::Lookup
       case doc['status']
       when 0
         return [doc[content_key]]
+      when 199
+        raise error(Geocoder::InvalidApiKey, "invalid api key") ||
+        Geocoder.log(:warn, "#{name} Geocoding API error: key is not enabled for web service usage.")
       when 311
         raise_error(Geocoder::RequestDenied, "request denied") ||
           Geocoder.log(:warn, "#{name} Geocoding API error: request denied.")

@@ -13,10 +13,9 @@ module Geocoder::Result
       #@data['title'] or @data['address']
     end
 
-    # The Tencent reverse reverse geocoding API has the field named
+    # NOTE: The Tencent reverse geocoding API has the field named
     # 'address_component' compared to 'address_components' in the 
     # regular geocoding API.
-
     def province
       @data['address_components'] and (@data['address_components']['province']) or 
       (@data['address_component'] and @data['address_component']['province']) or
