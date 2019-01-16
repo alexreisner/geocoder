@@ -231,6 +231,19 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(lookup: :baidu, api_key: "your_api_key")`.
 
+### Tencent (`:tencent`)
+
+* **API key**: required
+* **Key signup**: http://lbs.qq.com/console/mykey.html
+* **Quota**: 10,000 free requests per day per key. 5 requests per second per key. For increased quota, one must first apply to become a corporate developer and then apply for increased quota.
+* **Region**: China
+* **SSL support**: no
+* **Languages**: Chinese (Simplified)
+* **Documentation**: http://lbs.qq.com/webservice_v1/guide-geocoder.html (Standard) & http://lbs.qq.com/webservice_v1/guide-gcoder.html (Reverse)
+* **Terms of Service**: http://lbs.qq.com/terms.html
+* **Limitations**: Only works for locations in Greater China (mainland China, Hong Kong, Macau, and Taiwan).
+* **Notes**: To use Tencent, set `Geocoder.configure(lookup: :tencent, api_key: "your_api_key")`.
+
 ### Geocodio (`:geocodio`)
 
 * **API key**: required

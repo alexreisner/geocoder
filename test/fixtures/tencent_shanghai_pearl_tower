@@ -1,0 +1,22 @@
+{
+    "status":0,
+    "message":"query ok",
+    "result":{
+        "title":"东方明珠主观光层",
+        "location":{
+            "lng":121.499809,
+            "lat":31.239664
+        },
+        "address_components":{
+            "province":"上海市",
+            "city":"上海市",
+            "district":"浦东新区",
+            "street":"",
+            "street_number":""
+        },
+        "similarity":0.8,
+        "deviation":1000,
+        "reliability":7,
+        "level":11
+    }
+}
