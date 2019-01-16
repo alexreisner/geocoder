@@ -249,7 +249,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Key signup**: http://lbs.qq.com/console/mykey.html
 * **Quota**: 10,000 free requests per day per key. 5 requests per second per key. For increased quota, one must first apply to become a corporate developer and then apply for increased quota.
 * **Region**: China
-* **SSL support**: no
+* **SSL support**: yes
 * **Languages**: Chinese (Simplified)
 * **Documentation**: http://lbs.qq.com/webservice_v1/guide-geocoder.html (Standard) & http://lbs.qq.com/webservice_v1/guide-gcoder.html (Reverse)
 * **Terms of Service**: http://lbs.qq.com/terms.html
