@@ -3,6 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.5.1 (2019 Jan 23)
+-------------------
+* Add support for :tencent lookup (thanks github.com/Anders-E).
+* Add support for :smarty_streets international API (thanks github.com/ankane).
+* Remove :mapzen lookup.
+
 1.5.0 (2018 Jul 31)
 -------------------
 * Drop support for Ruby <2.0.
