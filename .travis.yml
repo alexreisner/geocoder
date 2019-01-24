@@ -23,8 +23,8 @@ gemfile:
   - gemfiles/Gemfile.rails4.1
   - gemfiles/Gemfile.rails5.0
 before_install:
-  - which bundle >/dev/null 2>&1 || gem install bundler
-  - gem update --system
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
 matrix:
   exclude:
     - env: DB=
