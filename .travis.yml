@@ -54,5 +54,7 @@ matrix:
       gemfile: gemfiles/Gemfile.rails3.2
     - rvm: jruby-19mode
       gemfile: gemfiles/Gemfile.rails5.0
+    - rvm: jruby-19mode
+      gemfile: gemfiles/Gemfile.rails4.1
     - env: DB=sqlite USE_SQLITE_EXT=1
       rvm: jruby-19mode
