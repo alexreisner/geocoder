@@ -10,7 +10,7 @@ module Geocoder::Lookup
 
     def supported_protocols
       if configuration[:host]
-        [:http, :https]
+        [:https]
       else
         # use https for default host
         [:https]
@@ -44,8 +44,8 @@ module Geocoder::Lookup
         "city"         => "",
         "region_code"  => "",
         "region_name"  => "",
-        "metrocode"    => "",
-        "zipcode"      => "",
+        "metro_code"    => "",
+        "zip_code"      => "",
         "latitude"     => "0",
         "longitude"    => "0",
         "country_name" => "Reserved",
@@ -54,7 +54,7 @@ module Geocoder::Lookup
     end
 
     def host
-      configuration[:host] || "freegeoip.net"
+      configuration[:host] || "freegeoip.app"
     end
   end
 end
