@@ -32,12 +32,15 @@ module Geocoder
     # appropriate to the Query text.
     #
     def lookup
+      name = nil
+
       if !options[:street_address] and (options[:ip_address] or ip_address?)
-        name = options[:ip_lookup] || Configuration.ip_lookup || Geocoder::Lookup.ip_services.first
+        name = options[:ip_lookup] || Configuration.ip_lookup
       else
-        name = options[:lookup] || Configuration.lookup || Geocoder::Lookup.street_services.first
+        name = options[:lookup] || Configuration.lookup
       end
-      Lookup.get(name)
+
+      Lookup.get(name || :empty)
     end
 
     def url

@@ -90,14 +90,13 @@ module Geocoder
       @services[name]
     end
 
-
     private # -----------------------------------------------------------------
 
     ##
     # Spawn a Lookup of the given name.
     #
     def spawn(name)
-      if all_services.include?(name)
+      if all_services.include?(name) || name == :empty
         name = name.to_s
         require "geocoder/lookups/#{name}"
         Geocoder::Lookup.const_get(classify_name(name)).new

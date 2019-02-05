@@ -147,6 +147,8 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/empty'
+
     require 'geocoder/lookups/bing'
     class Bing
       private
