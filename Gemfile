@@ -22,7 +22,7 @@ end
 
 group :test do
   platforms :ruby, :mswin, :mingw do
-    gem 'sqlite3'
+    gem 'sqlite3', '~> 1.3.5'
     gem 'sqlite_ext', '~> 1.5.0'
   end
 
