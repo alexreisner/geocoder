@@ -35,6 +35,6 @@ class FreegeoipTest < GeocoderTestCase
     Geocoder.configure(freegeoip: {host: "local.com"})
     lookup = Geocoder::Lookup::Freegeoip.new
     query = Geocoder::Query.new("24.24.24.23")
-    assert_match %r(http://local\.com), lookup.query_url(query)
+    assert_match %r(https://local\.com), lookup.query_url(query)
   end
 end
