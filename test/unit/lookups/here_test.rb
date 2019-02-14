@@ -35,4 +35,16 @@ class HereTest < GeocoderTestCase
     )
     assert_match(/mapview=40.0+%2C-120.0+%3B39.0+%2C-121.0+/, url)
   end
+
+  def test_here_use_autocomplete_query_url
+    lookup = Geocoder::Lookup::Here.new
+    url = lookup.query_url(
+      Geocoder::Query.new(
+        'Some Intersection',
+        complete: true
+      )
+    )
+    assert_match(/autocomplete.geocoder.api.here.com/, url)
+  end
+
 end

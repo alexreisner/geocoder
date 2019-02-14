@@ -22,11 +22,21 @@ module Geocoder
         "#{protocol}://maps.googleapis.com/maps/api/place/textsearch/json?"
       end
 
+      def autocomplete_query_url
+        "#{protocol}://maps.googleapis.com/maps/api/place/autocomplete/json?"
+      end
+
       def query_url_google_params(query)
+        return autocomplete_query_params(query) if query.complete?
+
         {
           query: query.text,
           language: query.language || configuration.language
         }
+      end
+
+      def autocomplete_query_params(query)
+        { input: query.text }
       end
     end
   end

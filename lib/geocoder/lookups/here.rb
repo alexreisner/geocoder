@@ -18,8 +18,18 @@ module Geocoder::Lookup
       "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.api.here.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?"
     end
 
+    def autocomplete_query_url
+      "#{protocol}://autocomplete.geocoder.api.here.com/6.2/suggest.json?"
+    end
+
     def results(query)
       return [] unless doc = fetch_data(query)
+
+      if query.complete?
+        r = doc['suggestions']
+        return r.nil? || !r.is_a?(Array) || r.empty? ? [] : r
+      end
+
       return [] unless doc['Response'] && doc['Response']['View']
       if r=doc['Response']['View']
         return [] if r.nil? || !r.is_a?(Array) || r.empty?
@@ -54,6 +64,10 @@ module Geocoder::Lookup
       if query.reverse_geocode?
         super.merge(query_url_here_options(query, true)).merge(
           prox: query.sanitized_text
+        )
+      elsif query.complete?
+        super.merge(query_url_here_options(query, false)).merge(
+          :query=>query.sanitized_text
         )
       else
         super.merge(query_url_here_options(query, false)).merge(

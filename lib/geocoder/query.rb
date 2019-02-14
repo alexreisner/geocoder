@@ -112,6 +112,13 @@ module Geocoder
       coordinates?
     end
 
+    ##
+    # Use autocompletion query url for lookup
+    #
+    def complete?
+      options[:complete]
+    end
+
     def language
       options[:language]
     end

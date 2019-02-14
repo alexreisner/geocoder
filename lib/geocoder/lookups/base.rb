@@ -76,6 +76,8 @@ module Geocoder
       # subclss this method, they must also subclass #cache_key.
       #
       def query_url(query)
+        return autocomplete_query_url + url_query_string(query) if query.complete?
+
         base_query_url(query) + url_query_string(query)
       end
 
@@ -106,6 +108,10 @@ module Geocoder
       #
       def base_query_url(query)
         fail
+      end
+
+      def autocomplete_query_url
+        raise NotImplementedError
       end
 
       ##
