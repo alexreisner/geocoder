@@ -302,11 +302,20 @@ module Geocoder
       end
     end
 
+
     require 'geocoder/lookups/baidu'
     class Baidu
       private
       def default_fixture_filename
         "baidu_shanghai_pearl_tower"
+      end
+    end
+
+    require 'geocoder/lookups/nationaal_georegister_nl'
+    class NationaalGeoregisterNl
+      private
+      def default_fixture_filename
+        "nationaal_georegister_nl"
       end
     end
 

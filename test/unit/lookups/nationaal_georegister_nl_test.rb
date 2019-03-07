@@ -11,7 +11,7 @@ class NationaalGeoregisterNlTest < GeocoderTestCase
     result = Geocoder.search('Nieuwezijds Voorburgwal 147, 1012 RJ Amsterdam').first
 
     assert_equal result.city,         'Amsterdam'
-    assert_equal result.postcode,     '1012RJ'
+    assert_equal result.postal_code,  '1012RJ'
     assert_equal result.address,      'Nieuwezijds Voorburgwal 147, 1012RJ Amsterdam'
     assert_equal result.country_code, 'NL'
   end
