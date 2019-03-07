@@ -34,6 +34,7 @@ module Geocoder
         :geocoder_ca,
         :geocoder_us,
         :yandex,
+        :nationaal_georegister_nl,
         :nominatim,
         :mapbox,
         :mapquest,
