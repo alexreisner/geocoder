@@ -478,6 +478,17 @@ IP Address Lookups
 * **Terms of Service**: https://www.ip2location.com/web-service
 * **Notes**: With the non-free version, specify your desired package: `Geocoder.configure(ip2location: {package: "WSX"})` (see API documentation for package details).
 
+### Ipgeolocation (`:ipgeolocation`)
+
+* **API key**: required (see https://ipgeolocation.io/pricing)
+* **Quota**: 1500/day (with free API Key)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English, German, Russian, Japanese, French, Chinese, Spanish, Czech, Italian
+* **Documentation**: https://ipgeolocation.io/documentation
+* **Terms of Service**: https://ipgeolocation/tos
+* **Notes**: To use Ipgeolocation set `Geocoder.configure(ip_lookup: :ipgeolocation, api_key: "your_ipgeolocation_api_key", use_https:true)`. Supports the optional params:  { excludes: "continent_code"}, {fields: "geo"}, {lang: "ru"}, {output: "xml"}, {include: "hostname"}, {ip: "174.7.116.0"}) (see API documentation for details).
+
 
 Local IP Address Lookups
 ------------------------
