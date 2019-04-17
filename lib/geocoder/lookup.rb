@@ -37,6 +37,7 @@ module Geocoder
         :nominatim,
         :mapbox,
         :mapquest,
+        :uk_ordnance_survey_names,
         :opencagedata,
         :pelias,
         :pickpoint,

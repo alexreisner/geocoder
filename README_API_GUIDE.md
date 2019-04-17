@@ -297,16 +297,28 @@ Regional Street Address Lookups
 * **Terms of Service**: http://wiki.geoportail.lu/doku.php?id=en:mcg_1
 * **Limitations**: ?
 
-### Postcodes.io (`:postcodes_io`)
+### Bing (`:bing`)
 
-* **API key**: none
-* **Quota**: ?
-* **Region**: UK
+* **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)
+* **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
+* **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
+* **Region**: world
+* **SSL support**: no
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
+* **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
+* **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
+* **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
+
+### Ordnance Survey OpenNames (`:uk_ordnance_survey_names`)
+
+* **API key**: required (sign up at https://developer.ordnancesurvey.co.uk/os-names-api)
+* **Quota**: 250,000 / month
+* **Region**: England, Wales and Scotland
 * **SSL support**: yes
 * **Languages**: English
-* **Documentation**: http://postcodes.io/docs
-* **Terms of Service**: ?
-* **Limitations**: UK postcodes only
+* **Documentation**: https://apidocs.os.uk/docs/os-names-overview
+* **Terms of Service**: https://developer.ordnancesurvey.co.uk/os-api-framework-agreement
+* **Limitations**: Only searches postcodes and placenames in England, Wales and Scotland
 
 ### PostcodeAnywhere UK (`:postcode_anywhere_uk`)
 
