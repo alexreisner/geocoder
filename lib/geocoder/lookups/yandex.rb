@@ -51,7 +51,7 @@ module Geocoder::Lookup
         :geocode => q,
         :format => "json",
         :plng => "#{query.language || configuration.language}", # supports ru, uk, be
-        :key => configuration.api_key
+        :api_key => configuration.api_key
       }
       unless (bounds = query.options[:bounds]).nil?
         params[:bbox] = bounds.map{ |point| "%f,%f" % point }.join('~')
