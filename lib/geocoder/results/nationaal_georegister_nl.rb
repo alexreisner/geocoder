@@ -8,7 +8,7 @@ module Geocoder::Result
     end
 
     def coordinates
-      lat, lng = @data['geometrie_ll'][6..-2].split(' ')
+      lat, lng = @data['centroide_ll'][6..-2].split(' ')
 
       [lat, lng]
     end
