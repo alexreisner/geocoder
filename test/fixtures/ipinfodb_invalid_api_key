@@ -1,0 +1,13 @@
+{
+  "statusCode" : "ERROR",
+  "statusMessage" : "Invalid API key.",
+  "ipAddress" : "",
+  "countryCode" : "",
+  "countryName" : "",
+  "regionName" : "",
+  "cityName" : "",
+  "zipCode" : "",
+  "latitude" : "0",
+  "longitude" : "0",
+  "timeZone" : ""
+}
