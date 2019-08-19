@@ -341,6 +341,16 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 IP Address Lookups
 ------------------
 
+### Ipregistry (`:ipregistry`)
+
+* **API key**: required (see https://ipregistry.co)
+* **Quota**: first 100,000 requests are free, then you pay per request (see https://ipregistry.co/pricing)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipregistry.co/docs
+* **Terms of Service**: https://ipregistry.co/terms
+
 ### IPInfo.io (`:ipinfo_io`)
 
 * **API key**: optional - see http://ipinfo.io/pricing
