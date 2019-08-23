@@ -5,6 +5,31 @@ require 'net/http'
 
 module Geocoder::Lookup
     class MapKit < Base
+        class Token
+            def self.token(configuration)
+                headers = {
+                    'alg' => ALGORITHM,
+                    'kid' => configuration.api_key[:mapkit_key_id],
+                    'typ' => 'JWT'
+                }
+
+                payload = {
+                    'iss' => configuration.api_key[:mapkit_team_id],
+                    'iat' => Time.now.to_i,
+                    'exp' => 1.day.from_now.to_i
+                }
+
+                JWT.encode(payload, private_key(configuration), ALGORITHM, headers)
+            end
+
+            private
+
+            ALGORITHM = "ES256"
+
+            def self.private_key(configuration)
+                OpenSSL::PKey::EC.new(configuration.api_key[:mapkit_private_key])
+            end
+        end
 
         def name
             "MapKit"
@@ -78,43 +103,23 @@ module Geocoder::Lookup
         end
 
         def access_token
-            # TODO: Add caching
-            response = make_request("https://cdn.apple-mapkit.com/ma/bootstrap?apiVersion=2&mkjsVersion=5.28.1&poi=1", token)
+            expired_at_string   = cache["mapKit_key_expired"]
+            token               = cache["mapKit_token"]
 
-            raise_error(Geocoder::InvalidApiKey, "unable to request access token from api") if response.nil? || !response.is_a?(Net::HTTPSuccess)
+            if expired_at_string.nil? || (Time.parse(expired_at_string) < (Time.now + 5.seconds))
+                response = make_request("https://cdn.apple-mapkit.com/ma/bootstrap?apiVersion=2&mkjsVersion=5.28.1&poi=1", Token::token(configuration))
 
-            response_hash = JSON.parse(response.read_body)
-            response_hash["authInfo"]["access_token"]
+                raise_error(Geocoder::InvalidApiKey, "unable to request access token from api") if response.nil? || !response.is_a?(Net::HTTPSuccess)
+
+                response_hash = JSON.parse(response.read_body)
+
+                expires_in = response_hash["authInfo"]["expires_in"]
+                token = response_hash["authInfo"]["access_token"]
+                cache["mapKit_token"]       = token
+                cache["mapKit_key_expired"] = (Time.now + expires_in).to_s
+            end
+
+            token
         end
-
-        def token
-            headers = {
-                'alg' => ALGORITHM,
-                'kid' => configuration.api_key[:mapkit_key_id],
-                'typ' => 'JWT'
-            }
-
-            payload = {
-                'iss' => configuration.api_key[:mapkit_team_id],
-                'iat' => Time.now.to_i,
-                'exp' => 1.day.from_now.to_i
-            }
-
-            JWT.encode(payload, private_key, ALGORITHM, headers)
-        end
-
-        def sign(path)
-            JWT::Base64.url_encode(JWT::Signature.sign(ALGORITHM, path, private_key))
-        end
-
-        private
-
-        ALGORITHM = "ES256"
-
-        def private_key
-            OpenSSL::PKey::EC.new(configuration.api_key[:mapkit_private_key])
-        end
-
-
     end
 end
