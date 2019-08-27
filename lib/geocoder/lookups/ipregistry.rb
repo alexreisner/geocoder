@@ -19,7 +19,7 @@ module Geocoder::Lookup
     end
 
     def supported_protocols
-      [:https]
+      [:https, :http]
     end
 
     private
