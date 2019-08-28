@@ -56,9 +56,10 @@ module Geocoder::Result
         def address_components
             # Return empty hash if something is not as expected.
             # Don't know whether we have to see geocodeAccuracy == ADDRESS_PARCEL but I'm very cautious here..
-            if data[1].blank? || data[1][0].blank? || data[1][0]["formattedAddressLines"].blank? || data[1][0]["geocodeAccuracy"] != "ADDRESS_PARCEL"
+            if data[1].blank? || data[1][0].blank? || data[1][0]["formattedAddressLines"].blank?
                 return {}
             end
+
 
             formatted_address = data[1][0]["formattedAddressLines"]
 
