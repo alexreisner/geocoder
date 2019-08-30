@@ -546,4 +546,23 @@ You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* g
     )
 
 
+### Apple MapKit (`:map_kit`)
+
+* **API key**: required. The following structure must be used:
+    ```ruby
+      :api_key => {
+            :mapkit_key_id      => <Key-ID>,
+            :mapkit_team_id     => <Team-ID>,
+            :mapkit_private_key => <Private-Key>
+        }
+    ```
+    The private key must look like this : `"-----BEGIN PRIVATE KEY-----\nMIGT[...]yoEWhgvmX\nE/RU[...]eGlM7/WugCgYI[...]vgsmmfW\ni+awnQ2JXN[...]Jv08uPIu6CsM6z\nyDAYcljF\n-----END PRIVATE KEY-----"`
+
+* **Key signup**: [https://maps.developer.apple.com](https://maps.developer.apple.com)
+* **Quota**: 25000 requests / day for free.
+* **Region**: world
+* **SSL support**: required
+* **Languages**: worldwide
+* **Documentation**: [https://developer.apple.com/maps/web/](https://developer.apple.com/maps/web/)
+
 Copyright (c) 2009-18 Alex Reisner, released under the MIT license.
