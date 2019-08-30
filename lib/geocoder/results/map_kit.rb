@@ -64,10 +64,10 @@ module Geocoder::Result
             formatted_address = data[1][0]["formattedAddressLines"]
 
             {
-                :street             => formatted_address[0].split(" ").first,
-                :street_number      => formatted_address[0].split(" ").last,
-                :city               => formatted_address[1].split(" ").last,
-                :postal_code        => formatted_address[1].split(" ").first,
+                :street             => formatted_address[-3].gsub(formatted_address[-3].split(" ").last, "").strip,
+                :street_number      => formatted_address[-3].split(" ").last,
+                :city               => formatted_address[-2].gsub(formatted_address[-2].split(" ").first, "").strip,
+                :postal_code        => formatted_address[-2].split(" ").first,
                 :country            => data[1][0]["country"],
                 :country_code       => data[1][0]["countryCode"],
                 :full_address_line  => formatted_address.join(","),
