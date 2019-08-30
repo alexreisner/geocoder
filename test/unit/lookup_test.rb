@@ -24,7 +24,7 @@ class LookupTest < GeocoderTestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipdata_co, :ipinfo_io, :ipapi_com, :ipstack, :postcodes_io].include? l # does not use query string
+      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipdata_co, :ipinfo_io, :ipapi_com, :ipregistry, :ipstack, :postcodes_io].include? l # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
@@ -153,6 +153,12 @@ class LookupTest < GeocoderTestCase
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::IpinfoIo.new
     assert_match "token=MY_KEY", g.query_url(Geocoder::Query.new("232.65.123.94"))
+  end
+
+  def test_ipregistry_api_key
+    Geocoder.configure(:api_key => "MY_KEY")
+    g = Geocoder::Lookup::Ipregistry.new
+    assert_match "key=MY_KEY", g.query_url(Geocoder::Query.new("232.65.123.94"))
   end
 
   def test_amap_api_key
