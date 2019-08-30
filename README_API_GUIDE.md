@@ -478,6 +478,15 @@ IP Address Lookups
 * **Terms of Service**: https://www.ip2location.com/web-service
 * **Notes**: With the non-free version, specify your desired package: `Geocoder.configure(ip2location: {package: "WSX"})` (see API documentation for package details).
 
+### Ipregistry (`:ipregistry`)
+
+* **API key**: required (see https://ipregistry.co)
+* **Quota**: first 100,000 requests are free, then you pay per request (see https://ipregistry.co/pricing)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipregistry.co/docs
+* **Terms of Service**: https://ipregistry.co/terms
 
 Local IP Address Lookups
 ------------------------

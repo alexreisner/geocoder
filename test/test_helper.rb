@@ -386,6 +386,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipregistry'
+    class Ipregistry
+      private
+      def default_fixture_filename
+        "ipregistry_8_8_8_8"
+      end
+    end
+
     require 'geocoder/lookups/ipapi_com'
     class IpapiCom
       private
