@@ -32,7 +32,7 @@ module Geocoder::Result
         end
 
         def coordinates
-            [address_components_of_type(:lat), address_components_of_type(:lng)]
+            [data[1][0]["center"]["lat"], data[1][0]["center"]["lng"]]
         end
 
 
