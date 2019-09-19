@@ -13,6 +13,17 @@ Table of Contents
 Street Address Lookups
 ----------------------
 
+### Nominatim (`:nominatim`)
+
+* **API key**: none
+* **Quota**: 1 request/second
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: ?
+* **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
+* **Terms of Service**: https://operations.osmfoundation.org/policies/nominatim/
+* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(http_headers: { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
+
 ### Google (`:google`)
 
 * **API key**: required
@@ -67,17 +78,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
 * **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
 * **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
-
-### Nominatim (`:nominatim`)
-
-* **API key**: none
-* **Quota**: 1 request/second
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: ?
-* **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
-* **Terms of Service**: https://operations.osmfoundation.org/policies/nominatim/
-* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(http_headers: { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
 ### PickPoint (`:pickpoint`)
 
