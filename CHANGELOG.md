@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.5.2 (2019 Oct  3)
+-------------------
+* Add support for :ipregistry lookup (thanks github.com/ipregistry).
+* Various fixes for Yandex lookup.
+
 1.5.1 (2019 Jan 23)
 -------------------
 * Add support for :tencent lookup (thanks github.com/Anders-E).
