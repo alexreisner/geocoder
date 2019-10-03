@@ -1,6 +1,17 @@
 language: ruby
 cache: bundler
 sudo: false
+
+services:
+  - postgresql
+  - mysql
+before_script:
+  - psql -c 'create database geocoder_test;' -U postgres
+
+before_install:
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
+
 env:
   global: 
     - JRUBY_OPTS=--2.0
@@ -23,9 +34,6 @@ gemfile:
   - gemfiles/Gemfile.rails3.2
   - gemfiles/Gemfile.rails4.1
   - gemfiles/Gemfile.rails5.0
-before_install:
-  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
-  - gem install bundler -v '< 2'
 matrix:
   exclude:
     - env: DB=
