@@ -43,7 +43,7 @@ class LookupTest < GeocoderTestCase
     :mapquest => :key,
     :maxmind => :l,
     :nominatim => :"accept-language",
-    :yandex => :plng
+    :yandex => :lang
   }.each do |l,p|
     define_method "test_passing_param_to_#{l}_query_overrides_configuration_value" do
       set_api_key!(l)
@@ -61,7 +61,7 @@ class LookupTest < GeocoderTestCase
     :google_premier => :language,
     :here => :language,
     :nominatim => :"accept-language",
-    :yandex => :plng
+    :yandex => :lang
   }.each do |l,p|
     define_method "test_passing_language_to_#{l}_query_overrides_configuration_value" do
       set_api_key!(l)
