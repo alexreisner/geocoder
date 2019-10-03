@@ -26,10 +26,6 @@ module Geocoder::Result
       address_data['HouseNumber']
     end  
 
-    def state_code
-      address_data['State']
-    end
-
     def state
       fail unless d = address_data['AdditionalData']
       if v = d.find{|ad| ad['key']=='StateName'}
