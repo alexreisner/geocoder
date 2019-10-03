@@ -11,4 +11,4 @@ mysql:
 postgres:
   adapter: postgresql
   database: geocoder_test
-  username:
+  username: postgres
