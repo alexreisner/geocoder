@@ -343,13 +343,13 @@ IP Address Lookups
 
 ### IPInfo.io (`:ipinfo_io`)
 
-* **API key**: optional - see http://ipinfo.io/pricing
-* **Quota**: 1,000/day - more with api key
+* **API key**: optional - see https://ipinfo.io/pricing
+* **Quota**: 50,000/mo - more with api key - see https://ipinfo.io/developers#rate-limits
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: English
-* **Documentation**: http://ipinfo.io/developers
-* **Terms of Service**: http://ipinfo.io/developers
+* **Documentation**: https://ipinfo.io/developers
+* **Terms of Service**: https://ipinfo.io/terms-of-service
 
 ### FreeGeoIP (`:freegeoip`) - [DISCONTINUED](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation)
 
@@ -438,13 +438,13 @@ IP Address Lookups
 
 ### IP-API.com (`:ipapi_com`)
 
-* **API key**: optional - see http://ip-api.com/docs/#usage_limits
-* **Quota**: 150/minute - unlimited with api key
+* **API key**: optional - see https://members.ip-api.com
+* **Quota**: 45/minute - unlimited with api key
 * **Region**: world
-* **SSL support**: no (not without access key - see https://signup.ip-api.com/)
+* **SSL support**: no (not without access key - see https://members.ip-api.com)
 * **Languages**: English
 * **Documentation**: http://ip-api.com/docs/
-* **Terms of Service**: https://signup.ip-api.com/terms
+* **Terms of Service**: https://members.ip-api.com/legal
 
 ### DB-IP.com (`:db_ip_com`)
 
