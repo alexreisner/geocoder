@@ -441,7 +441,7 @@ IP Address Lookups
 * **API key**: optional - see https://members.ip-api.com
 * **Quota**: 45/minute - unlimited with api key
 * **Region**: world
-* **SSL support**: no (not without access key - see https://signup.ip-api.com://members.ip-api.com)
+* **SSL support**: no (not without access key - see https://members.ip-api.com)
 * **Languages**: English
 * **Documentation**: http://ip-api.com/docs/
 * **Terms of Service**: https://members.ip-api.com/legal
