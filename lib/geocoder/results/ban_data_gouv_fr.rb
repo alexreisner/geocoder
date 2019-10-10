@@ -7,7 +7,7 @@ module Geocoder::Result
     #### BASE METHODS ####
 
     def self.response_attributes
-      %w[limit attribution version licence type features]
+      %w[limit attribution version licence type features center]
     end
 
     response_attributes.each do |a|
