@@ -19,7 +19,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      "#{protocol}://geocode-maps.yandex.ru/1.x/?"
+      "#{protocol}://geocode-maps.yandex.ru/1.x/?" + configuration[:api_key] + "&"
     end
 
     def results(query)
