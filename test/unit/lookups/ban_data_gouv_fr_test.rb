@@ -18,7 +18,7 @@ class BanDataGouvFrTest < GeocoderTestCase
     query = Geocoder::Query.new('13 rue yves toudic, 75010 Paris', lat: 48.789, lon: 2.789)
     lookup = Geocoder::Lookup.get(:ban_data_gouv_fr)
     res = lookup.query_url(query)
-    assert_equal 'http://api-adresse.data.gouv.fr/search/?lat=48.789&lon=2.789&q=13+rue+yves+toudic%2C+75010+Paris', res
+    assert_equal 'https://api-adresse.data.gouv.fr/search/?lat=48.789&lon=2.789&q=13+rue+yves+toudic%2C+75010+Paris', res
   end
 
   def test_query_for_reverse_geocode
