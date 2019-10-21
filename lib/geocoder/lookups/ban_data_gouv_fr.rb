@@ -86,6 +86,12 @@ module Geocoder::Lookup
       unless (citycode = query.options[:citycode]).nil? || !code_param_is_valid?(citycode)
         params[:citycode] = citycode.to_s
       end
+      unless (lat = query.options[:lat]).nil? || !latitude_is_valid?(lat)
+        params[:lat] = lat
+      end
+      unless (lon = query.options[:lon]).nil? || !longitude_is_valid?(lon)
+        params[:lon] = lon
+      end
       params
     end
 
@@ -126,5 +132,12 @@ module Geocoder::Lookup
       (1..99999).include?(param.to_i)
     end
 
+    def latitude_is_valid?(param)
+      param.to_f <= 90 && param.to_f >= -90
+    end
+
+    def longitude_is_valid?(param)
+      param.to_f <= 180 && param.to_f >= -180
+    end
   end
 end
