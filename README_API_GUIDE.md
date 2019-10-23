@@ -344,7 +344,7 @@ IP Address Lookups
 ### IPInfo.io (`:ipinfo_io`)
 
 * **API key**: optional - see https://ipinfo.io/pricing
-* **Quota**: 50,000/mo - more with api key - see https://ipinfo.io/developers#rate-limits
+* **Quota**: 1,000/day without API key, 50,000/mo with a free account - more with a paid plan - see https://ipinfo.io/developers#rate-limits
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: English
