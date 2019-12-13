@@ -39,7 +39,7 @@ module Geocoder::Lookup
         app_id: api_app_id,
         app_code: api_code,
         apikey: api_key,
-        lanzguage: (query.language || configuration.language)
+        language: (query.language || configuration.language)
       }
       if reverse_geocode
         options[:mode] = :retrieveAddresses
