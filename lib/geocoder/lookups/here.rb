@@ -12,10 +12,15 @@ module Geocoder::Lookup
       ['api_key']
     end
 
+    def supported_protocols
+      legacy_authentication? ? [:http, :https] : [:https]
+    end
+
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.ls.hereapi.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?"
+      base_path = legacy_authentication? ? 'api.here.com' : 'ls.hereapi.com'
+      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.#{base_path}/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?"
     end
 
     def results(query)
@@ -34,7 +39,7 @@ module Geocoder::Lookup
         app_id: api_app_id,
         app_code: api_code,
         apikey: api_key,
-        language: (query.language || configuration.language)
+        lanzguage: (query.language || configuration.language)
       }
       if reverse_geocode
         options[:mode] = :retrieveAddresses
@@ -65,20 +70,22 @@ module Geocoder::Lookup
 
     def api_app_id
       if (a = configuration.api_key)
-        return a.first if a.is_a?(Array)
+        return a.first if legacy_authentication?
       end
     end
 
     def api_code
       if (a = configuration.api_key)
-        return a[1] if a.is_a?(Array)
+        return a.last if legacy_authentication?
       end
     end
 
     def api_key
-      if (a = configuration.api_key)
-        a.is_a?(Array) ? nil : a
-      end
+      configuration.api_key unless legacy_authentication?
+    end
+
+    def legacy_authentication?
+      configuration.api_key.is_a?(Array)
     end
   end
 end
