@@ -45,15 +45,4 @@ class HereTest < GeocoderTestCase
     )
     assert_match(/apikey=+/, url)
   end
-
-  def test_here_query_url_contains_app_id_with_legacy_two_params
-    Geocoder.configure(lookup: :here, api_key: ['aaaaa', 'bbbbb'])
-    lookup = Geocoder::Lookup::Here.new
-    url = lookup.query_url(
-      Geocoder::Query.new(
-        'Some Intersection'
-      )
-    )
-    assert_match(/app_id=+/, url)
-  end
 end
