@@ -35,4 +35,14 @@ class HereTest < GeocoderTestCase
     )
     assert_match(/mapview=40.0+%2C-120.0+%3B39.0+%2C-121.0+/, url)
   end
+
+  def test_here_query_url_contains_api_key
+    lookup = Geocoder::Lookup::Here.new
+    url = lookup.query_url(
+      Geocoder::Query.new(
+        'Some Intersection'
+      )
+    )
+    assert_match(/apikey=+/, url)
+  end
 end
