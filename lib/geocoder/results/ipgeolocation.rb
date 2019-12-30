@@ -4,16 +4,15 @@ module Geocoder::Result
   class Ipgeolocation < Base
 
     def address(format = :full)
-      s = region_code.empty? ? "" : ", #{region_code}"
-      "#{city}#{s} #{zip}, #{country_name}".sub(/^[ ,]*/, "")
+      "#{city}, #{state} #{postal_code}, #{country_name}".sub(/^[ ,]*/, "")
     end
 
     def state
-      @data['region_name']
+      @data['state_prov']
     end
 
     def state_code
-      @data['region_code']
+      @data['state_prov']
     end
 
     def country
@@ -21,7 +20,7 @@ module Geocoder::Result
     end
 
     def postal_code
-      @data['zip'] || @data['zipcode'] || @data['zip_code']
+      @data['zipcode']
     end
 
     def self.response_attributes
