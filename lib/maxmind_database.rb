@@ -96,9 +96,9 @@ module Geocoder
 
     def archive_url_path(package)
       {
-        geolite_country_csv: "GeoIPCountryCSV.zip",
-        geolite_city_csv: "GeoLiteCity_CSV/GeoLiteCity-latest.zip",
-        geolite_asn_csv: "asnum/GeoIPASNum2.zip"
+        geolite_country_csv: "GeoLite2-Country-CSV.zip",
+        geolite_city_csv: "GeoLite2-City-CSV.zip",
+        geolite_asn_csv: "GeoLite2-ASN-CSV.zip"
       }[package]
     end
 

@@ -1,0 +1,108 @@
+{
+  "ip" : "8.8.8.8",
+  "type" : "IPv4",
+  "hostname" : null,
+  "carrier" : {
+    "name" : null,
+    "mcc" : null,
+    "mnc" : null
+  },
+  "connection" : {
+    "asn" : 15169,
+    "domain" : "google.com",
+    "organization" : "Google LLC",
+    "type" : "hosting"
+  },
+  "currency" : {
+    "code" : "USD",
+    "name" : "US Dollar",
+    "plural" : "US dollars",
+    "symbol" : "$",
+    "symbol_native" : "$",
+    "format" : {
+      "negative" : {
+        "prefix" : "-$",
+        "suffix" : ""
+      },
+      "positive" : {
+        "prefix" : "$",
+        "suffix" : ""
+      }
+    }
+  },
+  "location" : {
+    "continent" : {
+      "code" : "NA",
+      "name" : "North America"
+    },
+    "country" : {
+      "area" : 9629091.0,
+      "borders" : [ "CA", "MX" ],
+      "calling_code" : "1",
+      "capital" : "Washington D.C.",
+      "code" : "US",
+      "name" : "United States",
+      "population" : 327167434,
+      "population_density" : 33.98,
+      "flag" : {
+        "emoji" : "🇺🇸",
+        "emoji_unicode" : "U+1F1FA U+1F1F8",
+        "emojitwo" : "https://cdn.ipregistry.co/flags/emojitwo/us.svg",
+        "noto" : "https://cdn.ipregistry.co/flags/noto/us.png",
+        "twemoji" : "https://cdn.ipregistry.co/flags/twemoji/us.svg",
+        "wikimedia" : "https://cdn.ipregistry.co/flags/wikimedia/us.svg"
+      },
+      "languages" : [ {
+        "code" : "en",
+        "name" : "English",
+        "native" : "English"
+      }, {
+        "code" : "es",
+        "name" : "Spanish",
+        "native" : "español"
+      }, {
+        "code" : "haw",
+        "name" : "Hawaiian",
+        "native" : "ʻŌlelo Hawaiʻi"
+      }, {
+        "code" : "fr",
+        "name" : "French",
+        "native" : "français"
+      } ],
+      "tld" : ".us"
+    },
+    "region" : {
+      "code" : "CA",
+      "name" : "California"
+    },
+    "city" : "Mountain View",
+    "postal" : "94043",
+    "latitude" : 37.405992,
+    "longitude" : -122.078515,
+    "language" : {
+      "code" : "en",
+      "name" : "English",
+      "native" : "English"
+    },
+    "in_eu" : false
+  },
+  "security" : {
+    "is_bogon" : false,
+    "is_cloud_provider" : true,
+    "is_tor" : false,
+    "is_tor_exit" : false,
+    "is_proxy" : false,
+    "is_anonymous" : false,
+    "is_abuser" : false,
+    "is_attacker" : false,
+    "is_threat" : true
+  },
+  "time_zone" : {
+    "id" : "America/Los_Angeles",
+    "abbreviation" : "PST",
+    "current_time" : "2019-08-18T22:09:10-07:00",
+    "name" : "Pacific Standard Time",
+    "offset" : -25200,
+    "in_daylight_saving" : true
+  }
+}
