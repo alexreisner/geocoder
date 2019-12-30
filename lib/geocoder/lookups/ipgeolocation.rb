@@ -29,7 +29,7 @@ module Geocoder::Lookup
     private # ----------------------------------------------------------------
 
     def base_query_url(query)
-      "#{protocol}://#{host}/ipgeo?"
+      "#{protocol}://api.ipgeolocation.io/ipgeo?"
     end
     def query_url_params(query)
       {
@@ -57,10 +57,6 @@ module Geocoder::Lookup
           "country_name" => "Reserved",
           "country_code2" => "RD"
       }
-    end
-
-    def host
-      configuration[:host] || "api.ipgeolocation.io"
     end
   end
 end
