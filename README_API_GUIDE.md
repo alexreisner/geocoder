@@ -13,6 +13,17 @@ Table of Contents
 Street Address Lookups
 ----------------------
 
+### Nominatim (`:nominatim`)
+
+* **API key**: none
+* **Quota**: 1 request/second
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: ?
+* **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
+* **Terms of Service**: https://operations.osmfoundation.org/policies/nominatim/
+* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(http_headers: { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
+
 ### Google (`:google`)
 
 * **API key**: required
@@ -67,17 +78,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
 * **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
 * **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
-
-### Nominatim (`:nominatim`)
-
-* **API key**: none
-* **Quota**: 1 request/second
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: ?
-* **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
-* **Terms of Service**: https://operations.osmfoundation.org/policies/nominatim/
-* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(http_headers: { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
 ### PickPoint (`:pickpoint`)
 
@@ -343,13 +343,13 @@ IP Address Lookups
 
 ### IPInfo.io (`:ipinfo_io`)
 
-* **API key**: optional - see http://ipinfo.io/pricing
-* **Quota**: 1,000/day - more with api key
+* **API key**: optional - see https://ipinfo.io/pricing
+* **Quota**: 1,000/day without API key, 50,000/mo with a free account - more with a paid plan - see https://ipinfo.io/developers#rate-limits
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: English
-* **Documentation**: http://ipinfo.io/developers
-* **Terms of Service**: http://ipinfo.io/developers
+* **Documentation**: https://ipinfo.io/developers
+* **Terms of Service**: https://ipinfo.io/terms-of-service
 
 ### FreeGeoIP (`:freegeoip`) - [DISCONTINUED](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation)
 
@@ -438,13 +438,13 @@ IP Address Lookups
 
 ### IP-API.com (`:ipapi_com`)
 
-* **API key**: optional - see http://ip-api.com/docs/#usage_limits
-* **Quota**: 150/minute - unlimited with api key
+* **API key**: optional - see https://members.ip-api.com
+* **Quota**: 45/minute - unlimited with api key
 * **Region**: world
-* **SSL support**: no (not without access key - see https://signup.ip-api.com/)
+* **SSL support**: no (not without access key - see https://members.ip-api.com)
 * **Languages**: English
 * **Documentation**: http://ip-api.com/docs/
-* **Terms of Service**: https://signup.ip-api.com/terms
+* **Terms of Service**: https://members.ip-api.com/legal
 
 ### DB-IP.com (`:db_ip_com`)
 
@@ -478,6 +478,15 @@ IP Address Lookups
 * **Terms of Service**: https://www.ip2location.com/web-service
 * **Notes**: With the non-free version, specify your desired package: `Geocoder.configure(ip2location: {package: "WSX"})` (see API documentation for package details).
 
+### Ipregistry (`:ipregistry`)
+
+* **API key**: required (see https://ipregistry.co)
+* **Quota**: first 100,000 requests are free, then you pay per request (see https://ipregistry.co/pricing)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipregistry.co/docs
+* **Terms of Service**: https://ipregistry.co/terms
 
 Local IP Address Lookups
 ------------------------

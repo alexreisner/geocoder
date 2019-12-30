@@ -27,7 +27,10 @@ module Geocoder::Result
     end  
 
     def state
-      address_data['County']
+      fail unless d = address_data['AdditionalData']
+      if v = d.find{|ad| ad['key']=='StateName'}
+        return v['value']
+      end
     end
 
     def province

@@ -9,13 +9,17 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      ["app_id", "app_code"]
+      ['api_key']
+    end
+
+    def supported_protocols
+      [:https]
     end
 
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.api.here.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?"
+      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.ls.hereapi.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?"
     end
 
     def results(query)
@@ -31,8 +35,7 @@ module Geocoder::Lookup
     def query_url_here_options(query, reverse_geocode)
       options = {
         gen: 9,
-        app_id: api_key,
-        app_code: api_code,
+        apikey: configuration.api_key,
         language: (query.language || configuration.language)
       }
       if reverse_geocode
@@ -59,18 +62,6 @@ module Geocoder::Lookup
         super.merge(query_url_here_options(query, false)).merge(
           searchtext: query.sanitized_text
         )
-      end
-    end
-
-    def api_key
-      if (a = configuration.api_key)
-        return a.first if a.is_a?(Array)
-      end
-    end
-
-    def api_code
-      if (a = configuration.api_key)
-        return a.last if a.is_a?(Array)
       end
     end
   end
