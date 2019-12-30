@@ -7,6 +7,7 @@ module Geocoder::Lookup
 
     ERROR_CODES = {
         404 => Geocoder::InvalidRequest,
+        401 => Geocoder::RequestDenied, # missing/invalid API key
         101 => Geocoder::InvalidApiKey,
         102 => Geocoder::Error,
         103 => Geocoder::InvalidRequest,
