@@ -22,6 +22,10 @@ module Geocoder::Lookup
       "Ipgeolocation"
     end
 
+    def supported_protocols
+      [:https]
+    end
+
     private # ----------------------------------------------------------------
 
     def base_query_url(query)
