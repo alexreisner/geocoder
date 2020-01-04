@@ -3,6 +3,10 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class Ipgeolocation < Base
 
+    def coordinates
+      [@data['latitude'].to_f, @data['longitude'].to_f]
+    end
+
     def address(format = :full)
       "#{city}, #{state} #{postal_code}, #{country_name}".sub(/^[ ,]*/, "")
     end
@@ -17,6 +21,10 @@ module Geocoder::Result
 
     def country
       @data['country_name']
+    end
+
+    def country_code
+      @data['country_code2']
     end
 
     def postal_code
@@ -37,8 +45,6 @@ module Geocoder::Result
           ['state_prov',''],
           ['city', ''],
           ['zipcode', ''],
-          ['latitude', 0],
-          ['longitude', 0],
           ['time_zone', {}],
           ['currency', {}]
       ]

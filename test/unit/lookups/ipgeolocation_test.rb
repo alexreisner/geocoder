@@ -32,8 +32,8 @@ class IpgeolocationTest < GeocoderTestCase
     assert_equal "Pakistan",        result.country_name
     assert_equal "Islamabad",       result.city
     assert_equal "44000",           result.zipcode
-    assert_equal "33.7334",         result.latitude
-    assert_equal "73.0785",         result.longitude
+    assert_equal 33.7334,           result.latitude
+    assert_equal 73.0785,           result.longitude
   end
 
   def test_nested_api_fields
@@ -88,7 +88,7 @@ class IpgeolocationTest < GeocoderTestCase
 
   def test_api_request_adds_access_key
     lookup = Geocoder::Lookup.get(:ipgeolocation)
-    assert_match 'http://api.ipgeolocation.io/ipgeo?apiKey=ea91e4a4159247fdb0926feae70c2911&ip=74.200.247.59', lookup.query_url(Geocoder::Query.new("74.200.247.59"))
+    assert_match /apiKey=\w+/, lookup.query_url(Geocoder::Query.new("74.200.247.59"))
   end
 
   def test_api_request_adds_security_when_specified
