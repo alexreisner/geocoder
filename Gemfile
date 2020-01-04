@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 group :development, :test do
   gem 'rake'
-  gem 'mongoid', '2.6.0'
+  gem 'mongoid'
   gem 'bson_ext', platforms: :ruby
   gem 'geoip'
   gem 'rubyzip'
