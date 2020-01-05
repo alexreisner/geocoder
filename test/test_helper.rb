@@ -23,7 +23,13 @@ if configs.keys.include? ENV['DB']
   ActiveRecord::Base.establish_connection(db_name.to_sym)
   ActiveRecord::Base.default_timezone = :utc
 
-  ActiveRecord::Migrator.migrate('test/db/migrate', nil)
+  if defined? ActiveRecord::MigrationContext
+    # ActiveRecord >=5.2
+    ActiveRecord::MigrationContext.new('test/db/migrate').migrate
+  else
+    ActiveRecord::Migrator.migrate('test/db/migrate', nil)
+  end
+
 else
   class MysqlConnection
     def adapter_name
