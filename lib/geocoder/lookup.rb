@@ -32,7 +32,6 @@ module Geocoder
         :google_places_search,
         :bing,
         :geocoder_ca,
-        :geocoder_us,
         :yandex,
         :nominatim,
         :mapbox,
