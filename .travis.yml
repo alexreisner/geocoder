@@ -31,14 +31,11 @@ rvm:
   - jruby-19mode
 gemfile:
   - Gemfile
-  - gemfiles/Gemfile.rails3.2
   - gemfiles/Gemfile.rails4.1
   - gemfiles/Gemfile.rails5.0
 matrix:
   exclude:
     - env: DB=
-      gemfile: gemfiles/Gemfile.rails3.2
-    - env: DB=
       gemfile: gemfiles/Gemfile.rails4.1
     - env: DB=
       gemfile: gemfiles/Gemfile.rails5.0
@@ -54,10 +51,6 @@ matrix:
       gemfile: gemfiles/Gemfile.rails4.1
     - rvm: 2.5.1
       gemfile: gemfiles/Gemfile.rails4.1
-    - rvm: 2.4.4
-      gemfile: gemfiles/Gemfile.rails3.2
-    - rvm: 2.5.1
-      gemfile: gemfiles/Gemfile.rails3.2
     - rvm: jruby-19mode
       gemfile: gemfiles/Gemfile.rails5.0
     - rvm: jruby-19mode
