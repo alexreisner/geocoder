@@ -22,8 +22,8 @@ Compatibility:
 
 * Supports multiple Ruby versions: Ruby 2.x, and JRuby.
 * Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
-* Supports Rails 3, 4, and 5. If you need to use it with Rails 2 please see the `rails2` branch (no longer maintained, limited feature set).
-* Works very well outside of Rails, you just need to install either the `json` (for MRI) or `json_pure` (for JRuby) gem.
+* Supports Rails 4, 5, and 6.
+* Works very well outside of Rails, just install the `json` (for MRI) or `json_pure` (for JRuby) gem.
 
 
 Table of Contents
