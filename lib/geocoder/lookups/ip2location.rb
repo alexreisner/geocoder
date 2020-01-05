@@ -19,11 +19,11 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      {
-        key: configuration.api_key ? configuration.api_key : "demo",
-        format: "json",
-        ip: query.sanitized_text
-      }.merge(super)
+      params = super
+      if configuration.has_key?(:package)
+        params.merge!(package: configuration[:package])
+      end
+      params
     end
 
     def results(query)
@@ -61,14 +61,6 @@ module Geocoder::Lookup
         "elevation"            => "INVALID IP ADDRESS",
         "usage_type"           => "INVALID IP ADDRESS"
       }
-    end
-
-    def query_url_params(query)
-      params = super
-      if configuration.has_key?(:package)
-        params.merge!(package: configuration[:package])
-      end
-      params
     end
 
   end
