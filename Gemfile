@@ -6,7 +6,7 @@ group :development, :test do
   gem 'bson_ext', platforms: :ruby
   gem 'geoip'
   gem 'rubyzip'
-  gem 'rails'
+  gem 'rails', '~>5.1.0'
   gem 'test-unit' # needed for Ruby >=2.2.0
 
   platforms :jruby do
