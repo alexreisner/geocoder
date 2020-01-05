@@ -7,10 +7,6 @@ module Geocoder::Result
       ['lat', 'lng'].map{ |i| @data['location'][i] }
     end
 
-    def address
-      @data['formatted_address']
-    end
-
     def province
       @data['addressComponent'] and @data['addressComponent']['province'] or ""
     end
