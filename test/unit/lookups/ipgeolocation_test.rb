@@ -88,7 +88,7 @@ class IpgeolocationTest < GeocoderTestCase
 
   def test_api_request_adds_access_key
     lookup = Geocoder::Lookup.get(:ipgeolocation)
-    assert_match /apiKey=\w+/, lookup.query_url(Geocoder::Query.new("74.200.247.59"))
+    assert_match(/apiKey=\w+/, lookup.query_url(Geocoder::Query.new("74.200.247.59")))
   end
 
   def test_api_request_adds_security_when_specified

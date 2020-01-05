@@ -16,6 +16,6 @@ class MethodAliasesTest < GeocoderTestCase
 
   def test_fetch_address_is_alias_for_reverse_geocode
     v = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
-    assert_match /New York/, v.fetch_address
+    assert_match(/New York/, v.fetch_address)
   end
 end

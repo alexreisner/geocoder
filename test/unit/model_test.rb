@@ -6,7 +6,7 @@ class ModelTest < GeocoderTestCase
   def test_geocode_with_block_runs_block
     e = PlaceWithCustomResultsHandling.new(*geocoded_object_params(:msg))
     e.geocode
-    assert_match /[0-9\.,\-]+/, e.coords_string
+    assert_match(/[0-9\.,\-]+/, e.coords_string)
   end
 
   def test_geocode_with_block_doesnt_auto_assign_coordinates

@@ -21,34 +21,34 @@ class IpapiComTest < GeocoderTestCase
 
   def test_all_api_fields
     result = Geocoder.search("74.200.247.59").first
-    assert_equal "United States", result.country
-    assert_equal "US", result.country_code
-    assert_equal "NJ", result.region
-    assert_equal "New Jersey", result.region_name
-    assert_equal "Jersey City", result.city
-    assert_equal "07302", result.zip
-    assert_equal 40.7209, result.lat
-    assert_equal -74.0468, result.lon
-    assert_equal "America/New_York", result.timezone
-    assert_equal "DataPipe", result.isp
-    assert_equal "DataPipe", result.org
-    assert_equal "AS22576 DataPipe, Inc.", result.as
-    assert_equal "", result.reverse
-    assert_equal false, result.mobile
-    assert_equal false, result.proxy
-    assert_equal "74.200.247.59", result.query
-    assert_equal "success", result.status
-    assert_equal nil, result.message
+    assert_equal("United States", result.country)
+    assert_equal("US", result.country_code)
+    assert_equal("NJ", result.region)
+    assert_equal("New Jersey", result.region_name)
+    assert_equal("Jersey City", result.city)
+    assert_equal("07302", result.zip)
+    assert_equal(40.7209, result.lat)
+    assert_equal(-74.0468, result.lon)
+    assert_equal("America/New_York", result.timezone)
+    assert_equal("DataPipe", result.isp)
+    assert_equal("DataPipe", result.org)
+    assert_equal("AS22576 DataPipe, Inc.", result.as)
+    assert_equal("", result.reverse)
+    assert_equal(false, result.mobile)
+    assert_equal(false, result.proxy)
+    assert_equal("74.200.247.59", result.query)
+    assert_equal("success", result.status)
+    assert_equal(nil, result.message)
   end
 
   def test_loopback
     result = Geocoder.search("::1").first
-    assert_equal nil, result.lat
-    assert_equal nil, result.lon
-    assert_equal [nil, nil], result.coordinates
-    assert_equal nil, result.reverse
-    assert_equal "::1", result.query
-    assert_equal "fail", result.status
+    assert_equal(nil, result.lat)
+    assert_equal(nil, result.lon)
+    assert_equal([nil, nil], result.coordinates)
+    assert_equal(nil, result.reverse)
+    assert_equal("::1", result.query)
+    assert_equal("fail", result.status)
   end
 
   def test_private

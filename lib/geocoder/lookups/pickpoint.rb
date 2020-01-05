@@ -23,7 +23,7 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      params = {
+      {
         key: configuration.api_key
       }.merge(super)
     end

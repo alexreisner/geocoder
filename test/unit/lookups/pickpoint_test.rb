@@ -20,7 +20,7 @@ class PickpointTest < GeocoderTestCase
   def test_url_contains_api_key
     Geocoder.configure(pickpoint: {api_key: "pickpoint-api-key"})
     query = Geocoder::Query.new("Leadville, CO")
-    assert_match /key=pickpoint-api-key/, query.url
+    assert_match(/key=pickpoint-api-key/, query.url)
   end
 
   def test_raises_exception_with_invalid_api_key

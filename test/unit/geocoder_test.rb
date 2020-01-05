@@ -40,8 +40,8 @@ class GeocoderTest < GeocoderTestCase
 
   def test_reverse_geocode_assigns_and_returns_address
     v = PlaceReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
-    assert_match /New York/, v.reverse_geocode
-    assert_match /New York/, v.address
+    assert_match(/New York/, v.reverse_geocode)
+    assert_match(/New York/, v.address)
   end
 
   def test_forward_and_reverse_geocoding_on_same_model_works
