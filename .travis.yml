@@ -49,8 +49,6 @@ matrix:
     - rvm: 2.1.10
       gemfile: Gemfile
     - rvm: 2.1.10
-      gemfile: gemfiles/Gemfile.ruby1.9.3
-    - rvm: 2.1.10
       gemfile: gemfiles/Gemfile.rails5.0
     - rvm: 2.4.4
       gemfile: gemfiles/Gemfile.rails4.1
