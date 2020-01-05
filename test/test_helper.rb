@@ -24,8 +24,13 @@ if configs.keys.include? ENV['DB']
   ActiveRecord::Base.default_timezone = :utc
 
   if defined? ActiveRecord::MigrationContext
-    # ActiveRecord >=5.2
-    ActiveRecord::MigrationContext.new('test/db/migrate').migrate
+    if ActiveRecord.version.release < Gem::Version.new('6.0.0')
+      # ActiveRecord >=5.2, takes one argument
+      ActiveRecord::MigrationContext.new('test/db/migrate').migrate
+    else
+      # ActiveRecord >=6.0, takes two arguments
+      ActiveRecord::MigrationContext.new('test/db/migrate', nil).migrate
+    end
   else
     ActiveRecord::Migrator.migrate('test/db/migrate', nil)
   end
