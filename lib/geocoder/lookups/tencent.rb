@@ -31,18 +31,18 @@ module Geocoder::Lookup
       case doc['status']
       when 0
         return [doc[content_key]]
-      when 199
-        raise error(Geocoder::InvalidApiKey, "invalid api key") ||
-        Geocoder.log(:warn, "#{name} Geocoding API error: key is not enabled for web service usage.")
-      when 311
-        raise_error(Geocoder::RequestDenied, "request denied") ||
-          Geocoder.log(:warn, "#{name} Geocoding API error: request denied.")
-      when 310, 306
-        raise_error(Geocoder::InvalidRequest, "invalid request.") ||
-          Geocoder.log(:warn, "#{name} Geocoding API error: invalid request.")
       when 311
         raise_error(Geocoder::InvalidApiKey, "invalid api key") ||
           Geocoder.log(:warn, "#{name} Geocoding API error: invalid api key.")
+      when 310
+        raise_error(Geocoder::InvalidRequest, "invalid request.") ||
+          Geocoder.log(:warn, "#{name} Geocoding API error: invalid request, invalid parameters.")
+      when 306
+        raise_error(Geocoder::InvalidRequest, "invalid request.") ||
+          Geocoder.log(:warn, "#{name} Geocoding API error: invalid request, check response for more info.")
+      when 110
+        raise_error(Geocoder::RequestDenied, "request denied.") ||
+          Geocoder.log(:warn, "#{name} Geocoding API error: request source is not authorized.")
       end
       return []
     end
