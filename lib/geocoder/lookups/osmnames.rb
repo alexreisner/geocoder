@@ -4,8 +4,9 @@ require 'geocoder/results/osmnames'
 
 module Geocoder::Lookup
   class Osmnames < Base
+
     def name
-      'osmnames'
+      'OSM Names'
     end
 
     def required_api_key_parts
