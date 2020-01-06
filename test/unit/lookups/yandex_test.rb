@@ -32,4 +32,45 @@ class YandexTest < GeocoderTestCase
       assert_match(/bbox=40.0+%2C-120.0+~39.0+%2C-121.0+/, url)
     end
   end
+
+  def test_yandex_result_without_city_does_not_raise_exception
+    assert_nothing_raised do
+      set_api_key!(:yandex)
+      result = Geocoder.search("no city and town").first
+      assert_equal "", result.city
+    end
+  end
+
+  def test_yandex_result_without_admin_area_no_exception
+    assert_nothing_raised do
+      set_api_key!(:yandex)
+      result = Geocoder.search("no administrative area").first
+      assert_equal "", result.city
+    end
+  end
+
+  def test_yandex_result_new_york
+    assert_nothing_raised do
+      set_api_key!(:yandex)
+      result = Geocoder.search("new york").first
+      assert_equal "", result.city
+    end
+  end
+
+  def test_yandex_result_kind
+    assert_nothing_raised do
+      set_api_key!(:yandex)
+      ["new york", [45.423733, -75.676333], "no city and town"].each do |query|
+        Geocoder.search("new york").first.kind
+      end
+    end
+  end
+
+  def test_yandex_result_without_locality_name
+    assert_nothing_raised do
+      set_api_key!(:yandex)
+      result = Geocoder.search("canada rue dupuis 14")[6]
+      assert_equal "", result.city
+    end
+  end
 end

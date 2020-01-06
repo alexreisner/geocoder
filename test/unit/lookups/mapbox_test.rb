@@ -49,4 +49,11 @@ class MapboxTest < GeocoderTestCase
     result = Geocoder.search("Madison Square Garden, New York, NY;123 Another St").first
     assert_equal [40.749688, -73.991566], result.coordinates
   end
+
+  def test_mapbox_result_without_context
+    assert_nothing_raised do
+      result = Geocoder.search("Shanghai, China")[0]
+      assert_equal nil, result.city
+    end
+  end
 end
