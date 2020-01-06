@@ -11,15 +11,15 @@ module Geocoder::Lookup
       ['key']
     end
 
-    def query_url(query)
-      "#{base_url(query)}/#{params_url(query)}.js?#{url_query_string(query)}"
-    end
-
     def supported_protocols
       [:https]
     end
 
     private
+
+    def base_query_url(query)
+      "#{base_url(query)}/#{params_url(query)}.js?"
+    end
 
     def base_url(query)
       host = configuration[:host] || 'geocoder.tilehosting.com'
