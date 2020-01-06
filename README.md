@@ -6,8 +6,6 @@ Geocoder
 [![Gem Version](https://badge.fury.io/rb/geocoder.svg)](http://badge.fury.io/rb/geocoder)
 [![Code Climate](https://codeclimate.com/github/alexreisner/geocoder/badges/gpa.svg)](https://codeclimate.com/github/alexreisner/geocoder)
 [![Build Status](https://travis-ci.org/alexreisner/geocoder.svg?branch=master)](https://travis-ci.org/alexreisner/geocoder)
-[![GitHub Issues](https://img.shields.io/github/issues/alexreisner/geocoder.svg)](https://github.com/alexreisner/geocoder/issues)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 Key features:
 
