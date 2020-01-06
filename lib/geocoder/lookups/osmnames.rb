@@ -10,7 +10,7 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      ['key']
+      configuration[:host] ? [] : ['key']
     end
 
     def supported_protocols
