@@ -1,7 +1,7 @@
 Geocoder
 ========
 
-**A complete geocoding solution for Ruby.**
+**Complete geocoding solution for Ruby.**
 
 [![Gem Version](https://badge.fury.io/rb/geocoder.svg)](http://badge.fury.io/rb/geocoder)
 [![Code Climate](https://codeclimate.com/github/alexreisner/geocoder/badges/gpa.svg)](https://codeclimate.com/github/alexreisner/geocoder)
@@ -11,19 +11,19 @@ Geocoder
 
 Key features:
 
-* Forward and reverse geocoding, and IP address geocoding.
+* Forward and reverse geocoding.
+* IP address geocoding.
 * Connects to more than 40 APIs worldwide.
 * Performance-enhancing features like caching.
-* Advanced configuration allows different parameters and APIs to be used in different conditions.
 * Integrates with ActiveRecord and Mongoid.
 * Basic geospatial queries: search within radius (or rectangle, or ring).
 
 Compatibility:
 
-* Supports multiple Ruby versions: Ruby 2.x, and JRuby.
-* Supports multiple databases: MySQL, PostgreSQL, SQLite, and MongoDB (1.7.0 and higher).
-* Supports Rails 4, 5, and 6.
-* Works very well outside of Rails, just install the `json` (for MRI) or `json_pure` (for JRuby) gem.
+* Ruby versions: 2.x, and JRuby.
+* Databases: MySQL, PostgreSQL, SQLite, and MongoDB.
+* Rails: 4, 5, and 6.
+* Works outside of Rails with the `json` (for MRI) or `json_pure` (for JRuby) gem.
 
 
 Table of Contents
