@@ -703,4 +703,4 @@ For all contributions, please respect the following guidelines:
 * If your pull request is merged, please do not ask for an immediate release of the gem. There are many factors contributing to when releases occur (remember that they affect thousands of apps with Geocoder in their Gemfiles). If necessary, please install from the Github source until the next official release.
 
 
-Copyright :copyright: 2009-19 Alex Reisner, released under the MIT license.
+Copyright :copyright: 2009-2020 Alex Reisner, released under the MIT license.

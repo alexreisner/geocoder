@@ -3,6 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.6.0 (2020 Jan  6)
+-------------------
+* Drop support for Rails 3.x.
+* Add support for :osmnames lookup (thanks github.com/zacviandier).
+* Add support for :ipgeolocation IP lookup (thanks github.com/ahsannawaz111).
+
 1.5.2 (2019 Oct  3)
 -------------------
 * Add support for :ipregistry lookup (thanks github.com/ipregistry).
