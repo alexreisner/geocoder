@@ -3,9 +3,15 @@ require 'test_helper'
 
 class QueryTest < GeocoderTestCase
 
-  def test_ip_address_detection
+  def test_detect_ipv4
     assert Geocoder::Query.new("232.65.123.94").ip_address?
+  end
+
+  def test_detect_ipv6
     assert Geocoder::Query.new("3ffe:0b00:0000:0000:0001:0000:0000:000a").ip_address?
+  end
+
+  def test_detect_non_ip_address
     assert !Geocoder::Query.new("232.65.123.94.43").ip_address?
     assert !Geocoder::Query.new("::ffff:123.456.789").ip_address?
   end
