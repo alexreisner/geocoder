@@ -15,7 +15,7 @@ class OsmnamesTest < GeocoderTestCase
 
   def test_url_contains_query_base
     query = Geocoder::Query.new("Madison Square Garden, New York, NY")
-    assert_includes query.url, 'https://geocoder.tilehosting.com/q/Madison%20Square%20Garden,%20New%20York,%20NY.js'
+    assert_includes query.url, 'geocoder.tilehosting.com/q/Madison'
   end
 
   def test_url_contains_country_code

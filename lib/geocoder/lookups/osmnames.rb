@@ -1,3 +1,4 @@
+require 'cgi'
 require 'geocoder/lookups/base'
 require 'geocoder/results/osmnames'
 
@@ -27,7 +28,7 @@ module Geocoder::Lookup
     end
 
     def params_url(query)
-      method, args = 'q', URI.escape(query.sanitized_text)
+      method, args = 'q', CGI.escape(query.sanitized_text)
       method, args = 'r', query.coordinates.join('/') if query.reverse_geocode?
       "#{country_limited(query)}#{method}/#{args}"
     end
