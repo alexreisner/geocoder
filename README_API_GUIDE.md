@@ -337,6 +337,19 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 - **Limitations**: Only good for non-commercial use. For commercial usage please check http://lbs.amap.com/home/terms/
 - **Notes**: To use AMap set `Geocoder.configure(lookup: :amap, api_key: "your_api_key")`.
 
+### OSM Names (`:osmnames`)
+
+Open source geocoding engine which can be self-hosted. MapTiler.com hosts an installation for use with API key.
+
+* **API key**: required if not self-hosting (see https://www.maptiler.com/cloud/plans/)
+* **Quota**: none if self-hosting; 100,000/mo with MapTiler free plan (more with paid)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://osmnames.org/ (open source project), https://cloud.maptiler.com/geocoding/ (MapTiler)
+* **Terms of Service**: https://www.maptiler.com/terms/
+* **Notes**: To use self-hosted service, set the `:host` option in `Geocoder.configure`.
+
 
 IP Address Lookups
 ------------------
