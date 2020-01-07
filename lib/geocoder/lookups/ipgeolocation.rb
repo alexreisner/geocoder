@@ -37,14 +37,7 @@ module Geocoder::Lookup
     def results(query)
       # don't look up a loopback or private address, just return the stored result
       return [reserved_result(query.text)] if query.internal_ip_address?
-      return [] unless doc = fetch_data(query)
-      if error = doc['error']
-        code = error['code']
-        msg = error['info']
-        raise_error(ERROR_CODES[code], msg ) || Geocoder.log(:warn, "Ipgeolocation Geocoding API error: #{msg}")
-        return []
-      end
-      [doc]
+      [fetch_data(query)]
     end
 
     def reserved_result(ip)
