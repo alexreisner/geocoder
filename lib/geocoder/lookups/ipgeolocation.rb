@@ -6,16 +6,11 @@ module Geocoder::Lookup
   class Ipgeolocation < Base
 
     ERROR_CODES = {
-        404 => Geocoder::InvalidRequest,
-        401 => Geocoder::RequestDenied, # missing/invalid API key
-        101 => Geocoder::InvalidApiKey,
-        102 => Geocoder::Error,
-        103 => Geocoder::InvalidRequest,
-        104 => Geocoder::OverQueryLimitError,
-        105 => Geocoder::RequestDenied,
-        301 => Geocoder::InvalidRequest,
-        302 => Geocoder::InvalidRequest,
-        303 => Geocoder::RequestDenied,
+      400 => Geocoder::RequestDenied, # subscription is paused
+      401 => Geocoder::InvalidApiKey, # missing/invalid API key
+      403 => Geocoder::InvalidRequest, # invalid IP address
+      404 => Geocoder::InvalidRequest, # not found
+      423 => Geocoder::InvalidRequest # bogon/reserved IP address
     }
     ERROR_CODES.default = Geocoder::Error
 
