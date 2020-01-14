@@ -172,7 +172,7 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 
 ### Here/Nokia (`:here`)
 
-* **API key**: required (set `Geocoder.configure(api_key: [app_id, app_code])`)
+* **API key**: required
 * **Quota**: Depending on the API key
 * **Region**: world
 * **SSL support**: yes
