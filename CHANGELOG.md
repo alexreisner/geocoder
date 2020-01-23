@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.6.1 (2020 Jan 23)
+-------------------
+* Sanitize lat/lon values passed to within_bounding_box to prevent SQL injection.
+
 1.6.0 (2020 Jan  6)
 -------------------
 * Drop support for Rails 3.x.
