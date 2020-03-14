@@ -98,7 +98,7 @@ module Geocoder::Result
     end
 
     def locality_data
-      dependent_locality && subadmin_locality && admin_locality
+      dependent_locality || subadmin_locality || admin_locality
     end
 
     def admin_locality
