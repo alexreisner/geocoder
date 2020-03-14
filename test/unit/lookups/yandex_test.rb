@@ -73,4 +73,20 @@ class YandexTest < GeocoderTestCase
       assert_equal "", result.city
     end
   end
+
+  def test_yandex_result_returns_street_name
+    assert_nothing_raised do
+      set_api_key!(:yandex)
+      result = Geocoder.search("canada rue dupuis 14")[6]
+      assert_equal "Rue Hormidas-Dupuis", result.street
+    end
+  end
+
+  def test_yandex_result_returns_street_number
+    assert_nothing_raised do
+      set_api_key!(:yandex)
+      result = Geocoder.search("canada rue dupuis 14")[6]
+      assert_equal "14", result.street_number
+    end
+  end
 end
