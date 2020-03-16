@@ -5,7 +5,10 @@ module Geocoder::Result
   class UkOrdnanceSurveyNames < Base
 
     def coordinates
-      [latitude, longitude]
+      @coordinates ||= Geocoder::EastingNorthing.new(
+        easting: data['GEOMETRY_X'],
+        northing: data['GEOMETRY_Y'],
+      ).lat_lng
     end
 
     def city
@@ -40,13 +43,6 @@ module Geocoder::Result
 
     def country_code
       'UK'
-    end
-
-    def coordinates
-      @coordinates ||= Geocoder::EastingNorthing.new(
-        easting: data['GEOMETRY_X'],
-        northing: data['GEOMETRY_Y'],
-      ).lat_lng
     end
 
     private
