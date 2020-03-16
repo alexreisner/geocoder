@@ -89,7 +89,7 @@ class YandexTest < GeocoderTestCase
     end
   end
 
-  def test_yandex_dig_data_method
+  def test_yandex_find_in_hash_method
     result = Geocoder::Result::Yandex.new({})
     hash = {
       'root_node' => {
@@ -100,11 +100,11 @@ class YandexTest < GeocoderTestCase
       }
     }
 
-    assert_equal [1, 2, 3], result.send(:dig_data, hash, 'root_node', 'node_1')
-    assert_equal "foo", result.send(:dig_data, hash, 'root_node', 'node_2', 'data')
-    assert_equal nil, result.send(:dig_data, hash, 'root_node', 'node_3')
-    assert_equal nil, result.send(:dig_data, hash, 'root_node', 'node_2', 'another_data')
-    assert_equal nil, result.send(:dig_data, hash, 'root_node', 'node_2', 'data', 'x')
+    assert_equal [1, 2, 3], result.send(:find_in_hash, hash, 'root_node', 'node_1')
+    assert_equal "foo", result.send(:find_in_hash, hash, 'root_node', 'node_2', 'data')
+    assert_equal nil, result.send(:find_in_hash, hash, 'root_node', 'node_3')
+    assert_equal nil, result.send(:find_in_hash, hash, 'root_node', 'node_2', 'another_data')
+    assert_equal nil, result.send(:find_in_hash, hash, 'root_node', 'node_2', 'data', 'x')
   end
 
   def test_yandex_maximum_precision_on_russian_address

@@ -173,31 +173,31 @@ module Geocoder::Result
     def city
       result =
         if state.empty?
-          dig_data(@data, *COUNTRY_LEVEL, 'Locality', 'LocalityName')
+          find_in_hash(@data, *COUNTRY_LEVEL, 'Locality', 'LocalityName')
         elsif sub_state.empty?
-          dig_data(@data, *ADMIN_LEVEL, 'Locality', 'LocalityName')
+          find_in_hash(@data, *ADMIN_LEVEL, 'Locality', 'LocalityName')
         else
-          dig_data(@data, *SUBADMIN_LEVEL, 'Locality', 'LocalityName')
+          find_in_hash(@data, *SUBADMIN_LEVEL, 'Locality', 'LocalityName')
         end
 
       result || ""
     end
 
     def country
-      dig_data(@data, *COUNTRY_LEVEL, 'CountryName') || ""
+      find_in_hash(@data, *COUNTRY_LEVEL, 'CountryName') || ""
     end
 
     def country_code
-      dig_data(@data, *COUNTRY_LEVEL, 'CountryNameCode') || ""
+      find_in_hash(@data, *COUNTRY_LEVEL, 'CountryNameCode') || ""
     end
 
     def state
-      dig_data(@data, *ADMIN_LEVEL, 'AdministrativeAreaName') || ""
+      find_in_hash(@data, *ADMIN_LEVEL, 'AdministrativeAreaName') || ""
     end
 
     def sub_state
       return "" if state.empty?
-      dig_data(@data, *SUBADMIN_LEVEL, 'SubAdministrativeAreaName') || ""
+      find_in_hash(@data, *SUBADMIN_LEVEL, 'SubAdministrativeAreaName') || ""
     end
 
     def state_code
@@ -218,7 +218,7 @@ module Geocoder::Result
 
     def postal_code
       return "" unless premise.is_a?(Hash)
-      dig_data(premise, 'PostalCode', 'PostalCodeNumber') || ""
+      find_in_hash(premise, 'PostalCode', 'PostalCodeNumber') || ""
     end
 
     def kind
@@ -239,24 +239,24 @@ module Geocoder::Result
     private # ----------------------------------------------------------------
 
     def top_level_locality
-      dig_data(@data, *ADDRESS_DETAILS, 'Locality')
+      find_in_hash(@data, *ADDRESS_DETAILS, 'Locality')
     end
 
     def country_level_locality
-      dig_data(@data, *COUNTRY_LEVEL, 'Locality')
+      find_in_hash(@data, *COUNTRY_LEVEL, 'Locality')
     end
 
     def admin_locality
-      dig_data(@data, *ADMIN_LEVEL, 'Locality')
+      find_in_hash(@data, *ADMIN_LEVEL, 'Locality')
     end
 
     def subadmin_locality
-      dig_data(@data, *SUBADMIN_LEVEL, 'Locality')
+      find_in_hash(@data, *SUBADMIN_LEVEL, 'Locality')
     end
 
     def dependent_locality
-      dig_data(@data, *DEPENDENT_LOCALITY_1) ||
-        dig_data(@data, *DEPENDENT_LOCALITY_2)
+      find_in_hash(@data, *DEPENDENT_LOCALITY_1) ||
+        find_in_hash(@data, *DEPENDENT_LOCALITY_2)
     end
 
     def locality_data
@@ -276,7 +276,7 @@ module Geocoder::Result
       end
     end
 
-    def dig_data(source, *keys)
+    def find_in_hash(source, *keys)
       key = keys.shift
       result = source[key]
 
@@ -286,7 +286,7 @@ module Geocoder::Result
         return nil
       end
 
-      dig_data(result, *keys)
+      find_in_hash(result, *keys)
     end
   end
 end
