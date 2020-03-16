@@ -386,6 +386,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/uk_ordnance_survey_names'
+    class Geocoder::Lookup::UkOrdnanceSurveyNames
+      private
+      def default_fixture_filename
+        "#{fixture_prefix}_london"
+      end
+    end
+
     require 'geocoder/lookups/geoportail_lu'
     class GeoportailLu
       private
