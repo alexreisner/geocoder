@@ -350,6 +350,16 @@ Open source geocoding engine which can be self-hosted. MapTiler.com hosts an ins
 * **Terms of Service**: https://www.maptiler.com/terms/
 * **Notes**: To use self-hosted service, set the `:host` option in `Geocoder.configure`.
 
+### Nationaal Georegister Netherlands (`:nationaal_georegister_nl`)
+
+* **API key**: none
+* **Quota**: ?
+* **Region**: Netherlands
+* **SSL support**: yes
+* **Languages**: ?
+* **Documentation**: http://geodata.nationaalgeoregister.nl/
+* **Terms of Service**: ?
+
 
 IP Address Lookups
 ------------------
