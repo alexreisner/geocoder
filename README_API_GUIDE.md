@@ -6,12 +6,13 @@ This is a list of geocoding APIs supported by the Geocoder gem. Before using any
 Table of Contents
 -----------------
 
-* [Street Address Lookups](#street-address-lookups)
+* [Global Street Address Lookups](#global-street-address-lookups)
+* [Regional Street Address Lookups](#regional-street-address-lookups)
 * [IP Address Lookups](#ip-address-lookups)
 * [Local IP Address Lookups](#local-ip-address-lookups)
 
-Street Address Lookups
-----------------------
+Global Street Address Lookups
+-----------------------------
 
 ### Nominatim (`:nominatim`)
 
@@ -90,7 +91,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
-
 ### LocationIQ (`:location_iq`)
 
 * **API key**: required
@@ -123,17 +123,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
 * **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
 * **Limitations**: ?
-
-### Geocoder.ca (`:geocoder_ca`)
-
-* **API key**: none
-* **Quota**: ?
-* **Region**: US, Canada, Mexico
-* **SSL support**: no
-* **Languages**: English
-* **Documentation**: https://geocoder.ca/?premium_api=1
-* **Terms of Service**: http://geocoder.ca/?terms=1
-* **Limitations**: "Under no circumstances can our data be re-distributed or re-sold by anyone to other parties without our written permission."
 
 ### Mapbox (`:mapbox`)
 
@@ -222,6 +211,23 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Limitations**: No reverse geocoding.
 * **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(lookup: :dstk, dstk: {host: "localhost:4567"})`.
 
+### OSM Names (`:osmnames`)
+
+Open source geocoding engine which can be self-hosted. MapTiler.com hosts an installation for use with API key.
+
+* **API key**: required if not self-hosting (see https://www.maptiler.com/cloud/plans/)
+* **Quota**: none if self-hosting; 100,000/mo with MapTiler free plan (more with paid)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://osmnames.org/ (open source project), https://cloud.maptiler.com/geocoding/ (MapTiler)
+* **Terms of Service**: https://www.maptiler.com/terms/
+* **Notes**: To use self-hosted service, set the `:host` option in `Geocoder.configure`.
+
+
+Regional Street Address Lookups
+-------------------------------
+
 ### Baidu (`:baidu`)
 
 * **API key**: required
@@ -246,6 +252,17 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Terms of Service**: http://lbs.qq.com/terms.html
 * **Limitations**: Only works for locations in Greater China (mainland China, Hong Kong, Macau, and Taiwan).
 * **Notes**: To use Tencent, set `Geocoder.configure(lookup: :tencent, api_key: "your_api_key")`.
+
+### Geocoder.ca (`:geocoder_ca`)
+
+* **API key**: none
+* **Quota**: ?
+* **Region**: US, Canada, Mexico
+* **SSL support**: no
+* **Languages**: English
+* **Documentation**: https://geocoder.ca/?premium_api=1
+* **Terms of Service**: http://geocoder.ca/?terms=1
+* **Limitations**: "Under no circumstances can our data be re-distributed or re-sold by anyone to other parties without our written permission."
 
 ### Geocodio (`:geocodio`)
 
@@ -336,19 +353,6 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 - **Terms of Service**: http://lbs.amap.com/home/terms/
 - **Limitations**: Only good for non-commercial use. For commercial usage please check http://lbs.amap.com/home/terms/
 - **Notes**: To use AMap set `Geocoder.configure(lookup: :amap, api_key: "your_api_key")`.
-
-### OSM Names (`:osmnames`)
-
-Open source geocoding engine which can be self-hosted. MapTiler.com hosts an installation for use with API key.
-
-* **API key**: required if not self-hosting (see https://www.maptiler.com/cloud/plans/)
-* **Quota**: none if self-hosting; 100,000/mo with MapTiler free plan (more with paid)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: https://osmnames.org/ (open source project), https://cloud.maptiler.com/geocoding/ (MapTiler)
-* **Terms of Service**: https://www.maptiler.com/terms/
-* **Notes**: To use self-hosted service, set the `:host` option in `Geocoder.configure`.
 
 ### Nationaal Georegister Netherlands (`:nationaal_georegister_nl`)
 
