@@ -33,6 +33,7 @@ module Geocoder
         :bing,
         :geocoder_ca,
         :yandex,
+        :nationaal_georegister_nl,
         :nominatim,
         :mapbox,
         :mapquest,
