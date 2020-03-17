@@ -73,6 +73,12 @@ class SmartyStreetsTest < GeocoderTestCase
     assert_equal 0, results.length
   end
 
+  def test_invalid_zipcode_returns_no_results
+    assert_nothing_raised do
+      assert_nil Geocoder.search("10300").first
+    end
+  end
+
   def test_raises_exception_on_error_http_status
     error_statuses = {
       '400' => Geocoder::InvalidRequest,

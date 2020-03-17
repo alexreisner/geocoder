@@ -57,7 +57,12 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      fetch_data(query) || []
+      doc = fetch_data(query) || []
+      if doc.is_a?(Hash) and doc.key?('status') # implies there's an error
+        return []
+      else
+        return doc
+      end
     end
   end
 end
