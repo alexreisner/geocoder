@@ -3,6 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.6.2 (2020 Mar 16)
+-------------------
+* Add support for :nationaal_georegister_nl lookup (thanks github.com/opensourceame).
+* Add support for :uk_ordnance_survey_names lookup (thanks github.com/pezholio).
+* Refactor and fix bugs in Yandex lookup (thanks github.com/iarie and stereodenis).
+
 1.6.1 (2020 Jan 23)
 -------------------
 * Sanitize lat/lon values passed to within_bounding_box to prevent SQL injection.
