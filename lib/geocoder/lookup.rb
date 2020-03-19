@@ -74,7 +74,8 @@ module Geocoder
         :db_ip_com,
         :ipstack,
         :ip2location,
-        :ipinfodb
+        :ipinfodb,
+        :ipgeolocation
       ]
     end
 

@@ -233,6 +233,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipgeolocation'
+    class Ipgeolocation
+      private
+      def default_fixture_filename
+        "ipgeolocation_103_217_177_217"
+      end
+    end
+
     require 'geocoder/lookups/ipstack'
     class Ipstack
       private

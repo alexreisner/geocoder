@@ -18,6 +18,7 @@ class ResultTest < GeocoderTestCase
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if l == :ip2location # has pay-per-attribute pricing model
       next if l == :ipinfodb
+      next if l == :nationaal_georegister_nl # no reverse geocoding
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
       result = Geocoder.search([45.423733, -75.676333]).first
