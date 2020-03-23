@@ -47,6 +47,8 @@ module Geocoder::Lookup
         params[:forStorage] = for_storage_value
       end
       params[:sourceCountry] = configuration[:source_country] if configuration[:source_country]
+      params[:preferredLabelValues] = configuration[:preferred_label_values] if configuration[:preferred_label_values]
+
       params.merge(super)
     end
 
