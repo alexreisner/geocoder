@@ -25,8 +25,7 @@ module Geocoder::Lookup
       # The API returned a 404 response, which indicates no results found
       elsif doc['error']['type'] == 'api_error'
         []
-      elsif
-        doc['error']['type'] == 'authentication_error'
+      elsif doc['error']['type'] == 'authentication_error'
         raise_error(Geocoder::InvalidApiKey) ||
           Geocoder.log(:warn, "LatLon.io service error: invalid API key.")
       else
