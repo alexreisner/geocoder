@@ -38,7 +38,7 @@ Global Street Address Lookups
   * `:google_place_id` - pass `true` if search query is a Google Place ID
 * **Documentation**: https://developers.google.com/maps/documentation/geocoding/intro
 * **Terms of Service**: http://code.google.com/apis/maps/terms.html#section_10_12
-* **Limitations**: "You must not use or display the Content without a corresponding Google map, unless you are explicitly permitted to do so in the Maps APIs Documentation, or through written permission from Google." "You must not pre-fetch, cache, or store any Content, except that you may store: (i) limited amounts of Content for the purpose of improving the performance of your Maps API Implementation..."
+* **Limitations**: "You can display Geocoding API results on a Google Map, or without a map. If you want to display Geocoding API results on a map, then these results must be displayed on a Google Map. ... If your application displays data from the Geocoding API on a page or view that does not also display a Google Map, you must show a Powered by Google logo with that data. ... ...you must not pre-fetch, index, store, or cache any Content except under the limited conditions stated in the terms." (see: https://developers.google.com/maps/documentation/geocoding/policies)
 
 ### Google Maps API for Work (`:google_premier`)
 
