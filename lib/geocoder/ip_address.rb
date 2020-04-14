@@ -20,7 +20,8 @@ module Geocoder
     end
 
     def valid?
-      !!((self =~ Resolv::IPv4::Regex) || (self =~ Resolv::IPv6::Regex))
+      ip = self[/(?<=\[)(.*?)(?=\])/] || self
+      !!((ip =~ Resolv::IPv4::Regex) || (ip =~ Resolv::IPv6::Regex))
     end
   end
 end
