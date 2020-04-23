@@ -33,8 +33,7 @@ module Geocoder::Lookup
         return []
       end
       if doc = doc['response']['GeoObjectCollection']
-        meta = doc['metaDataProperty']['GeocoderResponseMetaData']
-        return meta['found'].to_i > 0 ? doc['featureMember'] : []
+        return doc['featureMember'].to_a
       else
         Geocoder.log(:warn, "Yandex Geocoding API error: unexpected response format.")
         return []
