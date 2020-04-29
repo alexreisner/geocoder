@@ -16,7 +16,7 @@ module Geocoder::Lookup
       if configuration[:host]
         "#{protocol}://#{configuration[:host]}/location/#{query.sanitized_text}"
       else
-        "#{protocol}://telize-v1.p.mashape.com/location/#{query.sanitized_text}?mashape-key=#{api_key}"
+        "#{protocol}://telize-v1.p.rapidapi.com/location/#{query.sanitized_text}?rapidapi-key=#{api_key}"
       end
     end
 
