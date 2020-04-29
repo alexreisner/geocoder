@@ -421,7 +421,7 @@ IP Address Lookups
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: English
-* **Documentation**: https://market.mashape.com/fcambus/telize
+* **Documentation**: https://rapidapi.com/fcambus/api/telize
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: To use Telize set `Geocoder.configure(ip_lookup: :telize, api_key: "your_api_key")`. Or configure your self-hosted telize with the `host` option: `Geocoder.configure(ip_lookup: :telize, telize: {host: "localhost"})`.
