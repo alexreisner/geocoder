@@ -147,7 +147,7 @@ class LookupTest < GeocoderTestCase
   def test_telize_api_key
     Geocoder.configure(:api_key => "MY_KEY")
     g = Geocoder::Lookup::Telize.new
-    assert_match "mashape-key=MY_KEY", g.query_url(Geocoder::Query.new("232.65.123.94"))
+    assert_match "rapidapi-key=MY_KEY", g.query_url(Geocoder::Query.new("232.65.123.94"))
   end
 
   def test_ipinfo_io_api_key
