@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://www.rubygeocoder.com"
   s.date        = Date.today.to_s
   s.summary     = "Complete geocoding solution for Ruby."
-  s.description = "Provides object geocoding (by street or IP address), reverse geocoding (coordinates to street address), distance queries for ActiveRecord and Mongoid, result caching, and more. Designed for Rails but works with Sinatra and other Rack frameworks too."
+  s.description = "Object geocoding (by street or IP address), reverse geocoding (coordinates to street address), distance queries for ActiveRecord and Mongoid, result caching, and more. Designed for Rails but works with Sinatra and other Rack frameworks too."
   s.files       = Dir['CHANGELOG.md', 'LICENSE', 'README.md', 'examples/**/*', 'lib/**/*', 'bin/*']
   s.require_paths = ["lib"]
   s.executables = ["geocode"]

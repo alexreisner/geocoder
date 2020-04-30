@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.6.3 (2020 Apr 30)
+-------------------
+* Update URL for :telize lookup (thanks github.com/alexwalling).
+* Fix bug parsing IPv6 with port (thanks github.com/gdomingu).
+
 1.6.2 (2020 Mar 16)
 -------------------
 * Add support for :nationaal_georegister_nl lookup (thanks github.com/opensourceame).
