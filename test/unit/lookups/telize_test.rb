@@ -10,14 +10,14 @@ class TelizeTest < GeocoderTestCase
   def test_query_url
     lookup = Geocoder::Lookup::Telize.new
     query = Geocoder::Query.new("74.200.247.59")
-    assert_match %r{^https://telize-v1\.p\.mashape\.com/location/74\.200\.247\.59}, lookup.query_url(query)
+    assert_match %r{^https://telize-v1\.p\.rapidapi\.com/location/74\.200\.247\.59}, lookup.query_url(query)
   end
 
   def test_includes_api_key_when_set
     Geocoder.configure(api_key: "api_key")
     lookup = Geocoder::Lookup::Telize.new
     query = Geocoder::Query.new("74.200.247.59")
-    assert_match %r{/location/74\.200\.247\.59\?mashape-key=api_key}, lookup.query_url(query)
+    assert_match %r{/location/74\.200\.247\.59\?rapidapi-key=api_key}, lookup.query_url(query)
   end
 
   def test_uses_custom_host_when_set
@@ -38,7 +38,7 @@ class TelizeTest < GeocoderTestCase
     Geocoder.configure(use_https: false)
     lookup = Geocoder::Lookup::Telize.new
     query = Geocoder::Query.new("74.200.247.59")
-    assert_match %r{^https://telize-v1\.p\.mashape\.com}, lookup.query_url(query)
+    assert_match %r{^https://telize-v1\.p\.rapidapi\.com}, lookup.query_url(query)
   end
 
   def test_result_on_ip_address_search
@@ -83,7 +83,7 @@ class TelizeTest < GeocoderTestCase
     query = Geocoder::Query.new("8.8.8.8")
     qurl = lookup.send(:query_url, query)
     key = lookup.send(:cache_key, query)
-    assert qurl.include?("mashape-key")
-    assert !key.include?("mashape-key")
+    assert qurl.include?("rapidapi-key")
+    assert !key.include?("rapidapi-key")
   end
 end
