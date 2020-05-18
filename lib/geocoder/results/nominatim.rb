@@ -76,6 +76,10 @@ module Geocoder::Result
       @data['address']['neighbourhood']
     end
 
+    def municipality
+      @data['address']['municipality']
+    end
+
     def coordinates
       [@data['lat'].to_f, @data['lon'].to_f]
     end
