@@ -1,6 +1,5 @@
 language: ruby
 cache: bundler
-sudo: false
 
 services:
   - postgresql
