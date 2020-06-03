@@ -16,7 +16,7 @@ module Geocoder::Result
     end
 
     def state_code
-      @data['stateProv']
+      @data['stateProvCode']
     end
     alias_method :state, :state_code
 
