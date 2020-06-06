@@ -22,7 +22,7 @@ module Geocoder::Lookup
     end
 
     def any_result?(doc)
-      doc['features'].any?
+      doc['features'] and doc['features'].any?
     end
 
     def results(query)
