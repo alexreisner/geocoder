@@ -32,10 +32,10 @@ class DbIpComTest < GeocoderTestCase
     result = Geocoder.search('23.255.240.0').first
 
     assert_equal [37.3861, -122.084], result.coordinates
-    assert_equal 'Mountain View, California 94043, United States', result.address
+    assert_equal 'Mountain View, CA 94043, United States', result.address
     assert_equal 'Mountain View', result.city
     assert_equal 'Santa Clara County', result.district
-    assert_equal 'California', result.state_code
+    assert_equal 'CA', result.state_code
     assert_equal '94043', result.zip_code
     assert_equal 'United States', result.country_name
     assert_equal 'US', result.country_code
