@@ -369,12 +369,12 @@ Regional Street Address Lookups
 ### Nationaal Georegister Netherlands (`:nationaal_georegister_nl`)
 
 * **API key**: none
-* **Quota**: ?
+* **Quota**: none
 * **Region**: Netherlands
 * **SSL support**: yes
-* **Languages**: ?
+* **Languages**: Dutch
 * **Documentation**: http://geodata.nationaalgeoregister.nl/
-* **Terms of Service**: ?
+* **Terms of Service**: https://www.pdok.nl/over-pdok - The PDOK services are based on open data and are therefore freely available to everyone.
 
 
 IP Address Lookups
