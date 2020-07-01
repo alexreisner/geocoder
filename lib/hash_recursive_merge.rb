@@ -66,8 +66,3 @@ module HashRecursiveMerge
   end
 
 end
-
-
-class Hash
-  include HashRecursiveMerge
-end
