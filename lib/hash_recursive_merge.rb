@@ -42,13 +42,13 @@ module HashRecursiveMerge
   # Recursive version of Hash#merge
   # 
   # Compared with Hash#merge!, this method supports nested hashes.
-  # When both +hsh+ and +other_hash+ contains an entry with the same key,
+  # When both +hsh+ and +other_hash+ contain an entry with the same key,
   # it merges and returns the values from both arrays.
   # 
-  # Compared with Hash#merge, this method provides a different approch
+  # Compared with Hash#merge, this method provides a different approach
   # for merging nasted hashes.
-  # If the value of a given key is an Hash and both +other_hash+ abd +hsh
-  # includes the same key, the value is merged instead replaced with
+  # If the value of a given key is a Hash and both +other_hash+ and +hsh
+  # includes the same key, the value is merged instead of being replaced with
   # +other_hash+ value.
   # 
   #    h1 = {"a" => 100, "b" => 200, "c" => {"c1" => 12, "c2" => 14}}
