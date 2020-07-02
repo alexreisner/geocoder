@@ -1,5 +1,6 @@
 require 'singleton'
 require 'geocoder/configuration_hash'
+require 'geocoder/util'
 
 module Geocoder
 
@@ -85,7 +86,7 @@ module Geocoder
     end
 
     def configure(options)
-      @data.rmerge!(options)
+      Util.recursive_hash_merge(@data, options)
     end
 
     def initialize # :nodoc
