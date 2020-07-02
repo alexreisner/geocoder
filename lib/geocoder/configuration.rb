@@ -86,7 +86,7 @@ module Geocoder
     end
 
     def configure(options)
-      Util.rmerge!(@data, options)
+      Util.recursive_hash_merge(@data, options)
     end
 
     def initialize # :nodoc
