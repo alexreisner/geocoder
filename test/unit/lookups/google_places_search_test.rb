@@ -33,9 +33,39 @@ class GooglePlacesSearchTest < GeocoderTestCase
     assert_match(/language=de/, url)
   end
 
+  def test_google_places_search_query_url_contains_input
+    url = lookup.query_url(Geocoder::Query.new("some-address"))
+    assert_match(/input=some-address/, url)
+  end
+
+  def test_google_places_search_query_url_contains_input_typer
+    url = lookup.query_url(Geocoder::Query.new("some-address"))
+    assert_match(/inputtype=textquery/, url)
+  end
+
   def test_google_places_search_query_url_always_uses_https
     url = lookup.query_url(Geocoder::Query.new("some-address"))
-    assert_match(%r(^https://), url)
+    assert_match(%r{^https://}, url)
+  end
+
+  def test_google_places_search_query_url_contains_every_field_available_by_default
+    url = lookup.query_url(Geocoder::Query.new("some-address"))
+    fields = %w[id reference business_status formatted_address geometry icon name 
+      photos place_id plus_code types opening_hours price_level rating 
+      user_ratings_total]
+    assert_match(/fields=#{fields.join('%2C')}/, url)
+  end
+
+  def test_google_places_search_query_url_contains_specific_fields_when_given
+    fields = %w[formatted_address place_id]
+    url = lookup.query_url(Geocoder::Query.new("some-address", fields: fields))
+    
+    assert_match(/fields=#{fields.join('%2C')}/, url)
+  end
+
+  def test_google_places_search_query_url_uses_find_place_service
+    url = lookup.query_url(Geocoder::Query.new("some-address"))
+    assert_match(%r{//maps.googleapis.com/maps/api/place/findplacefromtext/}, url)
   end
 
   private
