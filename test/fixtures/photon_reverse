@@ -1,0 +1,27 @@
+{
+  "features":[
+    {
+      "geometry":{
+        "coordinates":[
+          -73.9935078,
+          40.750499
+        ],
+        "type":"Point"
+      },
+      "type":"Feature",
+      "properties":{
+        "osm_id":6985936386,
+        "osm_type":"N",
+        "country":"United States of America",
+        "osm_key":"tourism",
+        "housenumber":"4",
+        "city":"New York",
+        "street":"Pennsylvania Plaza",
+        "osm_value":"attraction",
+        "postcode":"10121",
+        "state":"New York"
+      }
+    }
+  ],
+  "type":"FeatureCollection"
+}

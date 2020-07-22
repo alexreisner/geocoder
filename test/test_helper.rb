@@ -474,6 +474,21 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/photon'
+    class Photon
+      private
+      def read_fixture(file)
+        filepath = File.join("test", "fixtures", file)
+        s = File.read(filepath).strip.gsub(/\n\s*/, "")
+
+        options = { body: s, code: 200 }
+        if file == "photon_invalid_request"
+          options[:code] = 400
+        end
+
+        MockHttpResponse.new(options)
+      end
+    end
   end
 end
 
