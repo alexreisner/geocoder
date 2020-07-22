@@ -474,6 +474,23 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/geoapify'
+    class Geoapify
+      private
+      def read_fixture(file)
+        filepath = File.join("test", "fixtures", file)
+        s = File.read(filepath).strip.gsub(/\n\s*/, "")
+
+        options = { body: s, code: 200 }
+        if file == "geoapify_invalid_request"
+          options[:code] = 500
+        elsif file == "geoapify_invalid_key"
+          options[:code] = 401
+        end
+
+        MockHttpResponse.new(options)
+      end
+    end
   end
 end
 

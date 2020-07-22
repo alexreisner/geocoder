@@ -1,0 +1,55 @@
+{
+  "type":"FeatureCollection",
+  "features":[
+    {
+      "type":"Feature",
+      "geometry":{
+        "type":"Point",
+        "coordinates":[
+          -73.993368,
+          40.750487
+        ]
+      },
+      "properties":{
+        "name":"Madison Square Garden",
+        "housenumber":"4",
+        "street":"Pennsylvania Plaza",
+        "distance":14.791104652930729,
+        "country":"United States",
+        "county":"New York County",
+        "datasource":{
+          "sourcename":"openstreetmap",
+          "wheelchair":"limited",
+          "wikidata":"Q186125",
+          "wikipedia":"en:Madison Square Garden",
+          "website":"http://www.thegarden.com/",
+          "phone":"12124656741",
+          "osm_type":"W",
+          "osm_id":138141251,
+          "continent":"North America"
+        },
+        "country_code":"us",
+        "postcode":"10001",
+        "state":"New York",
+        "city":"New York",
+        "district":"Manhattan",
+        "suburb":"Chelsea",
+        "lon":-73.993368,
+        "lat":40.750487,
+        "result_type":"amenity",
+        "formatted":"Madison Square Garden, 4 Pennsylvania Plaza, New York, NY 10001, United States of America",
+        "address_line1":"Madison Square Garden",
+        "address_line2":"4 Pennsylvania Plaza, New York, NY 10001, United States of America",
+        "rank":{
+          "popularity":8.615793062435909
+        }
+      },
+      "bbox":[
+        -73.9944446,
+        40.7498531,
+        -73.9925924,
+        40.751161
+      ]
+    }
+  ]
+}
