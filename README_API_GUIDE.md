@@ -224,6 +224,42 @@ Open source geocoding engine which can be self-hosted. MapTiler.com hosts an ins
 * **Terms of Service**: https://www.maptiler.com/terms/
 * **Notes**: To use self-hosted service, set the `:host` option in `Geocoder.configure`.
 
+### Photon (`:photon`)
+
+Open source geocoding engine which can be self-hosted. Komoot hosts a public installation for fair use without the need for an API key (usage might be subject of change).
+
+* **API key**: none
+* **Quota**: You can use the API for your project, but please be fair - extensive usage will be throttled.
+* **Region**: world
+* **SSL support**: yes
+* **Languages**:  en, de, fr, it
+* **Extra query options** (see [Photon documentation](https://github.com/komoot/photon) for more information):
+    * `:limit` - restrict the maximum amount of returned results, e.g. `limit: 5`
+    * `:filter` - extra filters for the search
+        * `:bbox` (forward) - restricts the bounding box for the forward search,
+          e.g. `filter: { bbox: [9.5, 51.5, 11.5, 53.5] }`
+          (minLon, minLat, maxLon, maxLat).
+        * `:osm_tag` (forward) - filters forward search results by
+          [tags and values](https://taginfo.openstreetmap.org/projects/nominatim#tags),
+          e.g. `filter: { osm_tag: 'tourism:museum' }`,
+          see API documentation for more information.
+        * `:string` (reverse) - filters the reverse search results by a query
+          string filter, e.g. `filter: { string: 'query string filter' }`,
+    * `:bias` (forward) - a location bias based on which results are
+      prioritized, provide an option hash with the keys `:latitude`,
+      `:longitude`, and `:scale` (optional, default scale: 1.6), e.g.
+      `bias: { latitude: 12, longitude: 12, scale: 4 }`
+    * `:radius` (reverse) - a kilometer radius for the reverse geocoding search,
+      must be a positive number between 0-5000 (default radius: 1),
+      e.g. `radius: 10`
+    * `:distance_sort` (reverse) - defines if results are sorted by distance for
+      reverse search queries or not, only available if the distance sorting is
+      enabled for the instace, e.g. `distance_sort: true`
+* **Documentation**: https://github.com/komoot/photon
+* **Terms of Service**: https://photon.komoot.de/
+* **Limitations**: The public API provider (Komoot) does not guarantee for the availability and usage might be subject of change in the future. You can host your own Photon server without such limitations. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
+* **Notes**: To use Photon set `Geocoder.configure(lookup: :photon, use_https: true)`. If you are [running your own instance of Photon](https://github.com/komoot/photon) you can configure the host like this: `Geocoder.configure(lookup: :photon, use_https: true, photon: {host: "photon.example.org"})`.
+
 
 Regional Street Address Lookups
 -------------------------------
