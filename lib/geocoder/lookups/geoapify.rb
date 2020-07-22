@@ -11,10 +11,6 @@ module Geocoder
         'Geoapify'
       end
 
-      def endpoint
-        'https://api.geoapify.com/v1/geocode'
-      end
-
       def required_api_key_parts
         ['api_key']
       end
