@@ -18,8 +18,8 @@ module Geocoder
 
       private
 
-      def results(query)
-        super(query, 'candidates')
+      def result_root_attr
+        'candidates'
       end
 
       def base_query_url(query)

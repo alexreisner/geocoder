@@ -21,6 +21,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def result_root_attr
+      'results'
+    end
+
     def cache_key(query)
       "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(cache_key_params(query))
     end

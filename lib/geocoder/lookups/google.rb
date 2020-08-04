@@ -44,11 +44,15 @@ module Geocoder::Lookup
       super(response) and ['OK', 'ZERO_RESULTS'].include?(status)
     end
 
-    def results(query, root_attr = 'results')
+    def result_root_attr
+      'results'
+    end
+
+    def results(query)
       return [] unless doc = fetch_data(query)
       case doc['status']
       when "OK" # OK status implies >0 results
-        return doc[root_attr]
+        return doc[result_root_attr]
       when "OVER_QUERY_LIMIT"
         raise_error(Geocoder::OverQueryLimitError) ||
           Geocoder.log(:warn, "#{name} API error: over query limit.")
