@@ -22,21 +22,15 @@ module Geocoder
         "#{protocol}://maps.googleapis.com/maps/api/place/details/json?"
       end
 
+      def result_root_attr
+        'result'
+      end
+
       def results(query)
-        return [] unless doc = fetch_data(query)
+        result = super(query)
+        return [result] unless result.is_a? Array
 
-        case doc["status"]
-        when "OK"
-          return [doc["result"]]
-        when "OVER_QUERY_LIMIT"
-          raise_error(Geocoder::OverQueryLimitError) || Geocoder.log(:warn, "Google Places Details API error: over query limit.")
-        when "REQUEST_DENIED"
-          raise_error(Geocoder::RequestDenied) || Geocoder.log(:warn, "Google Places Details API error: request denied.")
-        when "INVALID_REQUEST"
-          raise_error(Geocoder::InvalidRequest) || Geocoder.log(:warn, "Google Places Details API error: invalid request.")
-        end
-
-        []
+        result
       end
 
       def query_url_google_params(query)
