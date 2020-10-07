@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.6.4 (2020 Oct  6)
+-------------------
+* Various updates in response to geocoding API changes.
+* Refactor of Google Places Search lookup (thanks github.com/maximilientyc).
+
 1.6.3 (2020 Apr 30)
 -------------------
 * Update URL for :telize lookup (thanks github.com/alexwalling).
