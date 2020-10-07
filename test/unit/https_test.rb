@@ -8,9 +8,4 @@ class HttpsTest < GeocoderTestCase
     g = Geocoder::Lookup::Google.new
     assert_match(/^https:/, g.query_url(Geocoder::Query.new("test")))
   end
-
-  def test_uses_http_by_default
-    g = Geocoder::Lookup::Esri.new
-    assert_match(/^http:/, g.query_url(Geocoder::Query.new("test")))
-  end
 end
