@@ -2,7 +2,6 @@
 require 'test_helper'
 
 class NationaalGeoregisterNlTest < GeocoderTestCase
-
   def setup
     Geocoder.configure(lookup: :nationaal_georegister_nl)
   end
@@ -18,6 +17,7 @@ class NationaalGeoregisterNlTest < GeocoderTestCase
     assert_equal result.province,       'Noord-Holland'
     assert_equal result.province_code,  'PV27'
     assert_equal result.country_code,   'NL'
+    assert_equal result.latitude,       52.37316397
+    assert_equal result.longitude,      4.89089949
   end
-
 end

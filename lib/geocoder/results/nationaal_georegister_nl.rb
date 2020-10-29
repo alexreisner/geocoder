@@ -8,7 +8,7 @@ module Geocoder::Result
     end
 
     def coordinates
-      @data['centroide_ll'][6..-2].split(' ').map(&:to_f)
+      @data['centroide_ll'][6..-2].split(' ').map(&:to_f).reverse
     end
 
     def formatted_address
