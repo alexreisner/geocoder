@@ -28,6 +28,10 @@ module Geocoder
         @stubs ||= {}
       end
 
+      def self.delete_stub(query_text)
+        stubs.delete(query_text)
+      end
+
       def self.reset
         @stubs = {}
         @default_stub = nil
