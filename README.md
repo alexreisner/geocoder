@@ -214,7 +214,7 @@ Some common options are:
       units: :km,
 
       # caching (see [below](#caching) for details):
-      cache: Redis.new,
+      cache: Rails.cache,
       cache_prefix: "..."
 
     )
@@ -239,7 +239,7 @@ You can configure multiple geocoding services at once by using the service's nam
     Geocoder.configure(
 
       timeout: 2,
-      cache: Redis.new,
+      cache: Rails.cache,
 
       yandex: {
         api_key: "...",
@@ -289,9 +289,9 @@ The exact code will vary depending on the method you use for your geocodable str
 
 When relying on any external service, it's always a good idea to cache retrieved data. When implemented correctly, it improves your app's response time and stability. It's easy to cache geocoding results with Geocoder -- just configure a cache store:
 
-    Geocoder.configure(cache: Redis.new)
+    Geocoder.configure(cache: Rails.cache)
 
-This example uses Redis, but the cache store can be any object that supports these methods:
+This example uses [Rails.cache](https://guides.rubyonrails.org/caching_with_rails.html#cache-stores), but it could also use `Redis.new` or any object that supports these methods:
 
 * `store#[](key)` or `#get` or `#read` - retrieves a value
 * `store#[]=(key, value)` or `#set` or `#write` - stores a value
