@@ -26,6 +26,7 @@ class IpregistryTest < GeocoderTestCase
     assert_equal "USD", result.currency_code
     assert_equal "NA", result.location_continent_code
     assert_equal "US", result.location_country_code
+    assert_equal [37.4056, -122.07752], result.coordinates
     assert_equal false, result.security_is_tor
     assert_equal "America/Los_Angeles", result.time_zone_id
   end

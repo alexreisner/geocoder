@@ -43,6 +43,10 @@ module Geocoder::Result
       @data['location_longitude']
     end
 
+    def coordinates
+      [latitude, longitude]
+    end
+
     def postal_code
       @data['location_postal']
     end
