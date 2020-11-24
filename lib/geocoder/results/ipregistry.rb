@@ -9,6 +9,10 @@ module Geocoder::Result
       @data = flatten_hash(data)
     end
 
+    def coordinates
+      [@data['location_latitude'], @data['location_longitude']]
+    end
+
     def flatten_hash(hash)
       hash.each_with_object({}) do |(k, v), h|
         if v.is_a? Hash
@@ -33,14 +37,6 @@ module Geocoder::Result
 
     def country_code
       @data['location_country_code']
-    end
-
-    def latitude
-      @data['location_latitude']
-    end
-
-    def longitude
-      @data['location_longitude']
     end
 
     def postal_code
