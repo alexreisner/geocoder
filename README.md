@@ -213,7 +213,7 @@ Some common options are:
       # set default units to kilometers:
       units: :km,
 
-      # caching (see [below](#caching) for details):
+      # caching (see Caching section below for details):
       cache: Redis.new,
       cache_prefix: "..."
 
