@@ -30,7 +30,13 @@ module Geocoder::Lookup
     def results(query)
       if configuration[:file]
         geoip_class = RUBY_PLATFORM == "java" ? JGeoIP : GeoIP
-        result = geoip_class.new(configuration[:file]).city(query.to_s)
+        geoip_instance = geoip_class.new(configuration[:file])
+        result =
+          if configuration[:package] == :country
+            geoip_instance.country(query.to_s)
+          else
+            geoip_instance.city(query.to_s)
+          end
         result.nil? ? [] : [encode_hash(result.to_hash)]
       elsif configuration[:package] == :city
         addr = IPAddr.new(query.text).to_i
