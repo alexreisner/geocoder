@@ -557,11 +557,15 @@ This lookup provides methods for geocoding IP addresses without making a call to
 
 **To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
 
-    Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')})
+```rb
+Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')})
+```
 
 **To use a CSV file** you must import it into an SQL database. The GeoLite *City* and *Country* packages are supported. Configure like so:
 
-    Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {package: :city})
+```rb
+Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {package: :city})
+```
 
 You can generate ActiveRecord migrations and download and import data via provided rake tasks:
 
@@ -587,22 +591,26 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Limitations**: ?
 * **Notes**: **You must download a binary database file from MaxMind and set the `:file` configuration option.** The CSV format databases are not yet supported since they are still in alpha stage. Set the path to the database file in your configuration:
 
-    Geocoder.configure(
-      ip_lookup: :geoip2,
-      geoip2: {
-        file: File.join('folder', 'GeoLite2-City.mmdb')
-      }
-    )
+  ```rb
+  Geocoder.configure(
+    ip_lookup: :geoip2,
+    geoip2: {
+      file: File.join('folder', 'GeoLite2-City.mmdb')
+    }
+  )
+  ```
 
 You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* gem (native extension that relies on libmaxminddb) or the *[maxminddb](http://rubygems.org/gems/maxminddb)* gem (pure Ruby implementation) to your Gemfile or have it installed in your system. The pure Ruby gem (maxminddb) will be used by default. To use `hive_geoip2`:
 
-    Geocoder.configure(
-      ip_lookup: :geoip2,
-      geoip2: {
-        lib: 'hive_geoip2',
-        file: File.join('folder', 'GeoLite2-City.mmdb')
-      }
-    )
+```rb
+Geocoder.configure(
+  ip_lookup: :geoip2,
+  geoip2: {
+    lib: 'hive_geoip2',
+    file: File.join('folder', 'GeoLite2-City.mmdb')
+  }
+)
+```
 
 
 Copyright (c) 2009-2020 Alex Reisner, released under the MIT license.
