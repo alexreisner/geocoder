@@ -605,4 +605,4 @@ You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* g
     )
 
 
-Copyright (c) 2009-2020 Alex Reisner, released under the MIT license.
+Copyright (c) 2009-2021 Alex Reisner, released under the MIT license.
