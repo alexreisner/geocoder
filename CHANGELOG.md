@@ -3,6 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.6.5 (2020 Feb 10)
+-------------------
+* Fix backward coordinates bug in NationaalregisterNl lookup (thanks github.com/Marthyn).
+* Allow removal of single stubs in test mode (thanks github.com/jmmastey).
+* Improve results for :ban_data_gouv_fr lookup (thanks github.com/Intrepidd).
+
 1.6.4 (2020 Oct  6)
 -------------------
 * Various updates in response to geocoding API changes.
