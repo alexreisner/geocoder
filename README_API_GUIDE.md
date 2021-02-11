@@ -541,7 +541,11 @@ IP Address Lookups
 Local IP Address Lookups
 ------------------------
 
-### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
+### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL - Not more working since maxmind change of 2019/12
+
+
+Refer for further informations:
+https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/
 
 This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
 
@@ -572,6 +576,35 @@ You can generate ActiveRecord migrations and download and import data via provid
     rake geocoder:maxmind:geolite:load PACKAGE=city
 
 You can replace `city` with `country` in any of the above tasks, generators, and configurations.
+
+
+### MaxMind Local (`:maxmind_local_api`) - EXPERIMENTAL - Extension of original `:maxmind_local` which uses the new API
+
+But it's just available for the city package
+
+**To use a CSV file** you must import it into an SQL database.
+To enable `:maxmind_local_api` configure Geocoder with the following additional settings:
+
+    Geocoder.configure(
+      ip_lookup: :maxmind_local_api,
+      maxmind_local_api: {
+        package: :city,
+        download_api_key: 'YOUR_LICENCE_KEY', # get your free api key from https://www.maxmind.com/
+        preferred_language: 'de' # set your preferred language (one of those, which is available in maxmind csv archive). Uses 'en' if nothing is defined.
+      }
+    )
+
+You can generate ActiveRecord migrations and download and import data via provided rake tasks:
+The new migration has **force: true** set, which will overwrite your current tables, if you were using those in the past.
+
+    # generate migration to create tables
+    rails generate geocoder:maxmind:geolite_city
+
+    # download, unpack, and import data - added another namespace for the case, the old one is needed (whyever)
+    rails geocoder:maxmind_api:geolite:load
+
+As this task really needed to be available very fast, you cannot replace `city` with `country` in this extension of the original task. 
+
 
 ### GeoLite2 (`:geoip2`)
 

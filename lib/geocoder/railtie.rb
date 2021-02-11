@@ -12,6 +12,7 @@ module Geocoder
       rake_tasks do
         load "tasks/geocoder.rake"
         load "tasks/maxmind.rake"
+        load "tasks/maxmind_api.rake"
       end
     end
   end

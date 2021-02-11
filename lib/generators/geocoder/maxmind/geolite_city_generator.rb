@@ -11,7 +11,7 @@ module Geocoder
         source_root File.expand_path('../templates', __FILE__)
 
         def copy_migration_files
-          migration_template "migration/geolite_city.rb", "db/migrate/geocoder_maxmind_geolite_city.rb"
+          migration_template "migration/geolite_city.rb", "db/migrate/geocoder_maxmind_geolite_city_new_api.rb"
         end
 
         # Define the next_migration_number method (necessary for the
