@@ -18,6 +18,8 @@ module Geocoder
         when store.respond_to?(:read)
           store.read key_for(url)
       end
+    rescue => e
+      warn "Geocoder cache read error: #{e}"
     end
 
     ##
@@ -32,6 +34,8 @@ module Geocoder
         when store.respond_to?(:write)
           store.write key_for(url), value
       end
+    rescue => e
+      warn "Geocoder cache write error: #{e}"
     end
 
     ##
