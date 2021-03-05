@@ -14,16 +14,43 @@ Table of Contents
 Global Street Address Lookups
 -----------------------------
 
-### Nominatim (`:nominatim`)
+### Bing (`:bing`)
+
+* **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)
+* **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
+* **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
+* **Region**: world
+* **SSL support**: no
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
+* **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
+* **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
+* **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
+
+### Data Science Toolkit (`:dstk`)
+
+Data Science Toolkit provides an API whose response format is like Google's but which can be set up as a privately hosted service.
 
 * **API key**: none
-* **Quota**: 1 request/second
+* **Quota**: No quota if you are self-hosting the service.
+* **Region**: world
+* **SSL support**: ?
+* **Languages**: en
+* **Documentation**: http://www.datasciencetoolkit.org/developerdocs
+* **Terms of Service**: http://www.datasciencetoolkit.org/developerdocs#googlestylegeocoder
+* **Limitations**: No reverse geocoding.
+* **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(lookup: :dstk, dstk: {host: "localhost:4567"})`.
+
+### ESRI (`:esri`)
+
+* **API key**: optional (set `Geocoder.configure(esri: {api_key: ["client_id", "client_secret"]})`)
+* **Quota**: Required for some scenarios (see Terms of Service)
 * **Region**: world
 * **SSL support**: yes
-* **Languages**: ?
-* **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
-* **Terms of Service**: https://operations.osmfoundation.org/policies/nominatim/
-* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(http_headers: { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
+* **Languages**: English
+* **Documentation**: https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm
+* **Terms of Service**: http://www.esri.com/legal/software-license
+* **Limitations**: Requires API key if results will be stored. Using API key will also remove rate limit.
+* **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(esri: {outSR: 102100})`. If you will store results, set the flag and provide API key: `Geocoder.configure(esri: {api_key: ["client_id", "client_secret"], for_storage: true})`. If you want to, you can also supply an ESRI token directly: `Geocoder.configure(esri: {token: Geocoder::EsriToken.new('TOKEN', Time.now + 1.day})`
 
 ### Google (`:google`)
 
@@ -68,28 +95,19 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 
 * Same specifications as Google Places Details (see above).
 
-### Bing (`:bing`)
-
-* **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)
-* **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
-* **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
-* **Region**: world
-* **SSL support**: no
-* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
-* **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
-* **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
-* **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
-
-### PickPoint (`:pickpoint`)
+### Here/Nokia (`:here`)
 
 * **API key**: required
-* **Key signup**: [https://pickpoint.io](https://pickpoint.io)
-* **Quota**: 2500 requests / day for free non-commercial usage, commercial plans are [available](https://pickpoint.io/#pricing). No rate limit.
+* **Quota**: Depending on the API key
 * **Region**: world
-* **SSL support**: required
-* **Languages**: worldwide
-* **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
-* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
+* **SSL support**: yes
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
+* **Extra params**:
+  * `:bounds` - pass NW and SE coordinates as an array of two arrays to bias results towards a viewport
+  * `:country` - pass the country or list of countries using the country code (3 bytes, ISO 3166-1-alpha-3) or the country name, to filter the results
+* **Documentation**: http://developer.here.com/rest-apis/documentation/geocoder
+* **Terms of Service**: http://developer.here.com/faqs#l&t
+* **Limitations**: ?
 
 ### LocationIQ (`:location_iq`)
 
@@ -101,28 +119,6 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Documentation**: https://locationiq.org/#docs
 * **Terms of Service**: https://unwiredlabs.com/tos
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
-
-### OpenCageData (`:opencagedata`)
-
-* **API key**: required
-* **Key signup**: https://opencagedata.com
-* **Quota**: 2500 requests / day, then [ability to purchase more](https://opencagedata.com/pricing)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: worldwide
-* **Documentation**: https://opencagedata.com/api
-* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
-
-### Yandex (`:yandex`)
-
-* **API key**: optional, but without it lookup is territorially limited
-* **Quota**: 25000 requests / day
-* **Region**: world with API key, else restricted to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
-* **SSL support**: HTTPS only
-* **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
-* **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
-* **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
-* **Limitations**: ?
 
 ### Mapbox (`:mapbox`)
 
@@ -159,57 +155,27 @@ The [Google Places Search API](https://developers.google.com/places/web-service/
 * **Limitations**: ?
 * **Notes**: You can use the open (non-licensed) API by setting: `Geocoder.configure(mapquest: {open: true})` (defaults to licensed version)
 
-### Here/Nokia (`:here`)
-
-* **API key**: required
-* **Quota**: Depending on the API key
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
-* **Extra params**:
-  * `:bounds` - pass NW and SE coordinates as an array of two arrays to bias results towards a viewport
-  * `:country` - pass the country or list of countries using the country code (3 bytes, ISO 3166-1-alpha-3) or the country name, to filter the results
-* **Documentation**: http://developer.here.com/rest-apis/documentation/geocoder
-* **Terms of Service**: http://developer.here.com/faqs#l&t
-* **Limitations**: ?
-
-### ESRI (`:esri`)
-
-* **API key**: optional (set `Geocoder.configure(esri: {api_key: ["client_id", "client_secret"]})`)
-* **Quota**: Required for some scenarios (see Terms of Service)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: https://developers.arcgis.com/rest/geocode/api-reference/overview-world-geocoding-service.htm
-* **Terms of Service**: http://www.esri.com/legal/software-license
-* **Limitations**: Requires API key if results will be stored. Using API key will also remove rate limit.
-* **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(esri: {outSR: 102100})`. If you will store results, set the flag and provide API key: `Geocoder.configure(esri: {api_key: ["client_id", "client_secret"], for_storage: true})`. If you want to, you can also supply an ESRI token directly: `Geocoder.configure(esri: {token: Geocoder::EsriToken.new('TOKEN', Time.now + 1.day})`
-
-### Pelias (`:pelias`)
-
-* **API key**: configurable (self-hosted service)
-* **Quota**: none (self-hosted service)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
-* **Documentation**: http://pelias.io/
-* **Terms of Service**: http://pelias.io/data_licenses.html
-* **Limitations**: See terms
-* **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(lookup: :pelias, api_key: 'your_api_key', pelias: {endpoint: 'self.hosted/pelias'})`. Defaults to `localhost`.
-
-### Data Science Toolkit (`:dstk`)
-
-Data Science Toolkit provides an API whose response format is like Google's but which can be set up as a privately hosted service.
+### Nominatim (`:nominatim`)
 
 * **API key**: none
-* **Quota**: No quota if you are self-hosting the service.
+* **Quota**: 1 request/second
 * **Region**: world
-* **SSL support**: ?
-* **Languages**: en
-* **Documentation**: http://www.datasciencetoolkit.org/developerdocs
-* **Terms of Service**: http://www.datasciencetoolkit.org/developerdocs#googlestylegeocoder
-* **Limitations**: No reverse geocoding.
-* **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(lookup: :dstk, dstk: {host: "localhost:4567"})`.
+* **SSL support**: yes
+* **Languages**: ?
+* **Documentation**: http://wiki.openstreetmap.org/wiki/Nominatim
+* **Terms of Service**: https://operations.osmfoundation.org/policies/nominatim/
+* **Limitations**: Please limit request rate to 1 per second and include your contact information in User-Agent headers (eg: `Geocoder.configure(http_headers: { "User-Agent" => "your contact info" })`). [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
+
+### OpenCageData (`:opencagedata`)
+
+* **API key**: required
+* **Key signup**: https://opencagedata.com
+* **Quota**: 2500 requests / day, then [ability to purchase more](https://opencagedata.com/pricing)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: worldwide
+* **Documentation**: https://opencagedata.com/api
+* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
 ### OSM Names (`:osmnames`)
 
@@ -224,9 +190,55 @@ Open source geocoding engine which can be self-hosted. MapTiler.com hosts an ins
 * **Terms of Service**: https://www.maptiler.com/terms/
 * **Notes**: To use self-hosted service, set the `:host` option in `Geocoder.configure`.
 
+### Pelias (`:pelias`)
+
+* **API key**: configurable (self-hosted service)
+* **Quota**: none (self-hosted service)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
+* **Documentation**: http://pelias.io/
+* **Terms of Service**: http://pelias.io/data_licenses.html
+* **Limitations**: See terms
+* **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(lookup: :pelias, api_key: 'your_api_key', pelias: {endpoint: 'self.hosted/pelias'})`. Defaults to `localhost`.
+
+### PickPoint (`:pickpoint`)
+
+* **API key**: required
+* **Key signup**: [https://pickpoint.io](https://pickpoint.io)
+* **Quota**: 2500 requests / day for free non-commercial usage, commercial plans are [available](https://pickpoint.io/#pricing). No rate limit.
+* **Region**: world
+* **SSL support**: required
+* **Languages**: worldwide
+* **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
+* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
+
+### Yandex (`:yandex`)
+
+* **API key**: optional, but without it lookup is territorially limited
+* **Quota**: 25000 requests / day
+* **Region**: world with API key, else restricted to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
+* **SSL support**: HTTPS only
+* **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
+* **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
+* **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
+* **Limitations**: ?
+
 
 Regional Street Address Lookups
 -------------------------------
+
+### AMap (`:amap`)
+
+- **API key**: required
+- **Quota**: 2000/day and 2000/minute for personal developer, 4000000/day and 60000/minute for enterprise developer, for geocoding requests
+- **Region**: China
+- **SSL support**: yes
+- **Languages**: Chinese (Simplified)
+- **Documentation**: http://lbs.amap.com/api/webservice/guide/api/georegeo
+- **Terms of Service**: http://lbs.amap.com/home/terms/
+- **Limitations**: Only good for non-commercial use. For commercial usage please check http://lbs.amap.com/home/terms/
+- **Notes**: To use AMap set `Geocoder.configure(lookup: :amap, api_key: "your_api_key")`.
 
 ### Baidu (`:baidu`)
 
@@ -240,18 +252,28 @@ Regional Street Address Lookups
 * **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
 * **Notes**: To use Baidu set `Geocoder.configure(lookup: :baidu, api_key: "your_api_key")`.
 
-### Tencent (`:tencent`)
+### Base Adresse Nationale FR (`:ban_data_gouv_fr`)
 
-* **API key**: required
-* **Key signup**: http://lbs.qq.com/console/mykey.html
-* **Quota**: 10,000 free requests per day per key. 5 requests per second per key. For increased quota, one must first apply to become a corporate developer and then apply for increased quota.
-* **Region**: China
+* **API key**: none
+* **Quota**: none
+* **Region**: France
 * **SSL support**: yes
-* **Languages**: Chinese (Simplified)
-* **Documentation**: http://lbs.qq.com/webservice_v1/guide-geocoder.html (Standard) & http://lbs.qq.com/webservice_v1/guide-gcoder.html (Reverse)
-* **Terms of Service**: http://lbs.qq.com/terms.html
-* **Limitations**: Only works for locations in Greater China (mainland China, Hong Kong, Macau, and Taiwan).
-* **Notes**: To use Tencent, set `Geocoder.configure(lookup: :tencent, api_key: "your_api_key")`.
+* **Languages**: en / fr
+* **Documentation**: https://adresse.data.gouv.fr/api/ (in french)
+* **Terms of Service**: https://adresse.data.gouv.fr/faq/ (in french)
+* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://openstreetmap.fr/ban)
+
+### Bing (`:bing`)
+
+* **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)
+* **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
+* **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
+* **Region**: world
+* **SSL support**: no
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
+* **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
+* **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
+* **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
 
 ### Geocoder.ca (`:geocoder_ca`)
 
@@ -275,17 +297,6 @@ Regional Street Address Lookups
 * **Terms of Service**: https://geocod.io/terms-of-use/
 * **Limitations**: No restrictions on use
 
-### SmartyStreets (`:smarty_streets`)
-
-* **API key**: requires auth_id and auth_token (set `Geocoder.configure(api_key: [id, token])`)
-* **Quota**: 250/month then purchase at sliding scale.
-* **Region**: US
-* **SSL support**: yes (required)
-* **Languages**: en
-* **Documentation**: http://smartystreets.com/kb/liveaddress-api/rest-endpoint
-* **Terms of Service**: http://smartystreets.com/legal/terms-of-service
-* **Limitations**: No reverse geocoding.
-
 ### Geoportail.lu (`:geoportail_lu`)
 
 * **API key**: none
@@ -297,17 +308,26 @@ Regional Street Address Lookups
 * **Terms of Service**: http://wiki.geoportail.lu/doku.php?id=en:mcg_1
 * **Limitations**: ?
 
-### Bing (`:bing`)
+### LatLon.io (`:latlon`)
 
-* **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)
-* **Key signup**: https://www.microsoft.com/maps/create-a-bing-maps-key.aspx
-* **Quota**: 50,0000 requests/day (Windows app), 125,000 requests/year (non-Windows app)
-* **Region**: world
-* **SSL support**: no
-* **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
-* **Documentation**: http://msdn.microsoft.com/en-us/library/ff701715.aspx
-* **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
-* **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
+* **API key**: required
+* **Quota**: Depends on the user's plan (free and paid plans available)
+* **Region**: US
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: https://latlon.io/documentation
+* **Terms of Service**: ?
+* **Limitations**: No restrictions on use
+
+### Nationaal Georegister Netherlands (`:nationaal_georegister_nl`)
+
+* **API key**: none
+* **Quota**: none
+* **Region**: Netherlands
+* **SSL support**: yes
+* **Languages**: Dutch
+* **Documentation**: http://geodata.nationaalgeoregister.nl/
+* **Terms of Service**: https://www.pdok.nl/over-pdok - The PDOK services are based on open data and are therefore freely available to everyone.
 
 ### Ordnance Survey OpenNames (`:uk_ordnance_survey_names`)
 
@@ -332,63 +352,55 @@ Regional Street Address Lookups
 * **Limitations**: ?
 * **Notes**: To use PostcodeAnywhere you must include an API key: `Geocoder.configure(lookup: :postcode_anywhere_uk, api_key: 'your_api_key')`.
 
-### LatLon.io (`:latlon`)
+### SmartyStreets (`:smarty_streets`)
+
+* **API key**: requires auth_id and auth_token (set `Geocoder.configure(api_key: [id, token])`)
+* **Quota**: 250/month then purchase at sliding scale.
+* **Region**: US
+* **SSL support**: yes (required)
+* **Languages**: en
+* **Documentation**: http://smartystreets.com/kb/liveaddress-api/rest-endpoint
+* **Terms of Service**: http://smartystreets.com/legal/terms-of-service
+* **Limitations**: No reverse geocoding.
+
+### Tencent (`:tencent`)
 
 * **API key**: required
-* **Quota**: Depends on the user's plan (free and paid plans available)
-* **Region**: US
+* **Key signup**: http://lbs.qq.com/console/mykey.html
+* **Quota**: 10,000 free requests per day per key. 5 requests per second per key. For increased quota, one must first apply to become a corporate developer and then apply for increased quota.
+* **Region**: China
 * **SSL support**: yes
-* **Languages**: en
-* **Documentation**: https://latlon.io/documentation
-* **Terms of Service**: ?
-* **Limitations**: No restrictions on use
-
-### Base Adresse Nationale FR (`:ban_data_gouv_fr`)
-
-* **API key**: none
-* **Quota**: none
-* **Region**: France
-* **SSL support**: yes
-* **Languages**: en / fr
-* **Documentation**: https://adresse.data.gouv.fr/api/ (in french)
-* **Terms of Service**: https://adresse.data.gouv.fr/faq/ (in french)
-* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://openstreetmap.fr/ban)
-
-### AMap (`:amap`)
-
-- **API key**: required
-- **Quota**: 2000/day and 2000/minute for personal developer, 4000000/day and 60000/minute for enterprise developer, for geocoding requests
-- **Region**: China
-- **SSL support**: yes
-- **Languages**: Chinese (Simplified)
-- **Documentation**: http://lbs.amap.com/api/webservice/guide/api/georegeo
-- **Terms of Service**: http://lbs.amap.com/home/terms/
-- **Limitations**: Only good for non-commercial use. For commercial usage please check http://lbs.amap.com/home/terms/
-- **Notes**: To use AMap set `Geocoder.configure(lookup: :amap, api_key: "your_api_key")`.
-
-### Nationaal Georegister Netherlands (`:nationaal_georegister_nl`)
-
-* **API key**: none
-* **Quota**: none
-* **Region**: Netherlands
-* **SSL support**: yes
-* **Languages**: Dutch
-* **Documentation**: http://geodata.nationaalgeoregister.nl/
-* **Terms of Service**: https://www.pdok.nl/over-pdok - The PDOK services are based on open data and are therefore freely available to everyone.
+* **Languages**: Chinese (Simplified)
+* **Documentation**: http://lbs.qq.com/webservice_v1/guide-geocoder.html (Standard) & http://lbs.qq.com/webservice_v1/guide-gcoder.html (Reverse)
+* **Terms of Service**: http://lbs.qq.com/terms.html
+* **Limitations**: Only works for locations in Greater China (mainland China, Hong Kong, Macau, and Taiwan).
+* **Notes**: To use Tencent, set `Geocoder.configure(lookup: :tencent, api_key: "your_api_key")`.
 
 
 IP Address Lookups
 ------------------
 
-### IPInfo.io (`:ipinfo_io`)
+### Baidu IP (`:baidu_ip`)
 
-* **API key**: optional - see https://ipinfo.io/pricing
-* **Quota**: 1,000/day without API key, 50,000/mo with a free account - more with a paid plan - see https://ipinfo.io/developers#rate-limits
+* **API key**: required
+* **Quota**: No quota limits for geocoding
+* **Region**: China
+* **SSL support**: no
+* **Languages**: Chinese (Simplified)
+* **Documentation**: http://developer.baidu.com/map/webservice-geocoding.htm
+* **Terms of Service**: http://developer.baidu.com/map/law.htm
+* **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
+* **Notes**: To use Baidu set `Geocoder.configure(lookup: :baidu_ip, api_key: "your_api_key")`.
+
+### DB-IP.com (`:db_ip_com`)
+
+* **API key**: required
+* **Quota**: 2,500/day (with free API Key, 50,000/day and up for paid API keys)
 * **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: https://ipinfo.io/developers
-* **Terms of Service**: https://ipinfo.io/terms-of-service
+* **SSL support**: yes (with paid API keys - see https://db-ip.com/api/)
+* **Languages**: English (English with free API key, multiple languages with paid API keys)
+* **Documentation**: https://db-ip.com/api/doc.php
+* **Terms of Service**: https://db-ip.com/tos.php
 
 ### FreeGeoIP (`:freegeoip`) - [DISCONTINUED](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation)
 
@@ -401,6 +413,105 @@ IP Address Lookups
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
+
+### IP-API.com (`:ipapi_com`)
+
+* **API key**: optional - see https://members.ip-api.com
+* **Quota**: 45/minute - unlimited with api key
+* **Region**: world
+* **SSL support**: no (not without access key - see https://members.ip-api.com)
+* **Languages**: English
+* **Documentation**: http://ip-api.com/docs/
+* **Terms of Service**: https://members.ip-api.com/legal
+
+### IP2Location (`:ip2location`)
+
+* **API key**: optional (20 free demo queries per day)
+* **Quota**: up to 100k credits with paid API key
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.ip2location.com/web-service
+* **Terms of Service**: https://www.ip2location.com/web-service
+* **Notes**: With the non-free version, specify your desired package: `Geocoder.configure(ip2location: {package: "WSX"})` (see API documentation for package details).
+
+### Ipdata.co (`:ipdata_co`)
+
+* **API key**: required, see: https://ipdata.co/pricing.html
+* **Quota**: 1500/day for free, up to 600k with paid API keys
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipdata.co/docs.html
+* **Terms of Service**: https://ipdata.co/terms.html
+* **Limitations**: ?
+
+### Ipgeolocation (`:ipgeolocation`)
+
+* **API key**: required (see https://ipgeolocation.io/pricing)
+* **Quota**: 1500/day (with free API Key)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English, German, Russian, Japanese, French, Chinese, Spanish, Czech, Italian
+* **Documentation**: https://ipgeolocation.io/documentation
+* **Terms of Service**: https://ipgeolocation/tos
+* **Notes**: To use Ipgeolocation set `Geocoder.configure(ip_lookup: :ipgeolocation, api_key: "your_ipgeolocation_api_key", use_https:true)`. Supports the optional params:  { excludes: "continent_code"}, {fields: "geo"}, {lang: "ru"}, {output: "xml"}, {include: "hostname"}, {ip: "174.7.116.0"}) (see API documentation for details).
+
+### IPInfo.io (`:ipinfo_io`)
+
+* **API key**: optional - see https://ipinfo.io/pricing
+* **Quota**: 1,000/day without API key, 50,000/mo with a free account - more with a paid plan - see https://ipinfo.io/developers#rate-limits
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipinfo.io/developers
+* **Terms of Service**: https://ipinfo.io/terms-of-service
+
+### Ipregistry (`:ipregistry`)
+
+* **API key**: required (see https://ipregistry.co)
+* **Quota**: first 100,000 requests are free, then you pay per request (see https://ipregistry.co/pricing)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipregistry.co/docs
+* **Terms of Service**: https://ipregistry.co/terms
+
+### Ipstack (`:ipstack`)
+
+* **API key**: required (see https://ipstack.com/product)
+* **Quota**: 10,000 requests per month (with free API Key, 50,000/day and up for paid plans)
+* **Region**: world
+* **SSL support**: yes ( only with paid plan )
+* **Languages**: English, German, Spanish, French, Japanese, Portugues (Brazil), Russian, Chinese
+* **Documentation**: https://ipstack.com/documentation
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: To use Ipstack set `Geocoder.configure(ip_lookup: :ipstack, api_key: "your_ipstack_api_key")`. Supports the optional params: `:hostname`, `:security`, `:fields`, `:language` (see API documentation for details).
+
+### MaxMind Legacy Web Services (`:maxmind`)
+
+* **API key**: required
+* **Quota**: Request Packs can be purchased
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: http://dev.maxmind.com/geoip/legacy/web-services/
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(maxmind: {service: :omni})`.
+
+### MaxMind GeoIP2 Precision Web Services (`:maxmind_geoip2`)
+
+* **API key**: required
+* **Quota**: Request Packs can be purchased
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: http://dev.maxmind.com/geoip/geoip2/web-services/
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: You must specify which MaxMind service you are using in your configuration, and also basic authentication. For example: `Geocoder.configure(maxmind_geoip2: {service: :country, basic_auth: {user: '', password: ''}})`.
 
 ### Pointpin (`:pointpin`)
 
@@ -426,152 +537,8 @@ IP Address Lookups
 * **Limitations**: ?
 * **Notes**: To use Telize set `Geocoder.configure(ip_lookup: :telize, api_key: "your_api_key")`. Or configure your self-hosted telize with the `host` option: `Geocoder.configure(ip_lookup: :telize, telize: {host: "localhost"})`.
 
-
-### MaxMind Legacy Web Services (`:maxmind`)
-
-* **API key**: required
-* **Quota**: Request Packs can be purchased
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: http://dev.maxmind.com/geoip/legacy/web-services/
-* **Terms of Service**: ?
-* **Limitations**: ?
-* **Notes**: You must specify which MaxMind service you are using in your configuration. For example: `Geocoder.configure(maxmind: {service: :omni})`.
-
-### Baidu IP (`:baidu_ip`)
-
-* **API key**: required
-* **Quota**: No quota limits for geocoding
-* **Region**: China
-* **SSL support**: no
-* **Languages**: Chinese (Simplified)
-* **Documentation**: http://developer.baidu.com/map/webservice-geocoding.htm
-* **Terms of Service**: http://developer.baidu.com/map/law.htm
-* **Limitations**: Only good for non-commercial use. For commercial usage please check http://developer.baidu.com/map/question.htm#qa0013
-* **Notes**: To use Baidu set `Geocoder.configure(lookup: :baidu_ip, api_key: "your_api_key")`.
-
-### MaxMind GeoIP2 Precision Web Services (`:maxmind_geoip2`)
-
-* **API key**: required
-* **Quota**: Request Packs can be purchased
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: http://dev.maxmind.com/geoip/geoip2/web-services/
-* **Terms of Service**: ?
-* **Limitations**: ?
-* **Notes**: You must specify which MaxMind service you are using in your configuration, and also basic authentication. For example: `Geocoder.configure(maxmind_geoip2: {service: :country, basic_auth: {user: '', password: ''}})`.
-
-### Ipstack (`:ipstack`)
-
-* **API key**: required (see https://ipstack.com/product)
-* **Quota**: 10,000 requests per month (with free API Key, 50,000/day and up for paid plans)
-* **Region**: world
-* **SSL support**: yes ( only with paid plan )
-* **Languages**: English, German, Spanish, French, Japanese, Portugues (Brazil), Russian, Chinese
-* **Documentation**: https://ipstack.com/documentation
-* **Terms of Service**: ?
-* **Limitations**: ?
-* **Notes**: To use Ipstack set `Geocoder.configure(ip_lookup: :ipstack, api_key: "your_ipstack_api_key")`. Supports the optional params: `:hostname`, `:security`, `:fields`, `:language` (see API documentation for details).
-
-### IP-API.com (`:ipapi_com`)
-
-* **API key**: optional - see https://members.ip-api.com
-* **Quota**: 45/minute - unlimited with api key
-* **Region**: world
-* **SSL support**: no (not without access key - see https://members.ip-api.com)
-* **Languages**: English
-* **Documentation**: http://ip-api.com/docs/
-* **Terms of Service**: https://members.ip-api.com/legal
-
-### DB-IP.com (`:db_ip_com`)
-
-* **API key**: required
-* **Quota**: 2,500/day (with free API Key, 50,000/day and up for paid API keys)
-* **Region**: world
-* **SSL support**: yes (with paid API keys - see https://db-ip.com/api/)
-* **Languages**: English (English with free API key, multiple languages with paid API keys)
-* **Documentation**: https://db-ip.com/api/doc.php
-* **Terms of Service**: https://db-ip.com/tos.php
-
-### Ipdata.co (`:ipdata_co`)
-
-* **API key**: required, see: https://ipdata.co/pricing.html
-* **Quota**: 1500/day for free, up to 600k with paid API keys
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: https://ipdata.co/docs.html
-* **Terms of Service**: https://ipdata.co/terms.html
-* **Limitations**: ?
-
-### IP2Location (`:ip2location`)
-
-* **API key**: optional (20 free demo queries per day)
-* **Quota**: up to 100k credits with paid API key
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: https://www.ip2location.com/web-service
-* **Terms of Service**: https://www.ip2location.com/web-service
-* **Notes**: With the non-free version, specify your desired package: `Geocoder.configure(ip2location: {package: "WSX"})` (see API documentation for package details).
-
-### Ipregistry (`:ipregistry`)
-
-* **API key**: required (see https://ipregistry.co)
-* **Quota**: first 100,000 requests are free, then you pay per request (see https://ipregistry.co/pricing)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English
-* **Documentation**: https://ipregistry.co/docs
-* **Terms of Service**: https://ipregistry.co/terms
-
-### Ipgeolocation (`:ipgeolocation`)
-
-* **API key**: required (see https://ipgeolocation.io/pricing)
-* **Quota**: 1500/day (with free API Key)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: English, German, Russian, Japanese, French, Chinese, Spanish, Czech, Italian
-* **Documentation**: https://ipgeolocation.io/documentation
-* **Terms of Service**: https://ipgeolocation/tos
-* **Notes**: To use Ipgeolocation set `Geocoder.configure(ip_lookup: :ipgeolocation, api_key: "your_ipgeolocation_api_key", use_https:true)`. Supports the optional params:  { excludes: "continent_code"}, {fields: "geo"}, {lang: "ru"}, {output: "xml"}, {include: "hostname"}, {ip: "174.7.116.0"}) (see API documentation for details).
-
 Local IP Address Lookups
 ------------------------
-
-### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
-
-This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
-
-* **API key**: none (requires the GeoLite City database which can be downloaded from [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/))
-* **Quota**: none
-* **Region**: world
-* **SSL support**: N/A
-* **Languages**: English
-* **Documentation**: http://www.maxmind.com/en/city
-* **Terms of Service**: ?
-* **Limitations**: ?
-* **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **You must download a database from MaxMind and set either the `:file` or `:package` configuration option for local lookups to work.**
-
-**To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
-
-    Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')})
-
-**To use a CSV file** you must import it into an SQL database. The GeoLite *City* and *Country* packages are supported. Configure like so:
-
-    Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {package: :city})
-
-You can generate ActiveRecord migrations and download and import data via provided rake tasks:
-
-    # generate migration to create tables
-    rails generate geocoder:maxmind:geolite_city
-
-    # download, unpack, and import data
-    rake geocoder:maxmind:geolite:load PACKAGE=city
-
-You can replace `city` with `country` in any of the above tasks, generators, and configurations.
 
 ### GeoLite2 (`:geoip2`)
 
@@ -604,5 +571,37 @@ You must add either the *[hive_geoip2](https://rubygems.org/gems/hive_geoip2)* g
       }
     )
 
+
+### MaxMind Local (`:maxmind_local`) - EXPERIMENTAL
+
+This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
+
+* **API key**: none (requires the GeoLite City database which can be downloaded from [MaxMind](http://dev.maxmind.com/geoip/legacy/geolite/))
+* **Quota**: none
+* **Region**: world
+* **SSL support**: N/A
+* **Languages**: English
+* **Documentation**: http://www.maxmind.com/en/city
+* **Terms of Service**: ?
+* **Limitations**: ?
+* **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **You must download a database from MaxMind and set either the `:file` or `:package` configuration option for local lookups to work.**
+
+**To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
+
+    Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {file: File.join('folder', 'GeoLiteCity.dat')})
+
+**To use a CSV file** you must import it into an SQL database. The GeoLite *City* and *Country* packages are supported. Configure like so:
+
+    Geocoder.configure(ip_lookup: :maxmind_local, maxmind_local: {package: :city})
+
+You can generate ActiveRecord migrations and download and import data via provided rake tasks:
+
+    # generate migration to create tables
+    rails generate geocoder:maxmind:geolite_city
+
+    # download, unpack, and import data
+    rake geocoder:maxmind:geolite:load PACKAGE=city
+
+You can replace `city` with `country` in any of the above tasks, generators, and configurations.
 
 Copyright (c) 2009-2021 Alex Reisner, released under the MIT license.
