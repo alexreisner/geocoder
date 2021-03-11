@@ -366,6 +366,7 @@ Regional Street Address Lookups
 
 
 IP Address Lookups
+------------------
 
 ### Abstract API (`:abstract_api`)
 
@@ -376,7 +377,6 @@ IP Address Lookups
 * **Languages**: English
 * **Documentation**: https://www.abstractapi.com/ip-geolocation-api#docs
 * **Terms of Service**: https://www.abstractapi.com/legal
-------------------
 
 ### Baidu IP (`:baidu_ip`)
 
