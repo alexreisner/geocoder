@@ -366,6 +366,16 @@ Regional Street Address Lookups
 
 
 IP Address Lookups
+
+### Abstract API (`:abstract_api`)
+
+* **API key**: required
+* **Quota**: 20,000/day with free API Key, and un to 20,000,000/day for paid API keys
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.abstractapi.com/ip-geolocation-api#docs
+* **Terms of Service**: https://www.abstractapi.com/legal
 ------------------
 
 ### Baidu IP (`:baidu_ip`)

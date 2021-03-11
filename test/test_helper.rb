@@ -220,6 +220,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/abstract_api'
+    class AbstractApi
+      private
+      def default_fixture_filename
+        "abstract_api"
+      end
+    end
+
     require 'geocoder/lookups/freegeoip'
     class Freegeoip
       private

@@ -63,6 +63,7 @@ module Geocoder
     def ip_services
       @ip_services ||= [
         :baidu_ip,
+        :abstract_api,
         :freegeoip,
         :geoip2,
         :maxmind,

@@ -1,0 +1,45 @@
+{
+  "ip_address": "2.19.128.50",
+  "city": "Seattle",
+  "city_geoname_id": 5809844,
+  "region": "Washington",
+  "region_iso_code": "WA",
+  "region_geoname_id": 5815135,
+  "postal_code": "98111",
+  "country": "United States",
+  "country_code": "US",
+  "country_geoname_id": 6252001,
+  "country_is_eu": false,
+  "continent": "North America",
+  "continent_code": "NA",
+  "continent_geoname_id": 6255149,
+  "longitude": -122.3412,
+  "latitude": 47.6032,
+  "security": {
+    "is_vpn": false
+  },
+  "timezone": {
+    "name": "America/Los_Angeles",
+    "abbreviation": "PST",
+    "gmt_offset": -8,
+    "current_time": "06:06:14",
+    "is_dst": false
+  },
+  "flag": {
+    "emoji": "🇺🇸",
+    "unicode": "U+1F1FA U+1F1F8",
+    "png": "https://static.abstractapi.com/country-flags/US_flag.png",
+    "svg": "https://static.abstractapi.com/country-flags/US_flag.svg"
+  },
+  "currency": {
+    "currency_name": "USD",
+    "currency_code": "USD"
+  },
+  "connection": {
+    "autonomous_system_number": 16625,
+    "autonomous_system_organization": "AKAMAI-AS",
+    "connection_type": "Corporate",
+    "isp_name": "Akamai Technologies",
+    "organization_name": null
+  }
+}
