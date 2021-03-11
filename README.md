@@ -51,8 +51,8 @@ The Rest:
 * [Technical Discussions](#technical-discussions)
 * [Troubleshooting](#troubleshooting)
 * [Known Issues](#known-issues)
-* [Reporting Issues](#reporting-issues)
-* [Contributing](#contributing)
+* [Reporting Issues](https://github.com/alexreisner/geocoder/blob/master/CONTRIBUTING.md#reporting-bugs)
+* [Contributing](https://github.com/alexreisner/geocoder/blob/master/CONTRIBUTING.md#making-changes)
 
 See Also:
 
