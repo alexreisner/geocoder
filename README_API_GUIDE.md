@@ -192,15 +192,20 @@ Open source geocoding engine which can be self-hosted. MapTiler.com hosts an ins
 
 ### Pelias (`:pelias`)
 
+Open source geocoding engine which can be self-hosted. There are multiple service providers that can host Pelias instances (see notes).
+
 * **API key**: configurable (self-hosted service)
 * **Quota**: none (self-hosted service)
 * **Region**: world
 * **SSL support**: yes
-* **Languages**: en; see https://mapzen.com/documentation/search/language-codes/
-* **Documentation**: http://pelias.io/
-* **Terms of Service**: http://pelias.io/data_licenses.html
-* **Limitations**: See terms
+* **Languages**: en; see https://github.com/pelias/documentation/blob/master/language-codes.md
+* **Extra params**: See [Pelias documentation](https://github.com/pelias/documentation/blob/master/search.md#available-search-parameters)
+* **Documentation**: https://github.com/pelias/documentation/
+* **Terms of Service**: https://github.com/pelias/documentation/blob/master/data-sources.md
+* **Limitations**: See service provider terms
 * **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(lookup: :pelias, api_key: 'your_api_key', pelias: {endpoint: 'self.hosted/pelias'})`. Defaults to `localhost`.
+    * [Geocode Earth](https://geocode.earth/cloud) - Cleared for Takeoff, Inc. (USA)
+    * [Geoapify](https://www.geoapify.com/maps-geocoging-routing-on-premise-installations/) - Geoapify GmbH (Germany)
 
 ### PickPoint (`:pickpoint`)
 
