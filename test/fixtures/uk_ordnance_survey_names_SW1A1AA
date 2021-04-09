@@ -1,6 +1,6 @@
 {
     "header": {
-        "uri": "https://api.ordnancesurvey.co.uk/opennames/v1/find?query=SW1a1AA&fq=local_type%3ACity%20local_type%3AHamlet%20local_type%3AOther_Settlement%20local_type%3ATown%20local_type%3AVillage%20local_type%3APostcode",
+        "uri": "https://api.os.uk/search/names/v1/find?query=SW1a1AA&fq=local_type%3ACity%20local_type%3AHamlet%20local_type%3AOther_Settlement%20local_type%3ATown%20local_type%3AVillage%20local_type%3APostcode",
         "query": "SW1a1AA",
         "format": "JSON",
         "maxresults": 100,

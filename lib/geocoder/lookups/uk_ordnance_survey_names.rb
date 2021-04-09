@@ -13,7 +13,7 @@ module Geocoder::Lookup
     end
 
     def base_query_url(query)
-      "#{protocol}://api.ordnancesurvey.co.uk/opennames/v1/find?"
+      "#{protocol}://api.os.uk/search/names/v1/find?"
     end
 
     def required_api_key_parts
