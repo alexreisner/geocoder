@@ -16,11 +16,14 @@ module Geocoder::Result
       end
     end
 
-    def state_code
+    def state
       attributes['Region']
     end
 
-    alias_method :state, :state_code
+    def state_code
+      abbr = attributes['RegionAbbr']
+      abbr.to_s == "" ? state : abbr
+    end
 
     def country
       country_key = reverse_geocode? ? "CountryCode" : "Country"

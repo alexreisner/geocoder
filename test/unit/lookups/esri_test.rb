@@ -122,6 +122,7 @@ class EsriTest < GeocoderTestCase
     assert_equal "Madison Square Garden", result.address
     assert_equal "New York", result.city
     assert_equal "New York", result.state
+    assert_equal "NY", result.state_code
     assert_equal "Madison Square Garden", result.place_name
     assert_equal "Sports Complex", result.place_type
     assert_equal(40.75004981300049, result.coordinates[0])
@@ -132,6 +133,7 @@ class EsriTest < GeocoderTestCase
     result = Geocoder.search("washington dc").first
     assert_equal "Washington", result.city
     assert_equal "District of Columbia", result.state
+    assert_equal "DC", result.state_code
     assert_equal "USA", result.country
     assert_equal "Washington, D. C., District of Columbia, United States", result.address
     assert_equal "Washington", result.place_name
@@ -144,6 +146,7 @@ class EsriTest < GeocoderTestCase
     result = Geocoder.search("austin tx").first
     assert_equal "Austin", result.city
     assert_equal "Texas", result.state
+    assert_equal "TX", result.state_code
     assert_equal "USA", result.country
     assert_equal "Austin, Texas, United States", result.address
     assert_equal "Austin", result.place_name
@@ -156,6 +159,7 @@ class EsriTest < GeocoderTestCase
     result = Geocoder.search("new york ny").first
     assert_equal "New York City", result.city
     assert_equal "New York", result.state
+    assert_equal "NY", result.state_code
     assert_equal "USA", result.country
     assert_equal "New York City, New York, United States", result.address
     assert_equal "New York City", result.place_name
@@ -171,6 +175,7 @@ class EsriTest < GeocoderTestCase
     assert_equal "4 Avenue Gustave Eiffel", result.address
     assert_equal "Paris", result.city
     assert_equal "Île-de-France", result.state
+    assert_equal "Île-de-France", result.state_code
     assert_equal "4 Avenue Gustave Eiffel", result.place_name
     assert_equal "Address", result.place_type
     assert_equal(48.858129997357558, result.coordinates[0])

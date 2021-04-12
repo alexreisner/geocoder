@@ -43,6 +43,7 @@
      "City": "",
      "Subregion": "New York",
      "Region": "New York",
+     "RegionAbbr": "NY",
      "Postal": "",
      "PostalExt": "",
      "Country": "USA",
