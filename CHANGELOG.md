@@ -3,11 +3,15 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
-1.6.6 (2020 Mar  4)
+1.6.7 (2021 Apr 17)
+-------------------
+* Add support for Abstract API lookup (thanks github.com/randoum).
+
+1.6.6 (2021 Mar  4)
 -------------------
 * Rescue from exception on cache read/write error. Issue warning instead.
 
-1.6.5 (2020 Feb 10)
+1.6.5 (2021 Feb 10)
 -------------------
 * Fix backward coordinates bug in NationaalregisterNl lookup (thanks github.com/Marthyn).
 * Allow removal of single stubs in test mode (thanks github.com/jmmastey).
