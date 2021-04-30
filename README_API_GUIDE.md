@@ -77,7 +77,7 @@ Similar to `:google`, with the following differences:
 
 ### Google Places Details (`:google_places_details`)
 
-The [Google Places Details API](https://developers.google.com/places/documentation/details) is not, strictly speaking, a geocoding service. It accepts a Google `place_id` and returns address information, ratings and reviews. A `place_id` can be obtained from the Google Places Search lookup (`:google_places_search`) and should be passed to Geocoder as the first search argument: `Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", lookup: :google_places_details)`.
+The [Google Places Details API](https://developers.google.com/maps/documentation/places/web-service/details) is not, strictly speaking, a geocoding service. It accepts a Google `place_id` and returns address information, ratings and reviews. A `place_id` can be obtained from the Google Places Search lookup (`:google_places_search`) and should be passed to Geocoder as the first search argument: `Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", lookup: :google_places_details)`.
 
 * **API key**: required
 * **Key signup**: https://code.google.com/apis/console/
@@ -85,15 +85,25 @@ The [Google Places Details API](https://developers.google.com/places/documentati
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
-* **Documentation**: https://developers.google.com/places/documentation/details
-* **Terms of Service**: https://developers.google.com/places/policies
+* **Documentation**: https://developers.google.com/maps/documentation/places/web-service/details
+* **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
 
 ### Google Places Search (`:google_places_search`)
 
-The [Google Places Search API](https://developers.google.com/places/web-service/search) is the geocoding service of Google Places API. It returns very limited location data, but it also returns a `place_id` which can be used with Google Place Details to get more detailed information. For a comparison between this and the regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
+The [Google Places Search API](https://developers.google.com/maps/documentation/places/web-service/search) is the geocoding service of Google Places API. It returns very limited location data, but it also returns a `place_id` which can be used with Google Place Details to get more detailed information. For a comparison between this and the regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
 
-* Same specifications as Google Places Details (see above).
+* **API key**: required
+* **Key signup**: https://code.google.com/apis/console/
+* **Quota**: 1,000 request/day, 100,000 after credit card authentication
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+* **Extra params**:
+  * `:fields` - Requested API response fields (affects pricing, see the [source](https://github.com/alexreisner/geocoder/blob/master/lib/geocoder/lookups/google_places_search.rb) for available fields)
+* **Documentation**: https://developers.google.com/maps/documentation/places/web-service/search
+* **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
+* **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
 
 ### Here/Nokia (`:here`)
 
