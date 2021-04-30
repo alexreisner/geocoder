@@ -43,6 +43,7 @@
      "City": "",
      "Subregion": "Travis",
      "Region": "Texas",
+     "RegionAbbr": "TX",
      "Postal": "",
      "PostalExt": "",
      "Country": "USA",

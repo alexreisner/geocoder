@@ -43,6 +43,7 @@
      "City": "",
      "Subregion": "District of Columbia",
      "Region": "District of Columbia",
+     "RegionAbbr": "DC",
      "Postal": "",
      "PostalExt": "",
      "Country": "USA",
