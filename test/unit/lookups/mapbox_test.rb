@@ -28,7 +28,9 @@ class MapboxTest < GeocoderTestCase
     assert_equal "New York", result.city
     assert_equal "New York", result.state
     assert_equal "10119", result.postal_code
+    assert_equal "NY", result.state_code
     assert_equal "United States", result.country
+    assert_equal "US", result.country_code
     assert_equal "Garment District", result.neighborhood
     assert_equal "Madison Square Garden, 4 Penn Plz, New York, New York, 10119, United States", result.address
   end

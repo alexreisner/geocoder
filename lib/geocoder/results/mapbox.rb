@@ -23,7 +23,10 @@ module Geocoder::Result
       context_part('region')
     end
 
-    alias_method :state_code, :state
+    def state_code
+      value = context_part('region', 'short_code')
+      value.split('-').last unless value.nil?
+    end
 
     def postal_code
       context_part('postcode')
@@ -33,7 +36,10 @@ module Geocoder::Result
       context_part('country')
     end
 
-    alias_method :country_code, :country
+    def country_code
+      value = context_part('country', 'short_code')
+      value.upcase unless value.nil?
+    end
 
     def neighborhood
       context_part('neighborhood')
@@ -45,8 +51,8 @@ module Geocoder::Result
 
     private
 
-    def context_part(name)
-      context.map { |c| c['text'] if c['id'] =~ Regexp.new(name) }.compact.first
+    def context_part(name, key = 'text')
+      (context.detect { |c| c['id'] =~ Regexp.new(name) } || {})[key]
     end
 
     def context
