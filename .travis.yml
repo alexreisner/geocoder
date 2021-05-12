@@ -21,7 +21,6 @@ env:
     - DB=postgres
     - DB=mysql
 rvm:
-  - 2.0.0
   - 2.1.10
   - 2.2.10
   - 2.3.7
@@ -37,10 +36,6 @@ matrix:
     - env: DB=
       gemfile: gemfiles/Gemfile.rails4.1
     - env: DB=
-      gemfile: gemfiles/Gemfile.rails5.0
-    - rvm: 2.0.0
-      gemfile: Gemfile
-    - rvm: 2.0.0
       gemfile: gemfiles/Gemfile.rails5.0
     - rvm: 2.1.10
       gemfile: Gemfile
