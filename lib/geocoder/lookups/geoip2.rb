@@ -37,6 +37,10 @@ module Geocoder
       def results(query)
         return [] unless configuration[:file]
 
+        if @mmdb.respond_to?(:local_ip_alias) && !configuration[:local_ip_alias].nil?
+          @mmdb.local_ip_alias = configuration[:local_ip_alias]
+        end
+
         result = @mmdb.lookup(query.to_s)
         result.nil? ? [] : [result]
       end
