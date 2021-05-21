@@ -22,16 +22,15 @@ class MapboxTest < GeocoderTestCase
 
   def test_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
-    assert_equal [40.749688, -73.991566], result.coordinates
+    assert_equal [40.750755, -73.993710125], result.coordinates
     assert_equal "Madison Square Garden", result.place_name
     assert_equal "4 Penn Plz", result.street
     assert_equal "New York", result.city
     assert_equal "New York", result.state
-    assert_equal "10001", result.postal_code
+    assert_equal "10119", result.postal_code
     assert_equal "United States", result.country
     assert_equal "Garment District", result.neighborhood
-    assert_equal "10001", result.postal_code
-    assert_equal "Madison Square Garden, 4 Penn Plz, New York, New York, 10001, United States", result.address
+    assert_equal "Madison Square Garden, 4 Penn Plz, New York, New York, 10119, United States", result.address
   end
 
   def test_no_results
@@ -47,7 +46,7 @@ class MapboxTest < GeocoderTestCase
 
   def test_truncates_query_at_semicolon
     result = Geocoder.search("Madison Square Garden, New York, NY;123 Another St").first
-    assert_equal [40.749688, -73.991566], result.coordinates
+    assert_equal [40.750755, -73.993710125], result.coordinates
   end
 
   def test_mapbox_result_without_context
