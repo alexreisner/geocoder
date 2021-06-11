@@ -78,7 +78,8 @@ module Geocoder
         :db_ip_com,
         :ipstack,
         :ip2location,
-        :ipgeolocation
+        :ipgeolocation,
+        :ipqualityscore
       ]
     end
 
