@@ -55,6 +55,7 @@ module Geocoder
       :lookup,
       :ip_lookup,
       :language,
+      :host,
       :http_headers,
       :use_https,
       :http_proxy,
