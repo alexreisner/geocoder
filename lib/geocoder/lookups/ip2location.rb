@@ -23,11 +23,11 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      {
+      super.merge(
         key: configuration.api_key,
         ip: query.sanitized_text,
         package: configuration[:package],
-      }.merge(super)
+      )
     end
 
     def results(query)
