@@ -439,7 +439,7 @@ IP Address Lookups
 
 ### IP2Location (`:ip2location`)
 
-* **API key**: required (5,000 free credits given on signup)
+* **API key**: required (5,000 free credits given on signup; free demo key available for 20 queries per day)
 * **Quota**: up to 100k credits with paid API key
 * **Region**: world
 * **SSL support**: yes
