@@ -4,7 +4,21 @@ require 'test_helper'
 class Ip2locationTest < GeocoderTestCase
 
   def setup
-    Geocoder.configure(:ip_lookup => :ip2location)
+    Geocoder::Configuration.instance.data.clear
+    Geocoder::Configuration.set_defaults
+    Geocoder.configure(ip_lookup: :ip2location)
+    set_api_key!(:ip2location)
+  end
+
+  def test_ip2location_query_url
+    query = Geocoder::Query.new('8.8.8.8')
+    assert_equal 'http://api.ip2location.com/v2/?ip=8.8.8.8&key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', query.url
+  end
+
+  def test_ip2location_query_url_with_package
+    Geocoder.configure(ip2location: {package: 'WS3'})
+    query = Geocoder::Query.new('8.8.8.8')
+    assert_equal 'http://api.ip2location.com/v2/?ip=8.8.8.8&key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&package=WS3', query.url
   end
 
   def test_ip2location_lookup_address

@@ -8,6 +8,10 @@ module Geocoder::Lookup
       "IP2LocationApi"
     end
 
+    def required_api_key_parts
+      ['key']
+    end
+
     def supported_protocols
       [:http, :https]
     end
@@ -15,15 +19,15 @@ module Geocoder::Lookup
     private # ----------------------------------------------------------------
 
     def base_query_url(query)
-      "#{protocol}://api.ip2location.com/?"
+      "#{protocol}://api.ip2location.com/v2/?"
     end
 
     def query_url_params(query)
-      params = super
-      if configuration.has_key?(:package)
-        params.merge!(package: configuration[:package])
-      end
-      params
+      super.merge(
+        key: configuration.api_key,
+        ip: query.sanitized_text,
+        package: configuration[:package],
+      )
     end
 
     def results(query)
