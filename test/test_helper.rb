@@ -252,6 +252,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipqualityscore'
+    class Ipqualityscore
+      private
+      def default_fixture_filename
+        "ipqualityscore_74_200_247_59"
+      end
+    end
+
     require 'geocoder/lookups/ipstack'
     class Ipstack
       private

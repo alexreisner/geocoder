@@ -480,6 +480,16 @@ IP Address Lookups
 * **Documentation**: https://ipinfo.io/developers
 * **Terms of Service**: https://ipinfo.io/terms-of-service
 
+### IPQualityScore (`:ipqualityscore`)
+
+* **API key**: required - see https://www.ipqualityscore.com/free-ip-lookup-proxy-vpn-test
+* **Quota**: 5,000/month with a free account - more with a paid plan - see https://www.ipqualityscore.com/plans
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.ipqualityscore.com/documentation/overview
+* **Terms of Service**: https://www.ipqualityscore.com/terms-of-service
+
 ### Ipregistry (`:ipregistry`)
 
 * **API key**: required (see https://ipregistry.co)
