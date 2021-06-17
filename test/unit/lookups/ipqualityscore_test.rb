@@ -25,9 +25,12 @@ class IpqualityscoreTest < GeocoderTestCase
     assert_equal('Jersey City', result.city)
     assert_equal('New Jersey', result.state)
     assert_equal('US', result.country_code)
-    assert_nil(result.state_code)
-    assert_nil(result.province_code)
-    assert_nil(result.country)
+
+    # Fallbacks for data API doesn't provide
+    assert_equal('New Jersey', result.state_code)
+    assert_equal('New Jersey', result.province_code)
+    assert_equal('', result.postal_code)
+    assert_equal('US', result.country)
 
     # Security
     assert_equal(false, result.mobile?)

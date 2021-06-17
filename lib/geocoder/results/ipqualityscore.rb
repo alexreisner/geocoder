@@ -4,18 +4,6 @@ module Geocoder
   module Result
     class Ipqualityscore < Base
 
-      def address
-        [city, state, country_code].compact.reject(&:empty?).join(', ')
-      end
-
-      def state_code
-        nil # Not available
-      end
-
-      def country
-        nil # Not available
-      end
-
       def self.key_method_mappings
         {
           'request_id' => :request_id,
@@ -48,6 +36,17 @@ module Geocoder
         define_method meth do
           @data[key]
         end
+      end
+
+      alias_method :state_code, :state
+      alias_method :country, :country_code
+
+      def postal_code
+        '' # No suitable fallback
+      end
+
+      def address
+        [city, state, country_code].compact.reject(&:empty?).join(', ')
       end
 
     end
