@@ -14,6 +14,23 @@ Table of Contents
 Global Street Address Lookups
 -----------------------------
 
+### Amazon Location Service (`:amazon`)
+
+* **API key**: required
+* **Key signup**: https://console.aws.amazon.com/location
+* **Quota**: pay-as-you-go pricing; 50 requests/second
+* **Region**: world
+* **SSL support**: yes, required
+* **Languages**: en
+* **Extra params**:
+  * `:max_results` - return at most this many results
+  * `:bias_position` - bias the results toward a given point, defined as `[latitude, longitude]`
+  * `:filter_b_box` - a bounding box that you specify to filter your results to coordinates within the box's boundaries, defined as `[longitude_sw, latitude_sw, longitude_ne, latitude_ne]`
+  * `:filter_countries` - an array of countries you want to geocode within, named by [ISO 3166 country codes](https://www.iso.org/iso-3166-country-codes.html), e.g. `['DEU', 'FRA']`
+* **Documentation**: https://docs.aws.amazon.com/location
+* **Terms of Service**: https://aws.amazon.com/service-terms
+* **Notes**: You must install either the `aws-sdk` or `aws-sdk-locationservice` gems, version 1.4.0 or greater. TODO: AWS auth
+
 ### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)

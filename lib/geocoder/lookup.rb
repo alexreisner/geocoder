@@ -53,7 +53,8 @@ module Geocoder
         :test,
         :latlon,
         :amap,
-        :osmnames
+        :osmnames,
+        :amazon
       ]
     end
 
