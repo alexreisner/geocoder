@@ -68,7 +68,8 @@ module Geocoder
       :distances,
       :basic_auth,
       :logger,
-      :kernel_logger_level
+      :kernel_logger_level,
+      :index_name
     ]
 
     attr_accessor :data

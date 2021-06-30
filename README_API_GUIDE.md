@@ -22,14 +22,37 @@ Global Street Address Lookups
 * **Region**: world
 * **SSL support**: yes, required
 * **Languages**: en
+* **Required params**:
+  * `:index_name` - the name of the place index resource you want to use for the search
 * **Extra params**:
   * `:max_results` - return at most this many results
-  * `:bias_position` - bias the results toward a given point, defined as `[latitude, longitude]`
-  * `:filter_b_box` - a bounding box that you specify to filter your results to coordinates within the box's boundaries, defined as `[longitude_sw, latitude_sw, longitude_ne, latitude_ne]`
-  * `:filter_countries` - an array of countries you want to geocode within, named by [ISO 3166 country codes](https://www.iso.org/iso-3166-country-codes.html), e.g. `['DEU', 'FRA']`
+* **Extra params** when geocoding (not reverse geocoding):
+    * `:bias_position` - bias the results toward a given point, defined as `[latitude, longitude]`
+    * `:filter_b_box` - a bounding box that you specify to filter your results to coordinates within the box's boundaries, defined as `[longitude_sw, latitude_sw, longitude_ne, latitude_ne]`
+    * `:filter_countries` - an array of countries you want to geocode within, named by [ISO 3166 country codes](https://www.iso.org/iso-3166-country-codes.html), e.g. `['DEU', 'FRA']`
 * **Documentation**: https://docs.aws.amazon.com/location
 * **Terms of Service**: https://aws.amazon.com/service-terms
-* **Notes**: You must install either the `aws-sdk` or `aws-sdk-locationservice` gems, version 1.4.0 or greater. TODO: AWS auth
+* **Notes**:
+  * You must install either the `aws-sdk` or `aws-sdk-locationservice` gem, version 1.4.0 or greater.
+  * You can set a default index name for all queries in the Geocoder configuration:
+    ```rb
+      Geocoder.configure(
+        lookup: :amazon,
+        index_name: 'YOUR_INDEX_NAME_GOES_HERE',
+      )
+    ```
+  * You can provide credentials to the AWS SDK in multiple ways:
+    * Directly via the `api_key` parameter in the Geocoder configuration:
+      ```rb
+        Geocoder.configure(
+          lookup: :amazon,
+          api_key: {
+            access_key_id: 'YOUR_AWS_ACCESS_KEY_ID_GOES_HERE',
+            secret_access_key: 'YOUR_AWS_SECRET_ACCESS_KEY_GOES_HERE',
+          },
+        )
+      ```
+    * Via environment variables and other external methods. See **Setting AWS Credentials** in the [AWS SDK for Ruby Developer Guide](https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html).
 
 ### Bing (`:bing`)
 
