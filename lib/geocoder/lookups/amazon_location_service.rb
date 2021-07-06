@@ -2,7 +2,7 @@ require 'geocoder/lookups/base'
 require 'geocoder/results/amazon'
 
 module Geocoder::Lookup
-  class Amazon < Base
+  class AmazonLocationService < Base
     def results(query)
       @configuration = configuration
       params = { **global_index_name, **query.options }

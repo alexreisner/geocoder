@@ -4,10 +4,6 @@ module Geocoder::Result
   class Amazon < Base
     def initialize(result)
       @place = result
-      @data = result.to_h
-      ap @data
-      @data['latitude'] = latitude
-      @data['longitude'] = longitude
     end
 
     def latitude

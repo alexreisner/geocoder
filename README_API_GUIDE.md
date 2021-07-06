@@ -14,7 +14,7 @@ Table of Contents
 Global Street Address Lookups
 -----------------------------
 
-### Amazon Location Service (`:amazon`)
+### Amazon Location Service (`:amazon_location_service`)
 
 * **API key**: required
 * **Key signup**: https://console.aws.amazon.com/location
