@@ -1,8 +1,5 @@
 require 'geocoder/lookups/base'
 require 'geocoder/results/amazon'
-require 'awesome_print'
-require 'binding_of_caller'
-require 'pry'
 
 module Geocoder::Lookup
   class Amazon < Base
