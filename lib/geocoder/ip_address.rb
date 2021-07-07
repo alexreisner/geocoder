@@ -7,6 +7,12 @@ module Geocoder
       '192.168.0.0/16',
     ].map { |ip| IPAddr.new(ip) }.freeze
 
+    def initialize(ip)
+      ip = ip.to_string if ip.is_a?(IPAddr)
+
+      super(ip)
+    end
+
     def internal?
       loopback? || private?
     end
