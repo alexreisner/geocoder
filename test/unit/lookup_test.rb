@@ -57,7 +57,7 @@ class LookupTest < GeocoderTestCase
   end
 
   {
-    :bing => :language,
+    :bing => :culture,
     :google => :language,
     :google_premier => :language,
     :here => :language,
