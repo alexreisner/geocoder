@@ -37,7 +37,7 @@ Global Street Address Lookups
   * You can set a default index name for all queries in the Geocoder configuration:
     ```rb
       Geocoder.configure(
-        lookup: :amazon,
+        lookup: :amazon_location_service,
         index_name: 'YOUR_INDEX_NAME_GOES_HERE',
       )
     ```
@@ -45,7 +45,7 @@ Global Street Address Lookups
     * Directly via the `api_key` parameter in the Geocoder configuration:
       ```rb
         Geocoder.configure(
-          lookup: :amazon,
+          lookup: :amazon_location_service,
           api_key: {
             access_key_id: 'YOUR_AWS_ACCESS_KEY_ID_GOES_HERE',
             secret_access_key: 'YOUR_AWS_SECRET_ACCESS_KEY_GOES_HERE',
