@@ -1,7 +1,7 @@
 require 'geocoder/results/base'
 
 module Geocoder::Result
-  class Amazon < Base
+  class AmazonLocationService < Base
     def initialize(result)
       @place = result
     end

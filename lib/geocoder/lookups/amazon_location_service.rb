@@ -1,5 +1,5 @@
 require 'geocoder/lookups/base'
-require 'geocoder/results/amazon'
+require 'geocoder/results/amazon_location_service'
 
 module Geocoder::Lookup
   class AmazonLocationService < Base
