@@ -18,7 +18,7 @@ module Geocoder::Result
       [latitude, longitude]
     end
 
-    def address(format = :full)
+    def address
       @place.label
     end
 
