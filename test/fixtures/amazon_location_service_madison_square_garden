@@ -1,0 +1,12 @@
+[
+  nil,
+  "USA",
+  MockAWSPlaceGeometry.new([-74.15434739412053, 40.61681535865544]),
+  "Madison Ave, Staten Island, NY, 10314, USA",
+  "Staten Island",
+  "Graniteville",
+  "10314",
+  "New York",
+  "Madison Ave",
+  "Richmond County",
+]
