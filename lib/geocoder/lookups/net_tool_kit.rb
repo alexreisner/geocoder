@@ -8,10 +8,6 @@ module Geocoder::Lookup
       "NetToolKit"
     end
 
-    def required_api_key_parts
-      [:http_headers]
-    end
-    
     def supported_protocols
       [:https]
     end
