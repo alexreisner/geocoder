@@ -36,15 +36,24 @@ module Geocoder::Lookup
 
     def results(query)
       return [] unless doc = fetch_data(query)
-      return doc["results"] if doc['code'] == 1000
+      return doc["results"] if doc['code'] == 1000 || doc['code'] == 1001
       
       messages = doc['message']
       case doc['code']
-      when 4001 # Error with input
-        raise_error(Geocoder::InvalidRequest, messages) ||
+      when 2002, 2003, 2004, 2005
+        raise_error(Geocoder::ServiceUnavailable, messages) ||
+            Geocoder.log(:warn, "NetToolKit Geocoding API error: #{messages}")
+      when 3000
+        raise_error(Geocoder::RequestDenied, messages) ||
           Geocoder.log(:warn, "NetToolKit Geocoding API error: #{messages}")
-      when 3002 # Key related error
+      when 3001, 3003
+        raise_error(Geocoder::OverQueryLimitError, messages) ||
+          Geocoder.log(:warn, "NetToolKit Geocoding API error: #{messages}")
+      when 3002
         raise_error(Geocoder::InvalidApiKey, messages) ||
+          Geocoder.log(:warn, "NetToolKit Geocoding API error: #{messages}")
+      when 4000, 4001, 4002
+        raise_error(Geocoder::InvalidRequest, messages) ||
           Geocoder.log(:warn, "NetToolKit Geocoding API error: #{messages}")
       else
         raise_error(Geocoder::Error, messages) ||
