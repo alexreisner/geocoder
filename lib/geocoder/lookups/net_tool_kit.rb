@@ -15,7 +15,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      "#{protocol}://api.nettoolkit.com/v1/geo/geocodes#{search_type(query)}?"
+      "#{protocol}://api.nettoolkit.com/v1/geo/#{search_type(query)}?"
     end
 
     def search_type(query)
