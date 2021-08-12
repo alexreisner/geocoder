@@ -165,6 +165,27 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 * **Limitations**: ?
 * **Notes**: You can use the open (non-licensed) API by setting: `Geocoder.configure(mapquest: {open: true})` (defaults to licensed version)
 
+### NetToolKit (`:net_tool_kit`)
+
+* **API key**: required, but added to HTTP Headers (See below)
+* **Key signup**: https://www.nettoolkit.com/pricing
+* **Quota**: ?
+* **HTTP Headers**: you can specify the API key and a referer like so:
+    ```
+    Geocoder.configure(
+        http_headers: { 
+            "X-NTK-KEY" => ENV["NET_TOOL_KIT_API_KEY"],
+            "Referer" => "http://foo.com"
+        }
+     )
+     ```
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.nettoolkit.com/docs/overview
+* **Terms of Service**: https://www.nettoolkit.com/terms
+* **Limitations**: ?
+
 ### Nominatim (`:nominatim`)
 
 * **API key**: none
