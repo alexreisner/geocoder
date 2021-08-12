@@ -58,13 +58,5 @@ module Geocoder::Result
     def ntk_geocode_time
       @data['ntk_geocode_time']
     end
-
-    response_attributes.each do |a|
-      unless method_defined?(a)
-        define_method a do
-          @data[a]
-        end
-      end
-    end
   end
 end
