@@ -507,10 +507,12 @@ module Geocoder
       def search_place_index_for_position(position: nil)
         # Amazon transposes latitude and longitude, so our client does too on the outbound call and inbound data
         return mock_results if position == ["-73.99354", "40.75055"]
+        []
       end
 
       def search_place_index_for_text(text: nil)
         return mock_results if text == "Madison Square Garden, New York, NY"
+        []
       end
 
       private
