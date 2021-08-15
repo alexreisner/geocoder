@@ -38,18 +38,23 @@ Global Street Address Lookups
     ```rb
       Geocoder.configure(
         lookup: :amazon_location_service,
-        index_name: 'YOUR_INDEX_NAME_GOES_HERE',
+        amazon_location_service: {
+          index_name: 'YOUR_INDEX_NAME_GOES_HERE',
+        }
       )
     ```
   * You can provide credentials to the AWS SDK in multiple ways:
-    * Directly via the `api_key` parameter in the Geocoder configuration:
+    * Directly via the `api_key` parameter in the geocoder configuration:
       ```rb
         Geocoder.configure(
           lookup: :amazon_location_service,
-          api_key: {
-            access_key_id: 'YOUR_AWS_ACCESS_KEY_ID_GOES_HERE',
-            secret_access_key: 'YOUR_AWS_SECRET_ACCESS_KEY_GOES_HERE',
-          },
+          amazon_location_service: {
+            index_name: 'YOUR_INDEX_NAME_GOES_HERE',
+            api_key: {
+              access_key_id: 'YOUR_AWS_ACCESS_KEY_ID_GOES_HERE',
+              secret_access_key: 'YOUR_AWS_SECRET_ACCESS_KEY_GOES_HERE',
+            }
+          }
         )
       ```
     * Via environment variables and other external methods. See **Setting AWS Credentials** in the [AWS SDK for Ruby Developer Guide](https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html).
