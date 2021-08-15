@@ -506,13 +506,13 @@ module Geocoder
     class MockAmazonLocationServiceClient
       def search_place_index_for_position(position: nil)
         # Amazon transposes latitude and longitude, so our client does too on the outbound call and inbound data
-        return mock_results if position == ["-73.99354", "40.75055"]
-        []
+        return mock_results if position == ["-75.676333", "45.423733"]
+        mock_no_results
       end
 
       def search_place_index_for_text(text: nil)
-        return mock_results if text == "Madison Square Garden, New York, NY"
-        []
+        return mock_results if text.include? "Madison Square Garden"
+        mock_no_results
       end
 
       private
@@ -523,6 +523,10 @@ module Geocoder
 
       def mock_results
         MockResults.new([MockAWSPlace.new(*fixture)])
+      end
+
+      def mock_no_results
+        MockResults.new([])
       end
     end
 

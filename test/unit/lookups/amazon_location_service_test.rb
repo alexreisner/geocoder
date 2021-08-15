@@ -14,7 +14,7 @@ class AmazonLocationServiceTest < GeocoderTestCase
   end
 
   def test_amazon_location_service_reverse_geocoding
-    result = Geocoder.search([40.75055, -73.99354]).first
+    result = Geocoder.search([45.423733, -75.676333]).first
     assert_equal "Madison Ave, Staten Island, NY, 10314, USA", result.address
     assert_equal "Staten Island", result.city
     assert_equal "New York", result.state
