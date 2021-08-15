@@ -4,6 +4,7 @@ module Geocoder::Result
   class AmazonLocationService < Base
     def initialize(result)
       @place = result
+      pp @place
     end
 
     def latitude
@@ -38,11 +39,27 @@ module Geocoder::Result
       @place.region
     end
 
+    def state_code
+      @place.region
+    end
+
+    def province
+      @place.region
+    end
+
+    def province_code
+      @place.region
+    end
+
     def postal_code
       @place.postal_code
     end
 
     def country
+      @place.country
+    end
+
+    def country_code
       @place.country
     end
   end
