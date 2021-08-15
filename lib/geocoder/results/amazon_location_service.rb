@@ -4,7 +4,6 @@ module Geocoder::Result
   class AmazonLocationService < Base
     def initialize(result)
       @place = result
-      pp @place
     end
 
     def latitude

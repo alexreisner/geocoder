@@ -7,9 +7,9 @@ module Geocoder::Lookup
       @configuration = configuration
       params = { **global_index_name, **query.options }
       if query.reverse_geocode?
-        resp = client.search_place_index_for_position({ **params, position: query.coordinates.reverse })
+        resp = client.search_place_index_for_position(**{ **params, position: query.coordinates.reverse })
       else
-        resp = client.search_place_index_for_text({ **params, text: query.text })
+        resp = client.search_place_index_for_text(**{ **params, text: query.text })
       end
       resp.results.map(&:place)
     end
