@@ -29,7 +29,7 @@ module Geocoder::Lookup
       when /invalid (.*) key/i
         raise_error Geocoder::InvalidApiKey ||
                     Geocoder.log(:warn, "#{name} API error: invalid api key.")
-      when /insufficient credits/
+      when /insufficient credits/, /exceeded your request quota/
         raise_error Geocoder::OverQueryLimitError ||
                     Geocoder.log(:warn, "#{name} API error: query limit exceeded.")
       when /invalid (.*) address/i
