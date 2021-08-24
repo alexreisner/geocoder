@@ -68,7 +68,14 @@ class IpqualityscoreTest < GeocoderTestCase
     end
   end
 
-  def test_raises_over_query_limit_exception
+  def test_raises_over_query_limit_exception_insufficient_credits
+    Geocoder.configure always_raise: :all
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder::Lookup::Ipqualityscore.new.send(:results, Geocoder::Query.new('insufficient credits'))
+    end
+  end
+
+  def test_raises_over_query_limit_exception_quota_exceeded
     Geocoder.configure always_raise: :all
     assert_raises Geocoder::OverQueryLimitError do
       Geocoder::Lookup::Ipqualityscore.new.send(:results, Geocoder::Query.new('quota exceeded'))
