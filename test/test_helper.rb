@@ -378,6 +378,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/melissa'
+    class Melissa
+      private
+      def default_fixture_filename
+        "melissa_oakland_city_hall"
+      end
+    end
+
     require 'geocoder/lookups/postcode_anywhere_uk'
     class PostcodeAnywhereUk
       private
