@@ -20,6 +20,13 @@ module Geocoder::Lookup
       "#{protocol}://ipqualityscore.com/api/json/ip/#{configuration.api_key}/#{query.sanitized_text}?"
     end
 
+    def valid_response?(response)
+      if (json = parse_json(response.body))
+        success = json['success']
+      end
+      super && success == true
+    end
+
     def results(query, reverse = false)
       return [] unless doc = fetch_data(query)
 
