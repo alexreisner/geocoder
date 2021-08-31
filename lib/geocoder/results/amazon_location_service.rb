@@ -6,16 +6,8 @@ module Geocoder::Result
       @place = result
     end
 
-    def latitude
-      @place.geometry.point[1]
-    end
-
-    def longitude
-      @place.geometry.point[0]
-    end
-
     def coordinates
-      [latitude, longitude]
+      [@place.geometry.point[1], @place.geometry.point[0]]
     end
 
     def address
