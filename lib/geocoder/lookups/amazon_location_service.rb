@@ -4,7 +4,6 @@ require 'geocoder/results/amazon_location_service'
 module Geocoder::Lookup
   class AmazonLocationService < Base
     def results(query)
-      @configuration = configuration
       params = { **global_index_name, **query.options }
       if query.reverse_geocode?
         resp = client.search_place_index_for_position(**{ **params, position: query.coordinates.reverse })
@@ -19,7 +18,7 @@ module Geocoder::Lookup
     def client
       return @client if @client
       require_sdk
-      keys = @configuration.api_key
+      keys = configuration.api_key
       if keys
         @client = Aws::LocationService::Client.new(
           access_key_id: keys[:access_key_id],
@@ -44,8 +43,8 @@ module Geocoder::Lookup
     end
 
     def global_index_name
-      if @configuration[:index_name]
-        { index_name: @configuration[:index_name] }
+      if configuration[:index_name]
+        { index_name: configuration[:index_name] }
       else
         {}
       end
