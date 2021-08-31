@@ -20,7 +20,7 @@ Compatibility:
 
 * Ruby versions: 2.1+, and JRuby.
 * Databases: MySQL, PostgreSQL, SQLite, and MongoDB.
-* Rails: 4, 5, and 6.
+* Rails: 5.x and 6.x.
 * Works outside of Rails with the `json` (for MRI) or `json_pure` (for JRuby) gem.
 
 
