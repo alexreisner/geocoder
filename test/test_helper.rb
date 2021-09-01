@@ -490,6 +490,52 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/amazon_location_service'
+    MockResults = Struct.new(:results)
+    MockAWSPlaceGeometry = Struct.new(:point)
+
+    MockAWSPlace = Struct.new(*%i[
+      address_number country geometry label municipality neighborhood postal_code region street sub_region
+    ])
+    class MockAWSPlace
+      def place
+        self
+      end
+    end
+
+    class MockAmazonLocationServiceClient
+      def search_place_index_for_position(position: nil)
+        # Amazon transposes latitude and longitude, so our client does too on the outbound call and inbound data
+        return mock_results if position == ["-75.676333", "45.423733"]
+        mock_no_results
+      end
+
+      def search_place_index_for_text(text: nil)
+        return mock_results if text.include? "Madison Square Garden"
+        mock_no_results
+      end
+
+      private
+
+      def fixture
+        eval File.read File.join("test", "fixtures", "amazon_location_service_madison_square_garden")
+      end
+
+      def mock_results
+        MockResults.new([MockAWSPlace.new(*fixture)])
+      end
+
+      def mock_no_results
+        MockResults.new([])
+      end
+    end
+
+    class AmazonLocationService
+      private
+      def client
+        MockAmazonLocationServiceClient.new
+      end
+    end
   end
 end
 
