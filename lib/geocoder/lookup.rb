@@ -62,6 +62,7 @@ module Geocoder
         :latlon,
         :amap,
         :osmnames,
+        :melissa_street,
         :amazon_location_service,
         :geoapify,
         :photon

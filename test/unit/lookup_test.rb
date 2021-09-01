@@ -13,7 +13,14 @@ class LookupTest < GeocoderTestCase
 
   def test_search_returns_empty_array_when_no_results
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if [:abstract_api, :ipgeolocation, :ipqualityscore, :nationaal_georegister_nl].include?(l) # lookups that always return a result
+      next if [
+        :abstract_api,
+        :ipgeolocation,
+        :ipqualityscore,
+        :melissa_street,
+        :nationaal_georegister_nl
+      ].include?(l) # lookups that always return a result
+
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
       silence_warnings do
