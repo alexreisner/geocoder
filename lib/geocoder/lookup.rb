@@ -62,7 +62,8 @@ module Geocoder
         :latlon,
         :amap,
         :osmnames,
-        :amazon_location_service
+        :amazon_location_service,
+        :geoapify
       ]
     end
 

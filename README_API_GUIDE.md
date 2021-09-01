@@ -284,6 +284,30 @@ Open source geocoding engine which can be self-hosted. There are multiple servic
 * **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
 * **Limitations**: ?
 
+### Geoapify (`:geoapify`)
+
+* **API key**: required (set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`)
+* **Key signup**: https://myprojects.geoapify.com/register
+* **Quota**: 100,000/month with free API key, more with paid keys (see https://www.geoapify.com/api-pricing/)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to ISO 639-1 2-character language codes.
+* **Extra query options**:
+    * `:limit` - restrict the maximum amount of returned results, e.g. `limit: 5`
+* **Extra params** (see [Geoapify documentation](https://apidocs.geoapify.com/docs/geocoding) for more information)
+    * `:type` - restricts the type of the results, see API documentation for
+      available types, e.g. `params: { type: 'amenity' }`
+    * `:filter` - filters results by country, boundary or circle, e.g.
+      `params: { filter: 'countrycode:de,es,fr' }`, see API documentation
+      for available filters
+    * `:bias` - a location bias based on which results are prioritized, e.g.
+      `params: { bias: 'countrycode:de,es,fr' }`, see API documentation for
+      available biases
+* **Documentation**: https://apidocs.geoapify.com/docs/geocoding
+* **Terms of Service**: https://www.geoapify.com/term-and-conditions/
+* **Limitations**: When using the free plan for a commercial product, a link back is required (see https://www.geoapify.com/geocoding-api/). Rate limit (requests/second) applied based on pricing plan. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
+* **Notes**: To use Geoapify, set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`.
+
 
 Regional Street Address Lookups
 -------------------------------
