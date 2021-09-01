@@ -378,11 +378,11 @@ module Geocoder
       end
     end
 
-    require 'geocoder/lookups/melissa'
-    class Melissa
+    require 'geocoder/lookups/melissa_street'
+    class MelissaStreet
       private
       def default_fixture_filename
-        "melissa_oakland_city_hall"
+        "melissa_street_oakland_city_hall"
       end
     end
 

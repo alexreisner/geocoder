@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'test_helper'
 
-class MelissaTest < GeocoderTestCase
+class MelissaStreetTest < GeocoderTestCase
 
   def setup
     Geocoder.configure(lookup: :melissa_street)
@@ -18,7 +18,7 @@ class MelissaTest < GeocoderTestCase
     assert_equal "Oakland", result.city
     assert_equal "US", result.country_code
     assert_equal "United States of America", result.country
-    assert_equal({ "lat" => 37.805402, "lng" => -122.272797 }, result.coordinates)
+    assert_equal([37.805402, -122.272797], result.coordinates)
   end
 
   def test_low_accuracy

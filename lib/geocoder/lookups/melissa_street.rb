@@ -1,11 +1,11 @@
 require 'geocoder/lookups/base'
-require "geocoder/results/melissa"
+require "geocoder/results/melissa_street"
 
 module Geocoder::Lookup
-  class Melissa < Base
+  class MelissaStreet < Base
 
     def name
-      "Melissa"
+      "MelissaStreet"
     end
 
     def results(query)

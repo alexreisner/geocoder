@@ -1,7 +1,7 @@
 require 'geocoder/results/base'
 
 module Geocoder::Result
-  class Melissa < Base
+  class MelissaStreet < Base
     def address(format = :full)
       @data['FormattedAddress']
     end
