@@ -47,21 +47,21 @@ class GeocodioTest < GeocoderTestCase
   end
 
   def test_raises_invalid_request_exception
-    Geocoder.configure Geocoder.configure(:always_raise => [Geocoder::InvalidRequest])
+    Geocoder.configure(:always_raise => [Geocoder::InvalidRequest])
     assert_raises Geocoder::InvalidRequest do
       Geocoder.search("invalid")
     end
   end
 
   def test_raises_api_key_exception
-    Geocoder.configure Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
+    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     assert_raises Geocoder::InvalidApiKey do
       Geocoder.search("bad api key")
     end
   end
 
   def test_raises_over_limit_exception
-    Geocoder.configure Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
+    Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
     assert_raises Geocoder::OverQueryLimitError do
       Geocoder.search("over query limit")
     end
