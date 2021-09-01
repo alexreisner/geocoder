@@ -6,7 +6,7 @@ class IpqualityscoreTest < GeocoderTestCase
   def setup
     Geocoder::Configuration.instance.data.clear
     Geocoder::Configuration.set_defaults
-    Geocoder.configure(ip_lookup: :ipqualityscore)
+    Geocoder.configure(lookup: :ipqualityscore, ip_lookup: :ipqualityscore)
     set_api_key!(:ipqualityscore)
   end
 
@@ -80,6 +80,32 @@ class IpqualityscoreTest < GeocoderTestCase
     assert_raises Geocoder::OverQueryLimitError do
       Geocoder::Lookup::Ipqualityscore.new.send(:results, Geocoder::Query.new('quota exceeded'))
     end
+  end
+
+  def test_unsuccessful_response_without_raising_does_not_hit_cache
+    Geocoder.configure(cache: {}, always_raise: [])
+    lookup = Geocoder::Lookup.get(:ipqualityscore)
+
+    Geocoder.search('quota exceeded')
+    assert_false lookup.instance_variable_get(:@cache_hit)
+
+    Geocoder.search('quota exceeded')
+    assert_false lookup.instance_variable_get(:@cache_hit)
+  end
+
+  def test_unsuccessful_response_with_raising_does_not_hit_cache
+    Geocoder.configure(cache: {}, always_raise: :all)
+    lookup = Geocoder::Lookup.get(:ipqualityscore)
+
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder.search('quota exceeded')
+    end
+    assert_false lookup.instance_variable_get(:@cache_hit)
+
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder.search('quota exceeded')
+    end
+    assert_false lookup.instance_variable_get(:@cache_hit)
   end
 
 end

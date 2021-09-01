@@ -19,6 +19,14 @@ module Geocoder
     end
 
     ##
+    # Array of valid Lookup service names, excluding any that do not build their own HTTP requests.
+    # For example, Amazon Location Service uses the AWS gem, not HTTP REST requests, to fetch data.
+    #
+    def all_services_with_http_requests
+      all_services_except_test - [:amazon_location_service]
+    end
+
+    ##
     # All street address lookup services, default first.
     #
     def street_services
@@ -54,7 +62,9 @@ module Geocoder
         :latlon,
         :amap,
         :osmnames,
-        :melissa_street
+        :melissa_street,
+        :amazon_location_service,
+        :geoapify
       ]
     end
 

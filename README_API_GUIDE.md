@@ -14,6 +14,51 @@ Table of Contents
 Global Street Address Lookups
 -----------------------------
 
+### Amazon Location Service (`:amazon_location_service`)
+
+* **API key**: required
+* **Key signup**: https://console.aws.amazon.com/location
+* **Quota**: pay-as-you-go pricing; 50 requests/second
+* **Region**: world
+* **SSL support**: yes, required
+* **Languages**: en
+* **Required params**:
+  * `:index_name` - the name of the place index resource you want to use for the search
+* **Extra params**:
+  * `:max_results` - return at most this many results
+* **Extra params** when geocoding (not reverse geocoding):
+    * `:bias_position` - bias the results toward a given point, defined as `[latitude, longitude]`
+    * `:filter_b_box` - a bounding box that you specify to filter your results to coordinates within the box's boundaries, defined as `[longitude_sw, latitude_sw, longitude_ne, latitude_ne]`
+    * `:filter_countries` - an array of countries you want to geocode within, named by [ISO 3166 country codes](https://www.iso.org/iso-3166-country-codes.html), e.g. `['DEU', 'FRA']`
+* **Documentation**: https://docs.aws.amazon.com/location
+* **Terms of Service**: https://aws.amazon.com/service-terms
+* **Notes**:
+  * You must install either the `aws-sdk` or `aws-sdk-locationservice` gem, version 1.4.0 or greater.
+  * You can set a default index name for all queries in the Geocoder configuration:
+    ```rb
+      Geocoder.configure(
+        lookup: :amazon_location_service,
+        amazon_location_service: {
+          index_name: 'YOUR_INDEX_NAME_GOES_HERE',
+        }
+      )
+    ```
+  * You can provide credentials to the AWS SDK in multiple ways:
+    * Directly via the `api_key` parameter in the geocoder configuration:
+      ```rb
+        Geocoder.configure(
+          lookup: :amazon_location_service,
+          amazon_location_service: {
+            index_name: 'YOUR_INDEX_NAME_GOES_HERE',
+            api_key: {
+              access_key_id: 'YOUR_AWS_ACCESS_KEY_ID_GOES_HERE',
+              secret_access_key: 'YOUR_AWS_SECRET_ACCESS_KEY_GOES_HERE',
+            }
+          }
+        )
+      ```
+    * Via environment variables and other external methods. See **Setting AWS Credentials** in the [AWS SDK for Ruby Developer Guide](https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html).
+
 ### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)
@@ -249,6 +294,30 @@ Open source geocoding engine which can be self-hosted. There are multiple servic
 * **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
 * **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
 * **Limitations**: ?
+
+### Geoapify (`:geoapify`)
+
+* **API key**: required (set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`)
+* **Key signup**: https://myprojects.geoapify.com/register
+* **Quota**: 100,000/month with free API key, more with paid keys (see https://www.geoapify.com/api-pricing/)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to ISO 639-1 2-character language codes.
+* **Extra query options**:
+    * `:limit` - restrict the maximum amount of returned results, e.g. `limit: 5`
+* **Extra params** (see [Geoapify documentation](https://apidocs.geoapify.com/docs/geocoding) for more information)
+    * `:type` - restricts the type of the results, see API documentation for
+      available types, e.g. `params: { type: 'amenity' }`
+    * `:filter` - filters results by country, boundary or circle, e.g.
+      `params: { filter: 'countrycode:de,es,fr' }`, see API documentation
+      for available filters
+    * `:bias` - a location bias based on which results are prioritized, e.g.
+      `params: { bias: 'countrycode:de,es,fr' }`, see API documentation for
+      available biases
+* **Documentation**: https://apidocs.geoapify.com/docs/geocoding
+* **Terms of Service**: https://www.geoapify.com/term-and-conditions/
+* **Limitations**: When using the free plan for a commercial product, a link back is required (see https://www.geoapify.com/geocoding-api/). Rate limit (requests/second) applied based on pricing plan. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
+* **Notes**: To use Geoapify, set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`.
 
 
 Regional Street Address Lookups
