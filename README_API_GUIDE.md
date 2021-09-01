@@ -97,6 +97,30 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Limitations**: Requires API key if results will be stored. Using API key will also remove rate limit.
 * **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(esri: {outSR: 102100})`. If you will store results, set the flag and provide API key: `Geocoder.configure(esri: {api_key: ["client_id", "client_secret"], for_storage: true})`. If you want to, you can also supply an ESRI token directly: `Geocoder.configure(esri: {token: Geocoder::EsriToken.new('TOKEN', Time.now + 1.day})`
 
+### Geoapify (`:geoapify`)
+
+* **API key**: required (set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`)
+* **Key signup**: https://myprojects.geoapify.com/register
+* **Quota**: 100,000/month with free API key, more with paid keys (see https://www.geoapify.com/api-pricing/)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to ISO 639-1 2-character language codes.
+* **Extra query options**:
+    * `:limit` - restrict the maximum amount of returned results, e.g. `limit: 5`
+* **Extra params** (see [Geoapify documentation](https://apidocs.geoapify.com/docs/geocoding) for more information)
+    * `:type` - restricts the type of the results, see API documentation for
+      available types, e.g. `params: { type: 'amenity' }`
+    * `:filter` - filters results by country, boundary or circle, e.g.
+      `params: { filter: 'countrycode:de,es,fr' }`, see API documentation
+      for available filters
+    * `:bias` - a location bias based on which results are prioritized, e.g.
+      `params: { bias: 'countrycode:de,es,fr' }`, see API documentation for
+      available biases
+* **Documentation**: https://apidocs.geoapify.com/docs/geocoding
+* **Terms of Service**: https://www.geoapify.com/term-and-conditions/
+* **Limitations**: When using the free plan for a commercial product, a link back is required (see https://www.geoapify.com/geocoding-api/). Rate limit (requests/second) applied based on pricing plan. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
+* **Notes**: To use Geoapify, set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`.
+
 ### Google (`:google`)
 
 * **API key**: required
@@ -262,52 +286,6 @@ Open source geocoding engine which can be self-hosted. There are multiple servic
     * [Geocode Earth](https://geocode.earth/cloud) - Cleared for Takeoff, Inc. (USA)
     * [Geoapify](https://www.geoapify.com/maps-geocoging-routing-on-premise-installations/) - Geoapify GmbH (Germany)
 
-### PickPoint (`:pickpoint`)
-
-* **API key**: required
-* **Key signup**: [https://pickpoint.io](https://pickpoint.io)
-* **Quota**: 2500 requests / day for free non-commercial usage, commercial plans are [available](https://pickpoint.io/#pricing). No rate limit.
-* **Region**: world
-* **SSL support**: required
-* **Languages**: worldwide
-* **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
-* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
-
-### Yandex (`:yandex`)
-
-* **API key**: optional, but without it lookup is territorially limited
-* **Quota**: 25000 requests / day
-* **Region**: world with API key, else restricted to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
-* **SSL support**: HTTPS only
-* **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
-* **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
-* **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
-* **Limitations**: ?
-
-### Geoapify (`:geoapify`)
-
-* **API key**: required (set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`)
-* **Key signup**: https://myprojects.geoapify.com/register
-* **Quota**: 100,000/month with free API key, more with paid keys (see https://www.geoapify.com/api-pricing/)
-* **Region**: world
-* **SSL support**: yes
-* **Languages**: The preferred language of address elements in the result. Language code must be provided according to ISO 639-1 2-character language codes.
-* **Extra query options**:
-    * `:limit` - restrict the maximum amount of returned results, e.g. `limit: 5`
-* **Extra params** (see [Geoapify documentation](https://apidocs.geoapify.com/docs/geocoding) for more information)
-    * `:type` - restricts the type of the results, see API documentation for
-      available types, e.g. `params: { type: 'amenity' }`
-    * `:filter` - filters results by country, boundary or circle, e.g.
-      `params: { filter: 'countrycode:de,es,fr' }`, see API documentation
-      for available filters
-    * `:bias` - a location bias based on which results are prioritized, e.g.
-      `params: { bias: 'countrycode:de,es,fr' }`, see API documentation for
-      available biases
-* **Documentation**: https://apidocs.geoapify.com/docs/geocoding
-* **Terms of Service**: https://www.geoapify.com/term-and-conditions/
-* **Limitations**: When using the free plan for a commercial product, a link back is required (see https://www.geoapify.com/geocoding-api/). Rate limit (requests/second) applied based on pricing plan. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
-* **Notes**: To use Geoapify, set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`.
-
 ### Photon (`:photon`)
 
 Open source geocoding engine which can be self-hosted. Komoot hosts a public installation for fair use without the need for an API key (usage might be subject of change).
@@ -343,6 +321,28 @@ Open source geocoding engine which can be self-hosted. Komoot hosts a public ins
 * **Terms of Service**: https://photon.komoot.io/
 * **Limitations**: The public API provider (Komoot) does not guarantee for the availability and usage might be subject of change in the future. You can host your own Photon server without such limitations. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
 * **Notes**: If you are [running your own instance of Photon](https://github.com/komoot/photon) you can configure the host like this: `Geocoder.configure(lookup: :photon, photon: {host: "photon.example.org"})`.
+
+### PickPoint (`:pickpoint`)
+
+* **API key**: required
+* **Key signup**: [https://pickpoint.io](https://pickpoint.io)
+* **Quota**: 2500 requests / day for free non-commercial usage, commercial plans are [available](https://pickpoint.io/#pricing). No rate limit.
+* **Region**: world
+* **SSL support**: required
+* **Languages**: worldwide
+* **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
+* **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
+
+### Yandex (`:yandex`)
+
+* **API key**: optional, but without it lookup is territorially limited
+* **Quota**: 25000 requests / day
+* **Region**: world with API key, else restricted to Russia, Ukraine, Belarus, Kazakhstan, Georgia, Abkhazia, South Ossetia, Armenia, Azerbaijan, Moldova, Turkmenistan, Tajikistan, Uzbekistan, Kyrgyzstan and Turkey
+* **SSL support**: HTTPS only
+* **Languages**: Russian, Belarusian, Ukrainian, English, Turkish (only for maps of Turkey)
+* **Documentation**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml
+* **Terms of Service**: http://api.yandex.com.tr/maps/doc/intro/concepts/intro.xml#rules
+* **Limitations**: ?
 
 
 Regional Street Address Lookups
