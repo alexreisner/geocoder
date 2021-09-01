@@ -17,7 +17,7 @@ class LookupTest < GeocoderTestCase
         :abstract_api,
         :ipgeolocation,
         :ipqualityscore,
-        :melissa,
+        :melissa_street,
         :nationaal_georegister_nl
       ].include?(l) # lookups that always return a result
 

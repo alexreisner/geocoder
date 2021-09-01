@@ -54,7 +54,7 @@ module Geocoder
         :latlon,
         :amap,
         :osmnames,
-        :melissa
+        :melissa_street
       ]
     end
 

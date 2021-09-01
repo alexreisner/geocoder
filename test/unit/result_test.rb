@@ -18,7 +18,7 @@ class ResultTest < GeocoderTestCase
       next if [
         :ip2location, # has pay-per-attribute pricing model
         :nationaal_georegister_nl, # no reverse geocoding
-        :melissa, # reverse geocoding not implemented
+        :melissa_street, # reverse geocoding not implemented
       ].include?(l)
 
       Geocoder.configure(:lookup => l)

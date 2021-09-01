@@ -39,19 +39,8 @@ module Geocoder::Result
       @data['PostalCode']
     end
 
-    def latitude
-      @data['Latitude'].to_f
-    end
-
-    def longitude
-      @data['Longitude'].to_f
-    end
-
     def coordinates
-      {
-        'lat'=> latitude,
-        'lng'=> longitude
-      }
+      [@data['Latitude'].to_f, @data['Longitude'].to_f]
     end
   end
 end

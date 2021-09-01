@@ -4,8 +4,8 @@ require 'test_helper'
 class MelissaTest < GeocoderTestCase
 
   def setup
-    Geocoder.configure(lookup: :melissa)
-    set_api_key!(:melissa)
+    Geocoder.configure(lookup: :melissa_street)
+    set_api_key!(:melissa_street)
   end
 
   def test_result_components
@@ -27,7 +27,7 @@ class MelissaTest < GeocoderTestCase
   end
 
   def test_raises_api_key_exception
-    Geocoder.configure Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
+    Geocoder.configure(:always_raise => [Geocoder::InvalidApiKey])
     assert_raises Geocoder::InvalidApiKey do
       Geocoder.search("invalid key")
     end
