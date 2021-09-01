@@ -9,6 +9,10 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def supported_protocols
+      [:https]
+    end
+
     def base_query_url(query)
       host = configuration[:host] || 'photon.komoot.io'
       method = query.reverse_geocode? ? 'reverse' : 'api'
