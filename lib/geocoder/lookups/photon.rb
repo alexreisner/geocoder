@@ -14,7 +14,7 @@ module Geocoder
       private
 
       def base_query_url(query)
-        host = configuration[:host] || 'photon.komoot.de'
+        host = configuration[:host] || 'photon.komoot.io'
         method = query.reverse_geocode? ? 'reverse' : 'api'
         "#{protocol}://#{host}/#{method}?"
       end

@@ -340,7 +340,7 @@ Open source geocoding engine which can be self-hosted. Komoot hosts a public ins
       reverse search queries or not, only available if the distance sorting is
       enabled for the instace, e.g. `distance_sort: true`
 * **Documentation**: https://github.com/komoot/photon
-* **Terms of Service**: https://photon.komoot.de/
+* **Terms of Service**: https://photon.komoot.io/
 * **Limitations**: The public API provider (Komoot) does not guarantee for the availability and usage might be subject of change in the future. You can host your own Photon server without such limitations. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
 * **Notes**: To use Photon set `Geocoder.configure(lookup: :photon, use_https: true)`. If you are [running your own instance of Photon](https://github.com/komoot/photon) you can configure the host like this: `Geocoder.configure(lookup: :photon, use_https: true, photon: {host: "photon.example.org"})`.
 
