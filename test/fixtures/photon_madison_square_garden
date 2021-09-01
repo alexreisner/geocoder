@@ -1,0 +1,34 @@
+{
+  "features":[
+    {
+      "geometry":{
+        "coordinates":[
+          -73.99355027800776,
+          40.7505247
+        ],
+        "type":"Point"
+      },
+      "type":"Feature",
+      "properties":{
+        "osm_id":138141251,
+        "osm_type":"W",
+        "extent":[
+          -73.9944446,
+          40.751161,
+          -73.9925924,
+          40.7498531
+        ],
+        "country":"United States of America",
+        "osm_key":"leisure",
+        "housenumber":"4",
+        "city":"New York",
+        "street":"Pennsylvania Plaza",
+        "osm_value":"stadium",
+        "postcode":"10001",
+        "name":"Madison Square Garden",
+        "state":"New York"
+      }
+    }
+  ],
+  "type":"FeatureCollection"
+}

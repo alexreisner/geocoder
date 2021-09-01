@@ -63,7 +63,8 @@ module Geocoder
         :amap,
         :osmnames,
         :amazon_location_service,
-        :geoapify
+        :geoapify,
+        :photon
       ]
     end
 
