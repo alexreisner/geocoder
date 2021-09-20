@@ -234,17 +234,6 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 * **Limitations**: ?
 * **Notes**: You can use the open (non-licensed) API by setting: `Geocoder.configure(mapquest: {open: true})` (defaults to licensed version)
 
-### Melissa Data (`:melissa_street`)
-
-* **API key**: required
-* **Key signup**: https://www.melissa.com/developer/
-* **Quota**: ?
-* **Region**: world
-* **Languages**: English
-* **Documentation**: https://www.melissa.com/developer/
-* **Terms of Service**: https://www.melissa.com/terms
-* **Limitations**: ?
-
 ### Nominatim (`:nominatim`)
 
 * **API key**: none
