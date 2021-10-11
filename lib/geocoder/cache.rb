@@ -64,7 +64,11 @@ module Geocoder
     # Cache key for a given URL.
     #
     def key_for(url)
-      [prefix, url].join
+      if url.match(/^#{prefix}/)
+        url
+      else
+        [prefix, url].join
+      end
     end
 
     ##

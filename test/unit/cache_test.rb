@@ -61,4 +61,13 @@ class CacheTest < GeocoderTestCase
     Geocoder.search("service unavailable")
     assert_false lookup.instance_variable_get(:@cache_hit)
   end
+
+  def test_expire_all_urls
+    Geocoder.configure(cache: {}, cache_prefix: "geocoder:")
+    lookup = Geocoder::Lookup.get(:nominatim)
+    lookup.cache['http://api.nominatim.com/'] = 'data'
+    assert_equal 1, lookup.cache.send(:keys).size
+    lookup.cache.expire(:all)
+    assert_equal 0, lookup.cache.send(:keys).size
+  end
 end
