@@ -3,6 +3,14 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.7.0 (2021 Oct 11)
+-------------------
+* Add support for Geoapify and Photo lookups (thanks github.com/ahukkanen).
+* Add support for IPQualityScore IP lookup (thanks github.com/jamesbebbington).
+* Add support for Amazon Location Service lookup (thanks github.com/mplewis).
+* Add support for Melissa lookup (thanks github.com/ALacker).
+* Drop official support for Ruby 2.0.x and Rails 4.x.
+
 1.6.7 (2021 Apr 17)
 -------------------
 * Add support for Abstract API lookup (thanks github.com/randoum).
