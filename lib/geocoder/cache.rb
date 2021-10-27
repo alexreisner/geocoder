@@ -1,23 +1,18 @@
+Dir["#{__dir__}/cache_stores/*.rb"].each {|file| require file }
+
 module Geocoder
   class Cache
 
-    def initialize(store, prefix)
-      @store = store
-      @prefix = prefix
+    def initialize(store, configs)
+      @class = ("Geocoder::CacheStore::#{store.class}".constantize rescue Geocoder::CacheStore::Other)
+      @store_service = @class.new(store, configs)
     end
 
     ##
     # Read from the Cache.
     #
     def [](url)
-      interpret case
-        when store.respond_to?(:[])
-          store[key_for(url)]
-        when store.respond_to?(:get)
-          store.get key_for(url)
-        when store.respond_to?(:read)
-          store.read key_for(url)
-      end
+      interpret store_service.read(url)
     rescue => e
       warn "Geocoder cache read error: #{e}"
     end
@@ -26,14 +21,7 @@ module Geocoder
     # Write to the Cache.
     #
     def []=(url, value)
-      case
-        when store.respond_to?(:[]=)
-          store[key_for(url)] = value
-        when store.respond_to?(:set)
-          store.set key_for(url), value
-        when store.respond_to?(:write)
-          store.write key_for(url), value
-      end
+      store_service.write(url, value)
     rescue => e
       warn "Geocoder cache write error: #{e}"
     end
@@ -44,7 +32,7 @@ module Geocoder
     #
     def expire(url)
       if url == :all
-        if store.respond_to?(:keys)
+        if store_service.respond_to?(:keys)
           urls.each{ |u| expire(u) }
         else
           raise(NoMethodError, "The Geocoder cache store must implement `#keys` for `expire(:all)` to work")
@@ -57,33 +45,21 @@ module Geocoder
 
     private # ----------------------------------------------------------------
 
-    def prefix; @prefix; end
-    def store; @store; end
-
-    ##
-    # Cache key for a given URL.
-    #
-    def key_for(url)
-      if url.match(/^#{prefix}/)
-        url
-      else
-        [prefix, url].join
-      end
-    end
+    def store_service; @store_service; end
 
     ##
     # Array of keys with the currently configured prefix
     # that have non-nil values.
     #
     def keys
-      store.keys.select{ |k| k.match(/^#{prefix}/) and self[k] }
+      store_service.keys
     end
 
     ##
     # Array of cached URLs.
     #
     def urls
-      keys.map{ |k| k[/^#{prefix}(.*)/, 1] }
+      store_service.urls
     end
 
     ##
@@ -95,8 +71,7 @@ module Geocoder
     end
 
     def expire_single_url(url)
-      key = key_for(url)
-      store.respond_to?(:del) ? store.del(key) : store.delete(key)
+      store_service.remove(url)
     end
   end
 end
