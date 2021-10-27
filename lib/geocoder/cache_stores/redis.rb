@@ -5,8 +5,12 @@ module Geocoder::CacheStore
       @expire = options[:expire]
     end
 
-    def write(url, value)
-      store.set key_for(url), value
+    def write(url, value, expire = @expire)
+      if expire.present?
+        store.set key_for(url), value, ex: expire
+      else
+        store.set key_for(url), value
+      end
     end
 
     def read(url)
