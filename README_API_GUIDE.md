@@ -619,7 +619,7 @@ IP Address Lookups
 ### Ipstack (`:ipstack`)
 
 * **API key**: required (see https://ipstack.com/product)
-* **Quota**: 10,000 requests per month (with free API Key, 50,000/day and up for paid plans)
+* **Quota**: 100 requests per month (with free API Key, 50,000/day and up for paid plans)
 * **Region**: world
 * **SSL support**: yes ( only with paid plan )
 * **Languages**: English, German, Spanish, French, Japanese, Portugues (Brazil), Russian, Chinese
