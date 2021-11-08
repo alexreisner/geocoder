@@ -25,6 +25,7 @@ module Geocoder::Lookup
     def results(query)
       # don't look up a loopback or private address, just return the stored result
       return [] if query.internal_ip_address?
+
       doc = fetch_data(query)
       if doc and doc.is_a?(Hash)
         if !data_contains_error?(doc)
@@ -43,11 +44,15 @@ module Geocoder::Lookup
         end
       end
 
-      return []
+      []
     end
 
     def data_contains_error?(parsed_data)
       parsed_data.keys.include?('error')
+    end
+
+    def supported_protocols
+      [:https]
     end
 
     # TODO: replace this hash with what's actually returned by Pointpin
