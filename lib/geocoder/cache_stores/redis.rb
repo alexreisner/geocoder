@@ -2,10 +2,10 @@ module Geocoder::CacheStore
   class Redis < Base
     def initialize(store, options)
       super
-      @cache_expiration = options[:cache_expiration]
+      @expiration = options[:expiration]
     end
 
-    def write(url, value, expire = @cache_expiration)
+    def write(url, value, expire = @expiration)
       if expire.present?
         store.set key_for(url), value, ex: expire
       else
@@ -27,6 +27,6 @@ module Geocoder::CacheStore
 
     private # ----------------------------------------------------------------
 
-    def expire; @cache_expiration; end
+    def expire; @expiration; end
   end
 end

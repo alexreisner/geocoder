@@ -3,7 +3,7 @@ module Geocoder::CacheStore
     def initialize(store, options)
       @store = store
       @config = options
-      @prefix = config[:cache_prefix]
+      @prefix = config[:prefix]
     end
 
     ##
