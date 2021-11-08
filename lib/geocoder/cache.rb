@@ -3,9 +3,9 @@ Dir["#{__dir__}/cache_stores/*.rb"].each {|file| require file }
 module Geocoder
   class Cache
 
-    def initialize(store, configs)
+    def initialize(store, config)
       @class = ("Geocoder::CacheStore::#{store.class}".constantize rescue Geocoder::CacheStore::Other)
-      @store_service = @class.new(store, configs)
+      @store_service = @class.new(store, config)
     end
 
     ##

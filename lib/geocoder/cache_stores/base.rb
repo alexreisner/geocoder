@@ -2,8 +2,8 @@ module Geocoder::CacheStore
   class Base
     def initialize(store, options)
       @store = store
-      @configs = options
-      @prefix = configs[:cache_prefix]
+      @config = options
+      @prefix = config[:cache_prefix]
     end
 
     ##
@@ -24,7 +24,7 @@ module Geocoder::CacheStore
 
     def prefix; @prefix; end
     def store; @store; end
-    def configs; @configs; end
+    def config; @config; end
 
     ##
     # Cache key for a given URL.
