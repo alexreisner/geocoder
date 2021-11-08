@@ -69,7 +69,7 @@ module Geocoder
       :basic_auth,
       :logger,
       :kernel_logger_level,
-      :expire
+      :cache_expiration
     ]
 
     attr_accessor :data
