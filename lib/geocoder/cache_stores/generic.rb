@@ -1,5 +1,5 @@
 module Geocoder::CacheStore
-  class Other < Base
+  class Generic < Base
     def write(url, value)
       case
       when store.respond_to?(:[]=)
