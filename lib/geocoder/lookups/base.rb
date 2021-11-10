@@ -83,8 +83,14 @@ module Geocoder
       # The working Cache object.
       #
       def cache
-        if @cache.nil? and store = configuration.cache
-          @cache = Cache.new(store, configuration.cache_prefix)
+        if @cache.nil? && (store = configuration.cache)
+          cache_options = configuration.cache_options
+          cache_prefix = (configuration.cache_prefix rescue false)
+          if cache_prefix
+            cache_options[:prefix] ||= configuration.cache_prefix
+            warn '[Geocoder] cache_prefix is deprecated, please change to cache_options.prefix instead'
+          end
+          @cache = Cache.new(store, cache_options)
         end
         @cache
       end

@@ -68,7 +68,8 @@ module Geocoder
       :distances,
       :basic_auth,
       :logger,
-      :kernel_logger_level
+      :kernel_logger_level,
+      :cache_options
     ]
 
     attr_accessor :data
@@ -108,7 +109,7 @@ module Geocoder
       @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
       @data[:api_key]      = nil         # API key for geocoding service
       @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
-      @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
+      @data[:cache_prefix] = "geocoder:" # - DEPRECATED - prefix (string) to use for all cache keys
       @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
       @data[:logger]       = :kernel     # :kernel or Logger instance
       @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
@@ -121,6 +122,9 @@ module Geocoder
       # calculation options
       @data[:units]     = :mi      # :mi or :km
       @data[:distances] = :linear  # :linear or :spherical
+
+      # explicit cache service options
+      @data[:cache_options] = {}
     end
 
     instance_eval(OPTIONS.map do |option|
