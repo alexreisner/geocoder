@@ -52,7 +52,7 @@ module Geocoder::Lookup
     end
 
     def supported_protocols
-      [:https]
+      [:http, :https]
     end
 
     # TODO: replace this hash with what's actually returned by Pointpin
