@@ -47,7 +47,7 @@ module Geocoder::Lookup
     end
 
     def host
-      "api.ipdata.co"
+      configuration[:host] || "api.ipdata.co"
     end
 
     def check_response_for_errors!(response)
