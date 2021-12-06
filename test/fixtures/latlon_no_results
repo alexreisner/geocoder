@@ -1,6 +1,0 @@
-{
-   "error": {
-      "type": "api_error",
-      "message": "The requested resource could not be found."
-   }
-}

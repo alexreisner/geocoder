@@ -1,5 +1,0 @@
-{
-  "statusCode":401,
-  "error":"Unauthorized",
-  "message":"Invalid apiKey"
-}

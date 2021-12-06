@@ -1,7 +1,0 @@
-{
-  "type":"FeatureCollection",
-  "features":[],
-  "query":{
-    "text":"thistextcannotbefoundfromthegeoapifyapi"
-  }
-}
