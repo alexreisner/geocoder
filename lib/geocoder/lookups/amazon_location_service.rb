@@ -4,13 +4,12 @@ require 'geocoder/results/amazon_location_service'
 module Geocoder::Lookup
   class AmazonLocationService < Base
     def results(query)
-      params = { **global_index_name, **query.options }
-      params.delete(:lookup)
+      params = query.options.except(:lookup).merge(global_index_name)
 
       if query.reverse_geocode?
-        resp = client.search_place_index_for_position(**{ **params, position: query.coordinates.reverse })
+        resp = client.search_place_index_for_position(params.merge(position: query.coordinates.reverse))
       else
-        resp = client.search_place_index_for_text(**{ **params, text: query.text })
+        resp = client.search_place_index_for_text(params.merge(text: query.text))
       end
       resp.results.map(&:place)
     end
