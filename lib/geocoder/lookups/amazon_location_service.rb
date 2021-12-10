@@ -5,6 +5,8 @@ module Geocoder::Lookup
   class AmazonLocationService < Base
     def results(query)
       params = { **global_index_name, **query.options }
+      params.delete(:lookup)
+
       if query.reverse_geocode?
         resp = client.search_place_index_for_position(**{ **params, position: query.coordinates.reverse })
       else
