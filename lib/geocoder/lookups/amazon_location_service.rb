@@ -4,8 +4,15 @@ require 'geocoder/results/amazon_location_service'
 module Geocoder::Lookup
   class AmazonLocationService < Base
     def results(query)
-      params = query.options.except(:lookup).merge(global_index_name)
+      params = query.options.dup
 
+      # index_name is required
+      # Aws::ParamValidator raises ArgumentError on missing required keys
+      params.merge!(index_name: configuration[:index_name])
+
+      # Aws::ParamValidator raises ArgumentError on unexpected keys
+      params.delete(:lookup) 
+      
       resp = if query.reverse_geocode?
         client.search_place_index_for_position(params.merge(position: query.coordinates.reverse))
       else
@@ -41,14 +48,6 @@ module Geocoder::Lookup
             "Couldn't load the Amazon Location Service SDK. " +
             "Install it with: gem install aws-sdk-locationservice -v '~> 1.4'"
           )
-      end
-    end
-
-    def global_index_name
-      if configuration[:index_name]
-        { index_name: configuration[:index_name] }
-      else
-        {}
       end
     end
   end
