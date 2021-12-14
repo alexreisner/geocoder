@@ -3,7 +3,7 @@ require 'test_helper'
 
 class AmazonLocationServiceTest < GeocoderTestCase
   def setup
-    Geocoder.configure(lookup: :amazon_location_service)
+    Geocoder.configure(lookup: :amazon_location_service, amazon_location_service: {index_name: "some_index_name"})
   end
 
   def test_amazon_location_service_geocoding
