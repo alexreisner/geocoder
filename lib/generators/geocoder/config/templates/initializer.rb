@@ -9,7 +9,7 @@ Geocoder.configure(
   # https_proxy: nil,           # HTTPS proxy server (user:pass@host:port)
   # api_key: nil,               # API key for geocoding service
   # cache: nil,                 # cache object (must respond to #[], #[]=, and #del)
-  # cache_prefix: 'geocoder:',  # - DEPRECATED - prefix (string) to use for all cache keys, set false to disable
+  # cache_prefix: 'geocoder:',  # DEPRECATED, please use cache_options[:prefix] instead
 
   # Exceptions that should not be rescued by default
   # (if you want to implement custom error handling);
@@ -20,12 +20,9 @@ Geocoder.configure(
   # units: :mi,                 # :km for kilometers or :mi for miles
   # distances: :linear          # :spherical or :linear
 
-  # Cache service type-specific configurations
-  # cache_options: {}
-
-  # Redis cache configurations (for cache_options):
-  #     {
-  #       expiration: 2.days          # redis ttl for all cache
-  #       prefix: 'geocoder:'         # prefix to add to redis keys, if used cache_prefix will be ignored
-  #     }
+  # Cache configuration
+  # cache_options: {
+  #   expiration: 2.days,
+  #   prefix: 'geocoder:'
+  # }
 )
