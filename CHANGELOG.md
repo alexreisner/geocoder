@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.7.1 (2022 Jan  1)
+-------------------
+* Various bugfixes and refactorings.
+
 1.7.0 (2021 Oct 11)
 -------------------
 * Add support for Geoapify and Photo lookups (thanks github.com/ahukkanen).
