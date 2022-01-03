@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.7.2 (2022 Jan  2)
+-------------------
+* Fix uninitialized constant error (occurring on some systems with v1.7.1).
+
 1.7.1 (2022 Jan  1)
 -------------------
 * Various bugfixes and refactorings.
