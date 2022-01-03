@@ -1,3 +1,5 @@
+require 'geocoder/cache_stores/base'
+
 module Geocoder::CacheStore
   class Generic < Base
     def write(url, value)
