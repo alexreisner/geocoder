@@ -63,7 +63,7 @@ class CacheTest < GeocoderTestCase
   end
 
   def test_expire_all_urls
-    Geocoder.configure(cache: {}, cache_prefix: "geocoder:")
+    Geocoder.configure(cache: {}, cache_options: {prefix: "geocoder:"})
     lookup = Geocoder::Lookup.get(:nominatim)
     lookup.cache['http://api.nominatim.com/'] = 'data'
     assert_equal 1, lookup.cache.send(:keys).size
