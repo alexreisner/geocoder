@@ -4,7 +4,7 @@ module Geocoder::Result
   class Nominatim < Base
 
     def poi
-      return address_data[place_type] if address.key?(place_type)
+      return address_data[place_type] if address_data.key?(place_type)
       return nil
     end
 
@@ -18,14 +18,14 @@ module Geocoder::Result
 
     def street
       %w[road pedestrian highway].each do |key|
-        return address_data[key] if address.key?(key)
+        return address_data[key] if address_data.key?(key)
       end
       return nil
     end
 
     def city
       %w[city town village hamlet].each do |key|
-        return address_data[key] if address.key?(key)
+        return address_data[key] if address_data.key?(key)
       end
       return nil
     end
