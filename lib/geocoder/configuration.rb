@@ -62,7 +62,6 @@ module Geocoder
       :https_proxy,
       :api_key,
       :cache,
-      :cache_prefix,
       :always_raise,
       :units,
       :distances,
