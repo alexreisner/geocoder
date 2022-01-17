@@ -350,10 +350,16 @@ This example uses Redis, but the cache store can be any object that supports the
 
 Even a plain Ruby hash will work, though it's not a great choice (cleared out when app is restarted, not shared between app instances, etc).
 
+When using Rails use the Generic cache store as an adapter around `Rails.cache`:
+
+```ruby
+Geocoder.configure(cache: Geocoder::CacheStore::Generic.new(Rails.cache, {}))
+```
+
 You can also set a custom prefix to be used for cache keys:
 
 ```ruby
-Geocoder.configure(cache_prefix: "...")
+Geocoder.configure(cache_options: { prefix: "..." })
 ```
 
 By default the prefix is `geocoder:`
