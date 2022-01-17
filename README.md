@@ -246,7 +246,6 @@ Geocoder.configure(
   units: :km,
 
   # caching (see Caching section below for details):
-  # warning: `cache_prefix` is deprecated, use `cache_options` instead
   cache: Redis.new,
   cache_options: {
     expiration: 2.days, # Redis ttl

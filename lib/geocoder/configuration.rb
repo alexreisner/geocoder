@@ -62,7 +62,6 @@ module Geocoder
       :https_proxy,
       :api_key,
       :cache,
-      :cache_prefix,
       :always_raise,
       :units,
       :distances,
@@ -109,7 +108,6 @@ module Geocoder
       @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
       @data[:api_key]      = nil         # API key for geocoding service
       @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and optionally #keys)
-      @data[:cache_prefix] = nil         # - DEPRECATED - prefix (string) to use for all cache keys
       @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
       @data[:logger]       = :kernel     # :kernel or Logger instance
       @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
