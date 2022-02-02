@@ -17,14 +17,16 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query)
-      "#{protocol}://#{host}/json/#{query.sanitized_text}"
-    end
-
     private # ---------------------------------------------------------------
 
-    def cache_key(query)
-      query_url(query)
+    def base_query_url(query)
+      "#{protocol}://#{host}/json/#{query.sanitized_text}?"
+    end
+
+    def query_url_params(query)
+      {
+        :apikey => configuration.api_key
+      }.merge(super)
     end
 
     def parse_raw_data(raw_data)
