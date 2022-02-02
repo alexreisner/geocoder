@@ -531,17 +531,17 @@ IP Address Lookups
 * **Documentation**: https://db-ip.com/api/doc.php
 * **Terms of Service**: https://db-ip.com/tos.php
 
-### FreeGeoIP (`:freegeoip`) - [DISCONTINUED](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation)
+### FreeGeoIP (`:freegeoip`)
 
-* **API key**: none
-* **Quota**: 15,000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
+* **API key**: required
+* **Quota**: 15,000 requests per hour
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
-* **Documentation**: http://github.com/fiorix/freegeoip/blob/master/README.md
+* **Documentation**: https://github.com/apilayer/freegeoip/ and https://freegeoip.app/
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
+* **Notes**: The default host is freegeoip.app but this can be changed by using, for example, `Geocoder.configure(freegeoip: {host: 'api.ipstack.com'})`. The service can also be self-hosted.
 
 ### IP-API.com (`:ipapi_com`)
 
