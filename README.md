@@ -78,7 +78,7 @@ results.first.address
 # => "Hôtel de Ville, 75004 Paris, France"
 ```
 
-You can also look up the location of an IP addresses:
+You can also look up the location of an IP address:
 
 ```ruby
 results = Geocoder.search("172.56.21.89")
