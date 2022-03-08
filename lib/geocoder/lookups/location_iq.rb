@@ -25,7 +25,7 @@ module Geocoder::Lookup
     end
 
     def configured_host
-      configuration[:host] || "locationiq.org"
+      configuration[:host] || "us1.locationiq.com"
     end
 
     def results(query)
