@@ -117,8 +117,7 @@ module Geocoder
     def spawn(name)
       if all_services.include?(name)
         name = name.to_s
-        require "geocoder/lookups/#{name}"
-        Geocoder::Lookup.const_get(classify_name(name)).new
+        instantiate_lookup(name)
       else
         valids = all_services.map(&:inspect).join(", ")
         raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
@@ -131,6 +130,19 @@ module Geocoder
     #
     def classify_name(filename)
       filename.to_s.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
+    end
+
+    ##
+    # Safely instantiate Lookup
+    #
+    def instantiate_lookup(name)
+      class_name = classify_name(name)
+      begin
+        Geocoder::Lookup.const_get(class_name)
+      rescue NameError
+        require "geocoder/lookups/#{name}"
+      end
+      Geocoder::Lookup.const_get(class_name).new
     end
   end
 end
