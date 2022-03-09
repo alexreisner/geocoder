@@ -117,7 +117,7 @@ module Geocoder
     def spawn(name)
       if all_services.include?(name)
         name = name.to_s
-        lookup_instance_from(name)
+        instantiate_lookup(name)
       else
         valids = all_services.map(&:inspect).join(", ")
         raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
@@ -135,7 +135,7 @@ module Geocoder
     ##
     # Safely instantiate Lookup
     #
-    def lookup_instance_from(name)
+    def instantiate_lookup(name)
       class_name = classify_name(name)
       begin
         Geocoder::Lookup.const_get(class_name)
