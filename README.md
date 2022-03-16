@@ -249,8 +249,8 @@ Geocoder.configure(
   # warning: `cache_prefix` is deprecated, use `cache_options` instead
   cache: Redis.new,
   cache_options: {
-    expiration: 2.days, # Redis ttl
-    prefix: "..."
+    expiration: 1.day, # Defaults to two days
+    prefix: "another_key:" # Defaults to `geocoder:`
   }
 )
 ```
