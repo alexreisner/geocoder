@@ -121,12 +121,14 @@ module Geocoder
       @data[:units]     = :mi      # :mi or :km
       @data[:distances] = :linear  # :linear or :spherical
 
-      # Set the default values for the caching
+      # Set the default values for the caching mechanism
+      # By default, the cache keys will not expire as IP addresses and phyiscal
+      # addresses will rarely change.
       @data[:cache]        = nil   # cache object (must respond to #[], #[]=, and optionally #keys)
       @data[:cache_prefix] = nil   # - DEPRECATED - prefix (string) to use for all cache keys
       @data[:cache_options] = {
         prefix: 'geocoder:',
-        expiration: 172_800 # Default TTL is 2 days
+        expiration: nil
       }
     end
 

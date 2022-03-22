@@ -76,7 +76,7 @@ class GeocoderTest < GeocoderTestCase
 
   def test_default_geocoder_caching_config
     assert_nil Geocoder.config[:cache]
+    assert_nil Geocoder.config[:cache_options][:expiration]
     assert_equal 'geocoder:', Geocoder.config[:cache_options][:prefix]
-    assert_equal 172_800, Geocoder.config[:cache_options][:expiration]
   end
 end
