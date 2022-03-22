@@ -73,4 +73,10 @@ class GeocoderTest < GeocoderTestCase
     v.reverse_geocode
     assert_equal "Geocoder::Result::Nominatim", v.result_class.to_s
   end
+
+  def test_default_geocoder_caching_config
+    assert_nil Geocoder.config[:cache]
+    assert_nil Geocoder.config[:cache_options][:expiration]
+    assert_equal 'geocoder:', Geocoder.config[:cache_options][:prefix]
+  end
 end
