@@ -249,7 +249,7 @@ Geocoder.configure(
   # warning: `cache_prefix` is deprecated, use `cache_options` instead
   cache: Redis.new,
   cache_options: {
-    expiration: 1.day, # Defaults to two days
+    expiration: 1.day, # Defaults to `nil`
     prefix: "another_key:" # Defaults to `geocoder:`
   }
 )
