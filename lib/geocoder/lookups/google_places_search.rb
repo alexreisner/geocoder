@@ -39,6 +39,9 @@ module Geocoder
         query_fields = query.options[:fields]
         return format_fields(query_fields) if query_fields
 
+        config_fields = configuration[:fields]
+        return format_fields(config_fields) if config_fields
+
         default_fields
       end
 
