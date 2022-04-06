@@ -65,7 +65,8 @@ module Geocoder
         :melissa_street,
         :amazon_location_service,
         :geoapify,
-        :photon
+        :photon,
+        :twogis
       ]
     end
 

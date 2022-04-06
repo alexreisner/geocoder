@@ -1,0 +1,53 @@
+{
+   "meta":{
+      "api_version":"3.0.783441",
+      "code":200,
+      "issue_date":"20220406"
+   },
+   "result":{
+      "items":[
+         {
+            "adm_div":[
+               {
+                  "id":"70030076149193895",
+                  "name":"Abu Dhabi Emirate",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076170335813",
+                  "name":"Al Dhafra Municipality",
+                  "type":"district_area"
+               }
+            ],
+            "full_name":"Ruwais New",
+            "geometry":{
+               "centroid":"POINT(52.883827 24.120249)"
+            },
+            "id":"70030076164433621",
+            "name":"Ruwais New",
+            "point":{
+               "lat":24.120249,
+               "lon":52.883827
+            },
+            "subtype":"settlement",
+            "subtype_specification":"settlement",
+            "type":"adm_div"
+         },
+         {
+            "full_name":"New Valley Governorate",
+            "geometry":{
+               "centroid":"POINT(28.149757 24.908295)"
+            },
+            "id":"70030076149052626",
+            "name":"New Valley Governorate",
+            "point":{
+               "lat":24.908295,
+               "lon":28.149757
+            },
+            "subtype":"region",
+            "type":"adm_div"
+         }
+      ],
+      "total":2
+   }
+}

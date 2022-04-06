@@ -1,0 +1,67 @@
+{
+   "meta":{
+      "api_version":"3.0.783441",
+      "code":200,
+      "issue_date":"20220406"
+   },
+   "result":{
+      "items":[
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"5349042514588558",
+                  "name":"Москва",
+                  "type":"region"
+               }
+            ],
+            "city_alias":"moscow",
+            "full_name":"Москва",
+            "geometry":{
+               "centroid":"POINT(37.617774 55.755836)"
+            },
+            "id":"4504222397630173",
+            "name":"Москва",
+            "point":{
+               "lat":55.755836,
+               "lon":37.617774
+            },
+            "subtype":"city",
+            "type":"adm_div"
+         },
+         {
+            "full_name":"Moscow",
+            "geometry":{
+               "centroid":"POINT(37.615773 55.739711)"
+            },
+            "id":"5349042514588558",
+            "name":"Moscow",
+            "point":{
+               "lat":55.739711,
+               "lon":37.615773
+            },
+            "subtype":"region",
+            "type":"adm_div"
+         },
+         {
+            "full_name":"Moscow region",
+            "geometry":{
+               "centroid":"POINT(37.48821 56.138265)"
+            },
+            "id":"1267655302447163",
+            "name":"Moscow region",
+            "point":{
+               "lat":56.138265,
+               "lon":37.48821
+            },
+            "subtype":"region",
+            "type":"adm_div"
+         }
+      ],
+      "total":3
+   }
+}

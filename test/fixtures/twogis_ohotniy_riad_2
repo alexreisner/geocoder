@@ -1,0 +1,103 @@
+{
+   "meta":{
+      "api_version":"3.0.783441",
+      "code":200,
+      "issue_date":"20220406"
+   },
+   "result":{
+      "items":[
+         {
+            "address_name":"улица Охотный Ряд, 2",
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"5349042514588558",
+                  "name":"Москва",
+                  "type":"region"
+               },
+               {
+                  "city_alias":"moscow",
+                  "flags":{
+                     "is_default":true,
+                     "is_region_center":true
+                  },
+                  "id":"4504222397630173",
+                  "is_default":true,
+                  "name":"Москва",
+                  "type":"city"
+               },
+               {
+                  "id":"4504209512726536",
+                  "name":"Тверской район",
+                  "type":"district"
+               }
+            ],
+            "building_name":"Four Seasons Moscow, отель",
+            "city_alias":"moscow",
+            "full_address_name":"Москва, улица Охотный Ряд, 2",
+            "full_name":"Москва, Four Seasons Moscow, отель",
+            "geometry":{
+               "centroid":"POINT(37.616732 55.757261)"
+            },
+            "id":"4504235282810606",
+            "name":"Four Seasons Moscow, отель",
+            "point":{
+               "lat":55.757261,
+               "lon":37.616732
+            },
+            "purpose_name":"Многофункциональный комплекс",
+            "type":"building"
+         },
+         {
+            "address_name":"улица Охотный Ряд, вл2",
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"5349042514588558",
+                  "name":"Москва",
+                  "type":"region"
+               },
+               {
+                  "city_alias":"moscow",
+                  "flags":{
+                     "is_default":true,
+                     "is_region_center":true
+                  },
+                  "id":"4504222397630173",
+                  "is_default":true,
+                  "name":"Москва",
+                  "type":"city"
+               },
+               {
+                  "id":"4504209512726536",
+                  "name":"Тверской район",
+                  "type":"district"
+               }
+            ],
+            "city_alias":"moscow",
+            "full_address_name":"Москва, улица Охотный Ряд, вл2",
+            "full_name":"Москва, улица Охотный Ряд, вл2",
+            "geometry":{
+               "centroid":"POINT(37.618753 55.758332)"
+            },
+            "id":"70030076128378739",
+            "name":"улица Охотный Ряд, вл2",
+            "point":{
+               "lat":55.758332,
+               "lon":37.618753
+            },
+            "purpose_name":"Автостоянка",
+            "type":"building"
+         }
+      ],
+      "total":2
+   }
+}
