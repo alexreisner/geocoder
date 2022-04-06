@@ -154,9 +154,20 @@ The [Google Places Details API](https://developers.google.com/maps/documentation
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+* **Extra params**:
+  * `:fields` - Requested API response fields (affects pricing, see the [Google Places Details developer guide](https://developers.google.com/maps/documentation/places/web-service/details#fields) for available fields)
 * **Documentation**: https://developers.google.com/maps/documentation/places/web-service/details
 * **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
+* **Notes**:
+  * You can set the default fields for all queries in the Geocoder configuration, for example:
+    ```rb
+    Geocoder.configure(
+      google_places_details: {
+        fields: %w[business_status formatted_address geometry name photos place_id plus_code types]
+      }
+    )
+    ```
 
 ### Google Places Search (`:google_places_search`)
 
@@ -173,6 +184,16 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 * **Documentation**: https://developers.google.com/maps/documentation/places/web-service/search
 * **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
+* **Notes**:
+  * You can set the default fields for all queries in the Geocoder configuration, for example:
+    ```rb
+    Geocoder.configure(
+      google_places_search: {
+        fields: %w[address_components adr_address business_status formatted_address geometry name
+            photos place_id plus_code types url utc_offset vicinity]
+      }
+    )
+    ```
 
 ### Here/Nokia (`:here`)
 
