@@ -31,6 +31,7 @@ module Geocoder
           input: query.text,
           inputtype: 'textquery',
           fields: fields(query),
+          locationbias: locationbias(query),
           language: query.language || configuration.language
         }
       end
@@ -61,6 +62,14 @@ module Geocoder
         return if flattened.empty?
 
         flattened.join(',')
+      end
+
+      def locationbias(query)
+        if query.options.has_key?(:locationbias)
+          query.options[:locationbias]
+        else
+          configuration[:locationbias]
+        end
       end
     end
   end
