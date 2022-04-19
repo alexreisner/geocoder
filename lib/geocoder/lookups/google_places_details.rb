@@ -34,17 +34,22 @@ module Geocoder
       end
 
       def fields(query)
-        query_fields = query.options[:fields]
-        return format_fields(query_fields) if query_fields
+        if query.options.has_key?(:fields)
+          return format_fields(query.options[:fields])
+        end
 
-        config_fields = configuration[:fields]
-        return format_fields(config_fields) if config_fields
+        if configuration.has_key?(:fields)
+          return format_fields(configuration[:fields])
+        end
 
         nil  # use Google Places defaults
       end
 
       def format_fields(*fields)
-        fields.flatten.join(',')
+        flattened = fields.flatten.compact
+        return if flattened.empty?
+
+        flattened.join(',')
       end
 
       def query_url_google_params(query)
