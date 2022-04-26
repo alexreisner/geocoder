@@ -36,8 +36,13 @@ module Geocoder
       end
 
       def fields(query)
-        query_fields = query.options[:fields]
-        return format_fields(query_fields) if query_fields
+        if query.options.has_key?(:fields)
+          return format_fields(query.options[:fields])
+        end
+
+        if configuration.has_key?(:fields)
+          return format_fields(configuration[:fields])
+        end
 
         default_fields
       end
@@ -52,7 +57,10 @@ module Geocoder
       end
 
       def format_fields(*fields)
-        fields.flatten.join(',')
+        flattened = fields.flatten.compact
+        return if flattened.empty?
+
+        flattened.join(',')
       end
     end
   end

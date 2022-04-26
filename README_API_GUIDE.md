@@ -154,9 +154,20 @@ The [Google Places Details API](https://developers.google.com/maps/documentation
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+* **Extra params**:
+  * `:fields` - Requested API response fields (affects pricing, see the [Google Places Details developer guide](https://developers.google.com/maps/documentation/places/web-service/details#fields) for available fields)
 * **Documentation**: https://developers.google.com/maps/documentation/places/web-service/details
 * **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
+* **Notes**:
+  * You can set the default fields for all queries in the Geocoder configuration, for example:
+    ```rb
+    Geocoder.configure(
+      google_places_details: {
+        fields: %w[business_status formatted_address geometry name photos place_id plus_code types]
+      }
+    )
+    ```
 
 ### Google Places Search (`:google_places_search`)
 
@@ -173,6 +184,16 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 * **Documentation**: https://developers.google.com/maps/documentation/places/web-service/search
 * **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
+* **Notes**:
+  * You can set the default fields for all queries in the Geocoder configuration, for example:
+    ```rb
+    Geocoder.configure(
+      google_places_search: {
+        fields: %w[address_components adr_address business_status formatted_address geometry name
+            photos place_id plus_code types url utc_offset vicinity]
+      }
+    )
+    ```
 
 ### Here/Nokia (`:here`)
 
@@ -191,11 +212,11 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 ### LocationIQ (`:location_iq`)
 
 * **API key**: required
-* **Quota**: 60 requests/minute (2 req/sec, 10k req/day), then [ability to purchase more](http://locationiq.org/#pricing)
+* **Quota**: 60 requests/minute (2 req/sec, 10k req/day), then [ability to purchase more](http://locationiq.com/pricing)
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: ?
-* **Documentation**: https://locationiq.org/#docs
+* **Documentation**: https://locationiq.com/docs
 * **Terms of Service**: https://unwiredlabs.com/tos
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
 
@@ -531,17 +552,17 @@ IP Address Lookups
 * **Documentation**: https://db-ip.com/api/doc.php
 * **Terms of Service**: https://db-ip.com/tos.php
 
-### FreeGeoIP (`:freegeoip`) - [DISCONTINUED](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation)
+### FreeGeoIP (`:freegeoip`)
 
-* **API key**: none
-* **Quota**: 15,000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
+* **API key**: required
+* **Quota**: 15,000 requests per hour
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
-* **Documentation**: http://github.com/fiorix/freegeoip/blob/master/README.md
+* **Documentation**: https://github.com/apilayer/freegeoip/ and https://freegeoip.app/
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
+* **Notes**: The default host is freegeoip.app but this can be changed by using, for example, `Geocoder.configure(freegeoip: {host: 'api.ipstack.com'})`. The service can also be self-hosted.
 
 ### IP-API.com (`:ipapi_com`)
 

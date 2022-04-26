@@ -3,6 +3,19 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.7.5 (2022 Mar 14)
+-------------------
+* Avoid lookup naming collisions in some environments.
+
+1.7.4 (2022 Mar 14)
+-------------------
+* Add ability to use app-defined lookups (thanks github.com/januszm).
+* Updates to LocationIQ and FreeGeoIP lookups.
+
+1.7.3 (2022 Jan 17)
+-------------------
+* Get rid of unnecessary cache_prefix deprecation warnings.
+
 1.7.2 (2022 Jan  2)
 -------------------
 * Fix uninitialized constant error (occurring on some systems with v1.7.1).

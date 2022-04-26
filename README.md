@@ -20,7 +20,7 @@ Compatibility:
 
 * Ruby versions: 2.1+, and JRuby.
 * Databases: MySQL, PostgreSQL, SQLite, and MongoDB.
-* Rails: 5.x and 6.x.
+* Rails: 5.x, 6.x, and 7.x.
 * Works outside of Rails with the `json` (for MRI) or `json_pure` (for JRuby) gem.
 
 
@@ -78,7 +78,7 @@ results.first.address
 # => "Hôtel de Ville, 75004 Paris, France"
 ```
 
-You can also look up the location of an IP addresses:
+You can also look up the location of an IP address:
 
 ```ruby
 results = Geocoder.search("172.56.21.89")
@@ -248,8 +248,8 @@ Geocoder.configure(
   # caching (see Caching section below for details):
   cache: Redis.new,
   cache_options: {
-    expiration: 2.days, # Redis ttl
-    prefix: "..."
+    expiration: 1.day, # Defaults to `nil`
+    prefix: "another_key:" # Defaults to `geocoder:`
   }
 )
 ```
