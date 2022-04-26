@@ -9,9 +9,40 @@ class HereTest < GeocoderTestCase
   end
 
   def test_here_viewport
-    result = Geocoder.search('Madison Square Garden, New York, NY').first
-    assert_equal [40.7493451, -73.9948616, 40.7515934, -73.9918938],
+    result = Geocoder.search("Berlin").first
+    assert_equal [52.33812, 13.08835, 52.6755, 13.761],
                  result.viewport
+  end
+
+  def test_here_no_viewport
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal [], result.viewport
+  end
+
+  def test_here_query_url_for_reverse_geocoding
+    lookup = Geocoder::Lookup::Here.new
+    url = lookup.query_url(
+      Geocoder::Query.new(
+        "42.42,21.21"
+      )
+    )
+
+    expected = /revgeocode\.search\.hereapi\.com\/v1\/revgeocode.+at=42\.42%2C21\.21/
+
+    assert_match(expected, url)
+  end
+
+  def test_here_query_url_for_geocode
+    lookup = Geocoder::Lookup::Here.new
+    url = lookup.query_url(
+      Geocoder::Query.new(
+        "Madison Square Garden, New York, NY"
+      )
+    )
+
+    expected = /geocode\.search\.hereapi\.com\/v1\/geocode.+q=Madison\+Square\+Garden%2C\+New\+York%2C\+NY/
+
+    assert_match(expected, url)
   end
 
   def test_here_query_url_contains_country
@@ -22,18 +53,7 @@ class HereTest < GeocoderTestCase
         country: 'GBR'
       )
     )
-    assert_match(/country=GBR/, url)
-  end
-
-  def test_here_query_url_contains_mapview
-    lookup = Geocoder::Lookup::Here.new
-    url = lookup.query_url(
-      Geocoder::Query.new(
-        'Some Intersection',
-        bounds: [[40.0, -120.0], [39.0, -121.0]]
-      )
-    )
-    assert_match(/mapview=40.0+%2C-120.0+%3B39.0+%2C-121.0+/, url)
+    assert_match(/in=countryCode%3AGBR/, url)
   end
 
   def test_here_query_url_contains_api_key
@@ -43,6 +63,6 @@ class HereTest < GeocoderTestCase
         'Some Intersection'
       )
     )
-    assert_match(/apikey=+/, url)
+    assert_match(/apiKey=+/, url)
   end
 end

@@ -1,72 +1,55 @@
 {
-  "Response": {
-    "MetaInfo": {
-      "Timestamp": "2013-02-08T16:26:39.382+0000"
-    },
-    "View": [
-      {
-        "_type": "SearchResultsViewType",
-        "ViewId": 0,
-        "Result": [
-          {
-            "Relevance": 1.0,
-            "MatchLevel": "houseNumber",
-            "MatchQuality": {
-              "State": 1.0,
-              "City": 1.0,
-              "Street": [
-                1.0
-              ],
-              "HouseNumber": 1.0
-            },
-            "MatchType": "pointAddress",
-            "Location": {
-              "LocationId": "NT_ArsGdYbpo6dqjPQel9gTID_4",
-              "LocationType": "point",
-              "DisplayPosition": {
-                "Latitude": 40.7504692,
-                "Longitude": -73.9933777
-              },
-              "NavigationPosition": [
-                {
-                  "Latitude": 40.7500305,
-                  "Longitude": -73.9942398
-                }
-              ],
-              "MapView": {
-                "TopLeft": {
-                  "Latitude": 40.7515934,
-                  "Longitude": -73.9948616
-                },
-                "BottomRight": {
-                  "Latitude": 40.7493451,
-                  "Longitude": -73.9918938
-                }
-              },
-              "Address": {
-                "Label": "4 Penn Plz, New York, NY 10001, United States",
-                "Country": "USA",
-                "State": "NY",
-                "County": "New York",
-                "City": "New York",
-                "Street": "Penn Plz",
-                "HouseNumber": "4",
-                "PostalCode": "10001",
-                "AdditionalData": [
-                  {
-                    "value": "United States",
-                    "key": "CountryName"
-                  },
-                  {
-                    "value": "New York",
-                    "key": "StateName"
-                  }
-                ]
-              }
-            }
-          }
-        ]
+  "items": [
+    {
+      "title": "Madison Square Garden",
+      "id": "here:pds:place:840dr5ru-7bf91d321e434303aa1094c2c5f1f15f",
+      "resultType": "place",
+      "address": {
+        "label": "Madison Square Garden, 4 Penn Plz, New York, NY 10001, United States",
+        "countryCode": "USA",
+        "countryName": "United States",
+        "stateCode": "NY",
+        "state": "New York",
+        "county": "New York",
+        "city": "New York",
+        "district": "Chelsea",
+        "street": "Penn Plz",
+        "postalCode": "10001",
+        "houseNumber": "4"
+      },
+      "position": {
+        "lat": 40.75051,
+        "lng": -73.9934
+      },
+      "access": [
+        {
+          "lat": 40.75003,
+          "lng": -73.99425
+        }
+      ],
+      "categories": [
+        {
+          "id": "800-8600-0180",
+          "name": "Sports Complex/Stadium",
+          "primary": true
+        },
+        {
+          "id": "200-2200-0020",
+          "name": "Performing Arts Center"
+        },
+        {
+          "id": "700-7400-0141",
+          "name": "Business Services"
+        }
+      ],
+      "scoring": {
+        "queryScore": 1,
+        "fieldScore": {
+          "state": 1,
+          "city": 1,
+          "placeName": 1
+        }
       }
-    ]
-  }
+    }
+  ]
 }

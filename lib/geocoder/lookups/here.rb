@@ -19,48 +19,40 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.ls.hereapi.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?"
+      service = query.reverse_geocode? ? "revgeocode" : "geocode"
+
+      "#{protocol}://#{service}.search.hereapi.com/v1/#{service}?"
     end
 
     def results(query)
       return [] unless doc = fetch_data(query)
-      return [] unless doc['Response'] && doc['Response']['View']
-      if r=doc['Response']['View']
-        return [] if r.nil? || !r.is_a?(Array) || r.empty?
-        return r.first['Result']
-      end
-      []
+      return [] unless doc["items"] && !doc["items"].empty?
+
+      doc["items"]
     end
 
     def query_url_here_options(query, reverse_geocode)
       options = {
-        gen: 9,
-        apikey: configuration.api_key,
-        language: (query.language || configuration.language)
+        apiKey: configuration.api_key,
+        lang: (query.language || configuration.language)
       }
-      if reverse_geocode
-        options[:mode] = :retrieveAddresses
-        return options
-      end
+      return options if reverse_geocode
 
       unless (country = query.options[:country]).nil?
-        options[:country] = country
+        options[:in] = "countryCode:#{country}"
       end
 
-      unless (mapview = query.options[:bounds]).nil?
-        options[:mapview] = mapview.map{ |point| "%f,%f" % point }.join(';')
-      end
       options
     end
 
     def query_url_params(query)
       if query.reverse_geocode?
         super.merge(query_url_here_options(query, true)).merge(
-          prox: query.sanitized_text
+          at: query.sanitized_text
         )
       else
         super.merge(query_url_here_options(query, false)).merge(
-          searchtext: query.sanitized_text
+          q: query.sanitized_text
         )
       end
     end
