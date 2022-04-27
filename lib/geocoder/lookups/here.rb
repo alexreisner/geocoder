@@ -25,8 +25,12 @@ module Geocoder::Lookup
     end
 
     def results(query)
+      unless configuration.api_key.is_a?(String)
+        api_key_not_string!
+        return []
+      end
       return [] unless doc = fetch_data(query)
-      return [] unless doc["items"] && !doc["items"].empty?
+      return [] if doc["items"].nil?
 
       doc["items"]
     end
@@ -55,6 +59,15 @@ module Geocoder::Lookup
           q: query.sanitized_text
         )
       end
+    end
+
+    def api_key_not_string!
+      msg = <<~MSG
+        API key for HERE Geocoding and Search API should be a string.
+        For more info on how to obtain it, please see https://developer.here.com/documentation/identity-access-management/dev_guide/topics/plat-using-apikeys.html
+      MSG
+
+      raise_error(Geocoder::ConfigurationError, msg) || Geocoder.log(:warn, msg)
     end
   end
 end
