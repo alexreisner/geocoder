@@ -203,10 +203,9 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 * **SSL support**: yes
 * **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
 * **Extra params**:
-  * `:bounds` - pass NW and SE coordinates as an array of two arrays to bias results towards a viewport
   * `:country` - pass the country or list of countries using the country code (3 bytes, ISO 3166-1-alpha-3) or the country name, to filter the results
-* **Documentation**: http://developer.here.com/rest-apis/documentation/geocoder
-* **Terms of Service**: http://developer.here.com/faqs#l&t
+* **Documentation**: https://developer.here.com/documentation/geocoding-search-api/dev_guide/topics/endpoint-geocode-brief.html
+* **Terms of Service**: https://developer.here.com/terms-and-conditions
 * **Limitations**: ?
 
 ### LocationIQ (`:location_iq`)
