@@ -3,6 +3,13 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.8.0 (2022 May 17)
+-------------------
+* Add support for 2GIS lookup (thanks github.com/ggrikgg).
+* Change cache configuration structure and add an expiration option. Cache prefix is now set via {cache_options: {prefix: ...}} instead of {cache_prefix: ...}. See README for details.
+* Add `:fields` parameter for :google_places_details and :google_places_search lookups. If you haven't been requesting specific fields, you may start getting different data (defaults are now the APIs' defaults). See for details: https://github.com/alexreisner/geocoder/pull/1572 (thanks github.com/czlee).
+* Update :here lookup to use API version 7. Query options are different, API key must be a string (not an array). See API docs at https://developer.here.com/documentation/geocoding-search-api/api-reference-swagger.html (thanks github.com/Pritilender).
+
 1.7.5 (2022 Mar 14)
 -------------------
 * Avoid lookup naming collisions in some environments.
