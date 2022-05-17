@@ -498,6 +498,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/twogis'
+    class Twogis
+      private
+      def default_fixture_filename
+        "twogis_kremlin"
+      end
+    end
+
     require 'geocoder/lookups/amazon_location_service'
     MockResults = Struct.new(:results)
     MockAWSPlaceGeometry = Struct.new(:point)
