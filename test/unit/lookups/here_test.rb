@@ -14,11 +14,6 @@ class HereTest < GeocoderTestCase
     assert_raises(Geocoder::ConfigurationError) { Geocoder.search("Berlin").first }
   end
 
-  def test_with_array_api_key_no_result_when_not_raised
-    Geocoder.configure(api_key: %w[foo bar])
-    assert_equal Geocoder.search("Berlin"), []
-  end
-
   def test_here_viewport
     result = Geocoder.search("Berlin").first
     assert_equal [52.33812, 13.08835, 52.6755, 13.761],
