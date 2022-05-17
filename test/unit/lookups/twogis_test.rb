@@ -14,8 +14,10 @@ class TwogisTest < GeocoderTestCase
   end
 
   def test_twogis_no_results
-    results = Geocoder.search("no results")
-    assert_equal 0, results.length
+    silence_warnings do
+      results = Geocoder.search("no results")
+      assert_equal 0, results.length
+    end
   end
 
   def test_twogis_no_city
