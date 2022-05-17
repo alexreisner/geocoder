@@ -676,6 +676,19 @@ IP Address Lookups
 * **Limitations**: ?
 * **Notes**: To use Telize set `Geocoder.configure(ip_lookup: :telize, api_key: "your_api_key")`. Or configure your self-hosted telize with the `host` option: `Geocoder.configure(ip_lookup: :telize, telize: {host: "localhost"})`.
 
+### 2GIS (`:twogis`)
+
+* **API key**: required
+* **Key signup**: 
+* **Quota**: 
+* **Region**: 
+* **SSL support**: required
+* **Languages**: ru_RU, ru_KG, ru_UZ, uk_UA, en_AE, it_RU, es_RU, ar_AE, cs_CZ, az_AZ, en_SA, en_EG, en_OM, en_QA, en_BH
+* **Documentation**: https://docs.2gis.com/en/api/search/geocoder/overview
+* **Terms of Service**: 
+* **Limitations**: 
+
+
 Local IP Address Lookups
 ------------------------
 
