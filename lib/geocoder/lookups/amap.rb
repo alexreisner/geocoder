@@ -32,10 +32,10 @@ module Geocoder::Lookup
         return doc['geocodes'] unless doc['geocodes'].blank?
       when ['0', 'INVALID_USER_KEY']
         raise_error(Geocoder::InvalidApiKey, "invalid api key") ||
-          warn("#{self.name} Geocoding API error: invalid api key.")
+          Geocoder.log(:warn, "#{self.name} Geocoding API error: invalid api key.")
       else
         raise_error(Geocoder::Error, "server error.") ||
-          warn("#{self.name} Geocoding API error: server error - [#{doc['info']}]")
+          Geocoder.log(:warn, "#{self.name} Geocoding API error: server error - [#{doc['info']}]")
       end
       return []
     end

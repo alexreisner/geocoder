@@ -14,7 +14,7 @@ module Geocoder
     def [](url)
       interpret store_service.read(url)
     rescue => e
-      warn "Geocoder cache read error: #{e}"
+      Geocoder.log(:warn, "Geocoder cache read error: #{e}")
     end
 
     ##
@@ -23,7 +23,7 @@ module Geocoder
     def []=(url, value)
       store_service.write(url, value)
     rescue => e
-      warn "Geocoder cache write error: #{e}"
+      Geocoder.log(:warn, "Geocoder cache write error: #{e}")
     end
 
     ##
