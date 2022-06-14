@@ -717,6 +717,7 @@ end
 
 
 class GeocoderTestCase < Test::Unit::TestCase
+  self.test_order = :random
 
   def setup
     super
