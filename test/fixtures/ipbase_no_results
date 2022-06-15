@@ -1,0 +1,40 @@
+{
+  "data": {
+    "message": "The ip must be a valid IP address.",
+    "errors": {
+      "ip": [
+        "The ip must be a valid IP address."
+      ]
+    }
+  },
+  "status": 422,
+  "statusText": "",
+  "headers": {
+    "cache-control": "no-cache, private",
+    "content-type": "application/json"
+  },
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "transformRequest": [
+      null
+    ],
+    "transformResponse": [
+      null
+    ],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "X-Requested-With": "XMLHttpRequest"
+    },
+    "method": "get"
+  },
+  "request": {}
+}

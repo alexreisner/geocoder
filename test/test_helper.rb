@@ -236,6 +236,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipbase'
+    class Ipbase
+      private
+      def default_fixture_filename
+        "ipbase_74_200_247_59"
+      end
+    end
+
     require 'geocoder/lookups/ip2location'
     class Ip2location
       private

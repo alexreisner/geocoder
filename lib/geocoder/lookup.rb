@@ -92,7 +92,8 @@ module Geocoder
         :ipstack,
         :ip2location,
         :ipgeolocation,
-        :ipqualityscore
+        :ipqualityscore,
+        :ipbase
       ]
     end
 
