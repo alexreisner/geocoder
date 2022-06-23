@@ -1,12 +1,17 @@
 {
   "data": {
-    "message": "No data found for this IP"
+    "message": "The ip must be a valid IP address.",
+    "errors": {
+      "ip": [
+        "The ip must be a valid IP address."
+      ]
+    }
   },
-  "status": 404,
+  "status": 422,
   "statusText": "",
   "headers": {
     "cache-control": "no-cache, private",
-    "content-type": "application/json; charset=UTF-8"
+    "content-type": "application/json"
   },
   "config": {
     "transitional": {

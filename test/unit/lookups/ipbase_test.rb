@@ -4,7 +4,17 @@ require 'test_helper'
 class IpbaseTest < GeocoderTestCase
   def setup
     super
-    Geocoder.configure(ip_lookup: :ipbase)
+    Geocoder.configure(ip_lookup: :ipbase, lookup: :ipbase)
+  end
+
+  def test_no_results
+    results = Geocoder.search("no results")
+    assert_equal 0, results.length
+  end
+
+  def test_invalid_ip
+    results = Geocoder.search("invalid ip")
+    assert_equal 0, results.length
   end
 
   def test_result_on_ip_address_search

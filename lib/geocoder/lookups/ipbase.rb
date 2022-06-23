@@ -30,7 +30,7 @@ module Geocoder::Lookup
       return [reserved_result(query.text)] if query.internal_ip_address?
       doc = fetch_data(query)
 
-      return [] if doc.nil? || doc["status"] == 422
+      return [] if doc.nil? || doc.key?("status")
 
       [doc]
     end
