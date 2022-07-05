@@ -24,11 +24,11 @@ module Geocoder::Lookup
 
     def results(query)
       return [] unless doc = fetch_data(query)
-      if err = doc['error']
-        if err["status"] == 401 and err["message"] == "invalid key"
+      if [400, 403].include? doc['statusCode']
+        if doc['statusCode'] == 403 and doc['message'] == 'Invalid key'
           raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid API key.")
         else
-          Geocoder.log(:warn, "Yandex Geocoding API error: #{err['status']} (#{err['message']}).")
+          Geocoder.log(:warn, "Yandex Geocoding API error: #{doc['statusCode']} (#{doc['message']}).")
         end
         return []
       end
