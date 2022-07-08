@@ -747,7 +747,7 @@ If your application requires quick geocoding responses you will probably need to
 
 For IP address lookups in Rails applications, it is generally NOT a good idea to run `request.location` during a synchronous page load without understanding the speed/behavior of your configured lookup. If the lookup becomes slow, so will your website.
 
-For the most part, the speed of geocoding requests has little to do with the Geocoder gem. Please take the time to learn about your configured lookup (links to documentation are provided above) before posting performance-related issues.
+For the most part, the speed of geocoding requests has little to do with the Geocoder gem. Please take the time to learn about your configured lookup before posting performance-related issues.
 
 ### Unexpected Responses from Geocoding Services
 
