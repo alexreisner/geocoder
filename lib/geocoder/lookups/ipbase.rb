@@ -28,11 +28,8 @@ module Geocoder::Lookup
     def results(query)
       # don't look up a loopback or private address, just return the stored result
       return [reserved_result(query.text)] if query.internal_ip_address?
-      doc = fetch_data(query)
-
-      return [] if doc.nil? || doc.key?("status")
-
-      [doc]
+      doc = fetch_data(query) || {}
+      doc.fetch("data", {})["location"] ? [doc] : []
     end
 
     def reserved_result(ip)

@@ -12,6 +12,11 @@ class IpbaseTest < GeocoderTestCase
     assert_equal 0, results.length
   end
 
+  def test_no_data
+    results = Geocoder.search("no data")
+    assert_equal 0, results.length
+  end
+
   def test_invalid_ip
     results = Geocoder.search("invalid ip")
     assert_equal 0, results.length
