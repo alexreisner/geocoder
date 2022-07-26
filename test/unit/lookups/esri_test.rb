@@ -199,8 +199,4 @@ class EsriTest < GeocoderTestCase
     assert_no_match %r{token}, key
     assert_no_match %r{api_key}, key
   end
-
-  def teardown
-    Geocoder.configure(esri: {token: nil, for_storage: nil})
-  end
 end

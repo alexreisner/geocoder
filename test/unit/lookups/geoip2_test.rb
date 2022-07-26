@@ -8,10 +8,6 @@ class Geoip2Test < GeocoderTestCase
     Geocoder.configure(ip_lookup: :geoip2, file: 'test_file')
   end
 
-  def teardown
-    Geocoder::Configuration.language = :en
-  end
-
   def test_result_attributes
     result = Geocoder.search('8.8.8.8').first
     assert_equal 'Mountain View, CA 94043, United States', result.address
