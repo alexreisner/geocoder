@@ -94,7 +94,7 @@ class IpqualityscoreTest < GeocoderTestCase
   end
 
   def test_unsuccessful_response_with_raising_does_not_hit_cache
-    Geocoder.configure(cache: {}, always_raise: :all)
+    Geocoder.configure(cache: {}, always_raise: [Geocoder::OverQueryLimitError])
     lookup = Geocoder::Lookup.get(:ipqualityscore)
 
     assert_raises Geocoder::OverQueryLimitError do
