@@ -565,6 +565,16 @@ IP Address Lookups
 * **Limitations**: ?
 * **Notes**: The default host is freegeoip.app but this can be changed by using, for example, `Geocoder.configure(freegeoip: {host: 'api.ipstack.com'})`. The service can also be self-hosted.
 
+### IPBase (`:ipbase`)
+
+* **API key**: required
+* **Quota**: 10/minute up to 150 per month for free, paid plans too!
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipbase.com/docs
+* **Terms of Service**: https://www.iubenda.com/terms-and-conditions/41661719
+
 ### IP-API.com (`:ipapi_com`)
 
 * **API key**: optional - see https://members.ip-api.com

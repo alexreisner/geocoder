@@ -1,0 +1,35 @@
+{
+  "data": {
+    "message": "No data found for this IP"
+  },
+  "status": 404,
+  "statusText": "",
+  "headers": {
+    "cache-control": "no-cache, private",
+    "content-type": "application/json; charset=UTF-8"
+  },
+  "config": {
+    "transitional": {
+      "silentJSONParsing": true,
+      "forcedJSONParsing": true,
+      "clarifyTimeoutError": false
+    },
+    "transformRequest": [
+      null
+    ],
+    "transformResponse": [
+      null
+    ],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1,
+    "maxBodyLength": -1,
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "X-Requested-With": "XMLHttpRequest"
+    },
+    "method": "get"
+  },
+  "request": {}
+}
