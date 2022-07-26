@@ -4,6 +4,7 @@ require 'test_helper'
 class OpencagedataTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :opencagedata)
     set_api_key!(:opencagedata)
   end

@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class PickpointTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(lookup: :pickpoint)
     set_api_key!(:pickpoint)
   end

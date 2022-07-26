@@ -4,6 +4,7 @@ require 'test_helper'
 class NominatimTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :nominatim)
     set_api_key!(:nominatim)
   end

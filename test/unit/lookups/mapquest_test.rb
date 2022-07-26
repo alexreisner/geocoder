@@ -4,6 +4,7 @@ require 'test_helper'
 class MapquestTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :mapquest)
     set_api_key!(:mapquest)
   end

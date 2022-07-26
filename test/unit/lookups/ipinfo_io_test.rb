@@ -2,6 +2,7 @@
 require 'test_helper'
 
 class IpinfoIoTest < GeocoderTestCase
+
   def test_ipinfo_io_lookup_loopback_address
     Geocoder.configure(:ip_lookup => :ipinfo_io)
     result = Geocoder.search("127.0.0.1").first

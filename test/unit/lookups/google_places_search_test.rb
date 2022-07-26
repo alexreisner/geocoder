@@ -4,6 +4,7 @@ require 'test_helper'
 class GooglePlacesSearchTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :google_places_search)
     set_api_key!(:google_places_search)
   end

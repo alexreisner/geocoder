@@ -4,6 +4,7 @@ require 'test_helper'
 class MelissaStreetTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :melissa_street)
     set_api_key!(:melissa_street)
   end

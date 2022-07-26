@@ -2,7 +2,9 @@
 require 'test_helper'
 
 class HereTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(lookup: :here)
     set_api_key!(:here)
   end
@@ -14,7 +16,6 @@ class HereTest < GeocoderTestCase
   end
 
   def test_here_viewport
-    pend "load path problems, maybe?"
     result = Geocoder.search("Berlin").first
     assert_equal [52.33812, 13.08835, 52.6755, 13.761],
                  result.viewport

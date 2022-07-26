@@ -4,6 +4,7 @@ require 'test_helper'
 class UkOrdnanceSurveyNamesTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :uk_ordnance_survey_names)
     set_api_key!(:uk_ordnance_survey_names)
   end

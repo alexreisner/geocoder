@@ -4,8 +4,7 @@ require 'test_helper'
 class IpgeolocationTest < GeocoderTestCase
 
   def setup
-    Geocoder::Configuration.instance.data.clear
-    Geocoder::Configuration.set_defaults
+    super
     Geocoder.configure(
         :api_key => 'ea91e4a4159247fdb0926feae70c2911',
         :ip_lookup => :ipgeolocation,

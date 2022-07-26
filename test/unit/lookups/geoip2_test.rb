@@ -2,7 +2,9 @@
 require 'test_helper'
 
 class Geoip2Test < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(ip_lookup: :geoip2, file: 'test_file')
   end
 

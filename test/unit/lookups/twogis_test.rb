@@ -4,6 +4,7 @@ require 'test_helper'
 class TwogisTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :twogis)
     set_api_key!(:twogis)
   end

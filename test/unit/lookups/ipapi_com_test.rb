@@ -4,8 +4,7 @@ require 'test_helper'
 class IpapiComTest < GeocoderTestCase
 
   def setup
-    Geocoder::Configuration.instance.data.clear
-    Geocoder::Configuration.set_defaults
+    super
     Geocoder.configure(ip_lookup: :ipapi_com)
   end
 

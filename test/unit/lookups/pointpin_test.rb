@@ -4,6 +4,7 @@ require 'test_helper'
 class PointpinTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(ip_lookup: :pointpin, api_key: "abc123")
   end
 

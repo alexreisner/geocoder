@@ -4,6 +4,7 @@ require 'test_helper'
 class PostcodeAnywhereUkTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :postcode_anywhere_uk)
     set_api_key!(:postcode_anywhere_uk)
   end

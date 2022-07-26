@@ -77,6 +77,10 @@ module Geocoder
       instance.set_defaults
     end
 
+    def self.initialize
+      instance.send(:initialize)
+    end
+
     OPTIONS.each do |o|
       define_method o do
         @data[o]

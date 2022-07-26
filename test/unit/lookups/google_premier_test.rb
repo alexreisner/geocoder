@@ -4,6 +4,7 @@ require 'test_helper'
 class GooglePremierTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :google_premier)
     set_api_key!(:google_premier)
   end

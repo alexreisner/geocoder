@@ -4,6 +4,7 @@ require 'test_helper'
 class IpdataCoTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(ip_lookup: :ipdata_co)
   end
 

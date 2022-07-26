@@ -2,9 +2,10 @@
 
 require 'test_helper'
 
-# Test for Geoapify
 class GeoapifyTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(lookup: :geoapify)
     set_api_key!(:geoapify)
   end

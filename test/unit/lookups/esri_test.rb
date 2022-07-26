@@ -5,6 +5,7 @@ require 'geocoder/esri_token'
 class EsriTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :esri)
   end
 

@@ -4,6 +4,7 @@ require 'test_helper'
 class BingTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :bing)
     set_api_key!(:bing)
   end

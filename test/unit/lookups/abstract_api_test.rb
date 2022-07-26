@@ -2,7 +2,9 @@
 require 'test_helper'
 
 class AbstractApiTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(ip_lookup: :abstract_api)
     set_api_key!(:abstract_api)
   end

@@ -4,7 +4,9 @@ require 'test_helper'
 
 # Test for Photon
 class PhotonTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(lookup: :photon)
   end
 

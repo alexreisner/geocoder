@@ -720,7 +720,7 @@ class GeocoderTestCase < Test::Unit::TestCase
 
   def setup
     super
-    Geocoder::Configuration.instance.set_defaults
+    Geocoder::Configuration.initialize
     Geocoder.configure(
       :maxmind => {:service => :city_isp_org},
       :maxmind_geoip2 => {:service => :insights, :basic_auth => {:user => "user", :password => "password"}})

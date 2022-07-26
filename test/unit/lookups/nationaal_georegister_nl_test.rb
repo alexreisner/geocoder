@@ -2,7 +2,9 @@
 require 'test_helper'
 
 class NationaalGeoregisterNlTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(lookup: :nationaal_georegister_nl)
   end
 

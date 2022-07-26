@@ -4,8 +4,7 @@ require 'test_helper'
 class Ip2locationTest < GeocoderTestCase
 
   def setup
-    Geocoder::Configuration.instance.data.clear
-    Geocoder::Configuration.set_defaults
+    super
     Geocoder.configure(ip_lookup: :ip2location)
     set_api_key!(:ip2location)
   end

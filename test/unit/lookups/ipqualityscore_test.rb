@@ -4,8 +4,9 @@ require 'test_helper'
 class IpqualityscoreTest < GeocoderTestCase
 
   def setup
-    Geocoder::Configuration.instance.data.clear
-    Geocoder::Configuration.set_defaults
+    super
+    # configuring this IP lookup as the address lookup is weird, but necessary
+    # in order to run tests with the 'quota exceeded' fixture
     Geocoder.configure(lookup: :ipqualityscore, ip_lookup: :ipqualityscore)
     set_api_key!(:ipqualityscore)
   end
