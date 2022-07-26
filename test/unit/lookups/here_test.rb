@@ -12,13 +12,12 @@ class HereTest < GeocoderTestCase
   def test_with_array_api_key_raises_when_configured
     Geocoder.configure(api_key: %w[foo bar])
     Geocoder.configure(always_raise: :all)
-    assert_raises(Geocoder::ConfigurationError) { Geocoder.search("Berlin").first }
+    assert_raises(Geocoder::ConfigurationError) { Geocoder.search('berlin').first }
   end
 
   def test_here_viewport
-    result = Geocoder.search("Berlin").first
-    assert_equal [52.33812, 13.08835, 52.6755, 13.761],
-                 result.viewport
+    result = Geocoder.search('berlin').first
+    assert_equal [52.33812, 13.08835, 52.6755, 13.761], result.viewport
   end
 
   def test_here_no_viewport
