@@ -17,6 +17,7 @@ class HereTest < GeocoderTestCase
 
   def test_here_viewport
     result = Geocoder.search("Berlin").first
+    puts "RESULT: #{result.data}"
     assert_equal [52.33812, 13.08835, 52.6755, 13.761], result.viewport
   end
 
