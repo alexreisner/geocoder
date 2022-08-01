@@ -773,5 +773,5 @@ class MockHttpResponse
   end
 end
 
-module Google
+module MockLookup
 end
