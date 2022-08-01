@@ -185,6 +185,16 @@ class LookupTest < GeocoderTestCase
     end
   end
 
+  def test_lookup_instantiates_when_class_name_shadowed_by_existing_constant
+    # "Unloads" Google /lookups/google.rb
+    Object.const_get("::Geocoder::Lookup").send(:remove_const, :Google)
+    $LOADED_FEATURES.reject! { |path| path =~ /\/lookups\/google.rb/ }
+
+    Geocoder.configure(:lookup => :google, :api_key => "MY_KEY")
+    Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
+    assert_const_defined(::Geocoder::Lookup, :Google)
+  end
+
   def test_handle
     assert_equal :google, Geocoder::Lookup::Google.new.handle
     assert_equal :geocoder_ca, Geocoder::Lookup::GeocoderCa.new.handle

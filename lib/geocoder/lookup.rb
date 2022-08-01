@@ -138,9 +138,9 @@ module Geocoder
     # Safely instantiate Lookup
     #
     def instantiate_lookup(name)
-      class_name = "Geocoder::Lookup::#{classify_name(name)}"
+      class_name = classify_name(name)
       begin
-        Geocoder::Lookup.const_get(class_name)
+        Geocoder::Lookup.const_get(class_name, inherit=false)
       rescue NameError
         require "geocoder/lookups/#{name}"
       end

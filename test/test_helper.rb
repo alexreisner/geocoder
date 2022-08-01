@@ -772,3 +772,6 @@ class MockHttpResponse
     @headers[key]
   end
 end
+
+module Google
+end
