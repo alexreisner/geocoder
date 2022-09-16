@@ -22,7 +22,13 @@ module Geocoder
       private
 
       def base_query_url(query)
-        method = query.reverse_geocode? ? 'reverse' : 'search'
+        method = if query.reverse_geocode?
+          'reverse'
+        elsif query.options[:autocomplete]
+          'autocomplete'
+        else
+          'search'
+        end
         "https://api.geoapify.com/v1/geocode/#{method}?"
       end
 
