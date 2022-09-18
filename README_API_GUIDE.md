@@ -107,6 +107,7 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Languages**: The preferred language of address elements in the result. Language code must be provided according to ISO 639-1 2-character language codes.
 * **Extra query options**:
     * `:limit` - restrict the maximum amount of returned results, e.g. `limit: 5`
+    * `:autocomplete` - Use the automplete API, only when doing forward geocoding e.g. `autocomplete: true`
 * **Extra params** (see [Geoapify documentation](https://apidocs.geoapify.com/docs/geocoding) for more information)
     * `:type` - restricts the type of the results, see API documentation for
       available types, e.g. `params: { type: 'amenity' }`
@@ -711,14 +712,14 @@ IP Address Lookups
 ### 2GIS (`:twogis`)
 
 * **API key**: required
-* **Key signup**: 
-* **Quota**: 
-* **Region**: 
+* **Key signup**:
+* **Quota**:
+* **Region**:
 * **SSL support**: required
 * **Languages**: ru_RU, ru_KG, ru_UZ, uk_UA, en_AE, it_RU, es_RU, ar_AE, cs_CZ, az_AZ, en_SA, en_EG, en_OM, en_QA, en_BH
 * **Documentation**: https://docs.2gis.com/en/api/search/geocoder/overview
-* **Terms of Service**: 
-* **Limitations**: 
+* **Terms of Service**:
+* **Limitations**:
 
 
 Local IP Address Lookups

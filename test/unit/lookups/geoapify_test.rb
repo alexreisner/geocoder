@@ -150,6 +150,17 @@ class GeoapifyTest < GeocoderTestCase
     assert_match(/lon=-75\.676333/, url)
   end
 
+  def test_geoapify_query_url_contains_autocomplete
+    lookup = Geocoder::Lookup::Geoapify.new
+    url = lookup.query_url(
+      Geocoder::Query.new(
+        'Test Query',
+        autocomplete: true
+      )
+    )
+    assert_match(/\/geocode\/autocomplete/, url)
+  end
+
   def test_geoapify_invalid_request
     Geocoder.configure(always_raise: [Geocoder::InvalidRequest])
     assert_raises Geocoder::InvalidRequest do
