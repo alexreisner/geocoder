@@ -3,6 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.8.1 (2022 Sep 23)
+-------------------
+* Add support for IPBase lookup (thanks github.com/jonallured).
+* Test cleanup (thanks github.com/jonallured).
+* Prevent errors when existing constant name shadows a lookup class (thanks github.com/avram-twitch).
+
 1.8.0 (2022 May 17)
 -------------------
 * Add support for 2GIS lookup (thanks github.com/ggrikgg).
