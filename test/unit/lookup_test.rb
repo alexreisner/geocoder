@@ -2,7 +2,6 @@
 require 'test_helper'
 
 class LookupTest < GeocoderTestCase
-
   def test_responds_to_name_method
     Geocoder::Lookup.all_services.each do |l|
       lookup = Geocoder::Lookup.get(l)
@@ -183,6 +182,17 @@ class LookupTest < GeocoderTestCase
         Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
       end
     end
+  end
+
+  def test_lookup_requires_lookup_file_when_class_name_shadowed_by_existing_constant
+    Geocoder::Lookup.street_services << :mock_lookup
+
+    assert_raises LoadError do
+      Geocoder.configure(:lookup => :mock_lookup, :api_key => "MY_KEY")
+      Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
+    end
+
+    Geocoder::Lookup.street_services.reject! { |service| service == :mock_lookup }
   end
 
   def test_handle
