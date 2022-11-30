@@ -4,9 +4,10 @@ require 'test_helper'
 class IpqualityscoreTest < GeocoderTestCase
 
   def setup
-    Geocoder::Configuration.instance.data.clear
-    Geocoder::Configuration.set_defaults
-    Geocoder.configure(ip_lookup: :ipqualityscore)
+    super
+    # configuring this IP lookup as the address lookup is weird, but necessary
+    # in order to run tests with the 'quota exceeded' fixture
+    Geocoder.configure(lookup: :ipqualityscore, ip_lookup: :ipqualityscore)
     set_api_key!(:ipqualityscore)
   end
 
@@ -68,11 +69,44 @@ class IpqualityscoreTest < GeocoderTestCase
     end
   end
 
-  def test_raises_over_query_limit_exception
+  def test_raises_over_query_limit_exception_insufficient_credits
+    Geocoder.configure always_raise: :all
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder::Lookup::Ipqualityscore.new.send(:results, Geocoder::Query.new('insufficient credits'))
+    end
+  end
+
+  def test_raises_over_query_limit_exception_quota_exceeded
     Geocoder.configure always_raise: :all
     assert_raises Geocoder::OverQueryLimitError do
       Geocoder::Lookup::Ipqualityscore.new.send(:results, Geocoder::Query.new('quota exceeded'))
     end
+  end
+
+  def test_unsuccessful_response_without_raising_does_not_hit_cache
+    Geocoder.configure(cache: {}, always_raise: [])
+    lookup = Geocoder::Lookup.get(:ipqualityscore)
+
+    Geocoder.search('quota exceeded')
+    assert_false lookup.instance_variable_get(:@cache_hit)
+
+    Geocoder.search('quota exceeded')
+    assert_false lookup.instance_variable_get(:@cache_hit)
+  end
+
+  def test_unsuccessful_response_with_raising_does_not_hit_cache
+    Geocoder.configure(cache: {}, always_raise: [Geocoder::OverQueryLimitError])
+    lookup = Geocoder::Lookup.get(:ipqualityscore)
+
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder.search('quota exceeded')
+    end
+    assert_false lookup.instance_variable_get(:@cache_hit)
+
+    assert_raises Geocoder::OverQueryLimitError do
+      Geocoder.search('quota exceeded')
+    end
+    assert_false lookup.instance_variable_get(:@cache_hit)
   end
 
 end

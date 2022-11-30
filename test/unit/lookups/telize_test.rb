@@ -4,7 +4,9 @@ require 'test_helper'
 class TelizeTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(ip_lookup: :telize, telize: {host: nil})
+    set_api_key!(:telize)
   end
 
   def test_query_url

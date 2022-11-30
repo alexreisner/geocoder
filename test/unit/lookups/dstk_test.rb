@@ -4,6 +4,7 @@ require 'test_helper'
 class DstkTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :dstk)
   end
 

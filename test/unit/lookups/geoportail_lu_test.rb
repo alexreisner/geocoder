@@ -4,6 +4,7 @@ require 'test_helper'
 class GeoportailLuTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :geoportail_lu)
   end
 

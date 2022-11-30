@@ -2,12 +2,10 @@
 require 'test_helper'
 
 class Geoip2Test < GeocoderTestCase
-  def setup
-    Geocoder.configure(ip_lookup: :geoip2, file: 'test_file')
-  end
 
-  def teardown
-    Geocoder::Configuration.language = :en
+  def setup
+    super
+    Geocoder.configure(ip_lookup: :geoip2, file: 'test_file')
   end
 
   def test_result_attributes

@@ -3,6 +3,48 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.8.1 (2022 Sep 23)
+-------------------
+* Add support for IPBase lookup (thanks github.com/jonallured).
+* Test cleanup (thanks github.com/jonallured).
+* Prevent errors when existing constant name shadows a lookup class (thanks github.com/avram-twitch).
+
+1.8.0 (2022 May 17)
+-------------------
+* Add support for 2GIS lookup (thanks github.com/ggrikgg).
+* Change cache configuration structure and add an expiration option. Cache prefix is now set via {cache_options: {prefix: ...}} instead of {cache_prefix: ...}. See README for details.
+* Add `:fields` parameter for :google_places_details and :google_places_search lookups. If you haven't been requesting specific fields, you may start getting different data (defaults are now the APIs' defaults). See for details: https://github.com/alexreisner/geocoder/pull/1572 (thanks github.com/czlee).
+* Update :here lookup to use API version 7. Query options are different, API key must be a string (not an array). See API docs at https://developer.here.com/documentation/geocoding-search-api/api-reference-swagger.html (thanks github.com/Pritilender).
+
+1.7.5 (2022 Mar 14)
+-------------------
+* Avoid lookup naming collisions in some environments.
+
+1.7.4 (2022 Mar 14)
+-------------------
+* Add ability to use app-defined lookups (thanks github.com/januszm).
+* Updates to LocationIQ and FreeGeoIP lookups.
+
+1.7.3 (2022 Jan 17)
+-------------------
+* Get rid of unnecessary cache_prefix deprecation warnings.
+
+1.7.2 (2022 Jan  2)
+-------------------
+* Fix uninitialized constant error (occurring on some systems with v1.7.1).
+
+1.7.1 (2022 Jan  1)
+-------------------
+* Various bugfixes and refactorings.
+
+1.7.0 (2021 Oct 11)
+-------------------
+* Add support for Geoapify and Photo lookups (thanks github.com/ahukkanen).
+* Add support for IPQualityScore IP lookup (thanks github.com/jamesbebbington).
+* Add support for Amazon Location Service lookup (thanks github.com/mplewis).
+* Add support for Melissa lookup (thanks github.com/ALacker).
+* Drop official support for Ruby 2.0.x and Rails 4.x.
+
 1.6.7 (2021 Apr 17)
 -------------------
 * Add support for Abstract API lookup (thanks github.com/randoum).

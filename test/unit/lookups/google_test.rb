@@ -4,6 +4,7 @@ require 'test_helper'
 class GoogleTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :google)
   end
 

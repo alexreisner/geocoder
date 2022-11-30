@@ -5,6 +5,7 @@ require 'geocoder/esri_token'
 class EsriTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :esri)
   end
 
@@ -197,9 +198,5 @@ class EsriTest < GeocoderTestCase
     assert_match %r{forStorage}, key
     assert_no_match %r{token}, key
     assert_no_match %r{api_key}, key
-  end
-
-  def teardown
-    Geocoder.configure(esri: {token: nil, for_storage: nil})
   end
 end

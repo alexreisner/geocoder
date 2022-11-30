@@ -4,6 +4,7 @@ require 'test_helper'
 class MaxmindLocalTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(ip_lookup: :maxmind_local)
   end
 

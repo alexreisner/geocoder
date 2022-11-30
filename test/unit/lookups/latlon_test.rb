@@ -4,6 +4,7 @@ require 'test_helper'
 class LatlonTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :latlon)
     set_api_key!(:latlon)
   end

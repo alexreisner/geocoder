@@ -2,7 +2,9 @@
 require 'test_helper'
 
 class PeliasTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(lookup: :pelias, api_key: 'abc123', pelias: {}) # Empty pelias hash only for test (pollution control)
   end
 

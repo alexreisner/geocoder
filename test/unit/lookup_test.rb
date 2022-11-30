@@ -2,7 +2,6 @@
 require 'test_helper'
 
 class LookupTest < GeocoderTestCase
-
   def test_responds_to_name_method
     Geocoder::Lookup.all_services.each do |l|
       lookup = Geocoder::Lookup.get(l)
@@ -13,7 +12,15 @@ class LookupTest < GeocoderTestCase
 
   def test_search_returns_empty_array_when_no_results
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if [:abstract_api, :ipgeolocation, :ipqualityscore, :nationaal_georegister_nl].include?(l) # lookups that always return a result
+      next if [
+        :abstract_api,
+        :ipgeolocation,
+        :ipqualityscore,
+        :melissa_street,
+        :nationaal_georegister_nl,
+        :twogis
+      ].include?(l) # lookups that always return a result
+
       lookup = Geocoder::Lookup.get(l)
       set_api_key!(l)
       silence_warnings do
@@ -25,7 +32,7 @@ class LookupTest < GeocoderTestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipdata_co, :ipinfo_io, :ipapi_com, :ipregistry, :ipstack, :postcodes_io, :uk_ordnance_survey_names].include? l # does not use query string
+      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipdata_co, :ipinfo_io, :ipapi_com, :ipregistry, :ipstack, :postcodes_io, :uk_ordnance_survey_names, :amazon_location_service, :ipbase].include? l # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}
@@ -60,7 +67,7 @@ class LookupTest < GeocoderTestCase
     :bing => :culture,
     :google => :language,
     :google_premier => :language,
-    :here => :language,
+    :here => :lang,
     :nominatim => :"accept-language",
     :yandex => :lang
   }.each do |l,p|
@@ -175,6 +182,17 @@ class LookupTest < GeocoderTestCase
         Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
       end
     end
+  end
+
+  def test_lookup_requires_lookup_file_when_class_name_shadowed_by_existing_constant
+    Geocoder::Lookup.street_services << :mock_lookup
+
+    assert_raises LoadError do
+      Geocoder.configure(:lookup => :mock_lookup, :api_key => "MY_KEY")
+      Geocoder.search("Madison Square Garden, New York, NY  10001, United States")
+    end
+
+    Geocoder::Lookup.street_services.reject! { |service| service == :mock_lookup }
   end
 
   def test_handle

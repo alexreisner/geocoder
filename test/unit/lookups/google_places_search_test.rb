@@ -4,6 +4,7 @@ require 'test_helper'
 class GooglePlacesSearchTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :google_places_search)
     set_api_key!(:google_places_search)
   end
@@ -61,6 +62,57 @@ class GooglePlacesSearchTest < GeocoderTestCase
     url = lookup.query_url(Geocoder::Query.new("some-address", fields: fields))
     
     assert_match(/fields=#{fields.join('%2C')}/, url)
+  end
+
+  def test_google_places_search_query_url_contains_specific_fields_when_configured
+    fields = %w[business_status geometry photos]
+    Geocoder.configure(google_places_search: {fields: fields})
+    url = lookup.query_url(Geocoder::Query.new("some-address"))
+    assert_match(/fields=#{fields.join('%2C')}/, url)
+    Geocoder.configure(google_places_search: {})
+  end
+
+  def test_google_places_search_query_url_omits_fields_when_nil_given
+    url = lookup.query_url(Geocoder::Query.new("some-address", fields: nil))
+    assert_no_match(/fields=/, url)
+  end
+
+  def test_google_places_search_query_url_omits_fields_when_nil_configured
+    Geocoder.configure(google_places_search: {fields: nil})
+    url = lookup.query_url(Geocoder::Query.new("some-address"))
+    assert_no_match(/fields=/, url)
+    Geocoder.configure(google_places_search: {})
+  end
+
+  def test_google_places_search_query_url_omits_locationbias_by_default
+    url = lookup.query_url(Geocoder::Query.new("some-address"))
+    assert_no_match(/locationbias=/, url)
+  end
+
+  def test_google_places_search_query_url_contains_locationbias_when_configured
+    Geocoder.configure(google_places_search: {locationbias: "point:-36.8509,174.7645"})
+    url = lookup.query_url(Geocoder::Query.new("some-address"))
+    assert_match(/locationbias=point%3A-36.8509%2C174.7645/, url)
+    Geocoder.configure(google_places_search: {})
+  end
+
+  def test_google_places_search_query_url_contains_locationbias_when_given
+    url = lookup.query_url(Geocoder::Query.new("some-address", locationbias: "point:-36.8509,174.7645"))
+    assert_match(/locationbias=point%3A-36.8509%2C174.7645/, url)
+  end
+
+  def test_google_places_search_query_url_uses_given_locationbias_over_configured
+    Geocoder.configure(google_places_search: {locationbias: "point:37.4275,-122.1697"})
+    url = lookup.query_url(Geocoder::Query.new("some-address", locationbias: "point:-36.8509,174.7645"))
+    assert_match(/locationbias=point%3A-36.8509%2C174.7645/, url)
+    Geocoder.configure(google_places_search: {})
+  end
+
+  def test_google_places_search_query_url_omits_locationbias_when_nil_given
+    Geocoder.configure(google_places_search: {locationbias: "point:37.4275,-122.1697"})
+    url = lookup.query_url(Geocoder::Query.new("some-address", locationbias: nil))
+    assert_no_match(/locationbias=/, url)
+    Geocoder.configure(google_places_search: {})
   end
 
   def test_google_places_search_query_url_uses_find_place_service

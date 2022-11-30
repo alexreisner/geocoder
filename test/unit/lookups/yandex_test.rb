@@ -3,7 +3,9 @@ $: << File.join(File.dirname(__FILE__), "..", "..")
 require 'test_helper'
 
 class YandexTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(lookup: :yandex, language: :en)
   end
 

@@ -20,7 +20,7 @@ Compatibility:
 
 * Ruby versions: 2.1+, and JRuby.
 * Databases: MySQL, PostgreSQL, SQLite, and MongoDB.
-* Rails: 4, 5, and 6.
+* Rails: 5.x, 6.x, and 7.x.
 * Works outside of Rails with the `json` (for MRI) or `json_pure` (for JRuby) gem.
 
 
@@ -78,7 +78,7 @@ results.first.address
 # => "Hôtel de Ville, 75004 Paris, France"
 ```
 
-You can also look up the location of an IP addresses:
+You can also look up the location of an IP address:
 
 ```ruby
 results = Geocoder.search("172.56.21.89")
@@ -247,8 +247,10 @@ Geocoder.configure(
 
   # caching (see Caching section below for details):
   cache: Redis.new,
-  cache_prefix: "..."
-
+  cache_options: {
+    expiration: 1.day, # Defaults to `nil`
+    prefix: "another_key:" # Defaults to `geocoder:`
+  }
 )
 ```
 
@@ -347,10 +349,16 @@ This example uses Redis, but the cache store can be any object that supports the
 
 Even a plain Ruby hash will work, though it's not a great choice (cleared out when app is restarted, not shared between app instances, etc).
 
+When using Rails use the Generic cache store as an adapter around `Rails.cache`:
+
+```ruby
+Geocoder.configure(cache: Geocoder::CacheStore::Generic.new(Rails.cache, {}))
+```
+
 You can also set a custom prefix to be used for cache keys:
 
 ```ruby
-Geocoder.configure(cache_prefix: "...")
+Geocoder.configure(cache_options: { prefix: "..." })
 ```
 
 By default the prefix is `geocoder:`
@@ -739,7 +747,7 @@ If your application requires quick geocoding responses you will probably need to
 
 For IP address lookups in Rails applications, it is generally NOT a good idea to run `request.location` during a synchronous page load without understanding the speed/behavior of your configured lookup. If the lookup becomes slow, so will your website.
 
-For the most part, the speed of geocoding requests has little to do with the Geocoder gem. Please take the time to learn about your configured lookup (links to documentation are provided above) before posting performance-related issues.
+For the most part, the speed of geocoding requests has little to do with the Geocoder gem. Please take the time to learn about your configured lookup before posting performance-related issues.
 
 ### Unexpected Responses from Geocoding Services
 

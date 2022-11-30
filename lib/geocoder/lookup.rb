@@ -19,6 +19,14 @@ module Geocoder
     end
 
     ##
+    # Array of valid Lookup service names, excluding any that do not build their own HTTP requests.
+    # For example, Amazon Location Service uses the AWS gem, not HTTP REST requests, to fetch data.
+    #
+    def all_services_with_http_requests
+      all_services_except_test - [:amazon_location_service]
+    end
+
+    ##
     # All street address lookup services, default first.
     #
     def street_services
@@ -54,7 +62,12 @@ module Geocoder
         :test,
         :latlon,
         :amap,
-        :osmnames
+        :osmnames,
+        :melissa_street,
+        :amazon_location_service,
+        :geoapify,
+        :photon,
+        :twogis
       ]
     end
 
@@ -80,7 +93,8 @@ module Geocoder
         :ipstack,
         :ip2location,
         :ipgeolocation,
-        :ipqualityscore
+        :ipqualityscore,
+        :ipbase
       ]
     end
 
@@ -106,8 +120,7 @@ module Geocoder
     def spawn(name)
       if all_services.include?(name)
         name = name.to_s
-        require "geocoder/lookups/#{name}"
-        Geocoder::Lookup.const_get(classify_name(name)).new
+        instantiate_lookup(name)
       else
         valids = all_services.map(&:inspect).join(", ")
         raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
@@ -120,6 +133,19 @@ module Geocoder
     #
     def classify_name(filename)
       filename.to_s.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
+    end
+
+    ##
+    # Safely instantiate Lookup
+    #
+    def instantiate_lookup(name)
+      class_name = classify_name(name)
+      begin
+        Geocoder::Lookup.const_get(class_name, inherit=false)
+      rescue NameError
+        require "geocoder/lookups/#{name}"
+      end
+      Geocoder::Lookup.const_get(class_name).new
     end
   end
 end

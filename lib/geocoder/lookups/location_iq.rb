@@ -11,6 +11,10 @@ module Geocoder::Lookup
       ["api_key"]
     end
 
+    def supported_protocols
+      [:https]
+    end
+
     private # ----------------------------------------------------------------
 
     def base_query_url(query)
@@ -25,7 +29,7 @@ module Geocoder::Lookup
     end
 
     def configured_host
-      configuration[:host] || "locationiq.org"
+      configuration[:host] || "us1.locationiq.com"
     end
 
     def results(query)

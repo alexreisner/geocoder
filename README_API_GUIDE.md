@@ -14,6 +14,51 @@ Table of Contents
 Global Street Address Lookups
 -----------------------------
 
+### Amazon Location Service (`:amazon_location_service`)
+
+* **API key**: required
+* **Key signup**: https://console.aws.amazon.com/location
+* **Quota**: pay-as-you-go pricing; 50 requests/second
+* **Region**: world
+* **SSL support**: yes, required
+* **Languages**: en
+* **Required params**:
+  * `:index_name` - the name of the place index resource you want to use for the search
+* **Extra params**:
+  * `:max_results` - return at most this many results
+* **Extra params** when geocoding (not reverse geocoding):
+    * `:bias_position` - bias the results toward a given point, defined as `[latitude, longitude]`
+    * `:filter_b_box` - a bounding box that you specify to filter your results to coordinates within the box's boundaries, defined as `[longitude_sw, latitude_sw, longitude_ne, latitude_ne]`
+    * `:filter_countries` - an array of countries you want to geocode within, named by [ISO 3166 country codes](https://www.iso.org/iso-3166-country-codes.html), e.g. `['DEU', 'FRA']`
+* **Documentation**: https://docs.aws.amazon.com/location
+* **Terms of Service**: https://aws.amazon.com/service-terms
+* **Notes**:
+  * You must install either the `aws-sdk` or `aws-sdk-locationservice` gem, version 1.4.0 or greater.
+  * You can set a default index name for all queries in the Geocoder configuration:
+    ```rb
+      Geocoder.configure(
+        lookup: :amazon_location_service,
+        amazon_location_service: {
+          index_name: 'YOUR_INDEX_NAME_GOES_HERE',
+        }
+      )
+    ```
+  * You can provide credentials to the AWS SDK in multiple ways:
+    * Directly via the `api_key` parameter in the geocoder configuration:
+      ```rb
+        Geocoder.configure(
+          lookup: :amazon_location_service,
+          amazon_location_service: {
+            index_name: 'YOUR_INDEX_NAME_GOES_HERE',
+            api_key: {
+              access_key_id: 'YOUR_AWS_ACCESS_KEY_ID_GOES_HERE',
+              secret_access_key: 'YOUR_AWS_SECRET_ACCESS_KEY_GOES_HERE',
+            }
+          }
+        )
+      ```
+    * Via environment variables and other external methods. See **Setting AWS Credentials** in the [AWS SDK for Ruby Developer Guide](https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html).
+
 ### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)
@@ -52,6 +97,31 @@ Data Science Toolkit provides an API whose response format is like Google's but 
 * **Limitations**: Requires API key if results will be stored. Using API key will also remove rate limit.
 * **Notes**: You can specify which projection you want to use by setting, for example: `Geocoder.configure(esri: {outSR: 102100})`. If you will store results, set the flag and provide API key: `Geocoder.configure(esri: {api_key: ["client_id", "client_secret"], for_storage: true})`. If you want to, you can also supply an ESRI token directly: `Geocoder.configure(esri: {token: Geocoder::EsriToken.new('TOKEN', Time.now + 1.day})`
 
+### Geoapify (`:geoapify`)
+
+* **API key**: required (set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`)
+* **Key signup**: https://myprojects.geoapify.com/register
+* **Quota**: 100,000/month with free API key, more with paid keys (see https://www.geoapify.com/api-pricing/)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: The preferred language of address elements in the result. Language code must be provided according to ISO 639-1 2-character language codes.
+* **Extra query options**:
+    * `:limit` - restrict the maximum amount of returned results, e.g. `limit: 5`
+    * `:autocomplete` - Use the automplete API, only when doing forward geocoding e.g. `autocomplete: true`
+* **Extra params** (see [Geoapify documentation](https://apidocs.geoapify.com/docs/geocoding) for more information)
+    * `:type` - restricts the type of the results, see API documentation for
+      available types, e.g. `params: { type: 'amenity' }`
+    * `:filter` - filters results by country, boundary or circle, e.g.
+      `params: { filter: 'countrycode:de,es,fr' }`, see API documentation
+      for available filters
+    * `:bias` - a location bias based on which results are prioritized, e.g.
+      `params: { bias: 'countrycode:de,es,fr' }`, see API documentation for
+      available biases
+* **Documentation**: https://apidocs.geoapify.com/docs/geocoding
+* **Terms of Service**: https://www.geoapify.com/term-and-conditions/
+* **Limitations**: When using the free plan for a commercial product, a link back is required (see https://www.geoapify.com/geocoding-api/). Rate limit (requests/second) applied based on pricing plan. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
+* **Notes**: To use Geoapify, set `Geocoder.configure(lookup: :geoapify, api_key: "your_api_key")`.
+
 ### Google (`:google`)
 
 * **API key**: required
@@ -85,9 +155,20 @@ The [Google Places Details API](https://developers.google.com/maps/documentation
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
+* **Extra params**:
+  * `:fields` - Requested API response fields (affects pricing, see the [Google Places Details developer guide](https://developers.google.com/maps/documentation/places/web-service/details#fields) for available fields)
 * **Documentation**: https://developers.google.com/maps/documentation/places/web-service/details
 * **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
+* **Notes**:
+  * You can set the default fields for all queries in the Geocoder configuration, for example:
+    ```rb
+    Geocoder.configure(
+      google_places_details: {
+        fields: %w[business_status formatted_address geometry name photos place_id plus_code types]
+      }
+    )
+    ```
 
 ### Google Places Search (`:google_places_search`)
 
@@ -100,10 +181,22 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 * **SSL support**: yes
 * **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
 * **Extra params**:
-  * `:fields` - Requested API response fields (affects pricing, see the [source](https://github.com/alexreisner/geocoder/blob/master/lib/geocoder/lookups/google_places_search.rb) for available fields)
+  * `:fields` - requested API response fields (affects pricing, see the [source](https://github.com/alexreisner/geocoder/blob/master/lib/geocoder/lookups/google_places_search.rb) for available fields)
+  * `:locationbias` - bias towards results in or near a specified area, using a string in one of the formats specified in the [API documentation](https://developers.google.com/maps/documentation/places/web-service/search-find-place#locationbias), e.g., `locationbias: "point:-36.8509,174.7645"`
 * **Documentation**: https://developers.google.com/maps/documentation/places/web-service/search
 * **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
 * **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
+* **Notes**:
+  * You can set the default fields and/or location bias for all queries in the Geocoder configuration, for example:
+    ```rb
+    Geocoder.configure(
+      google_places_search: {
+        fields: %w[address_components adr_address business_status formatted_address geometry name
+            photos place_id plus_code types url utc_offset vicinity],
+        locationbias: "point:-36.8509,174.7645"
+      }
+    )
+    ```
 
 ### Here/Nokia (`:here`)
 
@@ -113,20 +206,19 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 * **SSL support**: yes
 * **Languages**: The preferred language of address elements in the result. Language code must be provided according to RFC 4647 standard.
 * **Extra params**:
-  * `:bounds` - pass NW and SE coordinates as an array of two arrays to bias results towards a viewport
   * `:country` - pass the country or list of countries using the country code (3 bytes, ISO 3166-1-alpha-3) or the country name, to filter the results
-* **Documentation**: http://developer.here.com/rest-apis/documentation/geocoder
-* **Terms of Service**: http://developer.here.com/faqs#l&t
+* **Documentation**: https://developer.here.com/documentation/geocoding-search-api/dev_guide/topics/endpoint-geocode-brief.html
+* **Terms of Service**: https://developer.here.com/terms-and-conditions
 * **Limitations**: ?
 
 ### LocationIQ (`:location_iq`)
 
 * **API key**: required
-* **Quota**: 60 requests/minute (2 req/sec, 10k req/day), then [ability to purchase more](http://locationiq.org/#pricing)
+* **Quota**: 60 requests/minute (2 req/sec, 10k req/day), then [ability to purchase more](http://locationiq.com/pricing)
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: ?
-* **Documentation**: https://locationiq.org/#docs
+* **Documentation**: https://locationiq.com/docs
 * **Terms of Service**: https://unwiredlabs.com/tos
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
 
@@ -164,6 +256,17 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 * **Terms of Service**: http://info.mapquest.com/terms-of-use/
 * **Limitations**: ?
 * **Notes**: You can use the open (non-licensed) API by setting: `Geocoder.configure(mapquest: {open: true})` (defaults to licensed version)
+
+### Melissa Data (`:melissa_street`)
+
+* **API key**: required
+* **Key signup**: https://www.melissa.com/developer/
+* **Quota**: ?
+* **Region**: world
+* **Languages**: English
+* **Documentation**: https://www.melissa.com/developer/
+* **Terms of Service**: https://www.melissa.com/terms
+* **Limitations**: ?
 
 ### NetToolKit (`:net_tool_kit`)
 
@@ -237,6 +340,42 @@ Open source geocoding engine which can be self-hosted. There are multiple servic
 * **Notes**: Configure your self-hosted pelias with the `endpoint` option: `Geocoder.configure(lookup: :pelias, api_key: 'your_api_key', pelias: {endpoint: 'self.hosted/pelias'})`. Defaults to `localhost`.
     * [Geocode Earth](https://geocode.earth/cloud) - Cleared for Takeoff, Inc. (USA)
     * [Geoapify](https://www.geoapify.com/maps-geocoging-routing-on-premise-installations/) - Geoapify GmbH (Germany)
+
+### Photon (`:photon`)
+
+Open source geocoding engine which can be self-hosted. Komoot hosts a public installation for fair use without the need for an API key (usage might be subject of change).
+
+* **API key**: none
+* **Quota**: You can use the API for your project, but please be fair - extensive usage will be throttled.
+* **Region**: world
+* **SSL support**: yes
+* **Languages**:  en, de, fr, it
+* **Extra query options** (see [Photon documentation](https://github.com/komoot/photon) for more information):
+    * `:limit` - restrict the maximum amount of returned results, e.g. `limit: 5`
+    * `:filter` - extra filters for the search
+        * `:bbox` (forward) - restricts the bounding box for the forward search,
+          e.g. `filter: { bbox: [9.5, 51.5, 11.5, 53.5] }`
+          (minLon, minLat, maxLon, maxLat).
+        * `:osm_tag` (forward) - filters forward search results by
+          [tags and values](https://taginfo.openstreetmap.org/projects/nominatim#tags),
+          e.g. `filter: { osm_tag: 'tourism:museum' }`,
+          see API documentation for more information.
+        * `:string` (reverse) - filters the reverse search results by a query
+          string filter, e.g. `filter: { string: 'query string filter' }`,
+    * `:bias` (forward) - a location bias based on which results are
+      prioritized, provide an option hash with the keys `:latitude`,
+      `:longitude`, and `:scale` (optional, default scale: 1.6), e.g.
+      `bias: { latitude: 12, longitude: 12, scale: 4 }`
+    * `:radius` (reverse) - a kilometer radius for the reverse geocoding search,
+      must be a positive number between 0-5000 (default radius: 1),
+      e.g. `radius: 10`
+    * `:distance_sort` (reverse) - defines if results are sorted by distance for
+      reverse search queries or not, only available if the distance sorting is
+      enabled for the instace, e.g. `distance_sort: true`
+* **Documentation**: https://github.com/komoot/photon
+* **Terms of Service**: https://photon.komoot.io/
+* **Limitations**: The public API provider (Komoot) does not guarantee for the availability and usage might be subject of change in the future. You can host your own Photon server without such limitations. [Data licensed under Open Database License (ODbL) (you must provide attribution).](https://www.openstreetmap.org/copyright)
+* **Notes**: If you are [running your own instance of Photon](https://github.com/komoot/photon) you can configure the host like this: `Geocoder.configure(lookup: :photon, photon: {host: "photon.example.org"})`.
 
 ### PickPoint (`:pickpoint`)
 
@@ -436,17 +575,27 @@ IP Address Lookups
 * **Documentation**: https://db-ip.com/api/doc.php
 * **Terms of Service**: https://db-ip.com/tos.php
 
-### FreeGeoIP (`:freegeoip`) - [DISCONTINUED](https://github.com/alexreisner/geocoder/wiki/Freegeoip-Discontinuation)
+### FreeGeoIP (`:freegeoip`)
 
-* **API key**: none
-* **Quota**: 15,000 requests per hour. After reaching the hourly quota, all of your requests will result in HTTP 403 (Forbidden) until it clears up on the next roll over.
+* **API key**: required
+* **Quota**: 15,000 requests per hour
 * **Region**: world
 * **SSL support**: no
 * **Languages**: English
-* **Documentation**: http://github.com/fiorix/freegeoip/blob/master/README.md
+* **Documentation**: https://github.com/apilayer/freegeoip/ and https://freegeoip.app/
 * **Terms of Service**: ?
 * **Limitations**: ?
-* **Notes**: If you are [running your own local instance of the FreeGeoIP service](https://github.com/fiorix/freegeoip) you can configure the host like this: `Geocoder.configure(freegeoip: {host: "..."})`.
+* **Notes**: The default host is freegeoip.app but this can be changed by using, for example, `Geocoder.configure(freegeoip: {host: 'api.ipstack.com'})`. The service can also be self-hosted.
+
+### IPBase (`:ipbase`)
+
+* **API key**: required
+* **Quota**: 10/minute up to 150 per month for free, paid plans too!
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipbase.com/docs
+* **Terms of Service**: https://www.iubenda.com/terms-and-conditions/41661719
 
 ### IP-API.com (`:ipapi_com`)
 
@@ -524,7 +673,7 @@ IP Address Lookups
 ### Ipstack (`:ipstack`)
 
 * **API key**: required (see https://ipstack.com/product)
-* **Quota**: 10,000 requests per month (with free API Key, 50,000/day and up for paid plans)
+* **Quota**: 100 requests per month (with free API Key, 50,000/day and up for paid plans)
 * **Region**: world
 * **SSL support**: yes ( only with paid plan )
 * **Languages**: English, German, Spanish, French, Japanese, Portugues (Brazil), Russian, Chinese
@@ -580,6 +729,19 @@ IP Address Lookups
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: To use Telize set `Geocoder.configure(ip_lookup: :telize, api_key: "your_api_key")`. Or configure your self-hosted telize with the `host` option: `Geocoder.configure(ip_lookup: :telize, telize: {host: "localhost"})`.
+
+### 2GIS (`:twogis`)
+
+* **API key**: required
+* **Key signup**:
+* **Quota**:
+* **Region**:
+* **SSL support**: required
+* **Languages**: ru_RU, ru_KG, ru_UZ, uk_UA, en_AE, it_RU, es_RU, ar_AE, cs_CZ, az_AZ, en_SA, en_EG, en_OM, en_QA, en_BH
+* **Documentation**: https://docs.2gis.com/en/api/search/geocoder/overview
+* **Terms of Service**:
+* **Limitations**:
+
 
 Local IP Address Lookups
 ------------------------

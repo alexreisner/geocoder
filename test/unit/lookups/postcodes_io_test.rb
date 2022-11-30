@@ -4,6 +4,7 @@ require 'test_helper'
 class PostcodesIoTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :postcodes_io)
   end
 

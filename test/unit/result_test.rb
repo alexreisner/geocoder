@@ -5,7 +5,11 @@ class ResultTest < GeocoderTestCase
 
   def test_forward_geocoding_result_has_required_attributes
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if l == :ip2location # has pay-per-attribute pricing model
+      next if [
+        :ip2location, # has pay-per-attribute pricing model
+        :twogis, # cant find 'Madison Square Garden'
+      ].include?(l)
+
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
       result = Geocoder.search("Madison Square Garden").first
@@ -15,8 +19,13 @@ class ResultTest < GeocoderTestCase
 
   def test_reverse_geocoding_result_has_required_attributes
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if l == :ip2location # has pay-per-attribute pricing model
-      next if l == :nationaal_georegister_nl # no reverse geocoding
+      next if [
+        :ip2location, # has pay-per-attribute pricing model
+        :nationaal_georegister_nl, # no reverse geocoding
+        :melissa_street, # reverse geocoding not implemented
+        :twogis, # cant find 'Madison Square Garden'
+      ].include?(l)
+
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
       result = Geocoder.search([45.423733, -75.676333]).first

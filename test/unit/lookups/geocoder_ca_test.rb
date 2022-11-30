@@ -4,6 +4,7 @@ require 'test_helper'
 class GeocoderCaTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :geocoder_ca)
     set_api_key!(:geocoder_ca)
   end

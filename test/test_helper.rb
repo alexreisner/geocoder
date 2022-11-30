@@ -236,6 +236,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipbase'
+    class Ipbase
+      private
+      def default_fixture_filename
+        "ipbase_74_200_247_59"
+      end
+    end
+
     require 'geocoder/lookups/ip2location'
     class Ip2location
       private
@@ -378,6 +386,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/melissa_street'
+    class MelissaStreet
+      private
+      def default_fixture_filename
+        "melissa_street_oakland_city_hall"
+      end
+    end
+
     require 'geocoder/lookups/postcode_anywhere_uk'
     class PostcodeAnywhereUk
       private
@@ -490,6 +506,94 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/twogis'
+    class Twogis
+      private
+      def default_fixture_filename
+        "twogis_kremlin"
+      end
+    end
+
+    require 'geocoder/lookups/amazon_location_service'
+    MockResults = Struct.new(:results)
+    MockAWSPlaceGeometry = Struct.new(:point)
+
+    MockAWSPlace = Struct.new(*%i[
+      address_number country geometry label municipality neighborhood postal_code region street sub_region
+    ])
+    class MockAWSPlace
+      def place
+        self
+      end
+    end
+
+    class MockAmazonLocationServiceClient
+      def search_place_index_for_position(params = {}, options = {})
+        # Amazon transposes latitude and longitude, so our client does too on the outbound call and inbound data
+        return mock_results if params[:position] == ["-75.676333", "45.423733"]
+        mock_no_results
+      end
+
+      def search_place_index_for_text(params = {}, options = {})
+        return mock_results if params[:text].include? "Madison Square Garden"
+        mock_no_results
+      end
+
+      private
+
+      def fixture
+        eval File.read File.join("test", "fixtures", "amazon_location_service_madison_square_garden")
+      end
+
+      def mock_results
+        MockResults.new([MockAWSPlace.new(*fixture)])
+      end
+
+      def mock_no_results
+        MockResults.new([])
+      end
+    end
+
+    class AmazonLocationService
+      private
+      def client
+        MockAmazonLocationServiceClient.new
+      end
+    end
+
+    require 'geocoder/lookups/geoapify'
+    class Geoapify
+      private
+      def read_fixture(file)
+        filepath = File.join("test", "fixtures", file)
+        s = File.read(filepath).strip.gsub(/\n\s*/, "")
+
+        options = { body: s, code: 200 }
+        if file == "geoapify_invalid_request"
+          options[:code] = 500
+        elsif file == "geoapify_invalid_key"
+          options[:code] = 401
+        end
+
+        MockHttpResponse.new(options)
+      end
+    end
+
+    require 'geocoder/lookups/photon'
+    class Photon
+      private
+      def read_fixture(file)
+        filepath = File.join("test", "fixtures", file)
+        s = File.read(filepath).strip.gsub(/\n\s*/, "")
+
+        options = { body: s, code: 200 }
+        if file == "photon_invalid_request"
+          options[:code] = 400
+        end
+
+        MockHttpResponse.new(options)
+      end
+    end
   end
 end
 
@@ -621,10 +725,11 @@ end
 
 
 class GeocoderTestCase < Test::Unit::TestCase
+  self.test_order = :random
 
   def setup
     super
-    Geocoder::Configuration.instance.set_defaults
+    Geocoder::Configuration.initialize
     Geocoder.configure(
       :maxmind => {:service => :city_isp_org},
       :maxmind_geoip2 => {:service => :insights, :basic_auth => {:user => "user", :password => "password"}})
@@ -666,4 +771,7 @@ class MockHttpResponse
   def [](key)
     @headers[key]
   end
+end
+
+module MockLookup
 end

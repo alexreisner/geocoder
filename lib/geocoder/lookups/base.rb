@@ -84,7 +84,8 @@ module Geocoder
       #
       def cache
         if @cache.nil? and store = configuration.cache
-          @cache = Cache.new(store, configuration.cache_prefix)
+          cache_options = configuration.cache_options
+          @cache = Cache.new(store, cache_options)
         end
         @cache
       end

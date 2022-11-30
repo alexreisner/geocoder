@@ -1,0 +1,108 @@
+{
+   "meta":{
+      "api_version":"3.0.783441",
+      "code":200,
+      "issue_date":"20220406"
+   },
+   "result":{
+      "items":[
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447163",
+                  "name":"Московская область",
+                  "type":"region"
+               },
+               {
+                  "id":"1267651007479930",
+                  "name":"Балашиха городской округ",
+                  "type":"district_area"
+               }
+            ],
+            "full_name":"Черное",
+            "geometry":{
+               "centroid":"POINT(38.070341 55.748297)"
+            },
+            "id":"4504222397629494",
+            "name":"Черное",
+            "point":{
+               "lat":55.748297,
+               "lon":38.070341
+            },
+            "subtype":"settlement",
+            "subtype_specification":"Деревня",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447179",
+                  "name":"Смоленская область",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076118167848",
+                  "name":"Вяземский район",
+                  "type":"district_area"
+               }
+            ],
+            "full_name":"Черное",
+            "geometry":{
+               "centroid":"POINT(33.992999 55.193532)"
+            },
+            "id":"70030076128006108",
+            "name":"Черное",
+            "point":{
+               "lat":55.193532,
+               "lon":33.992999
+            },
+            "subtype":"settlement",
+            "subtype_specification":"Деревня",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447184",
+                  "name":"Тюменская область",
+                  "type":"region"
+               },
+               {
+                  "id":"4786088216363089",
+                  "name":"Вагайский район",
+                  "type":"district_area"
+               }
+            ],
+            "full_name":"Черное",
+            "geometry":{
+               "centroid":"POINT(69.169569 57.65249)"
+            },
+            "id":"70030076128084819",
+            "name":"Черное",
+            "point":{
+               "lat":57.65249,
+               "lon":69.169569
+            },
+            "subtype":"settlement",
+            "subtype_specification":"Село",
+            "type":"adm_div"
+         }
+      ],
+      "total":3
+   }
+}

@@ -2,7 +2,9 @@
 require 'test_helper'
 
 class MaxmindGeoip2Test < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(ip_lookup: :maxmind_geoip2)
   end
 

@@ -18,9 +18,8 @@ end
 class IpstackTest < GeocoderTestCase
 
   def setup
+    super
     @logger = SpyLogger.new
-    Geocoder::Configuration.instance.data.clear
-    Geocoder::Configuration.set_defaults
     Geocoder.configure(
       :api_key => '123',
       :ip_lookup => :ipstack,

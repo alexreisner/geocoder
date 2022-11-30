@@ -56,7 +56,7 @@ module Geocoder
         else
           result = []
           raise_error(Geocoder::Error) ||
-              warn("Geportail.lu Geocoding API error")
+              Geocoder.log(:warn, "Geportail.lu Geocoding API error")
         end
         result
       end

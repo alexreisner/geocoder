@@ -5,6 +5,7 @@ require 'test_helper'
 class LocationIq < NominatimTest
 
   def setup
+    super
     Geocoder.configure(lookup: :location_iq)
     set_api_key!(:location_iq)
   end

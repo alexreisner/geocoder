@@ -4,6 +4,7 @@ require 'test_helper'
 class SmartyStreetsTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :smarty_streets)
     set_api_key!(:smarty_streets)
   end

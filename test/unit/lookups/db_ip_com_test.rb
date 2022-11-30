@@ -11,10 +11,6 @@ class DbIpComTest < GeocoderTestCase
     set_api_key!(:db_ip_com)
   end
 
-  def teardown
-    Geocoder::Configuration.instance.set_defaults
-  end
-
   def test_no_results
     configure_for_free_api_access
     results = Geocoder.search('no results')

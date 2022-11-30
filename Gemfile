@@ -3,7 +3,6 @@ source "https://rubygems.org"
 group :development, :test do
   gem 'rake'
   gem 'mongoid'
-  gem 'bson_ext', platforms: :ruby
   gem 'geoip'
   gem 'rubyzip'
   gem 'rails', '~>5.1.0'
@@ -30,7 +29,7 @@ group :test do
 
   platforms :ruby do
     gem 'pg', '~> 0.11'
-    gem 'mysql2', '~> 0.3.11'
+    gem 'mysql2', '~> 0.5.4'
   end
 
   platforms :jruby do

@@ -2,7 +2,9 @@
 require 'test_helper'
 
 class OsmnamesTest < GeocoderTestCase
+
   def setup
+    super
     Geocoder.configure(lookup: :osmnames)
     set_api_key!(:osmnames)
   end

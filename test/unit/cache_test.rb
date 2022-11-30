@@ -17,7 +17,12 @@ class CacheTest < GeocoderTestCase
   def test_second_occurrence_of_request_is_cache_hit
     Geocoder.configure(:cache => {})
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if l == :maxmind_local || l == :geoip2 # local, does not use cache
+      next if
+        # local, does not use cache
+        l == :maxmind_local ||
+        l == :geoip2 ||
+        # uses the AWS gem, not HTTP requests with caching
+        l == :amazon_location_service
       Geocoder.configure(:lookup => l)
       set_api_key!(l)
       results = Geocoder.search("Madison Square Garden")
@@ -55,5 +60,14 @@ class CacheTest < GeocoderTestCase
 
     Geocoder.search("service unavailable")
     assert_false lookup.instance_variable_get(:@cache_hit)
+  end
+
+  def test_expire_all_urls
+    Geocoder.configure(cache: {}, cache_options: {prefix: "geocoder:"})
+    lookup = Geocoder::Lookup.get(:nominatim)
+    lookup.cache['http://api.nominatim.com/'] = 'data'
+    assert_operator 0, :<, lookup.cache.send(:keys).size
+    lookup.cache.expire(:all)
+    assert_equal 0, lookup.cache.send(:keys).size
   end
 end

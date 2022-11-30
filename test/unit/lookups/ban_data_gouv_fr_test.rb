@@ -4,7 +4,8 @@ require 'test_helper'
 class BanDataGouvFrTest < GeocoderTestCase
 
   def setup
-    Geocoder.configure(lookup: :ban_data_gouv_fr)
+    super
+    Geocoder.configure(lookup: :ban_data_gouv_fr, use_https: true)
   end
 
   def test_query_for_geocode

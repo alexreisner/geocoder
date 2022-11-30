@@ -4,6 +4,7 @@ require 'test_helper'
 class FreegeoipTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(ip_lookup: :freegeoip)
   end
 
