@@ -4,7 +4,7 @@ module Geocoder
     PRIVATE_IPS = [
       '10.0.0.0/8',
       '172.16.0.0/12',
-      '192.168.0.0/16'
+      '192.168.0.0/16',
     ].map { |ip| IPAddr.new(ip) }.freeze
 
     def initialize(ip)
@@ -21,7 +21,7 @@ module Geocoder
     end
 
     def loopback?
-      valid? and !!(self == '0.0.0.0' or match(/\A127\./) or self == '::1')
+      valid? and !!(self == "0.0.0.0" or match(/\A127\./) or self == "::1")
     end
 
     def private?
