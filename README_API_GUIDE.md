@@ -785,7 +785,7 @@ You can generate ActiveRecord migrations and download and import data via provid
     rails generate geocoder:maxmind:geolite_city
 
     # download, unpack, and import data
-    rake geocoder:maxmind:geolite:load PACKAGE=city
+    rake geocoder:maxmind:geolite:load PACKAGE=city LICENSE_KEY=<KEY>
 
 You can replace `city` with `country` in any of the above tasks, generators, and configurations.
 
