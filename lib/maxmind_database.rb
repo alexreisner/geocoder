@@ -103,7 +103,7 @@ module Geocoder
     end
 
     def base_url
-      "http://geolite.maxmind.com/download/geoip/database/"
+      "https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City-CSV&license_key=YOUR_LICENSE_KEY&suffix=zip"
     end
   end
 end
