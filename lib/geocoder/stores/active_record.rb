@@ -256,11 +256,22 @@ module Geocoder::Store
         connection.adapter_name.match(/postgres/i)
       end
 
+      # SQL Server unhelpfully defines ATAN2 as ATN2
+      def using_sqlserver?
+        !!connection.adapter_name.match(/sqlserver/i)
+      end
+
       ##
       # Use OID type when running in PosgreSQL
       #
       def null_value
         using_postgres? ? 'NULL::text' : 'NULL'
+      end
+
+      # When using sql server, use ATN2
+      # For effectively all other DBs
+      def atan2_alias
+        using_sqlserver ? 'ATN2' : 'ATAN2'
       end
 
       ##
