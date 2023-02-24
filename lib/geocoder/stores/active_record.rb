@@ -288,26 +288,50 @@ module Geocoder::Store
       #
       def full_bearing_sql(latitude, longitude, lat_attr, lon_attr, options = {})
         degrees_per_radian = Geocoder::Calculations::DEGREES_PER_RADIAN
-        case options[:bearing] || Geocoder.config.distances
-        when :linear
-          "MOD(CAST(" +
-            "(ATAN2( " +
-              "((#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian}), " +
-              "((#{lat_attr} - #{latitude.to_f}) / #{degrees_per_radian})" +
-            ") * #{degrees_per_radian}) + 360 " +
-          "AS decimal), 360)"
-        when :spherical
-          "MOD(CAST(" +
-            "(ATAN2( " +
-              "SIN( (#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian} ) * " +
-              "COS( (#{lat_attr}) / #{degrees_per_radian} ), (" +
-                "COS( (#{latitude.to_f}) / #{degrees_per_radian} ) * SIN( (#{lat_attr}) / #{degrees_per_radian})" +
-              ") - (" +
-                "SIN( (#{latitude.to_f}) / #{degrees_per_radian}) * COS((#{lat_attr}) / #{degrees_per_radian}) * " +
-                "COS( (#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian})" +
-              ")" +
-            ") * #{degrees_per_radian}) + 360 " +
-          "AS decimal), 360)"
+          case options[:bearing] || Geocoder.config.distances
+          when :linear
+            if using_sqlserver?
+              "CAST(" +
+                "(ATN2( " +
+                  "((#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian}), " +
+                  "((#{lat_attr} - #{latitude.to_f}) / #{degrees_per_radian})" +
+                ") * #{degrees_per_radian}) + 360 " +
+              "AS decimal) % 360"
+            else
+              "MOD(CAST(" +
+                "(ATAN2( " +
+                  "((#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian}), " +
+                  "((#{lat_attr} - #{latitude.to_f}) / #{degrees_per_radian})" +
+                ") * #{degrees_per_radian}) + 360 " +
+              "AS decimal), 360)"
+            end
+          when :spherical
+            if using_sqlserver?
+              "CAST(" +
+                "(ATN2( " +
+                  "SIN( (#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian} ) * " +
+                  "COS( (#{lat_attr}) / #{degrees_per_radian} ), (" +
+                    "COS( (#{latitude.to_f}) / #{degrees_per_radian} ) * SIN( (#{lat_attr}) / #{degrees_per_radian})" +
+                  ") - (" +
+                    "SIN( (#{latitude.to_f}) / #{degrees_per_radian}) * COS((#{lat_attr}) / #{degrees_per_radian}) * " +
+                    "COS( (#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian})" +
+                  ")" +
+                ") * #{degrees_per_radian}) + 360 " +
+              "AS decimal) % 360"
+            else
+              "MOD(CAST(" +
+                "(ATAN2( " +
+                  "SIN( (#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian} ) * " +
+                  "COS( (#{lat_attr}) / #{degrees_per_radian} ), (" +
+                    "COS( (#{latitude.to_f}) / #{degrees_per_radian} ) * SIN( (#{lat_attr}) / #{degrees_per_radian})" +
+                  ") - (" +
+                    "SIN( (#{latitude.to_f}) / #{degrees_per_radian}) * COS((#{lat_attr}) / #{degrees_per_radian}) * " +
+                    "COS( (#{lon_attr} - #{longitude.to_f}) / #{degrees_per_radian})" +
+                  ")" +
+                ") * #{degrees_per_radian}) + 360 " +
+              "AS decimal), 360)"
+            end
+          end
         end
       end
 
