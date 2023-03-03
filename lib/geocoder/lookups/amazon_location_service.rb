@@ -30,6 +30,7 @@ module Geocoder::Lookup
       keys = configuration.api_key
       if keys
         @client = Aws::LocationService::Client.new(
+          region: keys[:region],
           access_key_id: keys[:access_key_id],
           secret_access_key: keys[:secret_access_key],
         )
