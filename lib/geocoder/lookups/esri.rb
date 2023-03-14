@@ -32,16 +32,16 @@ module Geocoder::Lookup
         case [ doc['error']['code'] ]
         when [498]
           raise_error(Geocoder::InvalidApiKey, doc['error']['message']) ||
-            warn("#{self.name} Geocoding API error: #{doc['error']['message']}")
+            Geocoder.log(:warn, "#{self.name} Geocoding API error: #{doc['error']['message']}")
         when [ 403 ]
           raise_error(Geocoder::RequestDenied, 'ESRI request denied') ||
-            warn("#{self.name} ESRI request denied: #{doc['error']['message']}")
+            Geocoder.log(:warn, "#{self.name} ESRI request denied: #{doc['error']['message']}")
         when [ 500 ], [501]
           raise_error(Geocoder::ServiceUnavailable, 'ESRI service unavailable') ||
-            warn("#{self.name} ESRI service error: #{doc['error']['message']}")
+            Geocoder.log(:warn, "#{self.name} ESRI service error: #{doc['error']['message']}")
         else
           raise_error(Geocoder::Error, doc['error']['message']) ||
-            warn("#{self.name} Geocoding error: #{doc['error']['message']}")
+            Geocoder.log(:warn, "#{self.name} Geocoding error: #{doc['error']['message']}")
         end
       end
       return []
