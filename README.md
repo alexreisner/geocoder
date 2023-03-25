@@ -368,7 +368,7 @@ If you need to expire cached content:
 ```ruby
 Geocoder::Lookup.get(Geocoder.config[:lookup]).cache.expire(:all)  # expire cached results for current Lookup
 Geocoder::Lookup.get(:nominatim).cache.expire("http://...")        # expire cached result for a specific URL
-Geocoder::Lookup.get(:nominatim).cache.expire(:all)                # expire cached results for Google Lookup
+Geocoder::Lookup.get(:nominatim).cache.expire(:all)                # expire cached results for Nominatim
 # expire all cached results for all Lookups.
 # Be aware that this methods spawns a new Lookup object for each Service
 Geocoder::Lookup.all_services.each{|service| Geocoder::Lookup.get(service).cache.expire(:all)}
