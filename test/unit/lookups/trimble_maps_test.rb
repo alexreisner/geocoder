@@ -12,21 +12,21 @@ class TrimbleMapsTest < GeocoderTestCase
     query = Geocoder::Query.new('wall drug')
     lookup = Geocoder::Lookup.get(:trimble_maps)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=wall drug&', res
+    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=wall%2Bdrug', res
   end
 
   def test_query_for_reverse_geocode
     query = Geocoder::Query.new([43.99255, -102.24127])
     lookup = Geocoder::Lookup.get(:trimble_maps)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=43.99255,-102.24127&', res
+    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=43.99255%2C-102.24127', res
   end
 
   def test_query_region_defaults_to_north_america
     query = Geocoder::Query.new('Sydney')
     lookup = Geocoder::Lookup.get(:trimble_maps)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=Sydney&', res
+    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=Sydney', res
   end
 
   def test_query_region_can_be_given_in_global_config
@@ -34,7 +34,7 @@ class TrimbleMapsTest < GeocoderTestCase
     query = Geocoder::Query.new('Sydney')
     lookup = Geocoder::Lookup.get(:trimble_maps)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/EU/api/search?query=Sydney&', res
+    assert_equal 'https://singlesearch.alk.com/EU/api/search?query=Sydney', res
   end
 
   # option given in query takes precedence over global option
@@ -43,7 +43,7 @@ class TrimbleMapsTest < GeocoderTestCase
     query = Geocoder::Query.new('Sydney', region: 'OC')
     lookup = Geocoder::Lookup.get(:trimble_maps)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/OC/api/search?query=Sydney&', res
+    assert_equal 'https://singlesearch.alk.com/OC/api/search?query=Sydney', res
   end
 
   def test_query_raises_if_region_is_invalid
