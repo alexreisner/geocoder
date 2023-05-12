@@ -367,6 +367,21 @@ Open source geocoding engine which can be self-hosted. Komoot hosts a public ins
 * **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
+### Trimble Maps (`:trimble_maps`)
+
+Trimble (aka PC Miler) provides geocoding services especially tailored to the trucking / logistics industry.
+
+* **API key**: required
+* **Quota**: ?
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: https://developer.trimblemaps.com/restful-apis/location/single-search/single-search-api/
+* **Terms of Service**: https://developer.trimblemaps.com/restful-apis/developer-guide/introduction/
+* **Limitations**: ?
+* **Notes**: A region (continent) must be specified in global config or per-query. Defaults to `NA` ('North America').
+
+
 ### Yandex (`:yandex`)
 
 * **API key**: optional, but without it lookup is territorially limited
