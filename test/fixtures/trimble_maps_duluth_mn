@@ -1,0 +1,30 @@
+{
+    "Err": 0,
+    "Locations": [
+        {
+            "Address": {
+                "City": "Duluth",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "County": "St. Louis",
+                "LocalArea": "",
+                "SPLC": null,
+                "State": "MN",
+                "StateName": "Minnesota",
+                "StreetAddress": "",
+                "Zip": "55806"
+            },
+            "Coords": {
+                "Lat": "46.776443",
+                "Lon": "-92.110529"
+            },
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "Region": 4,
+            "ResultType": 3,
+            "ShortString": "Duluth, MN, US, St. Louis 55806",
+            "SiteID": -1,
+            "TimeZone": "GMT-5:00 CDT"
+        }
+    ]
+}

@@ -1,0 +1,30 @@
+{
+  "Err": 0,
+  "Locations": [
+    {
+      "Address": {
+        "StreetAddress": "4 Pennsylvania Plaza",
+        "LocalArea": "",
+        "City": "New York",
+        "State": "NY",
+        "StateName": "New York",
+        "Zip": "10001",
+        "County": "New York",
+        "Country": "US",
+        "CountryFullName": "United States",
+        "SPLC": null
+      },
+      "Coords": {
+        "Lat": "40.750712",
+        "Lon": "-73.994241"
+      },
+      "Region": 4,
+      "POITypeID": 116,
+      "PersistentPOIID": 198701,
+      "SiteID": -1,
+      "ResultType": 9,
+      "ShortString": "Madison Square Garden",
+      "TimeZone": "GMT-4:00 EDT"
+    }
+  ]
+}

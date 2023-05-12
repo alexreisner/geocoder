@@ -4,6 +4,17 @@ require "geocoder/results/trimble_maps"
 module Geocoder::Lookup
   class TrimbleMaps < Base
 
+    # https://developer.trimblemaps.com/restful-apis/location/single-search/single-search-api/#test-the-api-now
+    def valid_region_codes
+      # AF: Africa
+      # AS: Asia
+      # EU: Europe
+      # NA: North America
+      # OC: Oceania
+      # SA: South America
+      %w[AF AS EU NA OC SA]
+    end
+
     def name
       "TrimbleMaps"
     end
@@ -12,6 +23,10 @@ module Geocoder::Lookup
 
     def base_query_url(query)
       region_code = region(query)
+      if !region_code.in?(valid_region_codes)
+        raise "region_code '#{region_code}' is invalid. use one of #{valid_region_codes}." \
+          "https://developer.trimblemaps.com/restful-apis/location/single-search/single-search-api/#test-the-api-now"
+      end
       "#{protocol}://singlesearch.alk.com/#{region_code}/api/search?query=#{query.sanitized_text}&"
     end
 
@@ -29,13 +44,6 @@ module Geocoder::Lookup
     end
 
     def region(query)
-      # https://developer.trimblemaps.com/restful-apis/location/single-search/single-search-api/#test-the-api-now
-      # North America (NA)
-      # Europe (EU)
-      # Asia (AS)
-      # Africa (AF)
-      # South America (SA)
-      # Oceania (OC)
       query.options[:region] || query.options['region'] || configuration[:region] || "NA"
     end
 

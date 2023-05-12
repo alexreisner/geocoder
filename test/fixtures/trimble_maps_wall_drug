@@ -1,0 +1,55 @@
+{
+    "Err": 0,
+    "Locations": [
+        {
+            "Address": {
+                "City": "Wall",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "County": "Pennington",
+                "LocalArea": "",
+                "SPLC": null,
+                "State": "SD",
+                "StateName": "South Dakota",
+                "StreetAddress": "510 Main St",
+                "Zip": "57790-9501"
+            },
+            "Coords": {
+                "Lat": "44.0632",
+                "Lon": "-102.2151"
+            },
+            "POITypeID": 402,
+            "PersistentPOIID": -1,
+            "Region": 4,
+            "ResultType": 9,
+            "ShortString": "Wall Drug Store",
+            "SiteID": -1,
+            "TimeZone": "GMT-6:00 MDT"
+        },
+        {
+            "Address": {
+                "City": "Johnsonville",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "County": "Florence",
+                "LocalArea": "",
+                "SPLC": null,
+                "State": "SC",
+                "StateName": "South Carolina",
+                "StreetAddress": "239 Stuckey St",
+                "Zip": "29555-6448"
+            },
+            "Coords": {
+                "Lat": "33.809771",
+                "Lon": "-79.443093"
+            },
+            "POITypeID": 128,
+            "PersistentPOIID": -1,
+            "Region": 4,
+            "ResultType": 9,
+            "ShortString": "Wall Drugs of Johnsonville",
+            "SiteID": -1,
+            "TimeZone": "GMT-4:00 EDT"
+        }
+    ]
+}

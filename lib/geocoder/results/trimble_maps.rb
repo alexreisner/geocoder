@@ -36,13 +36,24 @@ module Geocoder::Result
     #     ]
     # }
 
-    def address(format = :unused)
-      data["ShortString"]
+    def address(format=:unused)
+      [street, city, state, postal_code, country]
+      .map { |i| i == '' ? nil : i }
+      .compact
+      .join(', ')
     end
 
     def coordinates
       coords = data["Coords"] || {}
       [coords["Lat"].to_f, coords["Lon"].to_f]
+    end
+
+    def street
+      address_data["StreetAddress"]
+    end
+
+    def city
+      address_data["City"]
     end
 
     def state
