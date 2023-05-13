@@ -59,6 +59,15 @@ module Geocoder::Lookup
       query.options[:region] || query.options['region'] || configuration[:region] || "NA"
     end
 
+    def check_response_for_errors!(response)
+      if response.code.to_i == 403
+        raise_error(Geocoder::RequestDenied) ||
+          Geocoder.log(:warn, "Geocoding API error: 403 API key does not exist")
+      else
+        super(response)
+      end
+    end
+
     def supported_protocols
       [:https]
     end

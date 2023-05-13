@@ -22,6 +22,15 @@ class TrimbleMapsTest < GeocoderTestCase
     assert_equal 'https://singlesearch.alk.com/NA/api/search?query=43.99255%2C-102.24127', res
   end
 
+  def test_not_authorized
+    Geocoder.configure(always_raise: [Geocoder::RequestDenied])
+    lookup = Geocoder::Lookup.get(:trimble_maps)
+    assert_raises Geocoder::RequestDenied do
+      response = MockHttpResponse.new(code: 403)
+      lookup.send(:check_response_for_errors!, response)
+    end
+  end
+
   def test_query_region_defaults_to_north_america
     query = Geocoder::Query.new('Sydney')
     lookup = Geocoder::Lookup.get(:trimble_maps)
