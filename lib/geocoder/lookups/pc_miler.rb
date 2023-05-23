@@ -1,9 +1,9 @@
 require 'geocoder/lookups/base'
-require "geocoder/results/trimble_maps"
+require "geocoder/results/pc_miler"
 require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
 
 module Geocoder::Lookup
-  class TrimbleMaps < Base
+  class PcMiler < Base
 
     # https://developer.trimblemaps.com/restful-apis/location/single-search/single-search-api/#test-the-api-now
     def valid_region_codes
@@ -17,7 +17,7 @@ module Geocoder::Lookup
     end
 
     def name
-      "TrimbleMaps"
+      "PCMiler"
     end
 
     private # ---------------------------------------------------------------

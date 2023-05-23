@@ -67,7 +67,7 @@ module Geocoder
         :geoapify,
         :photon,
         :twogis,
-        :trimble_maps
+        :pc_miler
       ]
     end
 

@@ -367,9 +367,9 @@ Open source geocoding engine which can be self-hosted. Komoot hosts a public ins
 * **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
-### Trimble Maps (`:trimble_maps`)
+### PC Miler (Trimble) (`:pc_miler`)
 
-Trimble (aka PC Miler) provides geocoding services especially tailored to the trucking / logistics industry.
+PC Miler (aka Trimble) provides geocoding services especially tailored to the trucking / logistics industry.
 
 * **API key**: required
 * **Quota**: ?

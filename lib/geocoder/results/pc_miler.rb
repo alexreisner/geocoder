@@ -1,7 +1,7 @@
 require 'geocoder/results/base'
 
 module Geocoder::Result
-  class TrimbleMaps < Base
+  class PcMiler < Base
     # sample response:
     # https://singlesearch.alk.com/NA/api/search?query=Duluth MN
     #

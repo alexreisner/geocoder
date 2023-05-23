@@ -5,26 +5,26 @@ class TrimbleMapsTest < GeocoderTestCase
 
   def setup
     super
-    Geocoder.configure(lookup: :trimble_maps)
+    Geocoder.configure(lookup: :pc_miler)
   end
 
   def test_query_for_geocode
     query = Geocoder::Query.new('wall drug')
-    lookup = Geocoder::Lookup.get(:trimble_maps)
+    lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
     assert_equal 'https://singlesearch.alk.com/NA/api/search?query=wall%2Bdrug', res
   end
 
   def test_query_for_reverse_geocode
     query = Geocoder::Query.new([43.99255, -102.24127])
-    lookup = Geocoder::Lookup.get(:trimble_maps)
+    lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
     assert_equal 'https://singlesearch.alk.com/NA/api/search?query=43.99255%2C-102.24127', res
   end
 
   def test_not_authorized
     Geocoder.configure(always_raise: [Geocoder::RequestDenied])
-    lookup = Geocoder::Lookup.get(:trimble_maps)
+    lookup = Geocoder::Lookup.get(:pc_miler)
     assert_raises Geocoder::RequestDenied do
       response = MockHttpResponse.new(code: 403)
       lookup.send(:check_response_for_errors!, response)
@@ -33,31 +33,31 @@ class TrimbleMapsTest < GeocoderTestCase
 
   def test_query_region_defaults_to_north_america
     query = Geocoder::Query.new('Sydney')
-    lookup = Geocoder::Lookup.get(:trimble_maps)
+    lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
     assert_equal 'https://singlesearch.alk.com/NA/api/search?query=Sydney', res
   end
 
   def test_query_region_can_be_given_in_global_config
-    Geocoder.configure(lookup: :trimble_maps, trimble_maps: { region: 'EU' })
+    Geocoder.configure(lookup: :pc_miler, pc_miler: { region: 'EU' })
     query = Geocoder::Query.new('Sydney')
-    lookup = Geocoder::Lookup.get(:trimble_maps)
+    lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
     assert_equal 'https://singlesearch.alk.com/EU/api/search?query=Sydney', res
   end
 
   # option given in query takes precedence over global option
   def test_query_region_can_be_given_in_query
-    Geocoder.configure(lookup: :trimble_maps, trimble_maps: { region: 'EU' })
+    Geocoder.configure(lookup: :pc_miler, pc_miler: { region: 'EU' })
     query = Geocoder::Query.new('Sydney', region: 'OC')
-    lookup = Geocoder::Lookup.get(:trimble_maps)
+    lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
     assert_equal 'https://singlesearch.alk.com/OC/api/search?query=Sydney', res
   end
 
   def test_query_raises_if_region_is_invalid
     query = Geocoder::Query.new('Sydney', region: 'QQ')
-    lookup = Geocoder::Lookup.get(:trimble_maps)
+    lookup = Geocoder::Lookup.get(:pc_miler)
 
     error = assert_raises do
       lookup.query_url(query)
