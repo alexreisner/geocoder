@@ -135,7 +135,7 @@ module Geocoder
       end
 
       def fixture_for_query(query)
-        label = query.reverse_geocode? ? "reverse" : query.text.gsub(/[ \.]/, "_")
+        label = query.reverse_geocode? ? "reverse" : query.text.gsub(/[ ,\.]+/, "_").downcase
         filename = "#{fixture_prefix}_#{label}"
         fixture_exists?(filename) ? filename : default_fixture_filename
       end
