@@ -51,7 +51,8 @@ class LookupTest < GeocoderTestCase
     :mapquest => :key,
     :maxmind => :l,
     :nominatim => :"accept-language",
-    :yandex => :lang
+    :yandex => :lang,
+    :pc_miler => :region
   }.each do |l,p|
     define_method "test_passing_param_to_#{l}_query_overrides_configuration_value" do
       set_api_key!(l)
@@ -95,7 +96,7 @@ class LookupTest < GeocoderTestCase
   def test_returns_empty_array_on_invalid_key
     silence_warnings do
       #Geocoder::Lookup.all_services_except_test.each do |l|
-      [:bing, :yandex, :maxmind, :baidu, :baidu_ip, :amap].each do |l|
+      [:bing, :yandex, :maxmind, :baidu, :baidu_ip, :amap, :pc_miler].each do |l|
         Geocoder.configure(:lookup => l)
         set_api_key!(l)
         assert_equal [], Geocoder.search("invalid key")

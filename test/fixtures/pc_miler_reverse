@@ -1,0 +1,30 @@
+{
+    "Err": 0,
+    "Locations": [
+        {
+            "Address": {
+                "City": "Alliance",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "County": "Box Butte",
+                "LocalArea": "",
+                "SPLC": null,
+                "State": "NE",
+                "StateName": "Nebraska",
+                "StreetAddress": "2093 NE-87",
+                "Zip": "69301"
+            },
+            "Coords": {
+                "Lat": "42.14228",
+                "Lon": "-102.85796"
+            },
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "Region": 4,
+            "ResultType": 14,
+            "ShortString": "2093 NE-87, Alliance, NE, US, Box Butte 69301",
+            "SiteID": -1,
+            "TimeZone": "GMT-6:00 MDT"
+        }
+    ]
+}
