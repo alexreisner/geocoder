@@ -378,6 +378,7 @@ Do *not* include the prefix when passing a URL to be expired. Expiring `:all` wi
 
 _Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service._
 
+Not all services support caching, [check the service limitations in the API guide for more information](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md).
 
 Advanced Model Configuration
 ----------------------------

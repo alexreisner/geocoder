@@ -32,6 +32,7 @@ Global Street Address Lookups
     * `:filter_countries` - an array of countries you want to geocode within, named by [ISO 3166 country codes](https://www.iso.org/iso-3166-country-codes.html), e.g. `['DEU', 'FRA']`
 * **Documentation**: https://docs.aws.amazon.com/location
 * **Terms of Service**: https://aws.amazon.com/service-terms
+* **Limitations**: Caching is not supported.
 * **Notes**:
   * You must install either the `aws-sdk` or `aws-sdk-locationservice` gem, version 1.4.0 or greater.
   * You can set a default index name for all queries in the Geocoder configuration:
@@ -763,7 +764,7 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Languages**: English
 * **Documentation**: http://www.maxmind.com/en/city
 * **Terms of Service**: ?
-* **Limitations**: ?
+* **Limitations**: Caching is not supported.
 * **Notes**: **You must download a binary database file from MaxMind and set the `:file` configuration option.** The CSV format databases are not yet supported since they are still in alpha stage. Set the path to the database file in your configuration:
 
     Geocoder.configure(
@@ -795,7 +796,7 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Languages**: English
 * **Documentation**: http://www.maxmind.com/en/city
 * **Terms of Service**: ?
-* **Limitations**: ?
+* **Limitations**: Caching is not supported.
 * **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **You must download a database from MaxMind and set either the `:file` or `:package` configuration option for local lookups to work.**
 
 **To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
