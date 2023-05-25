@@ -378,6 +378,12 @@ Do *not* include the prefix when passing a URL to be expired. Expiring `:all` wi
 
 _Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service._
 
+The following services do not support caching:
+
+* Amazon Location Service (`:amazon_location_service`)
+* GeoLite2 (`:geoip2`)
+* MaxMind Local (`:maxmind_local`) 
+
 
 Advanced Model Configuration
 ----------------------------
