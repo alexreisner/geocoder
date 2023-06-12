@@ -125,4 +125,14 @@ class TrimbleMapsTest < GeocoderTestCase
     assert_equal -102.85796, result.longitude
     assert_equal([42.14228, -102.85796], result.coordinates)
   end
+
+  def test_results_metadata
+    results = Geocoder.search("Times Square")
+
+    assert_equal 10, results.size
+
+    results.map do |result|
+      assert_equal 3, result.data["QueryConfidence"]
+    end
+  end
 end
