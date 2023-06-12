@@ -1,30 +1,42 @@
 {
     "Err": 0,
+    "ErrString": "OK",
+    "QueryConfidence": 1,
+    "TimeInMilliseconds": 0,
+    "GridDataVersion": "GRD_ALK.NA.2023.01.18.29.1.1",
+    "CommitID": "pcmws-22.08.11.0-1778-g586da49bd1b: 05/30/2023 20:14",
     "Locations": [
         {
             "Address": {
-                "City": "Alliance",
+                "StreetAddress": "",
+                "LocalArea": "",
+                "City": "Monroe Township",
+                "State": "NJ",
+                "StateName": "New Jersey",
+                "Zip": "08831",
+                "County": "Middlesex",
                 "Country": "US",
                 "CountryFullName": "United States",
-                "County": "Box Butte",
-                "LocalArea": "",
-                "SPLC": null,
-                "State": "NE",
-                "StateName": "Nebraska",
-                "StreetAddress": "2093 NE-87",
-                "Zip": "69301"
+                "SPLC": null
             },
             "Coords": {
-                "Lat": "42.14228",
-                "Lon": "-102.85796"
+                "Lat": "40.355924",
+                "Lon": "-74.451975"
             },
+            "StreetCoords": {
+                "Lat": "40.356483",
+                "Lon": "-74.451665"
+            },
+            "Region": 4,
             "POITypeID": 0,
             "PersistentPOIID": -1,
-            "Region": 4,
-            "ResultType": 14,
-            "ShortString": "2093 NE-87, Alliance, NE, US, Box Butte 69301",
             "SiteID": -1,
-            "TimeZone": "GMT-6:00 MDT"
+            "ResultType": 14,
+            "ShortString": "Monroe Township, NJ, US, Middlesex 08831",
+            "GridID": 54638092,
+            "LinkID": 504,
+            "Percent": 4980,
+            "TimeZone": "GMT-4:00 EDT"
         }
     ]
 }

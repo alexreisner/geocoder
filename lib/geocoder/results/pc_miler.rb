@@ -3,38 +3,48 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class PcMiler < Base
     # sample response:
-    # https://singlesearch.alk.com/NA/api/search?query=Duluth MN
+    # https://singlesearch.alk.com/na/api/search?authToken=<TOKEN>&include=Meta&query=Feasterville
     #
-    # {
-    #     "Err": 0,
-    #     "Locations": [
-    #         {
-    #             "Address": {
-    #                 "StreetAddress": "",
-    #                 "LocalArea": "",
-    #                 "City": "Duluth",
-    #                 "State": "MN",
-    #                 "StateName": "Minnesota",
-    #                 "Zip": "55806",
-    #                 "County": "St. Louis",
-    #                 "Country": "US",
-    #                 "CountryFullName": "United States",
-    #                 "SPLC": null
-    #             },
-    #             "Coords": {
-    #                 "Lat": "46.776443",
-    #                 "Lon": "-92.110529"
-    #             },
-    #             "Region": 4,
-    #             "POITypeID": 0,
-    #             "PersistentPOIID": -1,
-    #             "SiteID": -1,
-    #             "ResultType": 3,
-    #             "ShortString": "Duluth, MN, US, St. Louis 55806",
-    #             "TimeZone": "GMT-5:00 CDT"
-    #         }
-    #     ]
-    # }
+    #   "Err": 0,
+    #   "ErrString": "OK",
+    #   "QueryConfidence": 1,
+    #   "TimeInMilliseconds": 125,
+    #   "GridDataVersion": "GRD_ALK.NA.2023.01.18.29.1.1",
+    #   "CommitID": "pcmws-22.08.11.0-1778-g586da49bd1b: 05/30/2023 20:14",
+    #   "Locations": [
+    #     {
+    #       "Address": {
+    #         "StreetAddress": "",
+    #         "LocalArea": "",
+    #         "City": "Feasterville Trevose",
+    #         "State": "PA",
+    #         "StateName": "Pennsylvania",
+    #         "Zip": "19053",
+    #         "County": "Bucks",
+    #         "Country": "US",
+    #         "CountryFullName": "United States",
+    #         "SPLC": null
+    #       },
+    #       "Coords": {
+    #         "Lat": "40.150025",
+    #         "Lon": "-75.002511"
+    #       },
+    #       "StreetCoords": {
+    #         "Lat": "40.150098",
+    #         "Lon": "-75.002827"
+    #       },
+    #       "Region": 4,
+    #       "POITypeID": 0,
+    #       "PersistentPOIID": -1,
+    #       "SiteID": -1,
+    #       "ResultType": 4,
+    #       "ShortString": "Feasterville",
+    #       "GridID": 37172748,
+    #       "LinkID": 188,
+    #       "Percent": 6291,
+    #       "TimeZone": "GMT-4:00 EDT"
+    #     }
+    #   ]
 
     def address(format=:unused)
       [street, city, state, postal_code, country]
