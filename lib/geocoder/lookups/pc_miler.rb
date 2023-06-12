@@ -51,7 +51,9 @@ module Geocoder::Lookup
 
       {
         authToken: configuration.api_key,
-        query: escaped_query
+        query: escaped_query,
+        # to add additional metadata to response such as QueryConfidence
+        include: 'Meta'
       }.merge(super(query))
     end
 
