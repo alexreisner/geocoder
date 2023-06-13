@@ -57,7 +57,7 @@ class BanDataGouvFrTest < GeocoderTestCase
 
   def test_paris_special_business_logic
     result = Geocoder.search('paris').first
-    assert_equal 'city', result.result_type
+    assert_equal 'municipality', result.result_type
     assert_equal '75000', result.postal_code
     assert_equal 'France', result.country
     assert_equal 'FR', result.country_code
@@ -75,8 +75,8 @@ class BanDataGouvFrTest < GeocoderTestCase
   end
 
   def test_city_result_methods
-    result = Geocoder.search('montpellier').first
-    assert_equal 'city', result.result_type
+    result = Geocoder.search('montpellier', type: 'municipality').first
+    assert_equal 'municipality', result.result_type
     assert_equal '34080', result.postal_code
     assert_equal '34172', result.city_code
     assert_equal 'France', result.country
