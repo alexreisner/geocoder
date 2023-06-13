@@ -24,7 +24,7 @@
         "score": 1,
         "label": "Paris",
         "id": "75056",
-        "type": "city",
+        "type": "municipality",
         "population": "2244"
       },
       "type": "Feature"
