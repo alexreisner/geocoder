@@ -275,7 +275,7 @@ module Geocoder::Result
     private
 
     def city?(result_type)
-      %w(village town city).include?(result_type)
+      result_type == 'municipality'
     end
 
   end

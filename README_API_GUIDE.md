@@ -429,8 +429,8 @@ Regional Street Address Lookups
 * **Region**: France
 * **SSL support**: yes
 * **Languages**: en / fr
-* **Documentation**: https://adresse.data.gouv.fr/api/ (in french)
-* **Terms of Service**: https://adresse.data.gouv.fr/faq/ (in french)
+* **Documentation**: https://adresse.data.gouv.fr/api-doc/adresse (in french)
+* **Terms of Service**: https://doc.adresse.data.gouv.fr/ (in french)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://openstreetmap.fr/ban)
 
 ### Geocoder.ca (`:geocoder_ca`)
