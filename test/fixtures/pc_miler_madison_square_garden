@@ -1,30 +1,42 @@
 {
-  "Err": 0,
-  "Locations": [
-    {
-      "Address": {
-        "StreetAddress": "4 Pennsylvania Plaza",
-        "LocalArea": "",
-        "City": "New York",
-        "State": "NY",
-        "StateName": "New York",
-        "Zip": "10001",
-        "County": "New York",
-        "Country": "US",
-        "CountryFullName": "United States",
-        "SPLC": null
-      },
-      "Coords": {
-        "Lat": "40.750712",
-        "Lon": "-73.994241"
-      },
-      "Region": 4,
-      "POITypeID": 116,
-      "PersistentPOIID": 198701,
-      "SiteID": -1,
-      "ResultType": 9,
-      "ShortString": "Madison Square Garden",
-      "TimeZone": "GMT-4:00 EDT"
-    }
-  ]
+    "Err": 0,
+    "ErrString": "OK",
+    "QueryConfidence": 1,
+    "TimeInMilliseconds": 31,
+    "GridDataVersion": "GRD_ALK.NA.2023.01.18.29.1.1",
+    "CommitID": "pcmws-22.08.11.0-1778-g586da49bd1b: 05/30/2023 20:14",
+    "Locations": [
+        {
+            "Address": {
+                "StreetAddress": "4 Pennsylvania Plaza",
+                "LocalArea": "",
+                "City": "New York",
+                "State": "NY",
+                "StateName": "New York",
+                "Zip": "10001",
+                "County": "New York",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "40.750712",
+                "Lon": "-73.994241"
+            },
+            "StreetCoords": {
+                "Lat": "40.750806",
+                "Lon": "-73.994472"
+            },
+            "Region": 4,
+            "POITypeID": 116,
+            "PersistentPOIID": 198701,
+            "SiteID": -1,
+            "ResultType": 9,
+            "ShortString": "Madison Square Garden",
+            "GridID": 19445260,
+            "LinkID": 565,
+            "Percent": 7364,
+            "TimeZone": "GMT-4:00 EDT"
+        }
+    ]
 }

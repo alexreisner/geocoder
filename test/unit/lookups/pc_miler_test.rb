@@ -12,14 +12,14 @@ class TrimbleMapsTest < GeocoderTestCase
     query = Geocoder::Query.new('wall drug')
     lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=wall%2Bdrug', res
+    assert_equal 'https://singlesearch.alk.com/NA/api/search?include=Meta&query=wall%2Bdrug', res
   end
 
   def test_query_for_reverse_geocode
     query = Geocoder::Query.new([43.99255, -102.24127])
     lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=43.99255%2C-102.24127', res
+    assert_equal 'https://singlesearch.alk.com/NA/api/search?include=Meta&query=43.99255%2C-102.24127', res
   end
 
   def test_not_authorized
@@ -35,7 +35,7 @@ class TrimbleMapsTest < GeocoderTestCase
     query = Geocoder::Query.new('Sydney')
     lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/NA/api/search?query=Sydney', res
+    assert_equal 'https://singlesearch.alk.com/NA/api/search?include=Meta&query=Sydney', res
   end
 
   def test_query_region_can_be_given_in_global_config
@@ -43,7 +43,7 @@ class TrimbleMapsTest < GeocoderTestCase
     query = Geocoder::Query.new('Sydney')
     lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/EU/api/search?query=Sydney', res
+    assert_equal 'https://singlesearch.alk.com/EU/api/search?include=Meta&query=Sydney', res
   end
 
   # option given in query takes precedence over global option
@@ -52,7 +52,7 @@ class TrimbleMapsTest < GeocoderTestCase
     query = Geocoder::Query.new('Sydney', region: 'OC')
     lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/OC/api/search?query=Sydney', res
+    assert_equal 'https://singlesearch.alk.com/OC/api/search?include=Meta&query=Sydney', res
   end
 
   def test_query_raises_if_region_is_invalid
@@ -124,5 +124,15 @@ class TrimbleMapsTest < GeocoderTestCase
     assert_equal 42.14228, result.latitude
     assert_equal -102.85796, result.longitude
     assert_equal([42.14228, -102.85796], result.coordinates)
+  end
+
+  def test_results_metadata
+    results = Geocoder.search("Times Square")
+
+    assert_equal 10, results.size
+
+    results.map do |result|
+      assert_equal 3, result.data["QueryConfidence"]
+    end
   end
 end

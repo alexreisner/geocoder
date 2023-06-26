@@ -1,54 +1,73 @@
 {
     "Err": 0,
+    "ErrString": "OK",
+    "QueryConfidence": 3,
+    "TimeInMilliseconds": 16,
+    "GridDataVersion": "GRD_ALK.NA.2023.01.18.29.1.1",
+    "CommitID": "pcmws-22.08.11.0-1778-g586da49bd1b: 05/30/2023 20:14",
     "Locations": [
         {
             "Address": {
-                "City": "Wall",
-                "Country": "US",
-                "CountryFullName": "United States",
-                "County": "Pennington",
+                "StreetAddress": "510 Main St",
                 "LocalArea": "",
-                "SPLC": null,
+                "City": "Wall",
                 "State": "SD",
                 "StateName": "South Dakota",
-                "StreetAddress": "510 Main St",
-                "Zip": "57790-9501"
+                "Zip": "57790-9501",
+                "County": "Pennington",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
             },
             "Coords": {
                 "Lat": "44.0632",
                 "Lon": "-102.2151"
             },
+            "StreetCoords": {
+                "Lat": "44.066916",
+                "Lon": "-102.215056"
+            },
+            "Region": 4,
             "POITypeID": 402,
             "PersistentPOIID": -1,
-            "Region": 4,
+            "SiteID": -1,
             "ResultType": 9,
             "ShortString": "Wall Drug Store",
-            "SiteID": -1,
+            "GridID": 845988,
+            "LinkID": 400,
+            "Percent": 6485,
             "TimeZone": "GMT-6:00 MDT"
         },
         {
             "Address": {
-                "City": "Johnsonville",
-                "Country": "US",
-                "CountryFullName": "United States",
-                "County": "Florence",
+                "StreetAddress": "239 Stuckey St",
                 "LocalArea": "",
-                "SPLC": null,
+                "City": "Johnsonville",
                 "State": "SC",
                 "StateName": "South Carolina",
-                "StreetAddress": "239 Stuckey St",
-                "Zip": "29555-6448"
+                "Zip": "29555-6448",
+                "County": "Florence",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
             },
             "Coords": {
                 "Lat": "33.809771",
                 "Lon": "-79.443093"
             },
+            "StreetCoords": {
+                "Lat": "33.809734",
+                "Lon": "-79.442453"
+            },
+            "Region": 4,
             "POITypeID": 128,
             "PersistentPOIID": -1,
-            "Region": 4,
+            "SiteID": -1,
             "ResultType": 9,
             "ShortString": "Wall Drugs of Johnsonville",
-            "SiteID": -1,
+            "GridID": 1572108,
+            "LinkID": 107,
+            "Percent": 5946,
             "TimeZone": "GMT-4:00 EDT"
         }
     ]
