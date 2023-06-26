@@ -35,9 +35,17 @@ module Geocoder::Lookup
     def results(query)
       return [] unless data = fetch_data(query)
       if data['Locations']
+        add_metadata_to_locations!(data)
         data['Locations']
       else
         []
+      end
+    end
+
+    def add_metadata_to_locations!(data)
+      confidence = data['QueryConfidence']
+      data['Locations'].each do |location|
+        location['QueryConfidence'] = confidence
       end
     end
 
@@ -51,7 +59,9 @@ module Geocoder::Lookup
 
       {
         authToken: configuration.api_key,
-        query: escaped_query
+        query: escaped_query,
+        # to add additional metadata to response such as QueryConfidence
+        include: 'Meta'
       }.merge(super(query))
     end
 
