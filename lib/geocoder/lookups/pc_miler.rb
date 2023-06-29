@@ -52,14 +52,14 @@ module Geocoder::Lookup
     def query_url_params(query)
       if query.reverse_geocode?
         lat,lon = query.coordinates
-        escaped_query = "#{CGI.escape(lat)},#{CGI.escape(lon)}"
+        formatted_query = "#{CGI.escape(lat)},#{CGI.escape(lon)}"
       else
-        escaped_query = CGI.escape(query.text.to_s)
+        formatted_query = query.text.to_s
       end
 
       {
         authToken: configuration.api_key,
-        query: escaped_query,
+        query: formatted_query,
         # to add additional metadata to response such as QueryConfidence
         include: 'Meta'
       }.merge(super(query))
