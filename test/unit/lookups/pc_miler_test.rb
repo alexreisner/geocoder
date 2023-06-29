@@ -12,7 +12,14 @@ class TrimbleMapsTest < GeocoderTestCase
     query = Geocoder::Query.new('wall drug')
     lookup = Geocoder::Lookup.get(:pc_miler)
     res = lookup.query_url(query)
-    assert_equal 'https://singlesearch.alk.com/NA/api/search?include=Meta&query=wall%2Bdrug', res
+    assert_equal 'https://singlesearch.alk.com/NA/api/search?include=Meta&query=wall+drug', res
+  end
+
+  def test_query_for_geocode_with_commas
+    query = Geocoder::Query.new('Fair Lawn, NJ, US')
+    lookup = Geocoder::Lookup.get(:pc_miler)
+    res = lookup.query_url(query)
+    assert_equal 'https://singlesearch.alk.com/NA/api/search?include=Meta&query=Fair+Lawn%2C+NJ%2C+US', res
   end
 
   def test_query_for_reverse_geocode
