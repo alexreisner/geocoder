@@ -12,17 +12,12 @@ group :development, :test do
     gem 'jruby-openssl'
     gem 'jgeoip'
   end
-
-  platforms :rbx do
-    gem 'rubysl', '~> 2.0'
-    gem 'rubysl-test-unit'
-  end
 end
 
 group :test do
   platforms :ruby, :mswin, :mingw do
-    gem 'sqlite3', '~> 1.4.2'
-    gem 'sqlite_ext', '~> 1.5.0'
+    gem 'sqlite3'
+    gem 'sqlite_ext'
   end
 
   gem 'webmock'
