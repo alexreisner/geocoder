@@ -21,8 +21,8 @@ end
 
 group :test do
   platforms :ruby, :mswin, :mingw do
-    gem 'sqlite3', '~> 1.4.2'
-    gem 'sqlite_ext', '~> 1.5.0'
+    gem 'sqlite3'
+    gem 'sqlite_ext'
   end
 
   gem 'webmock'
