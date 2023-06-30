@@ -12,11 +12,6 @@ group :development, :test do
     gem 'jruby-openssl'
     gem 'jgeoip'
   end
-
-  platforms :rbx do
-    gem 'rubysl', '~> 2.0'
-    gem 'rubysl-test-unit'
-  end
 end
 
 group :test do
