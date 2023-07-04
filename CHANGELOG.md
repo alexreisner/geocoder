@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.8.2 (2023 Jul  4)
+-------------------
+* Add support for PC Miler lookup (thanks github.com/alexdean).
+* Minor fixes for :maxmind_local, :esri, and :ban_data_gouv_fr lookups.
+
 1.8.1 (2022 Sep 23)
 -------------------
 * Add support for IPBase lookup (thanks github.com/jonallured).
