@@ -225,6 +225,22 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipgeolocation'
+    class Ipgeolocation
+      private
+      def default_fixture_filename
+        "ipgeolocation_103_217_177_217"
+      end
+    end
+
+    require 'geocoder/lookups/ipqualityscore'
+    class Ipqualityscore
+      private
+      def default_fixture_filename
+        "ipqualityscore_74_200_247_59"
+      end
+    end
+
     require 'geocoder/lookups/ip2location_lite'
     class Ip2locationLite
       private
