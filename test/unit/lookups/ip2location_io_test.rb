@@ -11,7 +11,7 @@ class Ip2locationIoTest < GeocoderTestCase
 
   def test_ip2location_io_query_url
     query = Geocoder::Query.new('8.8.8.8')
-    assert_equal 'https://api.ip2location.io/?ip=8.8.8.8&key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', query.url
+    assert_equal 'http://api.ip2location.io/?ip=8.8.8.8&key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', query.url
   end
 
   def test_ip2location_io_lookup_address
