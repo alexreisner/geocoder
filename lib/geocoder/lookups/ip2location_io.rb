@@ -1,5 +1,5 @@
 require 'geocoder/lookups/base'
-require 'geocoder/results/ip2locationio'
+require 'geocoder/results/ip2location_io'
 
 module Geocoder::Lookup
   class Ip2locationIo < Base
