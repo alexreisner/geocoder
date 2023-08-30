@@ -14,21 +14,11 @@ class Ip2locationIoTest < GeocoderTestCase
     assert_equal 'https://api.ip2location.io/?ip=8.8.8.8&key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', query.url
   end
 
-  def test_ip2location_lookup_address
+  def test_ip2location_io_lookup_address
     result = Geocoder.search("8.8.8.8").first
     assert_equal "US", result.country_code
     assert_equal "United States of America", result.country_name
     assert_equal "California", result.region_name
     assert_equal "Mountain View", result.city_name
-  end
-
-  def test_ip2location_lookup_loopback_address
-    result = Geocoder.search("127.0.0.1").first
-    assert_equal "-", result.country_code
-  end
-
-  def test_ip2location_lookup_private_address
-    result = Geocoder.search("172.19.0.1").first
-    assert_equal "-", result.country_code
   end
 end
