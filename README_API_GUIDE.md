@@ -737,6 +737,16 @@ IP Address Lookups
 * **Terms of Service**:
 * **Limitations**:
 
+### IP2Location.io (`:ip2location_io`)
+
+* **API key**: required (30,000 free queries given on FREE plan)
+* **Quota**: up to 600k queries with paid API key
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.ip2location.io/ip2location-documentation
+* **Terms of Service**: https://www.ip2location.io/terms-of-service
+
 
 Local IP Address Lookups
 ------------------------

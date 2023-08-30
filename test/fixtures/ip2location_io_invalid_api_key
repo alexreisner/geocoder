@@ -1,0 +1,6 @@
+{
+  "error": {
+      "error_code": 10000,
+      "error_message": "Invalid API key or insufficient query."
+  }
+}

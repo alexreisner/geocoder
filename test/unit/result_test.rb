@@ -7,6 +7,7 @@ class ResultTest < GeocoderTestCase
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if [
         :ip2location, # has pay-per-attribute pricing model
+        :ip2location_io, # has pay-per-attribute pricing model
         :twogis, # cant find 'Madison Square Garden'
       ].include?(l)
 
@@ -21,6 +22,7 @@ class ResultTest < GeocoderTestCase
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if [
         :ip2location, # has pay-per-attribute pricing model
+        :ip2location_io, # has pay-per-attribute pricing model
         :nationaal_georegister_nl, # no reverse geocoding
         :melissa_street, # reverse geocoding not implemented
         :twogis, # cant find 'Madison Square Garden'

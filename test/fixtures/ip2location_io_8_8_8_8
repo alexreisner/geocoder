@@ -1,0 +1,14 @@
+{
+  "ip":"8.8.8.8",
+  "country_code":"US",
+  "country_name":"United States of America",
+  "region_name":"California",
+  "city_name":"Mountain View",
+  "latitude":37.405992,
+  "longitude":-122.078515,
+  "zip_code":"94043",
+  "time_zone":"-07:00",
+  "asn":"15169",
+  "as":"Google LLC",
+  "is_proxy":false
+}
