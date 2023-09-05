@@ -252,6 +252,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ip2location_io'
+    class Ip2locationIo
+      private
+      def default_fixture_filename
+        "ip2location_io_8_8_8_8"
+      end
+    end
+
     require 'geocoder/lookups/ipgeolocation'
     class Ipgeolocation
       private
