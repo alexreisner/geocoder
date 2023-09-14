@@ -95,7 +95,8 @@ module Geocoder
         :ipgeolocation,
         :ipqualityscore,
         :ipbase,
-        :ip2location_io
+        :ip2location_io,
+        :ip2location_lite
       ]
     end
 
