@@ -48,6 +48,7 @@ module Geocoder
         :uk_ordnance_survey_names,
         :opencagedata,
         :pelias,
+        :pdok_nl,
         :pickpoint,
         :here,
         :baidu,

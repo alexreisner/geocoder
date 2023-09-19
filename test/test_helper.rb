@@ -353,7 +353,6 @@ module Geocoder
       end
     end
 
-
     require 'geocoder/lookups/baidu'
     class Baidu
       private
@@ -367,6 +366,14 @@ module Geocoder
       private
       def default_fixture_filename
         "nationaal_georegister_nl"
+      end
+    end
+
+    require 'geocoder/lookups/pdok_nl'
+    class PdokNl
+      private
+      def default_fixture_filename
+        "pdok_nl"
       end
     end
 
