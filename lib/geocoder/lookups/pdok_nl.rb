@@ -8,6 +8,10 @@ module Geocoder::Lookup
       'pdok NL'
     end
 
+    def supported_protocols
+      [:https]
+    end
+
     private # ---------------------------------------------------------------
 
     def cache_key(query)
@@ -15,7 +19,7 @@ module Geocoder::Lookup
     end
 
     def base_query_url(query)
-      "#{protocol}://https://api.pdok.nl/bzk/locatieserver/search/v3_1/ui/#/Locatieserver/free?"
+      "#{protocol}://api.pdok.nl/bzk/locatieserver/search/v3_1/free?"
     end
 
     def valid_response?(response)
@@ -31,7 +35,8 @@ module Geocoder::Lookup
     def query_url_params(query)
       {
         fl: '*',
-        q:  query.text
+        q:  query.text,
+        wt: 'json'
       }.merge(super)
     end
   end
