@@ -14,8 +14,6 @@ module Geocoder
           rescue LoadError
             raise "Could not load IP2Location DB dependency. To use the IP2LocationLite lookup you must add the #{@gem_name} gem to your Gemfile or have it installed in your system."
           end
-
-          @i2l = Ip2location.new.open(configuration[:file].to_s)
         end
         super
       end
@@ -33,7 +31,8 @@ module Geocoder
       def results(query)
         return [] unless configuration[:file]
 
-        result = @i2l.get_all(query.to_s)
+        i2l = Ip2location.new.open(configuration[:file].to_s)
+        result = i2l.get_all(query.to_s)
         result.nil? ? [] : [result]
       end
     end
