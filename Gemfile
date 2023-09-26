@@ -7,6 +7,7 @@ group :development, :test do
   gem 'rubyzip'
   gem 'rails', '~>5.1.0'
   gem 'test-unit' # needed for Ruby >=2.2.0
+  gem 'ip2location_ruby'
 
   platforms :jruby do
     gem 'jruby-openssl'

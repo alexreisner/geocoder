@@ -3,6 +3,7 @@ require 'test_helper'
 
 class Ip2locationLiteTest < GeocoderTestCase
   def setup
+    super
     Geocoder.configure(ip_lookup: :ip2location_lite, ip2location_lite: { file: File.join('folder', 'test_file') })
   end
 
