@@ -52,6 +52,7 @@ Global Street Address Lookups
           amazon_location_service: {
             index_name: 'YOUR_INDEX_NAME_GOES_HERE',
             api_key: {
+              region: 'YOUR_INDEX_REGION',
               access_key_id: 'YOUR_AWS_ACCESS_KEY_ID_GOES_HERE',
               secret_access_key: 'YOUR_AWS_SECRET_ACCESS_KEY_GOES_HERE',
             }
