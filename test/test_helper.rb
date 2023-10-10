@@ -260,6 +260,23 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ip2location_lite'
+    class Ip2locationLite
+      private
+
+      remove_method(:results)
+
+      def results query
+        return [] if query.to_s == "no results"
+
+        if query.to_s == '127.0.0.1'
+          [{:country_short=>"-", :country_long=>"-", :region=>"-", :city=>"-", :latitude=>0.0, :longitude=>0.0, :zipcode=>"-", :timezone=>"-", :isp=>"Loopback", :domain=>"-", :netspeed=>"-", :iddcode=>"-", :areacode=>"-", :weatherstationcode=>"-", :weatherstationname=>"-", :mcc=>"-", :mnc=>"-", :mobilebrand=>"-", :elevation=>0, :usagetype=>"RSV", :addresstype=>"U", :category=>"IAB24", :district=>"-", :asn=>"-", :as=>"-"}]
+        elsif query.to_s == '8.8.8.8'
+          [{:country_short=>"US", :country_long=>"United States of America", :region=>"California", :city=>"Mountain View", :latitude=>37.40599060058594, :longitude=>-122.0785140991211, :zipcode=>"94043", :timezone=>"-07:00", :isp=>"Google LLC", :domain=>"google.com", :netspeed=>"T1", :iddcode=>"1", :areacode=>"650", :weatherstationcode=>"USCA0746", :weatherstationname=>"Mountain View", :mcc=>"-", :mnc=>"-", :mobilebrand=>"-", :elevation=>32, :usagetype=>"DCH", :addresstype=>"A", :category=>"IAB19-11", :district=>"San Diego County", :asn=>"15169", :as=>"Google LLC"}]
+        end
+      end
+    end
+
     require 'geocoder/lookups/ipgeolocation'
     class Ipgeolocation
       private
