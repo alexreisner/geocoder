@@ -488,6 +488,16 @@ Regional Street Address Lookups
 * **Documentation**: http://geodata.nationaalgeoregister.nl/
 * **Terms of Service**: https://www.pdok.nl/over-pdok - The PDOK services are based on open data and are therefore freely available to everyone.
 
+### pdok NL (`:pdok_nl`)
+
+* **API key**: none
+* **Quota**: none
+* **Region**: Netherlands
+* **SSL support**: yes, required
+* **Languages**: Dutch
+* **Documentation**: https://api.pdok.nl/bzk/locatieserver/search/v3_1/ui/#/Locatieserver/free
+* **Terms of Service**: https://www.pdok.nl/over-pdok - The PDOK services are based on open data and are therefore freely available to everyone.
+
 ### Ordnance Survey OpenNames (`:uk_ordnance_survey_names`)
 
 * **API key**: required (sign up at https://developer.ordnancesurvey.co.uk/os-names-api)
