@@ -1,0 +1,124 @@
+{
+    "addressComponents" : [
+        {
+            "longText" : "4",
+            "shortText" : "4",
+            "types" : [ "street_number" ]
+        },
+        {
+            "longText" : "Pennsylvania Plaza",
+            "shortText" : "Pennsylvania Plaza",
+            "types" : [ "route" ]
+        },
+        {
+            "longText" : "Chelsea",
+            "shortText" : "Chelsea",
+            "types" : [ "neighborhood", "political" ]
+        },
+        {
+            "longText" : "Manhattan",
+            "shortText" : "Manhattan",
+            "types" : [ "sublocality_level_1", "sublocality", "political" ]
+        },
+        {
+            "longText" : "New York",
+            "shortText" : "New York",
+            "types" : [ "locality", "political" ]
+        },
+        {
+            "longText" : "New York County",
+            "shortText" : "New York County",
+            "types" : [ "administrative_area_level_2", "political" ]
+        },
+        {
+            "longText" : "NY",
+            "shortText" : "NY",
+            "types" : [ "administrative_area_level_1", "political" ]
+        },
+        {
+            "longText" : "United States",
+            "shortText" : "US",
+            "types" : [ "country", "political" ]
+        },
+        {
+            "longText" : "10001",
+            "shortText" : "10001",
+            "types" : [ "postal_code" ]
+        }
+    ],
+    "adrFormatAddress" : "\u003cspan class=\"street-address\"\u003e4 Pennsylvania Plaza\u003c/span\u003e, \u003cspan class=\"locality\"\u003eNew York\u003c/span\u003e, \u003cspan class=\"region\"\u003eNY\u003c/span\u003e \u003cspan class=\"postal-code\"\u003e10001\u003c/span\u003e, \u003cspan class=\"country-name\"\u003eUnited States\u003c/span\u003e",
+    "formattedAddress" : "4 Pennsylvania Plaza, New York, NY, United States",
+    "nationalPhoneNumber" : "(212) 465-6741",
+    "location" : {
+        "latitude" : 40.750504,
+        "longitude" : -73.993439
+    },
+    "name" : "places/ChIJhRwB-yFawokR5Phil-QQ3zM",
+    "internationalPhoneNumber" : "+1 212-465-6741",
+    "displayName" : {
+        "text" : "Madison Square Garden",
+        "languageCode" : "en"
+    },
+    "photos" : [
+        {
+            "name" : "places/ChIJhRwB-yFawokR5Phil-QQ3zM/photos/AcJnMuEPJtKLwJrGZto0VDHpUPP2Im3iSmmoH10JehqT6DYfnvNuNrpEqAgwFWtBkVf1fdh-IW14iVRm-GU_KBy3_msqziCqoLnKhpdHv9DipZxl7t_u6zL8LkcnzxS3Jsm1TID6Sy7JXvSFJ4Y3SGEM8bfbIv0XE2mCckw",
+            "widthPx" : 400,
+            "heightPx" : 267,
+            "authorAttributions" : [{
+                "displayName" : "John Smith",
+                "uri" : "//maps.google.com/maps/contrib/110012216588911435300",
+                "photoUri" : "//lh3.googleusercontent.com/a-/ALV-UjVtRt_FObWkBxnWSXMuXwjUuL8QgL8rE6K-u36kpSIeMFIJ=s100-p-k-no-mo"
+            }]
+        },
+        {
+            "name" : "places/ChIJhRwB-yFawokR5Phil-QQ3zM/photos/AcJnMuEPJtKLwJrGZto0VDHpUPP2Im3iSmmoH10JehqT6DYfnvNuNrpEqAgwFWtBkVf1fdh-IW14iVRm-GU_KBy3_msqziCqoLnKhpdHv9DipZxl7t_u6zL8LkcnzxS3Jsm1TID6Sy7JXvSFJ4Y3SGEM8bfbIv0XE2mCckw",
+            "widthPx" : 400,
+            "heightPx" : 267,
+            "authorAttributions" : [{
+                "displayName" : "John Smith",
+                "uri" : "//maps.google.com/maps/contrib/110012216588911435300",
+                "photoUri" : "//lh3.googleusercontent.com/a-/ALV-UjVtRt_FObWkBxnWSXMuXwjUuL8QgL8rE6K-u36kpSIeMFIJ=s100-p-k-no-mo"
+            }]
+        }
+    ],
+    "id" : "ChIJhRwB-yFawokR5Phil-QQ3zM",
+    "rating" : 4.4,
+    "reviews" : [
+        {
+            "name" : "places/ChIJhRwB-yFawokR5Phil-QQ3zM/reviews/ChdDSUhNMG9nS0VJQ0FnSUNaN2Zpbjl3RRAB",
+            "authorAttribution" : {
+                "displayName" : "John Smith",
+                "uri" : "//maps.google.com/maps/contrib/110012216588911435300",
+                "photoUri" : "//lh3.googleusercontent.com/a-/ALV-UjVtRt_FObWkBxnWSXMuXwjUuL8QgL8rE6K-u36kpSIeMFIJ=s100-p-k-no-mo"
+            },
+            "rating" : 5,
+            "text" : {
+                "text" : "It's nice.",
+                "languageCode": "en"
+            },
+            "publishTime" : "2023-09-15T20:20:40Z"
+        },
+        {
+            "name" : "places/ChIJhRwB-yFawokR5Phil-QQ3zM/reviews/ChdDSUhNMG9nS0VJQ0FnSUNaN2Zpbjl3RRAB",
+            "authorAttribution" : {
+                "displayName" : "John Smith",
+                "uri" : "//maps.google.com/maps/contrib/110012216588911435300",
+                "photoUri" : "//lh3.googleusercontent.com/a-/ALV-UjVtRt_FObWkBxnWSXMuXwjUuL8QgL8rE6K-u36kpSIeMFIJ=s100-p-k-no-mo"
+            },
+            "rating" : 2,
+            "text" : {
+                "text" : "Not so nice.",
+                "languageCode": "en"
+            },
+            "publishTime" : "2023-09-15T20:15:40Z"
+        }
+    ],
+    "types" : [ "tourist_attraction", "stadium", "sports_complex", "event_venue", "sports_club", "point_of_interest", "establishment" ],
+    "primaryType" : "event_venue",
+    "googleMapsUri" : "https://plus.google.com/112180896421099179463/about?hl=en-US",
+    "userRatingCount" : 382,
+    "utcOffsetMinutes" : -240,
+    "shortFormattedAddress" : "4 Pennsylvania Plaza, New York",
+    "websiteUri" : "http://www.thegarden.com/"
+}
+
