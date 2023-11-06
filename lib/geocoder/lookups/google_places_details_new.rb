@@ -29,6 +29,7 @@ module Geocoder::Lookup
         return format_fields(configuration[:fields])
       end
 
+      # Google discourage the use of the wildcard field mask so you probably do NOT want to use it
       '*'
     end
 
