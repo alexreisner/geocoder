@@ -20,7 +20,6 @@ module Geocoder::Lookup
       result
     end
 
-    # TODO: finish me
     def fields(query)
       if query.options.has_key?(:fields)
         return format_fields(query.options[:fields])
@@ -29,6 +28,8 @@ module Geocoder::Lookup
       if configuration.has_key?(:fields)
         return format_fields(configuration[:fields])
       end
+
+      '*'
     end
 
     def format_fields(*fields)

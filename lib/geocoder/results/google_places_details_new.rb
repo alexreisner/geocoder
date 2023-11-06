@@ -1,7 +1,7 @@
-require 'geocoder/results/google'
+require 'geocoder/results/google_new'
 
 module Geocoder::Result
-  class GooglePlacesDetails < GoogleNew
+  class GooglePlacesDetailsNew < GoogleNew
     def types
       @data['types'] || []
     end
