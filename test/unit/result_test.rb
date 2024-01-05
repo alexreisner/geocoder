@@ -16,6 +16,7 @@ class ResultTest < GeocoderTestCase
       set_api_key!(l)
       result = Geocoder.search("Madison Square Garden").first
       assert_result_has_required_attributes(result)
+      assert_aws_result_supports_place_id(result) if l == :amazon_location_service
     end
   end
 
@@ -55,5 +56,9 @@ class ResultTest < GeocoderTestCase
     assert result.country.is_a?(String),       m % "country"
     assert result.country_code.is_a?(String),  m % "country_code"
     assert_not_nil result.address,             m % "address"
+  end
+
+  def assert_aws_result_supports_place_id(result)
+    assert result.place_id.is_a?(String)
   end
 end
