@@ -21,6 +21,7 @@ class CacheTest < GeocoderTestCase
         # local, does not use cache
         l == :maxmind_local ||
         l == :geoip2 ||
+        l == :ip2location_lite ||
         # uses the AWS gem, not HTTP requests with caching
         l == :amazon_location_service
       Geocoder.configure(:lookup => l)

@@ -1,0 +1,42 @@
+{
+    "Err": 0,
+    "ErrString": "OK",
+    "QueryConfidence": 1,
+    "TimeInMilliseconds": 16,
+    "GridDataVersion": "GRD_ALK.NA.2023.01.18.29.1.1",
+    "CommitID": "pcmws-22.08.11.0-1778-g586da49bd1b: 05/30/2023 20:14",
+    "Locations": [
+        {
+            "Address": {
+                "StreetAddress": "",
+                "LocalArea": "",
+                "City": "Duluth",
+                "State": "MN",
+                "StateName": "Minnesota",
+                "Zip": "55806",
+                "County": "St. Louis",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "46.776443",
+                "Lon": "-92.110529"
+            },
+            "StreetCoords": {
+                "Lat": "46.776536",
+                "Lon": "-92.110673"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 3,
+            "ShortString": "Duluth, MN, US, St. Louis 55806",
+            "GridID": 16543728,
+            "LinkID": 39,
+            "Percent": 4307,
+            "TimeZone": "GMT-5:00 CDT"
+        }
+    ]
+}

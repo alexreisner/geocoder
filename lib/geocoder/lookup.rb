@@ -23,7 +23,7 @@ module Geocoder
     # For example, Amazon Location Service uses the AWS gem, not HTTP REST requests, to fetch data.
     #
     def all_services_with_http_requests
-      all_services_except_test - [:amazon_location_service]
+      all_services_except_test - [:amazon_location_service, :maxmind_local, :geoip2, :ip2location_lite]
     end
 
     ##
@@ -48,6 +48,7 @@ module Geocoder
         :uk_ordnance_survey_names,
         :opencagedata,
         :pelias,
+        :pdok_nl,
         :pickpoint,
         :here,
         :baidu,
@@ -67,6 +68,7 @@ module Geocoder
         :geoapify,
         :photon,
         :twogis,
+        :pc_miler,
         :get_address_uk
       ]
     end
@@ -94,7 +96,9 @@ module Geocoder
         :ip2location,
         :ipgeolocation,
         :ipqualityscore,
-        :ipbase
+        :ipbase,
+        :ip2location_io,
+        :ip2location_lite
       ]
     end
 

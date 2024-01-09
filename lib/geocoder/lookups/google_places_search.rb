@@ -49,12 +49,11 @@ module Geocoder
       end
 
       def default_fields
-        legacy = %w[id reference]
         basic = %w[business_status formatted_address geometry icon name 
           photos place_id plus_code types]
         contact = %w[opening_hours]
         atmosphere = %W[price_level rating user_ratings_total]
-        format_fields(legacy, basic, contact, atmosphere)
+        format_fields(basic, contact, atmosphere)
       end
 
       def format_fields(*fields)

@@ -125,7 +125,7 @@ module Geocoder::Lookup
     end
 
     def type_param_is_valid?(param)
-      %w(housenumber street locality village town city).include?(param.downcase)
+      %w(housenumber street locality municipality).include?(param.downcase)
     end
 
     def code_param_is_valid?(param)

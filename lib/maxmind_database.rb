@@ -6,9 +6,9 @@ module Geocoder
     extend self
 
     def download(package, dir = "tmp")
-      filepath = File.expand_path(File.join(dir, archive_filename(package)))
+      filepath = File.expand_path(File.join(dir, "#{archive_edition(package)}.zip"))
       open(filepath, 'wb') do |file|
-        uri = URI.parse(archive_url(package))
+        uri = URI.parse(base_url(package))
         Net::HTTP.start(uri.host, uri.port) do |http|
           http.request_get(uri.path) do |resp|
             # TODO: show progress
@@ -94,16 +94,16 @@ module Geocoder
       base_url + archive_url_path(package)
     end
 
-    def archive_url_path(package)
+    def archive_edition(package)
       {
-        geolite_country_csv: "GeoLite2-Country-CSV.zip",
-        geolite_city_csv: "GeoLite2-City-CSV.zip",
-        geolite_asn_csv: "GeoLite2-ASN-CSV.zip"
+        geolite_country_csv: "GeoLite2-Country-CSV",
+        geolite_city_csv: "GeoLite2-City-CSV",
+        geolite_asn_csv: "GeoLite2-ASN-CSV"
       }[package]
     end
 
-    def base_url
-      "http://geolite.maxmind.com/download/geoip/database/"
+    def base_url(edition)
+      "https://download.maxmind.com/app/geoip_download?edition_id=#{edition}&license_key=#{ENV['LICENSE_KEY']}&suffix=zip"
     end
   end
 end

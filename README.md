@@ -5,7 +5,6 @@ Geocoder
 
 [![Gem Version](https://badge.fury.io/rb/geocoder.svg)](http://badge.fury.io/rb/geocoder)
 [![Code Climate](https://codeclimate.com/github/alexreisner/geocoder/badges/gpa.svg)](https://codeclimate.com/github/alexreisner/geocoder)
-[![Build Status](https://travis-ci.com/alexreisner/geocoder.svg?branch=master)](https://travis-ci.com/alexreisner/geocoder)
 
 Key features:
 
@@ -368,7 +367,7 @@ If you need to expire cached content:
 ```ruby
 Geocoder::Lookup.get(Geocoder.config[:lookup]).cache.expire(:all)  # expire cached results for current Lookup
 Geocoder::Lookup.get(:nominatim).cache.expire("http://...")        # expire cached result for a specific URL
-Geocoder::Lookup.get(:nominatim).cache.expire(:all)                # expire cached results for Google Lookup
+Geocoder::Lookup.get(:nominatim).cache.expire(:all)                # expire cached results for Nominatim
 # expire all cached results for all Lookups.
 # Be aware that this methods spawns a new Lookup object for each Service
 Geocoder::Lookup.all_services.each{|service| Geocoder::Lookup.get(service).cache.expire(:all)}
@@ -376,10 +375,9 @@ Geocoder::Lookup.all_services.each{|service| Geocoder::Lookup.get(service).cache
 
 Do *not* include the prefix when passing a URL to be expired. Expiring `:all` will only expire keys with the configured prefix -- it will *not* expire every entry in your key/value store.
 
-For an example of a cache store with URL expiry, please see examples/autoexpire_cache.rb
-
 _Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service._
 
+Not all services support caching, [check the service limitations in the API guide for more information](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md).
 
 Advanced Model Configuration
 ----------------------------

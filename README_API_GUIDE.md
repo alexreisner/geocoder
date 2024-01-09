@@ -32,6 +32,7 @@ Global Street Address Lookups
     * `:filter_countries` - an array of countries you want to geocode within, named by [ISO 3166 country codes](https://www.iso.org/iso-3166-country-codes.html), e.g. `['DEU', 'FRA']`
 * **Documentation**: https://docs.aws.amazon.com/location
 * **Terms of Service**: https://aws.amazon.com/service-terms
+* **Limitations**: Caching is not supported.
 * **Notes**:
   * You must install either the `aws-sdk` or `aws-sdk-locationservice` gem, version 1.4.0 or greater.
   * You can set a default index name for all queries in the Geocoder configuration:
@@ -51,6 +52,7 @@ Global Street Address Lookups
           amazon_location_service: {
             index_name: 'YOUR_INDEX_NAME_GOES_HERE',
             api_key: {
+              region: 'YOUR_INDEX_REGION',
               access_key_id: 'YOUR_AWS_ACCESS_KEY_ID_GOES_HERE',
               secret_access_key: 'YOUR_AWS_SECRET_ACCESS_KEY_GOES_HERE',
             }
@@ -367,6 +369,21 @@ Open source geocoding engine which can be self-hosted. Komoot hosts a public ins
 * **Documentation**: [https://pickpoint.io/api-reference](https://pickpoint.io/api-reference)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://www.openstreetmap.org/copyright)
 
+### PC Miler (Trimble) (`:pc_miler`)
+
+PC Miler (aka Trimble) provides geocoding services especially tailored to the trucking / logistics industry.
+
+* **API key**: required
+* **Quota**: ?
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: en
+* **Documentation**: https://developer.trimblemaps.com/restful-apis/location/single-search/single-search-api/
+* **Terms of Service**: https://developer.trimblemaps.com/restful-apis/developer-guide/introduction/
+* **Limitations**: ?
+* **Notes**: A region (continent) must be specified in global config or per-query. Defaults to `NA` ('North America').
+
+
 ### Yandex (`:yandex`)
 
 * **API key**: optional, but without it lookup is territorially limited
@@ -413,8 +430,8 @@ Regional Street Address Lookups
 * **Region**: France
 * **SSL support**: yes
 * **Languages**: en / fr
-* **Documentation**: https://adresse.data.gouv.fr/api/ (in french)
-* **Terms of Service**: https://adresse.data.gouv.fr/faq/ (in french)
+* **Documentation**: https://adresse.data.gouv.fr/api-doc/adresse (in french)
+* **Terms of Service**: https://doc.adresse.data.gouv.fr/ (in french)
 * **Limitations**: [Data licensed under Open Database License (ODbL) (you must provide attribution).](http://openstreetmap.fr/ban)
 
 ### Geocoder.ca (`:geocoder_ca`)
@@ -481,6 +498,16 @@ Regional Street Address Lookups
 * **SSL support**: yes
 * **Languages**: Dutch
 * **Documentation**: http://geodata.nationaalgeoregister.nl/
+* **Terms of Service**: https://www.pdok.nl/over-pdok - The PDOK services are based on open data and are therefore freely available to everyone.
+
+### pdok NL (`:pdok_nl`)
+
+* **API key**: none
+* **Quota**: none
+* **Region**: Netherlands
+* **SSL support**: yes, required
+* **Languages**: Dutch
+* **Documentation**: https://api.pdok.nl/bzk/locatieserver/search/v3_1/ui/#/Locatieserver/free
 * **Terms of Service**: https://www.pdok.nl/over-pdok - The PDOK services are based on open data and are therefore freely available to everyone.
 
 ### Ordnance Survey OpenNames (`:uk_ordnance_survey_names`)
@@ -733,6 +760,16 @@ IP Address Lookups
 * **Terms of Service**:
 * **Limitations**:
 
+### IP2Location.io (`:ip2location_io`)
+
+* **API key**: required (30,000 free queries given on FREE plan)
+* **Quota**: up to 600k queries with paid API key
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://www.ip2location.io/ip2location-documentation
+* **Terms of Service**: https://www.ip2location.io/terms-of-service
+
 
 Local IP Address Lookups
 ------------------------
@@ -748,7 +785,7 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Languages**: English
 * **Documentation**: http://www.maxmind.com/en/city
 * **Terms of Service**: ?
-* **Limitations**: ?
+* **Limitations**: Caching is not supported.
 * **Notes**: **You must download a binary database file from MaxMind and set the `:file` configuration option.** The CSV format databases are not yet supported since they are still in alpha stage. Set the path to the database file in your configuration:
 
     Geocoder.configure(
@@ -780,7 +817,7 @@ This lookup provides methods for geocoding IP addresses without making a call to
 * **Languages**: English
 * **Documentation**: http://www.maxmind.com/en/city
 * **Terms of Service**: ?
-* **Limitations**: ?
+* **Limitations**: Caching is not supported.
 * **Notes**: There are two supported formats for MaxMind local data: binary file, and CSV file imported into an SQL database. **You must download a database from MaxMind and set either the `:file` or `:package` configuration option for local lookups to work.**
 
 **To use a binary file** you must add the *geoip* (or *jgeoip* for JRuby) gem to your Gemfile or have it installed in your system, and specify the path of the MaxMind database in your configuration. For example:
@@ -797,8 +834,30 @@ You can generate ActiveRecord migrations and download and import data via provid
     rails generate geocoder:maxmind:geolite_city
 
     # download, unpack, and import data
-    rake geocoder:maxmind:geolite:load PACKAGE=city
+    rake geocoder:maxmind:geolite:load PACKAGE=city LICENSE_KEY=<KEY>
 
 You can replace `city` with `country` in any of the above tasks, generators, and configurations.
+
+### IP2Location LITE (`:ip2location_lite`)
+
+This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability).
+
+* **API key**: none (requires a IP2Location or FREE IP2Location LITE binary database which can be downloaded from [IP2Location LITE](https://lite.ip2location.com/))
+* **Quota**: none
+* **Region**: world
+* **SSL support**: N/A
+* **Languages**: English
+* **Documentation**: https://lite.ip2location.com/
+* **Terms of Service**: https://lite.ip2location.com/
+* **Notes**: **You must download a binary database (BIN) file from IP2Location LITE and set the `:file` configuration option.** Set the path to the database file in your configuration:
+
+    Geocoder.configure(
+      ip_lookup: :ip2location_lite,
+      ip2location_lite: {
+        file: File.join('folder', 'IP2LOCATION-LITE-DB11.BIN')
+      }
+    )
+
+You must add the *[ip2location_ruby](https://rubygems.org/gems/ip2location_ruby)* gem (pure Ruby implementation) to your Gemfile or have it installed in your system.
 
 Copyright (c) 2009-2021 Alex Reisner, released under the MIT license.

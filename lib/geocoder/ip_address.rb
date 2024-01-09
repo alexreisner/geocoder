@@ -9,8 +9,11 @@ module Geocoder
 
     def initialize(ip)
       ip = ip.to_string if ip.is_a?(IPAddr)
-
-      super(ip)
+      if ip.is_a?(Hash)
+        super(**ip)
+      else
+        super(ip)
+      end
     end
 
     def internal?

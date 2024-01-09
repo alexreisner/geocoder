@@ -51,7 +51,7 @@ class GooglePlacesSearchTest < GeocoderTestCase
 
   def test_google_places_search_query_url_contains_every_field_available_by_default
     url = lookup.query_url(Geocoder::Query.new("some-address"))
-    fields = %w[id reference business_status formatted_address geometry icon name 
+    fields = %w[business_status formatted_address geometry icon name 
       photos place_id plus_code types opening_hours price_level rating 
       user_ratings_total]
     assert_match(/fields=#{fields.join('%2C')}/, url)

@@ -7,22 +7,18 @@ group :development, :test do
   gem 'rubyzip'
   gem 'rails', '~>5.1.0'
   gem 'test-unit' # needed for Ruby >=2.2.0
+  gem 'ip2location_ruby'
 
   platforms :jruby do
     gem 'jruby-openssl'
     gem 'jgeoip'
   end
-
-  platforms :rbx do
-    gem 'rubysl', '~> 2.0'
-    gem 'rubysl-test-unit'
-  end
 end
 
 group :test do
   platforms :ruby, :mswin, :mingw do
-    gem 'sqlite3', '~> 1.4.2'
-    gem 'sqlite_ext', '~> 1.5.0'
+    gem 'sqlite3'
+    gem 'sqlite_ext'
   end
 
   gem 'webmock'
