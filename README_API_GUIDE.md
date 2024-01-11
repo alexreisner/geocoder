@@ -467,6 +467,18 @@ Regional Street Address Lookups
 * **Terms of Service**: http://wiki.geoportail.lu/doku.php?id=en:mcg_1
 * **Limitations**: ?
 
+#### GetAddressUk (`:get_address__uk`)
+
+* **API key**: required
+* **Quota**: 20/day for free through 5,000/day for £20/mo
+* **Region**: UK
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://getaddress.io/Documentation
+* **Terms of Service**: https://getaddress.io/#faq
+* **Limitations**: No restrictions on use
+* **Notes**: To use GetAddress you must include an API key: `Geocoder.configure(:lookup => :get_address_uk, :api_key => 'your_api_key')`.
+
 ### LatLon.io (`:latlon`)
 
 * **API key**: required
