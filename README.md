@@ -734,8 +734,34 @@ you should check your Gemfile to make sure the Mongoid gem is listed _before_ Ge
 
 A lot of debugging time can be saved by understanding how Geocoder works with ActiveRecord. When you use the `near` scope or the `nearbys` method of a geocoded object, Geocoder creates an ActiveModel::Relation object which adds some attributes (eg: distance, bearing) to the SELECT clause. It also adds a condition to the WHERE clause to check that distance is within the given radius. Because the SELECT clause is modified, anything else that modifies the SELECT clause may produce strange results, for example:
 
-* using the `pluck` method (selects only a single column)
-* specifying another model through `includes` (selects columns from other tables)
+* using [`select` method (selects one or more columns)](https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-select)
+* using the [`pluck` method (gets an array with selecting one or more columns)](https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-pluck)
+  * The same problem will appear with [ActiveRecord's `ids` method](https://api.rubyonrails.org/classes/ActiveRecord/Calculations.html#method-i-ids).
+* specifying another model through [`includes` (selects columns from other tables)](https://api.rubyonrails.org/classes/ActiveRecord/QueryMethods.html#method-i-includes)
+  * See also Known Issues [using-near-with-includes](#using-near-with-select) section.
+
+If you get an error in the above cases, try the following:
+
+```ruby
+# Use the :select option with the near scope to get the columns you want.
+# Instead of City.near(...).select(:id, :name), try:
+City.near("Omaha, NE", 20, select: "id, name")
+
+# Pass a :select option to the near scope to get the columns you want.
+# Then, Ruby's built-in pluck method gets arrays you want.
+# Instead of City.near(...).pluck(:id) or City.near(...).ids,, try:
+City.near("Omaha, NE", 20, select: "id, name").to_a.pluck(:id, :name)
+City.near("Omaha, NE", 20, select: "id").to_a.pluck(:id)
+
+# Pass a :select option to the near scope to get the columns you want.
+# Instead of City.near(...).includes(:venues), try:
+City.near("Omaha, NE", 20, select: "cities.*, venues.*").joins(:venues)
+
+# This preload call will normally trigger two queries regardless of the
+# number of results; one query on hotels, and one query on administrators.
+# Instead of Hotel.near(...).includes(:administrator), try:
+Hotel.near("London, UK", 50).joins(:administrator).preload(:administrator)
+```
 
 ### Geocoding is Slow
 
