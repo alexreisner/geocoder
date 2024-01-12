@@ -51,6 +51,7 @@ module Geocoder
     include Singleton
 
     OPTIONS = [
+      :connect_timeout,
       :timeout,
       :lookup,
       :ip_lookup,
@@ -102,6 +103,7 @@ module Geocoder
     def set_defaults
 
       # geocoding options
+      @data[:connect_timeout] = nil      # geocoding service connection timeout (secs)
       @data[:timeout]      = 3           # geocoding service timeout (secs)
       @data[:lookup]       = :nominatim  # name of street address geocoding service (symbol)
       @data[:ip_lookup]    = :ipinfo_io  # name of IP address geocoding service (symbol)
