@@ -511,6 +511,13 @@ If you store multiple sets of coordinates for each object, you can specify latit
 Venue.near("Paris", 50, latitude: :secondary_latitude, longitude: :secondary_longitude)
 ```
 
+Use ActiveRecord as cache
+-------------------------
+
+This applies for ActiveRecord only, the default cache service is Redis, but we still can use Database instead, it is not
+recommended in usual cases, but you can still follow 
+[this gist](https://gist.github.com/shqear93/4b07153b4ca7e4e4a41da492679f6c0e) to use databases as caching storage
+
 ### Distance and Bearing
 
 When you run a geospatial query, the returned objects have two attributes added:
