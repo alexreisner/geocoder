@@ -19,7 +19,7 @@ module Geocoder::Lookup
         client.search_place_index_for_text(params.merge(text: query.text))
       end
       
-      resp.results.map(&:place)
+      resp.results
     end
 
     private

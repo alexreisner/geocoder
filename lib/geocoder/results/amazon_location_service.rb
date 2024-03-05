@@ -3,7 +3,8 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class AmazonLocationService < Base
     def initialize(result)
-      @place = result
+      @place = result.place
+      super
     end
 
     def coordinates
@@ -52,6 +53,10 @@ module Geocoder::Result
 
     def country_code
       @place.country
+    end
+
+    def place_id
+      data.place_id if data.respond_to?(:place_id)
     end
   end
 end

@@ -553,11 +553,7 @@ module Geocoder
     MockAWSPlace = Struct.new(*%i[
       address_number country geometry label municipality neighborhood postal_code region street sub_region
     ])
-    class MockAWSPlace
-      def place
-        self
-      end
-    end
+    MockAWSResult = Struct.new(:place_id, :place)
 
     class MockAmazonLocationServiceClient
       def search_place_index_for_position(params = {}, options = {})
@@ -578,7 +574,10 @@ module Geocoder
       end
 
       def mock_results
-        MockResults.new([MockAWSPlace.new(*fixture)])
+        fixture_copy = fixture.dup
+        place_id = fixture_copy.shift
+        place = MockAWSPlace.new(*fixture_copy)
+        MockResults.new([MockAWSResult.new(place_id, place)])
       end
 
       def mock_no_results
