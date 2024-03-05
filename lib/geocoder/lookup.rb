@@ -38,6 +38,7 @@ module Geocoder
         :google_premier,
         :google_places_details,
         :google_places_search,
+        :google_places_details_new,
         :bing,
         :geocoder_ca,
         :yandex,

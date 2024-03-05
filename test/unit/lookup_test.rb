@@ -18,7 +18,8 @@ class LookupTest < GeocoderTestCase
         :ipqualityscore,
         :melissa_street,
         :nationaal_georegister_nl,
-        :twogis
+        :twogis,
+        :google_places_details_new
       ].include?(l) # lookups that always return a result
 
       lookup = Geocoder::Lookup.get(l)
