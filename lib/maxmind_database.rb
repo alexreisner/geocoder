@@ -35,6 +35,14 @@ module Geocoder
       p[s..-1]
     end
 
+    def archive_edition(package)
+      {
+        geolite_country_csv: "GeoLite2-Country-CSV",
+        geolite_city_csv: "GeoLite2-City-CSV",
+        geolite_asn_csv: "GeoLite2-ASN-CSV"
+      }[package]
+    end
+
     private # -------------------------------------------------------------
 
     def table_columns(table_name)
@@ -92,14 +100,6 @@ module Geocoder
 
     def archive_url(package)
       base_url + archive_url_path(package)
-    end
-
-    def archive_edition(package)
-      {
-        geolite_country_csv: "GeoLite2-Country-CSV",
-        geolite_city_csv: "GeoLite2-City-CSV",
-        geolite_asn_csv: "GeoLite2-ASN-CSV"
-      }[package]
     end
 
     def base_url(edition)
