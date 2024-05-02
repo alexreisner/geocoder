@@ -196,14 +196,6 @@ module Geocoder
       end
     end
 
-    require 'geocoder/lookups/dstk'
-    class Dstk
-      private
-      def fixture_prefix
-        "google"
-      end
-    end
-
     require 'geocoder/lookups/location_iq'
     class LocationIq
       private

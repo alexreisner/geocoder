@@ -73,20 +73,6 @@ Global Street Address Lookups
 * **Terms of Service**: http://www.microsoft.com/maps/product/terms.html
 * **Limitations**: No country codes or state names. Must be used on "public-facing, non-password protected web sites," "in conjunction with Bing Maps or an application that integrates Bing Maps."
 
-### Data Science Toolkit (`:dstk`)
-
-Data Science Toolkit provides an API whose response format is like Google's but which can be set up as a privately hosted service.
-
-* **API key**: none
-* **Quota**: No quota if you are self-hosting the service.
-* **Region**: world
-* **SSL support**: ?
-* **Languages**: en
-* **Documentation**: http://www.datasciencetoolkit.org/developerdocs
-* **Terms of Service**: http://www.datasciencetoolkit.org/developerdocs#googlestylegeocoder
-* **Limitations**: No reverse geocoding.
-* **Notes**: If you are hosting your own DSTK server you will need to configure the host name, eg: `Geocoder.configure(lookup: :dstk, dstk: {host: "localhost:4567"})`.
-
 ### ESRI (`:esri`)
 
 * **API key**: optional (set `Geocoder.configure(esri: {api_key: ["client_id", "client_secret"]})`)
