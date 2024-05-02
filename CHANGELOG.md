@@ -3,6 +3,12 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.8.3 (2024 May  2)
+-------------------
+* Add support for IP2Location LITE lookup (thanks github.com/ip2location).
+* Add support for PDOK NL lookup (thanks github.com/opensourceame).
+* Remove support for Data Science Toolkit lookup (defunct).
+
 1.8.2 (2023 Jul  4)
 -------------------
 * Add support for PC Miler lookup (thanks github.com/alexdean).
