@@ -1,0 +1,26 @@
+{
+  "type": "FeatureCollection",
+  "query": ["united", "states"],
+  "features": [
+    {
+      "id": "country.8940",
+      "type": "Feature",
+      "place_type": ["country"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+        "wikidata": "Q30",
+        "short_code": "us"
+      },
+      "text": "United States",
+      "place_name": "United States",
+      "bbox": [-179.9, 18.8164227, -66.8847656, 71.420291],
+      "center": [-97.9222112121185, 39.3812661305678],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-97.9222112121185, 39.3812661305678]
+      }
+    }
+  ],
+  "attribution": "NOTICE: © 2024 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare."
+}

@@ -33,7 +33,7 @@ class MapboxTest < GeocoderTestCase
     assert_equal "United States", result.country
     assert_equal "US", result.country_code
     assert_equal "Garment District", result.neighborhood
-    assert_equal "Madison Square Garden, 4 Penn Plz, New York, New York, 10119, United States", result.address
+    assert_equal "Madison Square Garden, 4 Penn Plz, New York, New York 10119, United States", result.address
   end
 
   def test_no_results
@@ -57,5 +57,80 @@ class MapboxTest < GeocoderTestCase
       result = Geocoder.search("Shanghai, China")[0]
       assert_equal nil, result.city
     end
+  end
+
+  def test_neighborhood_result
+    result = Geocoder.search("Logan Square, Chicago, IL").first
+    assert_equal [41.92597, -87.70235], result.coordinates
+    assert_equal "Logan Square", result.place_name
+    assert_equal nil, result.street
+    assert_equal "Chicago", result.city
+    assert_equal "Illinois", result.state
+    assert_equal "60647", result.postal_code
+    assert_equal "IL", result.state_code
+    assert_equal "United States", result.country
+    assert_equal "US", result.country_code
+    assert_equal "Logan Square", result.neighborhood
+    assert_equal "Logan Square, Chicago, Illinois, United States", result.address
+  end
+
+  def test_postcode_result
+    result = Geocoder.search("Chicago, IL 60647").first
+    assert_equal [41.924799, -87.700436], result.coordinates
+    assert_equal "60647", result.place_name
+    assert_equal nil, result.street
+    assert_equal "Chicago", result.city
+    assert_equal "Illinois", result.state
+    assert_equal "60647", result.postal_code
+    assert_equal "IL", result.state_code
+    assert_equal "United States", result.country
+    assert_equal "US", result.country_code
+    assert_equal nil, result.neighborhood
+    assert_equal "Chicago, Illinois 60647, United States", result.address
+  end
+
+  def test_place_result
+    result = Geocoder.search("Chicago, IL").first
+    assert_equal [41.881954, -87.63236], result.coordinates
+    assert_equal "Chicago", result.place_name
+    assert_equal nil, result.street
+    assert_equal "Chicago", result.city
+    assert_equal "Illinois", result.state
+    assert_equal nil, result.postal_code
+    assert_equal "IL", result.state_code
+    assert_equal "United States", result.country
+    assert_equal "US", result.country_code
+    assert_equal nil, result.neighborhood
+    assert_equal "Chicago, Illinois, United States", result.address
+  end
+
+  def test_region_result
+    result = Geocoder.search("Illinois").first
+    assert_equal [40.1492928594374, -89.2749461071049], result.coordinates
+    assert_equal "Illinois", result.place_name
+    assert_equal nil, result.street
+    assert_equal nil, result.city
+    assert_equal "Illinois", result.state
+    assert_equal nil, result.postal_code
+    assert_equal "IL", result.state_code
+    assert_equal "United States", result.country
+    assert_equal "US", result.country_code
+    assert_equal nil, result.neighborhood
+    assert_equal "Illinois, United States", result.address
+  end
+
+  def test_country_result
+    result = Geocoder.search("United States").first
+    assert_equal [39.3812661305678, -97.9222112121185], result.coordinates
+    assert_equal "United States", result.place_name
+    assert_equal nil, result.street
+    assert_equal nil, result.city
+    assert_equal nil, result.state
+    assert_equal nil, result.postal_code
+    assert_equal nil, result.state_code
+    assert_equal "United States", result.country
+    assert_equal "US", result.country_code
+    assert_equal nil, result.neighborhood
+    assert_equal "United States", result.address
   end
 end

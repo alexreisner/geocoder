@@ -56,7 +56,7 @@ module Geocoder::Result
     end
 
     def address
-      [place_name, street, city, state, postal_code, country].compact.join(', ')
+      data['place_name']
     end
 
     private
