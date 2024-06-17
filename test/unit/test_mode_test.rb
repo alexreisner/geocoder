@@ -60,6 +60,20 @@ class TestModeTest < GeocoderTestCase
     assert_equal [], result
   end
 
+  def test_unsetting_stub
+    Geocoder::Lookup::Test.add_stub("New York, NY", [mock_attributes])
+
+    assert_nothing_raised ArgumentError do
+      Geocoder.search("New York, NY")
+    end
+
+    Geocoder::Lookup::Test.delete_stub("New York, NY")
+
+    assert_raise ArgumentError do
+      Geocoder.search("New York, NY")
+    end
+  end
+
   private
   def mock_attributes
     coordinates = [40.7143528, -74.0059731]

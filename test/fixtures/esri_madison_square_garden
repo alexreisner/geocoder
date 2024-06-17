@@ -39,6 +39,7 @@
      "City": "New York",
      "Subregion": "New York",
      "Region": "New York",
+     "RegionAbbr": "NY",
      "Postal": "10001",
      "PostalExt": "",
      "Country": "USA",

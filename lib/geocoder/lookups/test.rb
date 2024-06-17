@@ -18,6 +18,7 @@ module Geocoder
       end
 
       def self.read_stub(query_text)
+        @default_stub ||= nil
         stubs.fetch(query_text) {
           return @default_stub unless @default_stub.nil?
           raise ArgumentError, "unknown stub request #{query_text}"
@@ -26,6 +27,10 @@ module Geocoder
 
       def self.stubs
         @stubs ||= {}
+      end
+
+      def self.delete_stub(query_text)
+        stubs.delete(query_text)
       end
 
       def self.reset

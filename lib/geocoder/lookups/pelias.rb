@@ -11,25 +11,24 @@ module Geocoder::Lookup
       configuration[:endpoint] || 'localhost'
     end
 
-    def query_url(query)
-      query_type = query.reverse_geocode? ? 'reverse' : 'search'
-      "#{protocol}://#{endpoint}/v1/#{query_type}?" + url_query_string(query)
-    end
-
     def required_api_key_parts
       ['search-XXXX']
     end
 
-    private
+    private # ----------------------------------------------------------------
+
+    def base_query_url(query)
+      query_type = query.reverse_geocode? ? 'reverse' : 'search'
+      "#{protocol}://#{endpoint}/v1/#{query_type}?"
+    end
 
     def query_url_params(query)
       params = {
-        api_key: configuration.api_key,
-        size: 1
+        api_key: configuration.api_key
       }.merge(super)
 
       if query.reverse_geocode?
-        lat,lon = query.coordinates
+        lat, lon = query.coordinates
         params[:'point.lat'] = lat
         params[:'point.lon'] = lon
       else

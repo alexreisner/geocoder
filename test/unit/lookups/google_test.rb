@@ -3,6 +3,11 @@ require 'test_helper'
 
 class GoogleTest < GeocoderTestCase
 
+  def setup
+    super
+    Geocoder.configure(lookup: :google)
+  end
+
   def test_google_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal "Manhattan",
@@ -46,6 +51,17 @@ class GoogleTest < GeocoderTestCase
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal [40.7473324, -73.9965316, 40.7536276, -73.9902364],
       result.viewport
+  end
+
+  def test_google_bounds
+    result = Geocoder.search("new york").first
+    assert_equal [40.4773991, -74.2590899, 40.9175771, -73.7002721],
+      result.bounds
+  end
+
+  def test_google_no_bounds
+    result = Geocoder.search("Madison Square Garden, New York, NY").first
+    assert_equal nil, result.bounds
   end
 
   def test_google_query_url_contains_bounds

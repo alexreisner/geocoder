@@ -1,0 +1,44 @@
+{
+  "type": "FeatureCollection",
+  "query": ["chicago"],
+  "features": [
+    {
+      "id": "place.59328748",
+      "type": "Feature",
+      "place_type": ["place"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpBNGxJN0E",
+        "wikidata": "Q1297"
+      },
+      "text": "Chicago",
+      "place_name": "Chicago, Illinois, United States",
+      "bbox": [-87.869226, 41.6326524, -87.4969592, 42.0348953],
+      "center": [-87.63236, 41.881954],
+      "geometry": {"type": "Point", "coordinates": [-87.63236, 41.881954]},
+      "context": [
+        {
+          "id": "district.5162732",
+          "mapbox_id": "dXJuOm1ieHBsYzpUc2Jz",
+          "wikidata": "Q108418",
+          "text": "Cook County"
+        },
+        {
+          "id": "region.17644",
+          "mapbox_id": "dXJuOm1ieHBsYzpST3c",
+          "wikidata": "Q1204",
+          "short_code": "US-IL",
+          "text": "Illinois"
+        },
+        {
+          "id": "country.8940",
+          "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    }
+  ],
+  "attribution": "NOTICE: © 2024 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare."
+}

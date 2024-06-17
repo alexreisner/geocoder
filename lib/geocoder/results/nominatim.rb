@@ -4,14 +4,12 @@ module Geocoder::Result
   class Nominatim < Base
 
     def poi
-      %w[building university school hospital mall hotel restaurant stadium bus_stop tram_stop].each do |key|
-        return @data['address'][key] if @data['address'].key?(key)
-      end
+      return address_data[place_type] if address_data.key?(place_type)
       return nil
     end
 
     def house_number
-      @data['address']['house_number']
+      address_data['house_number']
     end
 
     def address
@@ -20,53 +18,71 @@ module Geocoder::Result
 
     def street
       %w[road pedestrian highway].each do |key|
-        return @data['address'][key] if @data['address'].key?(key)
+        return address_data[key] if address_data.key?(key)
       end
       return nil
     end
 
     def city
       %w[city town village hamlet].each do |key|
-        return @data['address'][key] if @data['address'].key?(key)
+        return address_data[key] if address_data.key?(key)
       end
       return nil
     end
 
     def village
-      @data['address']['village']
+      address_data['village']
     end
 
     def town
-      @data['address']['town']
+      address_data['town']
     end
 
     def state
-      @data['address']['state']
+      address_data['state']
     end
 
     alias_method :state_code, :state
 
     def postal_code
-      @data['address']['postcode']
+      address_data['postcode']
     end
 
     def county
-      @data['address']['county']
+      address_data['county']
     end
 
     def country
-      @data['address']['country']
+      address_data['country']
     end
 
     def country_code
-      @data['address']['country_code']
+      address_data['country_code']
     end
 
     def suburb
-      @data['address']['suburb']
+      address_data['suburb']
+    end
+
+    def city_district
+      address_data['city_district']
+    end
+
+    def state_district
+      address_data['state_district']
+    end
+
+    def neighbourhood
+      address_data['neighbourhood']
+    end
+
+    def municipality
+      address_data['municipality']
     end
 
     def coordinates
+      return [] unless @data['lat'] && @data['lon']
+
       [@data['lat'].to_f, @data['lon'].to_f]
     end
 
@@ -94,6 +110,12 @@ module Geocoder::Result
           @data[a]
         end
       end
+    end
+
+    private
+
+    def address_data
+      @data['address'] || {}
     end
   end
 end

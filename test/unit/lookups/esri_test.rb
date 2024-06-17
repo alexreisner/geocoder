@@ -5,6 +5,7 @@ require 'geocoder/esri_token'
 class EsriTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :esri)
   end
 
@@ -12,7 +13,7 @@ class EsriTest < GeocoderTestCase
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     res = lookup.query_url(query)
-    assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&outFields=%2A&text=Bluffton%2C+SC",
+    assert_equal "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find?f=pjson&outFields=%2A&text=Bluffton%2C+SC",
       res
   end
 
@@ -21,17 +22,71 @@ class EsriTest < GeocoderTestCase
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     url = lookup.query_url(query)
-    assert_match /sourceCountry=USA/, url
+    assert_match %r{sourceCountry=USA}, url
+  end
+
+  def test_query_for_geocode_with_preferred_label_values
+    Geocoder.configure(esri: {preferred_label_values: 'localCity'})
+    query = Geocoder::Query.new("Bluffton, SC")
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_match %r{preferredLabelValues=localCity}, url
   end
 
   def test_query_for_geocode_with_token_and_for_storage
-    token = Geocoder::EsriToken.new('xxxxx', Time.now + 1.day)
+    token = Geocoder::EsriToken.new('xxxxx', Time.now + 60*60*24)
     Geocoder.configure(esri: {token: token, for_storage: true})
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     url = lookup.query_url(query)
-    assert_match /forStorage=true/, url
-    assert_match /token=xxxxx/, url
+    assert_match %r{forStorage=true}, url
+    assert_match %r{token=xxxxx}, url
+  end
+
+  def test_token_from_options
+    options_token = Geocoder::EsriToken.new('options_token', Time.now + 60*60*24)
+    query = Geocoder::Query.new("Bluffton, SC", token: options_token)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_match %r{token=options_token}, url
+  end
+
+  def test_token_from_options_overrides_configuration
+    config_token = Geocoder::EsriToken.new('config_token', Time.now + 60*60*24)
+    options_token = Geocoder::EsriToken.new('options_token', Time.now + 60*60*24)
+    Geocoder.configure(esri: { token: config_token })
+    query = Geocoder::Query.new("Bluffton, SC", token: options_token)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_match %r{token=options_token}, url
+  end
+
+  def test_query_for_geocode_with_config_for_storage_false
+    Geocoder.configure(esri: {for_storage: false})
+
+    query = Geocoder::Query.new("Bluffton, SC", for_storage: true)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_match %r{forStorage=true}, url
+
+    query = Geocoder::Query.new("Bluffton, SC", for_storage: false)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_no_match %r{forStorage}, url
+  end
+
+  def test_query_for_geocode_with_config_for_storage_true
+    Geocoder.configure(esri: {for_storage: true})
+
+    query = Geocoder::Query.new("Bluffton, SC", for_storage: true)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_match %r{forStorage=true}, url
+
+    query = Geocoder::Query.new("Bluffton, SC", for_storage: false)
+    lookup = Geocoder::Lookup.get(:esri)
+    url = lookup.query_url(query)
+    assert_no_match %r{forStorage}, url
   end
 
   def test_token_generation_doesnt_overwrite_existing_config
@@ -49,15 +104,15 @@ class EsriTest < GeocoderTestCase
 
     url = lookup.query_url(query)
 
-    assert_match /forStorage=true/, url
-    assert_match /token=xxxxx/, url
+    assert_match %r{forStorage=true}, url
+    assert_match %r{token=xxxxx}, url
   end
 
   def test_query_for_reverse_geocode
     query = Geocoder::Query.new([45.423733, -75.676333])
     lookup = Geocoder::Lookup.get(:esri)
     res = lookup.query_url(query)
-    assert_equal "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&location=-75.676333%2C45.423733&outFields=%2A",
+    assert_equal "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&location=-75.676333%2C45.423733&outFields=%2A",
       res
   end
 
@@ -68,6 +123,7 @@ class EsriTest < GeocoderTestCase
     assert_equal "Madison Square Garden", result.address
     assert_equal "New York", result.city
     assert_equal "New York", result.state
+    assert_equal "NY", result.state_code
     assert_equal "Madison Square Garden", result.place_name
     assert_equal "Sports Complex", result.place_type
     assert_equal(40.75004981300049, result.coordinates[0])
@@ -78,6 +134,7 @@ class EsriTest < GeocoderTestCase
     result = Geocoder.search("washington dc").first
     assert_equal "Washington", result.city
     assert_equal "District of Columbia", result.state
+    assert_equal "DC", result.state_code
     assert_equal "USA", result.country
     assert_equal "Washington, D. C., District of Columbia, United States", result.address
     assert_equal "Washington", result.place_name
@@ -90,6 +147,7 @@ class EsriTest < GeocoderTestCase
     result = Geocoder.search("austin tx").first
     assert_equal "Austin", result.city
     assert_equal "Texas", result.state
+    assert_equal "TX", result.state_code
     assert_equal "USA", result.country
     assert_equal "Austin, Texas, United States", result.address
     assert_equal "Austin", result.place_name
@@ -102,6 +160,7 @@ class EsriTest < GeocoderTestCase
     result = Geocoder.search("new york ny").first
     assert_equal "New York City", result.city
     assert_equal "New York", result.state
+    assert_equal "NY", result.state_code
     assert_equal "USA", result.country
     assert_equal "New York City, New York, United States", result.address
     assert_equal "New York City", result.place_name
@@ -117,6 +176,7 @@ class EsriTest < GeocoderTestCase
     assert_equal "4 Avenue Gustave Eiffel", result.address
     assert_equal "Paris", result.city
     assert_equal "Île-de-France", result.state
+    assert_equal "Île-de-France", result.state_code
     assert_equal "4 Avenue Gustave Eiffel", result.place_name
     assert_equal "Address", result.place_type
     assert_equal(48.858129997357558, result.coordinates[0])
@@ -135,12 +195,8 @@ class EsriTest < GeocoderTestCase
     query = Geocoder::Query.new("Bluffton, SC")
     lookup = Geocoder::Lookup.get(:esri)
     key = lookup.send(:cache_key, query)
-    assert_match /forStorage/, key
-    assert_no_match /token/, key
-    assert_no_match /api_key/, key
-  end
-
-  def teardown
-    Geocoder.configure(esri: {token: nil, for_storage: nil})
+    assert_match %r{forStorage}, key
+    assert_no_match %r{token}, key
+    assert_no_match %r{api_key}, key
   end
 end

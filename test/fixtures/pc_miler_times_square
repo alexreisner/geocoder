@@ -1,0 +1,331 @@
+{
+    "Err": 0,
+    "ErrString": "OK",
+    "QueryConfidence": 3,
+    "TimeInMilliseconds": 31,
+    "GridDataVersion": "GRD_ALK.NA.2023.01.18.29.1.1",
+    "CommitID": "pcmws-22.08.11.0-1778-g586da49bd1b: 05/30/2023 20:14",
+    "Locations": [
+        {
+            "Address": {
+                "StreetAddress": "",
+                "LocalArea": "",
+                "City": "Times Square",
+                "State": "NY",
+                "StateName": "New York",
+                "Zip": "",
+                "County": "New York",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "40.756939",
+                "Lon": "-73.986384"
+            },
+            "StreetCoords": {
+                "Lat": "40.756904",
+                "Lon": "-73.986299"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 3,
+            "ShortString": "Times Square, NY, US, New York",
+            "GridID": 19445260,
+            "LinkID": 839,
+            "Percent": 3337,
+            "TimeZone": "GMT-4:00 EDT"
+        },
+        {
+            "Address": {
+                "StreetAddress": "",
+                "LocalArea": "",
+                "City": "Times Square",
+                "State": "WA",
+                "StateName": "Washington",
+                "Zip": "",
+                "County": "King",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "47.595224",
+                "Lon": "-122.209237"
+            },
+            "StreetCoords": {
+                "Lat": "47.596301",
+                "Lon": "-122.209631"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 3,
+            "ShortString": "Times Square, WA, US, King",
+            "GridID": 59017072,
+            "LinkID": 41,
+            "Percent": 0,
+            "TimeZone": "GMT-7:00 PDT"
+        },
+        {
+            "Address": {
+                "StreetAddress": "Times Square",
+                "LocalArea": "",
+                "City": "Detroit",
+                "State": "MI",
+                "StateName": "Michigan",
+                "Zip": "48226",
+                "County": "Wayne",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "42.332863",
+                "Lon": "-83.052886"
+            },
+            "StreetCoords": {
+                "Lat": "42.332863",
+                "Lon": "-83.052886"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 6,
+            "ShortString": "Times Square, Detroit, MI, US, Wayne 48226",
+            "GridID": 28268556,
+            "LinkID": 548,
+            "Percent": 5000,
+            "TimeZone": "GMT-4:00 EDT"
+        },
+        {
+            "Address": {
+                "StreetAddress": "Times Square",
+                "LocalArea": "",
+                "City": "New York",
+                "State": "NY",
+                "StateName": "New York",
+                "Zip": "10018",
+                "County": "New York",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "40.754957",
+                "Lon": "-73.98721"
+            },
+            "StreetCoords": {
+                "Lat": "40.755206",
+                "Lon": "-73.987044"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 6,
+            "ShortString": "Times Square, New York, NY, US, New York 10018",
+            "GridID": 19445260,
+            "LinkID": 823,
+            "Percent": 5118,
+            "TimeZone": "GMT-4:00 EDT"
+        },
+        {
+            "Address": {
+                "StreetAddress": "Times Square",
+                "LocalArea": "",
+                "City": "New York",
+                "State": "NY",
+                "StateName": "New York",
+                "Zip": "10036",
+                "County": "New York",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "40.759616",
+                "Lon": "-73.984567"
+            },
+            "StreetCoords": {
+                "Lat": "40.759548",
+                "Lon": "-73.984374"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 6,
+            "ShortString": "Times Square, New York, NY, US, New York 10036",
+            "GridID": 2668044,
+            "LinkID": 236,
+            "Percent": 5637,
+            "TimeZone": "GMT-4:00 EDT"
+        },
+        {
+            "Address": {
+                "StreetAddress": "Times Square",
+                "LocalArea": "",
+                "City": "Elgin",
+                "State": "IL",
+                "StateName": "Illinois",
+                "Zip": "60120",
+                "County": "Kane",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "42.026895",
+                "Lon": "-88.275893"
+            },
+            "StreetCoords": {
+                "Lat": "42.026895",
+                "Lon": "-88.275893"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 6,
+            "ShortString": "Times Square, Elgin, IL, US, Kane 60120",
+            "GridID": 66094092,
+            "LinkID": 155,
+            "Percent": 5000,
+            "TimeZone": "GMT-5:00 CDT"
+        },
+        {
+            "Address": {
+                "StreetAddress": "Times Square",
+                "LocalArea": "",
+                "City": "Tuscaloosa",
+                "State": "AL",
+                "StateName": "Alabama",
+                "Zip": "35405",
+                "County": "Tuscaloosa",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "33.174866",
+                "Lon": "-87.513441"
+            },
+            "StreetCoords": {
+                "Lat": "33.174866",
+                "Lon": "-87.513441"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 6,
+            "ShortString": "Times Square, Tuscaloosa, AL, US, Tuscaloosa 35405",
+            "GridID": 5210188,
+            "LinkID": 729,
+            "Percent": 5000,
+            "TimeZone": "GMT-5:00 CDT"
+        },
+        {
+            "Address": {
+                "StreetAddress": "Times Square",
+                "LocalArea": "",
+                "City": "Harlingen",
+                "State": "TX",
+                "StateName": "Texas",
+                "Zip": "78552",
+                "County": "Cameron",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "26.193921",
+                "Lon": "-97.732277"
+            },
+            "StreetCoords": {
+                "Lat": "26.193921",
+                "Lon": "-97.732277"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 6,
+            "ShortString": "Times Square, Harlingen, TX, US, Cameron 78552",
+            "GridID": 22229988,
+            "LinkID": 41,
+            "Percent": 5000,
+            "TimeZone": "GMT-5:00 CDT"
+        },
+        {
+            "Address": {
+                "StreetAddress": "2602 W Deer Valley Rd",
+                "LocalArea": "",
+                "City": "Phoenix",
+                "State": "AZ",
+                "StateName": "Arizona",
+                "Zip": "85027-2407",
+                "County": "Maricopa",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "33.684249",
+                "Lon": "-112.116323"
+            },
+            "StreetCoords": {
+                "Lat": "33.684251",
+                "Lon": "-112.116072"
+            },
+            "Region": 4,
+            "POITypeID": 435,
+            "PersistentPOIID": 593718596,
+            "SiteID": -1,
+            "ResultType": 9,
+            "ShortString": "Times Square",
+            "TrimblePlaceId": "0xA4-W-6_eqlOZ1pO_pdHpKg",
+            "GridID": 4718820,
+            "LinkID": 346,
+            "Percent": 2506,
+            "TimeZone": "GMT-7:00 MST"
+        },
+        {
+            "Address": {
+                "StreetAddress": "718 E Union Hills Dr",
+                "LocalArea": "",
+                "City": "Phoenix",
+                "State": "AZ",
+                "StateName": "Arizona",
+                "Zip": "85024-2997",
+                "County": "Maricopa",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "33.654949",
+                "Lon": "-112.063936"
+            },
+            "StreetCoords": {
+                "Lat": "33.654852",
+                "Lon": "-112.063936"
+            },
+            "Region": 4,
+            "POITypeID": 435,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 9,
+            "ShortString": "Times Square",
+            "GridID": 35127524,
+            "LinkID": 1517,
+            "Percent": 4704,
+            "TimeZone": "GMT-7:00 MST"
+        }
+    ]
+}

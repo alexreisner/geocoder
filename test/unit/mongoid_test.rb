@@ -8,6 +8,12 @@ class MongoidTest < GeocoderTestCase
     assert p.geocoded?
   end
 
+  def test_geocoded_check_single_coord
+    p = PlaceUsingMongoid.new(*geocoded_object_params(:msg))
+    p.location = [40.750354, nil]
+    assert !p.geocoded?
+  end
+
   def test_distance_to_returns_float
     p = PlaceUsingMongoid.new(*geocoded_object_params(:msg))
     p.location = [40.750354, -73.993371]
@@ -32,5 +38,24 @@ class MongoidTest < GeocoderTestCase
       result = PlaceUsingMongoidWithoutIndex.index_specifications[0] == :coordinates
     end
     assert !result
+  end
+
+  def test_geocoded_with_custom_handling
+    p = PlaceUsingMongoidWithCustomResultsHandling.new(*geocoded_object_params(:msg))
+    p.location = [40.750354, -73.993371]
+    p.geocode
+    assert_match(/[0-9\.,\-]+/, p.coords_string)
+  end
+
+  def test_reverse_geocoded
+    p = PlaceUsingMongoidReverseGeocoded.new(*reverse_geocoded_object_params(:msg))
+    p.reverse_geocode
+    assert_match(/New York/, p.address)
+  end
+
+  def test_reverse_geocoded_with_custom_handling
+    p = PlaceUsingMongoidReverseGeocodedWithCustomResultsHandling.new(*reverse_geocoded_object_params(:msg))
+    p.reverse_geocode
+    assert_equal "US", p.country.upcase
   end
 end

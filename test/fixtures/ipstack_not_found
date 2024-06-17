@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": 404,
+    "type": "404_not_found",
+    "info": "The requested resource does not exist."
+  }
+}

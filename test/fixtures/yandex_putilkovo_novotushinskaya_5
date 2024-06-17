@@ -1,0 +1,97 @@
+{
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "putilkovo novotushinskaya 5",
+          "found": "1",
+          "results": "10"
+        }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "house",
+                "text": "Russia, Moscow Region, gorodskoy okrug Krasnogorsk, derevnya Putilkovo, Novotushinskaya ulitsa, 5",
+                "precision": "exact",
+                "Address": {
+                  "country_code": "RU",
+                  "postal_code": "143441",
+                  "formatted": "Moscow Region, gorodskoy okrug Krasnogorsk, derevnya Putilkovo, Novotushinskaya ulitsa, 5",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Tsentralny federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Moscow Region"
+                    },
+                    {
+                      "kind": "area",
+                      "name": "gorodskoy okrug Krasnogorsk"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "derevnya Putilkovo"
+                    },
+                    {
+                      "kind": "street",
+                      "name": "Novotushinskaya ulitsa"
+                    },
+                    {
+                      "kind": "house",
+                      "name": "5"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Moscow Region, gorodskoy okrug Krasnogorsk, derevnya Putilkovo, Novotushinskaya ulitsa, 5",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Moscow Region",
+                      "SubAdministrativeArea": {
+                        "SubAdministrativeAreaName": "gorodskoy okrug Krasnogorsk",
+                        "Locality": {
+                          "LocalityName": "derevnya Putilkovo",
+                          "Thoroughfare": {
+                            "ThoroughfareName": "Novotushinskaya ulitsa",
+                            "Premise": {
+                              "PremiseNumber": "5",
+                              "PostalCode": {
+                                "PostalCodeNumber": "143441"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "derevnya Putilkovo, gorodskoy okrug Krasnogorsk, Moscow Region, Russia",
+            "name": "Novotushinskaya ulitsa, 5",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.399416 55.86995",
+                "upperCorner": "37.407627 55.874567"
+              }
+            },
+            "Point": {
+              "pos": "37.403522 55.872258"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

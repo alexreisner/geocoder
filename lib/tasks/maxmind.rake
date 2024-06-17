@@ -54,7 +54,7 @@ module MaxmindTask
     end
     require 'fileutils'
     p = "geolite_#{package}_csv".intern
-    archive_filename = Geocoder::MaxmindDatabase.archive_filename(p)
+    archive_filename = "#{Geocoder::MaxmindDatabase.archive_edition(p)}.zip"
     Zip::File.open(File.join(options[:dir], archive_filename)).each do |entry|
       filepath = File.join(options[:dir], entry.name)
       if File.exist? filepath

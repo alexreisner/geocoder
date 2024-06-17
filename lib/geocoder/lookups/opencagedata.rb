@@ -8,15 +8,15 @@ module Geocoder::Lookup
       "OpenCageData"
     end
 
-    def query_url(query)
-      "#{protocol}://api.opencagedata.com/geocode/v1/json?key=#{configuration.api_key}&#{url_query_string(query)}"
-    end
-
     def required_api_key_parts
       ["key"]
     end
 
-    private
+    private # ----------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://api.opencagedata.com/geocode/v1/json?"
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)
@@ -44,8 +44,15 @@ module Geocoder::Lookup
     def query_url_params(query)
       params = {
         :q => query.sanitized_text,
+        :key => configuration.api_key,
         :language => (query.language || configuration.language)
       }.merge(super)
+
+      [:abbrv, :countrycode, :min_confidence, :no_dedupe, :no_annotations, :no_record, :limit].each do |option|
+        unless (option_value = query.options[option]).nil?
+          params[option] = option_value
+        end
+      end
 
       unless (bounds = query.options[:bounds]).nil?
         params[:bounds] = bounds.map{ |point| "%f,%f" % point }.join(',')

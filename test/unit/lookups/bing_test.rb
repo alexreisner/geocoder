@@ -4,6 +4,7 @@ require 'test_helper'
 class BingTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :bing)
     set_api_key!(:bing)
   end
@@ -42,8 +43,7 @@ class BingTest < GeocoderTestCase
       "manchester",
       :region => "uk"
     ))
-    assert_match(/Locations\/uk\?q=manchester/, url)
-    assert_no_match(/query/, url)
+    assert_match(%r!Locations/uk/\?q=manchester!, url)
   end
 
   def test_query_url_without_region
@@ -51,28 +51,25 @@ class BingTest < GeocoderTestCase
     url = lookup.query_url(Geocoder::Query.new(
       "manchester"
     ))
-    assert_match(/Locations\?q=manchester/, url)
-    assert_no_match(/query/, url)
+    assert_match(%r!Locations/\?q=manchester!, url)
   end
 
-  def test_query_url_contains_address_with_spaces
+  def test_query_url_escapes_spaces_in_address
     lookup = Geocoder::Lookup::Bing.new
     url = lookup.query_url(Geocoder::Query.new(
       "manchester, lancashire",
       :region => "uk"
     ))
-    assert_match(/Locations\/uk\?q=manchester,%20lancashire/, url)
-    assert_no_match(/query/, url)
+    assert_match(%r!Locations/uk/\?q=manchester%2C\+lancashire!, url)
   end
 
-  def test_query_url_contains_address_with_trailing_and_leading_spaces
+  def test_query_url_strips_trailing_and_leading_spaces
     lookup = Geocoder::Lookup::Bing.new
     url = lookup.query_url(Geocoder::Query.new(
       " manchester, lancashire ",
       :region => "uk"
     ))
-    assert_match(/Locations\/uk\?q=manchester,%20lancashire/, url)
-    assert_no_match(/query/, url)
+    assert_match(%r!Locations/uk/\?q=manchester%2C\+lancashire!, url)
   end
 
   def test_raises_exception_when_service_unavailable
@@ -80,6 +77,20 @@ class BingTest < GeocoderTestCase
     l = Geocoder::Lookup.get(:bing)
     assert_raises Geocoder::ServiceUnavailable do
       l.send(:results, Geocoder::Query.new("service unavailable"))
+    end
+  end
+
+  def test_raises_exception_when_bing_returns_forbidden_request
+    Geocoder.configure(:always_raise => [Geocoder::RequestDenied])
+    assert_raises Geocoder::RequestDenied do
+      Geocoder.search("forbidden request")
+    end
+  end
+
+  def test_raises_exception_when_bing_returns_internal_server_error
+    Geocoder.configure(:always_raise => [Geocoder::ServiceUnavailable])
+    assert_raises Geocoder::ServiceUnavailable do
+      Geocoder.search("internal server error")
     end
   end
 end

@@ -1,0 +1,36 @@
+[
+  {
+    "place_id": "61478831",
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright",
+    "osm_type": "way",
+    "osm_id": "4532022",
+    "boundingbox": [
+      "50.9409217",
+      "50.9417618",
+      "6.9570708",
+      "6.9591382"
+    ],
+    "lat": "50.94134445",
+    "lon": "6.95812085888689",
+    "display_name": "Cologne Cathedral, 4, Domkloster, Kunibertsviertel, Altstadt-Nord, Innenstadt, Cologne, Cologne Government Region, North Rhine-Westphalia, 50667, Germany",
+    "class": "amenity",
+    "type": "place_of_worship",
+    "importance": 0.70253720393793,
+    "icon": "http://nominatim.openstreetmap.org/images/mapicons/place_of_worship_unknown3.p.20.png",
+    "address": {
+      "place_of_worship": "Cologne Cathedral",
+      "house_number": "4",
+      "pedestrian": "Domkloster",
+      "neighbourhood": "Kunibertsviertel",
+      "suburb": "Altstadt-Nord",
+      "city_district": "Innenstadt",
+      "city": "Cologne",
+      "county": "Cologne",
+      "state_district": "Cologne Government Region",
+      "state": "North Rhine-Westphalia",
+      "postcode": "50667",
+      "country": "Germany",
+      "country_code": "de"
+    }
+  }
+]

@@ -20,8 +20,20 @@ module Geocoder
       ##
       # A string in the given format.
       #
+      # This default implementation dumbly follows the United States address
+      # format and will return incorrect results for most countries. Some APIs
+      # return properly formatted addresses and those should be funneled
+      # through this method.
+      #
       def address(format = :full)
-        fail
+        if state_code.to_s != ""
+          s = ", #{state_code}"
+        elsif state.to_s != ""
+          s = ", #{state}"
+        else
+          s = ""
+        end
+        "#{city}#{s} #{postal_code}, #{country}".sub(/^[ ,]*/, '')
       end
 
       ##

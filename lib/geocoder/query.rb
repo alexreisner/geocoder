@@ -67,10 +67,24 @@ module Geocoder
     end
 
     ##
+    # Is the Query text a loopback or private IP address?
+    #
+    def internal_ip_address?
+      ip_address? && IpAddress.new(text).internal?
+    end
+
+    ##
     # Is the Query text a loopback IP address?
     #
     def loopback_ip_address?
       ip_address? && IpAddress.new(text).loopback?
+    end
+
+    ##
+    # Is the Query text a private IP address?
+    #
+    def private_ip_address?
+      ip_address? && IpAddress.new(text).private?
     end
 
     ##

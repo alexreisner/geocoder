@@ -4,6 +4,7 @@ require 'test_helper'
 class GooglePremierTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :google_premier)
     set_api_key!(:google_premier)
   end
@@ -17,5 +18,13 @@ class GooglePremierTest < GeocoderTestCase
     Geocoder.configure(google_premier: {api_key: ["deadbeef", "gme-test", "test-dev"]})
     query = Geocoder::Query.new("Madison Square Garden, New York, NY")
     assert_equal "https://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&channel=test-dev&client=gme-test&language=en&sensor=false&signature=doJvJqX7YJzgV9rJ0DnVkTGZqTg=", query.url
+  end
+
+  def test_cache_key
+    Geocoder.configure(google_premier: {api_key: ["deadbeef", "gme-test", "test-dev"]})
+    lookup = Geocoder::Lookup.get(:google_premier)
+    query = Geocoder::Query.new("Madison Square Garden, New York, NY")
+    cache_key = lookup.send(:cache_key, query)
+    assert_equal "https://maps.googleapis.com/maps/api/geocode/json?address=Madison+Square+Garden%2C+New+York%2C+NY&language=en&sensor=false", cache_key
   end
 end

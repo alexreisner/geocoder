@@ -8,15 +8,7 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      %w(auti-id auth-token)
-    end
-
-    def query_url(query)
-      if zipcode_only?(query)
-        "#{protocol}://us-zipcode.api.smartystreets.com/lookup?#{url_query_string(query)}"
-      else
-        "#{protocol}://api.smartystreets.com/street-address?#{url_query_string(query)}"
-      end
+      %w(auth-id auth-token)
     end
 
     # required by API as of 26 March 2015
@@ -26,13 +18,31 @@ module Geocoder::Lookup
 
     private # ---------------------------------------------------------------
 
+    def base_query_url(query)
+      if international?(query)
+        "#{protocol}://international-street.api.smartystreets.com/verify?"
+      elsif zipcode_only?(query)
+        "#{protocol}://us-zipcode.api.smartystreets.com/lookup?"
+      else
+        "#{protocol}://us-street.api.smartystreets.com/street-address?"
+      end
+    end
+
     def zipcode_only?(query)
       !query.text.is_a?(Array) and query.to_s.strip =~ /\A\d{5}(-\d{4})?\Z/
     end
 
+    def international?(query)
+      !query.options[:country].nil?
+    end
+
     def query_url_params(query)
       params = {}
-      if zipcode_only?(query)
+      if international?(query)
+        params[:freeform] = query.sanitized_text
+        params[:country] = query.options[:country]
+        params[:geocode] = true
+      elsif zipcode_only?(query)
         params[:zipcode] = query.sanitized_text
       else
         params[:street] = query.sanitized_text
@@ -47,7 +57,12 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      fetch_data(query) || []
+      doc = fetch_data(query) || []
+      if doc.is_a?(Hash) and doc.key?('status') # implies there's an error
+        return []
+      else
+        return doc
+      end
     end
   end
 end

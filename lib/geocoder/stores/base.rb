@@ -6,7 +6,7 @@ module Geocoder
       # Is this object geocoded? (Does it have latitude and longitude?)
       #
       def geocoded?
-        to_coordinates.compact.size > 0
+        to_coordinates.compact.size == 2
       end
 
       ##
@@ -90,7 +90,7 @@ module Geocoder
           return
         end
 
-        query_options = [:lookup, :ip_lookup, :language].inject({}) do |hash, key|
+        query_options = [:lookup, :ip_lookup, :language, :params].inject({}) do |hash, key|
           if options.has_key?(key)
             val = options[key]
             hash[key] = val.respond_to?(:call) ? val.call(self) : val
@@ -113,4 +113,3 @@ module Geocoder
     end
   end
 end
-

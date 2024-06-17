@@ -9,11 +9,11 @@ module Geocoder::Lookup
       "MaxMind"
     end
 
-    def query_url(query)
-      "#{protocol}://geoip.maxmind.com/#{service_code}?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://geoip.maxmind.com/#{service_code}?"
+    end
 
     ##
     # Return the name of the configured service, or raise an exception.
@@ -57,8 +57,8 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      # don't look up a loopback address, just return the stored result
-      return [reserved_result] if query.loopback_ip_address?
+      # don't look up a loopback or private address, just return the stored result
+      return [reserved_result] if query.internal_ip_address?
       doc = fetch_data(query)
       if doc and doc.is_a?(Array)
         if !data_contains_error?(doc)

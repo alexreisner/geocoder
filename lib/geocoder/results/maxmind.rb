@@ -87,11 +87,6 @@ module Geocoder::Result
       [data_hash[:latitude].to_f, data_hash[:longitude].to_f]
     end
 
-    def address(format = :full)
-      s = state_code.to_s == "" ? "" : ", #{state_code}"
-      "#{city}#{s} #{postal_code}, #{country_code}".sub(/^[ ,]*/, "")
-    end
-
     def city
       data_hash[:city_name]
     end

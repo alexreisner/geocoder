@@ -1,0 +1,42 @@
+{
+    "Err": 0,
+    "ErrString": "OK",
+    "QueryConfidence": 1,
+    "TimeInMilliseconds": 0,
+    "GridDataVersion": "GRD_ALK.NA.2023.01.18.29.1.1",
+    "CommitID": "pcmws-22.08.11.0-1778-g586da49bd1b: 05/30/2023 20:14",
+    "Locations": [
+        {
+            "Address": {
+                "StreetAddress": "2093 NE-87",
+                "LocalArea": "",
+                "City": "Alliance",
+                "State": "NE",
+                "StateName": "Nebraska",
+                "Zip": "69301",
+                "County": "Box Butte",
+                "Country": "US",
+                "CountryFullName": "United States",
+                "SPLC": null
+            },
+            "Coords": {
+                "Lat": "42.14228",
+                "Lon": "-102.85796"
+            },
+            "StreetCoords": {
+                "Lat": "42.142238",
+                "Lon": "-102.859302"
+            },
+            "Region": 4,
+            "POITypeID": 0,
+            "PersistentPOIID": -1,
+            "SiteID": -1,
+            "ResultType": 14,
+            "ShortString": "2093 NE-87, Alliance, NE, US, Box Butte 69301",
+            "GridID": 666788,
+            "LinkID": 1334,
+            "Percent": 4865,
+            "TimeZone": "GMT-6:00 MDT"
+        }
+    ]
+}

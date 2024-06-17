@@ -24,16 +24,24 @@ module Geocoder::Result
     alias_method :state_code, :state
 
     def zip
-      address_components["zip"]
+      # Postal code is not returned for Canada geocode results
+      address_components["zip"] || ""
     end
     alias_method :postal_code, :zip
 
     def country
-      "United States" # Geocodio only supports the US
+      # Geocodio supports US and Canada, however they don't return the full
+      # country name.
+
+      if country_code == "CA"
+        "Canada"
+      else
+        "United States"
+      end
     end
 
     def country_code
-      "US" # Geocodio only supports the US
+      address_components['country']
     end
 
     def city

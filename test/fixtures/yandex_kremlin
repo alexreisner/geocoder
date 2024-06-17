@@ -1,48 +1,79 @@
 {
-    "response": {
-        "GeoObjectCollection": {
-            "metaDataProperty": {
-                "GeocoderResponseMetaData": {
-                    "request": "Кремль, Moscow, Russia",
-                    "found": "1",
-                    "results": "10"
-                }
-            },
-            "featureMember": [
-                {
-                    "GeoObject": {
-                        "metaDataProperty": {
-                            "GeocoderMetaData": {
-                                "kind": "vegetation",
-                                "text": "Россия, Москва, Московский Кремль",
-                                "precision": "other",
-                                "AddressDetails": {
-                                    "Country": {
-                                        "CountryNameCode": "RU",
-                                        "CountryName": "Россия",
-                                        "Locality": {
-                                            "LocalityName": "Москва",
-                                            "Premise": {
-                                                "PremiseName": "Московский Кремль"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        "name": "Московский Кремль",
-                        "boundedBy": {
-                            "Envelope": {
-                                "lowerCorner": "37.584182 55.733361",
-                                "upperCorner": "37.650064 55.770517"
-                            }
-                        },
-                        "Point": {
-                            "pos": "37.617123 55.751943"
-                        }
-                    }
-                }
-            ]
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "Kremlin, Moscow, Russia",
+          "found": "8",
+          "results": "10"
         }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "district",
+                "text": "Russia, Moscow, Moscow Kremlin",
+                "precision": "other",
+                "Address": {
+                  "country_code": "RU",
+                  "formatted": "Moscow, Moscow Kremlin",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Russia"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Tsentralny federalny okrug"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "locality",
+                      "name": "Moscow"
+                    },
+                    {
+                      "kind": "district",
+                      "name": "Moscow Kremlin"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Moscow, Moscow Kremlin",
+                    "CountryNameCode": "RU",
+                    "CountryName": "Russia",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Moscow",
+                      "Locality": {
+                        "LocalityName": "Moscow",
+                        "DependentLocality": {
+                          "DependentLocalityName": "Moscow Kremlin"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Moscow, Russia",
+            "name": "Moscow Kremlin",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "37.612587 55.748189",
+                "upperCorner": "37.623187 55.755044"
+              }
+            },
+            "Point": {
+              "pos": "37.617734 55.751999"
+            }
+          }
+        }
+      ]
     }
+  }
 }

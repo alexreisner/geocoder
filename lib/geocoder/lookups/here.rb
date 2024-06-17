@@ -9,54 +9,65 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      ["app_id", "app_code"]
+      ['api_key']
     end
 
-    def query_url(query)
-      "#{protocol}://#{if query.reverse_geocode? then 'reverse.' end}geocoder.api.here.com/6.2/#{if query.reverse_geocode? then 'reverse' end}geocode.json?" + url_query_string(query)
+    def supported_protocols
+      [:https]
     end
 
     private # ---------------------------------------------------------------
 
+    def base_query_url(query)
+      service = query.reverse_geocode? ? "revgeocode" : "geocode"
+
+      "#{protocol}://#{service}.search.hereapi.com/v1/#{service}?"
+    end
+
     def results(query)
-      return [] unless doc = fetch_data(query)
-      return [] unless doc['Response'] && doc['Response']['View']
-      if r=doc['Response']['View']
-        return [] if r.nil? || !r.is_a?(Array) || r.empty?
-        return r.first['Result']
+      unless configuration.api_key.is_a?(String)
+        api_key_not_string!
+        return []
       end
-      []
+      return [] unless doc = fetch_data(query)
+      return [] if doc["items"].nil?
+
+      doc["items"]
+    end
+
+    def query_url_here_options(query, reverse_geocode)
+      options = {
+        apiKey: configuration.api_key,
+        lang: (query.language || configuration.language)
+      }
+      return options if reverse_geocode
+
+      unless (country = query.options[:country]).nil?
+        options[:in] = "countryCode:#{country}"
+      end
+
+      options
     end
 
     def query_url_params(query)
-      options = {
-        :gen=>4,
-        :app_id=>api_key,
-        :app_code=>api_code
-      }
-
       if query.reverse_geocode?
-        super.merge(options).merge(
-          :prox=>query.sanitized_text,
-          :mode=>:retrieveAddresses
+        super.merge(query_url_here_options(query, true)).merge(
+          at: query.sanitized_text
         )
       else
-        super.merge(options).merge(
-          :searchtext=>query.sanitized_text
+        super.merge(query_url_here_options(query, false)).merge(
+          q: query.sanitized_text
         )
       end
     end
 
-    def api_key
-      if a=configuration.api_key
-        return a.first if a.is_a?(Array)
-      end
-    end
+    def api_key_not_string!
+      msg = <<~MSG
+        API key for HERE Geocoding and Search API should be a string.
+        For more info on how to obtain it, please see https://developer.here.com/documentation/identity-access-management/dev_guide/topics/plat-using-apikeys.html
+      MSG
 
-    def api_code
-      if a=configuration.api_key
-        return a.last if a.is_a?(Array)
-      end
+      raise_error(Geocoder::ConfigurationError, msg) || Geocoder.log(:warn, msg)
     end
   end
 end

@@ -16,24 +16,20 @@ module Geocoder::Lookup
       ["key"]
     end
 
-    def query_url(query)
-      base_url(query) + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
 
-    def base_url(query)
-      url = "#{protocol}://dev.virtualearth.net/REST/v1/Locations"
-
-      if !query.reverse_geocode?
+    def base_query_url(query)
+      text = CGI.escape(query.sanitized_text.strip)
+      url = "#{protocol}://dev.virtualearth.net/REST/v1/Locations/"
+      if query.reverse_geocode?
+        url + "#{text}?"
+      else
         if r = query.options[:region]
-          url << "/#{r}"
+          url << "#{r}/"
         end
         # use the more forgiving 'unstructured' query format to allow special
         # chars, newlines, brackets, typos.
-        url + "?q=" + URI.escape(query.sanitized_text.strip) + "&"
-      else
-        url + "/#{URI.escape(query.sanitized_text.strip)}?"
+        url + "?q=#{text}&"
       end
     end
 
@@ -44,6 +40,11 @@ module Geocoder::Lookup
         return doc['resourceSets'].first['estimatedTotal'] > 0 ? doc['resourceSets'].first['resources'] : []
       elsif doc['statusCode'] == 401 and doc["authenticationResultCode"] == "InvalidCredentials"
         raise_error(Geocoder::InvalidApiKey) || Geocoder.log(:warn, "Invalid Bing API key.")
+      elsif doc['statusCode'] == 403
+        raise_error(Geocoder::RequestDenied) || Geocoder.log(:warn, "Bing Geocoding API error: Forbidden Request")
+      elsif [500, 503].include?(doc['statusCode'])
+        raise_error(Geocoder::ServiceUnavailable) ||
+          Geocoder.log(:warn, "Bing Geocoding API error: Service Unavailable")
       else
         Geocoder.log(:warn, "Bing Geocoding API error: #{doc['statusCode']} (#{doc['statusDescription']}).")
       end
@@ -52,7 +53,8 @@ module Geocoder::Lookup
 
     def query_url_params(query)
       {
-        key: configuration.api_key
+        key: configuration.api_key,
+        culture: (query.language || configuration.language)
       }.merge(super)
     end
 

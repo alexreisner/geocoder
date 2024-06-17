@@ -4,6 +4,7 @@ require 'test_helper'
 class GooglePlacesDetailsTest < GeocoderTestCase
 
   def setup
+    super
     Geocoder.configure(lookup: :google_places_details)
     set_api_key!(:google_places_details)
   end
@@ -79,6 +80,39 @@ class GooglePlacesDetailsTest < GeocoderTestCase
   def test_google_places_details_query_url_always_uses_https
     url = lookup.query_url(Geocoder::Query.new("some-place-id"))
     assert_match(%r(^https://), url)
+  end
+
+  def test_google_places_details_query_url_omits_fields_by_default
+    url = lookup.query_url(Geocoder::Query.new("some-place-id"))
+    assert_no_match(/fields=/, url)
+  end
+
+  def test_google_places_details_query_url_contains_specific_fields_when_given
+    fields = %w[formatted_address place_id]
+    url = lookup.query_url(Geocoder::Query.new("some-place-id", fields: fields))
+    assert_match(/fields=#{fields.join('%2C')}/, url)
+  end
+
+  def test_google_places_details_query_url_contains_specific_fields_when_configured
+    fields = %w[business_status geometry photos]
+    Geocoder.configure(google_places_details: {fields: fields})
+    url = lookup.query_url(Geocoder::Query.new("some-place-id"))
+    assert_match(/fields=#{fields.join('%2C')}/, url)
+    Geocoder.configure(google_places_details: {})
+  end
+
+  def test_google_places_details_query_url_omits_fields_when_nil_given
+    Geocoder.configure(google_places_details: {fields: %w[business_status geometry photos]})
+    url = lookup.query_url(Geocoder::Query.new("some-place-id", fields: nil))
+    assert_no_match(/fields=/, url)
+    Geocoder.configure(google_places_details: {})
+  end
+
+  def test_google_places_details_query_url_omits_fields_when_nil_configured
+    Geocoder.configure(google_places_details: {fields: nil})
+    url = lookup.query_url(Geocoder::Query.new("some-place-id"))
+    assert_no_match(/fields=/, url)
+    Geocoder.configure(google_places_details: {})
   end
 
   def test_google_places_details_result_with_no_reviews_shows_empty_reviews

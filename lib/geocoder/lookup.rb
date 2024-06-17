@@ -19,35 +19,55 @@ module Geocoder
     end
 
     ##
+    # Array of valid Lookup service names, excluding any that do not build their own HTTP requests.
+    # For example, Amazon Location Service uses the AWS gem, not HTTP REST requests, to fetch data.
+    #
+    def all_services_with_http_requests
+      all_services_except_test - [:amazon_location_service, :maxmind_local, :geoip2, :ip2location_lite]
+    end
+
+    ##
     # All street address lookup services, default first.
     #
     def street_services
       @street_services ||= [
-        :dstk,
+        :location_iq,
         :esri,
         :google,
         :google_premier,
         :google_places_details,
+        :google_places_search,
         :bing,
         :geocoder_ca,
-        :geocoder_us,
         :yandex,
+        :nationaal_georegister_nl,
         :nominatim,
         :mapbox,
         :mapquest,
-        :mapzen,
+        :uk_ordnance_survey_names,
         :opencagedata,
-        :ovi,
         :pelias,
+        :pdok_nl,
+        :pickpoint,
         :here,
         :baidu,
+        :tencent,
         :geocodio,
         :smarty_streets,
-        :okf,
         :postcode_anywhere_uk,
+        :postcodes_io,
         :geoportail_lu,
+        :ban_data_gouv_fr,
         :test,
-        :latlon
+        :latlon,
+        :amap,
+        :osmnames,
+        :melissa_street,
+        :amazon_location_service,
+        :geoapify,
+        :photon,
+        :twogis,
+        :pc_miler
       ]
     end
 
@@ -57,6 +77,7 @@ module Geocoder
     def ip_services
       @ip_services ||= [
         :baidu_ip,
+        :abstract_api,
         :freegeoip,
         :geoip2,
         :maxmind,
@@ -65,7 +86,17 @@ module Geocoder
         :pointpin,
         :maxmind_geoip2,
         :ipinfo_io,
-        :ipapi_com
+        :ipregistry,
+        :ipapi_com,
+        :ipdata_co,
+        :db_ip_com,
+        :ipstack,
+        :ip2location,
+        :ipgeolocation,
+        :ipqualityscore,
+        :ipbase,
+        :ip2location_io,
+        :ip2location_lite
       ]
     end
 
@@ -91,8 +122,7 @@ module Geocoder
     def spawn(name)
       if all_services.include?(name)
         name = name.to_s
-        require "geocoder/lookups/#{name}"
-        Geocoder::Lookup.const_get(classify_name(name)).new
+        instantiate_lookup(name)
       else
         valids = all_services.map(&:inspect).join(", ")
         raise ConfigurationError, "Please specify a valid lookup for Geocoder " +
@@ -105,6 +135,19 @@ module Geocoder
     #
     def classify_name(filename)
       filename.to_s.split("_").map{ |i| i[0...1].upcase + i[1..-1] }.join
+    end
+
+    ##
+    # Safely instantiate Lookup
+    #
+    def instantiate_lookup(name)
+      class_name = classify_name(name)
+      begin
+        Geocoder::Lookup.const_get(class_name, inherit=false)
+      rescue NameError
+        require "geocoder/lookups/#{name}"
+      end
+      Geocoder::Lookup.const_get(class_name).new
     end
   end
 end

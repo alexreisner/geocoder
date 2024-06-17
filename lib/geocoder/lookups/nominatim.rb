@@ -9,16 +9,28 @@ module Geocoder::Lookup
     end
 
     def map_link_url(coordinates)
-      "http://www.openstreetmap.org/?lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=15&layers=M"
-    end
-
-    def query_url(query)
-      method = query.reverse_geocode? ? "reverse" : "search"
-      host = configuration[:host] || "nominatim.openstreetmap.org"
-      "#{protocol}://#{host}/#{method}?" + url_query_string(query)
+      "https://www.openstreetmap.org/?lat=#{coordinates[0]}&lon=#{coordinates[1]}&zoom=15&layers=M"
     end
 
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      method = query.reverse_geocode? ? "reverse" : "search"
+      "#{protocol}://#{configured_host}/#{method}?"
+    end
+
+    def configured_host
+      configuration[:host] || "nominatim.openstreetmap.org"
+    end
+
+    def use_ssl?
+      # nominatim.openstreetmap.org redirects HTTP requests to HTTPS
+      if configured_host == "nominatim.openstreetmap.org"
+        true
+      else
+        super
+      end
+    end
 
     def results(query)
       return [] unless doc = fetch_data(query)

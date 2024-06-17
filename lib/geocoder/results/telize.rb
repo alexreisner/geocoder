@@ -3,11 +3,6 @@ require 'geocoder/results/base'
 module Geocoder::Result
   class Telize < Base
 
-    def address(format = :full)
-      s = state_code.to_s == "" ? "" : ", #{state_code}"
-      "#{city}#{s} #{postal_code}, #{country}".sub(/^[ ,]*/, "")
-    end
-
     def city
       @data['city']
     end

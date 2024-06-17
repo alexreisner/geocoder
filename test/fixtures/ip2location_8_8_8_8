@@ -1,0 +1,22 @@
+{
+  "country_code":"US",
+  "country_name":"United States",
+  "region_name":"California",
+  "city_name":"Mountain View",
+  "latitude":"37.405992",
+  "longitude":"-122.078515",
+  "zip_code":"94043",
+  "time_zone":"-07:00",
+  "isp":"Google LLC",
+  "domain":"google.com",
+  "net_speed":"T1",
+  "idd_code":"1",
+  "area_code":"650",
+  "weather_station_code":"USCA0746",
+  "weather_station_name":"Mountain View",
+  "mcc":"-",
+  "mnc":"-",
+  "mobile_brand":"-",
+  "elevation":"31",
+  "usage_type":"DCH"
+}

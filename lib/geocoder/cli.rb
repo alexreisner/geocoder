@@ -97,7 +97,7 @@ module Geocoder
       end
 
       if (result = Geocoder.search(query).first)
-        google = Geocoder::Lookup.get(:google)
+        nominatim = Geocoder::Lookup.get(:nominatim)
         lines = [
           ["Latitude",       result.latitude],
           ["Longitude",      result.longitude],
@@ -106,7 +106,7 @@ module Geocoder
           ["State/province", result.state],
           ["Postal code",    result.postal_code],
           ["Country",        result.country],
-          ["Google map",     google.map_link_url(result.coordinates)],
+          ["Map",            nominatim.map_link_url(result.coordinates)],
         ]
         lines.each do |line|
           out << (line[0] + ": ").ljust(18) + line[1].to_s + "\n"

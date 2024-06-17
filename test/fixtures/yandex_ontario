@@ -1,0 +1,61 @@
+{
+  "response": {
+    "GeoObjectCollection": {
+      "metaDataProperty": {
+        "GeocoderResponseMetaData": {
+          "request": "ontario",
+          "found": "57",
+          "results": "10"
+        }
+      },
+      "featureMember": [
+        {
+          "GeoObject": {
+            "metaDataProperty": {
+              "GeocoderMetaData": {
+                "kind": "province",
+                "text": "Canada, Ontario",
+                "precision": "other",
+                "Address": {
+                  "country_code": "CA",
+                  "formatted": "Ontario",
+                  "Components": [
+                    {
+                      "kind": "country",
+                      "name": "Canada"
+                    },
+                    {
+                      "kind": "province",
+                      "name": "Ontario"
+                    }
+                  ]
+                },
+                "AddressDetails": {
+                  "Country": {
+                    "AddressLine": "Ontario",
+                    "CountryNameCode": "CA",
+                    "CountryName": "Canada",
+                    "AdministrativeArea": {
+                      "AdministrativeAreaName": "Ontario"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Canada",
+            "name": "Ontario",
+            "boundedBy": {
+              "Envelope": {
+                "lowerCorner": "-95.153382 41.704494",
+                "upperCorner": "-74.321387 56.88699"
+              }
+            },
+            "Point": {
+              "pos": "-87.170557 49.294248"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

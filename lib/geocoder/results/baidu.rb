@@ -7,37 +7,33 @@ module Geocoder::Result
       ['lat', 'lng'].map{ |i| @data['location'][i] }
     end
 
-    def address
-      @data['formatted_address']
+    def province
+      @data['addressComponent'] and @data['addressComponent']['province'] or ""
     end
 
-    def state
-      province
-    end
-    
-    def province
-      @data['addressComponent']['province']
-    end
+    alias_method :state, :province
 
     def city
-      @data['addressComponent']['city']
+      @data['addressComponent'] and @data['addressComponent']['city'] or ""
     end
 
     def district
-      @data['addressComponent']['district']
+      @data['addressComponent'] and @data['addressComponent']['district'] or ""
     end
 
     def street
-      @data['addressComponent']['street']
+      @data['addressComponent'] and @data['addressComponent']['street'] or ""
     end
 
     def street_number
-      @data['addressComponent']['street_number']
+      @data['addressComponent'] and @data['addressComponent']['street_number']
     end
 
     def formatted_address
-      @data['formatted_address']
+      @data['formatted_address'] or ""
     end
+
+    alias_method :address, :formatted_address
 
     def address_components
       @data['addressComponent']

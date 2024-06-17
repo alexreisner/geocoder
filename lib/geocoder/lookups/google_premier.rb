@@ -11,7 +11,7 @@ module Geocoder::Lookup
     end
 
     def required_api_key_parts
-      ["private key", "client", "channel"]
+      ["private key"]
     end
 
     def query_url(query)
@@ -20,6 +20,20 @@ module Geocoder::Lookup
     end
 
     private # ---------------------------------------------------------------
+
+    def result_root_attr
+      'results'
+    end
+
+    def cache_key(query)
+      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + hash_to_query(cache_key_params(query))
+    end
+
+    def cache_key_params(query)
+      query_url_google_params(query).merge(super).reject do |k,v|
+        [:key, :client, :channel].include?(k)
+      end
+    end
 
     def query_url_params(query)
       query_url_google_params(query).merge(super).merge(

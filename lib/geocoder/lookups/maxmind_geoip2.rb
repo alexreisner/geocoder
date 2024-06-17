@@ -15,10 +15,14 @@ module Geocoder::Lookup
     end
 
     def query_url(query)
-      "#{protocol}://geoip.maxmind.com/geoip/v2.1/#{configured_service!}/#{URI.escape(query.sanitized_text.strip)}"
+      "#{protocol}://geoip.maxmind.com/geoip/v2.1/#{configured_service!}/#{query.sanitized_text.strip}"
     end
 
     private # ---------------------------------------------------------------
+
+    def cache_key(query)
+      query_url(query)
+    end
 
     ##
     # Return the name of the configured service, or raise an exception.
@@ -28,11 +32,7 @@ module Geocoder::Lookup
         return s
       else
         raise(
-          Geocoder::ConfigurationError,
-          "When using MaxMind GeoIP2 you MUST specify a service name and basic_auth: " +
-          "Geocoder.configure(:maxmind_geoip2 => {:service => ...}, " +
-          ":basic_auth => {:user ..., :password => ...}), " +
-          "where service is one of: #{services.inspect}"
+          Geocoder::ConfigurationError, "When using MaxMind GeoIP2 you must specify a service and credentials: Geocoder.configure(maxmind_geoip2: {service: ..., basic_auth: {user: ..., password: ...}}), where service is one of: #{services.inspect}"
         )
       end
     end
@@ -53,8 +53,9 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      # don't look up a loopback address
-      return [] if query.loopback_ip_address?
+      # don't look up a loopback or private address, just return the stored result
+      return [] if query.internal_ip_address?
+
       doc = fetch_data(query)
       if doc
         if !data_contains_error?(doc)

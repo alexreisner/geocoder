@@ -2,6 +2,7 @@ pkg/*
 rdoc/*
 *.gem
 .bundle
+.ruby-version
 Gemfile.lock
 api_keys.yml
 test/geocoder_test.sqlite

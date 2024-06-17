@@ -1,5 +1,6 @@
 require 'singleton'
 require 'geocoder/configuration_hash'
+require 'geocoder/util'
 
 module Geocoder
 
@@ -54,25 +55,30 @@ module Geocoder
       :lookup,
       :ip_lookup,
       :language,
+      :host,
       :http_headers,
       :use_https,
       :http_proxy,
       :https_proxy,
       :api_key,
       :cache,
-      :cache_prefix,
       :always_raise,
       :units,
       :distances,
       :basic_auth,
       :logger,
-      :kernel_logger_level
+      :kernel_logger_level,
+      :cache_options
     ]
 
     attr_accessor :data
 
     def self.set_defaults
       instance.set_defaults
+    end
+
+    def self.initialize
+      instance.send(:initialize)
     end
 
     OPTIONS.each do |o|
@@ -85,7 +91,7 @@ module Geocoder
     end
 
     def configure(options)
-      @data.rmerge!(options)
+      Util.recursive_hash_merge(@data, options)
     end
 
     def initialize # :nodoc
@@ -97,16 +103,14 @@ module Geocoder
 
       # geocoding options
       @data[:timeout]      = 3           # geocoding service timeout (secs)
-      @data[:lookup]       = :google     # name of street address geocoding service (symbol)
-      @data[:ip_lookup]    = :freegeoip  # name of IP address geocoding service (symbol)
+      @data[:lookup]       = :nominatim  # name of street address geocoding service (symbol)
+      @data[:ip_lookup]    = :ipinfo_io  # name of IP address geocoding service (symbol)
       @data[:language]     = :en         # ISO-639 language code
       @data[:http_headers] = {}          # HTTP headers for lookup
       @data[:use_https]    = false       # use HTTPS for lookup requests? (if supported)
       @data[:http_proxy]   = nil         # HTTP proxy server (user:pass@host:port)
       @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
       @data[:api_key]      = nil         # API key for geocoding service
-      @data[:cache]        = nil         # cache object (must respond to #[], #[]=, and #keys)
-      @data[:cache_prefix] = "geocoder:" # prefix (string) to use for all cache keys
       @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
       @data[:logger]       = :kernel     # :kernel or Logger instance
       @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
@@ -119,6 +123,16 @@ module Geocoder
       # calculation options
       @data[:units]     = :mi      # :mi or :km
       @data[:distances] = :linear  # :linear or :spherical
+
+      # Set the default values for the caching mechanism
+      # By default, the cache keys will not expire as IP addresses and phyiscal
+      # addresses will rarely change.
+      @data[:cache]        = nil   # cache object (must respond to #[], #[]=, and optionally #keys)
+      @data[:cache_prefix] = nil   # - DEPRECATED - prefix (string) to use for all cache keys
+      @data[:cache_options] = {
+        prefix: 'geocoder:',
+        expiration: nil
+      }
     end
 
     instance_eval(OPTIONS.map do |option|

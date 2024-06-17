@@ -4,7 +4,6 @@ require 'uri'
 
 unless defined?(ActiveSupport::JSON)
   begin
-    require 'rubygems' # for Ruby 1.8
     require 'json'
   rescue LoadError
     raise LoadError, "Please install the 'json' or 'json_pure' gem to parse geocoder results."
@@ -72,8 +71,12 @@ module Geocoder
       ##
       # URL to use for querying the geocoding engine.
       #
+      # Subclasses should not modify this method. Instead they should define
+      # base_query_url and url_query_string. If absolutely necessary to
+      # subclss this method, they must also subclass #cache_key.
+      #
       def query_url(query)
-        fail
+        base_query_url(query) + url_query_string(query)
       end
 
       ##
@@ -81,7 +84,8 @@ module Geocoder
       #
       def cache
         if @cache.nil? and store = configuration.cache
-          @cache = Cache.new(store, configuration.cache_prefix)
+          cache_options = configuration.cache_options
+          @cache = Cache.new(store, cache_options)
         end
         @cache
       end
@@ -96,6 +100,14 @@ module Geocoder
       end
 
       private # -------------------------------------------------------------
+
+      ##
+      # String which, when concatenated with url_query_string(query)
+      # produces the full query URL. Should include the "?" a the end.
+      #
+      def base_query_url(query)
+        fail
+      end
 
       ##
       # An object with configuration data for this particular lookup.
@@ -147,7 +159,14 @@ module Geocoder
       # something else (like the URL before OAuth encoding).
       #
       def cache_key(query)
-        query_url(query)
+        base_query_url(query) + hash_to_query(cache_key_params(query))
+      end
+
+      def cache_key_params(query)
+        # omit api_key and token because they may vary among requests
+        query_url_params(query).reject do |key,value|
+          key.to_s.match(/(key|token)/)
+        end
       end
 
       ##
@@ -179,6 +198,8 @@ module Geocoder
         raise_error(err) or Geocoder.log(:warn, "Geocoding API connection cannot be established.")
       rescue Errno::ECONNREFUSED => err
         raise_error(err) or Geocoder.log(:warn, "Geocoding API connection refused.")
+      rescue Geocoder::NetworkError => err
+        raise_error(err) or Geocoder.log(:warn, "Geocoding API connection is either unreacheable or reset by the peer")
       rescue Timeout::Error => err
         raise_error(err) or Geocoder.log(:warn, "Geocoding API not responding fast enough " +
           "(use Geocoder.configure(:timeout => ...) to set limit).")
@@ -191,7 +212,10 @@ module Geocoder
           JSON.parse(data)
         end
       rescue
-        raise_error(ResponseParseError.new(data)) or Geocoder.log(:warn, "Geocoding API's response was not valid JSON: #{data}")
+        unless raise_error(ResponseParseError.new(data))
+          Geocoder.log(:warn, "Geocoding API's response was not valid JSON")
+          Geocoder.log(:debug, "Raw response: #{data}")
+        end
       end
 
       ##
@@ -286,7 +310,7 @@ module Geocoder
         end
       rescue Timeout::Error
         raise Geocoder::LookupTimeout
-      rescue Errno::EHOSTUNREACH, Errno::ETIMEDOUT, Errno::ENETUNREACH
+      rescue Errno::EHOSTUNREACH, Errno::ETIMEDOUT, Errno::ENETUNREACH, Errno::ECONNRESET
         raise Geocoder::NetworkError
       end
 

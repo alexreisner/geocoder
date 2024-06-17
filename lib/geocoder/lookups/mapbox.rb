@@ -8,11 +8,11 @@ module Geocoder::Lookup
       "Mapbox"
     end
 
-    def query_url(query)
-      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{url_query_string(query)}.json?access_token=#{configuration.api_key}"
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{mapbox_search_term(query)}.json?"
+    end
 
     def results(query)
       return [] unless data = fetch_data(query)
@@ -25,13 +25,19 @@ module Geocoder::Lookup
       end
     end
 
-    def url_query_string(query)
+    def query_url_params(query)
+      {access_token: configuration.api_key}.merge(super(query))
+    end
+
+    def mapbox_search_term(query)
       require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
       if query.reverse_geocode?
         lat,lon = query.coordinates
         "#{CGI.escape lon},#{CGI.escape lat}"
       else
-        CGI.escape query.text.to_s
+        # truncate at first semicolon so Mapbox doesn't go into batch mode
+        # (see Github issue #1299)
+        CGI.escape query.text.to_s.split(';').first.to_s
       end
     end
 

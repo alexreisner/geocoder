@@ -3,6 +3,175 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.8.3 (2024 May  2)
+-------------------
+* Add support for IP2Location LITE lookup (thanks github.com/ip2location).
+* Add support for PDOK NL lookup (thanks github.com/opensourceame).
+* Remove support for Data Science Toolkit lookup (defunct).
+
+1.8.2 (2023 Jul  4)
+-------------------
+* Add support for PC Miler lookup (thanks github.com/alexdean).
+* Minor fixes for :maxmind_local, :esri, and :ban_data_gouv_fr lookups.
+
+1.8.1 (2022 Sep 23)
+-------------------
+* Add support for IPBase lookup (thanks github.com/jonallured).
+* Test cleanup (thanks github.com/jonallured).
+* Prevent errors when existing constant name shadows a lookup class (thanks github.com/avram-twitch).
+
+1.8.0 (2022 May 17)
+-------------------
+* Add support for 2GIS lookup (thanks github.com/ggrikgg).
+* Change cache configuration structure and add an expiration option. Cache prefix is now set via {cache_options: {prefix: ...}} instead of {cache_prefix: ...}. See README for details.
+* Add `:fields` parameter for :google_places_details and :google_places_search lookups. If you haven't been requesting specific fields, you may start getting different data (defaults are now the APIs' defaults). See for details: https://github.com/alexreisner/geocoder/pull/1572 (thanks github.com/czlee).
+* Update :here lookup to use API version 7. Query options are different, API key must be a string (not an array). See API docs at https://developer.here.com/documentation/geocoding-search-api/api-reference-swagger.html (thanks github.com/Pritilender).
+
+1.7.5 (2022 Mar 14)
+-------------------
+* Avoid lookup naming collisions in some environments.
+
+1.7.4 (2022 Mar 14)
+-------------------
+* Add ability to use app-defined lookups (thanks github.com/januszm).
+* Updates to LocationIQ and FreeGeoIP lookups.
+
+1.7.3 (2022 Jan 17)
+-------------------
+* Get rid of unnecessary cache_prefix deprecation warnings.
+
+1.7.2 (2022 Jan  2)
+-------------------
+* Fix uninitialized constant error (occurring on some systems with v1.7.1).
+
+1.7.1 (2022 Jan  1)
+-------------------
+* Various bugfixes and refactorings.
+
+1.7.0 (2021 Oct 11)
+-------------------
+* Add support for Geoapify and Photo lookups (thanks github.com/ahukkanen).
+* Add support for IPQualityScore IP lookup (thanks github.com/jamesbebbington).
+* Add support for Amazon Location Service lookup (thanks github.com/mplewis).
+* Add support for Melissa lookup (thanks github.com/ALacker).
+* Drop official support for Ruby 2.0.x and Rails 4.x.
+
+1.6.7 (2021 Apr 17)
+-------------------
+* Add support for Abstract API lookup (thanks github.com/randoum).
+
+1.6.6 (2021 Mar  4)
+-------------------
+* Rescue from exception on cache read/write error. Issue warning instead.
+
+1.6.5 (2021 Feb 10)
+-------------------
+* Fix backward coordinates bug in NationaalregisterNl lookup (thanks github.com/Marthyn).
+* Allow removal of single stubs in test mode (thanks github.com/jmmastey).
+* Improve results for :ban_data_gouv_fr lookup (thanks github.com/Intrepidd).
+
+1.6.4 (2020 Oct  6)
+-------------------
+* Various updates in response to geocoding API changes.
+* Refactor of Google Places Search lookup (thanks github.com/maximilientyc).
+
+1.6.3 (2020 Apr 30)
+-------------------
+* Update URL for :telize lookup (thanks github.com/alexwalling).
+* Fix bug parsing IPv6 with port (thanks github.com/gdomingu).
+
+1.6.2 (2020 Mar 16)
+-------------------
+* Add support for :nationaal_georegister_nl lookup (thanks github.com/opensourceame).
+* Add support for :uk_ordnance_survey_names lookup (thanks github.com/pezholio).
+* Refactor and fix bugs in Yandex lookup (thanks github.com/iarie and stereodenis).
+
+1.6.1 (2020 Jan 23)
+-------------------
+* Sanitize lat/lon values passed to within_bounding_box to prevent SQL injection.
+
+1.6.0 (2020 Jan  6)
+-------------------
+* Drop support for Rails 3.x.
+* Add support for :osmnames lookup (thanks github.com/zacviandier).
+* Add support for :ipgeolocation IP lookup (thanks github.com/ahsannawaz111).
+
+1.5.2 (2019 Oct  3)
+-------------------
+* Add support for :ipregistry lookup (thanks github.com/ipregistry).
+* Various fixes for Yandex lookup.
+
+1.5.1 (2019 Jan 23)
+-------------------
+* Add support for :tencent lookup (thanks github.com/Anders-E).
+* Add support for :smarty_streets international API (thanks github.com/ankane).
+* Remove :mapzen lookup.
+
+1.5.0 (2018 Jul 31)
+-------------------
+* Drop support for Ruby <2.0.
+* Change default street address lookup from :google to :nominatim.
+* Cache keys no longer include API credentials. This means many entries in existing cache implementations will be invalidated.
+* Test lookup fixtures should now return `coordinates` and NOT `latitude`/`longitude` attributes (see #1258). This may break some people's tests.
+* Add support for :ip2location lookup (thanks github.com/ip2location).
+* Remove :ovi and :okf lookups.
+
+1.4.9 (2018 May 27)
+-------------------
+* Fix regression in :geoip2 lookup.
+* Add support for Postcodes.io lookup (thanks github.com/sledge909).
+
+1.4.8 (2018 May 21)
+-------------------
+* Change default IP address lookup from :freegeoip to :ipinfo_io.
+* Add support for :ipstack lookup (thanks github.com/Heath101).
+* Fix incompatibility with redis-rb gem v4.0.
+
+1.4.7 (2018 Mar 13)
+-------------------
+* Allow HTTP protocol for Nominatim.
+
+1.4.6 (2018 Feb 28)
+-------------------
+* Add support for :ipdata_co lookup (thanks github.com/roschaefer).
+* Update for Rails 5.2 compatibility (thanks github.com/stevenharman).
+
+1.4.5 (2017 Nov 29)
+-------------------
+* Add support for :pickpoint lookup (thanks github.com/cylon-v).
+* Add support for :db_ip_com lookup (thanks github.com/cv).
+* Change FreeGeoIP host to freegeoip.net.
+* Allow search radius to be a symbol representing a column in DB (thanks github.com/leonelgalan).
+* Add support for new parameters and improved error handling for several lookups.
+* Fix bug in SQL when searching for objects across 180th meridian.
+
+1.4.4 (2017 May 17)
+-------------------
+* Use HTTPS by default for :freegeoip (thanks github.com/mehanoid).
+* Add support for :amap lookup (thanks github.com/pzgz).
+
+1.4.3 (2017 Feb  7)
+-------------------
+* Add :google_places_search lookup (thanks github.com/waruboy).
+
+1.4.2 (2017 Jan 31)
+-------------------
+* Fix bug that caused Model.near to return an incorrect query in some cases.
+
+1.4.1 (2016 Dec  2)
+-------------------
+* Add :location_iq lookup (thanks github.com/aleemuddin13 and glsignal).
+* Add :ban_data_gouv_fr lookup (thanks github.com/JulianNacci).
+* Fix :mapbox results when server returns no context (thanks github.com/jcmuller).
+* Deprecate methods in Geocoder::Calculations: to_kilometers, to_miles, to_nautical_miles, mi_in_km, km_in_mi, km_in_nm, nm_in_km.
+
+1.4.0 (2016 Sep  8)
+-------------------
+* Only consider an object geocoded if both lat and lon are present (previously was sufficient to have only one of the two) (thanks github.com/mltsy).
+* Add support in :geocodio lookup for Canadian addresses (thanks github.com/bolandrm).
+* Add support for SQLite extensions, if present (thanks github.com/stevecj).
+* Always include Geocoder in Rack::Request, if defined (thanks github.com/wjordan).
+
 1.3.7 (2016 Jun  9)
 -------------------
 * Fix Ruby 1.9, 2.0 incompatibility (thanks github.com/ebouchut).

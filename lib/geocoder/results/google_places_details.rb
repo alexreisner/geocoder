@@ -30,6 +30,10 @@ module Geocoder
       def website
         @data["website"]
       end
+
+      def photos
+        @data["photos"]
+      end
     end
   end
 end

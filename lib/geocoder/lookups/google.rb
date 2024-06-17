@@ -21,11 +21,11 @@ module Geocoder::Lookup
       end
     end
 
-    def query_url(query)
-      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?" + url_query_string(query)
-    end
-
     private # ---------------------------------------------------------------
+
+    def base_query_url(query)
+      "#{protocol}://maps.googleapis.com/maps/api/geocode/json?"
+    end
 
     def configure_ssl!(client)
       client.instance_eval {
@@ -44,29 +44,38 @@ module Geocoder::Lookup
       super(response) and ['OK', 'ZERO_RESULTS'].include?(status)
     end
 
+    def result_root_attr
+      'results'
+    end
+
     def results(query)
       return [] unless doc = fetch_data(query)
-      case doc['status']; when "OK" # OK status implies >0 results
-        return doc['results']
+      case doc['status']
+      when "OK" # OK status implies >0 results
+        return doc[result_root_attr]
       when "OVER_QUERY_LIMIT"
         raise_error(Geocoder::OverQueryLimitError) ||
-          Geocoder.log(:warn, "Google Geocoding API error: over query limit.")
+          Geocoder.log(:warn, "#{name} API error: over query limit.")
       when "REQUEST_DENIED"
-        raise_error(Geocoder::RequestDenied) ||
-          Geocoder.log(:warn, "Google Geocoding API error: request denied.")
+        raise_error(Geocoder::RequestDenied, doc['error_message']) ||
+          Geocoder.log(:warn, "#{name} API error: request denied (#{doc['error_message']}).")
       when "INVALID_REQUEST"
-        raise_error(Geocoder::InvalidRequest) ||
-          Geocoder.log(:warn, "Google Geocoding API error: invalid request.")
+        raise_error(Geocoder::InvalidRequest, doc['error_message']) ||
+          Geocoder.log(:warn, "#{name} API error: invalid request (#{doc['error_message']}).")
       end
       return []
     end
 
     def query_url_google_params(query)
       params = {
-        (query.reverse_geocode? ? :latlng : :address) => query.sanitized_text,
         :sensor => "false",
         :language => (query.language || configuration.language)
       }
+      if query.options[:google_place_id]
+        params[:place_id] = query.sanitized_text
+      else
+        params[(query.reverse_geocode? ? :latlng : :address)] = query.sanitized_text
+      end
       unless (bounds = query.options[:bounds]).nil?
         params[:bounds] = bounds.map{ |point| "%f,%f" % point }.join('|')
       end

@@ -59,11 +59,13 @@ module Geocoder::Result
     private
 
     def geolocalized?
-      try_to_extract('coordinates', geomlonlat).present?
+      !!try_to_extract('coordinates', geomlonlat)
     end
 
-    def try_to_extract(key, nullable_hash)
-      nullable_hash.try(:[], key)
+    def try_to_extract(key, hash)
+      if hash.is_a?(Hash) and hash.include?(key)
+        hash[key]
+      end
     end
   end
 end

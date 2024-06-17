@@ -1,5 +1,10 @@
 # CreateTestSchema creates the tables used in test_helper.rb
-class CreateTestSchema < ActiveRecord::Migration
+
+superclass = ActiveRecord::Migration
+# TODO: Inherit from the 5.0 Migration class directly when we drop support for Rails 4.
+superclass = ActiveRecord::Migration[5.0] if superclass.respond_to?(:[])
+
+class CreateTestSchema < superclass
   def self.up
     [
       :places,
@@ -10,6 +15,7 @@ class CreateTestSchema < ActiveRecord::Migration
         t.column :address, :string
         t.column :latitude, :decimal, :precision => 16, :scale => 6
         t.column :longitude, :decimal, :precision => 16, :scale => 6
+        t.column :radius_column, :decimal, :precision => 16, :scale => 6
       end
     end
 

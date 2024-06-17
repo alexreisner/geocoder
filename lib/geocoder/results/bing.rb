@@ -24,7 +24,7 @@ module Geocoder::Result
     alias_method :country_code, :country
 
     def postal_code
-      @data['address']['postalCode']
+      @data['address']['postalCode'].to_s
     end
 
     def coordinates

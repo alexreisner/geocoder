@@ -1,0 +1,8 @@
+{
+  "success": false,
+  "error": {
+    "code": 303,
+    "type": "batch_not_supported_on_plan",
+    "info": "The Bulk Lookup Endpoint is not supported on the current subscription plan"
+  }
+}

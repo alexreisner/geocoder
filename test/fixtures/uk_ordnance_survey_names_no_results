@@ -1,0 +1,11 @@
+{
+    "header": {
+        "uri": "https://api.os.uk/search/names/v1/find?query=sxz%60x%60zx%60xz%60xz%60&fq=local_type%3ACity%20local_type%3AHamlet%20local_type%3AOther_Settlement%20local_type%3ATown%20local_type%3AVillage%20local_type%3APostcode",
+        "query": "sxz`x`zx`xz`xz`",
+        "format": "JSON",
+        "maxresults": 100,
+        "offset": 0,
+        "totalresults": 0,
+        "filter": "fq=local_type:City local_type:Hamlet local_type:Other_Settlement local_type:Town local_type:Village local_type:Postcode"
+    }
+}

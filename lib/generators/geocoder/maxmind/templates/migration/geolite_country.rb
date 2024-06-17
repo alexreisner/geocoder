@@ -1,4 +1,4 @@
-class GeocoderMaxmindGeoliteCountry < ActiveRecord::Migration
+class GeocoderMaxmindGeoliteCountry < ActiveRecord::Migration<%= migration_version %>
   def self.up
     create_table :maxmind_geolite_country, id: false do |t|
       t.column :start_ip, :string

@@ -16,17 +16,17 @@ module Geocoder::Result
     end
 
     def city
-      @data['city']
+      @data['city'] or (@data['standard'] and @data['standard']['city']) or ""
     end
 
     def state
-      @data['prov']
+      @data['prov'] or (@data['standard'] and @data['standard']['prov']) or ""
     end
 
     alias_method :state_code, :state
 
     def postal_code
-      @data['postal']
+      @data['postal'] or (@data['standard'] and @data['standard']['postal']) or ""
     end
 
     def country

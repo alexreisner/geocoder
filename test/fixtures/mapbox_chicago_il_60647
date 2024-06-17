@@ -1,0 +1,47 @@
+{
+  "type": "FeatureCollection",
+  "query": ["60647"],
+  "features": [
+    {
+      "id": "postcode.208334572",
+      "type": "Feature",
+      "place_type": ["postcode"],
+      "relevance": 1,
+      "properties": {"mapbox_id": "dXJuOm1ieHBsYzpER3J1N0E"},
+      "text": "60647",
+      "place_name": "Chicago, Illinois 60647, United States",
+      "bbox": [-87.727075, 41.909191, -87.6752, 41.933705],
+      "center": [-87.700436, 41.924799],
+      "geometry": {"type": "Point", "coordinates": [-87.700436, 41.924799]},
+      "context": [
+        {
+          "id": "place.59328748",
+          "mapbox_id": "dXJuOm1ieHBsYzpBNGxJN0E",
+          "wikidata": "Q1297",
+          "text": "Chicago"
+        },
+        {
+          "id": "district.5162732",
+          "mapbox_id": "dXJuOm1ieHBsYzpUc2Jz",
+          "wikidata": "Q108418",
+          "text": "Cook County"
+        },
+        {
+          "id": "region.17644",
+          "mapbox_id": "dXJuOm1ieHBsYzpST3c",
+          "wikidata": "Q1204",
+          "short_code": "US-IL",
+          "text": "Illinois"
+        },
+        {
+          "id": "country.8940",
+          "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    }
+  ],
+  "attribution": "NOTICE: © 2024 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare."
+}

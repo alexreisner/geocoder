@@ -8,17 +8,6 @@ module Geocoder::Lookup
       "ip-api.com"
     end
 
-    def query_url(query)
-      domain = configuration.api_key ? "pro.ip-api.com" : "ip-api.com"
-      url_ = "#{protocol}://#{domain}/json/#{query.sanitized_text}"
-
-      if (params = url_query_string(query)) && !params.empty?
-        url_ + "?" + params
-      else
-        url_
-      end
-    end
-
     def supported_protocols
       if configuration.api_key
         [:http, :https]
@@ -27,8 +16,14 @@ module Geocoder::Lookup
       end
     end
 
+    private # ----------------------------------------------------------------
 
-    private
+    def base_query_url(query)
+      domain = configuration.api_key ? "pro.ip-api.com" : "ip-api.com"
+      url = "#{protocol}://#{domain}/json/#{query.sanitized_text}"
+      url << "?" if not url_query_string(query).empty?
+      url
+    end
 
     def parse_raw_data(raw_data)
       if raw_data.chomp == "invalid key"
@@ -39,7 +34,8 @@ module Geocoder::Lookup
     end
 
     def results(query)
-      return [reserved_result(query.text)] if query.loopback_ip_address?
+      # don't look up a loopback or private address, just return the stored result
+      return [reserved_result(query.text)] if query.internal_ip_address?
 
       return [] unless doc = fetch_data(query)
 

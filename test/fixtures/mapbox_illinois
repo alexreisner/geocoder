@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "query": ["illinois"],
+  "features": [
+    {
+      "id": "region.17644",
+      "type": "Feature",
+      "place_type": ["region"],
+      "relevance": 1,
+      "properties": {
+        "mapbox_id": "dXJuOm1ieHBsYzpST3c",
+        "wikidata": "Q1204",
+        "short_code": "US-IL"
+      },
+      "text": "Illinois",
+      "place_name": "Illinois, United States",
+      "bbox": [-91.513079, 36.970298, -87.0117187, 42.5854443],
+      "center": [-89.2749461071049, 40.1492928594374],
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-89.2749461071049, 40.1492928594374]
+      },
+      "context": [
+        {
+          "id": "country.8940",
+          "mapbox_id": "dXJuOm1ieHBsYzpJdXc",
+          "wikidata": "Q30",
+          "short_code": "us",
+          "text": "United States"
+        }
+      ]
+    }
+  ],
+  "attribution": "NOTICE: © 2024 Mapbox and its suppliers. All rights reserved. Use of this data is subject to the Mapbox Terms of Service (https://www.mapbox.com/about/maps/). This response and the information it contains may not be retained. POI(s) provided by Foursquare."
+}

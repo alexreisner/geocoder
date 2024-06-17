@@ -161,14 +161,21 @@ class CalculationsTest < GeocoderTestCase
     assert_equal l.bearing_from([50,-86.1]), l.bearing_to([50,-86.1]) - 180
   end
 
-  def test_extract_coordinates
-    coords = [-23,47]
+  def test_extract_coordinates_when_integers
+    coords = [-23, 47]
     l = PlaceReverseGeocoded.new("Madagascar", coords[0], coords[1])
-    assert_equal coords, Geocoder::Calculations.extract_coordinates(l)
-    assert_equal coords, Geocoder::Calculations.extract_coordinates(coords)
+    assert_equal coords.map(&:to_f), Geocoder::Calculations.extract_coordinates(l)
+    assert_equal coords.map(&:to_f), Geocoder::Calculations.extract_coordinates(coords)
   end
 
-  def test_extract_nan_coordinates
+  def test_extract_coordinates_when_strings
+    coords = ["-23.1", "47.2"]
+    l = PlaceReverseGeocoded.new("Madagascar", coords[0], coords[1])
+    assert_equal coords.map(&:to_f), Geocoder::Calculations.extract_coordinates(l)
+    assert_equal coords.map(&:to_f), Geocoder::Calculations.extract_coordinates(coords)
+  end
+
+  def test_extract_coordinates_when_nan
     result = Geocoder::Calculations.extract_coordinates([ nil, nil ])
     assert_nan_coordinates?(result)
 

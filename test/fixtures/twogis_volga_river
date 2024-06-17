@@ -1,0 +1,296 @@
+{
+   "meta":{
+      "api_version":"3.0.783441",
+      "code":200,
+      "issue_date":"20220406"
+   },
+   "result":{
+      "items":[
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447187",
+                  "name":"Ярославская область",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076118168103",
+                  "name":"Некоузский район",
+                  "type":"district_area"
+               }
+            ],
+            "full_name":"Волга",
+            "geometry":{
+               "centroid":"POINT(38.388873 57.953151)"
+            },
+            "id":"70030076143520494",
+            "name":"Волга",
+            "point":{
+               "lat":57.953151,
+               "lon":38.388873
+            },
+            "subtype":"settlement",
+            "subtype_specification":"Посёлок",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1267655302447157",
+                  "name":"Kostroma region",
+                  "type":"region"
+               },
+               {
+                  "id":"4786088216363088",
+                  "name":"Красносельский район",
+                  "type":"district_area"
+               }
+            ],
+            "full_name":"Красное-на-Волге",
+            "geometry":{
+               "centroid":"POINT(41.241364 57.513871)"
+            },
+            "id":"70030076128113899",
+            "name":"Красное-на-Волге",
+            "point":{
+               "lat":57.513871,
+               "lon":41.241364
+            },
+            "subtype":"settlement",
+            "subtype_specification":"Urban settlement",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447187",
+                  "name":"Ярославская область",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076118168095",
+                  "name":"Ярославль городской округ",
+                  "type":"district_area"
+               },
+               {
+                  "city_alias":"yaroslavl",
+                  "flags":{
+                     "is_district_area_center":true,
+                     "is_region_center":true
+                  },
+                  "id":"3941272444207172",
+                  "name":"Ярославль",
+                  "type":"city"
+               }
+            ],
+            "city_alias":"yaroslavl",
+            "full_name":"Ярославль, Волга река",
+            "geometry":{
+               "centroid":"POINT(40.119751 57.558464)"
+            },
+            "id":"3941336868716796",
+            "name":"Волга река",
+            "point":{
+               "lat":57.558464,
+               "lon":40.119751
+            },
+            "subtype":"place",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447187",
+                  "name":"Ярославская область",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076118168102",
+                  "name":"Мышкинский район",
+                  "type":"district_area"
+               },
+               {
+                  "flags":{
+                     "is_district_area_center":true
+                  },
+                  "id":"70030076128001710",
+                  "name":"Мышкин",
+                  "type":"city"
+               }
+            ],
+            "full_name":"Мышкин, СТ Волга",
+            "geometry":{
+               "centroid":"POINT(38.456843 57.799505)"
+            },
+            "id":"70030076320028338",
+            "name":"СТ Волга",
+            "point":{
+               "lat":57.799505,
+               "lon":38.456843
+            },
+            "subtype":"living_area",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447187",
+                  "name":"Ярославская область",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076118168111",
+                  "name":"Угличский район",
+                  "type":"district_area"
+               },
+               {
+                  "id":"70030076127996231",
+                  "name":"д. Баскачи",
+                  "type":"settlement"
+               }
+            ],
+            "full_name":"Баскачи, СТ Волга",
+            "geometry":{
+               "centroid":"POINT(38.347757 57.580027)"
+            },
+            "id":"70030076342541258",
+            "name":"СТ Волга",
+            "point":{
+               "lat":57.580027,
+               "lon":38.347757
+            },
+            "subtype":"living_area",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447187",
+                  "name":"Ярославская область",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076118168110",
+                  "name":"Тутаевский район",
+                  "type":"district_area"
+               },
+               {
+                  "id":"70030076127991633",
+                  "name":"д. Безмино",
+                  "type":"settlement"
+               }
+            ],
+            "full_name":"Безмино, река Волга",
+            "geometry":{
+               "centroid":"POINT(38.338034 58.049539)"
+            },
+            "id":"70030076245869325",
+            "name":"река Волга",
+            "point":{
+               "lat":58.049539,
+               "lon":38.338034
+            },
+            "subtype":"place",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447187",
+                  "name":"Ярославская область",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076118168104",
+                  "name":"Некрасовский район",
+                  "type":"district_area"
+               },
+               {
+                  "id":"70030076127992813",
+                  "name":"д. Федорово",
+                  "type":"settlement"
+               }
+            ],
+            "full_name":"Федорово, река Волга",
+            "geometry":{
+               "centroid":"POINT(40.591411 57.7719)"
+            },
+            "id":"70030076316108375",
+            "name":"река Волга",
+            "point":{
+               "lat":57.7719,
+               "lon":40.591411
+            },
+            "subtype":"place",
+            "type":"adm_div"
+         },
+         {
+            "adm_div":[
+               {
+                  "id":"1",
+                  "name":"Россия",
+                  "type":"country"
+               },
+               {
+                  "id":"1267655302447187",
+                  "name":"Ярославская область",
+                  "type":"region"
+               },
+               {
+                  "id":"70030076118168111",
+                  "name":"Угличский район",
+                  "type":"district_area"
+               },
+               {
+                  "id":"70030076127996225",
+                  "name":"д. Житово",
+                  "type":"settlement"
+               }
+            ],
+            "full_name":"Житово, река Волга",
+            "geometry":{
+               "centroid":"POINT(38.271856 57.48617)"
+            },
+            "id":"70030076316828925",
+            "name":"река Волга",
+            "point":{
+               "lat":57.48617,
+               "lon":38.271856
+            },
+            "subtype":"place",
+            "type":"adm_div"
+         }
+      ],
+      "total":8
+   }
+}
