@@ -17,14 +17,23 @@ module Geocoder::Result
       fail unless d = @data["position"]
       [d["lat"].to_f, d["lng"].to_f]
     end
-    
+
+    def access_coordinates
+      fail unless d = @data["access"]
+      [d["lat"].to_f, d["lng"].to_f]
+    end
+
     def route
       address_data["street"]
     end
-    
+
+    def street_address
+      address_data["street"]
+    end
+
     def street_number
       address_data["houseNumber"]
-    end  
+    end
 
     def state
       address_data["state"]
@@ -39,7 +48,7 @@ module Geocoder::Result
     end
 
     def city
-      address_data["city"]
+      address_data["district"] || address_data["city"]
     end
 
     def state_code
