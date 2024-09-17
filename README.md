@@ -376,6 +376,9 @@ Geocoder::Lookup.all_services.each{|service| Geocoder::Lookup.get(service).cache
 
 Do *not* include the prefix when passing a URL to be expired. Expiring `:all` will only expire keys with the configured prefix -- it will *not* expire every entry in your key/value store.
 
+In addition to conventional cache stores like Redis, it's possible to keep your cache in the database using `ActiveRecord`. For example see [this gist](https://gist.github.com/shqear93/4b07153b4ca7e4e4a41da492679f6c0e).
+
+
 _Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service._
 
 
@@ -510,13 +513,6 @@ If you store multiple sets of coordinates for each object, you can specify latit
 ```ruby
 Venue.near("Paris", 50, latitude: :secondary_latitude, longitude: :secondary_longitude)
 ```
-
-Use ActiveRecord as cache
--------------------------
-
-This applies for ActiveRecord only, the default cache service is Redis, but we still can use Database instead, it is not
-recommended in usual cases, but you can still follow 
-[this gist](https://gist.github.com/shqear93/4b07153b4ca7e4e4a41da492679f6c0e) to use databases as caching storage
 
 ### Distance and Bearing
 
