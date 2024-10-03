@@ -10,7 +10,7 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def supported_protocols
-      [:https]
+      [:http, :https]
     end
 
     def base_query_url(query)
