@@ -375,6 +375,9 @@ Geocoder::Lookup.all_services.each{|service| Geocoder::Lookup.get(service).cache
 
 Do *not* include the prefix when passing a URL to be expired. Expiring `:all` will only expire keys with the configured prefix -- it will *not* expire every entry in your key/value store.
 
+In addition to conventional cache stores like Redis, it's possible to keep your cache in the database using `ActiveRecord`. For example see [this gist](https://gist.github.com/shqear93/4b07153b4ca7e4e4a41da492679f6c0e).
+
+
 _Before you implement caching in your app please be sure that doing so does not violate the Terms of Service for your geocoding service._
 
 Not all services support caching, [check the service limitations in the API guide for more information](https://github.com/alexreisner/geocoder/blob/master/README_API_GUIDE.md).
