@@ -10,6 +10,9 @@ module Geocoder::Lookup
       # Aws::ParamValidator raises ArgumentError on missing required keys
       params.merge!(index_name: configuration[:index_name])
 
+      # Inherit language from configuration
+      params.merge!(language: configuration[:language])
+
       # Aws::ParamValidator raises ArgumentError on unexpected keys
       params.delete(:lookup) 
       
