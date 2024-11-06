@@ -10,18 +10,18 @@ module Geocoder::Lookup
       # Aws::ParamValidator raises ArgumentError on missing required keys
       params.merge!(index_name: configuration[:index_name])
 
+      # Aws::ParamValidator raises ArgumentError on unexpected keys
+      params.delete(:lookup)
+
       # Inherit language from configuration
       params.merge!(language: configuration[:language])
 
-      # Aws::ParamValidator raises ArgumentError on unexpected keys
-      params.delete(:lookup) 
-      
       resp = if query.reverse_geocode?
         client.search_place_index_for_position(params.merge(position: query.coordinates.reverse))
       else
         client.search_place_index_for_text(params.merge(text: query.text))
       end
-      
+
       resp.results
     end
 
