@@ -61,6 +61,19 @@ Global Street Address Lookups
       ```
     * Via environment variables and other external methods. See **Setting AWS Credentials** in the [AWS SDK for Ruby Developer Guide](https://docs.aws.amazon.com/sdk-for-ruby/v3/developer-guide/setup-config.html).
 
+### Azure (`:azure`)
+
+* **API key**: required (set `Geocoder.configure(lookup: :azure, api_key: "your_api_key", limit: your_limit)`)
+* **Key signup**: https://azure.microsoft.com/en-us/products/azure-maps
+* **Quota**: 5,000 request/month with free API key, more with paid keys (see https://azure.microsoft.com/en-us/pricing/details/azure-maps)
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: see https://learn.microsoft.com/en-us/azure/azure-maps/supported-languages
+* **Documentation**: https://learn.microsoft.com/en-us/azure/azure-maps
+* **Terms of Service**: https://azure.microsoft.com/en-us/support/legal
+* **Limitations**: Azure Maps doesn't have any maximum daily limits on the number of requests that can be made, however there are limits to the maximum number of queries per second (QPS) (see https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-qps-rate-limits)
+* **Notes**: To use Azure, set `Geocoder.configure(lookup: :azure, api_key: "your_api_key", limit: your_limit)` :limit - restrict the maximum amount of returned results, e.g. limit: 10.
+
 ### Bing (`:bing`)
 
 * **API key**: required (set `Geocoder.configure(lookup: :bing, api_key: key)`)
