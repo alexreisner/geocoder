@@ -32,6 +32,7 @@ module Geocoder
     def street_services
       @street_services ||= [
         :location_iq,
+        :azure,
         :esri,
         :google,
         :google_premier,
@@ -78,6 +79,7 @@ module Geocoder
       @ip_services ||= [
         :baidu_ip,
         :abstract_api,
+        :azure,
         :freegeoip,
         :geoip2,
         :maxmind,

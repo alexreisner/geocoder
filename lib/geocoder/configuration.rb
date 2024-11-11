@@ -68,7 +68,8 @@ module Geocoder
       :basic_auth,
       :logger,
       :kernel_logger_level,
-      :cache_options
+      :cache_options,
+      :limit
     ]
 
     attr_accessor :data
