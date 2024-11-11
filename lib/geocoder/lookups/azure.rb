@@ -18,15 +18,25 @@ module Geocoder::Lookup
     private
 
     def base_query_url(query)
-      host      = 'atlas.microsoft.com/search/address'
-      url       = if query.reverse_geocode?
-                    "#{protocol}://#{host}/reverse/json"
-                  else
-                    "#{protocol}://#{host}/json"
-                  end
-      params    = "?subscription-key=#{configuration.api_key}&api-version=1.0&query=#{query.sanitized_text}&limit=#{configuration.limit}"
+      host = 'atlas.microsoft.com/search/address'
 
-      url + params
+      if query.reverse_geocode?
+        "#{protocol}://#{host}/reverse/json?"
+      else
+        "#{protocol}://#{host}/json?"
+      end
+    end
+
+    def query_url_params(query)
+      params = {
+        'api-version' => 1.0,
+        'language' => query.options[:language] || 'en',
+        'limit' => configuration.limit || 10,
+        'query' => query.sanitized_text,
+        'subscription-key' => configuration.api_key
+      }
+
+      params.merge!(super)
     end
 
     def results(query)

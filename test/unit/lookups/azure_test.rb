@@ -63,13 +63,13 @@ class AzureTest < GeocoderTestCase
   def test_query_url
     query = Geocoder::Query.new('Jakarta')
 
-    assert_equal 'https://atlas.microsoft.com/search/address/json?subscription-key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&api-version=1.0&query=Jakarta&limit=1', query.url
+    assert_equal 'https://atlas.microsoft.com/search/address/json?api-version=1.0&language=en&limit=1&query=Jakarta&subscription-key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', query.url
   end
 
   def test_reverse_query_url
     query = Geocoder::Query.new([-6.198967624433219, 106.82358133258361])
 
-    assert_equal "https://atlas.microsoft.com/search/address/reverse/json?subscription-key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&api-version=1.0&query=-6.198967624433219,106.82358133258361&limit=1", query.url
+    assert_equal "https://atlas.microsoft.com/search/address/reverse/json?api-version=1.0&language=en&limit=1&query=-6.198967624433219%2C106.82358133258361&subscription-key=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", query.url
   end
 
   def test_azure_query_url_contains_api_key
@@ -83,6 +83,18 @@ class AzureTest < GeocoderTestCase
     assert_match(/subscription-key=a+/, url)
   end
 
+  def test_azure_query_url_contains_language
+    lookup = Geocoder::Lookup::Azure.new
+    url = lookup.query_url(
+      Geocoder::Query.new(
+        'Test Query',
+        language: 'en'
+      )
+    )
+
+    assert_match(/language=en/, url)
+  end
+
   def test_azure_query_url_contains_text
     lookup  = Geocoder::Lookup::Azure.new
     url     = lookup.query_url(
@@ -91,7 +103,7 @@ class AzureTest < GeocoderTestCase
       )
     )
 
-    assert_match(/PT Kulkul Teknologi Internasional/i, url)
+    assert_match(/PT\+Kulkul\+Teknologi\+Internasional/i, url)
   end
 
   def test_azure_reverse_query_url_contains_lat_lon
@@ -102,7 +114,7 @@ class AzureTest < GeocoderTestCase
                 )
               )
 
-    assert_match(/query=-6\.198967624433219,106\.82358133258361/, url)
+    assert_match(/query=-6\.198967624433219%2C106\.82358133258361/, url)
   end
 
   def test_azure_invalid_key
