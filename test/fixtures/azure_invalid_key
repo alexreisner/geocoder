@@ -1,0 +1,8 @@
+{
+    "error": {
+        "code": "InvalidKey",
+        "message": "The provided key was incorrect or the account resource does not exist.",
+        "target": "WWW-Authenticate",
+        "details": []
+    }
+}

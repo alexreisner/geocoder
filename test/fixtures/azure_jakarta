@@ -1,0 +1,57 @@
+{
+    "summary": {
+        "query": "Jakarta",
+        "queryType": "NON_NEAR",
+        "queryTime": 66,
+        "numResults": 1,
+        "offset": 0,
+        "totalResults": 10,
+        "fuzzyLevel": 1
+    },
+    "results": [
+        {
+            "type": "Geography",
+            "id": "6AhgONQ49YLQy9Ku_ocHcA",
+            "score": 1,
+            "entityType": "Municipality",
+            "matchConfidence": {
+                "score": 1
+            },
+            "address": {
+                "municipality": "Jakarta",
+                "countrySubdivision": "Jakarta",
+                "countrySubdivisionName": "Jakarta",
+                "countrySubdivisionCode": "JK",
+                "countryCode": "ID",
+                "country": "Indonesia",
+                "countryCodeISO3": "IDN",
+                "freeformAddress": "Jakarta, Jakarta"
+            },
+            "position": {
+                "lat": -6.17476,
+                "lon": 106.82707
+            },
+            "viewport": {
+                "topLeftPoint": {
+                    "lat": -5.95462, "lon": 106.68588
+                },
+                "btmRightPoint": {
+                    "lat": -6.37083, "lon": 106.9729
+                }
+            },
+            "boundingBox": {
+                "topLeftPoint": {
+                    "lat": -5.95462, "lon": 106.68588
+                },
+                "btmRightPoint": {
+                    "lat": -6.37083, "lon": 106.9729
+                }
+            },
+            "dataSources": {
+                "geometry": {
+                    "id": "00004944-3100-3c00-0000-000023c347ee"
+                }
+            }
+        }
+    ]
+}
