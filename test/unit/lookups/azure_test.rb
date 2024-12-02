@@ -4,7 +4,7 @@ class AzureTest < GeocoderTestCase
 
   def setup
     super
-    Geocoder.configure(lookup: :azure, limit: 1)
+    Geocoder.configure(lookup: :azure, azure: { limit: 1 })
     set_api_key!(:azure)
   end
 

@@ -31,12 +31,12 @@ module Geocoder::Lookup
       params = {
         'api-version' => 1.0,
         'language' => query.options[:language] || 'en',
-        'limit' => configuration.limit || 10,
+        'limit' => configuration[:limit] || 10,
         'query' => query.sanitized_text,
         'subscription-key' => configuration.api_key
       }
 
-      params.merge!(super)
+      params.merge(super)
     end
 
     def results(query)
