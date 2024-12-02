@@ -19,8 +19,8 @@ class AzureTest < GeocoderTestCase
   def test_azure_results_jakarta_coordinates
     result = Geocoder.search('Jakarta').first
 
-    assert_equal -6.17476, result&.coordinates['lat']
-    assert_equal 106.82707, result&.coordinates['lon']
+    assert_equal -6.17476, result&.coordinates[0]
+    assert_equal 106.82707, result&.coordinates[1]
   end
 
   def test_azure_results_jakarta_viewport

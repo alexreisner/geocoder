@@ -15,7 +15,11 @@ module Geocoder::Result
     end
 
     def coordinates
-      @data['position'] || {}
+      if @data['position'].is_a?(String) # reverse geocoding result
+        @data['position'].split(',').map(&:to_f)
+      elsif @data['position'].is_a?(Hash) # forward geocoding result
+        [@data['position']['lat'], @data['position']['lon']]
+      end
     end
 
     def country
