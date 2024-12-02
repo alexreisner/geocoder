@@ -79,7 +79,6 @@ module Geocoder
       @ip_services ||= [
         :baidu_ip,
         :abstract_api,
-        :azure,
         :freegeoip,
         :geoip2,
         :maxmind,
