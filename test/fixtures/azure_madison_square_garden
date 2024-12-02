@@ -1,0 +1,50 @@
+{
+    "summary": {
+        "query": "madison square garden",
+        "queryType": "NON_NEAR",
+        "queryTime": 89,
+        "numResults": 1,
+        "offset": 0,
+        "totalResults": 6,
+        "fuzzyLevel": 1
+    },
+    "results": [
+        {
+            "type": "Street",
+            "id": "QyS-HWGa0fkjABCOcS09Rw",
+            "score": 0.8939382576343416,
+            "matchConfidence": {
+                "score": 0.8939382576343416
+            },
+            "address": {
+                "streetName": "Garten Place",
+                "municipality": "Madison Heights",
+                "countrySecondarySubdivision": "Amherst",
+                "countrySubdivision": "VA",
+                "countrySubdivisionName": "Virginia",
+                "countrySubdivisionCode": "VA",
+                "postalCode": "24572",
+                "extendedPostalCode": "24572-4418, 24572-4419",
+                "countryCode": "US",
+                "country": "United States",
+                "countryCodeISO3": "USA",
+                "freeformAddress": "Garten Place, Madison Heights, VA 24572",
+                "localName": "Madison Heights"
+            },
+            "position": {
+                "lat": 37.484629,
+                "lon": -79.109597
+            },
+            "viewport": {
+                "topLeftPoint": {
+                    "lat": 37.485,
+                    "lon": -79.11055
+                },
+                "btmRightPoint": {
+                    "lat": 37.48439,
+                    "lon": -79.10872
+                }
+            }
+        }
+    ]
+}

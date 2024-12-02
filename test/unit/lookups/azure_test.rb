@@ -49,7 +49,7 @@ class AzureTest < GeocoderTestCase
   end
 
   def test_azure_no_result
-    result = Geocoder.search('no result')
+    result = Geocoder.search('no results')
 
     assert_equal 0, result&.length
   end
