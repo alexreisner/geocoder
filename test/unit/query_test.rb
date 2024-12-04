@@ -16,6 +16,12 @@ class QueryTest < GeocoderTestCase
     assert !Geocoder::Query.new("::ffff:123.456.789").ip_address?
   end
 
+  def test_strip_trailing_whitespace_for_ip_address_query
+    text = "77.251.213.1\n"
+    query = Geocoder::Query.new(text)
+    assert_equal text[0...-1], query.sanitized_text
+  end
+
   def test_blank_query_detection
     assert Geocoder::Query.new(nil).blank?
     assert Geocoder::Query.new("").blank?
