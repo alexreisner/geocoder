@@ -1,0 +1,12 @@
+{
+    "summary": {
+        "query": "Jakarta",
+        "queryType": "NON_NEAR",
+        "queryTime": 66,
+        "numResults": 0,
+        "offset": 0,
+        "totalResults": 0,
+        "fuzzyLevel": 1
+    },
+    "results": []
+}

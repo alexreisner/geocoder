@@ -1,0 +1,36 @@
+{
+    "summary": {
+        "queryTime": 12,
+        "numResults": 1
+    },
+    "addresses": [
+        {
+            "address": {
+                "buildingNumber": "10",
+                "streetNumber": "10",
+                "routeNumbers": [],
+                "street": "Jalan Mohammad Husni Thamrin",
+                "streetName": "Jalan Mohammad Husni Thamrin",
+                "streetNameAndNumber": "Jalan Mohammad Husni Thamrin 10",
+                "countryCode": "ID",
+                "countrySubdivision": "DKI Jakarta",
+                "municipality": "Jakarta",
+                "postalCode": "10230",
+                "municipalitySecondarySubdivision": "Menteng",
+                "country": "Indonesia",
+                "countryCodeISO3": "IDN",
+                "freeformAddress": "Jalan Mohammad Husni Thamrin 10, Kecamatan Jakarta, DKI Jakarta 10230",
+                "boundingBox": {
+                    "northEast": "-6.198818,106.823264",
+                    "southWest": "-6.199555,106.823246",
+                    "entity": "position"
+                },
+                "countrySubdivisionName": "DKI Jakarta",
+                "countrySubdivisionCode": "JK",
+                "localName": "Jakarta"
+            },
+        "position": "-6.199203,106.823082",
+        "id": "hlyQM4iHOYn16mWumCtnJA"
+        }
+    ]
+}
