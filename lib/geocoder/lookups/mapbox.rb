@@ -30,14 +30,14 @@ module Geocoder::Lookup
     end
 
     def mapbox_search_term(query)
-      require 'cgi' unless defined?(CGI) && defined?(CGI.escape)
+      require 'erb' unless defined?(ERB) && defined?(ERB::Util.url_encode)
       if query.reverse_geocode?
         lat,lon = query.coordinates
-        "#{CGI.escape lon},#{CGI.escape lat}"
+        "#{ERB::Util.url_encode lon},#{ERB::Util.url_encode lat}"
       else
         # truncate at first semicolon so Mapbox doesn't go into batch mode
         # (see Github issue #1299)
-        CGI.escape query.text.to_s.split(';').first.to_s
+        ERB::Util.url_encode query.text.to_s.split(';').first.to_s
       end
     end
 

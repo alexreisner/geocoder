@@ -12,13 +12,13 @@ class MapboxTest < GeocoderTestCase
   def test_url_contains_api_key
     Geocoder.configure(mapbox: {api_key: "abc123"})
     query = Geocoder::Query.new("Leadville, CO")
-    assert_equal "https://api.mapbox.com/geocoding/v5/mapbox.places/Leadville%2C+CO.json?access_token=abc123", query.url
+    assert_equal "https://api.mapbox.com/geocoding/v5/mapbox.places/Leadville%2C%20CO.json?access_token=abc123", query.url
   end
 
   def test_url_contains_params
     Geocoder.configure(mapbox: {api_key: "abc123"})
     query = Geocoder::Query.new("Leadville, CO", {params: {country: 'CN'}})
-    assert_equal "https://api.mapbox.com/geocoding/v5/mapbox.places/Leadville%2C+CO.json?access_token=abc123&country=CN", query.url
+    assert_equal "https://api.mapbox.com/geocoding/v5/mapbox.places/Leadville%2C%20CO.json?access_token=abc123&country=CN", query.url
   end
 
   def test_result_components
