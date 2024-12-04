@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.8.4 (2024 Dec  4)
+-------------------
+* Add support for Azure lookup (thanks github.com/AhlOct).
+* Several fixes for Mapbox and Bing lookups (thanks github.com/tmh-dev and github.com/iBlackShadow).
+
 1.8.3 (2024 May  2)
 -------------------
 * Add support for IP2Location LITE lookup (thanks github.com/ip2location).
