@@ -63,6 +63,7 @@ Global Street Address Lookups
 
 ### Azure (`:azure`)
 
+* **API key**: required
 * **Key signup**: https://azure.microsoft.com/en-us/products/azure-maps
 * **Quota**: 5,000 request/month with free API key, more with paid keys (see https://azure.microsoft.com/en-us/pricing/details/azure-maps)
 * **Region**: world
@@ -71,7 +72,7 @@ Global Street Address Lookups
 * **Documentation**: https://learn.microsoft.com/en-us/azure/azure-maps
 * **Terms of Service**: https://azure.microsoft.com/en-us/support/legal
 * **Limitations**: Azure Maps doesn't have any maximum daily limits on the number of requests that can be made, however there are limits to the maximum number of queries per second (QPS) (see https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-qps-rate-limits)
-* **Notes**: To use Azure, set `Geocoder.configure(lookup: :azure, api_key: "your_api_key", azure: { limit: your_limit })` limit is optional - limit the maximum number of results returned, default 10.
+* **Notes**: To limit the number of results returned, use `Geocoder.configure(lookup: :azure, api_key: "your_api_key", azure: { limit: your_limit })` (default 10).
 
 ### Bing (`:bing`)
 
