@@ -60,7 +60,7 @@ class BingTest < GeocoderTestCase
       "manchester, lancashire",
       :region => "uk"
     ))
-    assert_match(%r!Locations/uk/\?q=manchester%2C\+lancashire!, url)
+    assert_match(%r!Locations/uk/\?q=manchester%2C%20lancashire!, url)
   end
 
   def test_query_url_strips_trailing_and_leading_spaces
@@ -69,7 +69,7 @@ class BingTest < GeocoderTestCase
       " manchester, lancashire ",
       :region => "uk"
     ))
-    assert_match(%r!Locations/uk/\?q=manchester%2C\+lancashire!, url)
+    assert_match(%r!Locations/uk/\?q=manchester%2C%20lancashire!, url)
   end
 
   def test_raises_exception_when_service_unavailable
