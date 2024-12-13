@@ -6,6 +6,7 @@ class ResultTest < GeocoderTestCase
   def test_forward_geocoding_result_has_required_attributes
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if [
+        :get_address_uk, # Doesn't search by coordinates
         :ip2location, # has pay-per-attribute pricing model
         :ip2location_io, # has pay-per-attribute pricing model
         :ip2location_lite, # no forward geocoding

@@ -462,6 +462,18 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/get_address_uk'
+    class GetAddressUk
+      private
+      def fixture_prefix
+        'get_address_uk'
+      end
+
+      def default_fixture_filename
+        "#{fixture_prefix}_mk11df"
+      end
+    end
+
     require 'geocoder/lookups/latlon'
     class Latlon
       private
