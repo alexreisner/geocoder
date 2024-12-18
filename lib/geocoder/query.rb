@@ -23,7 +23,7 @@ module Geocoder
           text.split(/\s*,\s*/).join(',')
         end
       else
-        text.strip
+        text.to_s.strip
       end
     end
 
