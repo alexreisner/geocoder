@@ -1,0 +1,55 @@
+{
+  "header": {
+    "uri": "https://api.os.uk/search/places/v1/find?query=London&dataset=DPA%2CLPI&output_srs=EPSG%3A4326&maxresults=1",
+    "query": "query=London",
+    "offset": 0,
+    "totalresults": 5734503,
+    "format": "JSON",
+    "dataset": "DPA,LPI",
+    "lr": "EN,CY",
+    "maxresults": 1,
+    "matchprecision": 1,
+    "epoch": "115",
+    "lastupdate": "2025-01-27",
+    "output_srs": "EPSG:4326"
+  },
+  "results": [
+    {
+      "DPA": {
+        "UPRN": "10009169128",
+        "UDPRN": "21361575",
+        "ADDRESS": "LONDON HOUSE, PENCADER, SA39 9AA",
+        "BUILDING_NAME": "LONDON HOUSE",
+        "POST_TOWN": "PENCADER",
+        "POSTCODE": "SA39 9AA",
+        "RPC": "1",
+        "X_COORDINATE": 244622.42,
+        "Y_COORDINATE": 236290.46,
+        "LNG": -4.2649815,
+        "LAT": 52.003258,
+        "STATUS": "APPROVED",
+        "LOGICAL_STATUS_CODE": "1",
+        "CLASSIFICATION_CODE": "RD04",
+        "CLASSIFICATION_CODE_DESCRIPTION": "Terraced",
+        "LOCAL_CUSTODIAN_CODE": 6825,
+        "LOCAL_CUSTODIAN_CODE_DESCRIPTION": "CARMARTHENSHIRE",
+        "COUNTRY_CODE": "W",
+        "COUNTRY_CODE_DESCRIPTION": "This record is within Wales",
+        "POSTAL_ADDRESS_CODE": "D",
+        "POSTAL_ADDRESS_CODE_DESCRIPTION": "A record which is linked to PAF",
+        "BLPU_STATE_CODE": "2",
+        "BLPU_STATE_CODE_DESCRIPTION": "In use",
+        "TOPOGRAPHY_LAYER_TOID": "osgb1000020500141",
+        "WARD_CODE": "W05001207",
+        "PARISH_CODE": "W04000523",
+        "LAST_UPDATE_DATE": "25/03/2022",
+        "ENTRY_DATE": "24/06/2004",
+        "BLPU_STATE_DATE": "24/06/2004",
+        "LANGUAGE": "CY",
+        "MATCH": 0.3,
+        "MATCH_DESCRIPTION": "NO MATCH",
+        "DELIVERY_POINT_SUFFIX": "2A"
+      }
+    }
+  ]
+}
