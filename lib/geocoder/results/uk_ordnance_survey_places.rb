@@ -33,6 +33,7 @@ module Geocoder::Result
         'N' => 'Northern Ireland',
         'L' => 'Channel Islands',
         'M' => 'Isle of Man',
+        'J' => ''
       }[data['COUNTRY_CODE']]
     end
 

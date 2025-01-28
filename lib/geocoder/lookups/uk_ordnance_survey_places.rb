@@ -37,17 +37,8 @@ module Geocoder::Lookup
         query: query.sanitized_text,
         key: configuration.api_key,
         dataset: 'DPA,LPI',
-        output_srs: 'EPSG:4326',
-        fq: filter
+        output_srs: 'EPSG:4326'
       }.merge(super)
-    end
-
-    def country_codes
-      %w[E W S N L M]
-    end
-
-    def filter
-      country_codes.map { |t| "COUNTRY_CODE:#{t}" }.join(' ')
     end
   end
 end
