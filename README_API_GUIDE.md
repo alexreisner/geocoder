@@ -508,6 +508,17 @@ Regional Street Address Lookups
 * **Terms of Service**: https://developer.ordnancesurvey.co.uk/os-api-framework-agreement
 * **Limitations**: Only searches postcodes and placenames in England, Wales and Scotland
 
+### Ordnance Survey Places API (`:uk_ordnance_survey_places`)
+
+* **API key**: required (sign up at https://osdatahub.os.uk)
+* **Quota**: 0.01 GBP / transaction (600 transactions-per-minute throttle)
+* **Region**: England, Wales, Scotland, Northern Ireland, Channel Islands and Isle of Man
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://osdatahub.os.uk/docs/places/technicalSpecification
+* **Terms of Service**: https://www.ordnancesurvey.co.uk/legal
+* **Limitations**: Only searches in England, Wales, Scotland, Northern Ireland, Channel Islands and Isle of Man
+
 ### PostcodeAnywhere UK (`:postcode_anywhere_uk`)
 
 * **API key**: required
