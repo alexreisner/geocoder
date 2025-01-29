@@ -37,7 +37,8 @@ module Geocoder::Lookup
         query: query.sanitized_text,
         key: configuration.api_key,
         dataset: 'DPA,LPI',
-        output_srs: 'EPSG:4326'
+        output_srs: 'EPSG:4326',
+        maxresults: 10
       }.merge(super)
     end
   end
