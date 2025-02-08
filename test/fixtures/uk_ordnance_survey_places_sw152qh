@@ -1,0 +1,55 @@
+{
+  "header": {
+    "uri": "https://api.os.uk/search/places/v1/find?query=London%2C%20SW15%202QH&dataset=DPA%2CLPI&output_srs=EPSG%3A4326&maxresults=1",
+    "query": "query=London, SW15 2QH",
+    "offset": 0,
+    "totalresults": 5656265,
+    "format": "JSON",
+    "dataset": "DPA,LPI",
+    "lr": "EN,CY",
+    "maxresults": 1,
+    "matchprecision": 1,
+    "epoch": "115",
+    "lastupdate": "2025-01-27",
+    "output_srs": "EPSG:4326"
+  },
+  "results": [
+    {
+      "DPA": {
+        "UPRN": "100022713096",
+        "UDPRN": "23996615",
+        "ADDRESS": "2, WESTROW, LONDON, SW15 6RH",
+        "BUILDING_NUMBER": "2",
+        "THOROUGHFARE_NAME": "WESTROW",
+        "POST_TOWN": "LONDON",
+        "POSTCODE": "SW15 6RH",
+        "RPC": "2",
+        "X_COORDINATE": 523366.0,
+        "Y_COORDINATE": 174494.0,
+        "LNG": -0.2257836,
+        "LAT": 51.4559931,
+        "STATUS": "APPROVED",
+        "LOGICAL_STATUS_CODE": "1",
+        "CLASSIFICATION_CODE": "RD04",
+        "CLASSIFICATION_CODE_DESCRIPTION": "Terraced",
+        "LOCAL_CUSTODIAN_CODE": 5960,
+        "LOCAL_CUSTODIAN_CODE_DESCRIPTION": "WANDSWORTH",
+        "COUNTRY_CODE": "E",
+        "COUNTRY_CODE_DESCRIPTION": "This record is within England",
+        "POSTAL_ADDRESS_CODE": "D",
+        "POSTAL_ADDRESS_CODE_DESCRIPTION": "A record which is linked to PAF",
+        "BLPU_STATE_CODE": "2",
+        "BLPU_STATE_CODE_DESCRIPTION": "In use",
+        "TOPOGRAPHY_LAYER_TOID": "osgb1000041399472",
+        "WARD_CODE": "E05014030",
+        "LAST_UPDATE_DATE": "25/03/2022",
+        "ENTRY_DATE": "19/03/2001",
+        "BLPU_STATE_DATE": "11/03/2002",
+        "LANGUAGE": "EN",
+        "MATCH": 0.4,
+        "MATCH_DESCRIPTION": "NO MATCH",
+        "DELIVERY_POINT_SUFFIX": "1F"
+      }
+    }
+  ]
+}
