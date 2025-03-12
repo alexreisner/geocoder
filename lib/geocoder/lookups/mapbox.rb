@@ -20,6 +20,7 @@ module Geocoder::Lookup
         sort_relevant_feature(data['features'])
       elsif data['message'] =~ /Invalid\sToken/
         raise_error(Geocoder::InvalidApiKey, data['message'])
+        []
       else
         []
       end
