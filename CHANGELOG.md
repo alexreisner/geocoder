@@ -3,6 +3,10 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+UNRELEASED
+-------------------
+* Add support for new Google Places API format. Configure with `use_new_places_api: true` (thanks github.com/zwhitehead).
+
 1.8.5 (2024 Dec 18)
 -------------------
 * Fix bug when working with IPAddr objects (thanks github.com/ledermann and github.com/mattlemx).

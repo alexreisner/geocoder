@@ -146,32 +146,53 @@ Similar to `:google`, with the following differences:
 * **Key signup**: https://developers.google.com/maps/premium/
 * **Quota**: 100,000 requests/24 hrs, 10 requests/second
 
-### Google Places Details (`:google_places_details`)
-
-The [Google Places Details API](https://developers.google.com/maps/documentation/places/web-service/details) is not, strictly speaking, a geocoding service. It accepts a Google `place_id` and returns address information, ratings and reviews. A `place_id` can be obtained from the Google Places Search lookup (`:google_places_search`) and should be passed to Geocoder as the first search argument: `Geocoder.search("ChIJhRwB-yFawokR5Phil-QQ3zM", lookup: :google_places_details)`.
+### Google Places Details
 
 * **API key**: required
-* **Key signup**: https://code.google.com/apis/console/
-* **Quota**: 1,000 request/day, 100,000 after credit card authentication
+* **Key signup**: https://developers.google.com/maps/documentation/places/web-service/details
+* **Quota**: 100,000 requests/day, 10 requests/second
 * **Region**: world
 * **SSL support**: yes
-* **Languages**: ar, eu, bg, bn, ca, cs, da, de, el, en, en-AU, en-GB, es, eu, fa, fi, fil, fr, gl, gu, hi, hr, hu, id, it, iw, ja, kn, ko, lt, lv, ml, mr, nl, no, pl, pt, pt-BR, pt-PT, ro, ru, sk, sl, sr, sv, tl, ta, te, th, tr, uk, vi, zh-CN, zh-TW (see http://spreadsheets.google.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1)
-* **Extra params**:
-  * `:fields` - Requested API response fields (affects pricing, see the [Google Places Details developer guide](https://developers.google.com/maps/documentation/places/web-service/details#fields) for available fields)
+* **Languages**: world
 * **Documentation**: https://developers.google.com/maps/documentation/places/web-service/details
-* **Terms of Service**: https://developers.google.com/maps/documentation/places/web-service/policies
-* **Limitations**: "If your application displays Places API data on a page or view that does not also display a Google Map, you must show a "Powered by Google" logo with that data."
-* **Notes**:
-  * You can set the default fields for all queries in the Geocoder configuration, for example:
-    ```rb
-    Geocoder.configure(
-      google_places_details: {
-        fields: %w[business_status formatted_address geometry name photos place_id plus_code types]
-      }
-    )
-    ```
+* **Terms of Service**: https://developers.google.com/maps/terms
+* **Limitations**: No city data returned if only administrative areas present.
+* **Notes**: You must have already obtained the Place ID from the Place Autocomplete API which requires a separate API call.
 
-### Google Places Search (`:google_places_search`)
+### New Google Places API
+
+Google is migrating from the legacy Google Places API to a new API format with different endpoints and response structure. Geocoder supports both formats:
+
+#### Enabling the New API Format
+
+```ruby
+Geocoder.configure(
+  use_new_places_api: true, # Set to true to use the new API format
+  lookup: :google_places_details # or :google_places_search
+)
+```
+
+or per request:
+
+```ruby
+Geocoder.search("PLACE_ID", use_new_places_api: true)
+```
+
+#### Key Differences
+
+1. New API endpoints:
+   - `places.googleapis.com/v1/places` instead of `maps.googleapis.com/maps/api/place`
+
+2. Response format changes:
+   - Field names use camelCase instead of snake_case
+   - Some fields are renamed (e.g., `place_id` → `id`, `name` → `displayName`)
+   - Location coordinates structure is different
+
+3. Fields have been automatically mapped so your existing code should continue to work with minimal changes.
+
+For more details, see the [Google Places API Migration Guide](https://developers.google.com/maps/documentation/places/web-service/migrate-response).
+
+### Google Places Search
 
 The [Google Places Search API](https://developers.google.com/maps/documentation/places/web-service/search) is the geocoding service of Google Places API. It returns very limited location data, but it also returns a `place_id` which can be used with Google Place Details to get more detailed information. For a comparison between this and the regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
 

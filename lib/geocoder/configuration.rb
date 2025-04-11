@@ -68,7 +68,8 @@ module Geocoder
       :basic_auth,
       :logger,
       :kernel_logger_level,
-      :cache_options
+      :cache_options,
+      :use_new_places_api
     ]
 
     attr_accessor :data
@@ -114,6 +115,7 @@ module Geocoder
       @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
       @data[:logger]       = :kernel     # :kernel or Logger instance
       @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
+      @data[:use_new_places_api] = false # use new Google Places API format
 
       # exceptions that should not be rescued by default
       # (if you want to implement custom error handling);

@@ -50,6 +50,24 @@ module Geocoder::Lookup
 
     def results(query)
       return [] unless doc = fetch_data(query)
+
+      # For the new Places API, check for error in a different way
+      if doc.is_a?(Hash) && doc.has_key?('error')
+        case doc['error']['status']
+        when "RESOURCE_EXHAUSTED"
+          raise_error(Geocoder::OverQueryLimitError) ||
+            Geocoder.log(:warn, "#{name} API error: resource exhausted.")
+        when "PERMISSION_DENIED"
+          raise_error(Geocoder::RequestDenied, doc['error']['message']) ||
+            Geocoder.log(:warn, "#{name} API error: permission denied (#{doc['error']['message']}).")
+        when "INVALID_ARGUMENT"
+          raise_error(Geocoder::InvalidRequest, doc['error']['message']) ||
+            Geocoder.log(:warn, "#{name} API error: invalid argument (#{doc['error']['message']}).")
+        end
+        return []
+      end
+
+      # For legacy API
       case doc['status']
       when "OK" # OK status implies >0 results
         return doc[result_root_attr]
