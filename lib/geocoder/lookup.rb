@@ -68,7 +68,8 @@ module Geocoder
         :geoapify,
         :photon,
         :twogis,
-        :pc_miler
+        :pc_miler,
+        :google_places_details_new
       ]
     end
 

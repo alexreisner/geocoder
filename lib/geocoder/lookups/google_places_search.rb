@@ -44,6 +44,16 @@ module Geocoder
         end
       end
 
+      def query_url_params(query)
+        use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
+
+        if use_new_places_api
+          query_url_google_params(query).merge(super.except(:key))
+        else
+          super
+        end
+      end
+
       def make_api_request(query)
         use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
         @query = query
@@ -72,9 +82,22 @@ module Geocoder
           body[:locationBias] = locationbias(query) if locationbias(query)
           body[:languageCode] = query.language || configuration.language if query.language || configuration.language
 
-          if fields(query)
-            body[:fields] = fields(query)
-          end
+          body[:includedFields] = {
+            paths: [
+              "id",
+              "displayName.text",
+              "formattedAddress",
+              "location",
+              "types",
+              "websiteUri",
+              "rating",
+              "userRatingsTotal",
+              "priceLevel",
+              "businessStatus",
+              "regularOpeningHours",
+              "photos"
+            ]
+          }
 
           JSON.generate(body)
         else
@@ -109,6 +132,23 @@ module Geocoder
         end
 
         default_fields
+      end
+
+      def default_fields_for_mask
+        [
+          "id",
+          "displayName.text",
+          "formattedAddress",
+          "location",
+          "types",
+          "websiteUri",
+          "rating",
+          "userRatingsTotal",
+          "priceLevel",
+          "businessStatus",
+          "regularOpeningHours",
+          "photos"
+        ]
       end
 
       def default_fields
