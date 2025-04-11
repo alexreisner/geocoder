@@ -40,6 +40,33 @@ module Geocoder
         result
       end
 
+      def query_url(query)
+        use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
+        @query = query
+
+        if use_new_places_api
+          base_query_url(query) + url_query_string(query)
+        else
+          super(query)
+        end
+      end
+
+      def make_api_request(query)
+        use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
+        @query = query
+
+        if use_new_places_api
+          uri = URI.parse(query_url(query))
+          http_client.start(uri.host, uri.port, use_ssl: use_ssl?) do |client|
+            req = Net::HTTP::Get.new(uri.request_uri)
+            req["X-Goog-Api-Key"] = configuration.api_key
+            client.request(req)
+          end
+        else
+          super(query)
+        end
+      end
+
       def fields(query)
         if query.options.has_key?(:fields)
           return format_fields(query.options[:fields])
@@ -63,10 +90,10 @@ module Geocoder
         use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
 
         if use_new_places_api
-          {
-            fields: fields(query),
-            languageCode: query.language || configuration.language
-          }
+          params = {}
+          params[:fields] = fields(query) if fields(query)
+          params[:languageCode] = query.language || configuration.language if query.language || configuration.language
+          params
         else
           {
             placeid: query.text,

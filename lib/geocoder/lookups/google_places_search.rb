@@ -1,5 +1,6 @@
 require "geocoder/lookups/google"
 require "geocoder/results/google_places_search"
+require "json"
 
 module Geocoder
   module Lookup
@@ -32,17 +33,61 @@ module Geocoder
         end
       end
 
+      def query_url(query)
+        use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
+        @query = query
+
+        if use_new_places_api
+          base_query_url(query) + url_query_string(query)
+        else
+          super(query)
+        end
+      end
+
+      def make_api_request(query)
+        use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
+        @query = query
+
+        if use_new_places_api
+          uri = URI.parse(query_url(query))
+          http_client.start(uri.host, uri.port, use_ssl: use_ssl?) do |client|
+            req = Net::HTTP::Post.new(uri.request_uri)
+            req.body = request_body_json(query)
+            req["Content-Type"] = "application/json"
+            req["X-Goog-Api-Key"] = configuration.api_key
+            client.request(req)
+          end
+        else
+          super(query)
+        end
+      end
+
+      def request_body_json(query)
+        use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
+        if use_new_places_api
+          body = {
+            textQuery: query.text
+          }
+
+          body[:locationBias] = locationbias(query) if locationbias(query)
+          body[:languageCode] = query.language || configuration.language if query.language || configuration.language
+
+          if fields(query)
+            body[:fields] = fields(query)
+          end
+
+          JSON.generate(body)
+        else
+          nil
+        end
+      end
+
       def query_url_google_params(query)
         @query = query
         use_new_places_api = query.options.fetch(:use_new_places_api, configuration.use_new_places_api)
 
         if use_new_places_api
-          {
-            textQuery: query.text,
-            fields: fields(query),
-            locationBias: locationbias(query),
-            languageCode: query.language || configuration.language
-          }
+          {}
         else
           {
             input: query.text,
