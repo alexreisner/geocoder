@@ -148,6 +148,8 @@ Similar to `:google`, with the following differences:
 
 ### Google Places Details
 
+The [Google Places Details API](https://developers.google.com/maps/documentation/places/web-service/details) is the detailed places information service of Google Maps Places API. For a comparison between this and the regular Google Geocoding API, see https://maps-apis.googleblog.com/2016/11/address-geocoding-in-google-maps-apis.html
+
 * **API key**: required
 * **Key signup**: https://developers.google.com/maps/documentation/places/web-service/details
 * **Quota**: 100,000 requests/day, 10 requests/second
@@ -159,36 +161,44 @@ Similar to `:google`, with the following differences:
 * **Limitations**: No city data returned if only administrative areas present.
 * **Notes**: You must have already obtained the Place ID from the Place Autocomplete API which requires a separate API call.
 
-### New Google Places API
+### Google Places API v1 Support
 
-Google is migrating from the legacy Google Places API to a new API format with different endpoints and response structure. Geocoder supports both formats:
+Geocoder now supports the new Google Places API v1 format by default. The old API is deprecated by Google and will eventually be shut down.
 
-#### Enabling the New API Format
-
-```ruby
-Geocoder.configure(
-  use_new_places_api: true, # Set to true to use the new API format
-  lookup: :google_places_details # or :google_places_search
-)
-```
-
-or per request:
+#### Using the Google Places API v1
 
 ```ruby
-Geocoder.search("PLACE_ID", use_new_places_api: true)
+# Simply use as normal - Geocoder automatically uses the new API format
+Geocoder.search("PLACE_ID", lookup: :google_places_details)
 ```
 
-#### Key Differences
+#### Key Differences in the New API
 
 1. New API endpoints:
-   - `places.googleapis.com/v1/places` instead of `maps.googleapis.com/maps/api/place`
+   - The library now uses the new `places.googleapis.com/v1/places` endpoint
 
 2. Response format changes:
-   - Field names use camelCase instead of snake_case
-   - Some fields are renamed (e.g., `place_id` → `id`, `name` → `displayName`)
+   - Field names use camelCase instead of snake_case (e.g., `formattedAddress` instead of `formatted_address`)
+   - Some fields are renamed (e.g., `id` instead of `place_id`, `displayName.text` instead of `name`)
    - Location coordinates structure is different
 
-3. Fields have been automatically mapped so your existing code should continue to work with minimal changes.
+3. Field masks:
+   - The API now requires a field mask to specify which fields to return
+   - Default masks are provided, but you can customize them using the `:fields` parameter
+
+#### Customizing Field Masks
+
+```ruby
+# Configure specific fields to request
+Geocoder.configure(
+  google_places_details: {
+    fields: "id,displayName.text,formattedAddress,location,types,websiteUri"
+  }
+)
+
+# Or per request
+Geocoder.search("PLACE_ID", lookup: :google_places_details, fields: "id,displayName.text,formattedAddress")
+```
 
 For more details, see the [Google Places API Migration Guide](https://developers.google.com/maps/documentation/places/web-service/migrate-response).
 
@@ -213,8 +223,7 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
     ```rb
     Geocoder.configure(
       google_places_search: {
-        fields: %w[address_components adr_address business_status formatted_address geometry name
-            photos place_id plus_code types url utc_offset vicinity],
+        fields: "id,displayName.text,formattedAddress,location,types",
         locationbias: "point:-36.8509,174.7645"
       }
     )
