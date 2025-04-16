@@ -714,7 +714,7 @@ IP Address Lookups
 ### Pointpin (`:pointpin`)
 
 * **API key**: required
-* **Quota**: 50,000/mo for €9 through 1m/mo for €49
+* **Quota**: 2.5M/mo for $12 through 75M/mo for $149
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: English
