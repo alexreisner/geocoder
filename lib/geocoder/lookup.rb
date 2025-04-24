@@ -46,6 +46,7 @@ module Geocoder
         :mapbox,
         :mapquest,
         :uk_ordnance_survey_names,
+        :uk_ordnance_survey_places,
         :opencagedata,
         :pelias,
         :pdok_nl,
