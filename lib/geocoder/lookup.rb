@@ -87,6 +87,7 @@ module Geocoder
         :pointpin,
         :maxmind_geoip2,
         :ipinfo_io,
+        :ipinfo_io_lite,
         :ipregistry,
         :ipapi_com,
         :ipdata_co,

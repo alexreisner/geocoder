@@ -478,6 +478,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/ipinfo_io_lite'
+    class IpinfoIoLite
+      private
+      def default_fixture_filename
+        "ipinfo_io_lite_8_8_8_8"
+      end
+    end
+
     require 'geocoder/lookups/ipregistry'
     class Ipregistry
       private
