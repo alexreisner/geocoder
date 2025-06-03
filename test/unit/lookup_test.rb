@@ -32,7 +32,7 @@ class LookupTest < GeocoderTestCase
 
   def test_query_url_contains_values_in_params_hash
     Geocoder::Lookup.all_services_except_test.each do |l|
-      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipdata_co, :ipinfo_io, :ipapi_com, :ipregistry, :ipstack, :postcodes_io, :uk_ordnance_survey_names, :amazon_location_service, :ipbase,  :ip2location_lite].include? l # does not use query string
+      next if [:freegeoip, :maxmind_local, :telize, :pointpin, :geoip2, :maxmind_geoip2, :mapbox, :ipdata_co, :ipinfo_io, :ipinfo_io_lite, :ipapi_com, :ipregistry, :ipstack, :postcodes_io, :uk_ordnance_survey_names, :amazon_location_service, :ipbase,  :ip2location_lite].include? l # does not use query string
       set_api_key!(l)
       url = Geocoder::Lookup.get(l).query_url(Geocoder::Query.new(
         "test", :params => {:one_in_the_hand => "two in the bush"}

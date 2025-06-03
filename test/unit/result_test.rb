@@ -9,6 +9,7 @@ class ResultTest < GeocoderTestCase
         :ip2location, # has pay-per-attribute pricing model
         :ip2location_io, # has pay-per-attribute pricing model
         :ip2location_lite, # no forward geocoding
+        :ipinfo_io_lite, # does not support exact location
         :twogis, # cant find 'Madison Square Garden'
       ].include?(l)
 
@@ -26,6 +27,7 @@ class ResultTest < GeocoderTestCase
         :ip2location, # has pay-per-attribute pricing model
         :ip2location_io, # has pay-per-attribute pricing model
         :ip2location_lite, # no reverse geocoding
+        :ipinfo_io_lite, # no reverse geocoding
         :nationaal_georegister_nl, # no reverse geocoding
         :melissa_street, # reverse geocoding not implemented
         :twogis, # cant find 'Madison Square Garden'
