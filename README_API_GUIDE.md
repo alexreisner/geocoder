@@ -655,6 +655,19 @@ IP Address Lookups
 * **Documentation**: https://ipinfo.io/developers
 * **Terms of Service**: https://ipinfo.io/terms-of-service
 
+### IPInfo.io Lite (`:ipinfo_io_lite`)
+
+A free-tier API access plan, which includes unlimited country-level geolocation information and unlimited basic ASN information. Geolocation information provided by the Lite API service includes country and continent information, while ASN information includes ASN, organization name, and domain name.
+
+* **API key**: required
+* **Quota**: none
+* **Region**: world
+* **SSL support**: yes
+* **Languages**: English
+* **Documentation**: https://ipinfo.io/developers/lite-api
+* **Terms of Service**: https://ipinfo.io/terms-of-service
+* **Limitations**: country-level geolocation information and basic ASN information only
+
 ### IPQualityScore (`:ipqualityscore`)
 
 * **API key**: required - see https://www.ipqualityscore.com/free-ip-lookup-proxy-vpn-test
