@@ -10,10 +10,12 @@ module Geocoder::Lookup
       # AF: Africa
       # AS: Asia
       # EU: Europe
+      # ME: Middle East
+      # MX: Mexico
       # NA: North America
       # OC: Oceania
       # SA: South America
-      %w[AF AS EU NA OC SA]
+      %w[AF AS EU ME MX NA OC SA]
     end
 
     def name
