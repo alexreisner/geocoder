@@ -8,7 +8,7 @@ module Geocoder::Result
     end
 
     def place_name
-      data['text']
+      data['place_name']
     end
 
     def street
@@ -78,4 +78,3 @@ module Geocoder::Result
     end
   end
 end
-
