@@ -24,7 +24,7 @@ class MapboxTest < GeocoderTestCase
   def test_result_components
     result = Geocoder.search("Madison Square Garden, New York, NY").first
     assert_equal [40.750755, -73.993710125], result.coordinates
-    assert_equal "Madison Square Garden", result.place_name
+    assert_equal "Madison Square Garden, 4 Penn Plz, New York, New York 10119, United States", result.place_name
     assert_equal "4 Penn Plz", result.street
     assert_equal "New York", result.city
     assert_equal "New York", result.state
@@ -66,7 +66,7 @@ class MapboxTest < GeocoderTestCase
   def test_neighborhood_result
     result = Geocoder.search("Logan Square, Chicago, IL").first
     assert_equal [41.92597, -87.70235], result.coordinates
-    assert_equal "Logan Square", result.place_name
+    assert_equal "Logan Square, Chicago, Illinois, United States", result.place_name
     assert_equal nil, result.street
     assert_equal "Chicago", result.city
     assert_equal "Illinois", result.state
@@ -81,7 +81,7 @@ class MapboxTest < GeocoderTestCase
   def test_postcode_result
     result = Geocoder.search("Chicago, IL 60647").first
     assert_equal [41.924799, -87.700436], result.coordinates
-    assert_equal "60647", result.place_name
+    assert_equal "Chicago, Illinois 60647, United States", result.place_name
     assert_equal nil, result.street
     assert_equal "Chicago", result.city
     assert_equal "Illinois", result.state
@@ -96,7 +96,7 @@ class MapboxTest < GeocoderTestCase
   def test_place_result
     result = Geocoder.search("Chicago, IL").first
     assert_equal [41.881954, -87.63236], result.coordinates
-    assert_equal "Chicago", result.place_name
+    assert_equal "Chicago, Illinois, United States", result.place_name
     assert_equal nil, result.street
     assert_equal "Chicago", result.city
     assert_equal "Illinois", result.state
@@ -111,7 +111,7 @@ class MapboxTest < GeocoderTestCase
   def test_region_result
     result = Geocoder.search("Illinois").first
     assert_equal [40.1492928594374, -89.2749461071049], result.coordinates
-    assert_equal "Illinois", result.place_name
+    assert_equal "Illinois, United States", result.place_name
     assert_equal nil, result.street
     assert_equal nil, result.city
     assert_equal "Illinois", result.state
