@@ -41,6 +41,11 @@ class NominatimTest < GeocoderTestCase
     assert_match %r(http://local\.com), query.url
   end
 
+  def test_structured_lookup
+    result = Geocoder.search("", params: { street: "Madison Square Garden" }).first
+    assert_equal "Madison Square Garden", result.data["address"]["stadium"]
+  end
+
   def test_raises_exception_when_over_query_limit
     Geocoder.configure(:always_raise => [Geocoder::OverQueryLimitError])
     l = Geocoder::Lookup.get(:nominatim)

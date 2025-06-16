@@ -116,8 +116,6 @@ module Geocoder
       options[:language]
     end
 
-    private # ----------------------------------------------------------------
-
     def params_given?
       !!(options[:params].is_a?(Hash) and options[:params].keys.size > 0)
     end

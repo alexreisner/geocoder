@@ -55,7 +55,7 @@ module Geocoder::Lookup
         lat,lon = query.coordinates
         params[:lat] = lat
         params[:lon] = lon
-      else
+      elsif !query.params_given? || !query.sanitized_text.empty?
         params[:q] = query.sanitized_text
       end
       params
