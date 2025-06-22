@@ -128,6 +128,7 @@ module Geocoder::Store
         distance = distance_sql(latitude, longitude, options)
         distance_column = options.fetch(:distance_column) { 'distance' }
         bearing_column = options.fetch(:bearing_column)  { 'bearing' }
+        default_radius = options.fetch(:default_radius)
 
         # If radius is a DB column name, bounding box should include
         # all rows within the maximum radius appearing in that column.
@@ -147,8 +148,13 @@ module Geocoder::Store
           # if radius is a DB column name,
           # find rows between min_radius and value in column
           if radius.is_a?(Symbol)
-            c = "BETWEEN ? AND #{radius}"
-            a = [min_radius]
+            if default_radius.present?
+              c = "BETWEEN ? AND COALESCE(#{radius}, ?)"
+              a = [min_radius, default_radius]
+            else
+              c = "BETWEEN ? AND #{radius}"
+              a = [min_radius]
+            end
           else
             c = "BETWEEN ? AND ?"
             a = [min_radius, radius]
