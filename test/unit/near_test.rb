@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'test_helper'
+require 'arel'
 
 class NearTest < GeocoderTestCase
 
