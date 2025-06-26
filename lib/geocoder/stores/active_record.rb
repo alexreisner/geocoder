@@ -132,7 +132,8 @@ module Geocoder::Store
         # If radius is a DB column name, bounding box should include
         # all rows within the maximum radius appearing in that column.
         # Note: performance is dependent on variability of radii.
-        bb_radius = radius.is_a?(Symbol) ? maximum(radius) : radius
+        radius_is_column = radius.is_a?(Symbol) || (defined?(Arel::Nodes::SqlLiteral) && radius.is_a?(Arel::Nodes::SqlLiteral))
+        bb_radius = radius_is_column ? maximum(radius) : radius
         b = Geocoder::Calculations.bounding_box([latitude, longitude], bb_radius, options)
         args = b + [
           full_column_name(latitude_attribute),
@@ -146,7 +147,7 @@ module Geocoder::Store
           min_radius = options.fetch(:min_radius, 0).to_f
           # if radius is a DB column name,
           # find rows between min_radius and value in column
-          if radius.is_a?(Symbol)
+          if radius_is_column
             c = "BETWEEN ? AND #{radius}"
             a = [min_radius]
           else

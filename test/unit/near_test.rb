@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'test_helper'
+require 'arel'
 
 class NearTest < GeocoderTestCase
 
@@ -25,6 +26,13 @@ class NearTest < GeocoderTestCase
     assert_match(/BETWEEN \? AND radius_column$/, result[:conditions][0])
   end
 
+  def test_near_scope_options_includes_radius_column_max_radius_arel
+    omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
+
+    result = Place.send(:near_scope_options, 1.0, 2.0, Arel.sql('CASE WHEN TRUE THEN radius_column ELSE 0 END'))
+    assert_match(/BETWEEN \? AND CASE WHEN TRUE THEN radius_column ELSE 0 END$/, result[:conditions][0])
+  end
+
   def test_near_scope_options_includes_radius_default_min_radius
     omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
 
@@ -45,7 +53,7 @@ class NearTest < GeocoderTestCase
 
   def test_near_scope_options_includes_radius_bogus_min_radius
     omit("Not applicable to unextended SQLite") if using_unextended_sqlite?
-    
+
     result = Place.send(:near_scope_options, 1.0, 2.0, 5, :min_radius => 'bogus')
 
     assert_equal(0, result[:conditions][1])
