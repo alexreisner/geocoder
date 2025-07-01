@@ -48,4 +48,13 @@ class NominatimTest < GeocoderTestCase
       l.send(:results, Geocoder::Query.new("over limit"))
     end
   end
+
+  def test_raises_exception_when_method_not_allowed
+    Geocoder.configure(:always_raise => [Geocoder::MethodNotAllowed])
+    l = Geocoder::Lookup.get(:nominatim)
+    assert_raises Geocoder::MethodNotAllowed do
+      response = MockHttpResponse.new(code: 405)
+      l.send(:check_response_for_errors!, response)
+    end
+  end
 end

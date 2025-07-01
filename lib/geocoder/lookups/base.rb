@@ -281,6 +281,9 @@ module Geocoder
         elsif response.code.to_i == 402
           raise_error(Geocoder::OverQueryLimitError) ||
             Geocoder.log(:warn, "Geocoding API error: 402 Payment Required")
+        elsif response.code.to_i == 405
+          raise_error(Geocoder::MethodNotAllowed) ||
+            Geocoder.log(:warn, "Geocoding API error: 405 Method Not Allowed")
         elsif response.code.to_i == 429
           raise_error(Geocoder::OverQueryLimitError) ||
             Geocoder.log(:warn, "Geocoding API error: 429 Too Many Requests")

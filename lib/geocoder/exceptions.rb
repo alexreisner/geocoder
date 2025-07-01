@@ -37,4 +37,7 @@ module Geocoder
   class NetworkError < Error
   end
 
+  class MethodNotAllowed < Error
+  end
+
 end
