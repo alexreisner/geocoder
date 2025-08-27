@@ -18,7 +18,7 @@ module Geocoder::Lookup
 
     def base_query_url(query)
       method = query.reverse_geocode? ? "reverse" : "search"
-      "#{protocol}://api-adresse.data.gouv.fr/#{method}/?"
+      "#{protocol}://data.geopf.fr/geocodage/#{method}/?"
     end
 
     def any_result?(doc)
