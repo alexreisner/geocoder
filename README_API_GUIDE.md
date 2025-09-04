@@ -425,7 +425,7 @@ Regional Street Address Lookups
 ### Base Adresse Nationale FR (`:ban_data_gouv_fr`)
 
 * **API key**: none
-* **Quota**: none
+* **Quota**: 50 requests/second
 * **Region**: France
 * **SSL support**: yes
 * **Languages**: en / fr
