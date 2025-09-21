@@ -4,7 +4,6 @@ Geocoder
 **Complete geocoding solution for Ruby.**
 
 [![Gem Version](https://badge.fury.io/rb/geocoder.svg)](http://badge.fury.io/rb/geocoder)
-[![Code Climate](https://codeclimate.com/github/alexreisner/geocoder/badges/gpa.svg)](https://codeclimate.com/github/alexreisner/geocoder)
 
 Key features:
 
