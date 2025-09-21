@@ -70,7 +70,7 @@ class TrimbleMapsTest < GeocoderTestCase
       lookup.query_url(query)
     end
 
-    assert_match /region_code 'QQ' is invalid/, error.message
+    assert_match(/region_code 'QQ' is invalid/, error.message)
   end
 
   def test_results_with_street_address
@@ -89,7 +89,7 @@ class TrimbleMapsTest < GeocoderTestCase
     assert_equal 'US', result.country_code
     assert_equal '510 Main St, Wall, South Dakota, 57790-9501, United States', result.address
     assert_equal 44.0632, result.latitude
-    assert_equal -102.2151, result.longitude
+    assert_equal(-102.2151, result.longitude)
     assert_equal([44.0632, -102.2151], result.coordinates)
   end
 
@@ -109,7 +109,7 @@ class TrimbleMapsTest < GeocoderTestCase
     assert_equal 'US', result.country_code
     assert_equal 'Duluth, Minnesota, 55806, United States', result.address
     assert_equal 46.776443, result.latitude
-    assert_equal -92.110529, result.longitude
+    assert_equal(-92.110529, result.longitude)
     assert_equal([46.776443, -92.110529], result.coordinates)
   end
 
@@ -129,7 +129,7 @@ class TrimbleMapsTest < GeocoderTestCase
     assert_equal 'US', result.country_code
     assert_equal '2093 NE-87, Alliance, Nebraska, 69301, United States', result.address
     assert_equal 42.14228, result.latitude
-    assert_equal -102.85796, result.longitude
+    assert_equal(-102.85796, result.longitude)
     assert_equal([42.14228, -102.85796], result.coordinates)
   end
 
