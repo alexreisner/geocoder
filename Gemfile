@@ -24,7 +24,7 @@ group :test do
   gem 'webmock'
 
   platforms :ruby do
-    gem 'pg', '~> 1.1.4'
+    gem 'pg', '~> 1.5.9'
     gem 'mysql2', '~> 0.5.4'
   end
 
