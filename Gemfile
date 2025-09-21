@@ -22,6 +22,7 @@ group :test do
   end
 
   gem 'webmock'
+  gem 'mutex_m'
 
   platforms :ruby do
     gem 'pg', '~> 1.5.9'
