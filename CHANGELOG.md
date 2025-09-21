@@ -3,6 +3,11 @@ Changelog
 
 Major changes to Geocoder for each release. Please see the Git log for complete list of changes.
 
+1.8.6 (2025 Sep 21)
+-------------------
+* Add support for IPInfo Lite lookup (thanks github.com/iltempo).
+* Various minor fixes and improvements.
+
 1.8.5 (2024 Dec 18)
 -------------------
 * Fix bug when working with IPAddr objects (thanks github.com/ledermann and github.com/mattlemx).
