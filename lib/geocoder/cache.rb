@@ -1,4 +1,4 @@
-Dir["#{__dir__}/cache_stores/*.rb"].each {|file| require file }
+Dir["#{__dir__}/cache_stores/**/*.rb"].each {|file| require file }
 
 module Geocoder
   class Cache
