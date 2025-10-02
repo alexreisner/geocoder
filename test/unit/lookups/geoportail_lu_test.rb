@@ -12,14 +12,14 @@ class GeoportailLuTest < GeocoderTestCase
     query = Geocoder::Query.new('55 route de luxembourg, pontpierre')
     lookup = Geocoder::Lookup.get(:geoportail_lu)
     res = lookup.query_url(query)
-    assert_equal 'http://api.geoportail.lu/geocoder/search?queryString=55+route+de+luxembourg%2C+pontpierre', res
+    assert_equal 'https://api.geoportail.lu/geocoder/search?queryString=55+route+de+luxembourg%2C+pontpierre', res
   end
 
   def test_query_for_reverse_geocode
     query = Geocoder::Query.new([45.423733, -75.676333])
     lookup = Geocoder::Lookup.get(:geoportail_lu)
     res = lookup.query_url(query)
-    assert_equal 'http://api.geoportail.lu/geocoder/reverseGeocode?lat=45.423733&lon=-75.676333', res
+    assert_equal 'https://api.geoportail.lu/geocoder/reverseGeocode?lat=45.423733&lon=-75.676333', res
   end
 
   def test_results_component

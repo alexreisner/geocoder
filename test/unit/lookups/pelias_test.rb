@@ -10,13 +10,13 @@ class PeliasTest < GeocoderTestCase
 
   def test_configure_default_endpoint
     query = Geocoder::Query.new('Madison Square Garden, New York, NY')
-    assert_true query.url.start_with?('http://localhost/v1/search'), query.url
+    assert_true query.url.start_with?('https://localhost/v1/search'), query.url
   end
 
   def test_configure_custom_endpoint
     Geocoder.configure(lookup: :pelias, api_key: 'abc123', pelias: {endpoint: 'self.hosted.pelias/proxy'})
     query = Geocoder::Query.new('Madison Square Garden, New York, NY')
-    assert_true query.url.start_with?('http://self.hosted.pelias/proxy/v1/search'), query.url
+    assert_true query.url.start_with?('https://self.hosted.pelias/proxy/v1/search'), query.url
   end
 
   def test_query_for_reverse_geocode

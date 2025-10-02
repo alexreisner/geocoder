@@ -124,7 +124,7 @@ class IpstackTest < GeocoderTestCase
 
   def test_api_request_adds_access_key
     lookup = Geocoder::Lookup.get(:ipstack)
-    assert_match 'http://api.ipstack.com/74.200.247.59?access_key=123', lookup.query_url(Geocoder::Query.new("74.200.247.59"))
+    assert_match 'https://api.ipstack.com/74.200.247.59?access_key=123', lookup.query_url(Geocoder::Query.new("74.200.247.59"))
   end
 
   def test_api_request_adds_security_when_specified
@@ -177,7 +177,7 @@ class IpstackTest < GeocoderTestCase
     Geocoder.configure(api_key: '123', ip_lookup: :ipstack, logger: @logger, ipstack: { api_key: '345'})
 
     lookup = Geocoder::Lookup.get(:ipstack)
-    assert_match 'http://api.ipstack.com/74.200.247.59?access_key=345', lookup.query_url(Geocoder::Query.new("74.200.247.59"))
+    assert_match 'https://api.ipstack.com/74.200.247.59?access_key=345', lookup.query_url(Geocoder::Query.new("74.200.247.59"))
   end
 
   def test_not_authorized   lookup = Geocoder::Lookup.get(:ipstack)

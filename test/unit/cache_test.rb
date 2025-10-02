@@ -15,6 +15,7 @@ class CacheTest < GeocoderTestCase
   end
 
   def test_second_occurrence_of_request_is_cache_hit
+    Geocoder.configure(:use_https => false)
     Geocoder.configure(:cache => {})
     Geocoder::Lookup.all_services_except_test.each do |l|
       next if

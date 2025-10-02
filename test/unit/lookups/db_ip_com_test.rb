@@ -46,7 +46,7 @@ class DbIpComTest < GeocoderTestCase
     configure_for_free_api_access
     lookup = Geocoder::Lookup::DbIpCom.new
     query = Geocoder::Query.new('23.255.240.0')
-    assert_match 'http://api.db-ip.com/v2/MY_API_KEY/23.255.240.0', lookup.query_url(query)
+    assert_match 'https://api.db-ip.com/v2/MY_API_KEY/23.255.240.0', lookup.query_url(query)
   end
 
   def test_paid_host_config

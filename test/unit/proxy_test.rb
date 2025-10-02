@@ -5,6 +5,7 @@ class ProxyTest < GeocoderTestCase
 
   def test_uses_proxy_when_specified
     Geocoder.configure(:http_proxy => 'localhost')
+    Geocoder.configure(:use_https => false)
     lookup = Geocoder::Lookup::Bing.new
     assert lookup.send(:http_client).proxy_class?
   end
@@ -16,6 +17,7 @@ class ProxyTest < GeocoderTestCase
 
   def test_exception_raised_on_bad_proxy_url
     Geocoder.configure(:http_proxy => ' \\_O< Quack Quack')
+    Geocoder.configure(:use_https => false)
     assert_raise Geocoder::ConfigurationError do
       Geocoder::Lookup::Bing.new.send(:http_client)
     end
@@ -23,6 +25,7 @@ class ProxyTest < GeocoderTestCase
 
   def test_accepts_proxy_with_http_protocol
     Geocoder.configure(:http_proxy => 'http://localhost')
+    Geocoder.configure(:use_https => false)
     lookup = Geocoder::Lookup::Bing.new
     assert lookup.send(:http_client).proxy_class?
   end

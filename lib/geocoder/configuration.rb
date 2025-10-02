@@ -107,7 +107,7 @@ module Geocoder
       @data[:ip_lookup]    = :ipinfo_io  # name of IP address geocoding service (symbol)
       @data[:language]     = :en         # ISO-639 language code
       @data[:http_headers] = {}          # HTTP headers for lookup
-      @data[:use_https]    = false       # use HTTPS for lookup requests? (if supported)
+      @data[:use_https]    = true        # use HTTPS for lookup requests? (if supported)
       @data[:http_proxy]   = nil         # HTTP proxy server (user:pass@host:port)
       @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
       @data[:api_key]      = nil         # API key for geocoding service

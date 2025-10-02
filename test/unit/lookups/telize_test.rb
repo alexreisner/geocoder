@@ -26,7 +26,7 @@ class TelizeTest < GeocoderTestCase
     Geocoder.configure(telize: {host: "example.com"})
     lookup = Geocoder::Lookup::Telize.new
     query = Geocoder::Query.new("74.200.247.59")
-    assert_match %r{^http://example\.com/location/74\.200\.247\.59$}, lookup.query_url(query)
+    assert_match %r{^https://example\.com/location/74\.200\.247\.59$}, lookup.query_url(query)
   end
 
   def test_allows_https_when_custom_host
