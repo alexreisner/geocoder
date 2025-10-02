@@ -65,7 +65,7 @@ module Geocoder
           out << "Look up geographic information about a location.\n\n"
           out << opts
           out << "\nCreated and maintained by Alex Reisner, available under the MIT License.\n"
-          out << "Report bugs and contribute at http://github.com/alexreisner/geocoder\n"
+          out << "Report bugs and contribute at https://github.com/alexreisner/geocoder\n"
           exit
         end
       }.parse!(args)
