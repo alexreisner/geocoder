@@ -14,6 +14,10 @@ module Geocoder::Lookup
       "https://www.openstreetmap.org/#map=19/#{coordinates.join('/')}"
     end
 
+    def supported_protocols
+      [:https]
+    end
+
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
