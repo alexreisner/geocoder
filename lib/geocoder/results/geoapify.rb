@@ -50,9 +50,10 @@ module Geocoder
         properties['state']
       end
 
-      # Not currently available in the API
       def state_code
-        ''
+        return '' unless properties['state_code']
+
+        properties['state_code'].upcase
       end
 
       def country
