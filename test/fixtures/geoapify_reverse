@@ -1,55 +1,69 @@
 {
-  "type":"FeatureCollection",
-  "features":[
+  "type": "FeatureCollection",
+  "features": [
     {
-      "type":"Feature",
-      "geometry":{
-        "type":"Point",
-        "coordinates":[
-          -73.993368,
-          40.750487
+      "type": "Feature",
+      "properties": {
+        "datasource": {
+          "sourcename": "openstreetmap",
+          "attribution": "© OpenStreetMap contributors",
+          "license": "Open Database License",
+          "url": "https://www.openstreetmap.org/copyright"
+        },
+        "country": "United States",
+        "country_code": "us",
+        "state": "New York",
+        "county": "New York County",
+        "city": "New York",
+        "postcode": "10001",
+        "district": "Manhattan",
+        "neighbourhood": "Garment District",
+        "street": "Pennsylvania Plaza",
+        "housenumber": "4",
+        "iso3166_2": "US-NY",
+        "lon": -73.9935443,
+        "lat": 40.7505085,
+        "state_code": "NY",
+        "distance": 2.438092698242724,
+        "result_type": "building",
+        "formatted": "4 Pennsylvania Plaza, New York, NY 10001, United States of America",
+        "address_line1": "4 Pennsylvania Plaza",
+        "address_line2": "New York, NY 10001, United States of America",
+        "timezone": {
+          "name": "America/New_York",
+          "offset_STD": "-05:00",
+          "offset_STD_seconds": -18000,
+          "offset_DST": "-04:00",
+          "offset_DST_seconds": -14400,
+          "abbreviation_STD": "EST",
+          "abbreviation_DST": "EDT"
+        },
+        "plus_code": "87G8Q224+6H",
+        "plus_code_short": "Q224+6H New York, New York County, United States",
+        "rank": {
+          "importance": 0.00000999999999995449,
+          "popularity": 8.615793062435909
+        },
+        "place_id": "5124e8d43a967f52c0595d6f9ba910604440f00103f9015e9864c302000000c00203"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.9935443,
+          40.7505085
         ]
       },
-      "properties":{
-        "name":"Madison Square Garden",
-        "housenumber":"4",
-        "street":"Pennsylvania Plaza",
-        "distance":14.791104652930729,
-        "country":"United States",
-        "county":"New York County",
-        "datasource":{
-          "sourcename":"openstreetmap",
-          "wheelchair":"limited",
-          "wikidata":"Q186125",
-          "wikipedia":"en:Madison Square Garden",
-          "website":"http://www.thegarden.com/",
-          "phone":"12124656741",
-          "osm_type":"W",
-          "osm_id":138141251,
-          "continent":"North America"
-        },
-        "country_code":"us",
-        "postcode":"10001",
-        "state":"New York",
-        "city":"New York",
-        "district":"Manhattan",
-        "suburb":"Chelsea",
-        "lon":-73.993368,
-        "lat":40.750487,
-        "result_type":"amenity",
-        "formatted":"Madison Square Garden, 4 Pennsylvania Plaza, New York, NY 10001, United States of America",
-        "address_line1":"Madison Square Garden",
-        "address_line2":"4 Pennsylvania Plaza, New York, NY 10001, United States of America",
-        "rank":{
-          "popularity":8.615793062435909
-        }
-      },
-      "bbox":[
-        -73.9944446,
-        40.7498531,
-        -73.9925924,
-        40.751161
+      "bbox": [
+        -73.9935943,
+        40.7504585,
+        -73.9934943,
+        40.7505585
       ]
     }
-  ]
+  ],
+  "query": {
+    "lat": 40.750512900000004,
+    "lon": -73.99351594545152,
+    "plus_code": "87G8Q224+6H"
+  }
 }

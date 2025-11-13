@@ -1,64 +1,85 @@
 {
-  "type":"FeatureCollection",
-  "features":[
+  "type": "FeatureCollection",
+  "features": [
     {
-      "type":"Feature",
-      "geometry":{
-        "type":"Point",
-        "coordinates":[
-          -73.993368,
-          40.750487
+      "type": "Feature",
+      "properties": {
+        "datasource": {
+          "sourcename": "openstreetmap",
+          "attribution": "© OpenStreetMap contributors",
+          "license": "Open Database License",
+          "url": "https://www.openstreetmap.org/copyright"
+        },
+        "name": "Madison Square Garden",
+        "other_names": {
+          "name:ja": "マディソン・スクエア・ガーデン",
+          "name:ru": "Медисон-сквер-гарден",
+          "name:uk": "Медісон-сквер-гарден",
+          "name:zh": "麦迪逊广场花园",
+          "alt_name": "The Garden",
+          "short_name": "MSG"
+        },
+        "country": "United States",
+        "country_code": "us",
+        "state": "New York",
+        "county": "New York County",
+        "city": "New York",
+        "postcode": "10001",
+        "district": "Manhattan",
+        "neighbourhood": "Garment District",
+        "street": "Pennsylvania Plaza",
+        "housenumber": "4",
+        "iso3166_2": "US-NY",
+        "lon": -73.99351594545152,
+        "lat": 40.750512900000004,
+        "state_code": "NY",
+        "result_type": "amenity",
+        "formatted": "Madison Square Garden, 4 Pennsylvania Plaza, New York, NY 10001, United States of America",
+        "address_line1": "Madison Square Garden",
+        "address_line2": "4 Pennsylvania Plaza, New York, NY 10001, United States of America",
+        "category": "tourism.attraction",
+        "timezone": {
+          "name": "America/New_York",
+          "offset_STD": "-05:00",
+          "offset_STD_seconds": -18000,
+          "offset_DST": "-04:00",
+          "offset_DST_seconds": -14400,
+          "abbreviation_STD": "EST",
+          "abbreviation_DST": "EDT"
+        },
+        "plus_code": "87G8Q224+6H",
+        "plus_code_short": "Q224+6H New York, New York County, United States",
+        "rank": {
+          "importance": 0.6456870542995358,
+          "popularity": 8.615793062435909,
+          "confidence": 1,
+          "confidence_city_level": 1,
+          "match_type": "full_match"
+        },
+        "place_id": "513471e7c3957f52c059f25c84ce10604440f00102f90143de3b0800000000c002019203154d616469736f6e205371756172652047617264656e"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -73.99351594545152,
+          40.750512900000004
         ]
       },
-      "properties":{
-        "housenumber":"4",
-        "street":"Pennsylvania Plaza",
-        "country":"United States",
-        "county":"New York County",
-        "datasource":{
-          "sourcename":"openstreetmap",
-          "wheelchair":"limited",
-          "wikidata":"Q186125",
-          "wikipedia":"en:Madison Square Garden",
-          "website":"http://www.thegarden.com/",
-          "phone":"12124656741",
-          "osm_type":"W",
-          "osm_id":138141251,
-          "continent":"North America"
-        },
-        "country_code":"us",
-        "postcode":"10001",
-        "state":"New York",
-        "city":"New York",
-        "district":"Manhattan",
-        "suburb":"Chelsea",
-        "lon":-73.993368,
-        "lat":40.750487,
-        "formatted":"4 Pennsylvania Plaza, New York, NY 10001, United States of America",
-        "address_line1":"4 Pennsylvania Plaza",
-        "address_line2":"New York, NY 10001, United States of America",
-        "result_type":"building",
-        "rank":{
-          "popularity":8.615793062435909,
-          "confidence":1,
-          "match_type":"full_match"
-        }
-      },
-      "bbox":[
-        -73.9944446,
-        40.7498531,
+      "bbox": [
+        -73.9944193,
+        40.7498726,
         -73.9925924,
-        40.751161
+        40.7511643
       ]
     }
   ],
-  "query":{
-    "text":"Madison Square Garden, New York, NY",
-    "parsed":{
-      "house":"madison square garden",
-      "city":"new york",
-      "state":"ny",
-      "expected_type":"amenity"
+  "query": {
+    "text": "Madison Square Garden, New York, NY",
+    "parsed": {
+      "house": "madison square garden",
+      "city": "new york",
+      "state": "ny",
+      "expected_type": "amenity"
     }
   }
 }
