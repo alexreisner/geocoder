@@ -770,6 +770,19 @@ A free-tier API access plan, which includes unlimited country-level geolocation 
 * **Documentation**: https://www.ip2location.io/ip2location-documentation
 * **Terms of Service**: https://www.ip2location.io/terms-of-service
 
+### ip2geo (`:ip2geo`)
+
+* **API key**: required
+* **Quota**: varies by plan
+* **Region**: world
+* **SSL support**: yes (required)
+* **Languages**: English
+* **Extra result fields**: continent, continent_code, phone_code, capital, tld, flag_emoji, flag_img, currency_name, currency_code, currency_symbol, asn_number, asn_name, accuracy_radius, city_geoname_id, time_now, registered_country, registered_country_code, metro_code
+* **Extra options**: `:host` — custom API host (default: api.ip2geo.dev)
+* **Notes**: API key is sent via X-Api-Key header. See https://ip2geo.dev for documentation.
+* **Terms of Service**: https://ip2geo.dev/terms
+* **Limitations**: IP address lookup only (no street addresses, no reverse geocoding)
+
 
 Local IP Address Lookups
 ------------------------
