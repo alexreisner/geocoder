@@ -625,6 +625,14 @@ module Geocoder
         MockHttpResponse.new(options)
       end
     end
+
+    require 'geocoder/lookups/ip2geo'
+    class Ip2geo
+      private
+      def default_fixture_filename
+        "ip2geo_8_8_8_8"
+      end
+    end
   end
 end
 

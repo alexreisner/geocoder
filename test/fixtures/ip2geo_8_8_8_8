@@ -1,0 +1,57 @@
+{
+  "success": true,
+  "data": {
+    "ip": "8.8.8.8",
+    "type": "IPv4",
+    "is_eu": false,
+    "continent": {
+      "name": "North America",
+      "code": "NA",
+      "geoname_id": 6255149,
+      "country": {
+        "name": "United States",
+        "code": "US",
+        "geoname_id": 6252001,
+        "phone_code": "+1",
+        "capital": "Washington D.C.",
+        "tld": ".us",
+        "flag": {
+          "emoji": "",
+          "emoji_unicode": "U+1F1FA U+1F1F8",
+          "img": "https://flagcdn.com/us.svg"
+        },
+        "currency": {
+          "name": "United States Dollar",
+          "code": "USD",
+          "symbol": "$"
+        },
+        "subdivision": {
+          "name": "California",
+          "code": "CA"
+        },
+        "city": {
+          "name": "Mountain View",
+          "latitude": 37.386,
+          "longitude": -122.0838,
+          "postal_code": "94035",
+          "geoname_id": 5375480,
+          "metro_code": 807,
+          "accuracy_radius": 1000,
+          "timezone": {
+            "name": "America/Los_Angeles",
+            "time_now": "2026-04-05T10:30:00-07:00"
+          }
+        }
+      }
+    },
+    "asn": {
+      "number": 15169,
+      "name": "Google LLC"
+    },
+    "registered_country": {
+      "name": "United States",
+      "code": "US",
+      "geoname_id": 6252001
+    }
+  }
+}
