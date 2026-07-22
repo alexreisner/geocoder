@@ -4,6 +4,24 @@ require 'geocoder/results/amazon_location_service'
 module Geocoder::Lookup
   class AmazonLocationService < Base
     def results(query)
+      operation, params = operation_and_params(query)
+
+      if cache && (cached = read_cached_results(operation, params))
+        @cache_hit = true
+        return cached
+      end
+
+      resp = client.send(operation, params)
+      if cache
+        cache[cache_key_for(operation, params)] = serialize_results(resp.results)
+      end
+      @cache_hit = false
+      resp.results
+    end
+
+    private
+
+    def operation_and_params(query)
       params = query.options.dup
 
       # index_name is required
@@ -16,16 +34,38 @@ module Geocoder::Lookup
       # Inherit language from configuration
       params.merge!(language: configuration[:language])
 
-      resp = if query.reverse_geocode?
-        client.search_place_index_for_position(params.merge(position: query.coordinates.reverse))
+      if query.reverse_geocode?
+        [:search_place_index_for_position, params.merge(position: query.coordinates.reverse)]
       else
-        client.search_place_index_for_text(params.merge(text: query.text))
+        [:search_place_index_for_text, params.merge(text: query.text)]
       end
-
-      resp.results
     end
 
-    private
+    # The base implementation builds cache keys from the request URL. This
+    # lookup uses the AWS SDK rather than HTTP, so build a key from the SDK
+    # operation name and its parameters instead.
+    def cache_key(query)
+      cache_key_for(*operation_and_params(query))
+    end
+
+    def cache_key_for(operation, params)
+      "#{operation}?#{hash_to_query(params)}"
+    end
+
+    def serialize_results(results)
+      JSON.generate(results.map(&:to_h))
+    end
+
+    def read_cached_results(operation, params)
+      body = cache[cache_key_for(operation, params)]
+      return nil unless body
+
+      data = JSON.parse(body, symbolize_names: true)
+      client.stub_data(operation, results: data).results
+    rescue JSON::ParserError, ArgumentError
+      # treat unreadable or stale-format cache entries as a miss
+      nil
+    end
 
     def client
       return @client if @client
