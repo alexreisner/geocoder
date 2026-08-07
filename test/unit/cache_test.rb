@@ -2,6 +2,32 @@
 require 'test_helper'
 
 class CacheTest < GeocoderTestCase
+
+  ##
+  # Simulate a Redis-like store whose class name is not recognized by the
+  # cache store lookup (e.g. a Redis client wrapped in a custom class).
+  #
+  class RedisLikeStore
+    attr_reader :last_set_options
+
+    def initialize
+      @data = {}
+    end
+
+    def set(key, value, options = {})
+      @data[key] = value
+      @last_set_options = options
+    end
+
+    def get(key)
+      @data[key]
+    end
+
+    def del(key)
+      @data.delete(key)
+    end
+  end
+
   def setup
     @tempfile = Tempfile.new("log")
     @logger = Logger.new(@tempfile.path)
@@ -71,5 +97,36 @@ class CacheTest < GeocoderTestCase
     assert_operator 0, :<, lookup.cache.send(:keys).size
     lookup.cache.expire(:all)
     assert_equal 0, lookup.cache.send(:keys).size
+  end
+
+  def test_cache_store_instance_is_used_directly
+    store_service = Geocoder::CacheStore::Generic.new({}, {})
+    cache = Geocoder::Cache.new(store_service, {})
+    assert_same store_service, cache.send(:store_service)
+  end
+
+  def test_cache_store_instance_applies_expiration
+    redis_like_store = RedisLikeStore.new
+    store_service = Geocoder::CacheStore::Redis.new(redis_like_store, {expiration: 120})
+    cache = Geocoder::Cache.new(store_service, {})
+    cache["http://example.com/"] = "data"
+    assert_equal "data", cache["http://example.com/"]
+    assert_equal({ex: 120}, redis_like_store.last_set_options)
+  end
+
+  def test_cache_store_instance_expire_single_url
+    store_service = Geocoder::CacheStore::Redis.new(RedisLikeStore.new, {})
+    cache = Geocoder::Cache.new(store_service, {})
+    cache["http://example.com/"] = "data"
+    cache.expire("http://example.com/")
+    assert_nil cache["http://example.com/"]
+  end
+
+  def test_generic_cache_store_instance_expire_single_url
+    store_service = Geocoder::CacheStore::Generic.new({}, {})
+    cache = Geocoder::Cache.new(store_service, {})
+    cache["http://example.com/"] = "data"
+    cache.expire("http://example.com/")
+    assert_nil cache["http://example.com/"]
   end
 end
