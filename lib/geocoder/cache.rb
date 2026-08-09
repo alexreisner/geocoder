@@ -4,8 +4,12 @@ module Geocoder
   class Cache
 
     def initialize(store, config)
-      @class = (Geocoder::CacheStore.const_get("#{store.class}", false) rescue Geocoder::CacheStore::Generic)
-      @store_service = @class.new(store, config)
+      if store.is_a?(Geocoder::CacheStore::Base)
+        @store_service = store
+      else
+        @class = (Geocoder::CacheStore.const_get("#{store.class}", false) rescue Geocoder::CacheStore::Generic)
+        @store_service = @class.new(store, config)
+      end
     end
 
     ##

@@ -347,6 +347,16 @@ This example uses Redis, but the cache store can be any object that supports the
 
 Even a plain Ruby hash will work, though it's not a great choice (cleared out when app is restarted, not shared between app instances, etc).
 
+Geocoder chooses a cache store adapter based on the class name of the configured object: a `Redis` instance is handled by `Geocoder::CacheStore::Redis` (which applies the `expiration` given in `cache_options`), while any other object falls back to `Geocoder::CacheStore::Generic`, which does **not** apply `expiration`. If your store's class name is not recognized -- for example a Redis client wrapped in a custom namespacing class -- pass a cache store instance directly to bypass the class name lookup:
+
+```ruby
+Geocoder.configure(
+  cache: Geocoder::CacheStore::Redis.new(MyRedisWrapper.new, {prefix: "geocoder:", expiration: 2.days})
+)
+```
+
+When a `Geocoder::CacheStore::Base` instance is given, `cache_options` is ignored: pass the options to the store constructor instead, as in the example above.
+
 When using Rails use the Generic cache store as an adapter around `Rails.cache`:
 
 ```ruby
