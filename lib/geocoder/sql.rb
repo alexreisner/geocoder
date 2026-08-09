@@ -11,6 +11,8 @@ module Geocoder
     # http://www.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL
     #
     def full_distance(latitude, longitude, lat_attr, lon_attr, options = {})
+      warn "Direct use of this method is deprecated, prefer Geocoder::Store::ActiveRecord.full_distance_sql"
+
       units = options[:units] || Geocoder.config.units
       earth = Geocoder::Calculations.earth_radius(units)
 
@@ -32,6 +34,8 @@ module Geocoder
     # are not intended for use in production!
     #
     def approx_distance(latitude, longitude, lat_attr, lon_attr, options = {})
+      warn "Direct use of this method is deprecated, prefer Geocoder::Store::ActiveRecord.approx_distance_sql"
+
       units = options[:units] || Geocoder.config.units
       dx = Geocoder::Calculations.longitude_degree_distance(30, units)
       dy = Geocoder::Calculations.latitude_degree_distance(units)
@@ -44,6 +48,8 @@ module Geocoder
     end
 
     def within_bounding_box(sw_lat, sw_lng, ne_lat, ne_lng, lat_attr, lon_attr)
+      warn "Direct use of this method is deprecated, prefer Geocoder::Store::ActiveRecord.within_bounding_box_sql"
+
       spans = "#{lat_attr} BETWEEN #{sw_lat.to_f} AND #{ne_lat.to_f} AND "
       # handle box that spans 180 longitude
       if sw_lng.to_f > ne_lng.to_f
@@ -66,6 +72,8 @@ module Geocoder
     # http://www.beginningspatial.com/calculating_bearing_one_point_another
     #
     def full_bearing(latitude, longitude, lat_attr, lon_attr, options = {})
+      warn "Direct use of this method is deprecated, prefer Geocoder::Store::ActiveRecord.full_bearing_sql"
+
       degrees_per_radian = Geocoder::Calculations::DEGREES_PER_RADIAN
       case options[:bearing] || Geocoder.config.distances
       when :linear
@@ -95,6 +103,8 @@ module Geocoder
     # returns *something* in databases without trig functions.
     #
     def approx_bearing(latitude, longitude, lat_attr, lon_attr, options = {})
+      warn "Direct use of this method is deprecated, prefer Geocoder::Store::ActiveRecord.approx_bearing_sql"
+
       "CASE " +
         "WHEN (#{lat_attr} >= #{latitude.to_f} AND " +
           "#{lon_attr} >= #{longitude.to_f}) THEN  45.0 " +
