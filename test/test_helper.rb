@@ -548,12 +548,29 @@ module Geocoder
 
     require 'geocoder/lookups/amazon_location_service'
     MockResults = Struct.new(:results)
-    MockAWSPlaceGeometry = Struct.new(:point)
+    # Like the real AWS SDK types, the mocks' #to_h is deep and omits nil members.
+    MockAWSPlaceGeometry = Struct.new(:point) do
+      def to_h
+        { point: point }.compact
+      end
+    end
 
     MockAWSPlace = Struct.new(*%i[
       address_number country geometry label municipality neighborhood postal_code region street sub_region
-    ])
-    MockAWSResult = Struct.new(:place_id, :place)
+    ]) do
+      def to_h
+        members.each_with_object({}) do |member, hash|
+          value = self[member]
+          value = value.to_h if member == :geometry && value
+          hash[member] = value unless value.nil?
+        end
+      end
+    end
+    MockAWSResult = Struct.new(:place_id, :place) do
+      def to_h
+        { place_id: place_id, place: place && place.to_h }.compact
+      end
+    end
 
     class MockAmazonLocationServiceClient
       def search_place_index_for_position(params = {}, options = {})
@@ -565,6 +582,19 @@ module Geocoder
       def search_place_index_for_text(params = {}, options = {})
         return mock_results if params[:text].include? "Madison Square Garden"
         mock_no_results
+      end
+
+      # Mirrors Aws::ClientStubs#stub_data, which the lookup uses to rehydrate
+      # cached result hashes back into SDK response structs.
+      def stub_data(_operation, results:)
+        MockResults.new(results.map do |result|
+          place_hash = result[:place] || {}
+          geometry = MockAWSPlaceGeometry.new(place_hash[:geometry] && place_hash[:geometry][:point])
+          place = MockAWSPlace.new(*MockAWSPlace.members.map do |member|
+            member == :geometry ? geometry : place_hash[member]
+          end)
+          MockAWSResult.new(result[:place_id], place)
+        end)
       end
 
       private
