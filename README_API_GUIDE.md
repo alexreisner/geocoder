@@ -226,7 +226,7 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
 ### Mapbox (`:mapbox`)
 
 * **API key**: required
-* **Dataset**: Uses `mapbox.places` dataset by default.  Specify the `mapbox.places-permanent` dataset by setting: `Geocoder.configure(mapbox: {dataset: "mapbox.places-permanent"})`
+* **Permanent storage**: Temporary geocoding is used by default. If results will be stored permanently, pass the `:permanent` param: `params: {permanent: true}`. (The v5 `:dataset` option is deprecated: setting it to `mapbox.places-permanent` still sends `permanent=true`, but prints a deprecation warning.)
 * **Key signup**: https://www.mapbox.com/pricing/
 * **Quota**: depends on plan
 * **Region**: complete coverage of US and Canada, partial coverage elsewhere (see for details: https://www.mapbox.com/developers/api/geocoding/#coverage)
@@ -238,10 +238,10 @@ The [Google Places Search API](https://developers.google.com/maps/documentation/
     `neighborhood`, `postcode`
     * `:proximity` - bias results toward a `lng,lat`, e.g.,
         `params: { proximity: "-84.0,42.5" }`
-* **Documentation**: https://www.mapbox.com/developers/api/geocoding/
+* **Documentation**: https://docs.mapbox.com/api/search/geocoding/
 * **Terms of Service**: https://www.mapbox.com/tos/
-* **Limitations**: For `mapbox.places` dataset, must be displayed on a Mapbox map; Cache results for up to 30 days. For `mapbox.places-permanent` dataset, depends on plan.
-* **Notes**: Currently in public beta.
+* **Limitations**: Temporary geocoding results must be displayed on a Mapbox map and may be cached for up to 30 days; permanent geocoding depends on plan.
+* **Notes**: Uses the Geocoding v6 API. POI search is not supported (use the Mapbox Search Box API instead). Results respond to `#precision`, which returns the accuracy of the coordinates (`rooftop`, `parcel`, `interpolated`, etc.).
 
 ### Mapquest (`:mapquest`)
 
