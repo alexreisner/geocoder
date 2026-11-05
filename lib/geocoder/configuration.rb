@@ -129,10 +129,13 @@ module Geocoder
       # addresses will rarely change.
       @data[:cache]        = nil   # cache object (must respond to #[], #[]=, and optionally #keys)
       @data[:cache_prefix] = nil   # - DEPRECATED - prefix (string) to use for all cache keys
-      @data[:cache_options] = {
+      # A ConfigurationHash (rather than a plain Hash) so that Geocoder.configure
+      # merges into these defaults instead of replacing them, which would
+      # silently drop the prefix when only an expiration is given.
+      @data[:cache_options] = ConfigurationHash[
         prefix: 'geocoder:',
         expiration: nil
-      }
+      ]
     end
 
     instance_eval(OPTIONS.map do |option|

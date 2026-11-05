@@ -70,4 +70,10 @@ class ConfigurationTest < GeocoderTestCase
     Geocoder.merge_into_lookup_config(:google, new)
     assert_equal merged, Geocoder.config[:google]
   end
+
+  def test_configuring_cache_options_preserves_defaults
+    Geocoder.configure(cache_options: {expiration: 86400})
+    assert_equal 86400, Geocoder.config[:cache_options][:expiration]
+    assert_equal 'geocoder:', Geocoder.config[:cache_options][:prefix]
+  end
 end
