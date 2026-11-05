@@ -106,12 +106,15 @@ module Geocoder
       @data[:lookup]       = :nominatim  # name of street address geocoding service (symbol)
       @data[:ip_lookup]    = :ipinfo_io  # name of IP address geocoding service (symbol)
       @data[:language]     = :en         # ISO-639 language code
-      @data[:http_headers] = {}          # HTTP headers for lookup
+      # The hash options below are ConfigurationHashes so that Geocoder.configure
+      # merges into their defaults instead of replacing them, which would silently
+      # drop any key the caller did not repeat.
+      @data[:http_headers] = ConfigurationHash[] # HTTP headers for lookup
       @data[:use_https]    = true        # use HTTPS for lookup requests? (if supported)
       @data[:http_proxy]   = nil         # HTTP proxy server (user:pass@host:port)
       @data[:https_proxy]  = nil         # HTTPS proxy server (user:pass@host:port)
       @data[:api_key]      = nil         # API key for geocoding service
-      @data[:basic_auth]   = {}          # user and password for basic auth ({:user => "user", :password => "password"})
+      @data[:basic_auth]   = ConfigurationHash[] # user and password for basic auth ({:user => "user", :password => "password"})
       @data[:logger]       = :kernel     # :kernel or Logger instance
       @data[:kernel_logger_level] = ::Logger::WARN # log level, if kernel logger is used
 
@@ -129,10 +132,10 @@ module Geocoder
       # addresses will rarely change.
       @data[:cache]        = nil   # cache object (must respond to #[], #[]=, and optionally #keys)
       @data[:cache_prefix] = nil   # - DEPRECATED - prefix (string) to use for all cache keys
-      @data[:cache_options] = {
+      @data[:cache_options] = ConfigurationHash[
         prefix: 'geocoder:',
         expiration: nil
-      }
+      ]
     end
 
     instance_eval(OPTIONS.map do |option|

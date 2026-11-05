@@ -70,4 +70,24 @@ class ConfigurationTest < GeocoderTestCase
     Geocoder.merge_into_lookup_config(:google, new)
     assert_equal merged, Geocoder.config[:google]
   end
+
+  def test_configuring_cache_options_preserves_defaults
+    Geocoder.configure(cache_options: {expiration: 86400})
+    assert_equal 86400, Geocoder.config[:cache_options][:expiration]
+    assert_equal 'geocoder:', Geocoder.config[:cache_options][:prefix]
+  end
+
+  def test_configuring_http_headers_preserves_earlier_keys
+    Geocoder.configure(http_headers: {"User-Agent" => "test"})
+    Geocoder.configure(http_headers: {"Accept" => "application/json"})
+    assert_equal "test", Geocoder.config[:http_headers]["User-Agent"]
+    assert_equal "application/json", Geocoder.config[:http_headers]["Accept"]
+  end
+
+  def test_configuring_basic_auth_preserves_earlier_keys
+    Geocoder.configure(basic_auth: {user: "alice"})
+    Geocoder.configure(basic_auth: {password: "secret"})
+    assert_equal "alice", Geocoder.config[:basic_auth][:user]
+    assert_equal "secret", Geocoder.config[:basic_auth][:password]
+  end
 end
