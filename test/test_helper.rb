@@ -486,6 +486,14 @@ module Geocoder
       end
     end
 
+    require 'geocoder/lookups/internetdata'
+    class Internetdata
+      private
+      def default_fixture_filename
+        "internetdata_paid"
+      end
+    end
+
     require 'geocoder/lookups/ipregistry'
     class Ipregistry
       private

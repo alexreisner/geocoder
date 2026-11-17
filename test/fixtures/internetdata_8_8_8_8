@@ -1,0 +1,43 @@
+{
+  "ip": "8.8.8.8",
+  "is_bogon": false,
+  "is_tor": false,
+  "is_relay": false,
+  "is_anycast": true,
+  "is_carrier": false,
+  "is_satellite": false,
+  "is_ssh": false,
+  "is_smtp": false,
+  "is_web": true,
+  "is_dns_resolver": true,
+  "is_bittorrent": false,
+  "location": {
+    "continent": "NA",
+    "continent_name": "North America",
+    "country": "US",
+    "country_name": "United States",
+    "timezone": "America/Los_Angeles",
+    "currency_code": "USD",
+    "currency_name": "Dollar",
+    "currency_symbol": "$",
+    "flag_emoji": "🇺🇸",
+    "flag_unicode": "U+1F1FA U+1F1F8"
+  },
+  "tor": {},
+  "relay": {},
+  "asn": {
+    "asn": 15169,
+    "name": "Google LLC",
+    "domain": "google.com",
+    "type": "hosting",
+    "prefix": "8.8.8.0/24"
+  },
+  "company": {
+    "name": "Google LLC",
+    "domain": "google.com"
+  },
+  "hostname": "dns.google",
+  "abuse": {
+    "email": "network-abuse@google.com"
+  }
+}
