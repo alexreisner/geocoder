@@ -719,7 +719,7 @@ A free-tier API access plan, which includes unlimited country-level geolocation 
 * **Region**: world
 * **SSL support**: yes
 * **Languages**: English
-* **Documentation**: http://dev.maxmind.com/geoip/geoip2/web-services/
+* **Documentation**: https://dev.maxmind.com/geoip/docs/web-services/
 * **Terms of Service**: ?
 * **Limitations**: ?
 * **Notes**: You must specify which MaxMind service you are using in your configuration, and also basic authentication. For example: `Geocoder.configure(maxmind_geoip2: {service: :country, basic_auth: {user: '', password: ''}})`.
@@ -778,12 +778,12 @@ Local IP Address Lookups
 
 This lookup provides methods for geocoding IP addresses without making a call to a remote API (improves speed and availability). It works, but support is new and should not be considered production-ready. Please [report any bugs](https://github.com/alexreisner/geocoder/issues) you encounter.
 
-* **API key**: none (requires a GeoIP2 or free GeoLite2 City or Country binary database which can be downloaded from [MaxMind](http://dev.maxmind.com/geoip/geoip2/))
+* **API key**: none (requires a GeoIP2 or free GeoLite2 City or Country binary database which can be downloaded from [MaxMind](https://dev.maxmind.com/geoip/docs/databases/))
 * **Quota**: none
 * **Region**: world
 * **SSL support**: N/A
 * **Languages**: English
-* **Documentation**: http://www.maxmind.com/en/city
+* **Documentation**: https://www.maxmind.com/en/geoip-databases
 * **Terms of Service**: ?
 * **Limitations**: Caching is not supported.
 * **Notes**: **You must download a binary database file from MaxMind and set the `:file` configuration option.** The CSV format databases are not yet supported since they are still in alpha stage. Set the path to the database file in your configuration:
