@@ -592,6 +592,17 @@ IP Address Lookups
 * **Limitations**: ?
 * **Notes**: The default host is freegeoip.app but this can be changed by using, for example, `Geocoder.configure(freegeoip: {host: 'api.ipstack.com'})`. The service can also be self-hosted.
 
+### InternetData (`:internetdata`)
+
+* **API key**: optional; without one, the free plan answers country-level geolocation, the ASN and the company. A key on a paid plan adds the city, region, postal code and coordinates.
+* **Quota**: none on the free plan
+* **Region**: world
+* **SSL support**: yes (required)
+* **Languages**: English
+* **Documentation**: https://docs.internetdata.io/api
+* **Terms of Service**: https://internetdata.io/terms
+* **Limitations**: city-level location and coordinates need a paid plan's key
+
 ### IPBase (`:ipbase`)
 
 * **API key**: required
