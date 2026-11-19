@@ -11,13 +11,14 @@ module Geocoder::Lookup
     private # ---------------------------------------------------------------
 
     def base_query_url(query)
-      "#{protocol}://api.mapbox.com/geocoding/v5/#{dataset}/#{mapbox_search_term(query)}.json?"
+      endpoint = query.reverse_geocode? ? "reverse" : "forward"
+      "#{protocol}://api.mapbox.com/search/geocode/v6/#{endpoint}?"
     end
 
     def results(query)
       return [] unless data = fetch_data(query)
       if data['features']
-        sort_relevant_feature(data['features'])
+        data['features']
       elsif data['message'] =~ /Invalid\sToken/
         raise_error(Geocoder::InvalidApiKey, data['message'])
         []
@@ -27,34 +28,28 @@ module Geocoder::Lookup
     end
 
     def query_url_params(query)
-      {access_token: configuration.api_key}.merge(super(query))
-    end
-
-    def mapbox_search_term(query)
-      require 'erb' unless defined?(ERB) && defined?(ERB::Util.url_encode)
+      params = {access_token: configuration.api_key}
       if query.reverse_geocode?
-        lat,lon = query.coordinates
-        "#{ERB::Util.url_encode lon},#{ERB::Util.url_encode lat}"
+        lat, lon = query.coordinates
+        params[:longitude] = lon
+        params[:latitude] = lat
       else
         # truncate at first semicolon so Mapbox doesn't go into batch mode
         # (see Github issue #1299)
-        ERB::Util.url_encode query.text.to_s.split(';').first.to_s
+        params[:q] = query.text.to_s.split(';').first.to_s
       end
+      params.merge(permanent_params).merge(super(query))
     end
 
-    def dataset
-      configuration[:dataset] || "mapbox.places"
+    # The v5 permanent dataset was replaced by a request param in v6.
+    def permanent_params
+      return {} unless configuration[:dataset].to_s.include?("permanent")
+      Geocoder.log(:warn, "DEPRECATION WARNING: the Mapbox :dataset option is not supported by the Geocoding v6 API and will be removed in a future version of Geocoder. Please remove it and pass params: {permanent: true} instead.")
+      {permanent: true}
     end
 
     def supported_protocols
       [:https]
-    end
-
-    def sort_relevant_feature(features)
-      # Sort by descending relevance; Favor original order for equal relevance (eg occurs for reverse geocoding)
-      features.sort_by do |feature|
-        [feature["relevance"],-features.index(feature)]
-      end.reverse
     end
   end
 end

@@ -8,77 +8,65 @@ module Geocoder::Result
     end
 
     def place_name
-      data['place_name']
+      properties['full_address'] || properties['name']
     end
 
+    alias_method :address, :place_name
+
     def street
-      data['properties']['address']
+      context_part('address', 'name') || context_part('street', 'name')
     end
 
     def city
-      data_part('place') || context_part('place')
+      context_part('place', 'name')
     end
 
     def county
-      data_part('district') || context_part('district')
+      context_part('district', 'name')
     end
 
     def state
-      data_part('region') || context_part('region')
+      context_part('region', 'name')
     end
 
     def state_code
-      if id_matches_name?(data['id'], 'region')
-        value = data['properties']['short_code']
-      else
-        value = context_part('region', 'short_code')
-      end
-
-      value.split('-').last unless value.nil?
+      context_part('region', 'region_code')
     end
 
     def postal_code
-      data_part('postcode') || context_part('postcode')
+      context_part('postcode', 'name')
     end
 
     def country
-      data_part('country') || context_part('country')
+      context_part('country', 'name')
     end
 
     def country_code
-      if id_matches_name?(data['id'], 'country')
-        value = data['properties']['short_code']
-      else
-        value = context_part('country', 'short_code')
-      end
-
+      value = context_part('country', 'country_code')
       value.upcase unless value.nil?
     end
 
     def neighborhood
-      data_part('neighborhood') || context_part('neighborhood')
+      context_part('neighborhood', 'name')
     end
 
-    def address
-      data['place_name']
+    # rooftop / parcel / point / interpolated / approximate / intersection
+    def precision
+      (properties['coordinates'] || {})['accuracy']
     end
 
     private
 
-    def id_matches_name?(id, name)
-      id =~ Regexp.new(name)
-    end
-
-    def data_part(name)
-      data['text'] if id_matches_name?(data['id'], name)
-    end
-
-    def context_part(name, key = 'text')
-      (context.detect { |c| id_matches_name?(c['id'], name) } || {})[key]
+    def properties
+      data['properties'] || {}
     end
 
     def context
-      Array(data['context'])
+      properties['context'] || {}
+    end
+
+    def context_part(name, key)
+      (context[name] || {})[key]
     end
   end
 end
