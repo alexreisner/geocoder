@@ -9,7 +9,11 @@ module Geocoder::CacheStore
       when store.respond_to?(:set)
         store.set key_for(url), value
       when store.respond_to?(:write)
-        store.write key_for(url), value
+        if (expiration = config[:expiration])
+          store.write key_for(url), value, expires_in: expiration
+        else
+          store.write key_for(url), value
+        end
       end
     end
 
