@@ -82,8 +82,8 @@ module Geocoder
 
     def geocoder_remove_port_from_addresses(ip_addresses)
       ip_addresses.map do |ip|
-        # IPv4
-        if ip.count('.') > 0
+        # IPv4-mapped IPv6 addresses contain dots too, so only strip a one-colon port.
+        if ip.count('.') > 0 && ip.count(':') == 1
           ip.split(':').first
         # IPv6 bracket notation
         elsif match = ip.match(/\[(\S+)\]/)
